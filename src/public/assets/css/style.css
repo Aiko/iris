@@ -13,6 +13,9 @@ a, a:focus, a:hover, a:visited, a:active{
 input{
 	outline: none;
 }
+::-webkit-scrollbar{
+	display: none;
+}
 .sidebar{
 	width: 150px;
 	background: #fff;
@@ -832,3 +835,4 @@ hr {
 .compose-modal .main-email{
 	padding: 0 !important;
 }
+
