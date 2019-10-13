@@ -147,7 +147,7 @@ input{
 	max-width: 210px;
 	text-overflow: ellipsis;
 	border: 1px solid #d6d6d6;
-	border-radius: 50px;
+	border-radius: 20px;
 	cursor: pointer;
 	height: 35px;
 	overflow: hidden;
@@ -159,7 +159,7 @@ input{
 }
 .picker:hover{
 	height: fit-content;
-	border-radius: 20px;
+	border-radius: 18px;
 	transition: .2s;
 }
 .account{
@@ -730,7 +730,7 @@ hr {
 	.picker{
 		max-width: 35px;
 		padding-left: 5px;
-		border-radius: 50px;
+		border-radius: 20px;
 		height: 35px;
 		margin-left: 5px;
 		transition: .2s;
