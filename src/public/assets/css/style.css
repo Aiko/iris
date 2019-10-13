@@ -240,7 +240,7 @@ transition: .2s;
 	background: #fff;
 	border: 1px solid #d6d6d6;
 	margin-top: -15px;
-	padding: 30px 5px 15px 30px;
+	padding: 20px 5px 15px 30px;
 	z-index: 0;
 	border-radius: 4px;
 	font-size: 14px;
@@ -255,6 +255,9 @@ transition: .2s;
 .search-drop p{
 	margin-bottom: 5px;
 	margin-top: 12px;
+}
+.search-drop div{
+	margin-top: 10px;
 }
 .search-drop{
 
