@@ -263,18 +263,18 @@ input{
 	padding-bottom: 3px;
 }
 .drop-field{
-width: 100%;
-    height: 115px;
-    position: absolute;
-    padding: 3px 15px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    top: 0;
-    background: #fff;
-    font-size: 15px;
-    left: 0;
-    margin-top: 40px;
+	width: 100%;
+	height: 115px;
+	position: absolute;
+	padding: 3px 15px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	top: 0;
+	background: #fff;
+	font-size: 15px;
+	left: 0;
+	margin-top: 40px;
 }
 .drop-field div{
 	cursor: pointer;
@@ -892,6 +892,71 @@ hr {
 }
 
 .compose-bottom{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	left: 0;
+	padding: 20px;
+	box-shadow: inset 0px 50px 16px -49px rgba(212, 212, 212, 0.75);
+}
+.add-mailbox{
+	text-align: center;
+}
+
+.add-mailbox a{
+	display: block;
+
+}
+.add-mailbox img{
+	width: 100%;
+	max-width: 160px;
+	margin-bottom: 15px;
+}
+
+.add-2{
+	display: none !important;
+}
+.step2 a, .step2 h1, .step2 h2, .step2 br, .step2 a{
+	display: none !important;
+}
+
+.step2 .add-2{
+	display: block !important;
+	margin: auto;
+}
+
+.modal-reg input{
+	width: 100%;
+	max-width: 250px;
+	border-radius: 4px;
+	border: 1px solid #ddd;
+	padding: 4px 10px;
+	font-size: 16px;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
+	color: #000;
+}
+
+.modal-reg{
+	padding: 35px 10px;
+	text-align: center;
+	margin-bottom: 50px;
+}
+.add-mailbox a, .add-mailbox a:hover{
+	color: #000;
+	font-weight: 500;
+}
+.modal-reg h1{
+	font-size: 20px;
+	font-weight: 500;
+}
+.modal-reg h2{
+	font-size: 16px;
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
+.modal-bottom{
 	position: absolute;
 	bottom: 0;
 	width: 100%;

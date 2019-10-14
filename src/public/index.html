@@ -62,7 +62,7 @@
 								<div class="account">
 									<img src="assets/icons/header-user.svg"> <span>ruben@priansh.com</span>
 								</div>
-								<div class="account">
+								<div class="account" data-toggle="modal" data-target=".add-mailbox">
 									<img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
 								</div>
 
@@ -410,6 +410,43 @@
 		</div>
 		<!-- END Single Email View --------------------------------------->
 
+		<!-- Add Mailbox View ---------- remove 'step2' class to show 1 ---------------->
+		<div class="modal fade add-mailbox step2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<h1>Add a mailbox</h1>
+						<h2>Pick an email provider</h2>
+						<a href="#"><img src="assets/img/icloud.png"></a>
+						<a href="#"><img src="assets/img/exchange.png"></a>
+						<a href="#"><img src="assets/img/google.png"></a>
+						<a href="#"><img src="assets/img/yahoo.png"></a>
+						<a href="#"><img src="assets/img/aol.png"></a>
+						<a href="#"><img src="assets/img/outlook.png"></a>
+
+
+						<!-- Second step hidden --------------------------------------->
+						<h1  class="add-2">Add a mailbox</h1>
+						<h2  class="add-2">Enter your credentials</h2>
+						<br class="add-2">
+						<a href="#" class="add-2"><img  class="add-2" src="assets/img/google.png"></a>
+						<input class="add-2" type="email" name="" placeholder="Email">
+						<input class="add-2" type="password" name="" placeholder="Password">
+						<br class="add-2">
+						<a href="#" class="add-2 blue">Add mailbox</a>
+						<br class="add-2">
+
+
+					</div>
+					<div class="modal-bottom">
+						<a href="#">Other</a>
+						<a href="#" class="add-2">Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END Add Mailbox View --------------------------------------->
+
 		<!-- Compose View --------------------------------------->
 		<div class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
@@ -424,46 +461,46 @@
 								<div>ruben@gmail.com</div>
 							</div>
 							---->
-						<div class="compose-cc" contenteditable="true" placeholder="CC:">
+							<div class="compose-cc" contenteditable="true" placeholder="CC:">
 
-						</div>
-						<div class="compose-bcc" contenteditable="true" placeholder="BCC:">
+							</div>
+							<div class="compose-bcc" contenteditable="true" placeholder="BCC:">
 
-						</div>
-						<div class="compose-subject" contenteditable="true" placeholder="Subject:">
+							</div>
+							<div class="compose-subject" contenteditable="true" placeholder="Subject:">
 
-						</div>
-						<div class="compose-options">
-							<div class="compose-bold">B</div>
-							<div class="compose-italic">I</div>
-							<div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg" width="16"></div>
-						</div>
-						<div class="compose-body" contenteditable="true" placeholder="Subject:">
+							</div>
+							<div class="compose-options">
+								<div class="compose-bold">B</div>
+								<div class="compose-italic">I</div>
+								<div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg" width="16"></div>
+							</div>
+							<div class="compose-body" contenteditable="true" placeholder="Subject:">
 
+							</div>
+							<div class="compose-bottom">
+								<a href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
+							</div>
 						</div>
-						<div class="compose-bottom">
-							<a href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
+						<div class="secondary-email">
+							<a href="#" class="no-calendar"><h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1></a>
 						</div>
+
 					</div>
-					<div class="secondary-email">
-						<a href="#" class="no-calendar"><h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1></a>
-					</div>
-
 				</div>
 			</div>
-		</div>
-		<!-- END Compose View --------------------------------------->
+			<!-- END Compose View --------------------------------------->
 
-		<!-- Toast -->
-		<div class="aiko-toast">
-			<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
-		</div>
-		<!-- END Toast --------------------------------------->
+			<!-- Toast -->
+			<div class="aiko-toast">
+				<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+			</div>
+			<!-- END Toast --------------------------------------->
 
-	</div>
-	<!-- END id="app" -------------------------------------------------->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-</body>
-</html>
+		</div>
+		<!-- END id="app" -------------------------------------------------->
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/popper.min.js"></script>
+		<script src="assets/js/bootstrap.min.js"></script>
+	</body>
+	</html>
