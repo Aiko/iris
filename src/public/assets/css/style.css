@@ -914,6 +914,18 @@ text-align: center;
 	font-size: 14px;
 }
 
+.invite-modal p{
+	font-size: 14px;
+}
+.invite-modal hr{
+	    margin: 20px 0px 20px 0px !important;
+}
+
+.invite-modal a, .invite-modal a:hover{
+	color: #000;
+	font-weight: 500;
+}
+
 .new-board a, .new-board a:hover{
 	color: #000;
 	font-weight: 500;

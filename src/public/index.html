@@ -38,7 +38,7 @@
 					<a href="#" id="user"><div class="active-user" id="u1"></div><img id="u2" src="assets/img/user.png"><div id="u3">Ruben T.</div><span><img style="margin-left: 25px" src="assets/icons/user-mail.svg"><img style="margin-left:
 					25px" src="assets/icons/user-chat.svg"></span></a>
 
-					<a href="#"><img src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
+					<a href="#"  data-toggle="modal" data-target=".invite-modal"><img src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
 				</div>
 			</div>
 		</div>
@@ -476,6 +476,36 @@
 			</div>
 		</div>
 		<!-- END Add Board View --------------------------------------->
+
+		<!-- Invite View ---------- remove 'step2' class to show 1 ---------------->
+		<div class="modal fade invite-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<img  src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+						<h1>Invite a team member</h1>
+						<h2>Enter their email address</h2>
+						<input type="email" name="" placeholder="Email">
+						<p>We'll send them a link to Aiko Mail.</p>
+						<br>
+						<a href="#" class="blue">Done</a>
+						<p class="ns30"></p>
+
+						<!-- add-2 stuff --------------------------------------->
+						<img class="add-2" src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+						<h1 class="add-2">Invite sent!</h1>
+						<h2 class="add-2">We'll let you know when they join.</h2>
+						<hr class="add-2">
+						<p class="add-2">Add another team member (optional))</p>
+						<input class="add-2" type="email" name="" placeholder="Email">
+						<br class="add-2">
+						<a href="#" class="add-2 blue">Done</a>
+						<p class="ns30 add-2"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END Invite View --------------------------------------->
 
 		<!-- Compose View --------------------------------------->
 		<div class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
