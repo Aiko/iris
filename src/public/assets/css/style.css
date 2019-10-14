@@ -260,6 +260,7 @@ input{
 	margin-top: 10px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	padding-bottom: 3px;
 }
 .drop-field{
 width: 100%;
