@@ -489,6 +489,11 @@ hr {
 	position: absolute;
 	right: 0;
 	bottom: 0;
+	transition: .2s;
+}
+.action:hover{
+	background-color: #cfdafd;
+	transition: .2s;
 }
 .action img{
 	width: 18px !important;
