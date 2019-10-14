@@ -195,7 +195,7 @@ input{
 	transform: translate3d(-225px, 18px, 0px) !important;
 	min-width: 310px !important;
 	top: 0px;
-	    padding-left: 5px !important;
+	padding-left: 5px !important;
 	left: 0px;
 	will-change: transform;
 }
@@ -218,8 +218,8 @@ input{
 	transition: .2s;
 }
 .notif-c:hover{
-color: #b0b0b0 !important;
-transition: .2s;
+	color: #b0b0b0 !important;
+	transition: .2s;
 }
 .notif-t{
 	font-size: 13px;
@@ -258,6 +258,25 @@ transition: .2s;
 }
 .search-drop div{
 	margin-top: 10px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.drop-field{
+width: 100%;
+    height: 115px;
+    position: absolute;
+    padding: 3px 15px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    top: 0;
+    background: #fff;
+    font-size: 15px;
+    left: 0;
+    margin-top: 40px;
+}
+.drop-field div{
+	cursor: pointer;
 }
 .search-drop{
 
