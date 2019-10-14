@@ -2,8 +2,10 @@ html, body, #app, .sidebar, .main{
 	height: 100%;
 }
 body{
-	background-image: url("../img/bg.png");
 	overflow: hidden;
+}
+.bg{
+	background-image: url("../img/bg.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -42,7 +44,6 @@ input{
 	width: calc(100% - 150px);
 }
 #app{
-	display: inline-flex;
 	width: 100%;
 }
 .header{
@@ -304,6 +305,9 @@ input{
 	color: #B0B0B0;
 	opacity: 1;
 	transition: .2s;
+}
+.inline-flex{
+	display: inline-flex !important;
 }
 .header .side img:hover{
 	opacity: .7;
@@ -903,6 +907,18 @@ hr {
 	text-align: center;
 }
 
+.new-board{
+text-align: center;
+}
+.new-board p{
+	font-size: 14px;
+}
+
+.new-board a, .new-board a:hover{
+	color: #000;
+	font-weight: 500;
+}
+
 .add-mailbox a{
 	display: block;
 
@@ -916,13 +932,16 @@ hr {
 .add-2{
 	display: none !important;
 }
-.step2 a, .step2 h1, .step2 h2, .step2 br, .step2 a{
+.step2 a, .step2 h1, .step2 h2, .step2 br, .step2 p, .step2 input, .step2 img, .step2 span {
 	display: none !important;
 }
 
 .step2 .add-2{
 	display: block !important;
 	margin: auto;
+}
+.ns30{
+	margin-bottom: -30px !important;
 }
 
 .modal-reg input{
@@ -992,4 +1011,3 @@ hr {
 .compose-modal .main-email{
 	padding: 0 !important;
 }
-

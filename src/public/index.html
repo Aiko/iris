@@ -14,8 +14,8 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 </head>
 
-<body>
-	<div id="app">
+<body class="bg">
+	<div id="app" class="inline-flex">
 
 		<!-- Sidebar --------------------------------------------------->
 		<div class="sidebar">
@@ -314,7 +314,7 @@
 					<!-- END Custom Board Template ------------------->
 
 					<!-- Add Board ----------------------->
-					<div class="add-board">
+					<div class="add-board" data-toggle="modal" data-target=".new-board">
 						<img src="assets/icons/boards-add.svg">
 					</div>
 					<!-- END Add Board ------------------->
@@ -425,7 +425,7 @@
 						<a href="#"><img src="assets/img/outlook.png"></a>
 
 
-						<!-- Second step hidden --------------------------------------->
+						<!-- add-2 stuff --------------------------------------->
 						<h1  class="add-2">Add a mailbox</h1>
 						<h2  class="add-2">Enter your credentials</h2>
 						<br class="add-2">
@@ -446,6 +446,36 @@
 			</div>
 		</div>
 		<!-- END Add Mailbox View --------------------------------------->
+
+		<!-- Add Board View ---------- remove 'step2' class to show 1 ---------------->
+		<div class="modal fade new-board" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<img  src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+						<h1>Add a board</h1>
+						<h2>Enter the board name</h2>
+						<input type="text" name="" placeholder="Board name"  maxlength="10">
+						<p>Max 10 charachters.</p>
+						<br>
+						<a href="#" class="blue">Next</a>
+						<p class="ns30"></p>
+
+						<!-- add-2 stuff --------------------------------------->
+						<img class="add-2" src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+						<h1 class="add-2">Add a board</h1>
+						<h2 class="add-2">Add board rules (optional)</h2>
+						<br class="add-2">
+						<p class="add-2">Automatically forward dragged emails to:</p>
+						<input class="add-2" type="email" name="" placeholder="Email">
+						<br class="add-2">
+						<a href="#" class="add-2 blue">Add board</a>
+						<p class="ns30 add-2"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END Add Board View --------------------------------------->
 
 		<!-- Compose View --------------------------------------->
 		<div class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
