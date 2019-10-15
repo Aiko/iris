@@ -115,6 +115,43 @@ input{
 	transition: .2s;
 	cursor: pointer;
 }
+.control-bar h1{
+	display: none;
+}
+.pc h1{
+	display: unset !important;
+}
+.pc p{
+	display: none !important;
+}
+.pc{
+	display: flex;
+    justify-content: flex-end;
+}
+.control-bar h1{
+    width: 25px;
+    border-radius: 1px;
+    height: 15px;
+    margin-left: 5px;
+    background: #c0bfbf;
+    margin-top: 2px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+.pc:hover h1:nth-child(3){
+	background-color: #dc3545 !important;
+	transition: .2s;
+}
+.pc:hover h1:nth-child(2){
+	background-color: #ffc107 !important;
+	transition: .2s;
+}
+.pc:hover h1:nth-child(1){
+	background-color: #28a745 !important;
+	transition: .2s;
+}
+
 .control-bar:hover p:nth-child(1){
 	background-color: #dc3545;
 	transition: .2s;
