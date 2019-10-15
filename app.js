@@ -1,12 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 if (require('electron-squirrel-startup')) app.quit();
 
+const Mailbox = require('./src/js/email')
+
 let win;
 
 const init = () => {
   win = new BrowserWindow({
     show: false,
-    frame: false
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
   win.maximize()
   win.show()
@@ -27,3 +32,5 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (win === null) init()
 })
+
+module.exports = { Mailbox }
