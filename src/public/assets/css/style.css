@@ -20,18 +20,15 @@ input{
 	display: none;
 }
 .back-to-inbox{
-	    color: #486fff;
-    /* margin-top: 5px !important; */
-    /* padding-top: 3px; */
-    line-height: 35px;
-    font-size: 14px;
-    font-weight: 500;
+	color: #486fff;
+	line-height: 35px;
+	font-size: 14px;
+	font-weight: 500;
 }
 .header h1{
 	font-size: 20px;
-    /* margin: auto; */
-    color: #b0b0b0;
-    margin-top: 7px;
+	color: #b0b0b0;
+	margin-top: 7px;
 }
 .sidebar{
 	width: 150px;
@@ -227,9 +224,9 @@ input{
 	margin-left: 5px !important;
 }
 .off-star{
-	    width: 24px !important;
-    margin-right: 0px !important;
-    margin-left: -1px !important;
+	width: 24px !important;
+	margin-right: 0px !important;
+	margin-left: -1px !important;
 }
 .notif-c{
 	font-size: 15px;
@@ -617,13 +614,13 @@ hr {
 }
 
 .email-head .head-name{
-    font-size: 17px;
-    font-weight: 400;
-    max-width: 100%;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    height: 20px;
-    white-space: nowrap;
+	font-size: 17px;
+	font-weight: 400;
+	max-width: 100%;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+	height: 20px;
+	white-space: nowrap;
 }
 .email-head h3{
 	font-size: 18px;
@@ -729,14 +726,14 @@ hr {
 	margin-bottom: -19px;
 }
 .options-qa{
-    width: 190px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    margin-right: 200px;
-    border-radius: 40px;
-    padding: 5px 6px 7px 6px;
-    margin-bottom: -16px;
+	width: 190px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	margin-right: 200px;
+	border-radius: 40px;
+	padding: 5px 6px 7px 6px;
+	margin-bottom: -16px;
 }
 .spe{
 	margin-left: -10px;
@@ -951,7 +948,7 @@ hr {
 }
 
 .new-board{
-text-align: center;
+	text-align: center;
 }
 .new-board p{
 	font-size: 14px;
@@ -961,7 +958,7 @@ text-align: center;
 	font-size: 14px;
 }
 .invite-modal hr{
-	    margin: 20px 0px 20px 0px !important;
+	margin: 20px 0px 20px 0px !important;
 }
 
 .invite-modal a, .invite-modal a:hover{
