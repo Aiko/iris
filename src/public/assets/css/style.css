@@ -137,9 +137,10 @@ input{
 }
 
 .sidebar .container .row a:nth-child(3) img{
-	width: 19px;
-	margin-left: -2px;
-	margin-right: 0px;
+    width: 20px;
+    margin-left: -2px;
+    margin-right: 4px;
+    margin-top: 1px;
 }
 
 .sidebar a img{
