@@ -261,6 +261,7 @@ input{
 	border: 1px solid #d6d6d6;
 	margin-top: -15px;
 	padding: 20px 5px 15px 30px;
+	max-width: 500px;
 	z-index: 0;
 	border-radius: 4px;
 	font-size: 14px;
