@@ -699,6 +699,11 @@ hr {
 	height: 18px;
 	margin-left: 5px;
 	margin-top: 2px;
+	transition: .2s;
+}
+.email-head img:hover{
+	opacity: .8;
+	transition: .2s;
 }
 
 .changer{
@@ -789,14 +794,15 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-	background: #cfcfcf;
-	width: 190px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	border-radius: 40px;
-	padding: 2px 6px 7px 6px;
-	margin-bottom: -16px;
+background: #c6c6c6;
+    width: 190px;
+    position: absolute;
+    right: 0;
+    border: 1px solid #969696;
+    bottom: 0;
+    border-radius: 40px;
+    padding: 1px 6px 7px 6px;
+    margin-bottom: -17px;
 }
 .options-qa{
 	width: 190px;
