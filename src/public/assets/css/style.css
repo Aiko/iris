@@ -740,14 +740,14 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-	background: #cfcfcf;
-	width: 190px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	border-radius: 40px;
-	padding: 5px 6px 7px 6px;
-	margin-bottom: -19px;
+    background: #cfcfcf;
+    width: 190px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 40px;
+    padding: 2px 6px 7px 6px;
+    margin-bottom: -17px;
 }
 .options-qa{
 	width: 190px;
