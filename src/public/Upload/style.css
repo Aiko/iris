@@ -908,6 +908,12 @@ hr {
 		padding: 10px 5px;
 		transition: .2s;
 	}
+	.stripe1{
+		display: none;
+	}
+	.stripe2{
+		display: none;
+	}
 	.sidebar-collapse{
 		margin-top: 41px !important;
 	}
@@ -971,12 +977,6 @@ hr {
 	}
 	.logo{
 		width: 75px;
-	}
-	.stripe1{
-		display: none;
-	}
-	.stripe2{
-		display: none;
 	}
 }
 
