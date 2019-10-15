@@ -93,16 +93,16 @@ input{
 
 .sidebar a{
 	width: 100%;
-    position: relative;
-    padding: 8px 10px 8px 11px;
-    border-radius: 50px;
-    font-weight: 500;
-    font-size: 14px;
-    color: #B0B0B0;
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    transition: .2s;
+	position: relative;
+	padding: 8px 10px 8px 11px;
+	border-radius: 50px;
+	font-weight: 500;
+	font-size: 14px;
+	color: #B0B0B0;
+	margin-top: 3px;
+	white-space: nowrap;
+	overflow: hidden;
+	transition: .2s;
 }
 .sidebar a:hover{
 	background: #f8f8f8;
@@ -165,20 +165,20 @@ input{
 	overflow-y: scroll;
 }
 .picker{
-    color: #b0b0b0;
-    padding: 0px 5px 5px 9px;
-    max-width: 210px;
-    text-overflow: ellipsis;
-    border: 1px solid #d6d6d6;
-    border-radius: 20px;
-    cursor: pointer;
-    height: 30px;
-    overflow: hidden;
-    display: inline-grid;
-    background: #fff;
-    transition: .2s;
-    z-index: 1;
-    position: relative;
+	color: #b0b0b0;
+	padding: 0px 5px 5px 9px;
+	max-width: 210px;
+	text-overflow: ellipsis;
+	border: 1px solid #d6d6d6;
+	border-radius: 20px;
+	cursor: pointer;
+	height: 30px;
+	overflow: hidden;
+	display: inline-grid;
+	background: #fff;
+	transition: .2s;
+	z-index: 1;
+	position: relative;
 }
 .picker:hover{
 	height: fit-content;
@@ -323,19 +323,20 @@ input{
 }
 .board h1{
 	color: #b0b0b0;
-	font-size: 20px;
+	font-size: 18px;
 	display: inline-flex;
+	margin-top: 3px;
 }
 .board-header{
-	padding: 20px 5px;
+	padding: 20px 5px 15px 5px;
 }
 .header .side img{
-    width: 21px;
-    margin-right: 15px;
-    margin-top: 2px;
-    color: #B0B0B0;
-    opacity: 1;
-    transition: .2s;
+	width: 21px;
+	margin-right: 15px;
+	margin-top: 2px;
+	color: #B0B0B0;
+	opacity: 1;
+	transition: .2s;
 }
 .inline-flex{
 	display: inline-flex !important;
@@ -345,13 +346,13 @@ input{
 	transition: .2s;
 }
 .search input{
-    width: calc(100% - 21px);
-    border-radius: 50px;
-    border: none;
-    color: #212529;
-    font-size: 14px;
-    padding: 2px 3px 4px 3px;
-    height: 28px;
+	width: calc(100% - 21px);
+	border-radius: 50px;
+	border: none;
+	color: #212529;
+	font-size: 14px;
+	padding: 2px 3px 4px 3px;
+	height: 28px;
 }
 
 .search input::placeholder{
@@ -361,14 +362,14 @@ input{
 	padding: 0 !important;
 }
 .count{
-	padding: 4px;
+	padding: 3px;
 	background: #ffffff;
 	border-radius: 4px;
 	margin-left: 5px;
 	font-size: 12px;
 	width: fit-content;
 	font-weight: 600;
-	height: 20px;
+	height: 17px;
 	border: 1px solid #486fff;
 	color: #486fff;
 	margin-top: 3px;
@@ -414,23 +415,23 @@ input{
 	box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 }
 .empty h1{
-	font-size: 18px !important;
+	font-size: 16px !important;
 }
 .archive{
-	font-size: 12px;
+	font-size: 10px;
 	background: #b0b0b0;
-	border-radius: 4px;
-	height: 23px;
+	border-radius: 40px;
+	height: 20px;
 	line-height: 19px;
 	color: #fff;
 	margin-left: 5px;
 	font-weight: 500;
-	margin-top: 2px;
-	padding: 2px 4px;
+	margin-top: 1px;
+	padding: 1px 8px;
 	cursor: pointer;
 }
 .archive img{
-	width: 17px;
+	width: 14px;
 	margin-right: 3px;
 	margin-top: -2px;
 }
@@ -478,8 +479,8 @@ hr {
 }
 .email img{
 	height: 15px;
-    margin-left: 5px;
-    margin-top: 3px;
+	margin-left: 5px;
+	margin-top: 3px;
 }
 .email .container{
 	width: 100%;
