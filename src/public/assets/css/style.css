@@ -241,15 +241,15 @@ input{
 	margin-left: -1px !important;
 }
 .notif-c{
-	font-size: 15px;
-	overflow: hidden;
-	margin-top: 2px;
-	text-overflow: ellipsis;
-	color: #000;
-	transition: .2s;
+    font-size: 13px;
+    overflow: hidden;
+    margin-top: 5px;
+    text-overflow: ellipsis;
+    color: #b0b0b0;
+    transition: .2s;
 }
 .notif-c:hover{
-	color: #b0b0b0 !important;
+	color: #486fff !important;
 	transition: .2s;
 }
 .notif-t{
