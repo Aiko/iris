@@ -3,6 +3,7 @@ html, body, #app, .sidebar, .main{
 }
 body{
 	overflow: hidden;
+	background-color: #fff;
 }
 .bg{
 	background-image: url("../img/bg.png");
@@ -17,6 +18,20 @@ input{
 }
 ::-webkit-scrollbar{
 	display: none;
+}
+.back-to-inbox{
+	    color: #486fff;
+    /* margin-top: 5px !important; */
+    /* padding-top: 3px; */
+    line-height: 35px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.header h1{
+	font-size: 20px;
+    /* margin: auto; */
+    color: #b0b0b0;
+    margin-top: 7px;
 }
 .sidebar{
 	width: 150px;
