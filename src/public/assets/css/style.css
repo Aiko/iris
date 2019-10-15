@@ -610,7 +610,7 @@ hr {
 	background: #fff;
 	position: relative;
 	border-radius: 4px;
-	padding: 115px 15px 25px 15px;
+	padding: 107px 15px 25px 15px;
 	transition: .2s;
 }
 .previous-threads{
@@ -619,7 +619,7 @@ hr {
 	width: 100%;
 }
 .secondary-email h3{
-	font-size: 14px;
+	font-size: 13px;
 	color: #b0b0b0;
 	margin-bottom: 12px;
 }
@@ -729,7 +729,7 @@ hr {
 
 .secondary-head img{
 	border-radius: 50%;
-	width: 60px;
+	width: 55px;
 }
 
 .fade {
