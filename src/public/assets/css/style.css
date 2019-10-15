@@ -241,12 +241,12 @@ input{
 	margin-left: -1px !important;
 }
 .notif-c{
-    font-size: 13px;
-    overflow: hidden;
-    margin-top: 5px;
-    text-overflow: ellipsis;
-    color: #b0b0b0;
-    transition: .2s;
+	font-size: 13px;
+	overflow: hidden;
+	margin-top: 5px;
+	text-overflow: ellipsis;
+	color: #b0b0b0;
+	transition: .2s;
 }
 .notif-c:hover{
 	color: #486fff !important;
@@ -502,16 +502,16 @@ hr {
 	transition: .2s;
 }
 .delete img{
-    margin-top: 40px !important;
-    height: 15px !important;
-    margin-left: 0 !important;
-    transition: .2s;
+	margin-top: 40px !important;
+	height: 15px !important;
+	margin-left: 0 !important;
+	transition: .2s;
 }
 .delete:hover img{
-    margin-top: 35px !important;
-    height: 25px !important;
-    margin-left: 0 !important;
-    transition: .2s;
+	margin-top: 35px !important;
+	height: 25px !important;
+	margin-left: 0 !important;
+	transition: .2s;
 }
 .sender{
 	font-size: 14px;
@@ -794,15 +794,15 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-background: #c6c6c6;
-    width: 190px;
-    position: absolute;
-    right: 0;
-    border: 1px solid #969696;
-    bottom: 0;
-    border-radius: 40px;
-    padding: 1px 6px 7px 6px;
-    margin-bottom: -17px;
+	background: #c6c6c6;
+	width: 190px;
+	position: absolute;
+	right: 0;
+	border: 1px solid #969696;
+	bottom: 0;
+	border-radius: 40px;
+	padding: 1px 6px 7px 6px;
+	margin-bottom: -17px;
 }
 .options-qa{
 	width: 190px;
@@ -1161,4 +1161,112 @@ background: #c6c6c6;
 }
 .compose-modal .main-email{
 	padding: 0 !important;
+}
+
+.aiko-form {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: center;
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #fff;
+}
+
+.aiko-form .form-signin {
+	width: 100%;
+	max-width: 330px;
+	padding: 15px;
+	margin: auto;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+.aiko-form .form-logo{
+	padding: 10px 40px 10px 0px;
+	border-right: 1px solid #ddd;
+	width: 150px;
+	margin-bottom: 9px !important;
+}
+.btn-primary{
+	background-color: #486fff !important;
+	border-color: #486fff !important;
+}
+.aiko-form .form-signin .checkbox {
+	font-weight: 400;
+	text-align: left;
+}
+.grey{
+	color: #b0b0b0 !important;
+}
+.btn-primary.focus, .btn-primary:focus{
+	box-shadow: none !important;
+}
+.stripe1{
+	border-right: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: -165px;
+    width: 350px;
+    margin-top: 100px;
+}
+.stripe2{
+	    border-right: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-left: -175px;
+    width: 420px;
+    margin-bottom: -100px;
+}
+.aiko-form .form-signin .form-control {
+	position: relative;
+	box-sizing: border-box;
+	height: auto;
+	padding: 8px 10px;
+	font-size: 15px;
+}
+.aiko-form .form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-control:focus{
+	border: 1px solid #a4a4a4 !important;
+	box-shadow: none !important;
+}
+.aiko-form .form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+	margin-top: 20px;
+}
+.aiko-form .top-link{
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 15px 20px;
+	color: #b0b0b0;
+	font-size: 15px;
+
+}
+.aiko-form label{
+	color: #b0b0b0;
+	margin-top: 10px;
+}
+.aiko-form  a{
+	    color: #486fff;
+    font-weight: 500;
+}
+.aiko-form .form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.aiko-form .title{
+	color: #b0b0b0 !important;
+	margin-top: 0px !important;
+	margin-bottom: 0px !important;
+	margin-left: 30px;
+	display: inline;
 }
