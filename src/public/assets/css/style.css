@@ -592,12 +592,16 @@ hr {
 }
 .modal-content{
 	height: 100%;
+	background-color: transparent;
+}
+.drag{
+	box-shadow: 0 10px 20px #5d5d5d29 !important;
 }
 .main-email{
 	height: 100%;
 	background: #fff;
 	width: 65%;
-	box-shadow: 0 15px 10px #96969694;
+	box-shadow: 0 15px 10px #3d3d3d66;
 	z-index: 1;
 	position: relative;
 	border-radius: 4px;
@@ -610,6 +614,7 @@ hr {
 	background: #fff;
 	position: relative;
 	border-radius: 4px;
+	box-shadow: 0 15px 10px #3d3d3d66;
 	padding: 107px 15px 25px 15px;
 	transition: .2s;
 }
