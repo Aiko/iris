@@ -72,6 +72,40 @@ input{
 }
 #app{
 	width: 100%;
+	padding-top: 20px;
+}
+.control-bar{
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #f2f2f2;
+    z-index: 100;
+    margin-bottom: 10px;
+    display: inline-flex;
+    height: 20px;
+}
+.control-bar p{
+	width: 12px;
+    border-radius: 50%;
+    height: 12px;
+    margin-left: 10px;
+    background: #b0b0b0;
+    margin-top: 4px;
+    transition: .2s;
+    cursor: pointer;
+}
+.control-bar:hover p:nth-child(1){
+   background-color: #dc3545;
+   transition: .2s;
+}
+.control-bar:hover p:nth-child(2){
+   background-color: #ffc107;
+   transition: .2s;
+}
+.control-bar:hover p:nth-child(3){
+   background-color: #28a745;
+   transition: .2s;
 }
 .header{
 	padding: 8px 10px;
@@ -926,7 +960,7 @@ hr {
 	padding: 10px 15px 3px 15px;
 	background: #486fff;
 	border-radius: 4px;
-	margin-top: 5px;
+	margin-top: 25px;
 	color: #fff;
 	max-width: 100%;
 	width: fit-content;
@@ -1258,7 +1292,7 @@ hr {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 15px 20px;
+	padding: 35px 20px;
 	color: #b0b0b0;
 	font-size: 15px;
 
