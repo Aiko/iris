@@ -19,6 +19,15 @@ input{
 ::-webkit-scrollbar{
 	display: none;
 }
+.bottom{
+	position: absolute;
+	bottom: 0;
+	background-color: #fff;
+	padding: 15px 0px 10px 0px;
+	text-align: center;
+	border-top: 1px solid #ddd;
+	width: 100%;
+}
 .back-to-inbox{
 	color: #486fff;
 	line-height: 35px;
@@ -34,6 +43,7 @@ input{
 	width: 150px;
 	background: #fff;
 	padding: 10px;
+	overflow-y: scroll;
 	box-shadow: 1px 1px 5px #73737340;
 	z-index: 1;
 	transition: .2s;
@@ -72,6 +82,7 @@ input{
 .sidebar .container{
 	height: 100%;
 	padding-left: 0;
+	position: relative;
 	padding-right: 0;
 }
 
@@ -151,7 +162,7 @@ input{
 	padding-top: 15px;
 }
 .sidebar .container .row:nth-child(3){
-	margin-top: 10vh;
+	margin-top: 5vh;
 	overflow-y: scroll;
 }
 .picker{
@@ -753,6 +764,9 @@ hr {
 		width: 45px !important;
 		padding: 10px 5px;
 		transition: .2s;
+	}
+	.bottom{
+		display: none;
 	}
 	.modal-lg{
 		width: calc(100% - 1rem) !important;
