@@ -44,9 +44,29 @@ input{
 	color: #b0b0b0;
 	margin-top: 7px;
 }
+.sidebar-collapse{
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+	margin-top: 37px;
+	padding: 3px;
+	cursor: pointer;
+}
+.sidebar-collapse img{
+	width: 13px;
+	opacity: .3;
+	transition: .2s;
+}
+.sidebar-collapse img:hover{
+	width: 13px;
+	opacity: 1;
+	transition: .2s;
+}
 .sidebar{
 	width: 130px;
 	background: #fff;
+	position: relative;
 	padding: 7px 10px;
 	overflow-y: scroll;
 	box-shadow: 1px 1px 5px #73737340;
@@ -76,36 +96,36 @@ input{
 }
 .control-bar{
 	position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: #f2f2f2;
-    z-index: 100;
-    margin-bottom: 10px;
-    display: inline-flex;
-    height: 20px;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #f2f2f2;
+	z-index: 100;
+	margin-bottom: 10px;
+	display: inline-flex;
+	height: 20px;
 }
 .control-bar p{
 	width: 12px;
-    border-radius: 50%;
-    height: 12px;
-    margin-left: 10px;
-    background: #b0b0b0;
-    margin-top: 4px;
-    transition: .2s;
-    cursor: pointer;
+	border-radius: 50%;
+	height: 12px;
+	margin-left: 10px;
+	background: #b0b0b0;
+	margin-top: 4px;
+	transition: .2s;
+	cursor: pointer;
 }
 .control-bar:hover p:nth-child(1){
-   background-color: #dc3545;
-   transition: .2s;
+	background-color: #dc3545;
+	transition: .2s;
 }
 .control-bar:hover p:nth-child(2){
-   background-color: #ffc107;
-   transition: .2s;
+	background-color: #ffc107;
+	transition: .2s;
 }
 .control-bar:hover p:nth-child(3){
-   background-color: #28a745;
-   transition: .2s;
+	background-color: #28a745;
+	transition: .2s;
 }
 .header{
 	padding: 8px 10px;
@@ -171,10 +191,10 @@ input{
 }
 
 .sidebar .container .row a:nth-child(3) img{
-    width: 20px;
-    margin-left: -2px;
-    margin-right: 4px;
-    margin-top: 1px;
+	width: 20px;
+	margin-left: -2px;
+	margin-right: 4px;
+	margin-top: 1px;
 }
 
 .sidebar a img{
@@ -888,6 +908,9 @@ hr {
 		padding: 10px 5px;
 		transition: .2s;
 	}
+	.sidebar-collapse{
+		margin-top: 41px !important;
+	}
 	.bottom{
 		display: none;
 	}
@@ -950,6 +973,54 @@ hr {
 		width: 75px;
 	}
 }
+
+
+
+.sidebar-small .sidebar{
+	width: 45px !important;
+	padding: 10px 5px !important;
+	transition: .2s;
+}
+.sidebar-small .sidebar p{
+	display: none !important;
+}
+.sidebar-small	.sidebar-collapse{
+	margin-top: 41px !important;
+}
+.sidebar-small	.bottom{
+	display: none !important;
+}
+
+.sidebar-small	#u3{
+	display: none !important;
+}
+.sidebar-small	.active-user{
+	margin-top: 18px;
+	margin-left: 4px !important;
+}
+
+.sidebar-small	.sidebar a{
+	height: 35px !important;
+	width: 35px !important;
+	padding: 7px 10px 5px 8px !important;
+	transition: .2s;
+}
+.sidebar-small	.sidebar span{
+	display: none !important;
+}
+
+.sidebar-small	.logo{
+	width: 75px !important;
+}
+.sidebar-small .main{
+	width: calc(100% - 45px) !important;
+}
+
+
+
+
+
+
 
 .aiko-toast{
 	position: absolute;
