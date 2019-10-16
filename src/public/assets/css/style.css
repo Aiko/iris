@@ -140,7 +140,13 @@ input{
     color: #ffffff73;
     line-height: 15px;
     padding-left: 7px;
+    opacity: .4;
+    transition: .2s;
 }
+.control-bar h1:hover{
+	    opacity: 1;
+    transition: .2s;
+	}
 
 .red-bg{
 
