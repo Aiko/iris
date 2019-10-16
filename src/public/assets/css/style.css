@@ -131,25 +131,27 @@ input{
 .control-bar h1{
     width: 25px;
     border-radius: 1px;
-    height: 15px;
-    margin-left: 5px;
-    background: #c0bfbf;
-    margin-top: 2px;
-    margin-right: 2px;
+    height: 20px;
+    margin-left: 3px;
+    margin-top: 0px;
     cursor: pointer;
+
+        font-size: 20px;
+    color: #ffffff73;
+    line-height: 15px;
+    padding-left: 7px;
 }
 
-.pc:hover h1:nth-child(3){
-	background-color: #dc3545 !important;
-	transition: .2s;
+.red-bg{
+
+	background-color: #dc3545;
 }
-.pc:hover h1:nth-child(2){
-	background-color: #ffc107 !important;
-	transition: .2s;
+.orange-bg{
+	background-color: #ffc107;
 }
-.pc:hover h1:nth-child(1){
-	background-color: #28a745 !important;
-	transition: .2s;
+
+.green-bg{
+	background-color: #28a745;
 }
 
 .control-bar:hover p:nth-child(1){

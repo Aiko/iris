@@ -18,14 +18,14 @@
 <body class="bg">
 	<div id="app" class="inline-flex">
 
-		<div class="control-bar">
+		<div class="control-bar pc">
 			<p title="Close"></p> <!-- Close ------------------------>
 			<p title="Minimize"></p> <!-- Minimize ------------------------>
 			<p title="Full Screen"></p> <!-- Full Screen ------------------------>
 
-			<h1 title="Full Screen"></h1> <!-- Full Screen ------------------------>
-			<h1 title="Minimize"></h1> <!-- Minimize ------------------------>
-			<h1 title="Close"></h1> <!-- Close ------------------------>
+			<h1 class="green-bg" title="Full Screen"></h1> <!-- Full Screen ------------------------>
+			<h1 class="orange-bg" title="Minimize">_</h1> <!-- Minimize ------------------------>
+			<h1 class="red-bg" title="Close">x</h1> <!-- Close ------------------------>
 		</div>
 
 		<!-- Sidebar --------------------------------------------------->
@@ -96,6 +96,7 @@
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
+							<a href="#" class="inline"><img src="assets/icons/header-calendar.svg"></a>
 							<div class="dropdown inline">
 								<a href="#" data-toggle="dropdown"><img src="assets/icons/header-bell.svg"></a>
 								<div class="dropdown-menu notif" style="margin-top: 10px">
