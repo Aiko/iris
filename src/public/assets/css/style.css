@@ -1243,8 +1243,8 @@ hr {
 }
 .add-mailbox img{
 	width: 100%;
-	max-width: 160px;
-	margin-bottom: 15px;
+	max-width: 130px;
+	margin-bottom: 20px;
 }
 
 .add-2{
@@ -1284,11 +1284,11 @@ hr {
 	font-weight: 500;
 }
 .modal-reg h1{
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: 500;
 }
 .modal-reg h2{
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: 400;
 	margin-bottom: 20px;
 }
