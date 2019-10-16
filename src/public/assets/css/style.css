@@ -11,7 +11,7 @@ body{
 	user-select: none;
 }
 .bg{
-	background-image: url("../img/bg.png");
+	background-image: url("../img/bg.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 }
