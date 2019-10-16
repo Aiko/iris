@@ -164,6 +164,21 @@ input{
 	background-color: #28a745;
 	transition: .2s;
 }
+.long-board{
+    display: inline-flex;
+    background-color: #fff;
+    border-radius: 4px;
+    margin-left: -33px;
+    width: 100%;
+}
+.secondary{
+	width: calc(100% - 40px);
+    border-radius: 4px;
+}
+.long-board .main-email{
+	z-index: 0;
+	width: 100%;
+}
 .header{
 	padding: 8px 10px;
 	height: 45px;
