@@ -42,7 +42,7 @@ input{
 .header h1{
 	font-size: 20px;
 	color: #b0b0b0;
-	margin-top: 7px;
+	margin-top: 2px;
 }
 .sidebar-collapse{
 	position: absolute;
@@ -1404,7 +1404,7 @@ hr {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 35px 20px;
+	padding: 15px 20px;
 	color: #b0b0b0;
 	font-size: 15px;
 
