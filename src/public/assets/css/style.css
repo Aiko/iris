@@ -104,6 +104,8 @@ input{
 	margin-bottom: 10px;
 	display: inline-flex;
 	height: 20px;
+	-webkit-user-select: none;
+	-webkit-app-region: drag;
 }
 .control-bar p{
 	width: 12px;
@@ -114,6 +116,7 @@ input{
 	margin-top: 4px;
 	transition: .2s;
 	cursor: pointer;
+	-webkit-app-region: no-drag;
 }
 .control-bar h1{
 	display: none;

@@ -1,8 +1,11 @@
 const { app, BrowserWindow } = require('electron');
 if (require('electron-squirrel-startup')) app.quit();
+const Store = require('electron-store')
+const store = new Store()
 
 const Mailbox = require('./src/js/email')
 
+const platform = process.platform;
 let win;
 
 const init = () => {
@@ -16,21 +19,28 @@ const init = () => {
   win.maximize()
   win.show()
 
-  win.loadURL(`file://${__dirname}/src/public/index.html`)
+  entry()
 
   win.on('closed', () => {
     win = null
   })
 }
 
+const entry = () => {
+  const signed_in = store.get('authenticated', false)
+
+  if (signed_in) win.loadURL(`file://${__dirname}/src/public/index.html`)
+  else win.loadURL('https://helloaiko.com/email/signin')
+}
+
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') app.quit()
+  if (platform !== 'darwin') app.quit()
 })
 
 app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox }
+module.exports = { Mailbox, store, entry, platform }

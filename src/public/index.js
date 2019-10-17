@@ -1,3 +1,3 @@
 const { remote } = require('electron')
-const { Mailbox } = remote.require('./app.js')
+const { Mailbox, store } = remote.require('./app.js')
 
