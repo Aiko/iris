@@ -1,6 +1,29 @@
+const modals_mixin = {
+    data: {
+
+    },
+    methods: {
+        showAddMailbox() {
+            $('.add-mailbox').modal('show')
+        },
+        hideAddMailbox() {
+            $('.add-mailbox').modal('hide')
+        },
+        forceAddMailbox() {
+            $('.add-mailbox').data('bs.modal', null)
+            $('.add-mailbox').modal({
+                backdrop: 'static',
+                keyboard: false
+            })
+        }
+    }
+}
+
+
+
 const app = new Vue({
     el: '#app',
-    mixins: [mail_api_mixin, electron_mixin],
+    mixins: [mail_api_mixin, electron_mixin, modals_mixin],
     data: {
         loading: true,
         error: null,
@@ -56,8 +79,11 @@ const app = new Vue({
 
         // if no mailboxes, ask user to add one
         if (this.mailboxes.length == 0) {
-
+            this.forceAddMailbox()
+            return;
         }
+
+        // TODO: otherwise...
     },
     methods: {
     }
