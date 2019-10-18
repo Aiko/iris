@@ -1,11 +1,14 @@
 <!-- AIKO AI, LLC. ALL RIGHTS RESERVED -->
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Aiko Mail uses artificial intelligence to automatically summarize messages, highlight important information, focus your inbox and help you write emails faster.">
-	<meta name="keywords" content="ai assistant,jarvis,how to reply to an email,email summary,email assistant,ai email assistant,reply email,Aiko AI,aiko ai,ai scheduling assistant,ai meeting assistant,x.ai,x ai,what is x ai">
+	<meta name="description"
+		content="Aiko Mail uses artificial intelligence to automatically summarize messages, highlight important information, focus your inbox and help you write emails faster.">
+	<meta name="keywords"
+		content="ai assistant,jarvis,how to reply to an email,email summary,email assistant,ai email assistant,reply email,Aiko AI,aiko ai,ai scheduling assistant,ai meeting assistant,x.ai,x ai,what is x ai">
 	<meta name="author" content="Aiko AI">
 	<title>Home</title>
 	<link rel="icon" href="assets/img/favicon.png" type="image/png">
@@ -35,10 +38,12 @@
 					<img src="assets/img/logo.png" class="logo">
 				</div>
 				<div class="row">
-					<a href="#" class="compose" data-toggle="modal" data-target=".compose-modal"><img src="assets/icons/sidebar-edit.svg"> <span>Compose</span></a>
+					<a href="#" class="compose" data-toggle="modal" data-target=".compose-modal"><img
+							src="assets/icons/sidebar-edit.svg"> <span>Compose</span></a>
 					<a href="index.html" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home</span></a>
 					<a href="sent.html"><img src="assets/icons/sidebar-send.svg"> <span>Sent</span></a>
-					<a href="starred.html"><img src="assets/icons/sidebar-star.svg" class="off-star"> <span>Starred</span></a>
+					<a href="starred.html"><img src="assets/icons/sidebar-star.svg" class="off-star">
+						<span>Starred</span></a>
 					<a href="archive.html"><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
 					<a href="trash.html"><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
 				</div>
@@ -46,14 +51,24 @@
 					<hr>
 					<p class="no-mobile">Team</p>
 
-					<a href="#" id="user"><div class="active-user" id="u1"></div><img id="u2" src="assets/img/user.png"><div id="u3">Ruben T.</div><span><img style="margin-left: 20px" src="assets/icons/user-mail.svg"><img style="margin-left:
-					20px" src="assets/icons/user-chat.svg"></span></a>
+					<a href="#" id="user" v-for="(user, index) in team.team">
+						<div class="active-user" id="u1"></div>
+						<img id="u2" :src="'assets' + user.member.pictureURI">
+						<div id="u3">{{user.member.name}}</div>
+						<span>
+							<img style="margin-left: 20px" src="assets/icons/user-mail.svg">
+							<img style="margin-left: 20px" src="assets/icons/user-chat.svg">
+						</span>
+					</a>
 
-					<a href="#"  data-toggle="modal" data-target=".invite-modal"><img src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
+					<a href="#" data-toggle="modal" data-target=".invite-modal"><img
+							src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
 				</div>
 				<div class="row bottom">
 					<br>
-					<span style="width: 100%;text-align: center;"><a href="#open-compose-with-our-email-filled-in"><img src="assets/icons/sidebar-support.svg" width="30"></a> <a href="#"><img src="assets/icons/sidebar-feedback.svg" width="30"></a></span>
+					<span style="width: 100%;text-align: center;"><a href="#open-compose-with-our-email-filled-in"><img
+								src="assets/icons/sidebar-support.svg" width="30"></a> <a href="#"><img
+								src="assets/icons/sidebar-feedback.svg" width="30"></a></span>
 				</div>
 			</div>
 		</div>
@@ -84,14 +99,24 @@
 							</div>
 						</div>
 						<div class="col-lg-5 col-md-6 col-6 p0m">
-							<div class="search"><img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search"></div>
-							<div class="search-drop">
-								<a href="#"><div>Subject contains "<span>Ruben</span>"</div></a>
+							<div class="search"><img src="assets/icons/header-search.svg">
+								<input type="" name="" placeholder="Search">
+							</div>
+							<div v-if="false" class="search-drop">
+								<a href="#">
+									<div>Subject contains "<span>Ruben</span>"</div>
+								</a>
 								<hr>
 								<p>People</p>
-								<a href="#"><div>ruben@priansh.com</div></a>
-								<a href="#"><div>rubencharles@gmail.com</div></a>
-								<a href="#"><div>rubencharlestouitou@gmail.com</div></a>
+								<a href="#">
+									<div>ruben@priansh.com</div>
+								</a>
+								<a href="#">
+									<div>rubencharles@gmail.com</div>
+								</a>
+								<a href="#">
+									<div>rubencharlestouitou@gmail.com</div>
+								</a>
 							</div>
 						</div>
 						<div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
@@ -140,7 +165,7 @@
 											</div>
 										</a>
 									</div>
-									
+
 								</div>
 							</div>
 							<a href="settings.html" class="inline"><img src="assets/icons/header-settings.svg"></a>
@@ -159,7 +184,8 @@
 								<div class="row">
 									<div class="col-3">
 										<div class="dropdown">
-											<a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
 											<div class="dropdown-menu">
 												<h6 class="dropdown-header">Sort by</h6>
 												<a class="dropdown-item" href="#">Date (latest)</a>
@@ -177,10 +203,12 @@
 										</div>
 									</div>
 									<div class="col-6 text-center">
-										<h1>Inbox<div class="count">99+</div></h1>
+										<h1>Inbox<div class="count">99+</div>
+										</h1>
 									</div>
 									<div class="col-3 text-right">
-										<img src="assets/icons/toggle-right.svg" title="Show important emails only" width="30" style="cursor: pointer;"></a>
+										<img src="assets/icons/toggle-right.svg" title="Show important emails only"
+											width="30" style="cursor: pointer;"></a>
 									</div>
 								</div>
 							</div>
@@ -204,10 +232,11 @@
 											<div class="time">10:10PM</div>
 										</div>
 										<p class="subject">Can you meet at 6PM at Starbucks?</p>
-										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park, how's that? I'll bring the presentation and the deck.</p>
+										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park,
+											how's that? I'll bring the presentation and the deck.</p>
 
 									</div>
-								<!-- Action Button , might user other system for height mgmt
+									<!-- Action Button , might user other system for height mgmt
 									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
 								</div>
 								<div class="delete">
@@ -228,7 +257,8 @@
 								<div class="row">
 									<div class="col-2">
 										<div class="dropdown">
-											<a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
 											<div class="dropdown-menu">
 												<h6 class="dropdown-header">Sort by</h6>
 												<a class="dropdown-item" href="#">Date (latest)</a>
@@ -247,7 +277,8 @@
 										</div>
 									</div>
 									<div class="col-8 text-center p0">
-										<h1>To-Do<div class="count">99+</div></h1>
+										<h1>To-Do<div class="count">99+</div>
+										</h1>
 									</div>
 									<div class="col-2 text-right">
 										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
@@ -270,7 +301,8 @@
 								<div class="row">
 									<div class="col-2">
 										<div class="dropdown">
-											<a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
 											<div class="dropdown-menu">
 												<h6 class="dropdown-header">Sort by</h6>
 												<a class="dropdown-item" href="#">Date (latest)</a>
@@ -289,7 +321,9 @@
 										</div>
 									</div>
 									<div class="col-8 text-center p0">
-										<h1>Done<div class="archive"><img src="assets/icons/board-archive.svg">Archive all</div></h1>
+										<h1>Done<div class="archive"><img src="assets/icons/board-archive.svg">Archive
+												all</div>
+										</h1>
 									</div>
 									<div class="col-2 text-right">
 										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
@@ -312,7 +346,8 @@
 								<div class="row">
 									<div class="col-2">
 										<div class="dropdown">
-											<a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
 											<div class="dropdown-menu">
 												<h6 class="dropdown-header">Sort by</h6>
 												<a class="dropdown-item" href="#">Date (latest)</a>
@@ -331,7 +366,8 @@
 										</div>
 									</div>
 									<div class="col-8 text-center p0">
-										<h1>Show Priansh<div class="count">3</div></h1>
+										<h1>Show Priansh<div class="count">3</div>
+										</h1>
 									</div>
 									<div class="col-2 text-right">
 										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
@@ -357,16 +393,17 @@
 			</div>
 		</div>
 
-
 		<!-- Single Email View --------------------------------------->
-		<div class="modal fade email1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal fade email1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
 						<div class="email-head">
 							<div class="container">
 								<div class="row">
-									<div class="col-8 p0" style="display: inline-flex;    display: inline-flex;height: 22px;">
+									<div class="col-8 p0"
+										style="display: inline-flex;    display: inline-flex;height: 22px;">
 										<h2 class="sender">Ruben from Aiko</h2>
 										<img src="assets/icons/badges-attach.svg" title="Attachment">
 										<img src="assets/icons/badges-tracker.svg">
@@ -392,7 +429,7 @@
 							<div class="options">
 								<div class="container">
 									<div class="row">
-										<div class="col-2 p0"> 
+										<div class="col-2 p0">
 											<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
 										</div>
 										<div class="col-2 p0">
@@ -422,10 +459,10 @@
 						<div class="secondary-head">
 							<div class="container">
 								<div class="row">
-									<div class="col-3 p0"> 
+									<div class="col-3 p0">
 										<img src="assets/img/user.png">
 									</div>
-									<div class="col-9 p0 spe"> 
+									<div class="col-9 p0 spe">
 										<h1>Ruben from Aiko</h1>
 										<h2>ruben@helloaiko.com</h2>
 									</div>
@@ -450,7 +487,8 @@
 											<div class="time">10:10PM</div>
 										</div>
 										<p class="subject">Can you meet at 6PM at Starbucks?</p>
-										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park, how's that? I'll bring the presentation and the deck.</p>
+										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park,
+											how's that? I'll bring the presentation and the deck.</p>
 									</div>
 								</div>
 							</div>
@@ -462,7 +500,8 @@
 		<!-- END Single Email View --------------------------------------->
 
 		<!-- Add Mailbox View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade add-mailbox" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal fade add-mailbox" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog modal-md">
 				<div class="modal-content">
 					<div class="modal-reg">
@@ -477,10 +516,10 @@
 
 
 						<!-- add-2 stuff --------------------------------------->
-						<h1  class="add-2">Add a mailbox</h1>
-						<h2  class="add-2">Enter your credentials</h2>
+						<h1 class="add-2">Add a mailbox</h1>
+						<h2 class="add-2">Enter your credentials</h2>
 						<br class="add-2">
-						<a href="#" class="add-2"><img  class="add-2" src="assets/img/google.png"></a>
+						<a href="#" class="add-2"><img class="add-2" src="assets/img/google.png"></a>
 						<input class="add-2" type="email" name="" placeholder="Email">
 						<input class="add-2" type="password" name="" placeholder="Password">
 						<br class="add-2">
@@ -499,15 +538,16 @@
 		<!-- END Add Mailbox View --------------------------------------->
 
 		<!-- Add Board View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade new-board" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal fade new-board" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-reg">
-						<img  src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+						<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
 						<h1>Add a board</h1>
 						<h2>Enter the board name</h2>
-						<input type="text" name="" placeholder="Board name"  maxlength="10">
-						<p>Max 10 charachters.</p>
+						<input type="text" name="" placeholder="Board name" maxlength="10">
+						<p>Max 10 characters.</p>
 						<br>
 						<a href="#" class="blue">Next</a>
 						<p class="ns30"></p>
@@ -529,11 +569,12 @@
 		<!-- END Add Board View --------------------------------------->
 
 		<!-- Invite View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade invite-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal fade invite-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-reg">
-						<img  src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+						<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
 						<h1>Invite a team member</h1>
 						<h2>Enter their email address</h2>
 						<input type="email" name="" placeholder="Email">
@@ -559,52 +600,55 @@
 		<!-- END Invite View --------------------------------------->
 
 		<!-- Compose View --------------------------------------->
-		<div class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+			aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
 						<div class="compose-to" contenteditable="true" placeholder="To:">
 
 						</div>
-													<!--
+						<!--
 							<div class="drop-field">
 								<div>ruben@priansh.com</div>
 								<div>ruben@gmail.com</div>
 							</div>
 							---->
-							<div class="compose-cc" contenteditable="true" placeholder="CC:">
+						<div class="compose-cc" contenteditable="true" placeholder="CC:">
 
-							</div>
-							<div class="compose-bcc" contenteditable="true" placeholder="BCC:">
-
-							</div>
-							<div class="compose-subject" contenteditable="true" placeholder="Subject:">
-
-							</div>
-							<div class="compose-options">
-								<div class="compose-bold">B</div>
-								<div class="compose-italic">I</div>
-								<div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg" width="16"></div>
-							</div>
-							<div class="compose-body" contenteditable="true" placeholder="Subject:">
-
-							</div>
-							<div class="compose-bottom">
-								<a href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
-							</div>
 						</div>
-						<div class="secondary-email">
-							<a href="#" class="no-calendar"><h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1></a>
-						</div>
+						<div class="compose-bcc" contenteditable="true" placeholder="BCC:">
 
+						</div>
+						<div class="compose-subject" contenteditable="true" placeholder="Subject:">
+
+						</div>
+						<div class="compose-options">
+							<div class="compose-bold">B</div>
+							<div class="compose-italic">I</div>
+							<div class="compose-attach" type="file" name="myFile"><img
+									src="assets/icons/compose-attach.svg" width="16"></div>
+						</div>
+						<div class="compose-body" contenteditable="true" placeholder="Subject:">
+
+						</div>
+						<div class="compose-bottom">
+							<a href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
+						</div>
 					</div>
+					<div class="secondary-email">
+						<a href="#" class="no-calendar">
+							<h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1>
+						</a>
+					</div>
+
 				</div>
 			</div>
 		</div>
 		<!-- END Compose View --------------------------------------->
 
 		<!-- Toast -->
-		<div class="aiko-toast">
+		<div v-if="false" class="aiko-toast">
 			<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
 		</div>
 		<!-- END Toast --------------------------------------->
@@ -617,8 +661,9 @@
 	<script src="assets/js/vue.min.js"></script>
 	<script src="assets/js/vuep.js"></script>
 	<script src="assets/js/utils.js"></script>
+	<script src="index.js"></script>
 	<script src="mail-api.js"></script>
 	<script src="mail.js"></script>
-	<script src="index.js"></script>
 </body>
+
 </html>
