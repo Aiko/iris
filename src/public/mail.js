@@ -49,9 +49,16 @@ const app = new Vue({
     },
     async created() {
         // fetch existing credentials
+        if (!store.get('authenticated', false)) entry()
         const {
             token, email, password
-        } = store.get('authenticated', {})
+        } = store.get('authenticated', {
+            token: null,
+            email: null,
+            password: null
+        })
+
+        if (!token) return entry()
 
         this.token = token
 
