@@ -39,11 +39,24 @@ const mail_api_mixin = {
                 this.period_ends = d.period_ends
                 this.mailboxes = d.mailboxes
                 this.team = d.team
-                return true 
+                return true
             } catch (e) {
                 console.error(e)
                 return false
             }
-        }
+        },
+        async addMailbox(email) {
+            try {
+                const d = await post('/v3/mailboxes/create', {
+                    email: email
+                }, this.token)
+                if (!d || d.error) return false
+
+                await this.fetchProfile()
+            } catch (e) {
+                console.error(e)
+                return false
+            }
+        },
     }
 }

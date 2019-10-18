@@ -47,8 +47,12 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.0.0",
+    "google-auth-library": "^5.5.0",
+    "googleapis": "^44.0.0",
     "jquery": "^3.4.1",
-    "node-email": "github:Aiko/node-email"
+    "node-email": "github:Aiko/node-email",
+    "request": "^2.88.0",
+    "tslib": "^1.10.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.45",

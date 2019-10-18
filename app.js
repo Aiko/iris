@@ -3,10 +3,17 @@ if (require('electron-squirrel-startup')) app.quit();
 const Store = require('electron-store')
 const store = new Store()
 
+const GOAuth2 = require('./src/js/goauth')
 const Mailbox = require('./src/js/email')
 
 const platform = process.platform;
 let win;
+
+const GOAuth = GOAuth2(
+  '446179098641-2t27j97cbh9c7m2ipgl726frqgq7mbu6.apps.googleusercontent.com',
+  'LOrFhFdszULzm1dyFOMbzIdz',
+  ['https://mail.google.com']
+)
 
 const init = () => {
   win = new BrowserWindow({
@@ -47,4 +54,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform, getWin }
+module.exports = { Mailbox, store, entry, platform, getWin, GOAuth }

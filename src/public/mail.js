@@ -23,10 +23,21 @@ const modals_mixin = {
 
 const app = new Vue({
     el: '#app',
-    mixins: [mail_api_mixin, electron_mixin, modals_mixin],
+    mixins: [mail_api_mixin, electron_mixin, modals_mixin, google_monkey_mixin],
     data: {
         loading: true,
         error: null,
+        // Mail Server
+        imapHost: '',
+        imapPort: 993,
+        smtpHost: '',
+        smtpPort: 587,
+        // State
+        mailbox: {
+            email: '',
+            boards: [],
+            events: []
+        }
     },
     computed: {
 
@@ -91,8 +102,41 @@ const app = new Vue({
         }
 
         // TODO: otherwise...
-    },
+        const current_mailbox = store.get('settings:current-mailbox', null)
+        if (current_mailbox) {
+            const mbox = this.mailboxes.filter(m => m.email == current_mailbox)
+            if (mbox.length > 0) app.switchToMailbox(mbox[0])
+            else {
+                app.switchToMailbox(this.mailboxes[0])
+            }
+        } else {
+            app.switchToMailbox(this.mailboxes[0])
+        }
+},
     methods: {
+        async switchToMailbox(mailbox) {
+            this.mailbox = mailbox
+            const settings = store.get('credentials:' + this.mailbox.email, null)
+            if (!settings) return console.error("We don't have settings for this mailbox!")
+            store.set('settings:current-mailbox', this.mailbox.email)
+
+            if (settings.gmail) {
+                this.imapHost = 'imap.gmail.com'
+                this.imapPort = 993
+                this.smtpHost = 'smtp.gmail.com'
+                this.smtpPort = 587
+                return;
+            }
+            // TODO: branches for every type of inbox we support
+        },
+        async addGoogle() {
+            const s = await this.gSignIn()
+            if (s) {
+                await this.hideAddMailbox()
+                const r = await this.addMailbox(this.g_email)
+                if (r) this.switchToMailbox(this.mailboxes.last())
+            }
+        }
     }
 })
 
