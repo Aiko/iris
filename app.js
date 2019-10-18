@@ -33,6 +33,10 @@ const entry = () => {
   else win.loadURL('https://helloaiko.com/email/signin')
 }
 
+const getWin = () => {
+  return win
+}
+
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
@@ -43,4 +47,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform }
+module.exports = { Mailbox, store, entry, platform, getWin }

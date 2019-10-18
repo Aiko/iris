@@ -20,14 +20,14 @@
 <body class="bg">
 	<div id="app" class="inline-flex">
 
-		<div class="control-bar pc">
-			<p title="Close"></p> <!-- Close ------------------------>
-			<p title="Minimize"></p> <!-- Minimize ------------------------>
-			<p title="Full Screen"></p> <!-- Full Screen ------------------------>
+		<div class="control-bar pc" v-if="!isFullScreen">
+			<p title="Close" @click="close"></p> <!-- Close ------------------------>
+			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+			<p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-			<h1 class="green-bg" title="Full Screen"></h1> <!-- Full Screen ------------------------>
-			<h1 class="orange-bg" title="Minimize">_</h1> <!-- Minimize ------------------------>
-			<h1 class="red-bg" title="Close">x</h1> <!-- Close ------------------------>
+			<h1 class="green-bg" @click="maximize" title="Full Screen"></h1> <!-- Full Screen ------------------------>
+			<h1 class="orange-bg" @click="minimize" title="Minimize">_</h1> <!-- Minimize ------------------------>
+			<h1 class="red-bg" @click="close" title="Close">x</h1> <!-- Close ------------------------>
 		</div>
 
 		<!-- Sidebar --------------------------------------------------->
@@ -82,25 +82,17 @@
 					<div class="row">
 						<div class="col-lg-3 col-md-4 col-2">
 							<div class="picker">
-								<div class="account">
-									<img src="assets/icons/header-user.svg"> <span>ruben@helloaiko.com</span>
-								</div>
-
-								<div class="account">
-									<img src="assets/icons/header-user.svg"> <span>ruben@ye.com</span>
-								</div>
-								<div class="account">
-									<img src="assets/icons/header-user.svg"> <span>ruben@priansh.com</span>
+								<div class="account" v-for="mailbox in mailboxes">
+									<img src="assets/icons/header-user.svg"> <span>{{mailbox.email}}</span>
 								</div>
 								<div class="account" data-toggle="modal" data-target=".add-mailbox">
 									<img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
 								</div>
-
 							</div>
 						</div>
 						<div class="col-lg-5 col-md-6 col-6 p0m">
-							<div class="search"><img src="assets/icons/header-search.svg">
-								<input type="" name="" placeholder="Search">
+							<div class="search">
+								<img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
 							</div>
 							<div v-if="false" class="search-drop">
 								<a href="#">
@@ -657,6 +649,7 @@
 	<!-- END id="app" -------------------------------------------------->
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/popper.min.js"></script>
+	<script> window.$ = window.jQuery = require('jquery') </script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script src="assets/js/vue.min.js"></script>
 	<script src="assets/js/vuep.js"></script>

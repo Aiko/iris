@@ -1,6 +1,6 @@
 const app = new Vue({
     el: '#app',
-    mixins: [mail_api_mixin],
+    mixins: [mail_api_mixin, electron_mixin],
     data: {
         loading: true,
         error: null,

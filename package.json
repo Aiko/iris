@@ -47,6 +47,7 @@
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^5.0.0",
+    "jquery": "^3.4.1",
     "node-email": "github:Aiko/node-email"
   },
   "devDependencies": {
