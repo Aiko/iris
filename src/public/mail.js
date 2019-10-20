@@ -34,7 +34,7 @@ const modals_mixin = {
 
 const app = new Vue({
     el: '#app',
-    mixins: [mail_api_mixin, electron_mixin, modals_mixin, google_monkey_mixin],
+    mixins: [mail_api_mixin, electron_mixin, modals_mixin, google_monkey_mixin, ai_mixin],
     data: {
         loading: true,
         error: null,
@@ -110,7 +110,9 @@ const app = new Vue({
         // fetch existing credentials
         if (!store.get('authenticated', false)) entry()
         const {
-            token, email, password
+            token,
+            email,
+            password
         } = store.get('authenticated', {
             token: null,
             email: null,
@@ -167,13 +169,13 @@ const app = new Vue({
         }
 
         this.loading = false
-},
+    },
     methods: {
         async refreshKeys() {
             if (this.gmail) return this.g_refreshKeys()
             // TODO: branches for every mailserver
         },
-        async switchToMailbox(mailbox, firstTime=false) {
+        async switchToMailbox(mailbox, firstTime = false) {
             log("Switching mailbox to", mailbox)
             this.mailbox = mailbox
             const settings = store.get('credentials:' + this.mailbox.email, null)
@@ -256,7 +258,7 @@ const app = new Vue({
             if (this.gmail) {
                 this.folders = await this.IMAP.getFolders()
                 this.inboxFolder = 'INBOX'
-                this.sentFolder ='"[Gmail]/Sent Mail"'
+                this.sentFolder = '"[Gmail]/Sent Mail"'
                 this.spamFolder = '"[Gmail]/Spam"'
                 this.archiveFolder = '"[Gmail]/All Mail"'
                 this.trashFolder = '"[Gmail]"/Trash'
@@ -266,7 +268,7 @@ const app = new Vue({
         },
         async processEmails(emails) {
             // using for loop for MAXIMUM speed
-            return emails.map(email => {
+            return await Promise.all(emails.map(async email => {
                 email = JSON.parse(JSON.stringify(email))
                 if (email.attachments) {
                     for (let j = 0; j < email.attachments.length; j++) {
@@ -284,16 +286,34 @@ const app = new Vue({
                     email.headers.subscription = true
                     email = JSON.parse(JSON.stringify(email))
                 }
+
+                const replyStarts = /On \w+ [0-9]+, [0-9]+, at [0-9]+:[0-9]+ \w+, \w+ <.*> wrote:/g.exec(email.text)
+                email.messageText = email.text.slice(0, replyStarts ? replyStarts.index : email.text.length + 2)
+                const sentences = email.messageText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT').split(/AIKO-SPLIT/g)
+
+                const summary = await this.summarize(email.text, 3)
+                if (summary) {
+                    email.summary = summary
+                    email.summaryText = summary.join(' ')
+                } else {
+                    email.summaryText = sentences.slice(0, 3)
+                }
+
+                email.actionables = await Promise.all(
+                    sentences.filter(
+                        async sentence => await this.choke(sentence) > 0.65
+                    )
+                )
+
                 return email
-            })
+            }))
         },
-        async fetchEmails(start, stop, overwrite=true, sort=false, filterDups=true) {
+        async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true) {
             this.fetching = true
             setTimeout(() => {
                 app.fetching = false
             }, 5000)
             try {
-                log("Fetching emails -", start, ":", stop)
                 await this.refreshKeys()
                 let emails = (await this.IMAP.getEmails(start, stop))
                 emails = emails.reverse()
@@ -303,7 +323,8 @@ const app = new Vue({
                     if (this.existingIds.includes(email.headers.id)) {
                         if (overwrite) Vue.set(this.emails, this.existingIds.indexOf(email.headers.id), email)
                         return false;
-                    } return true;
+                    }
+                    return true;
                 })
 
                 if (emails.length > 0) {
@@ -311,7 +332,7 @@ const app = new Vue({
                     this.existingIds.unshift(...emails.map(_ => _.headers.id))
                     if (sort) {
                         this.emails.sort((m1, m2) => m2.headers.id - m1.headers.id)
-                        this.existingIds.sort((a,b) => b - a)
+                        this.existingIds.sort((a, b) => b - a)
                     }
                 }
 
@@ -347,9 +368,8 @@ const app = new Vue({
 })
 
 const update = async () => {
-    log("Running fetch interval.")
-    if (app.mailbox && app.mailbox.email && !app.loading
-        && app.isOnline && !app.fetching) {
+    if (app.mailbox && app.mailbox.email && !app.loading &&
+        app.isOnline && !app.fetching) {
         if (app.emails.length > 0) {
             app.fetchEmails(app.emails[0].headers.id + 1, '*')
         } else {

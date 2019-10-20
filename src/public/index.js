@@ -33,6 +33,55 @@ const electron_mixin = {
     }
 }
 
+const ai_mixin = {
+    methods: {
+        async summarize(text, n=3) {
+            const s = await fetch('https://api.helloaiko.com/email', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "text": text,
+                    "num": n
+                })
+            })
+            const d = await s.json()
+            if (d.text && d.text.length > 0) return d.text
+            else return null
+        },
+        async choke(sentence) {
+            sentence = unescapeHTML(sentence)
+            sentence = sentence.trim()
+            sentence = sentence.replace(/[^A-z0-9\.!\?,;\- '"]/g, '')
+            if (sentence.length < 10) return 0;
+            const s = await fetch('https://bigbrain.helloaiko.com:4114/parse', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "q": sentence,
+                    "project": "actionable",
+                    "model": "v4"
+                })
+            }).catch(console.error)
+            const d = await s.json()
+            if (!d) return 0
+            let conf = 0
+            d.intent_ranking.map(({name, confidence}) => {
+                if ([
+                    "meeting",
+                    "scheduling",
+                    "actionable"
+                ].includes(name))
+                    conf += confidence
+            })
+            return conf
+        }
+    }
+}
+
 const google_monkey_mixin = {
     data: {
         g_email: null,

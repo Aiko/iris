@@ -230,7 +230,7 @@
 											<div class="time">{{toNiceDateTime(email.date)}}</div>
 										</div>
 										<p class="subject">{{email.subject}}</p>
-										<p class="body">{{email.text}}</p>
+										<p class="body">{{email.summaryText || email.text}}</p>
 
 									</div>
 									<!-- Action Button , might user other system for height mgmt

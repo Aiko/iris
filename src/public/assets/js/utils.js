@@ -154,6 +154,21 @@ window.copy = t => {
     }
 }
 
+const unescapeHTML = (
+    () => {
+        const element = document.createElement('div')
+        const entity = /&(?:#x[a-f0-9]+|#[0-9]+|[a-z0-9]+);?/ig
+        return str => {
+            str = str.replace(entity, m => {
+                element.innerHTML = m
+                return element.textContent
+            })
+            element.textContent = ''
+            return str
+        }
+    }
+)()
+
 const HTML2Text = html => {
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
