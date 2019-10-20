@@ -202,8 +202,10 @@
 										</h1>
 									</div>
 									<div class="col-3 text-right">
-										<img src="assets/icons/toggle-right.svg" title="Show important emails only"
-											width="30" style="cursor: pointer;"></a>
+										<img @click="hideSubscriptions = false" v-if="hideSubscriptions" src="assets/icons/toggle-right.svg"
+											title="Show important emails only" width="30" style="cursor: pointer;"></a>
+										<img @click="hideSubscriptions = true" v-if="!hideSubscriptions" src="assets/icons/toggle-left.svg"
+											title="Show important emails only" width="30" style="cursor: pointer;"></a>
 									</div>
 								</div>
 							</div>
@@ -211,24 +213,23 @@
 						<div class="board-body">
 
 							<!-- Single Email ---------- add class 'drag' when dragged ------->
-							<div class="email">
+							<div class="email" v-for="email in emails" v-if="!hideSubscriptions || !email.headers.subscription">
 								<div class="container pr" data-toggle="modal" data-target=".email1">
-									<div class="unread"></div>
+									<div class="unread" v-if="!email.headers.seen"></div>
 									<div class="row" style="user-select: none;">
 										<div class="col-9 p0" style="display: inline-flex;">
-											<h2 class="sender">Ruben from Aiko</h2>
-											<img src="assets/icons/badges-attach.svg" title="Attachment">
-											<img src="assets/icons/badges-tracker.svg">
-											<img src="assets/icons/badges-event.svg">
-											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+											<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
+											<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
+											<img src="assets/icons/badges-event.svg" v-if="email.event">
+											<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
+											<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
 										</div>
 										<div class="col-3 p0">
-											<div class="time">10:10PM</div>
+											<div class="time">{{toNiceDateTime(email.date)}}</div>
 										</div>
-										<p class="subject">Can you meet at 6PM at Starbucks?</p>
-										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park,
-											how's that? I'll bring the presentation and the deck.</p>
+										<p class="subject">{{email.subject}}</p>
+										<p class="body">{{email.text}}</p>
 
 									</div>
 									<!-- Action Button , might user other system for height mgmt
@@ -246,7 +247,7 @@
 					<!-- END Inbox Board ----------------------------------->
 
 					<!-- Regular Board Template ----------------------->
-					<div class="board">
+					<div class="board" v-for="board in mailbox.boards">
 						<div class="board-header">
 							<div class="container">
 								<div class="row">
@@ -272,8 +273,7 @@
 										</div>
 									</div>
 									<div class="col-8 text-center p0">
-										<h1>To-Do<div class="count">99+</div>
-										</h1>
+										<h1>{{board.name}}<div class="count">99+</div></h1>
 									</div>
 									<div class="col-2 text-right">
 										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
@@ -333,50 +333,6 @@
 						</div>
 					</div>
 					<!-- END Done Board Template ------------------->
-
-					<!-- Custom Board Template ----------------------->
-					<div class="board">
-						<div class="board-header">
-							<div class="container">
-								<div class="row">
-									<div class="col-2">
-										<div class="dropdown">
-											<a href="#" title="Board options" data-toggle="dropdown"><img
-													src="assets/icons/board-dots.svg"></a>
-											<div class="dropdown-menu">
-												<h6 class="dropdown-header">Sort by</h6>
-												<a class="dropdown-item" href="#">Date (latest)</a>
-												<a class="dropdown-item" href="#">Date (oldest)</a>
-												<a class="dropdown-item" href="#">Size (largest)</a>
-												<a class="dropdown-item" href="#">Size (smallest)</a>
-												<h6 class="dropdown-header">Display only</h6>
-												<a class="dropdown-item" href="#">Unread</a>
-												<a class="dropdown-item" href="#">Read</a>
-												<h6 class="dropdown-header">More</h6>
-												<a class="dropdown-item" href="#">Mark all as read</a>
-												<a class="dropdown-item" href="#">Mark all as unread</a>
-												<a class="dropdown-item" href="#">Board options</a>
-												<a class="dropdown-item red" href="#">Delete Board</a>
-											</div>
-										</div>
-									</div>
-									<div class="col-8 text-center p0">
-										<h1>Show Priansh<div class="count">3</div>
-										</h1>
-									</div>
-									<div class="col-2 text-right">
-										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="board-body">
-							<div class="empty">
-								<h1>Drag emails here.</h1>
-							</div>
-						</div>
-					</div>
-					<!-- END Custom Board Template ------------------->
 
 					<!-- Add Board ----------------------->
 					<div class="add-board" data-toggle="modal" data-target=".new-board">
@@ -641,6 +597,18 @@
 			</div>
 		</div>
 		<!-- END Compose View --------------------------------------->
+
+		<!-- Connection Lost Toast -->
+		<div v-if="connectionLostModal" class="aiko-toast" style="background-color: red">
+			<h1>We're having trouble connecting to the internet.</h1>
+		</div>
+		<!-- END Connection Lost Toast-->
+
+		<!-- IMAP Error Toast -->
+		<div v-if="imapErrorModal" class="aiko-toast" style="background-color: red">
+			<h1>We're having issues connecting to your mail provider.</h1>
+		</div>
+		<!-- END IMAP Error Toast-->
 
 		<!-- Toast -->
 		<div v-if="false" class="aiko-toast">

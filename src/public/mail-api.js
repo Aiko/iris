@@ -42,7 +42,10 @@ const mail_api_mixin = {
                 return true
             } catch (e) {
                 console.error(e)
-                return false
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                }
+                return e
             }
         },
         async addMailbox(email) {

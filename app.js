@@ -9,6 +9,22 @@ const Mailbox = require('./src/js/email')
 const platform = process.platform;
 let win;
 
+let cache_queue_items = []
+let cache_queue_name = ''
+
+const queueCache = async (name, emails) => {
+  cache_queue_items = emails
+  cache_queue_name = name
+}
+
+setInterval(async () => {
+  if (cache_queue_name) {
+    store.set(cache_queue_name, cache_queue_items)
+    cache_queue_name = ''
+    cache_queue_items = []
+  }
+}, 5000)
+
 const GOAuth = GOAuth2(
   '446179098641-2t27j97cbh9c7m2ipgl726frqgq7mbu6.apps.googleusercontent.com',
   'LOrFhFdszULzm1dyFOMbzIdz',
@@ -54,4 +70,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform, getWin, GOAuth }
+module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, queueCache }

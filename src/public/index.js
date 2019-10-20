@@ -7,7 +7,8 @@ const {
     entry,
     platform,
     getWin,
-    GOAuth
+    GOAuth,
+    queueCache
 } = remote.require('./app.js')
 
 const electron_mixin = {
@@ -45,7 +46,7 @@ const google_monkey_mixin = {
         g_xoauth: null
     },
     methods: {
-        async fetchTokens(email) {
+        async g_fetchTokens(email) {
             const creds = store.get('credentials:' + email)
             if (!creds.gmail) return console.error("Tried to fetch Google tokens with non-gmail.")
             this.g_email = creds.email
@@ -57,15 +58,19 @@ const google_monkey_mixin = {
             this.g_refresh_token = creds.refresh_token
             this.g_scope = creds.scope
             this.g_xoauth = creds.xoauth
-            await this.checkTokens()
+            await this.g_checkTokens()
         },
-        async checkTokens() {
+        async g_checkTokens() {
             // this should be called before using any xoauth token
             const today = new Date()
             const expiry = new Date(this.g_expiry_date)
-            if (today > expiry) await this.updateTokens()
+            if (today > expiry) {
+                await this.g_updateTokens()
+                return false
+            }
+            return true
         },
-        async updateTokens() {
+        async g_updateTokens() {
             const s = await GOAuth.refreshToken(this.g_refresh_token)
             const profile = await (await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + s.id_token)).json()
             const xoauth = btoa(
@@ -84,7 +89,7 @@ const google_monkey_mixin = {
                 gmail: true
             })
 
-            await this.fetchTokens(this.g_email)
+            await this.g_fetchTokens(this.g_email)
         },
         async gSignIn() {
             const s = await GOAuth.getToken()
@@ -106,8 +111,13 @@ const google_monkey_mixin = {
                 gmail: true
             })
 
-            await this.fetchTokens(profile.email)
+            await this.g_fetchTokens(profile.email)
             return s
+        },
+        async g_refreshKeys() {
+            if (!(await this.g_checkTokens())) {
+                await this.connectToMailServer()
+            }
         }
     }
 }

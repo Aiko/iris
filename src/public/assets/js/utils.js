@@ -62,6 +62,33 @@ Date.prototype.toTime = function () {
     return this.toISOString().substr(11, 8)
 }
 
+Date.prototype.toNiceDateTime = function() {
+    const now = new Date()
+    const diff = this - now
+    const days = diff / (1000 * 60 * 60 * 24)
+    if (Math.abs(days) < 1)
+        return this.toLocaleTimeString('en-us', {
+            hour: 'numeric',
+            minute: '2-digit'
+        })
+    if (Math.abs(days) < 7)
+        return this.toLocaleDateString('en-us', {
+            weekday: 'short',
+            hour: 'numeric',
+            minute: '2-digit'
+        })
+    if (Math.abs(days) < 365)
+        return this.toLocaleDateString('en-us', {
+            month: 'numeric',
+            day: 'numeric'
+        })
+    return this.toDate()
+}
+
+const toNiceDateTime = datetime => {
+    return (new Date(datetime)).toNiceDateTime()
+}
+
 Array.prototype.tail = function (n) {
     return this.slice(-n)
 }
@@ -110,11 +137,6 @@ Number.prototype.toFilesize = function () {
     return this + ' bytes'
 }
 
-const ObjectID2Date = _id => {
-    const timestamp = _id.substring(0, 8)
-    return new Date(parseInt(timestamp, 16) * 1000)
-}
-
 window.copy = t => {
     const el = document.createElement('textarea')
     el.value = t
@@ -130,6 +152,17 @@ window.copy = t => {
         document.getSelection().removeAllRanges()
         document.getSelection().addRange(selected)
     }
+}
+
+const HTML2Text = html => {
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(html, 'text/html')
+    return doc.body.innerText.trim().replace(/( |\n)+/g, ' ')
+}
+
+const ObjectID2Date = _id => {
+    const timestamp = _id.substring(0, 8)
+    return new Date(parseInt(timestamp, 16) * 1000)
 }
 
 const _Channel2Hex = c => c.toString(16).padStart(2, '0')
