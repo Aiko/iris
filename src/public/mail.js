@@ -68,6 +68,7 @@ const app = new Vue({
         totalMessages: 0,
         unreadMessages: 0,
         fetching: false,
+        lastUpdated: null,
         hideSubscriptions: true
     },
     computed: {
@@ -104,7 +105,12 @@ const app = new Vue({
             if (hadWifi && !hasWifi) {
                 this.showConnectionLost()
             }
-        }
+        },
+        async fetching(isFetching, wasFetching) {
+            if (wasFetching && !isFetching) {
+                this.lastUpdated = new Date()
+            }
+        },
     },
     async created() {
         // fetch existing credentials
@@ -239,6 +245,7 @@ const app = new Vue({
 
             // login
             if (this.gmail) {
+                log("Going GMail route...")
                 await this.g_fetchTokens(this.mailbox.email)
                 await this.IMAP.login(this.g_email, null, this.g_xoauth)
             }
@@ -255,16 +262,31 @@ const app = new Vue({
             log("Syncing with mail server.")
             await this.refreshKeys()
 
+            this.folders = await this.IMAP.getFolders()
             if (this.gmail) {
-                this.folders = await this.IMAP.getFolders()
                 this.inboxFolder = 'INBOX'
                 this.sentFolder = '"[Gmail]/Sent Mail"'
                 this.spamFolder = '"[Gmail]/Spam"'
                 this.archiveFolder = '"[Gmail]/All Mail"'
                 this.trashFolder = '"[Gmail]"/Trash'
-                // TODO: collect folders for boards
             }
             // TODO: branches for every mailserver
+
+            const board_folders = this.folders.filter(f => f.includes('[Aiko Mail (DO NOT DELETE)]/'))
+            this.mailbox.boards = await Promise.all(this.mailbox.boards.map(async board => {
+                board.folder = `"[Aiko Mail (DO NOT DELETE)]/${board._id}"`
+                if (board_folders.includes(board.folder))
+                    return board;
+                log(board.folder, 'does not exist!')
+                await this.IMAP.createFolder(board.folder)
+                return board;
+            }))
+            if (!board_folders.includes(`"[Aiko Mail (DO NOT DELETE)]/Done"`)) {
+                log('Done folder does not exist!')
+                await this.IMAP.createFolder(`"[Aiko Mail (DO NOT DELETE)]/Done"`)
+            }
+            this.folders = await this.IMAP.getFolders() // resync folders
+            log("Sync completed.")
         },
         async processEmails(emails) {
             // using for loop for MAXIMUM speed
