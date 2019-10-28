@@ -210,6 +210,10 @@ const app = new Vue({
             } else {
                 // restore cache
                 this.emails = store.get('cache:' + this.mailbox.email + ':' + this.currentFolder, [])
+                this.mailbox.boards = this.mailbox.boards.map(board => {
+                    board.emails = store.get('cache:' + this.mailbox.email + ':' + board._id, [])
+                    return board
+                })
                 if (!this.emails || this.emails.length <= 0) {
                     this.emails = []
                     await this.fetchLatestEmails(200)
@@ -330,7 +334,7 @@ const app = new Vue({
                 return email
             }))
         },
-        async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true) {
+        async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true) {
             this.fetching = true
             setTimeout(() => {
                 app.fetching = false
@@ -338,6 +342,12 @@ const app = new Vue({
             try {
                 await this.refreshKeys()
                 let emails = (await this.IMAP.getEmails(start, stop))
+                    .filter(email =>
+                        email.headers.id &&
+                        email.headers.id != '*' &&
+                        eval(email.headers.id) >= start
+                    ) // TODO: setup getting UID next so we only pull to the next uid, ignoring '*' aka recent
+                if (emails.length == 1) log(emails)
                 emails = emails.reverse()
                 emails = await this.processEmails(emails)
 
@@ -358,7 +368,38 @@ const app = new Vue({
                     }
                 }
 
-                // TODO: fetch boards if inbox
+                if (getBoards) {
+                    // have to do this synchronously in a loop like this.
+                    // this is because socket can only handle sychronous series of commands :(
+                    // e.g. select - fetch - select - fetch
+                    // if we did this async it would make a race condition:
+                    // e.g. select - select - fetch - fetch
+                    const originalFolder = this.currentFolder
+                    for (let i = 0; i < this.mailbox.boards.length; i++) {
+                        const boardFolder = this.mailbox.boards[i].folder
+                        await this.IMAP.select(boardFolder)
+                        let boardEmails;
+                        if (this.mailbox.boards[i].emails && this.mailbox.boards[i].emails.length > 0) {
+                            boardEmails = await this.IMAP.getEmails(this.mailbox.boards[i].emails[0].headers.id + 1, '*')
+                            boardEmails = boardEmails.filter(email =>
+                                    email.headers.id &&
+                                    email.headers.id != '*' &&
+                                    eval(email.headers.id) >= this.mailbox.boards[i].emails[0].headers.id + 1
+                            )
+                        }
+                        else boardEmails = await this.IMAP.getEmails('*', '*')
+                        boardEmails = boardEmails.filter(boardEmail => boardEmail.headers.id && boardEmail.headers.id != '*')
+                        // TODO: you need to enforce some sort of limit on # of emails
+                        // they can put in the board. for now, the caching limits this
+                        // inherently to 100. maybe more needed in future niggaboosmoocheritos
+                        boardEmails = boardEmails.reverse()
+                        boardEmails = await this.processEmails(boardEmails)
+                        this.mailbox.boards[i].emails.unshift(...boardEmails)
+                        const to_cache = JSON.parse(JSON.stringify(this.mailbox.boards[i].emails.slice(0, 100)))
+                        queueCache('cache:' + this.mailbox.email + ':' + this.mailbox.boards[i]._id, to_cache)
+                    }
+                    await this.IMAP.select(originalFolder)
+                }
 
                 // max cache is 50
                 const caching = JSON.parse(JSON.stringify(this.emails.slice(0, 50)))
@@ -373,6 +414,7 @@ const app = new Vue({
             }
         },
         async fetchLatestEmails(n) {
+            log("Fetching", n, "latest emails")
             // fetches n latest emails
             await this.refreshKeys()
             this.totalMessages = await this.IMAP.countMessages(this.currentFolder)

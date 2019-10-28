@@ -231,7 +231,6 @@
 										</div>
 										<p class="subject">{{email.subject}}</p>
 										<p class="body">{{email.summaryText || email.text}}</p>
-
 									</div>
 									<!-- Action Button , might user other system for height mgmt
 									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
@@ -242,7 +241,7 @@
 							</div>
 							<!-- END Single Email -------------------------------------------------------------->
 
-							<div class="empty2"></div>
+							<div v-if="!emails || emails.length == 0" class="empty2"></div>
 						</div>
 					</div>
 					<!-- END Inbox Board ----------------------------------->
@@ -283,7 +282,35 @@
 							</div>
 						</div>
 						<div class="board-body">
-							<div class="empty">
+							<!-- Single Email ---------- add class 'drag' when dragged ------->
+							<div class="email" v-for="email in board.emails">
+								<div class="container pr" data-toggle="modal" data-target=".email1">
+									<div class="unread" v-if="!email.headers.seen"></div>
+									<div class="row" style="user-select: none;">
+										<div class="col-9 p0" style="display: inline-flex;">
+											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+											<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
+											<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
+											<img src="assets/icons/badges-event.svg" v-if="email.event">
+											<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
+											<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+										</div>
+										<div class="col-3 p0">
+											<div class="time">{{toNiceDateTime(email.date)}}</div>
+										</div>
+										<p class="subject">{{email.subject}}</p>
+										<p class="body">{{email.summaryText || email.text}}</p>
+									</div>
+									<!-- Action Button , might user other system for height mgmt
+									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
+								</div>
+								<div class="delete">
+									<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
+								</div>
+							</div>
+							<!-- END Single Email -------------------------------------------------------------->
+
+							<div v-if="!board.emails || board.emails.length == 0" class="empty">
 								<h1>Drag emails here.</h1>
 							</div>
 						</div>

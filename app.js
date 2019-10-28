@@ -26,8 +26,8 @@ setInterval(async () => {
 }, 5000)
 
 const GOAuth = GOAuth2(
-  '446179098641-2t27j97cbh9c7m2ipgl726frqgq7mbu6.apps.googleusercontent.com',
-  'LOrFhFdszULzm1dyFOMbzIdz',
+  '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
+  null,
   ['https://mail.google.com']
 )
 
