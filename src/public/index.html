@@ -25,9 +25,12 @@
 			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
 			<p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-			<h1 class="orange-bg" @click="minimize" title="Minimize">_</h1> <!-- Minimize ------------------------>
-			<h1 class="green-bg" @click="maximize" title="Full Screen"></h1> <!-- Full Screen ------------------------>
-			<h1 class="red-bg" @click="close" title="Close">x</h1> <!-- Close ------------------------>
+			<h1 @click="minimize" title="Minimize"><img
+							src="assets/icons/top-minimize.png" width="10"></h1> <!-- Minimize ---------->
+			<h1 @click="maximize" title="Full Screen"><img
+							src="assets/icons/top-expand.png" width="10"></h1> <!-- Full Screen -->
+			<h1 @click="close" title="Close"><img
+							src="assets/icons/top-close.png" width="10"></h1> <!-- Close ---------------->
 		</div>
 
 		<!-- Sidebar --------------------------------------------------->
