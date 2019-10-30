@@ -32,6 +32,20 @@ input{
 	min-height: 600px;
 }
 
+.draggable-boards {
+	min-width: 330px;
+}
+
+.ghost {
+	opacity: 0;
+	height: 108px;
+}
+
+.ghost-board {
+	opacity: 0;
+	width: 300px;
+}
+
 /* END DRAGGABLE CLASSES */
 
 .bottom{
