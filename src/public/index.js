@@ -8,6 +8,7 @@ const {
     platform,
     getWin,
     GOAuth,
+    MSOauth,
     queueCache
 } = remote.require('./app.js')
 
@@ -82,6 +83,7 @@ const ai_mixin = {
     }
 }
 
+// only google oauth is monkey
 const google_monkey_mixin = {
     data: {
         g_email: null,
@@ -113,7 +115,7 @@ const google_monkey_mixin = {
             // this should be called before using any xoauth token
             const today = new Date()
             const expiry = new Date(this.g_expiry_date)
-            if (today > expiry) {
+            if (today > expiry || !this.g_access_token) {
                 await this.g_updateTokens()
                 return false
             }
@@ -165,6 +167,109 @@ const google_monkey_mixin = {
         },
         async g_refreshKeys() {
             if (!(await this.g_checkTokens())) {
+                await this.connectToMailServer()
+            }
+        }
+    }
+}
+
+const msft_oauth_mixin = {
+    data: {
+        msft_email: null,
+        msft_name: null,
+        msft_picture: null,
+        msft_access_token: null,
+        msft_expiry_date: null,
+        msft_id_token: null,
+        msft_refresh_token: null,
+        msft_scope: null,
+        msft_xoauth: null
+    },
+    methods: {
+        async msft_fetchTokens(email) {
+            const creds = store.get('credentials:' + email)
+            if (!creds.msft) return console.error("Tried to fetch MSFT tokens with non-msft.")
+            this.msft_email = creds.email
+            this.msft_name = creds.name
+            this.msft_picture = creds.picture
+            this.msft_access_token = creds.access_token
+            this.msft_expiry_date = creds.expiry_date
+            this.msft_id_token = creds.id_token
+            this.msft_refresh_token = creds.refresh_token
+            this.msft_scope = creds.scope
+            this.msft_xoauth = creds.xoauth
+            await this.msft_checkTokens()
+        },
+        async msft_checkTokens() {
+            // this should be called before using any xoauth token
+            const today = new Date()
+            const expiry = new Date(this.msft_expiry_date)
+            if (today > expiry || !this.msft_access_token) {
+                await this.msft_updateTokens()
+                return false
+            }
+            return true
+        },
+        async msft_updateTokens() {
+            const s = await MSOauth.refreshToken(this.msft_refresh_token)
+            const profile = await (await fetch('https://graph.microsoft.com/v1.0/me', {
+                method: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + s.access_token
+                }
+            })).json()
+            const xoauth = btoa(
+                "user=" + (profile.mail || profile.userPrincipalName) + "\u0001auth=Bearer " + s.access_token + "\u0001\u0001"
+            )
+            store.set('credentials:' + this.msft_email, {
+                email: this.msft_email,
+                name: profile.givenName,
+                picture: null,
+                access_token: s.access_token,
+                expiry_date: this.msft_expiry_date + (s.expires_in * 1000),
+                id_token: s.id_token,
+                refresh_token: this.msft_refresh_token,
+                scope: s.scope,
+                xoauth: xoauth,
+                msft: true
+            })
+
+            await this.msft_fetchTokens(this.msft_email)
+        },
+        async msftSignIn() {
+            app.fetching = true
+            const s = await MSOauth.getToken()
+            console.log(s)
+            const profile = await (await fetch('https://graph.microsoft.com/v1.0/me', {
+                method: 'GET',
+                headers: {
+                    "Authorization": "Bearer " + s.access_token
+                }
+            })).json()
+            console.log(profile)
+            const xoauth = btoa(
+                "user=" + (profile.mail || profile.userPrincipalName) + "\u0001auth=Bearer " + s.access_token + "\u0001\u0001"
+            )
+            // TODO: encrypt credentials
+            store.set('credentials:' + (profile.mail || profile.userPrincipalName), {
+                email: profile.mail || profile.userPrincipalName,
+                name: profile.givenName,
+                picture: null,
+                access_token: s.access_token,
+                expiry_date: s.expiry_date,
+                id_token: s.id_token,
+                refresh_token: s.refresh_token,
+                scope: s.scope,
+                xoauth: xoauth,
+                msft: true
+            })
+
+            app.fetching = false
+            await this.msft_fetchTokens(profile.mail || profile.userPrincipalName)
+            return s
+        },
+        async msft_refreshKeys() {
+            if (!(await this.msft_checkTokens())) {
                 await this.connectToMailServer()
             }
         }

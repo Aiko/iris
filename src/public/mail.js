@@ -2,6 +2,11 @@ const modals_mixin = {
     data: {
         connectionLostModal: false,
         imapErrorModal: false,
+        manualIMAPModal: false,
+        manualIMAPHost: '',
+        manualIMAPPort: 993,
+        manualSMTPHost: '',
+        manualSMTPPort: 587
     },
     methods: {
         showAddMailbox() {
@@ -28,13 +33,23 @@ const modals_mixin = {
         },
         hideIMAPErrorModal() {
             this.imapErrorModal = false
+        },
+        showManualIMAPModal() {
+            this.manualIMAPModal = true
         }
     }
 }
 
 const app = new Vue({
     el: '#app',
-    mixins: [mail_api_mixin, electron_mixin, modals_mixin, google_monkey_mixin, ai_mixin],
+    mixins: [
+        mail_api_mixin,
+        electron_mixin,
+        modals_mixin,
+        google_monkey_mixin,
+        msft_oauth_mixin,
+        ai_mixin
+    ],
     data: {
         drag: null,
         loading: true,
@@ -48,6 +63,7 @@ const app = new Vue({
         smtpPort: 587,
         // which mail provider
         gmail: false,
+        msft: false,
         other: true,
         // State
         mailbox: {
@@ -181,6 +197,7 @@ const app = new Vue({
     methods: {
         async refreshKeys() {
             if (this.gmail) return this.g_refreshKeys()
+            if (this.msft) return this.msft_refreshKeys()
             // TODO: branches for every mailserver
         },
         async switchToMailbox(mailbox, firstTime = false) {
@@ -200,12 +217,20 @@ const app = new Vue({
                 this.smtpHost = 'smtp.gmail.com'
                 this.smtpPort = 587
             }
+
+            if (settings.msft) {
+                this.msft = true
+                this.imapHost = 'outlook.office365.com'
+                this.imapPort = 993
+                this.smtpHost = 'outlook.office365.com'
+                this.smtpPort = 587
+            }
             // TODO: branches for every type of inbox we support
 
+            this.fetching = true
             await this.connectToMailServer()
             this.currentFolder = this.inboxFolder
 
-            this.fetching = true
             if (firstTime) {
                 // setup mailbox
                 await this.fetchLatestEmails(200)
@@ -254,9 +279,18 @@ const app = new Vue({
             if (this.gmail) {
                 log("Going GMail route...")
                 await this.g_fetchTokens(this.mailbox.email)
+                log("Fetched tokens...")
                 await this.IMAP.login(this.g_email, null, this.g_xoauth)
+                log("Logged in...")
             }
 
+            if (this.msft) {
+                log("Going MSFT route...")
+                await this.msft_fetchTokens(this.mailbox.email)
+                log("Fetched tokens...")
+                await this.IMAP.login(this.msft_email, null, this.msft_xoauth)
+                log("Logged in...")
+            }
             //TODO: branches for every type of inbox
 
 
@@ -276,6 +310,10 @@ const app = new Vue({
                 this.spamFolder = '"[Gmail]/Spam"'
                 this.archiveFolder = '"[Gmail]/All Mail"'
                 this.trashFolder = '"[Gmail]"/Trash'
+            }
+            if (this.msft) {
+                log(this.folders);
+                throw "Error msft"
             }
             // TODO: branches for every mailserver
 
@@ -446,8 +484,29 @@ const app = new Vue({
             if (s) {
                 await this.hideAddMailbox()
                 const r = await this.addMailbox(this.g_email)
+                if (r) {
+                    await this.switchToMailbox(this.mailboxes.last(), true)
+                }
+            }
+        },
+        async addMSFT() {
+            const s = await this.msftSignIn()
+            if (s) {
+                await this.hideAddMailbox()
+                const r = await this.addMailbox(this.msft_email)
+                console.log(r)
                 if (r) await this.switchToMailbox(this.mailboxes.last(), true)
             }
+        },
+        async addExchange() {
+            this.showManualIMAPModal()
+            this.manualIMAPHost = 'outlook.office365.com'
+            this.manualIMAPPort = 993
+            this.manualSMTPHost = 'outlook.office365.com'
+            this.manualSMTPPort = 587
+        },
+        async addOther() {
+            this.showManualIMAPModal()
         }
     }
 })
