@@ -13,20 +13,21 @@ const scopes = [];
 module.exports = (clientId) => {
     return {
         getToken: (login_hint=null) => new Promise((s, j) => {
-            const url = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?'
-            + `client_id=${clientId}`
-            + '&response_type=code'
-            + '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
-            + '&response_mode=query'
-            + login_hint ? `&login_hint=${login_hint}` : ''
-            + `&scope=openid%20wl.imap%20offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Fuser.read`
-            + '&state=aikomail'
+            let url = 'https://login.live.com/oauth20_authorize.srf'
+            url += `client_id=${clientId}`
+            url += '&response_type=code'
+            url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
+            url += '&response_mode=query'
+            url += (login_hint ? `&login_hint=${login_hint}` : '')
+            url += `&scope=wl.basic%20wl.offline_access%20`
+            url += '&state=aikomail'
 
             const win = new BW({
                 useContentSize: true,
                 fullscreen: false
             })
 
+            console.log(url)
             win.loadURL(url);
             win.on('closed', () => {
                 return s({
@@ -71,7 +72,7 @@ module.exports = (clientId) => {
                     },
                     form: {
                         client_id: clientId,
-                        scope: 'openid wl.imap offline_access https://graph.microsoft.com/user.read',
+                        scope: 'openid email EAS.AccessAsUser.All offline_access https://graph.microsoft.com/user.read',
                         code: code,
                         redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
                         grant_type: 'authorization_code'
@@ -94,7 +95,7 @@ module.exports = (clientId) => {
                 },
                 form: {
                     client_id: clientId,
-                    scope: 'openid wl.imap offline_access https://graph.microsoft.com/user.read',
+                    scope: 'openid EAS.AccessAsUser.All email offline_access https://graph.microsoft.com/user.read',
                     refresh_token: r_token,
                     grant_type: 'refresh_token'
                 }

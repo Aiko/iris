@@ -76,4 +76,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, queueCache }
+module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, MSOauth, queueCache }

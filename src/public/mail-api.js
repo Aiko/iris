@@ -55,7 +55,7 @@ const mail_api_mixin = {
                 }, this.token)
                 if (!d || d.error) return false
 
-                await this.fetchProfile()
+                return await this.fetchProfile()
             } catch (e) {
                 console.error(e)
                 return false
