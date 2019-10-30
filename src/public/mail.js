@@ -287,7 +287,11 @@ const app = new Vue({
                     break;
                 case "EPIPE":
                     console.error(e)
-                    if (this.errorNet)
+                    if (this.errorNet > 0) {
+                        this.showIMAPErrorModal();
+                        break;
+                    }
+                    this.errorNet += 1
                     await this.connectToMailServer()
                     break;
                 default:
@@ -337,6 +341,7 @@ const app = new Vue({
 
 
             await this.syncWithMailServer()
+            this.errorNet = 0
             this.hideIMAPErrorModal()
             this.hideConnectionLost()
             if (!this.isOnline) this.isOnline = true
@@ -545,6 +550,7 @@ const app = new Vue({
                 queueCache('cache:' + this.mailbox.email + ':' + this.currentFolder, caching)
 
                 this.fetching = false
+                this.errorNet = 0
                 this.hideIMAPErrorModal()
             } catch (e) {
                 console.error(e)
