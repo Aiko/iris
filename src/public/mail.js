@@ -36,6 +36,7 @@ const app = new Vue({
     el: '#app',
     mixins: [mail_api_mixin, electron_mixin, modals_mixin, google_monkey_mixin, ai_mixin],
     data: {
+        drag: null,
         loading: true,
         error: null,
         isOnline: true,
@@ -64,6 +65,7 @@ const app = new Vue({
         currentFolder: '',
         // Inbox Management
         emails: [],
+        doneEmails: [],
         existingIds: [],
         totalMessages: 0,
         unreadMessages: 0,
@@ -214,6 +216,7 @@ const app = new Vue({
                     board.emails = store.get('cache:' + this.mailbox.email + ':' + board._id, [])
                     return board
                 })
+                this.doneEmails = store.get('cache:' + this.mailbox.email + ':' + 'donemail', [])
                 if (!this.emails || this.emails.length <= 0) {
                     this.emails = []
                     await this.fetchLatestEmails(200)
@@ -398,6 +401,24 @@ const app = new Vue({
                         const to_cache = JSON.parse(JSON.stringify(this.mailbox.boards[i].emails.slice(0, 100)))
                         queueCache('cache:' + this.mailbox.email + ':' + this.mailbox.boards[i]._id, to_cache)
                     }
+                    await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
+                    let doneEmails;
+                    if (this.doneEmails && this.doneEmails.length > 0) {
+                        doneEmails = await this.IMAP.getEmails(this.doneEmails[0].headers.id + 1, '*')
+                        doneEmails = doneEmails.filter(email =>
+                                email.headers.id &&
+                                email.headers.id != '*' &&
+                                eval(email.headers.id) >= this.doneEmails.emails[0].headers.id + 1
+                        )
+                    }
+                    else doneEmails = await this.IMAP.getEmails('*', '*')
+                    doneEmails = doneEmails.filter(doneEmail => doneEmail.headers.id && doneEmail.headers.id != '*')
+                    // TODO: done emails have a limit :/
+                    doneEmails = doneEmails.reverse()
+                    doneEmails = await this.processEmails(doneEmails)
+                    this.doneEmails.unshift(...doneEmails)
+                    const to_cache = JSON.parse(JSON.stringify(this.doneEmails.slice(0, 100)))
+                    queueCache('cache:' + this.mailbox.email + ':' + 'donemail', to_cache)
                     await this.IMAP.select(originalFolder)
                 }
 

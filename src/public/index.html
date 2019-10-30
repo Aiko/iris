@@ -212,35 +212,45 @@
 							</div>
 						</div>
 						<div class="board-body">
-
-							<!-- Single Email ---------- add class 'drag' when dragged ------->
-							<div class="email" v-for="email in emails" v-if="!hideSubscriptions || !email.headers.subscription">
-								<div class="container pr" data-toggle="modal" data-target=".email1">
-									<div class="unread" v-if="!email.headers.seen"></div>
-									<div class="row" style="user-select: none;">
-										<div class="col-9 p0" style="display: inline-flex;">
-											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
-											<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
-											<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
-											<img src="assets/icons/badges-event.svg" v-if="email.event">
-											<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
-											<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+							<draggable
+								class="draggable-emails"
+								v-model="emails"
+								group="board-emails"
+								:options="{
+									ghostClass: 'empty',
+									dragClass: 'drag'
+								}"
+							>
+							<transition-group>
+								<!-- Single Email ---------- add class 'drag' when dragged ------->
+								<div :key="email.headers.id" class="email" v-for="email in emails" v-if="!hideSubscriptions || !email.headers.subscription">
+									<div class="container pr">
+										<div class="unread" v-if="!email.headers.seen"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-9 p0" style="display: inline-flex;">
+												<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+												<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
+												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
+												<img src="assets/icons/badges-event.svg" v-if="email.event">
+												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
+												<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+											</div>
+											<div class="col-3 p0">
+												<div class="time">{{toNiceDateTime(email.date)}}</div>
+											</div>
+											<p class="subject">{{email.subject}}</p>
+											<p class="body">{{email.summaryText || email.text}}</p>
 										</div>
-										<div class="col-3 p0">
-											<div class="time">{{toNiceDateTime(email.date)}}</div>
-										</div>
-										<p class="subject">{{email.subject}}</p>
-										<p class="body">{{email.summaryText || email.text}}</p>
+										<!-- Action Button , might user other system for height mgmt
+										<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
 									</div>
-									<!-- Action Button , might user other system for height mgmt
-									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
+									<div class="delete">
+										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
+									</div>
 								</div>
-								<div class="delete">
-									<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
-								</div>
-							</div>
-							<!-- END Single Email -------------------------------------------------------------->
-
+								<!-- END Single Email -------------------------------------------------------------->
+							</transition-group>
+							</draggable>
 							<div v-if="!emails || emails.length == 0" class="empty2"></div>
 						</div>
 					</div>
@@ -282,34 +292,45 @@
 							</div>
 						</div>
 						<div class="board-body">
-							<!-- Single Email ---------- add class 'drag' when dragged ------->
-							<div class="email" v-for="email in board.emails">
-								<div class="container pr" data-toggle="modal" data-target=".email1">
-									<div class="unread" v-if="!email.headers.seen"></div>
-									<div class="row" style="user-select: none;">
-										<div class="col-9 p0" style="display: inline-flex;">
-											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
-											<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
-											<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
-											<img src="assets/icons/badges-event.svg" v-if="email.event">
-											<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
-											<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+							<draggable
+								class="draggable-emails"
+								v-model="board.emails"
+								group="board-emails"
+								:options="{
+									ghostClass: 'empty',
+									dragClass: 'drag'
+								}"
+							>
+							<transition-group>
+								<!-- Single Email ---------- add class 'drag' when dragged ------->
+								<div class="email" v-for="email in board.emails">
+									<div class="container pr">
+										<div class="unread" v-if="!email.headers.seen"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-9 p0" style="display: inline-flex;">
+												<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+												<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
+												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
+												<img src="assets/icons/badges-event.svg" v-if="email.event">
+												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
+												<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+											</div>
+											<div class="col-3 p0">
+												<div class="time">{{toNiceDateTime(email.date)}}</div>
+											</div>
+											<p class="subject">{{email.subject}}</p>
+											<p class="body">{{email.summaryText || email.text}}</p>
 										</div>
-										<div class="col-3 p0">
-											<div class="time">{{toNiceDateTime(email.date)}}</div>
-										</div>
-										<p class="subject">{{email.subject}}</p>
-										<p class="body">{{email.summaryText || email.text}}</p>
+										<!-- Action Button , might user other system for height mgmt
+										<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
 									</div>
-									<!-- Action Button , might user other system for height mgmt
-									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
+									<div class="delete">
+										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
+									</div>
 								</div>
-								<div class="delete">
-									<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
-								</div>
-							</div>
-							<!-- END Single Email -------------------------------------------------------------->
-
+								<!-- END Single Email -------------------------------------------------------------->
+							</transition-group>
+							</draggable>
 							<div v-if="!board.emails || board.emails.length == 0" class="empty">
 								<h1>Drag emails here.</h1>
 							</div>
@@ -355,7 +376,46 @@
 							</div>
 						</div>
 						<div class="board-body">
-							<div class="empty">
+							<draggable
+								class="draggable-emails"
+								v-model="doneEmails"
+								group="board-emails"
+								:options="{
+									ghostClass: 'empty',
+									dragClass: 'drag'
+								}"
+							>
+							<transition-group>
+								<!-- Single Email ---------- add class 'drag' when dragged ------->
+								<div class="email" v-for="email in doneEmails">
+									<div class="container pr" data-toggle="modal" data-target=".email1">
+										<div class="unread" v-if="!email.headers.seen"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-9 p0" style="display: inline-flex;">
+												<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+												<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
+												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
+												<img src="assets/icons/badges-event.svg" v-if="email.event">
+												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
+												<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
+											</div>
+											<div class="col-3 p0">
+												<div class="time">{{toNiceDateTime(email.date)}}</div>
+											</div>
+											<p class="subject">{{email.subject}}</p>
+											<p class="body">{{email.summaryText || email.text}}</p>
+										</div>
+										<!-- Action Button , might user other system for height mgmt
+										<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
+									</div>
+									<div class="delete">
+										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
+									</div>
+								</div>
+								<!-- END Single Email -------------------------------------------------------------->
+							</transition-group>
+							</draggable>
+							<div v-if="!doneEmails || doneEmails.length == 0" class="empty">
 								<h1>Drag emails here.</h1>
 							</div>
 						</div>
@@ -656,6 +716,8 @@
 	<script src="index.js"></script>
 	<script src="mail-api.js"></script>
 	<script src="mail.js"></script>
+	<script src="assets/js/sortable.min.js"></script>
+	<script src="assets/js/vue-draggable.min.js"></script>
 </body>
 
 </html>

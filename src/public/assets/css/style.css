@@ -24,6 +24,16 @@ input{
 ::-webkit-scrollbar{
 	display: none;
 }
+
+/* DRAGGABLE CLASSES */
+/* WHATEVER YOU DONT CHANGE THESE DIRECTLY */
+
+.draggable-emails {
+	min-height: 600px;
+}
+
+/* END DRAGGABLE CLASSES */
+
 .bottom{
 	position: absolute;
 	bottom: 0;
