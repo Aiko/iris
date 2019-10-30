@@ -543,9 +543,10 @@
 		<div :class="{
 			'modal': true,
 			'fade': true,
+			'show': showAddMailbox,
 			'add-mailbox': true,
-			'step2': manualAddIMAPModal
-		}" tabindex="-1" aria-labelledby="myLargeModalLabel"
+			'step2': manualIMAPModal
+		}" tabindex="-1" aria-labelledby="add-mailbox-view"
 			aria-hidden="true">
 			<div class="modal-dialog modal-md">
 				<div class="modal-content">
@@ -553,7 +554,7 @@
 						<h1>Add a mailbox</h1>
 						<h2>Pick an email provider</h2>
 						<a href="#"><img src="assets/img/icloud.png"></a>
-						<a @click="app.addMSFTE()" href="#"><img src="assets/img/exchange.png"></a>
+						<a @click="app.addExchange()" href="#"><img src="assets/img/exchange.png"></a>
 						<a @click="app.addGoogle()" href="#"><img src="assets/img/google.png"></a>
 						<a href="#"><img src="assets/img/yahoo.png"></a>
 						<a href="#"><img src="assets/img/aol.png"></a>

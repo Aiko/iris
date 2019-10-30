@@ -2,6 +2,7 @@ const modals_mixin = {
     data: {
         connectionLostModal: false,
         imapErrorModal: false,
+        showAddMailbox: false,
         manualIMAPModal: false,
         manualIMAPHost: '',
         manualIMAPPort: 993,
@@ -10,9 +11,13 @@ const modals_mixin = {
     },
     methods: {
         showAddMailbox() {
+            log("Showing add mailbox.")
+            this.showAddMailbox = true
             $('.add-mailbox').modal('show')
         },
         hideAddMailbox() {
+            log("Hiding add mailbox.")
+            this.showAddMailbox = false
             $('.add-mailbox').modal('hide')
         },
         forceAddMailbox() {
@@ -21,6 +26,7 @@ const modals_mixin = {
                 backdrop: 'static',
                 keyboard: false
             })
+            this.showAddMailbox = true
         },
         showConnectionLost() {
             this.connectionLostModal = true
@@ -485,6 +491,7 @@ const app = new Vue({
                 await this.hideAddMailbox()
                 const r = await this.addMailbox(this.g_email)
                 if (r) {
+                    store.set('settings:' + this.g_email, {gmail: true})
                     await this.switchToMailbox(this.mailboxes.last(), true)
                 }
             }
@@ -495,7 +502,10 @@ const app = new Vue({
                 await this.hideAddMailbox()
                 const r = await this.addMailbox(this.msft_email)
                 console.log(r)
-                if (r) await this.switchToMailbox(this.mailboxes.last(), true)
+                if (r) {
+                    store.set('settings:' + this.msft_email, {msft: true})
+                    await this.switchToMailbox(this.mailboxes.last(), true)
+                }
             }
         },
         async addExchange() {
