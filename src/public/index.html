@@ -94,7 +94,7 @@
 								<div @click="switchToMailbox(mbox)" class="account" v-if="!mailbox || mbox.email != mailbox.email" v-for="mbox in mailboxes">
 									<img src="assets/icons/header-user.svg"> <span>{{mbox.email}}</span>
 								</div>
-								<div class="account" data-toggle="modal" data-target=".add-mailbox">
+								<div @click="showAddMailbox()" class="account" data-toggle="modal" data-target=".add-mailbox">
 									<img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
 								</div>
 							</div>
@@ -544,7 +544,7 @@
 		<div :class="{
 			'modal': true,
 			'fade': true,
-			'show': showAddMailbox,
+			'show': addMailbox,
 			'add-mailbox': true,
 			'step2': manualIMAPModal
 		}" tabindex="-1" aria-labelledby="add-mailbox-view"
@@ -583,7 +583,7 @@
 					</div>
 					<div class="modal-bottom">
 						<a @click="app.addOther()" href="#">Other</a>
-						<a href="#" class="add-2">Back</a>
+						<a @click="hideManualIMAPModal" href="#" class="add-2">Back</a>
 					</div>
 				</div>
 			</div>

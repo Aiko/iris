@@ -2,7 +2,7 @@ const modals_mixin = {
     data: {
         connectionLostModal: false,
         imapErrorModal: false,
-        showAddMailbox: false,
+        addMailboxModal: false,
         manualIMAPModal: false,
         manualIMAPHost: '',
         manualIMAPPort: 993,
@@ -14,22 +14,25 @@ const modals_mixin = {
     },
     methods: {
         showAddMailbox() {
+            this.hideManualIMAPModal()
+            this.addMailboxModal = true
             log("Showing add mailbox.")
-            this.showAddMailbox = true
             $('.add-mailbox').modal('show')
         },
         hideAddMailbox() {
             log("Hiding add mailbox.")
-            this.showAddMailbox = false
+            this.addMailboxModal = false
+            this.hideManualIMAPModal()
             $('.add-mailbox').modal('hide')
         },
         forceAddMailbox() {
+            this.hideManualIMAPModal()
+            this.addMailboxModal = true
             $('.add-mailbox').data('bs.modal', null)
             $('.add-mailbox').modal({
                 backdrop: 'static',
                 keyboard: false
             })
-            this.showAddMailbox = true
         },
         showConnectionLost() {
             this.connectionLostModal = true
@@ -45,6 +48,9 @@ const modals_mixin = {
         },
         showManualIMAPModal() {
             this.manualIMAPModal = true
+        },
+        hideManualIMAPModal() {
+            this.manualIMAPModal = false
         }
     }
 }
@@ -162,7 +168,7 @@ const app = new Vue({
         if (profile.message == 'Failed to fetch') {
             app.isOnline = false
             // TODO: do the cache stuff because we are offline
-            return
+            return (this.loading = false)
         }
         if (!profile) {
             log('Token invalid, need new token')
@@ -171,8 +177,7 @@ const app = new Vue({
                 log('Login credentials invalid, need new login')
                 console.error("User is not truly authenticated. Prompting re-signin.")
                 store.set('authenticated', null)
-                entry()
-                return
+                return entry()
             }
             store.set('authenticated', {
                 email: email,
@@ -187,7 +192,7 @@ const app = new Vue({
         // if no mailboxes, ask user to add one
         if (this.mailboxes.length == 0) {
             this.forceAddMailbox()
-            return;
+            return (this.loading = false);
         }
 
         // TODO: otherwise...
