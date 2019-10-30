@@ -90,7 +90,7 @@
 								<div class="account" v-if="mailbox">
 									<img src="assets/icons/header-user.svg"> <span>{{mailbox.email}}</span>
 								</div>
-								<div class="account" v-if="!mailbox || mbox.email != mailbox.email" v-for="mbox in mailboxes">
+								<div @click="switchToMailbox(mbox)" class="account" v-if="!mailbox || mbox.email != mailbox.email" v-for="mbox in mailboxes">
 									<img src="assets/icons/header-user.svg"> <span>{{mbox.email}}</span>
 								</div>
 								<div class="account" data-toggle="modal" data-target=".add-mailbox">
@@ -540,7 +540,12 @@
 		<!-- END Single Email View --------------------------------------->
 
 		<!-- Add Mailbox View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade add-mailbox" tabindex="-1" aria-labelledby="myLargeModalLabel"
+		<div :class="{
+			'modal': true,
+			'fade': true,
+			'add-mailbox': true,
+			'step2': manualAddIMAPModal
+		}" tabindex="-1" aria-labelledby="myLargeModalLabel"
 			aria-hidden="true">
 			<div class="modal-dialog modal-md">
 				<div class="modal-content">
@@ -548,7 +553,7 @@
 						<h1>Add a mailbox</h1>
 						<h2>Pick an email provider</h2>
 						<a href="#"><img src="assets/img/icloud.png"></a>
-						<a href="#"><img src="assets/img/exchange.png"></a>
+						<a @click="app.addMSFTE()" href="#"><img src="assets/img/exchange.png"></a>
 						<a @click="app.addGoogle()" href="#"><img src="assets/img/google.png"></a>
 						<a href="#"><img src="assets/img/yahoo.png"></a>
 						<a href="#"><img src="assets/img/aol.png"></a>
@@ -569,7 +574,7 @@
 
 					</div>
 					<div class="modal-bottom">
-						<a href="#">Other</a>
+						<a @click="app.addOther()" href="#">Other</a>
 						<a href="#" class="add-2">Back</a>
 					</div>
 				</div>
