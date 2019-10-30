@@ -17,14 +17,17 @@
 <body class="bg">
 	<div id="app" class="inline-flex">
 
-		<div class="control-bar">
-			<p title="Close"></p> <!-- Close ------------------------>
-			<p title="Minimize"></p> <!-- Minimize ------------------------>
-			<p title="Full Screen"></p> <!-- Full Screen ------------------------>
+		<div class="control-bar pc" v-if="!isFullScreen">
+			<p title="Close" @click="close"></p> <!-- Close ------------------------>
+			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+			<p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-			<h1 class="green-bg" title="Full Screen"></h1> <!-- Full Screen ------------------------>
-			<h1 class="orange-bg" title="Minimize">_</h1> <!-- Minimize ------------------------>
-			<h1 class="red-bg" title="Close">x</h1> <!-- Close ------------------------>
+			<h1 @click="minimize" title="Minimize"><img
+							src="assets/icons/top-minimize.png" width="10"></h1> <!-- Minimize ---------->
+			<h1 @click="maximize" title="Full Screen"><img
+							src="assets/icons/top-expand.png" width="10"></h1> <!-- Full Screen -->
+			<h1 @click="close" title="Close"><img
+							src="assets/icons/top-close.png" width="10"></h1> <!-- Close ---------------->
 		</div>
 
 		<!-- Sidebar --------------------------------------------------->
@@ -40,6 +43,7 @@
 					<a href="sent.html" class="active"><img src="assets/icons/sidebar-send.svg"> <span>Sent</span></a>
 					<a href="starred.html"><img src="assets/icons/sidebar-star.svg" class="off-star"> <span>Starred</span></a>
 					<a href="spam.html"><img src="assets/icons/sidebar-spam.svg" style="margin-top: 0px;"> <span>Spam</span></a>
+					<a href="drafts.html"><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
 					<a href="archive.html"><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
 					<a href="trash.html"><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
 				</div>

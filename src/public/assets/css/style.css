@@ -114,6 +114,7 @@ input{
 	margin-bottom: 10px;
 	display: inline-flex;
 	height: 20px;
+	cursor: pointer !important;
 	-webkit-user-select: none;
 	-webkit-app-region: drag;
 }
@@ -130,6 +131,7 @@ input{
 }
 .control-bar h1{
 	display: none;
+	cursor: pointer !important;
 }
 .pc h1{
 	display: unset !important;
