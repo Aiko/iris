@@ -4,6 +4,7 @@ const Store = require('electron-store')
 const store = new Store()
 
 const GOAuth2 = require('./src/js/goauth')
+const MSAuth = require('./src/js/msoauth')
 const Mailbox = require('./src/js/email')
 
 const platform = process.platform;
@@ -27,9 +28,14 @@ setInterval(async () => {
 
 const GOAuth = GOAuth2(
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
-  null,
+  null, // no client secret if you registered as iOS app! wheeee
   ['https://mail.google.com']
 )
+
+const MSOauth = MSAuth(
+  '65b77461-4950-4abb-b571-ad129d9923a3'
+)
+
 
 const init = () => {
   win = new BrowserWindow({

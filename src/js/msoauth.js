@@ -2,18 +2,6 @@ const {
     remote,
     BrowserWindow
 } = require('electron')
-const {
-    OAuth2Client
-} = require('google-auth-library')
-const {
-    Credentials
-} = require('google-auth-library/build/src/auth/credentials')
-const {
-    google
-} = require('googleapis')
-const {
-    stringify
-} = require('querystring')
 const URL = require('url')
 const request = require('request')
 
@@ -22,32 +10,23 @@ const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
 let oauth2Client;
 const scopes = [];
 
-module.exports = (clientId, clientSecret, scopes) => {
+module.exports = (clientId) => {
     return {
         getToken: (login_hint=null) => new Promise((s, j) => {
-            if (!scopes.includes('profile')) scopes.push('profile')
-            if (!scopes.includes('email')) scopes.push('email')
-            oauth2Client = new google.auth.OAuth2(
-                clientId,
-                clientSecret,
-                'urn:ietf:wg:oauth:2.0:oob'
-            )
-            oauth2Client.on('tokens', tokens => {
-                s(tokens)
-                win.removeAllListeners('close')
-                win.close()
-            })
-
-            const url = oauth2Client.generateAuthUrl({
-                access_type: 'offline',
-                scope: scopes,
-                login_hint: login_hint
-            })
+            const url = 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize?'
+            + `client_id=${clientId}`
+            + '&response_type=code'
+            + '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
+            + '&response_mode=query'
+            + login_hint ? `&login_hint=${login_hint}` : ''
+            + `&scope=openid%20wl.imap%20offline_access%20https%3A%2F%2Fgraph.microsoft.com%2Fuser.read`
+            + '&state=aikomail'
 
             const win = new BW({
                 useContentSize: true,
                 fullscreen: false
             })
+
             win.loadURL(url);
             win.on('closed', () => {
                 return s({
@@ -83,20 +62,39 @@ module.exports = (clientId, clientSecret, scopes) => {
                 }
             })
 
-            const finish = code => oauth2Client
-                .getToken(code)
-                .then(res => oauth2Client.setCredentials(res.tokens))
+            const finish = code => {
+                const opts = {
+                    method: 'POST',
+                    url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                    headers: {
+                        'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    form: {
+                        client_id: clientId,
+                        scope: 'openid wl.imap offline_access https://graph.microsoft.com/user.read',
+                        code: code,
+                        redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
+                        grant_type: 'authorization_code'
+                    }
+                }
+
+                request(opts, (e, res, b) => {
+                    if (e) s({error: e})
+                    const d = JSON.parse(b)
+                    s(d)
+                })
+            }
         }),
         refreshToken: r_token => new Promise((s, j) => {
             const opts = {
                 method: 'POST',
-                url: 'https://oauth2.googleapis.com/token',
+                url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
                 headers: {
                     'content-type': 'application/x-www-form-urlencoded'
                 },
                 form: {
                     client_id: clientId,
-                    client_secret: clientSecret,
+                    scope: 'openid wl.imap offline_access https://graph.microsoft.com/user.read',
                     refresh_token: r_token,
                     grant_type: 'refresh_token'
                 }
@@ -104,7 +102,7 @@ module.exports = (clientId, clientSecret, scopes) => {
 
             request(opts, (e, res, b) => {
                 if (e) s({error: e})
-                const d = JSON.parse(b);
+                const d = JSON.parse(b)
                 s(d)
             })
         })
