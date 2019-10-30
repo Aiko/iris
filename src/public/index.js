@@ -275,3 +275,46 @@ const msft_oauth_mixin = {
         }
     }
 }
+
+const manual_mailbox_mixin = {
+    data: {
+        other_email: null,
+        other_name: null,
+        other_picture: null,
+        other_password: null,
+        other_imap_host: null,
+        other_imap_port: null,
+        other_smtp_host: null,
+        other_smtp_port: null
+    },
+    methods: {
+        async other_fetchCredentials(email) {
+            const creds = store.get('credentials:' + email)
+            if (!creds.other) return console.error("Tried to fetch OTHER creds with non-other.")
+            this.other_email = creds.email
+            this.other_name = creds.name
+            this.other_picture = creds.picture
+            this.other_password = creds.password
+            this.other_imap_host = creds.imap_host
+            this.other_imap_port = creds.imap_port
+            this.other_smtp_host = creds.smtp_host
+            this.other_smtp_port = creds.smtp_port
+        },
+        async otherSignIn(email, password, imapHost, imapPort, smtpHost, smtpPort) {
+            app.fetching = true
+            store.set('credentials:' + email, {
+                name: email, // TODO:
+                picture: null, // TODO:
+                email: email,
+                password: password,
+                imap_host: imapHost,
+                imap_port: imapPort,
+                smtp_host: smtpHost,
+                smtp_port: smtpPort,
+                other: true
+            })
+            app.fetching = false
+            await this.other_fetchCredentials(email)
+        }
+    }
+}

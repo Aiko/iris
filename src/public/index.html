@@ -565,11 +565,17 @@
 						<h1 class="add-2">Add a mailbox</h1>
 						<h2 class="add-2">Enter your credentials</h2>
 						<br class="add-2">
-						<a href="#" class="add-2"><img class="add-2" src="assets/img/google.png"></a>
-						<input class="add-2" type="email" name="" placeholder="Email">
-						<input class="add-2" type="password" name="" placeholder="Password">
+						<a href="#" class="add-2">
+							<img class="add-2" :src="manualMailImage">
+						</a>
+						<input class="add-2" type="email" v-model="manualEmail" name="" placeholder="Email">
+						<input class="add-2" type="password" v-model="manualPassword" name="" placeholder="Password">
+						<input class="add-2" type="url" v-model="manualIMAPHost" name="" placeholder="IMAP Host">
+						<input class="add-2" type="number" v-model="manualIMAPPort" name="" placeholder="IMAP Port">
+						<input class="add-2" type="url" v-model="manualSMTPHost" name="" placeholder="SMTP Host">
+						<input class="add-2" type="number" v-model="manualSMTPPort" name="" placeholder="SMTP Port">
 						<br class="add-2">
-						<a href="#" class="add-2 blue">Add mailbox</a>
+						<a @click="addManualMailbox" href="#" class="add-2 blue">Add mailbox</a>
 						<br class="add-2">
 
 

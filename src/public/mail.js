@@ -7,7 +7,10 @@ const modals_mixin = {
         manualIMAPHost: '',
         manualIMAPPort: 993,
         manualSMTPHost: '',
-        manualSMTPPort: 587
+        manualSMTPPort: 587,
+        manualEmail: '',
+        manualPassword: '',
+        manualMailImage: ''
     },
     methods: {
         showAddMailbox() {
@@ -54,6 +57,7 @@ const app = new Vue({
         modals_mixin,
         google_monkey_mixin,
         msft_oauth_mixin,
+        manual_mailbox_mixin,
         ai_mixin
     ],
     data: {
@@ -70,7 +74,7 @@ const app = new Vue({
         // which mail provider
         gmail: false,
         msft: false,
-        other: true,
+        other: false,
         // State
         mailbox: {
             email: '',
@@ -204,6 +208,7 @@ const app = new Vue({
         async refreshKeys() {
             if (this.gmail) return this.g_refreshKeys()
             if (this.msft) return this.msft_refreshKeys()
+            if (this.other) return true
             // TODO: branches for every mailserver
         },
         async switchToMailbox(mailbox, firstTime = false) {
@@ -230,6 +235,15 @@ const app = new Vue({
                 this.imapPort = 993
                 this.smtpHost = 'outlook.office365.com'
                 this.smtpPort = 587
+            }
+
+            if (settings.other) {
+                await this.other_fetchCredentials(this.mailbox.email)
+                this.other = true
+                this.imapHost = this.other_imap_host
+                this.imapPort = this.other_imap_port
+                this.smtpHost = this.other_smtp_host
+                this.smtpPort = this.other_smtp_port
             }
             // TODO: branches for every type of inbox we support
 
@@ -297,6 +311,14 @@ const app = new Vue({
                 await this.IMAP.login(this.msft_email, null, this.msft_xoauth)
                 log("Logged in...")
             }
+
+            if (this.other) {
+                log("Going OTHER route...")
+                await this.other_fetchCredentials(this.mailbox.email)
+                log("Fetches credentials...")
+                await this.IMAP.login(this.other_email, this.other_password, null)
+                log("Logged in...")
+            }
             //TODO: branches for every type of inbox
 
 
@@ -320,6 +342,9 @@ const app = new Vue({
             if (this.msft) {
                 log(this.folders);
                 throw "Error msft"
+            }
+            if (this.other) {
+                throw "Other mailboxes' folders are not yet implemented"
             }
             // TODO: branches for every mailserver
 
@@ -514,9 +539,27 @@ const app = new Vue({
             this.manualIMAPPort = 993
             this.manualSMTPHost = 'outlook.office365.com'
             this.manualSMTPPort = 587
+            this.manualMailImage = 'assets/img/exchange.png'
         },
         async addOther() {
             this.showManualIMAPModal()
+        },
+        async addManualMailbox() {
+            await this.otherSignIn(
+                this.manualEmail,
+                this.manualPassword,
+                this.manualIMAPHost,
+                this.manualIMAPPort,
+                this.manualSMTPHost,
+                this.manualSMTPPort
+            )
+            await this.hideAddMailbox()
+            const r = await this.addMailbox(this.other_email)
+            console.log(r)
+            if (r) {
+                store.set('settings:' + this.other_email, {other: true})
+                await this.switchToMailbox(this.mailboxes.last(), true)
+            }
         }
     }
 })
