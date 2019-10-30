@@ -70,6 +70,7 @@ const app = new Vue({
         drag: null,
         loading: true,
         error: null,
+        errorNet: 0,
         isOnline: true,
         // Mail Server
         IMAP: null,
@@ -232,7 +233,7 @@ const app = new Vue({
                 this.imapPort = 993
                 this.smtpHost = 'smtp.gmail.com'
                 this.smtpPort = 587
-            }
+            } else this.gmail = false
 
             if (settings.msft) {
                 this.msft = true
@@ -240,7 +241,7 @@ const app = new Vue({
                 this.imapPort = 993
                 this.smtpHost = 'outlook.office365.com'
                 this.smtpPort = 587
-            }
+            } else this.msft = false
 
             if (settings.other) {
                 await this.other_fetchCredentials(this.mailbox.email)
@@ -249,7 +250,7 @@ const app = new Vue({
                 this.imapPort = this.other_imap_port
                 this.smtpHost = this.other_smtp_host
                 this.smtpPort = this.other_smtp_port
-            }
+            } else this.other = false
             // TODO: branches for every type of inbox we support
 
             this.fetching = true
@@ -258,7 +259,9 @@ const app = new Vue({
 
             if (firstTime) {
                 // setup mailbox
+                this.loading = true
                 await this.fetchLatestEmails(200)
+                this.loading = false
             } else {
                 // restore cache
                 this.emails = store.get('cache:' + this.mailbox.email + ':' + this.currentFolder, [])
@@ -282,8 +285,14 @@ const app = new Vue({
                 case "ENOTFOUND":
                     if (this.isOnline) this.isOnline = false;
                     break;
+                case "EPIPE":
+                    console.error(e)
+                    if (this.errorNet)
+                    await this.connectToMailServer()
+                    break;
                 default:
                     this.error = e
+                    console.log(e.code)
                     console.error(e)
                     this.showIMAPErrorModal()
             }
@@ -349,7 +358,20 @@ const app = new Vue({
                 throw "Error msft"
             }
             if (this.other) {
-                throw "Other mailboxes' folders are not yet implemented"
+                this.inboxFolder = 'INBOX'
+
+                // Identify sent folder
+                this.sentFolder = this.folders.filter(f => f.indexOf('Sent' > -1 || f.indexOf('sent') > -1))
+                if (this.sentFolder.length > 0) this.sentFolder = this.sentFolder[0]
+                else this.sentFolder = ''
+
+                this.spamFolder = this.folders.filter(f => f.indexOf('Spam') > -1 || f.indexOf('spam') > -1 || f.indexOf('Junk') > -1)
+                if (this.spamFolder.length > 0) this.spamFolder = this.spamFolder[0]
+                else this.spamFolder = ''
+
+                this.trashFolder = this.folders.filter(f => f.indexOf('Trash') > -1 || f.indexOf('trash') > -1 || f.indexOf('Deleted') > -1)
+                if (this.trashFolder.length > 0) this.trashFolder = this.trashFolder[0]
+                else this.trashFolder = ''
             }
             // TODO: branches for every mailserver
 
@@ -412,16 +434,23 @@ const app = new Vue({
             }))
         },
         async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true) {
+            if (this.fetching || this.addMailboxModal) return;
+            log("Fetching emails:", this.currentFolder, start, ':', stop,
+                '\noverwrite?', overwrite, '\nsort?', sort, '\nfilterDups?', filterDups, '\ngetBoards?', getBoards
+            )
             this.fetching = true
             setTimeout(() => {
                 app.fetching = false
             }, 5000)
             try {
                 await this.refreshKeys()
-                let emails = (await this.IMAP.getEmails(start, stop))
-                    .filter(email =>
+                const {exists, uidnext} = await this.IMAP.select(this.currentFolder)
+                if (stop == '*' && uidnext) stop = uidnext
+                let emails = await this.IMAP.getEmails(start, stop)
+                emails = emails.filter(email =>
                         email.headers.id &&
                         email.headers.id != '*' &&
+                        email.from &&
                         eval(email.headers.id) >= start
                     ) // TODO: setup getting UID next so we only pull to the next uid, ignoring '*' aka recent
                 if (emails.length == 1) log(emails)
@@ -454,42 +483,57 @@ const app = new Vue({
                     const originalFolder = this.currentFolder
                     for (let i = 0; i < this.mailbox.boards.length; i++) {
                         const boardFolder = this.mailbox.boards[i].folder
-                        await this.IMAP.select(boardFolder)
+                        const {exists, uidnext} = await this.IMAP.select(boardFolder)
                         let boardEmails;
+                        if (!exists) continue;
                         if (this.mailbox.boards[i].emails && this.mailbox.boards[i].emails.length > 0) {
-                            boardEmails = await this.IMAP.getEmails(this.mailbox.boards[i].emails[0].headers.id + 1, '*')
+                            boardEmails = await this.IMAP.getEmails(this.mailbox.boards[i].emails[0].headers.id + 1, uidnext)
                             boardEmails = boardEmails.filter(email =>
                                     email.headers.id &&
                                     email.headers.id != '*' &&
+                                    email.from &&
                                     eval(email.headers.id) >= this.mailbox.boards[i].emails[0].headers.id + 1
                             )
                         }
-                        else boardEmails = await this.IMAP.getEmails('*', '*')
-                        boardEmails = boardEmails.filter(boardEmail => boardEmail.headers.id && boardEmail.headers.id != '*')
+                        else boardEmails = await this.IMAP.getEmails('1', uidnext)
+                        boardEmails = boardEmails.filter(email =>
+                            email.headers.id &&
+                            email.headers.id != '*' &&
+                            email.from &&
+                            eval(email.headers.id) >= this.mailbox.boards[i].emails[0].headers.id + 1
+                        )
                         // TODO: you need to enforce some sort of limit on # of emails
                         // they can put in the board. for now, the caching limits this
                         // inherently to 100. maybe more needed in future niggaboosmoocheritos
                         boardEmails = boardEmails.reverse()
                         boardEmails = await this.processEmails(boardEmails)
+                        if (!this.mailbox.boards[i].emails) this.mailbox.boards[i].emails = []
                         this.mailbox.boards[i].emails.unshift(...boardEmails)
                         const to_cache = JSON.parse(JSON.stringify(this.mailbox.boards[i].emails.slice(0, 100)))
                         queueCache('cache:' + this.mailbox.email + ':' + this.mailbox.boards[i]._id, to_cache)
                     }
-                    await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
+                    const {exists, uidnext} = await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
                     let doneEmails;
                     if (this.doneEmails && this.doneEmails.length > 0) {
-                        doneEmails = await this.IMAP.getEmails(this.doneEmails[0].headers.id + 1, '*')
+                        doneEmails = await this.IMAP.getEmails(this.doneEmails[0].headers.id + 1, uidnext)
                         doneEmails = doneEmails.filter(email =>
                                 email.headers.id &&
                                 email.headers.id != '*' &&
+                                email.from &&
                                 eval(email.headers.id) >= this.doneEmails.emails[0].headers.id + 1
                         )
                     }
-                    else doneEmails = await this.IMAP.getEmails('*', '*')
-                    doneEmails = doneEmails.filter(doneEmail => doneEmail.headers.id && doneEmail.headers.id != '*')
+                    else doneEmails = await this.IMAP.getEmails('1', uidnext)
+                    doneEmails = doneEmails.filter(email =>
+                        email.headers.id &&
+                        email.headers.id != '*' &&
+                        email.from &&
+                        eval(email.headers.id) >= this.doneEmails.emails[0].headers.id + 1
+                    )
                     // TODO: done emails have a limit :/
                     doneEmails = doneEmails.reverse()
                     doneEmails = await this.processEmails(doneEmails)
+                    if (!this.doneEmails) this.doneEmails = []
                     this.doneEmails.unshift(...doneEmails)
                     const to_cache = JSON.parse(JSON.stringify(this.doneEmails.slice(0, 100)))
                     queueCache('cache:' + this.mailbox.email + ':' + 'donemail', to_cache)
@@ -509,6 +553,7 @@ const app = new Vue({
             }
         },
         async fetchLatestEmails(n) {
+            if (this.fetching) return;
             log("Fetching", n, "latest emails")
             // fetches n latest emails
             await this.refreshKeys()
