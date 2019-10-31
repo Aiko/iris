@@ -103,6 +103,7 @@ const app = new Vue({
         totalMessages: 0,
         unreadMessages: 0,
         fetching: false,
+        fetchingOld: false,
         lastUpdated: null,
         hideSubscriptions: true
     },
@@ -397,7 +398,6 @@ const app = new Vue({
             log("Sync completed.")
         },
         async processEmails(emails) {
-            // using for loop for MAXIMUM speed
             return await Promise.all(emails.map(async email => {
                 email = JSON.parse(JSON.stringify(email))
                 if (email.attachments) {
@@ -405,8 +405,14 @@ const app = new Vue({
                         email.attachments[j].content = null
                     }
                 }
-                if (!email.text) email.text = HTML2Text(email.html)
                 if (!email.html) email.html = email.text || ''
+                email.html = email.html
+                    .replace(/\)(\n| |\r\n)*[0-9]* NO The specified message set is invalid./gi, '')
+                    .replace(/\)(\n| |\r\n)*[0-9]* OK (Success|FETCH completed)/gi, '')
+                    if (!email.text) email.text = HTML2Text(email.html)
+                    email.text = email.text
+                    .replace(/\)(\n| |\r\n)*[0-9]* NO The specified message set is invalid./gi, '')
+                    .replace(/\)(\n| |\r\n)*[0-9]* OK (Success|FETCH completed)/gi, '')
                 if (email.headers["list-unsubscribe"] ||
                     email.headers["list-id"] ||
                     email.html.match(
@@ -429,24 +435,35 @@ const app = new Vue({
                     email.summaryText = sentences.slice(0, 3)
                 }
 
-                email.actionables = await Promise.all(
-                    sentences.filter(
-                        async sentence => await this.choke(sentence) > 0.65
+                if (!email.headers.subscription) {
+                    let to_test = sentences
+                    if (to_test.length > 15) to_test = email.summary
+                    email.actionables = await Promise.all(
+                        to_test.filter(
+                            async sentence => await this.choke(sentence) > 0.4
+                        )
                     )
-                )
+
+                    email.intents = (await Promise.all(
+                        email.actionables.map(this.intent)
+                    )).filter(_=>_).sort((a, b) => b.confidence - a.confidence)
+
+                    if (email.intents.filter(e => e.time && e.confidence > 0.5).length > 0) email.intents = email.intents.filter(e => e.time)[0]
+                }
+
+                if (email.html.indexOf('pixel.gif') > -1 || email.html.indexOf('track/open') > -1) email.tracker = true
+
+                email.messageId = email.headers['message-id']
 
                 return email
             }))
         },
-        async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true) {
-            if (this.fetching || this.addMailboxModal) return;
+        async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true, pushToEnd = false, fetchAnyways=false) {
+            if ((this.fetching && !fetchAnyways) || this.addMailboxModal) return;
             log("Fetching emails:", this.currentFolder, start, ':', stop,
                 '\noverwrite?', overwrite, '\nsort?', sort, '\nfilterDups?', filterDups, '\ngetBoards?', getBoards
             )
             this.fetching = true
-            setTimeout(() => {
-                app.fetching = false
-            }, 5000)
             try {
                 await this.refreshKeys()
                 const {exists, uidnext} = await this.IMAP.select(this.currentFolder)
@@ -460,7 +477,9 @@ const app = new Vue({
                     ) // TODO: setup getting UID next so we only pull to the next uid, ignoring '*' aka recent
                 if (emails.length == 1) log(emails)
                 emails = emails.reverse()
+                console.time('Processing emails.')
                 emails = await this.processEmails(emails)
+                console.timeEnd('Processing emails.')
 
                 emails = emails.filter(email => {
                     if (this.existingIds.includes(email.headers.id)) {
@@ -471,7 +490,10 @@ const app = new Vue({
                 })
 
                 if (emails.length > 0) {
-                    this.emails.unshift(...emails)
+                    if (pushToEnd)
+                        this.emails.push(...emails)
+                    else
+                        this.emails.unshift(...emails)
                     this.existingIds.unshift(...emails.map(_ => _.headers.id))
                     if (sort) {
                         this.emails.sort((m1, m2) => m2.headers.id - m1.headers.id)
@@ -553,9 +575,9 @@ const app = new Vue({
                 this.errorNet = 0
                 this.hideIMAPErrorModal()
             } catch (e) {
+                this.fetching = false
                 console.error(e)
                 this.showIMAPErrorModal()
-                this.fetching = false
             }
         },
         async fetchLatestEmails(n) {
@@ -565,6 +587,18 @@ const app = new Vue({
             await this.refreshKeys()
             this.totalMessages = await this.IMAP.countMessages(this.currentFolder)
             await this.fetchEmails(Math.max(0, this.totalMessages - n), '*', false, true, true)
+        },
+        onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+            if (scrollTop + clientHeight >= scrollHeight - 600) {
+                if (this.fetchingOld) return;
+                console.log("Fetching more emails.")
+                this.fetchingOld = true
+                const last_email = this.emails.last().headers.id
+                if (last_email > 0)
+                    this.fetchEmails(Math.max(0, last_email - 80), last_email,
+                        overwrite=true, sort=true, filterDups=true, getBoards=false, pushToEnd=true, fetchAnyways=true)
+                        .then(() => app.fetchingOld = false)
+            }
         },
         async addGoogle() {
             const s = await this.gSignIn()

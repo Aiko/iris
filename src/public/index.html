@@ -215,7 +215,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="board-body">
+						<div class="board-body"  @scroll="onScroll">
 							<draggable
 								class="draggable-emails"
 								v-model="emails"
@@ -231,8 +231,8 @@
 											<div class="col-9 p0" style="display: inline-flex;">
 												<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
 												<img src="assets/icons/badges-attach.svg" v-if="email.attachments" title="Attachment">
-												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
-												<img src="assets/icons/badges-event.svg" v-if="email.event">
+												<img src="assets/icons/badges-tracker.svg" v-if="email.tracker">
+												<img src="assets/icons/badges-event.svg" v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event' && email.intents[0].time">
 												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc" title="You've been BCC'ed">
 												<img src="assets/icons/badges-star.svg" v-if="email.headers.starred" title="Starred/Flagged">
 											</div>
@@ -727,6 +727,7 @@
 	<script src="assets/js/vue.min.js"></script>
 	<script src="assets/js/vuep.js"></script>
 	<script src="assets/js/utils.js"></script>
+	<script src="assets/js/chrono.min.js"></script>
 	<script src="index.js"></script>
 	<script src="mail-api.js"></script>
 	<script src="mail.js"></script>
