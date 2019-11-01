@@ -170,6 +170,7 @@ const unescapeHTML = (
 )()
 
 const HTML2Text = html => {
+    html = html.replace(/<style[^>]*>([^<]|\n|\r\n)*<\/style>/gi, '')
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
     return doc.body.innerText.trim().replace(/( |\n)+/g, ' ')

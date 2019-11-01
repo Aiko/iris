@@ -86,7 +86,8 @@ const app = new Vue({
         mailbox: {
             email: '',
             boards: [],
-            events: []
+            events: [],
+            contacts: {}
         },
         // Folders
         folders: [],
@@ -277,6 +278,10 @@ const app = new Vue({
                 } else {
                     this.existingIds = this.emails.map(_ => _.headers.id)
                 }
+                this.mailbox.contacts = store.get('contacts:' + this.mailbox.email, {})
+                if (!this.mailbox.contacts || Object.keys(this.mailbox.contacts).length == 0) {
+                    await this.getContacts()
+                }
             }
             this.fetching = false
         },
@@ -409,10 +414,12 @@ const app = new Vue({
                 email.html = email.html
                     .replace(/\)(\n| |\r\n)*[0-9]* NO The specified message set is invalid./gi, '')
                     .replace(/\)(\n| |\r\n)*[0-9]* OK (Success|FETCH completed)/gi, '')
-                    if (!email.text) email.text = HTML2Text(email.html)
-                    email.text = email.text
+
+                if (!email.text) email.text = HTML2Text(email.html)
+                email.text = email.text
                     .replace(/\)(\n| |\r\n)*[0-9]* NO The specified message set is invalid./gi, '')
                     .replace(/\)(\n| |\r\n)*[0-9]* OK (Success|FETCH completed)/gi, '')
+
                 if (email.headers["list-unsubscribe"] ||
                     email.headers["list-id"] ||
                     email.html.match(
@@ -457,6 +464,39 @@ const app = new Vue({
 
                 return email
             }))
+        },
+        async getContacts() {
+            log("Fetching contacts")
+            this.fetching = true
+            try {
+                log("Refreshing keys")
+                await this.refreshKeys()
+                log("Selecting folder")
+                const {exists, uidnext} = await this.IMAP.select(this.currentFolder)
+                log("Getting senders")
+                const senders = await this.IMAP.getSenders(1, '*')
+                // TODO: get receivers from emails sent _to_ people as well
+                log("Making contacts")
+                this.loading = true
+                const contacts = {}
+                senders.map(email => {
+                    if (email.from && email.from.length > 0) {
+                        const from = email.from[0]
+                        if (from.address) {
+                            if (!contacts[from.address])
+                                contacts[from.address] = from.name || from.address
+                        }
+                    }
+                })
+                this.mailbox.contacts = contacts
+                log("Storing cache")
+                store.set('contacts:' + this.mailbox.email, contacts)
+                log("Done. Successfully got contacts!")
+                this.loading = false
+            } catch (e) {
+                console.error(e)
+            }
+            this.fetching = false
         },
         async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true, pushToEnd = false, fetchAnyways=false) {
             if ((this.fetching && !fetchAnyways) || this.addMailboxModal) return;
