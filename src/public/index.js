@@ -149,6 +149,33 @@ const ai_mixin = {
     }
 }
 
+const kanban_mixin = {
+    methods: {
+
+/*
+my notes:
+
+need a way to identify the board somehow, because @change only passes the
+added or removed element, not the board target
+
+once that is done, we can do 3 conditionals:
+- inbox to board movement: copy from inbox to board,
+    add id to set of ids so we know not to show in inbox
+- board to board movement: move from board 1 to board 2
+- board to inbox movement: delete from board, remove id from set of ids
+
+also: maybe get the max of ids in inbox instead of emails[0]
+then we can allow the user to reorder the inbox as they see fit
+
+also: you might want to switch to localstorage for the caching of the inbox.
+this would allow us to cache like 1000 emails at once (which would be AWESOME)
+versus the 50 as it is now to prevent big freezes
+
+*/
+
+    }
+}
+
 // only google oauth is monkey
 const google_monkey_mixin = {
     data: {

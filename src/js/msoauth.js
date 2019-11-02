@@ -13,6 +13,7 @@ const scopes = [];
 module.exports = (clientId) => {
     return {
         getToken: (login_hint=null) => new Promise((s, j) => {
+            // https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?
             let url = 'https://login.live.com/oauth20_authorize.srf'
             url += `client_id=${clientId}`
             url += '&response_type=code'

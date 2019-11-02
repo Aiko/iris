@@ -64,6 +64,7 @@ const app = new Vue({
         google_monkey_mixin,
         msft_oauth_mixin,
         manual_mailbox_mixin,
+        kanban_mixin,
         ai_mixin
     ],
     data: {
