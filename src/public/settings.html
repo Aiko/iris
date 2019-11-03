@@ -16,120 +16,129 @@
 
 <body>
 	<div id="app" class="inline-flex">
-	<!--	<div id="fixed" class="loader-6 center-loader"><span></span></div> -->
-<div class="control-bar pc" v-if="!isFullScreen">
+		<!--	<div id="fixed" class="loader-6 center-loader"><span></span></div> -->
+		<div class="control-bar pc" v-if="!isFullScreen">
 			<p title="Close" @click="close"></p> <!-- Close ------------------------>
 			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
 			<p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
 			<h1 @click="minimize" title="Minimize"><img
-							src="assets/icons/top-minimize.png" width="10"></h1> <!-- Minimize ---------->
-			<h1 @click="maximize" title="Full Screen"><img
-							src="assets/icons/top-expand.png" width="10"></h1> <!-- Full Screen -->
-			<h1 @click="close" title="Close"><img
-							src="assets/icons/top-close.png" width="10"></h1> <!-- Close ---------------->
-		</div>
-		<!-- Sidebar --------------------------------------------------->
-		<div class="sidebar">
-			<div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
-			<div class="container">
-				<div class="row">
-					<img src="assets/img/logo.png" class="logo">
-				</div>
-				<div class="row">
-					<a href="/" class="active"><img src="assets/icons/header-user.svg"><span>Account</span></a>
-					<a href="#"><img src="assets/icons/settings-team.svg"><span>Team</span></a>
-					<a href="#"><img src="assets/icons/settings-billing.svg"><span>Billing</span></a>
-					<a href="#"><img src="assets/icons/settings-customize.svg"><span>Customize</span></a>
-					<a href="#"><img src="assets/icons/settings-email.svg"><span>Email</span></a>
-				</div>
-			</div>
-		</div>
-		<!-- END Sidebar ----------------------------------------------->
-
-		<div class="main">
-
-			<!-- Header ------------------------------------------------>
-			<div class="header">
-				<div class="container">
-					<div class="row">
-						<div class="col-3">
-							<h1>Settings</h1>
-						</div>
-						<div class="col-9 text-right" style="white-space: nowrap">
-							<a href="index.html" class="back-to-inbox" style="line-height: 16px;">Back to Inbox</a>						
+				src="assets/icons/top-minimize.png" width="10"></h1> <!-- Minimize ---------->
+				<h1 @click="maximize" title="Full Screen"><img
+					src="assets/icons/top-expand.png" width="10"></h1> <!-- Full Screen -->
+					<h1 @click="close" title="Close"><img
+						src="assets/icons/top-close.png" width="10"></h1> <!-- Close ---------------->
+					</div>
+					<!-- Sidebar --------------------------------------------------->
+					<div class="sidebar">
+						<div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
+						<div class="container">
+							<div class="row">
+								<img src="assets/img/logo.png" class="logo">
+							</div>
+							<div class="row">
+								<a href="/" class="active"><img src="assets/icons/header-user.svg"><span>Account</span></a>
+								<a href="#"><img src="assets/icons/settings-team.svg"><span>Team</span></a>
+								<a href="#"><img src="assets/icons/settings-billing.svg"><span>Billing</span></a>
+								<a href="#"><img src="assets/icons/settings-customize.svg"><span>Customize</span></a>
+								<a href="#"><img src="assets/icons/settings-email.svg"><span>Email</span></a>
+							</div>
 						</div>
 					</div>
+					<!-- END Sidebar ----------------------------------------------->
+
+					<div class="main">
+
+						<!-- Header ------------------------------------------------>
+						<div class="header">
+							<div class="container">
+								<div class="row">
+									<div class="col-3">
+										<h1>Settings</h1>
+									</div>
+									<div class="col-9 text-right" style="white-space: nowrap">
+										<a href="index.html" class="back-to-inbox" style="line-height: 16px;">Back to Inbox</a>						
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- END Header -------------------------------------------->
+
+						<div class="settings">
+							<div id="account">
+								<h2>Account</h2>
+								<div class="row">
+									<div class="col-9">
+										<h3>Name</h3>
+										<h3>Login email</h3>
+										<h3>Password</h3>
+										<h3>Notifications</h3>
+										<h3>---new email notification</h3>
+										<h3>---tracker notification</h3>
+										<h3>---joined team notification</h3>
+
+										<h3>Confirm before deleting email</h3>
+										<h3>Dark mode</h3>
+										<h3>Background picture / unsplash</h3>
+									</div>
+									<div class="col-3">
+										<a href="#">Change</a><br>
+										<a href="#">Change</a><br>
+										<a href="#">Change</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">Change</a>
+									</div>
+								</div>
+							</div>
+
+
+
+							<div id="team">
+								<h2>Team</h2>
+								<div class="row">
+									<div class="col-9">
+										<h3>Team name</h3>
+										<h3>Website</h3>
+										<h3>Add member</h3>
+										<h3>csv etc</h3>
+									</div>
+									<div class="col-3">
+										<a href="#">Change</a><br>
+										<a href="#">Change</a><br>
+										<a href="#">Change</a><br>
+										<a href="#">On/Off</a><br>
+										<a href="#">On/Off</a><br>
+									</div>
+								</div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+
+					<!-- Toast -->
+					<div class="aiko-toast">
+						<h1>text<a href="#" class="big">button</a><a href="#" class="small">button</a></h1>
+					</div>
+					<!-- END Toast --------------------------------------->
+
 				</div>
-			</div>
-			<!-- END Header -------------------------------------------->
-
-				<div class="settings">
-					<h2>Account</h2>
-					<div class="row">
-						<div class="col-10">
-							<h3>-Team name</h3>
-							<h3>-Login email</h3>
-							<h3>-h3assword</h3>
-							<h3>-notifications</h3>
-							<h3>---new email notification</h3>
-							<h3>---tracker notification</h3>
-							<h3>---joined team notification</h3>
-						</div>
-						<div class="col-2">
-							<h3>Change</h3>
-							<h3>Change</h3>
-							<h3>Change</h3>
-							<h3>On/Off</h3>
-							<h3>On/Off</h3>
-							<h3>On/Off</h3>
-							<h3>On/Off</h3>
-						</div>
-					</div>
-
-					<h2>Team</h2>
-					<div class="row">
-						<div class="col-10">
-							<h3>Team members</h3>
-						</div>
-						<div class="col-2">
-							<h3>Add/change/csv</h3>
-						</div>
-					</div>
-					<h2>_</h2>
-					<div class="row">
-						<div class="col-10">
-							<h3>Team members</h3>
-						</div>
-						<div class="col-2">
-							<h3>Add/change/csv</h3>
-						</div>
-					</div>
-
-							<h3>confirm before deleting email on/off</h3>
-							<h3>dark mode on/off</h3>
-							<h3>notifications for read/joined/new email on/off</h3>
-							<h3>change background h3icture / unsplash</h3>
-
-				</div>
-			</div>
-
-		<!-- Toast -->
-		<div class="aiko-toast">
-			<h1>text<a href="#" class="big">button</a><a href="#" class="small">button</a></h1>
-		</div>
-		<!-- END Toast --------------------------------------->
-
-	</div>
-	<!-- END id="app" -------------------------------------------------->
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/vue.min.js"></script>
-	<script src="assets/js/vuep.js"></script>
-	<script src="assets/js/utils.js"></script>
-	<script src="mail-api.js"></script>
-	<script src="mail.js"></script>
-	<script src="index.js"></script>
-</body>
-</html>
+				<!-- END id="app" -------------------------------------------------->
+				<script src="assets/js/jquery.min.js"></script>
+				<script src="assets/js/popper.min.js"></script>
+				<script src="assets/js/bootstrap.min.js"></script>
+				<script src="assets/js/vue.min.js"></script>
+				<script src="assets/js/vuep.js"></script>
+				<script src="assets/js/utils.js"></script>
+				<script src="mail-api.js"></script>
+				<script src="mail.js"></script>
+				<script src="index.js"></script>
+			</body>
+			</html>
