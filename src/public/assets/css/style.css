@@ -351,6 +351,20 @@ input{
 	padding: 0;
 	max-width: unset;
 }
+.settings{
+	margin: 40px;
+    background: #f7f7f7;
+    border-radius: 4px;
+    padding: 20px 30px;
+}
+.settings h2{
+	    color: #b0b0b0;
+    font-size: 24px;
+}
+.settings h3{
+	font-size: 15px;
+    color: #313131;
+}
 .picker img{
 	width: 21px;
 	margin-right: 5px;
