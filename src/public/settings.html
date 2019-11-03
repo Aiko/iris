@@ -16,7 +16,7 @@
 
 <body>
 	<div id="app" class="inline-flex">
-		<div id="fixed" class="loader-6 center-loader"><span></span></div>
+	<!--	<div id="fixed" class="loader-6 center-loader"><span></span></div> -->
 <div class="control-bar pc" v-if="!isFullScreen">
 			<p title="Close" @click="close"></p> <!-- Close ------------------------>
 			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
@@ -114,40 +114,9 @@
 				</div>
 			</div>
 
-
-		<!-- Invite View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade invite-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<div class="modal-reg">
-						<img  src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-						<h1>Invite a team member</h1>
-						<h2>Enter their email address</h2>
-						<input type="email" name="" placeholder="Email">
-						<p>We'll send them a link to Aiko Mail.</p>
-						<br>
-						<a href="#" class="blue">Done</a>
-						<p class="ns30"></p>
-
-						<!-- add-2 stuff --------------------------------------->
-						<img class="add-2" src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-						<h1 class="add-2">Invite sent!</h1>
-						<h2 class="add-2">We'll let you know when they join.</h2>
-						<hr class="add-2">
-						<p class="add-2">Add another team member (optional))</p>
-						<input class="add-2" type="email" name="" placeholder="Email">
-						<br class="add-2">
-						<a href="#" class="add-2 blue">Done</a>
-						<p class="ns30 add-2"></p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- END Invite View --------------------------------------->
-
 		<!-- Toast -->
 		<div class="aiko-toast">
-			<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+			<h1>text<a href="#" class="big">button</a><a href="#" class="small">button</a></h1>
 		</div>
 		<!-- END Toast --------------------------------------->
 

@@ -326,8 +326,9 @@ input{
 	z-index: 2;
 	display: inline-grid;
 	background: #fff;
+	    position: relative;
+    z-index: 2;
 	transition: .2s;
-	z-index: 1;
 	position: relative;
 }
 .picker:hover{
@@ -546,11 +547,11 @@ input{
 	margin-top: -10px;
 }
 .empty{
-	background: #f0f0f0;
-	height: 125px;
-	border-radius: 4px;
-	text-align: center;
-	padding-top: 50px;
+background: #f7f7f7;
+    height: 110px;
+    border-radius: 4px;
+    text-align: center;
+    padding-top: 40px;
 	-webkit-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 	-moz-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 	box-shadow: inset inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
@@ -1566,6 +1567,14 @@ hr {
 @keyframes loader-6-2 {
   0%   { transform: translate3d(0, 0, 0) scale(0); opacity: 1; }
   100% { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+}
+
+.non-drag{
+	  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 /* Layout */
