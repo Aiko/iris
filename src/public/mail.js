@@ -845,6 +845,12 @@ const app = new Vue({
             await this.selectFolder(email)
             await this.IMAP.read(email.headers.id)
         },
+        async resetCache() {
+            log("OH DEAR GOD WHAT HAVE YOU DONE")
+            store.set('cache:' + app.mailbox.email + ':' + app.currentFolder, [])
+            store.set('cache:' + app.mailbox.email + ':' + 'donemail', [])
+            store.set('cache:' + app.mailbox.email + ':' + app.mailbox.boards[0]._id, [])
+        }
     }
 })
 
