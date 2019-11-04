@@ -675,15 +675,13 @@ hr {
 	transition: .2s;
 }
 .delete img{
-	margin-top: 40px !important;
-	height: 15px !important;
-	margin-left: 0 !important;
-	transition: .2s;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-45%);
+    margin-left: -10px !important;
 }
 .delete:hover img{
-	margin-top: 35px !important;
 	height: 25px !important;
-	margin-left: 0 !important;
 	transition: .2s;
 }
 .sender{
@@ -735,6 +733,8 @@ hr {
     line-height: 18px;
     cursor: pointer;
     margin-bottom: 2px;
+        margin-left: 135px !important;
+    white-space: nowrap;
     /* position: absolute; */
     /* float: right; */
     /* right: 0; */
@@ -977,6 +977,7 @@ hr {
 	border-radius: 40px;
 	padding: 1px 6px 7px 6px;
 	margin-bottom: -17px;
+	z-index: 1;
 }
 .options-qa{
 	width: 190px;
