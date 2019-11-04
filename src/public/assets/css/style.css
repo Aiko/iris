@@ -18,6 +18,13 @@ body{
 a, a:focus, a:hover, a:visited, a:active{
 	text-decoration: none !important;
 }
+.tag{
+	    width: fit-content;
+    background: #486fff;
+    color: #fff;
+    padding: 0px 6px 2px 6px;
+    border-radius: 4px;
+}
 input{
 	outline: none;
 }
