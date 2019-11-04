@@ -882,6 +882,7 @@ hr {
 .email-body{
 	    height: calc(100% - 50px);
     overflow-y: scroll;
+    padding-top: 15px;
 }
 .changer{
 	height: 20px;
