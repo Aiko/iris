@@ -975,6 +975,7 @@ hr {
 	border-radius: 40px;
 	padding: 1px 6px 7px 6px;
 	margin-bottom: -17px;
+	z-index: 1;
 }
 .options-qa{
 	width: 190px;
