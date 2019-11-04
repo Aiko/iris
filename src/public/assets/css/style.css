@@ -560,6 +560,7 @@ input{
 	overflow-y: scroll;
 	height: 100%;
 	padding-bottom: 200px;
+	overflow-x: hidden;
 }
 .badges{
 	white-space: nowrap;
@@ -724,20 +725,22 @@ hr {
 	white-space: nowrap;
 }
 .action{
-	font-size: 14px !important;
-	border: solid 1px #486fff;
-	background: #e7ebf8;
-	border-radius: 40px;
-	color: #486fff;
-	padding: 5px 10px 5px 4px;
-	width: fit-content;
-	line-height: 18px;
-	cursor: pointer;
-	margin-bottom: 0px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	transition: .2s;
+    font-size: 12px !important;
+    border: solid 1px #486fff;
+    background: #e7ebf8;
+    border-radius: 40px;
+    color: #486fff;
+    padding: 3px 8px 3px 2px;
+    width: fit-content;
+    line-height: 18px;
+    cursor: pointer;
+    margin-bottom: 2px;
+    /* position: absolute; */
+    /* float: right; */
+    /* right: 0; */
+    /* margin-top: 10px; */
+    /* bottom: 0; */
+    transition: .2s;
 }
 .action:hover{
 	background-color: #cfdafd;
@@ -745,7 +748,6 @@ hr {
 }
 .action img{
 	width: 18px !important;
-	margin-right: 3px;
 	margin-top: -3px !important;
 }
 .body{
