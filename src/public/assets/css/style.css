@@ -1324,6 +1324,14 @@ unselectable {
     margin-bottom: -10px;
 }
 
+.html-content {
+    position: relative;
+    border-top: rgb(239, 239, 239) solid 1px !important;
+    overflow-y: visible !important;
+    overflow-x: scroll !important;
+    scroll-behavior: smooth;
+    -webkit-scroll-behavior: smooth;
+}
 
 .add-mailbox{
 	text-align: center;

@@ -226,7 +226,7 @@
 							<draggable class="draggable-emails" v-model.lazy="emails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="log">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div @click="showEmail(email)" :key="email.headers.id" class="email" v-for="email in emails"
+								<div @click="showEmail(email)" class="email" v-for="email in emails"
 									v-if="!hideSubscriptions || !email.headers.subscription">
 									<div class="container pr">
 										<div class="unread" v-if="!email.headers.seen"></div>
@@ -528,7 +528,8 @@
 							</div>
 						</div>
 						<div class="email-body">
-
+              <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
+              <iframe style="border: none; width: 101%;" scrolling="no" frameborder="no" class="html-content" id="messageBody"></iframe>
 						</div>
 					</div>
 					<div class="secondary-email">

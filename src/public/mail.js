@@ -101,6 +101,7 @@ const modals_mixin = {
                 backdrop: true,
                 keyboard: true
             })
+
         }
     }
 }
@@ -530,6 +531,9 @@ const app = new Vue({
                     email.scheduling = email.intents && email.intents.length > 0 && email.intents[0].type == 'Event';
                 }
 
+                if (!email.verify && email.headers && email.headers['list-unsubscribe'])
+                    email.unsubscribe = email.headers['list-unsubscribe'].replace(/<|>/g, '')
+
                 if (email.html.indexOf('pixel.gif') > -1 || email.html.indexOf('track/open') > -1) email.tracker = true
 
                 email.messageId = email.headers['message-id']
@@ -829,7 +833,18 @@ const app = new Vue({
             })
             await this.updateBoards()
             this.loading = false
-        }
+        },
+        async selectFolder(email) {
+            if (email.board) {
+                if (email.board == 'Done') await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
+                else await this.IMAP.select(email.board)
+            } else await this.IMAP.select(this.currentFolder)
+        },
+        async read(email) {
+            await this.refreshKeys()
+            await this.selectFolder(email)
+            await this.IMAP.read(email.headers.id)
+        },
     }
 })
 
