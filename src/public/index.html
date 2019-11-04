@@ -106,7 +106,7 @@
 						</div>
 						<div class="col-lg-5 col-md-6 col-6 p0m">
 							<div class="search">
-								<img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
+								<img src="assets/icons/header-search.svg"><input v-model.lazy="searchQuery" type="" name="" placeholder="Search">
 							</div>
 							<div v-if="false" class="search-drop">
 								<a href="#">
@@ -226,8 +226,8 @@
 							<draggable class="draggable-emails" v-model.lazy="emails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="log">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div @click="showEmail(email)" class="email" v-for="email in emails"
-									v-if="!hideSubscriptions || !email.headers.subscription">
+								<div @click="showEmail(email)" class="email"  v-for="email in emails"
+									v-if="(!hideSubscriptions || !email.headers.subscription) && matches(email, false, searchQuery)">
 									<div class="container pr">
 										<div class="unread" v-if="!email.headers.seen"></div>
 										<div class="row" style="user-select: none;">
@@ -325,7 +325,7 @@
 								<draggable :board="board" class="draggable-emails" v-model.lazy="board.emails" group="board-emails"
 									ghost-class="ghost" drag-class="drag" @change="e => app.changeBoard(board)(e)">
 									<!-- Single Email ---------- add class 'drag' when dragged ------->
-									<div class="email" @click="showEmail(email)" v-for="email in board.emails">
+									<div class="email" @click="showEmail(email)" v-if="matches(email, false, searchQuery)" v-for="email in board.emails">
 										<div class="container pr">
 											<div class="unread" v-if="!email.headers.seen"></div>
 											<div class="row" style="user-select: none;">
@@ -410,7 +410,7 @@
 							<draggable class="draggable-emails" v-model.lazy="doneEmails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="changeDoneBoard">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div class="email" @click="showEmail(email)" v-for="email in doneEmails">
+								<div class="email" @click="showEmail(email)" v-if="matches(email, false, searchQuery)" v-for="email in doneEmails">
 									<div class="container pr" data-toggle="modal" data-target=".email1">
 										<div class="unread" v-if="!email.headers.seen"></div>
 										<div class="row" style="user-select: none;">

@@ -162,6 +162,7 @@ const app = new Vue({
         fetchingOld: false,
         lastUpdated: null,
         hideSubscriptions: true,
+        searchQuery: '',
         // Email Viewer
         activeEmail: null,
         previousThreads: [],
@@ -973,6 +974,23 @@ const app = new Vue({
             app.mailbox.boards.map(board => {
                 store.set('cache:' + app.mailbox.email + ':' + board.folder, [])
             })
+        },
+        matches(email, unreadOnly, searchTerm) {
+            return email && !email.headers.deleted && (unreadOnly ? !email.headers.seen : true) && (
+                (searchTerm && searchTerm.length > 3) ? (email.from && email.from.length > 0 && (
+                    email.from[0].name && email.from[0].name.indexOf(searchTerm) > -1
+                ) || (
+                    email.from[0].address && email.from[0].address.indexOf(searchTerm) > -1
+                )) || (
+                    email.subject && email.subject.indexOf(searchTerm) > -1
+                ) || (
+                    email.summary && email.summary.indexOf(searchTerm) > -1
+                ) || (
+                    email.text && email.text.indexOf(searchTerm) > -1
+                ) || (
+                    email.html && email.html.indexOf(searchTerm) > -1
+                ) : true
+            )
         }
     }
 })
