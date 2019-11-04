@@ -859,6 +859,7 @@ const app = new Vue({
             }
         },
         async delete(email) {
+            log("DELETING EMAIL", email)
             await this.refreshKeys()
             app.fetching = true
             const f = await this.selectFolder(email)

@@ -45,7 +45,8 @@
 					<img src="assets/img/logo.png" class="logo">
 				</div>
 				<div class="row">
-					<a href="#" class="compose" @click="showComposer"><img src="assets/icons/sidebar-edit.svg"> <span>Compose</span></a>
+					<a href="#" class="compose" @click="showComposer"><img src="assets/icons/sidebar-edit.svg">
+						<span>Compose</span></a>
 					<a href="index.html" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home</span></a>
 					<a href="sent.html"><img src="assets/icons/sidebar-send.svg"> <span>Sent</span></a>
 					<a href="starred.html"><img src="assets/icons/sidebar-star.svg" class="off-star">
@@ -106,7 +107,8 @@
 						</div>
 						<div class="col-lg-5 col-md-6 col-6 p0m">
 							<div class="search">
-								<img src="assets/icons/header-search.svg"><input v-model.lazy="searchQuery" type="" name="" placeholder="Search">
+								<img src="assets/icons/header-search.svg"><input v-model.lazy="searchQuery" type=""
+									name="" placeholder="Search">
 							</div>
 							<div v-if="false" class="search-drop">
 								<a href="#">
@@ -226,13 +228,14 @@
 							<draggable class="draggable-emails" v-model.lazy="emails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="log">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div class="email"  v-for="email in emails"
+								<div class="email" v-for="email in emails"
 									v-if="(!hideSubscriptions || !email.headers.subscription) && matches(email, false, searchQuery)">
 									<div class="container pr">
 										<div class="unread" v-if="!email.headers.seen"></div>
 										<div class="row" style="user-select: none;">
 											<div class="col-8 p0" style="display: inline-flex;">
-												<h2 class="sender" @click="showEmail(email)">{{email.from[0].name || email.from[0].address}}</h2>
+												<h2 class="sender" @click="showEmail(email)">
+													{{email.from[0].name || email.from[0].address}}</h2>
 												<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 													title="Attachment">
 												<img src="assets/icons/badges-tracker.svg" v-if="email.tracker">
@@ -248,8 +251,7 @@
 											</div>
 											<p class="subject">{{email.subject}}</p>
 											<p class="body">{{email.summaryText || email.text}}</p>
-											<h2 class="action"
-												@click="doScheduling(email)"
+											<h2 class="action" @click="doScheduling(email)"
 												v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
 												<img src="assets/icons/email-schedule.svg">
 												Schedule
@@ -283,8 +285,8 @@
 					</div>
 					<!-- END Inbox Board ----------------------------------->
 
-					<draggable style="display: inline-flex" class="draggable-boards" v-model.lazy="mailbox.boards" group="boards" draggable=".board"
-						ghost-class="ghost-board">
+					<draggable style="display: inline-flex" class="draggable-boards" v-model.lazy="mailbox.boards"
+						group="boards" draggable=".board" ghost-class="ghost-board">
 
 						<!-- Regular Board Template ----------------------->
 						<div class="board" v-for="board in mailbox.boards">
@@ -323,15 +325,18 @@
 								</div>
 							</div>
 							<div class="board-body" :board="board">
-								<draggable :board="board" class="draggable-emails" v-model.lazy="board.emails" group="board-emails"
-									ghost-class="ghost" drag-class="drag" @change="e => app.changeBoard(board)(e)">
+								<draggable :board="board" class="draggable-emails" v-model.lazy="board.emails"
+									group="board-emails" ghost-class="ghost" drag-class="drag"
+									@change="e => app.changeBoard(board)(e)">
 									<!-- Single Email ---------- add class 'drag' when dragged ------->
-									<div class="email" v-if="matches(email, false, searchQuery)" v-for="email in board.emails">
+									<div class="email" v-if="matches(email, false, searchQuery)"
+										v-for="email in board.emails">
 										<div class="container pr">
 											<div class="unread" v-if="!email.headers.seen"></div>
 											<div class="row" style="user-select: none;">
 												<div class="col-8 p0" style="display: inline-flex;">
-													<h2 class="sender" @click="showEmail(email)">{{email.from[0].name || email.from[0].address}}
+													<h2 class="sender" @click="showEmail(email)">
+														{{email.from[0].name || email.from[0].address}}
 													</h2>
 													<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 														title="Attachment">
@@ -348,14 +353,12 @@
 												<p class="subject">{{email.subject}}</p>
 												<p class="body">{{email.summaryText || email.text}}</p>
 											</div>
-					  <h2 class="action"
-					  @click="doScheduling(email)"
-
+											<h2 class="action" @click="doScheduling(email)"
 												v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
 												<img src="assets/icons/email-schedule.svg">
 												Schedule
-                      </h2>
-                    </div>
+											</h2>
+										</div>
 										<div class="delete" @click="delete(email)">
 											<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 										</div>
@@ -413,12 +416,14 @@
 							<draggable class="draggable-emails" v-model.lazy="doneEmails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="changeDoneBoard">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div class="email" v-if="matches(email, false, searchQuery)" v-for="email in doneEmails">
+								<div class="email" v-if="matches(email, false, searchQuery)"
+									v-for="email in doneEmails">
 									<div class="container pr" data-toggle="modal" data-target=".email1">
 										<div class="unread" v-if="!email.headers.seen"></div>
 										<div class="row" style="user-select: none;">
 											<div class="col-8 p0" style="display: inline-flex;">
-												<h2 class="sender" @click="showEmail(email)">{{email.from[0].name || email.from[0].address}}</h2>
+												<h2 class="sender" @click="showEmail(email)">
+													{{email.from[0].name || email.from[0].address}}</h2>
 												<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 													title="Attachment">
 												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
@@ -434,16 +439,14 @@
 											<p class="subject">{{email.subject}}</p>
 											<p class="body">{{email.summaryText || email.text}}</p>
 										</div>
-					<h2 class="action"
-					@click="doScheduling(email)"
-
-                      v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
-                      <img src="assets/icons/email-schedule.svg">
-                      Schedule
-                    </h2>
+										<h2 class="action" @click="doScheduling(email)"
+											v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
+											<img src="assets/icons/email-schedule.svg">
+											Schedule
+										</h2>
 									</div>
 									<div class="delete" @click="delete(email)">
-										<a href="#" ><img src="assets/icons/options-trash.svg" width="20"></a>
+										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 									</div>
 								</div>
 								<!-- END Single Email -------------------------------------------------------------->
@@ -470,8 +473,7 @@
       'modal': true,
       'fade': true,
       'email1': true
-    }" id="emailViewer" tabindex="-1" role="dialog" aria-labelledby="single-email-view"
-			aria-hidden="true">
+    }" id="emailViewer" tabindex="-1" role="dialog" aria-labelledby="single-email-view" aria-hidden="true">
 			<div v-if="viewEmail" class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
@@ -480,12 +482,16 @@
 								<div class="row">
 									<div class="col-8 p0"
 										style="display: inline-flex;    display: inline-flex;height: 22px;">
-										<h2 class="sender">{{viewEmail.from[0].name}}&lt;{{viewEmail.from[0].address}}&gt;</h2>
-										<img v-if="email.attachments && email.attachments.length > 0" src="assets/icons/badges-attach.svg" title="Attachment">
+										<h2 class="sender">
+											{{viewEmail.from[0].name}}&lt;{{viewEmail.from[0].address}}&gt;</h2>
+										<img v-if="email.attachments && email.attachments.length > 0"
+											src="assets/icons/badges-attach.svg" title="Attachment">
 										<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
 										<img v-if="email.calendar" src="assets/icons/badges-event.svg">
-										<img v-if="email.bcc" src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-										<img v-if="email.starred" src="assets/icons/badges-star.svg" title="Starred/Flagged">
+										<img v-if="email.bcc" src="assets/icons/badges-bcc.svg"
+											title="You've been BCC'ed">
+										<img v-if="email.starred" src="assets/icons/badges-star.svg"
+											title="Starred/Flagged">
 										<div v-if="false" class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
 									</div>
 									<div class="col-4 p0">
@@ -498,17 +504,22 @@
 							</div>
 
 							<div class="options-qa" v-if="viewEmail.scheduling">
-								<h2 class="action" 												@click="doScheduling(viewEmail)"
-								><img src="assets/icons/email-schedule.svg">Schedule</h2>
+								<h2 class="action" @click="doScheduling(viewEmail)"><img
+										src="assets/icons/email-schedule.svg">Schedule</h2>
 							</div>
 							<div class="options-qa" v-if="viewEmail.verify && !viewEmail.scheduling">
-                <a target="_blank" :href="viewEmail.verify"><h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2></a>
-              </div>
-              <div class="options-qa" v-if="viewEmail.subscribe && !viewEmail.verify && !viewEmail.scheduling">
-                <a target="_blank" :href="viewEmail.subscribe"><h2 class="action"><img src="assets/icons/email-schedule.svg">Subscribe</h2></a>
-              </div>
+								<a target="_blank" :href="viewEmail.verify">
+									<h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
+								</a>
+							</div>
+							<div class="options-qa"
+								v-if="viewEmail.subscribe && !viewEmail.verify && !viewEmail.scheduling">
+								<a target="_blank" :href="viewEmail.subscribe">
+									<h2 class="action"><img src="assets/icons/email-schedule.svg">Subscribe</h2>
+								</a>
+							</div>
 
-              <div class="options">
+							<div class="options">
 								<div class="container">
 									<div class="row">
 										<div class="col-2 p0">
@@ -527,15 +538,17 @@
 											<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
 										</div>
 										<div class="col-2 p0">
-											<a href="#"  @click="delete(mail)"><img src="assets/icons/options-trash.svg" width="20"></a>
+											<a href="#" @click="delete(viewEmail)"><img
+													src="assets/icons/options-trash.svg" width="20"></a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="email-body">
-              <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
-              <iframe style="border: none; width: 101%;" scrolling="no" frameborder="no" class="html-content" id="messageBody"></iframe>
+							<!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
+							<iframe style="border: none; width: 101%;" scrolling="no" frameborder="no"
+								class="html-content" id="messageBody"></iframe>
 						</div>
 					</div>
 					<div class="secondary-email">
@@ -560,11 +573,14 @@
 									<div class="row" style="user-select: none;">
 										<div class="col-8 p0" style="display: inline-flex;">
 											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
-											<img v-if="email.attachments" src="assets/icons/badges-attach.svg" title="Attachment">
+											<img v-if="email.attachments" src="assets/icons/badges-attach.svg"
+												title="Attachment">
 											<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
 											<img v-if="email.calendar" src="assets/icons/badges-event.svg">
-											<img v-if="email.bcc" src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-											<img v-if="email.starred" src="assets/icons/badges-star.svg" title="Starred/Flagged">
+											<img v-if="email.bcc" src="assets/icons/badges-bcc.svg"
+												title="You've been BCC'ed">
+											<img v-if="email.starred" src="assets/icons/badges-star.svg"
+												title="Starred/Flagged">
 										</div>
 										<div class="col-4 p0">
 											<div class="time">{{toNiceDateTime(email.date)}}</div>
@@ -610,11 +626,14 @@
 							<img class="add-2" :src="manualMailImage">
 						</a>
 						<input class="add-2" type="email" v-model.lazy="manualEmail" name="" placeholder="Email">
-						<input class="add-2" type="password" v-model.lazy="manualPassword" name="" placeholder="Password">
+						<input class="add-2" type="password" v-model.lazy="manualPassword" name=""
+							placeholder="Password">
 						<input class="add-2" type="url" v-model.lazy="manualIMAPHost" name="" placeholder="IMAP Host">
-						<input class="add-2" type="number" v-model.lazy="manualIMAPPort" name="" placeholder="IMAP Port">
+						<input class="add-2" type="number" v-model.lazy="manualIMAPPort" name=""
+							placeholder="IMAP Port">
 						<input class="add-2" type="url" v-model.lazy="manualSMTPHost" name="" placeholder="SMTP Host">
-						<input class="add-2" type="number" v-model.lazy="manualSMTPPort" name="" placeholder="SMTP Port">
+						<input class="add-2" type="number" v-model.lazy="manualSMTPPort" name=""
+							placeholder="SMTP Port">
 						<br class="add-2">
 						<a @click="addManualMailbox" href="#" class="add-2 blue">Add mailbox</a>
 						<br class="add-2">
@@ -637,8 +656,7 @@
       'show': addBoardModal,
       'new-board': true,
       'step2': addBoardModalStep2
-    }" tabindex="-1" role="dialog" aria-labelledby="add-board-view"
-			aria-hidden="true">
+    }" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-reg">
@@ -699,19 +717,23 @@
 		<!-- END Invite View --------------------------------------->
 
 		<!-- Compose View --------------------------------------->
-		<div id="composer" class="modal fade compose-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-			aria-hidden="true">
+		<div id="composer" class="modal fade compose-modal" tabindex="-1" role="dialog"
+			aria-labelledby="myLargeModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
-						<div @input="composerAutocompleteTo" id="composerTo" class="compose-to" contenteditable="true" data-text="To:">
+						<div @input="composerAutocompleteTo" id="composerTo" class="compose-to" contenteditable="true"
+							data-text="To:">
 						</div>
 						<div class="drop-field" v-if="composerToAutocompletions.length > 0">
-							<div @click="composerMakeTo(autocompletion)" v-for="autocompletion in composerToAutocompletions">{{autocompletion}}</div>
+							<div @click="composerMakeTo(autocompletion)"
+								v-for="autocompletion in composerToAutocompletions">{{autocompletion}}</div>
 						</div>
-						<div @input="composerAutocompleteCC" id="composerCC" class="compose-cc" contenteditable="true" data-text="CC:">
+						<div @input="composerAutocompleteCC" id="composerCC" class="compose-cc" contenteditable="true"
+							data-text="CC:">
 						</div>
-						<div @input="composerAutocompleteBCC" id="composerBCC" class="compose-bcc" contenteditable="true" data-text="BCC:">
+						<div @input="composerAutocompleteBCC" id="composerBCC" class="compose-bcc"
+							contenteditable="true" data-text="BCC:">
 						</div>
 						<div id="composerSubject" class="compose-subject" contenteditable="true" data-text="Subject:">
 						</div>
@@ -721,16 +743,14 @@
 							<div class="compose-attach" type="file" name="myFile"><img
 									src="assets/icons/compose-attach.svg" width="16"></div>
 						</div>
-						<div id="composerMsg"
-							class="compose-body" contenteditable="true" data-text="Your email here."
-							@keydown.tab="composerAutocompleteMsg"
-							@keyup.enter="composerMsgBuffer = ''"
+						<div id="composerMsg" class="compose-body" contenteditable="true" data-text="Your email here."
+							@keydown.tab="composerAutocompleteMsg" @keyup.enter="composerMsgBuffer = ''"
 							@keyup.delete="composerMsgBuffer = composerMsgBuffer.slice(0, composerMsgBuffer.length - 1)"
-							@keypress="composerTypeahead"
-						>
+							@keypress="composerTypeahead">
 						</div>
 						<div class="compose-bottom">
-							<a @click="sendComposedEmail" href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
+							<a @click="sendComposedEmail" href="#"><img src="assets/icons/compose-send.svg" width="20">
+								<span>Send</span></a>
 						</div>
 					</div>
 					<div class="secondary-email">
@@ -756,12 +776,12 @@
 		</div>
 		<!-- END IMAP Error Toast-->
 
-    <!-- Send Email Error Toast -->
+		<!-- Send Email Error Toast -->
 		<div v-if="composerErrorModal" class="aiko-toast" style="background-color: red">
-      <h1>We were unable to send your message due to network issues.</h1>
-    </div>
-    <!-- END Send Email Error Toast-->
-  
+			<h1>We were unable to send your message due to network issues.</h1>
+		</div>
+		<!-- END Send Email Error Toast-->
+
 
 		<!-- Toast -->
 		<div v-if="false" class="aiko-toast">
