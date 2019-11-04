@@ -733,6 +733,8 @@ hr {
     line-height: 18px;
     cursor: pointer;
     margin-bottom: 2px;
+        margin-left: 135px !important;
+    white-space: nowrap;
     /* position: absolute; */
     /* float: right; */
     /* right: 0; */
