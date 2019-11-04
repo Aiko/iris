@@ -62,6 +62,8 @@ const phrases = [
     "I'd love to meet up",
     "I'd love to talk to you",
     "Cordialement",
+    "Merci",
+    "Bonjour",
     "Let's meet up"
 ].map(t => t.toLowerCase())
 
