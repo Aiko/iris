@@ -675,15 +675,13 @@ hr {
 	transition: .2s;
 }
 .delete img{
-	margin-top: 40px !important;
-	height: 15px !important;
-	margin-left: 0 !important;
-	transition: .2s;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-45%);
+    margin-left: -10px !important;
 }
 .delete:hover img{
-	margin-top: 35px !important;
 	height: 25px !important;
-	margin-left: 0 !important;
 	transition: .2s;
 }
 .sender{
