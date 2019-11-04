@@ -950,7 +950,7 @@ const app = new Vue({
             setTimeout(() => {
                 app.composerMakeTo(email.from[0].address)
                 $('#composerSubject').text('Re: ' + email.subject)
-                $('#composerMsg').html(mail)
+                $('#composerMsg').html(mail.replace('\n', '<br><br>'))
             }, 200)
         },
         async setEmailContent(iframeID, email) {
