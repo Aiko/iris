@@ -249,6 +249,7 @@
 											<p class="subject">{{email.subject}}</p>
 											<p class="body">{{email.summaryText || email.text}}</p>
 											<h2 class="action"
+												@click="doScheduling(email)"
 												v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
 												<img src="assets/icons/email-schedule.svg">
 												Schedule
@@ -347,7 +348,9 @@
 												<p class="subject">{{email.subject}}</p>
 												<p class="body">{{email.summaryText || email.text}}</p>
 											</div>
-                      <h2 class="action"
+					  <h2 class="action"
+					  @click="doScheduling(email)"
+
 												v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
 												<img src="assets/icons/email-schedule.svg">
 												Schedule
@@ -431,7 +434,9 @@
 											<p class="subject">{{email.subject}}</p>
 											<p class="body">{{email.summaryText || email.text}}</p>
 										</div>
-                    <h2 class="action"
+					<h2 class="action"
+					@click="doScheduling(email)"
+
                       v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
                       <img src="assets/icons/email-schedule.svg">
                       Schedule
@@ -493,7 +498,8 @@
 							</div>
 
 							<div class="options-qa" v-if="viewEmail.scheduling">
-								<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+								<h2 class="action" 												@click="doScheduling(viewEmail)"
+								><img src="assets/icons/email-schedule.svg">Schedule</h2>
 							</div>
 							<div class="options-qa" v-if="viewEmail.verify && !viewEmail.scheduling">
                 <a target="_blank" :href="viewEmail.verify"><h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2></a>
