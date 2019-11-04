@@ -226,7 +226,7 @@
 							<draggable class="draggable-emails" v-model.lazy="emails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="log">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div :key="email.headers.id" class="email" v-for="email in emails"
+								<div @click="showEmail(email)" :key="email.headers.id" class="email" v-for="email in emails"
 									v-if="!hideSubscriptions || !email.headers.subscription">
 									<div class="container pr">
 										<div class="unread" v-if="!email.headers.seen"></div>
@@ -236,7 +236,7 @@
 												<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 													title="Attachment">
 												<img src="assets/icons/badges-tracker.svg" v-if="email.tracker">
-												<img src="assets/icons/badges-event.svg" v-if="false">
+												<img src="assets/icons/badges-event.svg" v-if="email.calendar">
 												<!-- Show this if it has an ICS -->
 												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc"
 													title="You've been BCC'ed">
@@ -325,7 +325,7 @@
 								<draggable :board="board" class="draggable-emails" v-model.lazy="board.emails" group="board-emails"
 									ghost-class="ghost" drag-class="drag" @change="e => app.changeBoard(board)(e)">
 									<!-- Single Email ---------- add class 'drag' when dragged ------->
-									<div class="email" v-for="email in board.emails">
+									<div class="email" @click="showEmail(email)" v-for="email in board.emails">
 										<div class="container pr">
 											<div class="unread" v-if="!email.headers.seen"></div>
 											<div class="row" style="user-select: none;">
@@ -335,7 +335,7 @@
 													<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 														title="Attachment">
 													<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
-													<img src="assets/icons/badges-event.svg" v-if="email.event">
+													<img src="assets/icons/badges-event.svg" v-if="email.calendar">
 													<img src="assets/icons/badges-bcc.svg" v-if="email.bcc"
 														title="You've been BCC'ed">
 													<img src="assets/icons/badges-star.svg" v-if="email.headers.starred"
@@ -347,9 +347,12 @@
 												<p class="subject">{{email.subject}}</p>
 												<p class="body">{{email.summaryText || email.text}}</p>
 											</div>
-											<!-- Action Button , might user other system for height mgmt
-												<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
-										</div>
+                      <h2 class="action"
+												v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
+												<img src="assets/icons/email-schedule.svg">
+												Schedule
+                      </h2>
+                    </div>
 										<div class="delete">
 											<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 										</div>
@@ -407,7 +410,7 @@
 							<draggable class="draggable-emails" v-model.lazy="doneEmails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="changeDoneBoard">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div class="email" v-for="email in doneEmails">
+								<div class="email" @click="showEmail(email)" v-for="email in doneEmails">
 									<div class="container pr" data-toggle="modal" data-target=".email1">
 										<div class="unread" v-if="!email.headers.seen"></div>
 										<div class="row" style="user-select: none;">
@@ -416,7 +419,7 @@
 												<img src="assets/icons/badges-attach.svg" v-if="email.attachments"
 													title="Attachment">
 												<img src="assets/icons/badges-tracker.svg" v-if="email.trackers">
-												<img src="assets/icons/badges-event.svg" v-if="email.event">
+												<img src="assets/icons/badges-event.svg" v-if="email.calendar">
 												<img src="assets/icons/badges-bcc.svg" v-if="email.bcc"
 													title="You've been BCC'ed">
 												<img src="assets/icons/badges-star.svg" v-if="email.headers.starred"
@@ -428,8 +431,11 @@
 											<p class="subject">{{email.subject}}</p>
 											<p class="body">{{email.summaryText || email.text}}</p>
 										</div>
-										<!-- Action Button , might user other system for height mgmt
-											<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2> -->
+                    <h2 class="action"
+                      v-if="email.intents && email.intents.length > 0 && email.intents[0].type == 'Event'">
+                      <img src="assets/icons/email-schedule.svg">
+                      Schedule
+                    </h2>
 									</div>
 									<div class="delete">
 										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
@@ -458,9 +464,8 @@
 		<div :class="{
       'modal': true,
       'fade': true,
-      'show': showEmailView,
       'email1': true
-    }" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+    }" id="emailViewer" tabindex="-1" role="dialog" aria-labelledby="single-email-view"
 			aria-hidden="true">
 			<div v-if="viewEmail" class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -473,26 +478,31 @@
 										<h2 class="sender">{{viewEmail.from[0].name || viewEmail.from[0].address}}</h2>
 										<img v-if="email.attachments && email.attachments.length > 0" src="assets/icons/badges-attach.svg" title="Attachment">
 										<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
-										<img v-if="" src="assets/icons/badges-event.svg">
-										<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-										<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-										<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
+										<img v-if="email.calendar" src="assets/icons/badges-event.svg">
+										<img v-if="email.bcc" src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+										<img v-if="email.starred" src="assets/icons/badges-star.svg" title="Starred/Flagged">
+										<div v-if="false" class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
 									</div>
 									<div class="col-4 p0">
-										<div class="time">Yesterday at 10:10PM</div>
+										<div class="time">{{toNiceDateTime(viewEmail.date)}}</div>
 									</div>
 								</div>
 								<div class="row">
-									<h3>Meeting Request</h3>
+									<h3>{{viewEmail.subject}}</h3>
 								</div>
 							</div>
 
-							<div class="options-qa">
+							<div class="options-qa" v-if="viewEmail.scheduling">
 								<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
 							</div>
+							<div class="options-qa" v-if="viewEmail.verify && !viewEmail.scheduling">
+                <a target="_blank" :href="viewEmail.verify"><h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2></a>
+              </div>
+              <div class="options-qa" v-if="viewEmail.subscribe && !viewEmail.verify && !viewEmail.scheduling">
+                <a target="_blank" :href="viewEmail.subscribe"><h2 class="action"><img src="assets/icons/email-schedule.svg">Subscribe</h2></a>
+              </div>
 
-
-							<div class="options">
+              <div class="options">
 								<div class="container">
 									<div class="row">
 										<div class="col-2 p0">

@@ -96,7 +96,11 @@ const modals_mixin = {
         showEmail(email) {
             this.viewEmail = email
             this.showEmailView = true
-            $('.email1').modal('show')
+            $('#emailViewer').modal({
+                show: true,
+                backdrop: true,
+                keyboard: true
+            })
         }
     }
 }
@@ -485,6 +489,17 @@ const app = new Vue({
                     email = JSON.parse(JSON.stringify(email))
                 }
 
+                const parser = new DOMParser()
+                const links = Array.from(parser.parseFromString(email.html, 'text/html').getElementsByName('a'))
+                const verifyLinks = links.filter(link => link.innerText.match(/((verify|confirm).*email)/gi) || (link.href && link.href.match(/verify/gi))).map(link => link.href).filter(_ => _)
+                const subLinks = links.filter(link => link.innerText.match(/(\bsubscribe .*)/gi)).map(link => link.href).filter(_ => _)
+                if (verifyLinks.length > 0) email.verify = verifyLinks[0]
+                if (subLinks.length > 0) email.subscribe = subLinks[0]
+                if (email.attachments) {
+                    const cal_invites = email.attachments.map(attachment => attachment.filename).filter(fn => fn.endsWith('.ics'))
+                    if (cal_invites.length > 0) email.calendar = true
+                }
+
                 const replyStarts = /On \w+ [0-9]+, [0-9]+, at [0-9]+:[0-9]+ \w+, \w+ <.*> wrote:/g.exec(email.text)
                 email.messageText = email.text.slice(0, replyStarts ? replyStarts.index : email.text.length + 2)
                 const sentences = email.messageText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT').split(/AIKO-SPLIT/g)
@@ -511,6 +526,8 @@ const app = new Vue({
                     )).filter(_=>_).sort((a, b) => b.confidence - a.confidence)
 
                     if (email.intents.filter(e => e.time && e.confidence > 0.5).length > 0) email.intents = email.intents.filter(e => e.time)[0]
+
+                    email.scheduling = email.intents && email.intents.length > 0 && email.intents[0].type == 'Event';
                 }
 
                 if (email.html.indexOf('pixel.gif') > -1 || email.html.indexOf('track/open') > -1) email.tracker = true
