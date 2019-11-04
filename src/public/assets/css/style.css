@@ -869,6 +869,14 @@ hr {
 	font-weight: 600;
 	margin-top: 7px;
 }
+.main-email .action{
+	    position: absolute;
+    right: 0;
+    border: 0;
+    margin-top: -22px;
+    font-size: 14px !important;
+    padding: 5px 11px 5px 4px;
+}
 .email-head img{
 	height: 18px;
 	margin-left: 5px;
