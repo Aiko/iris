@@ -540,32 +540,31 @@
 										<img src="assets/img/user.png">
 									</div>
 									<div class="col-9 p0 spe">
-										<h1>Ruben from Aiko</h1>
-										<h2>ruben@helloaiko.com</h2>
+										<h1>{{viewEmail.from[0].name || viewEmail.from[0].address}}</h1>
+										<h2>{{viewEmail.from[0].address}}</h2>
 									</div>
 								</div>
 							</div>
 						</div>
-						<h3>Previous threads with Ruben</h3>
+						<h3>Previous threads with {{viewEmail.from[0].name || viewEmail.from[0].address}}</h3>
 						<div class="previous-threads">
-							<div class="email">
+							<div class="email" v-for="email in previousThreads">
 								<div class="container pr">
 									<div class="unread"></div>
 									<div class="row" style="user-select: none;">
 										<div class="col-8 p0" style="display: inline-flex;">
-											<h2 class="sender">Ruben from Aiko</h2>
-											<img src="assets/icons/badges-attach.svg" title="Attachment">
-											<img src="assets/icons/badges-tracker.svg">
-											<img src="assets/icons/badges-event.svg">
-											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+											<h2 class="sender">{{email.from[0].name || email.from[0].address}}</h2>
+											<img v-if="email.attachments" src="assets/icons/badges-attach.svg" title="Attachment">
+											<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
+											<img v-if="email.calendar" src="assets/icons/badges-event.svg">
+											<img v-if="email.bcc" src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+											<img v-if="email.starred" src="assets/icons/badges-star.svg" title="Starred/Flagged">
 										</div>
 										<div class="col-4 p0">
-											<div class="time">10:10PM</div>
+											<div class="time">{{toNiceDateTime(email.date)}}</div>
 										</div>
-										<p class="subject">Can you meet at 6PM at Starbucks?</p>
-										<p class="body">Can you meet at 6PM at Starbucks at the corner of Bryant Park,
-											how's that? I'll bring the presentation and the deck.</p>
+										<p class="subject">{{email.subject}}</p>
+										<p class="body">{{email.summary || email.text || email.html}}</p>
 									</div>
 								</div>
 							</div>

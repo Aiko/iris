@@ -161,7 +161,10 @@ const app = new Vue({
         fetching: false,
         fetchingOld: false,
         lastUpdated: null,
-        hideSubscriptions: true
+        hideSubscriptions: true,
+        // Email Viewer
+        activeEmail: null,
+        previousThreads: [],
     },
     computed: {
 
@@ -908,6 +911,14 @@ const app = new Vue({
                 }
             }
             await this.setEmailContent('messageBody', email)
+            this.activeEmail = email
+            this.previousThreads = this.emails.filter(e => {
+                if (e.from[0].address == email.from[0].address) return true;
+                if (e.to && e.to.filter(to => to.address == email.from[0].address).length > 0) return true;
+                if (e.cc && e.cc.filter(to => to.address == email.from[0].address).length > 0) return true;
+                if (e.bcc && e.bcc.filter(to => to.address == email.from[0].address).length > 0) return true;
+                return false;
+            })
         },
         async setEmailContent(iframeID, email) {
             const el = document.getElementById(iframeID)
