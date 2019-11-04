@@ -848,8 +848,13 @@ const app = new Vue({
         async resetCache() {
             log("OH DEAR GOD WHAT HAVE YOU DONE")
             store.set('cache:' + app.mailbox.email + ':' + app.currentFolder, [])
+            this.resetBoardsCache()
+        },
+        async resetBoardsCache() {
             store.set('cache:' + app.mailbox.email + ':' + 'donemail', [])
-            store.set('cache:' + app.mailbox.email + ':' + app.mailbox.boards[0]._id, [])
+            app.mailbox.boards.map(board => {
+                store.set('cache:' + app.mailbox.email + ':' + board.folder, [])
+            })
         }
     }
 })
