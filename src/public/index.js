@@ -13,6 +13,100 @@ const {
     Mailman
 } = remote.require('./app.js')
 
+const templates = [{
+    "text": "{GREETING} {TO},\n{DATE} {LOCATION} works for me,\nI'll see you then!\n\nBest,\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nI am free {DATE},\nlooking forward to it,\n\nBest,\n\n{FROM}",
+    "location": false,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nThanks for reaching out,\n{DATE} sounds good,\n\nLooking forward to it,\n\nBest,\n{FROM}",
+    "location": false,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nAbsolutely, {DATE} works for me,\nI'll see you then,\n\nBest,\n{FROM}",
+    "location": false,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\n{DATE} is better for me,\n\nThank you,\n{FROM}",
+    "location": false,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nHow about {DATE}?\n\nBest,\n{FROM}",
+    "location": false,
+    "date": true,
+    changedTIme: true
+}, {
+    "text": "Great, {DATE} it is then!\nLooking forward to it,\n{FROM}",
+    "location": false,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nPerfect, so I'll meet you {DATE} at {LOCATION}\n\nSee you then,\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nThank you for letting me know,\nI'll be there,\n\n{FROM}",
+    "location": false,
+    "date": false
+}, {
+    "text": "Great,\n\nCount me in,\nI'll see you then,\n\n{FROM}",
+    "location": false,
+    "date": false
+}, {
+    "text": "Sounds good,\nI'd rather do {DATE}. What time works best for you?\n\n{FROM}",
+    "location": false,
+    "date": false,
+    changedTime: true
+}, {
+    "text": "{DATE} would be better,\nThank you!\n\n{FROM}",
+    "location": false,
+    "date": true,
+    changedTime: true
+}, {
+    "text": "That's perfect,\nI will let you know,\n\nThank you,\n\n{FROM}",
+    "location": false,
+    "date": false
+}, {
+    "text": "Ok great,\nLet me know if you get any other updates on this,\nThank you,\n\n{FROM}",
+    "location": false,
+    "date": false
+}, {
+    "text": "{GREETING} {TO},\n\nI can meet at {LOCATION} {DATE},\nLooking forward to speaking with you,\n\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n{LOCATION} works for me,\nI'll see you there {DATE},\n\nBest,\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "Great,\nI'll meet you at {LOCATION} at {DATE},\nSee you then,\n\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "Sounds good,\nI'll be at {LOCATION} {DATE},\nLooking forward to it,\n\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\n{DATE} is perfect,\nI'll see you {LOCATION},\n\nBest,\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\n{DATE} works for me,\nI'll see you {LOCATION},\n\nBest,\n{FROM}",
+    "location": true,
+    "date": true
+}, {
+    "text": "{GREETING} {TO},\n\nThanks for letting me know about {SUBJECT}, I will definitely attend. {DATE} - see you there!\n\nCheers,\n{FROM}"
+}, {
+    "text": "{GREETING} {TO},\n\nSounds like a plan! Let's lock in, {SUBJECT} - {DATE}.\n\nBest,\n{FROM}"
+}, {
+    "text": "{GREETING} {TO},\n\nI'd love to make it for {SUBJECT} but unfortunately I'll be busy at that time. Is there any chance we could do {DATE} instead?\n\nPlease let me know and I will make the necessary arrangements.\n\nBest,\n{FROM}",
+    changedTime: true
+}, {
+    "text": "{GREETING} {TO},\n\nThanks for reaching out.\n\n> {CONTEXT}\n\nThat sounds great! {SUBJECT} {DATE} - let's lock in on that.\n\nBest,\n{FROM}"
+}]
+
 const phrases = [
     "long time no talk",
     "long time no see",

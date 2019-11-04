@@ -504,7 +504,7 @@ const app = new Vue({
                 if (verifyLinks.length > 0) email.verify = verifyLinks[0]
                 if (subLinks.length > 0) email.subscribe = subLinks[0]
                 if (email.attachments) {
-                    const cal_invites = email.attachments.map(attachment => attachment.fileName).filter(fn => fn.endsWith('.ics'))
+                    const cal_invites = email.attachments.map(attachment => attachment.fileName).filter(fn => fn && fn.endsWith('.ics'))
                     if (cal_invites.length > 0) email.calendar = true
                 }
 
@@ -920,6 +920,38 @@ const app = new Vue({
                 if (e.bcc && e.bcc.filter(to => to.address == email.from[0].address).length > 0) return true;
                 return false;
             })
+        },
+        async doScheduling(email) {
+            this.showComposer();
+            const eventData = email.intents[0]
+            if (eventData.time) {
+                const friendlyTime = eventData.friendlyTime
+                let template = ''
+                if (eventData.subject) {
+                    template = templates.filter(t => !t.changedTime && !t.location && t.text.indexOf('{DATE}') > -1 && t.text.indexOf('{SUBJECT}') > -1).random().text
+                } else {
+                    template = templates.filter(t => !t.changedTime && !t.location && t.text.indexOf('{DATE}') > -1 && t.text.indexOf('{SUBJECT}') < 0).random().text
+                }
+                template = template.replace('{DATE}', friendlyTime || 'sometime')
+            } else {
+                if (eventData.subject) {
+                    template = `{GREETING} {TO},\n\nFor {SUBJECT}, how about {DATE}?\n\nBest,\n{FROM}`
+                }
+                else {
+                    template = '{GREETING} {TO},\n\n\nBest,\n{FROM}'
+                }
+            }
+            const mail = template
+                .replace('{FROM}', this.name)
+                .replace('{TO}', email.from[0].name)
+                .replace('{SUBJECT}', eventData.subject || 'the meeting')
+                .replace('{CONTEXT}', eventData.context)
+                .replace('{GREETING}', 'Hi')
+            setTimeout(() => {
+                app.composerMakeTo(email.from[0].address)
+                $('#composerSubject').text('Re: ' + email.subject)
+                $('#composerMsg').html(mail)
+            }, 200)
         },
         async setEmailContent(iframeID, email) {
             const el = document.getElementById(iframeID)

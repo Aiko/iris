@@ -97,6 +97,10 @@ Array.prototype.last = function () {
     return this.tail(1)[0]
 }
 
+Array.prototype.random = function () {
+    return this[Math.floor(Math.random() * this.length)]
+}
+
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1)
 }

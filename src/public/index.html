@@ -700,9 +700,9 @@
 					<div class="main-email">
 						<div @input="composerAutocompleteTo" id="composerTo" class="compose-to" contenteditable="true" data-text="To:">
 						</div>
-            <div class="drop-field" v-if="composerToAutocompletions.length > 0">
-              <div @click="composerMakeTo(autocompletion)" v-for="autocompletion in composerToAutocompletions">{{autocompletion}}</div>
-            </div>
+						<div class="drop-field" v-if="composerToAutocompletions.length > 0">
+							<div @click="composerMakeTo(autocompletion)" v-for="autocompletion in composerToAutocompletions">{{autocompletion}}</div>
+						</div>
 						<div @input="composerAutocompleteCC" id="composerCC" class="compose-cc" contenteditable="true" data-text="CC:">
 						</div>
 						<div @input="composerAutocompleteBCC" id="composerBCC" class="compose-bcc" contenteditable="true" data-text="BCC:">
@@ -715,13 +715,13 @@
 							<div class="compose-attach" type="file" name="myFile"><img
 									src="assets/icons/compose-attach.svg" width="16"></div>
 						</div>
-            <div id="composerMsg"
-              class="compose-body" contenteditable="true" data-text="Your email here."
-              @keydown.tab="composerAutocompleteMsg"
-              @keyup.enter="composerMsgBuffer = ''"
-              @keyup.delete="composerMsgBuffer = composerMsgBuffer.slice(0, composerMsgBuffer.length - 1)"
-              @keypress="composerTypeahead"
-            >
+						<div id="composerMsg"
+							class="compose-body" contenteditable="true" data-text="Your email here."
+							@keydown.tab="composerAutocompleteMsg"
+							@keyup.enter="composerMsgBuffer = ''"
+							@keyup.delete="composerMsgBuffer = composerMsgBuffer.slice(0, composerMsgBuffer.length - 1)"
+							@keypress="composerTypeahead"
+						>
 						</div>
 						<div class="compose-bottom">
 							<a @click="sendComposedEmail" href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
