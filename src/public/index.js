@@ -219,6 +219,7 @@ const kanban_mixin = {
                 })()
                 added.element.board = null
             }
+            this.unreadCount = this.emails.filter(email => !email.headers.seen).length
             return true
         },
         changeBoard(board) {
@@ -250,6 +251,7 @@ const kanban_mixin = {
                     }
                     added.element.board = board.folder
                 }
+                board.unreadCount = board.emails.filter(email => !email.headers.seen).length
                 return true
             }
         },

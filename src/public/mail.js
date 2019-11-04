@@ -152,6 +152,7 @@ const app = new Vue({
         currentFolder: '',
         // Inbox Management
         emails: [],
+        unreadCount: 0,
         doneEmails: [],
         existingIds: [],
         boardIds: new Set(),
@@ -321,9 +322,11 @@ const app = new Vue({
             } else {
                 // restore cache
                 this.emails = store.get('cache:' + this.mailbox.email + ':' + this.currentFolder, [])
+                this.unreadCount = this.emails.filter(email => !email.headers.seen).length
                 this.mailbox.boards = this.mailbox.boards.map(board => {
                     board.emails = store.get('cache:' + this.mailbox.email + ':' + board.folder, [])
                     board.emails.map(e => this.boardIds.add(e.headers['message-id']))
+                    board.unreadCount = board.emails.filter(email => !email.headers.seen).length
                     return board
                 })
                 this.doneEmails = store.get('cache:' + this.mailbox.email + ':' + 'donemail', [])
@@ -619,6 +622,7 @@ const app = new Vue({
                         this.existingIds.sort((a, b) => b - a)
                     }
                 }
+                this.unreadCount = this.emails.filter(email => !email.headers.seen).length
                 console.timeEnd("Updating app.")
 
                 console.time("Updating Kanban emails.")
@@ -665,6 +669,7 @@ const app = new Vue({
                         console.time("Updating renderer.")
                         this.mailbox.boards[i].emails.unshift(...boardEmails)
                         boardEmails.map(e => this.boardIds.add(e.headers['message-id']))
+                        this.mailbox.boards[i].unreadCount = this.mailbox.boards[i].emails.filter(email => !email.headers.seen).length
                         console.timeEnd("Updating renderer.")
                         console.time("Caching board emails.")
                         const to_cache = this.mailbox.boards[i].emails.slice(0, 100)
