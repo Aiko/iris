@@ -167,13 +167,36 @@ const unescapeHTML = (
             return str
         }
     }
-)()
+)();
+
+function insertElementAtCursor(el) {
+    var sel, range, html;
+    if (window.getSelection) {
+        sel = window.getSelection();
+        if (sel.getRangeAt && sel.rangeCount) {
+            range = sel.getRangeAt(0);
+            range.deleteContents();
+            range.insertNode( el );
+        }
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().text = el.innerText;
+    } else {
+        console.error("Error inserting element")
+    }
+}
 
 const HTML2Text = html => {
     html = html.replace(/<style[^>]*>([^<]|\n|\r\n)*<\/style>/gi, '')
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
     return doc.body.innerText.trim().replace(/( |\n)+/g, ' ')
+}
+
+const HTML2Element = html => {
+    const template = document.createElement('template')
+    html = html.trim() // Never return a text node of whitespace as the result
+    template.innerHTML = html
+    return template.content.firstChild
 }
 
 const ObjectID2Date = _id => {

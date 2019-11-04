@@ -6,24 +6,21 @@ const store = new Store()
 const GOAuth2 = require('./src/js/goauth')
 const MSAuth = require('./src/js/msoauth')
 const Mailbox = require('./src/js/email')
+const Mailman = require('./src/js/sendmail')
 
 const platform = process.platform;
 let win;
 
-let cache_queue_items = []
-let cache_queue_name = ''
+let cacheQueue = []
 
 const queueCache = async (name, emails) => {
-  cache_queue_items = emails
-  cache_queue_name = name
+  cacheQueue.push({name, emails})
 }
 
-setInterval(async () => {
-  if (cache_queue_name) {
-    store.set(cache_queue_name, cache_queue_items)
-    cache_queue_name = ''
-    cache_queue_items = []
-  }
+setInterval(() => {
+  if (cacheQueue.length == 0) return;
+  const { name, emails } = cacheQueue.pop()
+  store.set(name, emails)
 }, 5000)
 
 const GOAuth = GOAuth2(
@@ -43,7 +40,8 @@ const init = () => {
     frame: false,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: './src/public/assets/img/icon.png'
   })
   win.maximize()
   win.show()
@@ -76,4 +74,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, MSOauth, queueCache }
+module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, MSOauth, queueCache, Mailman }

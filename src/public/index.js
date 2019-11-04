@@ -9,8 +9,60 @@ const {
     getWin,
     GOAuth,
     MSOauth,
-    queueCache
+    queueCache,
+    Mailman
 } = remote.require('./app.js')
+
+const phrases = [
+    "long time no talk",
+    "long time no see",
+    "how are you?",
+    "how's everything?",
+    "thanks for reaching out",
+    "thank you for reaching out",
+    "thanks for letting me know",
+    "thank you for letting me know",
+    "what's up?",
+    "I won't be able to make it.",
+    "sounds good to me",
+    "looks good to me",
+    "sounds like a plan",
+    "great, sounds good",
+    "great, that works with me",
+    "I enjoyed our talk",
+    "thanks for meeting with us",
+    "thanks for all the help",
+    "thanks for getting in touch",
+    "hope all is well",
+    "how was your week?",
+    "how was your weekend?",
+    "many thanks",
+    "really excited to hear back from you",
+    "looking forward to it",
+    "looking forward to hearing back from you",
+    "thank you for sending it over",
+    "would love to connect",
+    "apologies for getting back to you so late",
+    "I'll be there",
+    "let me know",
+    "let me know if this works for you",
+    "let me know if you need more information",
+    "no worries",
+    "I'll send it over shortly",
+    "I'll send them over shortly",
+    "working on it",
+    "I was wondering",
+    "I was wondering if",
+    "I was wondering if you",
+    "thanks for your help",
+    "best,",
+    "all the best,",
+    "baby seals are amazing",
+    "I'd love to",
+    "I'd love to meet up",
+    "I'd love to talk to you",
+    "Let's meet up"
+].map(t => t.toLowerCase())
 
 const electron_mixin = {
     computed: {
@@ -151,7 +203,77 @@ const ai_mixin = {
 
 const kanban_mixin = {
     methods: {
-
+        changeInbox(event) {
+            const { removed, added, moved } = event
+            if (removed) {
+                // inbox to board movement
+                this.boardIds.add(removed.element.headers['message-id'])
+            }
+            if (added) {
+                log("Movement from board to inbox.")
+                this.boardIds.delete(added.element.headers['message-id'])
+                (async () => {
+                    await app.IMAP.select(added.element.board)
+                    await app.IMAP.deleteMessages(added.element.headers.id)
+                })()
+                added.element.board = null
+            }
+            return true
+        },
+        changeBoard(board) {
+            return event => {
+                const { removed, added, moved } = event
+                if (added) {
+                    if (added.element.board) {
+                        log("Movement between boards.")
+                        if (added.element.board == 'Done')
+                            log(app.IMAP.moveTo(
+                                added.element.headers.id,
+                                '"[Aiko Mail (DO NOT DELETE)]/Done"',
+                                board.folder
+                            ))
+                        else
+                            log(app.IMAP.moveTo(
+                                added.element.headers.id,
+                                added.element.board,
+                                board.folder,
+                            ))
+                    }
+                    else {
+                        log("Movement from the inbox to board.")
+                        log(app.IMAP.copyTo(
+                            added.element.headers.id,
+                            app.inboxFolder,
+                            board.folder
+                        ))
+                    }
+                    added.element.board = board.folder
+                }
+                return true
+            }
+        },
+        changeDoneBoard(event) {
+            const { removed, added, moved } = event
+            if (added) {
+                if (added.element.board) {
+                    log("Movement from board to done.")
+                    log(app.IMAP.moveTo(
+                        added.element.headers.id,
+                        added.element.board,
+                        '"[Aiko Mail (DO NOT DELETE)]/Done"'
+                    ))
+                }
+                else {
+                    log("Movement from the inbox to done.")
+                    log(app.IMAP.copyTo(
+                        added.element.headers.id,
+                        app.inboxFolder,
+                        '"[Aiko Mail (DO NOT DELETE)]/Done"'
+                    ))
+                }
+                added.element.board = 'Done'
+            }
+        }
 /*
 my notes:
 
@@ -174,6 +296,159 @@ versus the 50 as it is now to prevent big freezes
 */
 
     }
+}
+
+const composer_mixin = {
+    data: {
+        composerTo: '',
+        composerToAutocompletions: [],
+        composerSendTo: [],
+        composerCC: '',
+        composerCCAutocompletions: [],
+        composerSendCC: [],
+        composerBCC: '',
+        composerBCCAutocompletions: [],
+        composerSendBCC: [],
+        composerMsgBuffer: '',
+        composerLookahead: '',
+        composerInReplyTo: null
+    },
+    methods: {
+        async composerClear() {
+            this.composerTo = ''
+            this.composerToAutocompletions = []
+            this.composerSendTo = []
+            this.composerCC = ''
+            this.composerCCAutocompletions = []
+            this.composerSendCC = []
+            this.composerBCC = ''
+            this.composerBCCAutocompletions = []
+            this.composerSendBCC = []
+            this.composerMsgBuffer = ''
+            this.composerLookahead = ''
+            this.composerInReplyTo = null
+            $('#composerTo').html('')
+            $('#composerCC').html('')
+            $('#composerBCC').html('')
+            $('#composerSubject').html('')
+            $('#composerMsg').html('')
+        },
+        async composerAutocompleteTo(e) {
+            this.composerTo = e.target.innerText.split('\n').last()
+            ;(async () => {
+                if (app.composerTo.endsWith(',')) app.composerMakeTo(app.composerTo.slice(0, app.composerTo.length - 1));
+                const contacts = Object.keys(app.mailbox.contacts || {})
+                app.composerToAutocompletions = contacts.filter(contact => contact.startsWith(app.composerTo)).slice(0, 5)
+            })();
+            return
+        },
+        async composerMakeTo(to) {
+            this.composerSendTo.push(to)
+            this.composerTo = ''
+            this.composerToAutocompletions = []
+            const tags = this.composerSendTo.map(sendTo => `<div class="tag">${sendTo}</div>`).join(' ')
+            $('#composerTo').html(tags + '<br>')
+        },
+        async composerAutocompleteCC(e) {
+            this.composerCC = e.target.innerText.split('\n').last()
+            ;(async () => {
+                if (app.composerCC.endsWith(',')) app.composerMakeCC(app.composerCC.slice(0, app.composerCC.length - 1));
+                const contacts = Object.keys(app.mailbox.contacts || {})
+                app.composerCCAutocompletions = contacts.filter(contact => contact.startsWith(app.composerCC)).slice(0, 5)
+            })();
+            return
+        },
+        async composerMakeCC(cc) {
+            this.composerSendCC.push(cc)
+            this.composerCC = ''
+            this.composerCCAutocompletions = []
+            const tags = this.composerSendCC.map(sendCC => `<div class="tag">${sendCC}</div>`).join(' ')
+            $('#composerCC').html(tags + '<br>')
+        },
+        async composerAutocompleteBCC(e) {
+            this.composerBCC = e.target.innerText.split('\n').last()
+            ;(async () => {
+                if (app.composerBCC.endsWith(',')) app.composerMakeBCC(app.composerBCC.slice(0, app.composerBCC.length - 1));
+                const contacts = Object.keys(app.mailbox.contacts || {})
+                app.composerBCCAutocompletions = contacts.filter(contact => contact.startsWith(app.composerBCC)).slice(0, 5)
+            })();
+            return
+        },
+        async composerMakeBCC(BCC) {
+            this.composerSendBCC.push(BCC)
+            this.composerBCC = ''
+            this.composerBCCAutocompletions = []
+            const tags = this.composerSendBCC.map(sendBCC => `<div class="tag">${sendBCC}</div>`).join(' ')
+            $('#composerBCC').html(tags + '<br>')
+        },
+        async composerAutocompleteMsg(e) {
+            e.preventDefault();
+            insertElementAtCursor(document.createTextNode(this.composerLookahead))
+            this.composerMsgBuffer += this.composerLookahead
+            this.composerLookahead = ''
+        },
+        async composerTypeahead(e) {
+            try {
+                const el = document.getElementById('lookahead')
+                el.parentNode.removeChild(el)
+            } catch(e) { }
+            const c = String.fromCharCode(e.keyCode)
+            if (e.keyCode == 13) return;
+            if ('.?!'.indexOf(c) > -1) {
+                this.composerMsgBuffer = ''
+                return;
+            }
+            this.composerMsgBuffer += c
+            this.composerMsgBuffer = this.composerMsgBuffer.trimStart()
+            if (this.composerMsgBuffer.length < 2) return;
+            const matches = phrases.filter(phrase => phrase.startsWith(this.composerMsgBuffer.toLowerCase()))
+            if (matches.length > 0) {
+                this.composerLookahead = matches[0].slice(this.composerMsgBuffer.length, matches[0].length)
+                const toAdd = (HTML2Element('<span id="lookahead" class="smart-compose unselectable" contenteditable="false" title="Press tab to confirm">'+this.composerLookahead+'</span>'))
+                setTimeout(() => {
+                    insertElementAtCursor(toAdd)
+                }, 100)
+            }
+            else if (c == ' ') this.composerMsgBuffer = '';
+        },
+        async composerToEmail() {
+            let content = document.getElementById('composerMsg').innerHTML.slice(0, document.getElementById('composerMsg').innerHTML.indexOf('<iframe'))
+            try {
+                content = content + '<br><br>' + document.getElementById('aiko-reply-iframe').contentWindow.document.getElementsByTagName('body')[0].innerHTML
+            }
+            catch(e) { }
+            const opts = {
+                from: `${this.name} <${this.mailbox.email}>`,
+                to: this.composerSendTo,
+                cc: this.composerSendCC,
+                bcc: this.composerSendBCC,
+                subject: document.getElementById('composerSubject').innerText,
+                generateTextFromHTML: true,
+                html: content,
+                replyTo: this.mailbox.email,
+                attachments: [/* TODO: attachments */]
+            }
+            /*
+            // TODO: ICS
+            if (this.ics) {
+                opts.icalEvent = {
+                    method: 'request',
+                    content: this.ics
+                }
+                this.ics = null
+            }
+            */
+            if (this.composerInReplyTo) {
+                const e = this.composerInReplyTo
+                if (e.headers['message-id']) opts.inReplyTo = e.headers['message-id']
+                if (e.from[0].address) opts.replyTo = e.from[0].address
+            }
+            console.log(opts)
+            this.hideComposer()
+            $('#composer').modal('hide')
+            return opts
+        }
+    },
 }
 
 // only google oauth is monkey

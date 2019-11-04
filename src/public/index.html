@@ -223,7 +223,7 @@
 							</div>
 						</div>
 						<div class="board-body" @scroll="onScroll">
-							<draggable class="draggable-emails" v-model="emails" group="board-emails"
+							<draggable class="draggable-emails" v-model.lazy="emails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="log">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
 								<div :key="email.headers.id" class="email" v-for="email in emails"
@@ -282,7 +282,7 @@
 					</div>
 					<!-- END Inbox Board ----------------------------------->
 
-					<draggable class="draggable-boards" v-model="mailbox.boards" group="boards" draggable=".board"
+					<draggable style="display: inline-flex" class="draggable-boards" v-model.lazy="mailbox.boards" group="boards" draggable=".board"
 						ghost-class="ghost-board">
 
 						<!-- Regular Board Template ----------------------->
@@ -322,7 +322,7 @@
 								</div>
 							</div>
 							<div class="board-body" :board="board">
-								<draggable :board="board" class="draggable-emails" v-model="board.emails" group="board-emails"
+								<draggable :board="board" class="draggable-emails" v-model.lazy="board.emails" group="board-emails"
 									ghost-class="ghost" drag-class="drag" @change="e => app.changeBoard(board)(e)">
 									<!-- Single Email ---------- add class 'drag' when dragged ------->
 									<div class="email" v-for="email in board.emails">
@@ -404,7 +404,7 @@
 							</div>
 						</div>
 						<div class="board-body">
-							<draggable class="draggable-emails" v-model="doneEmails" group="board-emails"
+							<draggable class="draggable-emails" v-model.lazy="doneEmails" group="board-emails"
 								ghost-class="ghost" drag-class="drag" @change="changeDoneBoard">
 								<!-- Single Email ---------- add class 'drag' when dragged ------->
 								<div class="email" v-for="email in doneEmails">
@@ -445,7 +445,7 @@
 					<!-- END Done Board Template ------------------->
 
 					<!-- Add Board ----------------------->
-					<div class="add-board" data-toggle="modal" data-target=".new-board">
+					<div class="add-board" @click="showAddBoard">
 						<img src="assets/icons/boards-add.svg">
 					</div>
 					<!-- END Add Board ------------------->
@@ -455,9 +455,14 @@
 		</div>
 
 		<!-- Single Email View --------------------------------------->
-		<div class="modal fade email1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		<div :class="{
+      'modal': true,
+      'fade': true,
+      'show': showEmailView,
+      'email1': true
+    }" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
 			aria-hidden="true">
-			<div class="modal-dialog modal-lg">
+			<div v-if="viewEmail" class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
 						<div class="email-head">
@@ -465,10 +470,10 @@
 								<div class="row">
 									<div class="col-8 p0"
 										style="display: inline-flex;    display: inline-flex;height: 22px;">
-										<h2 class="sender">Ruben from Aiko</h2>
-										<img src="assets/icons/badges-attach.svg" title="Attachment">
-										<img src="assets/icons/badges-tracker.svg">
-										<img src="assets/icons/badges-event.svg">
+										<h2 class="sender">{{viewEmail.from[0].name || viewEmail.from[0].address}}</h2>
+										<img v-if="email.attachments && email.attachments.length > 0" src="assets/icons/badges-attach.svg" title="Attachment">
+										<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
+										<img v-if="" src="assets/icons/badges-event.svg">
 										<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
 										<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
 										<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
@@ -562,12 +567,12 @@
 
 		<!-- Add Mailbox View ---------- add 'step2' class right below to show step 2 ---------------->
 		<div :class="{
-	'modal': true,
-	'fade': true,
-	'show': addMailbox,
-	'add-mailbox': true,
-	'step2': manualIMAPModal
-}" tabindex="-1" aria-labelledby="add-mailbox-view" aria-hidden="true">
+      'modal': true,
+      'fade': true,
+      'show': addMailbox,
+      'add-mailbox': true,
+      'step2': manualIMAPModal
+    }" tabindex="-1" aria-labelledby="add-mailbox-view" aria-hidden="true">
 			<div class="modal-dialog modal-md">
 				<div class="modal-content">
 					<div class="modal-reg">
@@ -588,12 +593,12 @@
 						<a href="#" class="add-2">
 							<img class="add-2" :src="manualMailImage">
 						</a>
-						<input class="add-2" type="email" v-model="manualEmail" name="" placeholder="Email">
-						<input class="add-2" type="password" v-model="manualPassword" name="" placeholder="Password">
-						<input class="add-2" type="url" v-model="manualIMAPHost" name="" placeholder="IMAP Host">
-						<input class="add-2" type="number" v-model="manualIMAPPort" name="" placeholder="IMAP Port">
-						<input class="add-2" type="url" v-model="manualSMTPHost" name="" placeholder="SMTP Host">
-						<input class="add-2" type="number" v-model="manualSMTPPort" name="" placeholder="SMTP Port">
+						<input class="add-2" type="email" v-model.lazy="manualEmail" name="" placeholder="Email">
+						<input class="add-2" type="password" v-model.lazy="manualPassword" name="" placeholder="Password">
+						<input class="add-2" type="url" v-model.lazy="manualIMAPHost" name="" placeholder="IMAP Host">
+						<input class="add-2" type="number" v-model.lazy="manualIMAPPort" name="" placeholder="IMAP Port">
+						<input class="add-2" type="url" v-model.lazy="manualSMTPHost" name="" placeholder="SMTP Host">
+						<input class="add-2" type="number" v-model.lazy="manualSMTPPort" name="" placeholder="SMTP Port">
 						<br class="add-2">
 						<a @click="addManualMailbox" href="#" class="add-2 blue">Add mailbox</a>
 						<br class="add-2">
@@ -610,7 +615,13 @@
 		<!-- END Add Mailbox View --------------------------------------->
 
 		<!-- Add Board View ---------- add 'step2' class right below to show step 2 ---------------->
-		<div class="modal fade new-board" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		<div :class="{
+      'modal': true,
+      'fade': true,
+      'show': addBoardModal,
+      'new-board': true,
+      'step2': addBoardModalStep2
+    }" tabindex="-1" role="dialog" aria-labelledby="add-board-view"
 			aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
@@ -618,10 +629,10 @@
 						<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
 						<h1>Add a board</h1>
 						<h2>Enter the board name</h2>
-						<input type="text" name="" placeholder="Board name" maxlength="10">
+						<input v-model.lazy="addBoardName" type="text" name="" placeholder="Board name" maxlength="10">
 						<p>Max 10 characters.</p>
 						<br>
-						<a href="#" class="blue">Next</a>
+						<a @click="showAddBoardStep2" href="#" class="blue">Next</a>
 						<p class="ns30"></p>
 
 						<!-- add-2 stuff --------------------------------------->
@@ -632,7 +643,7 @@
 						<p class="add-2">Automatically forward dragged emails to:</p>
 						<input class="add-2" type="email" name="" placeholder="Email">
 						<br class="add-2">
-						<a href="#" class="add-2 blue">Add board</a>
+						<a href="#" @click="addBoard" class="add-2 blue">Add board</a>
 						<p class="ns30 add-2"></p>
 					</div>
 				</div>
@@ -677,21 +688,16 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="main-email">
-						<div @input="composerAutocompleteTo" class="compose-to" contenteditable="true" placeholder="To:">
-              {{composerTo}}
+						<div @input="composerAutocompleteTo" id="composerTo" class="compose-to" contenteditable="true" data-text="To:">
 						</div>
-            <div class="drop-field">
-              <div>ruben@priansh.com</div>
-              <div>ruben@gmail.com</div>
+            <div class="drop-field" v-if="composerToAutocompletions.length > 0">
+              <div @click="composerMakeTo(autocompletion)" v-for="autocompletion in composerToAutocompletions">{{autocompletion}}</div>
             </div>
-						<div class="compose-cc" contenteditable="true" placeholder="CC:">
-
+						<div @input="composerAutocompleteCC" id="composerCC" class="compose-cc" contenteditable="true" data-text="CC:">
 						</div>
-						<div class="compose-bcc" contenteditable="true" placeholder="BCC:">
-
+						<div @input="composerAutocompleteBCC" id="composerBCC" class="compose-bcc" contenteditable="true" data-text="BCC:">
 						</div>
-						<div class="compose-subject" contenteditable="true" placeholder="Subject:">
-
+						<div id="composerSubject" class="compose-subject" contenteditable="true" data-text="Subject:">
 						</div>
 						<div class="compose-options">
 							<div class="compose-bold">B</div>
@@ -699,11 +705,16 @@
 							<div class="compose-attach" type="file" name="myFile"><img
 									src="assets/icons/compose-attach.svg" width="16"></div>
 						</div>
-						<div class="compose-body" contenteditable="true" placeholder="Subject:">
-
+            <div id="composerMsg"
+              class="compose-body" contenteditable="true" data-text="Your email here."
+              @keydown.tab="composerAutocompleteMsg"
+              @keyup.enter="composerMsgBuffer = ''"
+              @keyup.delete="composerMsgBuffer = composerMsgBuffer.slice(0, composerMsgBuffer.length - 1)"
+              @keypress="composerTypeahead"
+            >
 						</div>
 						<div class="compose-bottom">
-							<a href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
+							<a @click="sendComposedEmail" href="#"><img src="assets/icons/compose-send.svg" width="20"> <span>Send</span></a>
 						</div>
 					</div>
 					<div class="secondary-email">
@@ -728,6 +739,13 @@
 			<h1>We're having issues connecting to your mail provider.</h1>
 		</div>
 		<!-- END IMAP Error Toast-->
+
+    <!-- Send Email Error Toast -->
+		<div v-if="composerErrorModal" class="aiko-toast" style="background-color: red">
+      <h1>We were unable to send your message due to network issues.</h1>
+    </div>
+    <!-- END Send Email Error Toast-->
+  
 
 		<!-- Toast -->
 		<div v-if="false" class="aiko-toast">

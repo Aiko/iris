@@ -2,6 +2,7 @@ const modals_mixin = {
     data: {
         connectionLostModal: false,
         imapErrorModal: false,
+        composerErrorModal: false,
         addMailboxModal: false,
         manualIMAPModal: false,
         manualIMAPHost: '',
@@ -10,7 +11,13 @@ const modals_mixin = {
         manualSMTPPort: 587,
         manualEmail: '',
         manualPassword: '',
-        manualMailImage: ''
+        manualMailImage: '',
+        addBoardModal: false,
+        addBoardModalStep2: false,
+        addBoardName: '',
+        composerVisible: false,
+        showEmailView: false,
+        viewEmail: null
     },
     methods: {
         showAddMailbox() {
@@ -34,6 +41,34 @@ const modals_mixin = {
                 keyboard: false
             })
         },
+        showAddBoard() {
+            this.hideAddBoardStep2()
+            this.addBoardModal = true
+            log("Showing add board.")
+            $('.new-board').modal('show')
+        },
+        hideAddBoard() {
+            log("Hiding add board.")
+            this.addBoardModal = false
+            this.hideAddBoardStep2()
+            $('.new-board').modal('hide')
+        },
+        showAddBoardStep2() {
+            this.addBoardModalStep2 = true
+        },
+        hideAddBoardStep2() {
+            this.addBoardModalStep2 = false
+        },
+        showComposer() {
+            // block fetching
+            this.composerVisible = true
+            $('#composer').modal('show')
+        },
+        hideComposer() {
+            // unblock fetching
+            this.composerVisible = false
+            this.composerClear()
+        },
         showConnectionLost() {
             this.connectionLostModal = true
         },
@@ -46,11 +81,22 @@ const modals_mixin = {
         hideIMAPErrorModal() {
             this.imapErrorModal = false
         },
+        showComposerErrorModal() {
+            this.composerErrorModal = true
+        },
+        hideComposerErrorModal() {
+            this.composerErrorModal = false
+        },
         showManualIMAPModal() {
             this.manualIMAPModal = true
         },
         hideManualIMAPModal() {
             this.manualIMAPModal = false
+        },
+        showEmail(email) {
+            this.viewEmail = email
+            this.showEmailView = true
+            $('.email1').modal('show')
         }
     }
 }
@@ -65,7 +111,8 @@ const app = new Vue({
         msft_oauth_mixin,
         manual_mailbox_mixin,
         kanban_mixin,
-        ai_mixin
+        ai_mixin,
+        composer_mixin
     ],
     data: {
         drag: null,
@@ -102,6 +149,7 @@ const app = new Vue({
         emails: [],
         doneEmails: [],
         existingIds: [],
+        boardIds: new Set(),
         totalMessages: 0,
         unreadMessages: 0,
         fetching: false,
@@ -269,7 +317,8 @@ const app = new Vue({
                 // restore cache
                 this.emails = store.get('cache:' + this.mailbox.email + ':' + this.currentFolder, [])
                 this.mailbox.boards = this.mailbox.boards.map(board => {
-                    board.emails = store.get('cache:' + this.mailbox.email + ':' + board._id, [])
+                    board.emails = store.get('cache:' + this.mailbox.email + ':' + board.folder, [])
+                    board.emails.map(e => this.boardIds.add(e.headers['message-id']))
                     return board
                 })
                 this.doneEmails = store.get('cache:' + this.mailbox.email + ':' + 'donemail', [])
@@ -401,6 +450,11 @@ const app = new Vue({
                 await this.IMAP.createFolder(`"[Aiko Mail (DO NOT DELETE)]/Done"`)
             }
             this.folders = await this.IMAP.getFolders() // resync folders
+            this.mailbox.boards = this.mailbox.boards.map(board => {
+                board.emails = store.get('cache:' + this.mailbox.email + ':' + board.folder, [])
+                board.emails.map(e => this.boardIds.add(e.headers['message-id']))
+                return board
+            })
             log("Sync completed.")
         },
         async processEmails(emails) {
@@ -500,7 +554,7 @@ const app = new Vue({
             this.fetching = false
         },
         async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true, pushToEnd = false, fetchAnyways=false) {
-            if ((this.fetching && !fetchAnyways) || this.addMailboxModal) return;
+            if ((this.fetching && !fetchAnyways) || this.addMailboxModal || this.composerVisible || this.addBoardModal) return;
             log("Fetching emails:", this.currentFolder, start, ':', stop,
                 '\noverwrite?', overwrite, '\nsort?', sort, '\nfilterDups?', filterDups, '\ngetBoards?', getBoards
             )
@@ -509,7 +563,9 @@ const app = new Vue({
                 await this.refreshKeys()
                 const {exists, uidnext} = await this.IMAP.select(this.currentFolder)
                 if (stop == '*' && uidnext) stop = uidnext
+                console.time('Fetching emails.')
                 let emails = await this.IMAP.getEmails(start, stop)
+                console.timeEnd('Fetching emails.')
                 emails = emails.filter(email =>
                         email.headers.id &&
                         email.headers.id != '*' &&
@@ -522,6 +578,7 @@ const app = new Vue({
                 emails = await this.processEmails(emails)
                 console.timeEnd('Processing emails.')
 
+                console.time("Updating app.")
                 emails = emails.filter(email => {
                     if (this.existingIds.includes(email.headers.id)) {
                         if (overwrite) Vue.set(this.emails, this.existingIds.indexOf(email.headers.id), email)
@@ -541,7 +598,9 @@ const app = new Vue({
                         this.existingIds.sort((a, b) => b - a)
                     }
                 }
+                console.timeEnd("Updating app.")
 
+                console.time("Updating Kanban emails.")
                 if (getBoards) {
                     // have to do this synchronously in a loop like this.
                     // this is because socket can only handle sychronous series of commands :(
@@ -549,68 +608,98 @@ const app = new Vue({
                     // if we did this async it would make a race condition:
                     // e.g. select - select - fetch - fetch
                     const originalFolder = this.currentFolder
+                    console.time("Updating board emails.")
                     for (let i = 0; i < this.mailbox.boards.length; i++) {
+                        console.time("Fetching emails for one board.")
                         const boardFolder = this.mailbox.boards[i].folder
                         const {exists, uidnext} = await this.IMAP.select(boardFolder)
                         let boardEmails;
                         if (!exists) continue;
                         if (this.mailbox.boards[i].emails && this.mailbox.boards[i].emails.length > 0) {
-                            boardEmails = await this.IMAP.getEmails(this.mailbox.boards[i].emails[0].headers.id + 1, uidnext)
+                            const max_board_id = Math.max(...this.mailbox.boards[i].emails.map(email => email.needsrefresh ? 0 : email.headers.id))
+                            boardEmails = await this.IMAP.getEmails(max_board_id + 1, uidnext)
                             boardEmails = boardEmails.filter(email =>
                                     email.headers.id &&
                                     email.headers.id != '*' &&
                                     email.from &&
-                                    eval(email.headers.id) >= this.mailbox.boards[i].emails[0].headers.id + 1
+                                    eval(email.headers.id) >= max_board_id
                             )
                         }
                         else boardEmails = await this.IMAP.getEmails('1', uidnext)
                         boardEmails = boardEmails.filter(email =>
                             email.headers.id &&
                             email.headers.id != '*' &&
-                            email.from &&
-                            eval(email.headers.id) >= this.mailbox.boards[i].emails[0].headers.id + 1
+                            email.from
                         )
+                        console.timeEnd("Fetching emails for one board.")
                         // TODO: you need to enforce some sort of limit on # of emails
                         // they can put in the board. for now, the caching limits this
                         // inherently to 100. maybe more needed in future niggaboosmoocheritos
+                        console.time("Processing emails for one board.")
                         boardEmails = boardEmails.reverse()
                         boardEmails = await this.processEmails(boardEmails)
+                        boardEmails = boardEmails.map(e => {e.board = this.mailbox.boards[i].folder; return e})
                         if (!this.mailbox.boards[i].emails) this.mailbox.boards[i].emails = []
+                        console.timeEnd("Processing emails for one board.")
+                        console.time("Updating renderer.")
                         this.mailbox.boards[i].emails.unshift(...boardEmails)
-                        const to_cache = JSON.parse(JSON.stringify(this.mailbox.boards[i].emails.slice(0, 100)))
-                        queueCache('cache:' + this.mailbox.email + ':' + this.mailbox.boards[i]._id, to_cache)
+                        boardEmails.map(e => this.boardIds.add(e.headers['message-id']))
+                        console.timeEnd("Updating renderer.")
+                        console.time("Caching board emails.")
+                        const to_cache = this.mailbox.boards[i].emails.slice(0, 100)
+                        queueCache('cache:' + this.mailbox.email + ':' + this.mailbox.boards[i].folder, to_cache)
+                        console.timeEnd("Caching board emails.")
                     }
+                    console.timeEnd("Updating board emails.")
+                    console.time("Fetching Done emails.")
                     const {exists, uidnext} = await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
                     let doneEmails;
                     if (this.doneEmails && this.doneEmails.length > 0) {
-                        doneEmails = await this.IMAP.getEmails(this.doneEmails[0].headers.id + 1, uidnext)
+                        const max_done_id = Math.max(...this.doneEmails.map(doneEmail => doneEmail.needsrefresh ? 0 : doneEmail.headers.id))
+                        doneEmails = await this.IMAP.getEmails(max_done_id + 1, uidnext)
                         doneEmails = doneEmails.filter(email =>
                                 email.headers.id &&
                                 email.headers.id != '*' &&
                                 email.from &&
-                                eval(email.headers.id) >= this.doneEmails.emails[0].headers.id + 1
+                                eval(email.headers.id) >= max_done_id
                         )
                     }
                     else doneEmails = await this.IMAP.getEmails('1', uidnext)
                     doneEmails = doneEmails.filter(email =>
                         email.headers.id &&
                         email.headers.id != '*' &&
-                        email.from &&
-                        eval(email.headers.id) >= this.doneEmails.emails[0].headers.id + 1
+                        email.from
                     )
+                    console.timeEnd("Fetching Done emails.")
                     // TODO: done emails have a limit :/
+                    console.time("Processing done emails.")
                     doneEmails = doneEmails.reverse()
                     doneEmails = await this.processEmails(doneEmails)
+                    doneEmails = doneEmails.map(doneEmail => {doneEmail.board = 'Done'; return doneEmail})
+                    console.timeEnd("Processing done emails.")
                     if (!this.doneEmails) this.doneEmails = []
+                    console.time("Updating renderer.")
                     this.doneEmails.unshift(...doneEmails)
-                    const to_cache = JSON.parse(JSON.stringify(this.doneEmails.slice(0, 100)))
+                    doneEmails.map(e => this.boardIds.add(e.headers['message-id']))
+                    console.timeEnd("Updating renderer.")
+                    console.time("Caching done emails.")
+                    const to_cache = this.doneEmails.slice(0, 100)
                     queueCache('cache:' + this.mailbox.email + ':' + 'donemail', to_cache)
-                    await this.IMAP.select(originalFolder)
+                    console.timeEnd("Caching done emails.")
+                    console.time("Reselecting inbox.")
+                    this.IMAP.select(originalFolder)
+                    console.timeEnd("Reselecting inbox.")
                 }
+                console.timeEnd("Updating Kanban emails.")
 
+
+                console.time("Setting cache.")
                 // max cache is 50
-                const caching = JSON.parse(JSON.stringify(this.emails.slice(0, 50)))
+                console.time("Stringifying cache.")
+                const caching = this.emails.slice(0, 200)
+                console.timeEnd("Stringifying cache.")
                 queueCache('cache:' + this.mailbox.email + ':' + this.currentFolder, caching)
+                console.timeEnd("Setting cache.")
 
                 this.fetching = false
                 this.errorNet = 0
@@ -628,6 +717,26 @@ const app = new Vue({
             await this.refreshKeys()
             this.totalMessages = await this.IMAP.countMessages(this.currentFolder)
             await this.fetchEmails(Math.max(0, this.totalMessages - n), '*', false, true, true)
+        },
+        async sendComposedEmail() {
+            log("Sending email...")
+            await this.refreshKeys()
+            const mail = await this.composerToEmail()
+            let s;
+            if (this.gmail) {
+                s = await Mailman(mail, this.smtpHost, this.smtpPort, username=this.g_email, password='', xoauth=this.g_access_token)
+            }
+            if (this.other) {
+                s = await Mailman(mail, this.smtpHost, this.smtpPort, username=this.other_email, password=this.other_password)
+            }
+            // TODO: branches for every email provider
+            if (s.error) {
+                this.showComposerErrorModal()
+                setTimeout(() => app.hideComposerErrorModal(), 7 * 1000)
+                console.error(s)
+                return
+            }
+            console.log(s)
         },
         onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
             if (scrollTop + clientHeight >= scrollHeight - 600) {
@@ -691,19 +800,35 @@ const app = new Vue({
                 store.set('settings:' + this.other_email, {other: true})
                 await this.switchToMailbox(this.mailboxes.last(), true)
             }
+        },
+        async addBoard() {
+            const name = this.addBoardName
+            this.fetching = true
+            this.loading = true
+            this.hideAddBoard()
+            this.mailbox.boards.push({
+                emails: [],
+                name: name
+            })
+            await this.updateBoards()
+            this.loading = false
         }
     }
 })
 
 const update = async () => {
     if (app.mailbox && app.mailbox.email && !app.loading &&
-        app.isOnline && !app.fetching) {
+        app.isOnline && !app.fetching &&
+        !app.addMailboxModal && !app.addBoardModal && !app.composerVisible) {
         if (app.emails.length > 0) {
-            app.fetchEmails(app.emails[0].headers.id + 1, '*')
+            const max_id = Math.max(...app.emails.map(email => email.headers.id))
+            app.fetchEmails(max_id + 1, '*')
         } else {
-            app.fetchLatestEmails(50)
+            app.fetchLatestEmails(200)
         }
     }
 }
 
 setInterval(update, 10000)
+
+$('#composer').on('hidden.bs.modal', app.hideComposer);

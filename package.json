@@ -19,7 +19,9 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./src/public/assets/img/icon.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -51,6 +53,7 @@
     "googleapis": "^44.0.0",
     "jquery": "^3.4.1",
     "node-email": "github:Aiko/node-email",
+    "nodemailer": "^6.3.1",
     "request": "^2.88.0",
     "tslib": "^1.10.0"
   },
