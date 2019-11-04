@@ -475,7 +475,7 @@
 								<div class="row">
 									<div class="col-8 p0"
 										style="display: inline-flex;    display: inline-flex;height: 22px;">
-										<h2 class="sender">{{viewEmail.from[0].name || viewEmail.from[0].address}}</h2>
+										<h2 class="sender">{{viewEmail.from[0].name}}&lt;{{viewEmail.from[0].address}}&gt;</h2>
 										<img v-if="email.attachments && email.attachments.length > 0" src="assets/icons/badges-attach.svg" title="Attachment">
 										<img v-if="email.tracker" src="assets/icons/badges-tracker.svg">
 										<img v-if="email.calendar" src="assets/icons/badges-event.svg">

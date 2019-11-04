@@ -101,7 +101,7 @@ const modals_mixin = {
                 backdrop: true,
                 keyboard: true
             })
-
+            this.setActiveEmail(email)
         }
     }
 }
@@ -889,6 +889,63 @@ const app = new Vue({
             await this.IMAP.unstar(email.headers.id)
             await this.IMAP.select(this.currentFolder)
             app.fetching = false
+        },
+        async setActiveEmail(email) {
+            await this.read(email)
+            email.headers.seen = true
+            if (email.summary) {
+                email.boldedHtml = email.html
+                let match = []
+                let ptn = /[^\.\!\?]*[\.\!\?]/g
+                while (match = ptn.exec(email.summary)) {
+                    if (email.boldedHtml.includes(match[0]) && email.boldedHtml.indexOf(match[0]) > -1)
+                        email.boldedHtml = email.boldedHtml.slice(0, email.boldedHtml.indexOf(match[0])) + '<b title="Detected as most important sentence of the email." style="color: #fff;padding: 1px 0px 1px 0px;border-radius: 3px;display: inline;background: #4b74ff;box-shadow: 2px 0 0 #4b74ff, -3px 0 0 #4b74ff;cursor:pointer;">' + match[0] + '</b>' + email.boldedHtml.slice(email.boldedHtml.indexOf(match[0]) + match[0].length)
+                }
+            }
+            await this.setEmailContent('messageBody', email)
+        },
+        async setEmailContent(iframeID, email) {
+            const el = document.getElementById(iframeID)
+            el.style.height = '0px'
+            $('.email-body').scrollTop(0)
+            const doc = el.contentWindow.document
+            doc.open()
+            doc.clear()
+            const textToWrite = (email.boldedHtml || email.html || email.text || 'No Message')
+                .replace(/\)(\n| |\r\n)*[0-9]* OK (Success|FETCH completed)/gi, '')
+                .replace(/^\)$/gim, '')
+                .replace(/--[0-9A-z]{10,}--\)/g, '')
+                .replace(/^.*.0 Transitional\/\/EN" ".*">/gim, '')
+                .replace(/http:\/\//g, 'https://aiko-http-over-https-pnsklfmuhg.now.sh/?url=http://')
+            doc.write(textToWrite)
+            doc.close()
+            try {
+                $('#' + iframeID).load(function() {
+                    document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+                    $('.email-body').scrollTop(0)
+                })
+            } catch (e) { }
+            document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+            $('.email-body').scrollTop(0)
+            // Don't judge me. It works.
+            setTimeout(function() {
+                document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+                $('.email-body').scrollTop(0)
+            }, 100)
+            setTimeout(function() {
+                document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+                $('.email-body').scrollTop(0)
+            }, 200)
+            setTimeout(function() {
+                document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+            }, 500)
+            setTimeout(function() {
+                document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px';
+            }, 1000)
+            const links = doc.links;
+            for (let i = 0; i < links.length; i++) {
+                links[i].target = "_blank";
+            }
         },
         async resetCache() {
             log("OH DEAR GOD WHAT HAVE YOU DONE")
