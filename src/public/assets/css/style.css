@@ -879,7 +879,10 @@ hr {
 	opacity: .8;
 	transition: .2s;
 }
-
+.email-body{
+	    height: calc(100% - 50px);
+    overflow-y: scroll;
+}
 .changer{
 	height: 20px;
 	overflow: hidden;
