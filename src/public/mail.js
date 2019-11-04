@@ -497,7 +497,7 @@ const app = new Vue({
                 if (verifyLinks.length > 0) email.verify = verifyLinks[0]
                 if (subLinks.length > 0) email.subscribe = subLinks[0]
                 if (email.attachments) {
-                    const cal_invites = email.attachments.map(attachment => attachment.filename).filter(fn => fn.endsWith('.ics'))
+                    const cal_invites = email.attachments.map(attachment => attachment.fileName).filter(fn => fn.endsWith('.ics'))
                     if (cal_invites.length > 0) email.calendar = true
                 }
 
@@ -836,14 +836,59 @@ const app = new Vue({
         },
         async selectFolder(email) {
             if (email.board) {
-                if (email.board == 'Done') await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
-                else await this.IMAP.select(email.board)
-            } else await this.IMAP.select(this.currentFolder)
+                if (email.board == 'Done') {
+                    await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
+                    return '"[Aiko Mail (DO NOT DELETE)]/Done"'
+                }
+                else {
+                    await this.IMAP.select(email.board)
+                    return email.board
+                }
+            } else {
+                await this.IMAP.select(this.currentFolder)
+                return this.currentFolder
+            }
+        },
+        async delete(email) {
+            await this.refreshKeys()
+            app.fetching = true
+            const f = await this.selectFolder(email)
+            await this.IMAP.deleteMessages(email.headers.id)
+            await this.IMAP.moveTo(email.headers.id, f, this.trashFolder)
+            await this.IMAP.select(this.currentFolder)
+            app.fetching = false
         },
         async read(email) {
             await this.refreshKeys()
+            app.fetching = true
             await this.selectFolder(email)
             await this.IMAP.read(email.headers.id)
+            await this.IMAP.select(this.currentFolder)
+            app.fetching = false
+        },
+        async unread(email) {
+            await this.refreshKeys()
+            app.fetching = true
+            await this.selectFolder(email)
+            await this.IMAP.unread(email.headers.id)
+            await this.IMAP.select(this.currentFolder)
+            app.fetching = false
+        },
+        async star(email) {
+            await this.refreshKeys()
+            app.fetching = true
+            await this.selectFolder(email)
+            await this.IMAP.star(email.headers.id)
+            await this.IMAP.select(this.currentFolder)
+            app.fetching = false
+        },
+        async unstar(email) {
+            await this.refreshKeys()
+            app.fetching = true
+            await this.selectFolder(email)
+            await this.IMAP.unstar(email.headers.id)
+            await this.IMAP.select(this.currentFolder)
+            app.fetching = false
         },
         async resetCache() {
             log("OH DEAR GOD WHAT HAVE YOU DONE")
