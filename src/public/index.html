@@ -470,12 +470,12 @@
 
 		<!-- Single Email View --------------------------------------->
 		<div :class="{
-      'modal': true,
-      'fade': true,
-      'email1': true
-    }" id="emailViewer" tabindex="-1" role="dialog" aria-labelledby="single-email-view" aria-hidden="true">
-			<div v-if="viewEmail" class="modal-dialog modal-lg">
-				<div class="modal-content">
+			'modal': true,
+			'fade': true,
+			'email1': true
+		}" id="emailViewer" tabindex="-1" role="dialog" aria-labelledby="single-email-view" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div v-if="viewEmail" class="modal-content">
 					<div class="main-email">
 						<div class="email-head">
 							<div class="container">
@@ -537,9 +537,10 @@
 										<div class="col-2 p0">
 											<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
 										</div>
-										<div class="col-2 p0">
-											<a href="#" @click="delete(viewEmail)"><img
-													src="assets/icons/options-trash.svg" width="20"></a>
+										<div class="col-2 p0" @click="delete(viewEmail)">
+											<a href="#">
+												<img src="assets/icons/options-trash.svg" width="20">
+											</a>
 										</div>
 									</div>
 								</div>
@@ -556,7 +557,7 @@
 							<div class="container">
 								<div class="row">
 									<div class="col-3 p0">
-										<img src="assets/img/user.png">
+										<img :src="activeEmailAvatar">
 									</div>
 									<div class="col-9 p0 spe">
 										<h1>{{viewEmail.from[0].name || viewEmail.from[0].address}}</h1>
@@ -599,12 +600,12 @@
 
 		<!-- Add Mailbox View ---------- add 'step2' class right below to show step 2 ---------------->
 		<div :class="{
-      'modal': true,
-      'fade': true,
-      'show': addMailbox,
-      'add-mailbox': true,
-      'step2': manualIMAPModal
-    }" tabindex="-1" aria-labelledby="add-mailbox-view" aria-hidden="true">
+      		'modal': true,
+      		'fade': true,
+	   		'show': addMailbox,
+     		'add-mailbox': true,
+      		'step2': manualIMAPModal
+    	}" tabindex="-1" aria-labelledby="add-mailbox-view" aria-hidden="true">
 			<div class="modal-dialog modal-md">
 				<div class="modal-content">
 					<div class="modal-reg">
@@ -651,12 +652,12 @@
 
 		<!-- Add Board View ---------- add 'step2' class right below to show step 2 ---------------->
 		<div :class="{
-      'modal': true,
-      'fade': true,
-      'show': addBoardModal,
-      'new-board': true,
-      'step2': addBoardModalStep2
-    }" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
+			'modal': true,
+			'fade': true,
+			'show': addBoardModal,
+			'new-board': true,
+			'step2': addBoardModalStep2
+		}" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
 					<div class="modal-reg">
@@ -801,6 +802,7 @@
 	<script src="assets/js/vuep.js"></script>
 	<script src="assets/js/utils.js"></script>
 	<script src="assets/js/chrono.min.js"></script>
+	<script src="assets/js/cryptojs.min.js"></script>
 	<script src="index.js"></script>
 	<script src="mail-api.js"></script>
 	<script src="mail.js"></script>

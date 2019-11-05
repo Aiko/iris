@@ -166,6 +166,7 @@ const app = new Vue({
         // Email Viewer
         activeEmail: null,
         previousThreads: [],
+        activeEmailAvatar: 'assets/img/user.png'
     },
     computed: {
 
@@ -206,6 +207,9 @@ const app = new Vue({
             if (wasFetching && !isFetching) {
                 this.lastUpdated = new Date()
             }
+        },
+        async viewEmail(e, _) {
+            this.activeEmailAvatar = await this.getAvatar(e.from[0].address)
         },
     },
     async created() {
@@ -921,6 +925,37 @@ const app = new Vue({
                 if (e.bcc && e.bcc.filter(to => to.address == email.from[0].address).length > 0) return true;
                 return false;
             })
+        },
+        async getAvatar(email) {
+            const mailProviders = [
+                '@gmail.com',
+                '@office365.com',
+                '@live.com',
+                '@yahoo.com',
+                '@hotmail.com',
+                '@outlook.com',
+                '@me.com',
+                '@icloud.com',
+                '@aol.com',
+            ]
+            if (mailProviders.filter(provider => email.endsWith(provider)).length > 0) {
+                // if they are using mail provider,
+                // look for gravatar else use default pic
+                const hash = CryptoJS.MD5(email)
+                const s = fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
+                if (s.status == 404) {
+                    return 'assets/img/user.png';
+                }
+                return 'https://www.gravatar.com/avatar/' + hash + '?d=404'
+            } else {
+                // if custom domain, show domain logo
+                const u = 'https://logo.clearbit.com/' + email.split('@')[1]
+                const s = await fetch(u)
+                if (s.status == 404) {
+                    return 'assets/img/user.png'
+                }
+                return u
+            }
         },
         async doScheduling(email) {
             this.showComposer();
