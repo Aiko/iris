@@ -135,6 +135,9 @@ body{
 	background-color: #171615 !important;
     border: 1px solid #b0b0b0 !important;
 }
+.compose-bold, .compose-italic, .compose-attach{
+	    background: #312f2e !important;
+}
 .compose-body{
 	color: #fff !important;
 }
@@ -147,6 +150,12 @@ body{
 }
 .settings{
 	    background: #171615 !important;
+}
+.drop-field{
+	background: #171615 !important;
+}
+.drop-field div:hover{
+	color: #ddd !important;
 }
 .settings h3{
 	    color: #b0b0b0 !important;
