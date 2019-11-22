@@ -165,7 +165,7 @@ box-shadow: none !important;
 	background-color: #171615 !important;
 }
 input{
-	color: #fff;
+	color: #fff !important;
     background: #171615;
     border: none !important;
 }
