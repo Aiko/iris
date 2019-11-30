@@ -633,6 +633,9 @@ hr {
 	margin-right: 30px;
 	box-shadow: 0 15px 18px #5d5d5d94;
 }
+.settings a{
+	    color: #486fff;
+}
 .email{
 	position: relative;
 	background: #fff;
@@ -641,7 +644,7 @@ hr {
 	box-shadow: 0 1px 3px #5d5d5d29;
 	cursor: pointer;
 	margin-bottom: 10px;
-	padding: 7px 17px 4px 24px;;
+	padding: 7px 17px 4px 24px;
 }
 
 .email:hover .delete {
@@ -1191,7 +1194,7 @@ hr {
 	padding: 7px 11px 8px 7px;
 	border-radius: 50px;
 	font-weight: 500;
-	font-size: 16px;
+	font-size: 14px;
 	margin-top: 5px;
 	white-space: nowrap;
 	overflow: hidden;
