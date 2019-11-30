@@ -245,11 +245,13 @@ const app = new Vue({
                 store.set('authenticated', null)
                 return entry()
             }
+            log('Fetched new token')
             store.set('authenticated', {
                 email: email,
                 password: password,
                 token: token
             })
+            this.token = token
             profile = await this.fetchProfile()
         } else {
             log('Token still valid and will be used as active token.')
@@ -257,6 +259,7 @@ const app = new Vue({
 
         // if no mailboxes, ask user to add one
         if (this.mailboxes.length == 0) {
+            log("No mailboxes detected. Initiating onboarding flow.")
             this.forceAddMailbox()
             return (this.loading = false);
         }
@@ -319,7 +322,9 @@ const app = new Vue({
             // TODO: branches for every type of inbox we support
 
             this.fetching = true
+            log("Connecting to mail server.")
             await this.connectToMailServer()
+            log("Connected to mail server.")
             this.currentFolder = this.inboxFolder
 
             if (firstTime) {
@@ -329,6 +334,7 @@ const app = new Vue({
                 this.loading = false
             } else {
                 // restore cache
+                log("Restoring cache.")
                 this.emails = store.get('cache:' + this.mailbox.email + ':' + this.currentFolder, [])
                 this.unreadCount = this.emails.filter(email => !email.headers.seen).length
                 this.mailbox.boards = this.mailbox.boards.map(board => {
@@ -586,7 +592,7 @@ const app = new Vue({
             this.fetching = false
         },
         async fetchEmails(start, stop, overwrite = true, sort = false, filterDups = true, getBoards = true, pushToEnd = false, fetchAnyways=false) {
-            if ((this.fetching && !fetchAnyways) || this.addMailboxModal || this.composerVisible || this.addBoardModal) return;
+            if ((this.fetching && !fetchAnyways) || this.addMailboxModal || this.composerVisible || this.addBoardModal || this.showEmailView) return;
             log("Fetching emails:", this.currentFolder, start, ':', stop,
                 '\noverwrite?', overwrite, '\nsort?', sort, '\nfilterDups?', filterDups, '\ngetBoards?', getBoards
             )
@@ -611,6 +617,7 @@ const app = new Vue({
                 console.timeEnd('Processing emails.')
 
                 console.time("Updating app.")
+                console.time("Filtering through emails.")
                 emails = emails.filter(email => {
                     if (this.existingIds.includes(email.headers.id)) {
                         if (overwrite) Vue.set(this.emails, this.existingIds.indexOf(email.headers.id), email)
@@ -618,8 +625,10 @@ const app = new Vue({
                     }
                     return true;
                 })
+                console.timeEnd("Filtering through emails.")
 
                 if (emails.length > 0) {
+                    console.time("Updating app emails.")
                     if (pushToEnd)
                         this.emails.push(...emails)
                     else
@@ -629,8 +638,11 @@ const app = new Vue({
                         this.emails.sort((m1, m2) => m2.headers.id - m1.headers.id)
                         this.existingIds.sort((a, b) => b - a)
                     }
+                    console.timeEnd("Updating app emails.")
                 }
-                this.unreadCount = this.emails.filter(email => !email.headers.seen).length
+                console.time("Calculating unread count.")
+                // this.unreadCount = this.emails.filter(email => !email.headers.seen).length
+                console.timeEnd("Calculating unread count.")
                 console.timeEnd("Updating app.")
 
                 console.time("Updating Kanban emails.")
@@ -645,11 +657,15 @@ const app = new Vue({
                     for (let i = 0; i < this.mailbox.boards.length; i++) {
                         console.time("Fetching emails for one board.")
                         const boardFolder = this.mailbox.boards[i].folder
+                        console.time("Selecting board folder.")
                         const {exists, uidnext} = await this.IMAP.select(boardFolder)
+                        console.timeEnd("Selecting board folder.")
                         let boardEmails;
                         if (!exists) continue;
                         if (this.mailbox.boards[i].emails && this.mailbox.boards[i].emails.length > 0) {
+                            console.time("Calculating max board ID.")
                             const max_board_id = Math.max(...this.mailbox.boards[i].emails.map(email => email.needsrefresh ? 0 : email.headers.id))
+                            console.timeEnd("Calculating max board ID.")
                             boardEmails = await this.IMAP.getEmails(max_board_id + 1, uidnext)
                             boardEmails = boardEmails.filter(email =>
                                     email.headers.id &&
@@ -689,7 +705,9 @@ const app = new Vue({
                     const {exists, uidnext} = await this.IMAP.select('"[Aiko Mail (DO NOT DELETE)]/Done"')
                     let doneEmails;
                     if (this.doneEmails && this.doneEmails.length > 0) {
+                        console.time("Calculating max done ID.")
                         const max_done_id = Math.max(...this.doneEmails.map(doneEmail => doneEmail.needsrefresh ? 0 : doneEmail.headers.id))
+                        console.timeEnd("Calculating max done ID.")
                         doneEmails = await this.IMAP.getEmails(max_done_id + 1, uidnext)
                         doneEmails = doneEmails.filter(email =>
                                 email.headers.id &&
@@ -862,14 +880,31 @@ const app = new Vue({
                 return this.currentFolder
             }
         },
-        async delete(email) {
-            log("DELETING EMAIL", email)
+        async deleteEmail(email, inbox=false, board=null, done=false) {
+            log("DELETING EMAIL", email, inbox, board, done)
             await this.refreshKeys()
             app.fetching = true
             const f = await this.selectFolder(email)
+            log("Selected folder")
             await this.IMAP.deleteMessages(email.headers.id)
+            log("Deleting message")
             await this.IMAP.moveTo(email.headers.id, f, this.trashFolder)
+            log("Moving to trash")
             await this.IMAP.select(this.currentFolder)
+            log("Reselecting folder")
+            email.headers.deleted = true
+            if (done) {
+                console.log("Deleting from DONE")
+                this.$set(this.doneEmails, this.doneEmails.indexOf(email), email)
+            }
+            if (board) {
+                console.log("Deleting from board", board)
+                this.$set(this.mailbox.boards[this.mailbox.boards.indexOf(board)].emails, this.mailbox.boards[this.mailbox.boards.indexOf(board)].emails.indexOf(email), email)
+            }
+            if (inbox) {
+                console.log("Deleting from INBOX")
+                this.$set(this.emails, this.emails.indexOf(email), email)
+            }
             app.fetching = false
         },
         async read(email) {

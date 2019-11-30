@@ -22,9 +22,9 @@
 		<div id="fixed" class="loader-6 center-loader"><span></span></div>
 
 		<div :class="{
-		'control-bar': true,
-		'pc': platform == 'win32'
-	}" v-if="!isFullScreen">
+			'control-bar': true,
+			'pc': platform == 'win32'
+		}" v-if="!isFullScreen">
 			<p title="Close" @click="close"></p> <!-- Close ------------------------>
 			<p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
 			<p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
@@ -258,7 +258,7 @@
 											</h2>
 										</div>
 									</div>
-									<div class="delete" @click="delete(email)">
+									<div class="delete" @click="deleteEmail(email, inbox=true)">
 										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 									</div>
 								</div>
@@ -359,7 +359,7 @@
 												Schedule
 											</h2>
 										</div>
-										<div class="delete" @click="delete(email)">
+										<div class="delete" @click="deleteEmail(email, board=board)">
 											<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 										</div>
 									</div>
@@ -445,7 +445,7 @@
 											Schedule
 										</h2>
 									</div>
-									<div class="delete" @click="delete(email)">
+									<div class="delete" @click="deleteEmail(email, done=true)">
 										<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
 									</div>
 								</div>
@@ -537,7 +537,7 @@
 										<div class="col-2 p0">
 											<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
 										</div>
-										<div class="col-2 p0" @click="delete(viewEmail)">
+										<div class="col-2 p0">
 											<a href="#">
 												<img src="assets/icons/options-trash.svg" width="20">
 											</a>

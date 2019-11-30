@@ -565,6 +565,7 @@ const google_monkey_mixin = {
     },
     methods: {
         async g_fetchTokens(email) {
+            log("Fetching GMail tokens.")
             const creds = store.get('credentials:' + email)
             if (!creds.gmail) return console.error("Tried to fetch Google tokens with non-gmail.")
             this.g_email = creds.email
@@ -579,10 +580,13 @@ const google_monkey_mixin = {
             await this.g_checkTokens()
         },
         async g_checkTokens() {
+            log("Checking GMail token validity.")
             // this should be called before using any xoauth token
             const today = new Date()
             const expiry = new Date(this.g_expiry_date)
+            log("Expires", expiry)
             if (today > expiry || !this.g_access_token) {
+                log("GMail tokens have expired. Refreshing them.")
                 await this.g_updateTokens()
                 return false
             }
@@ -590,6 +594,7 @@ const google_monkey_mixin = {
         },
         async g_updateTokens() {
             const s = await GOAuth.refreshToken(this.g_refresh_token)
+            log("Refreshed tokens:", s)
             const profile = await (await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + s.id_token)).json()
             const xoauth = btoa(
                 "user=" + profile.email + "\u0001auth=Bearer " + s.access_token + "\u0001\u0001"
