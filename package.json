@@ -1,8 +1,8 @@
 {
   "name": "aiko-mail",
-  "productName": "aiko-mail",
+  "productName": "Aiko Mail",
   "version": "1.0.0",
-  "description": "Aiko Mail",
+  "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
     "start": "electron-forge start",
@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": {
-    "name": "Priansh Shah",
+    "name": "Priansh from Aiko 😜",
     "email": "priansh@helloaiko.com"
   },
   "license": "MIT",
@@ -47,18 +47,17 @@
     }
   },
   "dependencies": {
-    "electron-forge": "^5.2.4",
+    "@sentry/node": "^5.11.0",
+    "colors": "^1.4.0",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^5.0.0",
     "emailjs-imap-client": "^3.0.7",
-    "google-auth-library": "^5.5.0",
+    "google-auth-library": "^5.5.1",
     "googleapis": "^44.0.0",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "node-email": "github:Aiko/node-email",
     "nodemailer": "^6.3.1",
-    "request": "^2.88.0",
-    "tslib": "^1.10.0"
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.45",
@@ -66,6 +65,6 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.45",
     "@electron-forge/maker-squirrel": "6.0.0-beta.45",
     "@electron-forge/maker-zip": "6.0.0-beta.45",
-    "electron": "^7.1.8"
+    "electron": "7.1.2"
   }
 }

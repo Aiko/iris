@@ -18,8 +18,7 @@ ipcMain.on('hello', (s, q) => {
 const assertions = true // please don't disable assertions
 let connected = false
 let currentFolder = null
-
-const client;
+let client = null
 
 // just so that it folds up in the IDE I'm using
 if (true) {
@@ -70,8 +69,8 @@ if (true) {
 
 module["👈"] = async token => {
     if (!token) throw 'Missing token'
-    const {token} = jwt.verify(token, key) // returns {token: secret}
-    return token
+    const {secret} = jwt.verify(token, key) // returns {token: secret}
+    return secret
 }
 
 module["👉"] = (secret, d) => {

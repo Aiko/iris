@@ -1,38 +1,67 @@
-const { app, BrowserWindow } = require('electron');
-if (require('electron-squirrel-startup')) app.quit();
-const Store = require('electron-store')
-const store = new Store()
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+// Utilities
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+const Sentry = require('@sentry/node')
+Sentry.init({ dsn: 'https://a5c7cbba227443c09affd9b2aee59dea@sentry.io/1886420' })
+const Log = require('./src/js/utils/logger')
+Log.log("Starting up")
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
 
-const GOAuth2 = require('./src/js/goauth')
-const MSAuth = require('./src/js/msoauth')
-const Mailbox = require('./src/js/email')
-const Mailman = require('./src/js/sendmail')
+const { app, BrowserWindow } = require('electron')
+Log.log("Checking Electron Squirrel Startup")
+if (require('electron-squirrel-startup')) app.quit()
 
-const platform = process.platform;
-let win;
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+// Set up OAuth clients
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+const GOAuth2 = require('./src/js/oauth/goauth')
+const MSAuth = require('./src/js/oauth/msoauth')
 
-let cacheQueue = []
-
-const queueCache = async (name, emails) => {
-  cacheQueue.push({name, emails})
-}
-
-setInterval(() => {
-  if (cacheQueue.length == 0) return;
-  const { name, emails } = cacheQueue.pop()
-  store.set(name, emails)
-}, 5000)
-
+Log.log("Setting up GOauth")
 const GOAuth = GOAuth2(
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
   null, // no client secret if you registered as iOS app! wheeee
   ['https://mail.google.com']
 )
 
+Log.log("Setting up MSOauth")
 const MSOauth = MSAuth(
   '65b77461-4950-4abb-b571-ad129d9923a3'
 )
 
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+// Require mailing tools
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+Log.log("Setting up email IPC")
+require('./src/js/mail/email')
+const Mailman = require('./src/js/mail/sendmail')
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+// Set up app preferences
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+const Prefs = require('./src/js/cache/prefs')('prefs.json')
+Log.log("Loading preferences")
+Prefs.data = Prefs.load()
+/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////
+
+const platform = process.platform;
+let win;
 
 const init = () => {
   win = new BrowserWindow({
@@ -41,7 +70,8 @@ const init = () => {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: './src/public/assets/img/icon.png'
+    // TODO: icon
+    icon: './src/public-old/assets/img/icon.png'
   })
   win.maximize()
   win.show()
@@ -54,10 +84,16 @@ const init = () => {
 }
 
 const entry = () => {
-  const signed_in = store.get('authenticated', false)
+  const signed_in = Prefs.data.authenticated
 
-  if (signed_in) win.loadURL(`file://${__dirname}/src/public/index.html`)
-  else win.loadURL('https://helloaiko.com/email/signin')
+  if (signed_in) {
+    Log.log("User is signed in, loading the main app.")
+    win.loadURL(`file://${__dirname}/src/public-old/index.html`)
+  }
+  else {
+    Log.log("User is not signed in, they will go thru the signin flow.")
+    win.loadURL('https://helloaiko.com/email/signin')
+  }
 }
 
 const getWin = () => {
@@ -74,4 +110,4 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { Mailbox, store, entry, platform, getWin, GOAuth, MSOauth, queueCache, Mailman }
+module.exports = { entry, platform, getWin, GOAuth, MSOauth, Mailman }
