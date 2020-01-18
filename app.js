@@ -88,7 +88,7 @@ const entry = () => {
 
   if (signed_in) {
     Log.log("User is signed in, loading the main app.")
-    win.loadURL(`file://${__dirname}/src/public-old/index.html`)
+    win.loadURL(`file://${__dirname}/src/public/index.html`)
   }
   else {
     Log.log("User is not signed in, they will go thru the signin flow.")
@@ -110,4 +110,9 @@ app.on('activate', () => {
   if (win === null) init()
 })
 
-module.exports = { entry, platform, getWin, GOAuth, MSOauth, Mailman }
+module.exports = {
+  // Setup
+  entry, Prefs,
+  // Electron Functions
+  platform, getWin
+}
