@@ -33,12 +33,18 @@ const toast = _ => _ // TODO: change this to an actual toast
 
 window.toast = toast
 
-const log = (...args) => {
-    console.log("[App]", ...args)
-}
-const error = console.error
+const log = (...args) =>
+    console.log("%c[App]", "background-color: blue; color: white;", ...args);
+const error = (...args) =>
+    console.error("%c[App]", "background-color: red; color: white;", ...args);
+const info = (...args) =>
+    console.info("%c[App]", "background-color: yellow; color: white;", ...args);
+const success = (...args) =>
+    console.info("%c[App]", "background-color: green; color: white;", ...args);
 window.log = log
 window.error = error
+window.info = info
+window.success = success;
 
 Date.prototype.toMonth = function () {
     return [
