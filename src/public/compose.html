@@ -12,7 +12,7 @@
     <title>Compose</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link href="assets/img/favicon.png" rel="icon" type="image/png">
-    <link rel="stylesheet" href="assets/css/style.min.css"> <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css"> <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 </head>
 
 <body class="bg">
@@ -32,7 +32,7 @@
         <div class="standalone">
             <div class="main-email">
                 <div id="composerTo" class="compose-to" contenteditable="true" data-text="To"></div>
-                <div class="drop-field">
+                <div class="drop-field" style="display: none;">
                     <div>{{autocompletion}}</div>
                 </div>
                 <div id="composerCC" class="compose-cc" contenteditable="true" data-text="CC"></div>
@@ -45,7 +45,7 @@
                 </div>
                 <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
                 <div class="compose-bottom">
-                    <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span>Send</span></a>
+                    <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
                 </div>
             </div>
             <div class="secondary-email">
@@ -74,11 +74,6 @@
         <h1>We were unable to send your message due to network issues.</h1>
     </div>
     <!-- END Send Email Error Toast-->
-
-    <!-- Toast -->
-    <div class="aiko-toast">
-        <h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
-    </div>
     <!-- END Toast --------------------------------------->
 
     </div>
