@@ -358,7 +358,7 @@ a.main-action:hover{
 	transition: .2s;
 }
 .sidebar .compose:hover{
-	background: #4368f1;
+	background: #4368f1 !important;
 	color: #fff;
 	transition: .2s;
 }

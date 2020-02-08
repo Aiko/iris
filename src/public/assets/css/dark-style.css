@@ -4,17 +4,20 @@ body{
 
 .sidebar{
 	background: #312f2e !important;
-	     box-shadow: 1px 1px 5px #00000040 !important;
+	box-shadow: 1px 1px 5px #00000040 !important;
 }
 
 .header{
 	background: #312f2e !important;
-	    box-shadow: 8px 1px 5px #00000040 !important;
+	box-shadow: 8px 1px 5px #00000040 !important;
 }
-
+.main-count{
+	color: #aeaeae !important;
+	background: #000000 !important;
+}
 .board{
 	background: #312f2e !important;
-	    box-shadow: 0 15px 18px #00000094 !important; 
+	box-shadow: 0 15px 18px #00000094 !important; 
 }
 .secondary-email{
 	background: #292929 !important;
@@ -33,11 +36,11 @@ body{
 	background-color: #292929 !important;
 }
 .dropdown-item:focus, .dropdown-item:hover{
-	    color: #fff !important;
-    background-color: #312f2e !important;
+	color: #fff !important;
+	background-color: #312f2e !important;
 }
 .options-qa .action::after, .options-qa .action::before{
-	    background-color: #312f2e !important;
+	background-color: #312f2e !important;
 }
 .dropdown-item{
 	color: #fff !important;
@@ -46,16 +49,16 @@ body{
 	margin-left: 122px !important;
 }
 .options{ 
-	    background: #000000 !important;
+	background: #000000 !important;
 }
 .email-head{
-	    border-bottom: solid #171615 1px !important;
+	border-bottom: solid #171615 1px !important;
 }
 .changer:hover{
 	box-shadow: 8px 1px 5px #10101040 !important;
 }
 .main-email .action{
-	    border: 1px solid !important; 
+	border: 1px solid !important; 
 }
 .email-head h3{
 	color: #fff !important;
@@ -64,14 +67,14 @@ body{
 	background: #171615 !important;
 }
 .sidebar a:hover{
-		background: #171615 !important;
+	background: #171615 !important;
 }
 .sidebar .active{
 	background: #171615 !important;
 }
 .email{
 	background: #171615 !important;
-    border: solid 1px #000000;
+	border: solid 1px #000000;
 }
 .subject{
 	color: #fff !important;
@@ -105,24 +108,24 @@ body{
 	background-blend-mode: multiply !important;
 }
 .picker{
-	    background: #171615 !important;
-	    border: solid 1px #171615 !important;
+	background: #171615 !important;
+	border: solid 1px #171615 !important;
 }
 .control-bar h1{
-	    background: #b0b0b0 !important;
+	background: #b0b0b0 !important;
 }
 .picker:hover{
-    border: solid 1px #5d5d5d !important;
+	border: solid 1px #5d5d5d !important;
 }
 .compose-modal .secondary-email{
-	    background: #171615c2 !important;
+	background: #171615c2 !important;
 }
 .bottom{
 	border-top: 1px solid rgb(128, 128, 128) !important;
 }
 .main-email{
 	background: #312f2e !important;
-    box-shadow: 0 15px 10px #0e0e0e66 !important;
+	box-shadow: 0 15px 10px #0e0e0e66 !important;
 }
 .center-loader{
 	background: #312f2e !important;
@@ -132,8 +135,8 @@ body{
 	border-bottom: 1px solid #171615 !important;
 }
 .modal-content{
-	    background-color: #312f2e !important;
-    color: #b0b0b0 !important;
+	background-color: #312f2e !important;
+	color: #b0b0b0 !important;
 }
 .compose-cc{
 	color: #fff !important;
@@ -149,23 +152,23 @@ body{
 }
 .dropdown-menu{    
 	background-color: #171615 !important;
-    border: 1px solid #b0b0b0 !important;
+	border: 1px solid #b0b0b0 !important;
 }
 .compose-bold, .compose-italic, .compose-attach{
-	    background: #312f2e !important;
+	background: #312f2e !important;
 }
 .compose-body{
 	color: #fff !important;
 }
 .compose-options{
-	    border-bottom: none !important;
-    background: #171615 !important;
+	border-bottom: none !important;
+	background: #171615 !important;
 }
 .compose-bottom{
 	box-shadow: inset 0px 50px 16px -49px rgba(14, 14, 14, 0.75) !important;
 }
 .settings{
-	    background: #171615 !important;
+	background: #171615 !important;
 }
 .drop-field{
 	background: #171615 !important;
@@ -174,30 +177,30 @@ body{
 	color: #ddd !important;
 }
 .settings h3{
-	    color: #b0b0b0 !important;
+	color: #b0b0b0 !important;
 }
 .empty{ 
-background: #171615 !important;
--webkit-box-shadow: none !important;
-box-shadow: none !important;
+	background: #171615 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
 }
 .empty2{ 
-background: #171615 !important;
--webkit-box-shadow: none !important;
-box-shadow: none !important;
+	background: #171615 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
 }
 .archive{
 	background-color: #171615 !important;
 }
 input{
 	color: #fff !important;
-    background: #171615;
-    border: none !important;
+	background: #171615;
+	border: none !important;
 }
 .add-board{
 	background: #312f2e !important;
-    opacity: .8 !important;
+	opacity: .8 !important;
 }
 .aiko-toast{
-	    box-shadow: 0 5px 18px #00000094 !important;
+	box-shadow: 0 5px 18px #00000094 !important;
 }
