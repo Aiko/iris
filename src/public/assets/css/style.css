@@ -409,7 +409,7 @@ a.main-action:hover{
 .picker:hover{
 	height: fit-content;
 	border-radius: 4px;
-	box-shadow: 0 0px 15px #0000003b;
+	box-shadow: 0 0px 10px #0000003b;
 	transition: .2s;
 }
 .account{
@@ -458,9 +458,10 @@ a.main-action:hover{
 .notif{
 	margin-top: 15px !important;
 	position: absolute;
-	transform: translate3d(-225px, 18px, 0px) !important;
+	transform: translate3d(-269px, 18px, 0px);
 	min-width: 310px !important;
 	top: 0px;
+	box-shadow: 0 0px 10px #0000003b;
 	padding-left: 5px !important;
 	left: 0px;
 	will-change: transform;
@@ -490,7 +491,7 @@ a.main-action:hover{
 	transition: .2s;
 }
 .notif-c:hover{
-	color: #486fff !important;
+	color: #828282 !important;
 	transition: .2s;
 }
 .notif-t{
@@ -847,7 +848,7 @@ hr {
 }
 #user img{
 	margin-left: -7px;
-	margin-right: 3px;
+	margin-right: 4px;
 	width: 19px;
 }
 
