@@ -1162,12 +1162,21 @@ position: absolute;
 
 }
 
+@media all and (max-width: 800px) {
+		.long-board{
+	display: none;
+}
+}
+
 @media all and (max-width: 768px) {
 	.sidebar{
 		width: 45px !important;
 		padding: 8px 5px;
 		transition: .2s;
 	}
+		.long-board{
+	display: none;
+}
 	.bottom{
 		display: none;
 	}
