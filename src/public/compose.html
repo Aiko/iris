@@ -1,0 +1,91 @@
+<!-- AIKO AI, LLC. ALL RIGHTS RESERVED -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+    content="Aiko Mail uses artificial intelligence to automatically summarize messages, highlight important information, focus your inbox and help you write emails faster.">
+    <meta name="keywords"
+    content="ai assistant,jarvis,how to reply to an email,email summary,email assistant,ai email assistant,reply email,Aiko AI,aiko ai,ai scheduling assistant,ai meeting assistant,x.ai,x ai,what is x ai">
+    <meta name="author" content="Aiko AI">
+    <title>Compose</title>
+    <link rel="icon" href="assets/img/favicon.png" type="image/png">
+    <link href="assets/img/favicon.png" rel="icon" type="image/png">
+    <link rel="stylesheet" href="assets/css/style.min.css"> <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+</head>
+
+<body class="bg">
+    <div id="app" class="inline-flex">
+        <div class="control-bar pc" >
+            <p title="Close"></p> <!-- Close ------------------------>
+            <p title="Minimize" ></p> <!-- Minimize ------------------------>
+            <p title="Full Screen"></p> <!-- Full Screen ------------------------>
+
+            <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+            <!-- Minimize ---------->
+            <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
+            <!-- Full Screen -->
+            <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
+            <!-- Close ---------------->
+        </div>
+        <div class="standalone">
+            <div class="main-email">
+                <div id="composerTo" class="compose-to" contenteditable="true" data-text="To"></div>
+                <div class="drop-field">
+                    <div>{{autocompletion}}</div>
+                </div>
+                <div id="composerCC" class="compose-cc" contenteditable="true" data-text="CC"></div>
+                <div id="composerBCC" class="compose-bcc" contenteditable="true" data-text="BCC"></div>
+                <div id="composerSubject" class="compose-subject" contenteditable="true" data-text="Subject"></div>
+                <div class="compose-options">
+                    <div class="compose-bold">B</div>
+                    <div class="compose-italic">I</div>
+                    <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg" width="16"></div>
+                </div>
+                <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
+                <div class="compose-bottom">
+                    <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span>Send</span></a>
+                </div>
+            </div>
+            <div class="secondary-email">
+                <a href="#" class="no-calendar">
+                    <h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1>
+                </a>
+            </div>
+
+        </div>
+    <!-- END Compose View --------------------------------------->
+
+    <!-- Connection Lost Toast -->
+    <div class="aiko-toast" style="background-color: red;display: none;">
+        <h1>We're having trouble connecting to the internet.</h1>
+    </div>
+    <!-- END Connection Lost Toast-->
+
+    <!-- IMAP Error Toast -->
+    <div class="aiko-toast" style="background-color: red;display: none;">
+        <h1>We're having issues connecting to your mail provider.</h1>
+    </div>
+    <!-- END IMAP Error Toast-->
+
+    <!-- Send Email Error Toast -->
+    <div class="aiko-toast" style="background-color: red;display: none;">
+        <h1>We were unable to send your message due to network issues.</h1>
+    </div>
+    <!-- END Send Email Error Toast-->
+
+    <!-- Toast -->
+    <div class="aiko-toast">
+        <h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+    </div>
+    <!-- END Toast --------------------------------------->
+
+    </div>
+    <!-- END id="app" -------------------------------------------------->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+</body>
+
+</html>
