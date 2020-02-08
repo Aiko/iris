@@ -13,7 +13,10 @@ body{
 }
 .main-count{
 	color: #aeaeae !important;
-	background: #000000 !important;
+    background: #353535 !important;
+}
+.sidebar-collapse img{
+	filter: invert(1);
 }
 .board{
 	background: #312f2e !important;
@@ -67,10 +70,10 @@ body{
 	background: #171615 !important;
 }
 .sidebar a:hover{
-	background: #171615 !important;
+	background: #292929 !important;
 }
 .sidebar .active{
-	background: #171615 !important;
+	background: #21201e !important;
 }
 .email{
 	background: #171615 !important;
@@ -92,11 +95,11 @@ body{
 	background-color: #312f2e !important;
 }
 .search{
-	background: #171615 !important;
+	background: #21201e !important;
 	border: none !important;
 }
 .search input{
-	background: #171615 !important;
+	background: #21201e !important;
 	color: #ffffff !important;
 	padding-top: 4px !important;
 }
@@ -108,14 +111,14 @@ body{
 	background-blend-mode: multiply !important;
 }
 .picker{
-	background: #171615 !important;
+	background: #21201e !important;
 	border: solid 1px #171615 !important;
 }
 .control-bar h1{
 	background: #b0b0b0 !important;
 }
 .picker:hover{
-	border: solid 1px #5d5d5d !important;
+	border: solid 1px #171615 !important;
 }
 .compose-modal .secondary-email{
 	background: #171615c2 !important;
