@@ -614,6 +614,7 @@ a.main-action:hover{
 	margin-left: 5px;
 	font-size: 12px;
 	width: fit-content;
+	min-width: 18px;
 	font-weight: 600;
 	height: 17px;
 	border: 1px solid #486fff;
@@ -1287,26 +1288,20 @@ position: absolute;
 	width: calc(100% - 45px) !important;
 }
 
-
-
-
-
-
-
 .aiko-toast{
-	position: absolute;
-	top: 0;
-	left: 50%;
-	transform: translate(-50%, 0%);
-	z-index: 1;
-	padding: 10px 15px 3px 15px;
-	background: #486fff;
-	border-radius: 4px;
-	margin-top: 25px;
-	color: #fff;
-	max-width: 100%;
-	width: fit-content;
-	box-shadow: 0 5px 18px #83838394;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 1;
+    padding: 10px 15px 3px 15px;
+    background: #486fff;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: 20px;
+    color: #fff;
+    max-width: 100%;
+    width: fit-content;
+    box-shadow: 0 5px 5px #83838394;
 }
 .aiko-toast h1{
 	font-size: 14px;
