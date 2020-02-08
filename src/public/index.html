@@ -683,7 +683,7 @@
 				<!-- END Add Mailbox View --------------------------------------->
 
 				<!-- Add Board View ---------- add 'step2' class right below to show step 2 ---------------->
-				<div class="modal new-board" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
+				<div class="modal new-board step2" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
 					<div class="modal-dialog modal-sm">
 						<div class="modal-content">
 							<div class="modal-reg">
@@ -698,14 +698,21 @@
 
 								<!-- add-2 stuff --------------------------------------->
 								<img class="add-2" src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-								<h1 class="add-2">Add a board</h1>
-								<h2 class="add-2">Add board rules (optional)</h2>
+								<h1 class="add-2">Add board rules (optional)</h1>
 								<br class="add-2">
-								<p class="add-2">Automatically forward dragged emails to:</p>
+								<h1 class="add-2">Add received email to this board if:</h1>
+								<br class="add-2">
+								<p class="add-2">The email is from:</p>
+								<input class="add-2" type="email" name="" placeholder="Email">
+								<p class="add-2">The email is about:</p>
+								<input class="add-2" type="text" name="" placeholder="Topic">
+								<br class="add-2">
+								<h1 class="add-2">Action if email is dragged to this board:</h1>
+								<br class="add-2">
+								<p class="add-2">Forward email to:</p>
 								<input class="add-2" type="email" name="" placeholder="Email">
 								<br class="add-2">
 								<a href="#" class="add-2 blue">Add board</a>
-								<p class="ns30 add-2"></p>
 							</div>
 						</div>
 					</div>
