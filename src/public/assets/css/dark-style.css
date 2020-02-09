@@ -42,7 +42,7 @@ body{
 }
 
 .email-footer{
-	box-shadow: inset 5px 22px 14px -20px #000000db !important;
+	box-shadow: inset 5px 22px 40px -30px #000000d9;
 }
 .secondary-head h1{
 	color: #fff !important;
@@ -91,8 +91,8 @@ body{
 	background: #21201e !important;
 }
 .email{
-	background: #171615 !important;
-	border: solid 1px #000000;
+    background: #21201d !important;
+    border: solid 1px #21201d;
 }
 .subject{
 	color: #fff !important;
@@ -104,7 +104,7 @@ body{
 	background-color: #000 !important;
 }
 .count{
-	background-color: #000 !important;
+	background-color: #21201c !important;
 }
 .bottom{
 	background-color: #312f2e !important;
@@ -169,8 +169,9 @@ body{
 	border-bottom: 1px solid #171615 !important;
 }
 .dropdown-menu{    
-	background-color: #171615 !important;
-	border: 1px solid #b0b0b0 !important;
+    box-shadow: 3px 3px 7px #151515 !important;
+    border: none !important;
+    background: #21201b !important;
 }
 .compose-bold, .compose-italic, .compose-attach{
 	background: #312f2e !important;
@@ -198,17 +199,17 @@ body{
 	color: #b0b0b0 !important;
 }
 .empty{ 
-	background: #171615 !important;
+	background: #21201c !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }
 .empty2{ 
-	background: #171615 !important;
+	background: #21201c !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }
 .archive{
-	background-color: #171615 !important;
+	background-color: #21201b !important;
 }
 input{
 	color: #fff !important;
