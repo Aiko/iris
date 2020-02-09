@@ -18,6 +18,9 @@ body{
 .sidebar-collapse img{
 	filter: invert(1);
 }
+.aiko-modal{
+	background: #000000cf !important;
+}
 .settings-main{
 	background: #21201dba !important;
 }
