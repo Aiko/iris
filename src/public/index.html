@@ -656,264 +656,264 @@
 									<!-- END OTHER LAYOUT ----------------------------------->
 								</div>
 							</div>
+							
+
+							<!-- Invite Sent Toast -->
+							<div class="aiko-toast">
+								<h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
+							</div>
+							<!-- Connection Lost Toast -->
+							<div class="aiko-toast" style="background-color: red;display: none;">
+								<h1>We're having trouble connecting to the internet.</h1>
+							</div>
+							<!-- END Connection Lost Toast-->
+
+							<!-- IMAP Error Toast -->
+							<div class="aiko-toast" style="background-color: red;display: none;">
+								<h1>We're having issues connecting to your mail provider.</h1>
+							</div>
+							<!-- END IMAP Error Toast-->
+
+							<!-- Send Email Error Toast -->
+							<div class="aiko-toast" style="background-color: red;display: none;">
+								<h1>We were unable to send your message due to network issues.</h1>
+							</div>
+							<!-- END Send Email Error Toast-->
+
+
+							<!-- Toast -->
+							<div class="aiko-toast" style="display: none;">
+								<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+							</div>
+							<!-- END Toast --------------------------------------->
+
+
+							<!-- INVITE MODAL --------------------------------------->
+							<div class="aiko-modal" style="display: none;">
+								<div class="modal-dialog modal-sm">
+									<div class="modal-content">
+										<div class="modal-reg">
+											<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+											<h1>Invite a team member</h1>
+											<h2>Enter their email address</h2>
+											<input type="email" name="" placeholder="Email">
+											<p>We'll send them a link to Aiko Mail.</p>
+											<br>
+											<a href="#" class="blue">Done</a>
+											<p class="ns30"></p>
+											<br>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<!-- SINGLE EMAIL VIEW MODAL --------------------------------------->
+							<div class="aiko-modal" style="display: none;">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="main-email">
+											<div class="email-head">
+												<div class="container">
+													<div class="row">
+														<div class="col-8 p0"
+														style="display: inline-flex;    display: inline-flex;height: 22px;">
+														<h2 class="sender">
+														Ruben Touitou</h2>
+														<img src="assets/icons/badges-attach.svg" title="Attachment">
+														<img src="assets/icons/badges-tracker.svg">
+														<img src="assets/icons/badges-event.svg">
+														<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+														<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+														<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
+													</div>
+													<div class="col-4 p0">
+														<div class="time">6:18PM</div>
+													</div>
+												</div>
+												<div class="row">
+													<h3>This is a subject line</h3>
+												</div>
+											</div>
+
+											<div class="options-qa">
+												<a target="_blank">
+													<h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
+												</a>
+											</div>
+
+											<div class="options">
+												<div class="container">
+													<div class="row">
+														<div class="col-2 p0">
+															<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+														</div>
+														<div class="col-2 p0">
+															<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+														</div>
+														<div class="col-2 p0">
+															<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+														</div>
+														<div class="col-2 p0">
+															<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+														</div>
+														<div class="col-2 p0">
+															<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+														</div>
+														<div class="col-2 p0">
+															<a href="#">
+																<img src="assets/icons/options-trash.svg" width="20">
+															</a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="email-body">
+											<!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
+											<iframe style="border: none; width: 101%;" scrolling="no" frameborder="no"
+											class="html-content" id="messageBody"></iframe>
+										</div>
+									</div>
+									<div class="secondary-email">
+										<div class="secondary-head">
+											<div class="container">
+												<div class="row">
+													<div class="col-3 p0">
+														<img src="assets/img/avatar.png">
+													</div>
+													<div class="col-9 p0 spe">
+														<h1>Ruben Touitou</h1>
+														<h2>rubentouit@yahoo.fr</h2>
+													</div>
+												</div>
+											</div>
+										</div>
+										<h3>Previous threads with Ruben</h3>
+										<div class="previous-threads">
+
+
+											<div class="email thread">
+												<div class="container pr" data-toggle="modal" data-target=".email1">
+													<div class="unread"></div>
+													<div class="row" style="user-select: none;">
+														<div class="col-8 p0" style="display: inline-flex;">
+															<p class="subject">This is the subject</p>
+														</div>
+														<div class="col-4 p0">
+															<div class="time">6:18PM</div>
+														</div>
+
+														<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 
-						<!-- Invite Sent Toast -->
-						<div class="aiko-toast">
-							<h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
+
+						<!-- NEW MAILBOX MODAL --------------------------------------->
+						<div class="aiko-modal add-mailbox" style="display: none;">
+							<!-- STEP ONE --->
+							<div class="modal-dialog modal-md">
+								<div class="modal-content">
+									<div class="modal-reg" style="background: #fff !important">
+										<h1>Add a mailbox</h1>
+										<h2>Pick an email provider</h2>
+										<a href="#"><img src="assets/img/icloud.png"></a>
+										<a href="#"><img src="assets/img/exchange.png"></a>
+										<a href="#"><img src="assets/img/google.png"></a>
+										<a href="#"><img src="assets/img/yahoo.png"></a>
+										<a href="#"><img src="assets/img/aol.png"></a>
+										<a href="#"><img src="assets/img/outlook.png"></a>
+										<br>
+									</div>
+									<div class="modal-bottom" style="background: #fff !important">
+										<a href="#">Other</a>
+										<a href="#" class="add-2">Back</a>
+									</div>
+								</div>
+							</div>
+							<!-- STEP TWO --->
+							<div class="modal-dialog modal-md">
+								<div class="modal-content">
+									<div class="modal-reg" style="background: #fff !important">
+										<h1>Add a mailbox</h1>
+										<h2>Enter your credentials</h2>
+										<a href="#"><img src="assets/img/outlook.png"></a>
+										<input type="email" name="" placeholder="Email">
+										<input type="password" name="" placeholder="Password">
+										<input type="url" name="" placeholder="IMAP Host">
+										<input type="number" name="" placeholder="IMAP Port">
+										<input type="url" name="" placeholder="SMTP Host">
+										<input type="number" name="" placeholder="SMTP Port">
+										<br>
+										<a href="#" class="add-2 blue">Add mailbox</a>
+										<br><br>
+									</div>
+									<div class="modal-bottom" style="background: #fff !important">
+										<a href="#">Back</a>
+									</div>
+								</div>
+							</div>
+
 						</div>
-						<!-- Connection Lost Toast -->
-						<div class="aiko-toast" style="background-color: red;display: none;">
-							<h1>We're having trouble connecting to the internet.</h1>
-						</div>
-						<!-- END Connection Lost Toast-->
-
-						<!-- IMAP Error Toast -->
-						<div class="aiko-toast" style="background-color: red;display: none;">
-							<h1>We're having issues connecting to your mail provider.</h1>
-						</div>
-						<!-- END IMAP Error Toast-->
-
-						<!-- Send Email Error Toast -->
-						<div class="aiko-toast" style="background-color: red;display: none;">
-							<h1>We were unable to send your message due to network issues.</h1>
-						</div>
-						<!-- END Send Email Error Toast-->
 
 
-						<!-- Toast -->
-						<div class="aiko-toast" style="display: none;">
-							<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
-						</div>
-						<!-- END Toast --------------------------------------->
-
-
-						<!-- INVITE MODAL --------------------------------------->
+						<!-- NEW BOARD MODAL --------------------------------------->
 						<div class="aiko-modal" style="display: none;">
-							<div class="modal-dialog modal-sm">
+							<!-- STEP ONE --->
+							<div class="modal-dialog modal-sm">  
 								<div class="modal-content">
 									<div class="modal-reg">
-										<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-										<h1>Invite a team member</h1>
-										<h2>Enter their email address</h2>
-										<input type="email" name="" placeholder="Email">
-										<p>We'll send them a link to Aiko Mail.</p>
+										<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+										<h1>Add a board</h1>
+										<h2>Enter the board name</h2>
+										<input type="text" name="" placeholder="Board name" maxlength="10">
+										<p>Max 10 characters.</p>
 										<br>
-										<a href="#" class="blue">Done</a>
+										<a href="#" class="blue">Next</a>
 										<p class="ns30"></p>
 										<br>
 									</div>
 								</div>
 							</div>
-						</div>
-
-
-						<!-- SINGLE EMAIL VIEW MODAL --------------------------------------->
-						<div class="aiko-modal" style="display: none;">
-							<div class="modal-dialog modal-lg">
+							<!-- STEP TWO --->
+							<div class="modal-dialog modal-xl"> 
 								<div class="modal-content">
-									<div class="main-email">
-										<div class="email-head">
-											<div class="container">
-												<div class="row">
-													<div class="col-8 p0"
-													style="display: inline-flex;    display: inline-flex;height: 22px;">
-													<h2 class="sender">
-													Ruben Touitou</h2>
-													<img src="assets/icons/badges-attach.svg" title="Attachment">
-													<img src="assets/icons/badges-tracker.svg">
-													<img src="assets/icons/badges-event.svg">
-													<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-													<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-													<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-												</div>
-												<div class="col-4 p0">
-													<div class="time">6:18PM</div>
-												</div>
-											</div>
-											<div class="row">
-												<h3>This is a subject line</h3>
-											</div>
-										</div>
-
-										<div class="options-qa">
-											<a target="_blank">
-												<h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
-											</a>
-										</div>
-
-										<div class="options">
-											<div class="container">
-												<div class="row">
-													<div class="col-2 p0">
-														<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-													</div>
-													<div class="col-2 p0">
-														<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-													</div>
-													<div class="col-2 p0">
-														<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-													</div>
-													<div class="col-2 p0">
-														<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-													</div>
-													<div class="col-2 p0">
-														<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-													</div>
-													<div class="col-2 p0">
-														<a href="#">
-															<img src="assets/icons/options-trash.svg" width="20">
-														</a>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="email-body">
-										<!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
-										<iframe style="border: none; width: 101%;" scrolling="no" frameborder="no"
-										class="html-content" id="messageBody"></iframe>
-									</div>
-								</div>
-								<div class="secondary-email">
-									<div class="secondary-head">
+									<div class="modal-reg">
+										<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+										<h1>Add board rules (optional)</h1>
+										<br><br>
 										<div class="container">
 											<div class="row">
-												<div class="col-3 p0">
-													<img src="assets/img/avatar.png">
+												<div class="col-6" style="border-right: solid 1px #d3d3d3">
+													<h1><img src="assets/icons/arrow-down.svg" class="arrow" width="20">Add received email to this board if:</h1>
+													<br>
+													<p>The email is from:</p>
+													<input type="email" name="" placeholder="Email">
+													<br>
+													<p>The email is about:</p>
+													<input type="text" name="" placeholder="Topic">
 												</div>
-												<div class="col-9 p0 spe">
-													<h1>Ruben Touitou</h1>
-													<h2>rubentouit@yahoo.fr</h2>
-												</div>
-											</div>
-										</div>
-									</div>
-									<h3>Previous threads with Ruben</h3>
-									<div class="previous-threads">
-
-
-										<div class="email thread">
-											<div class="container pr" data-toggle="modal" data-target=".email1">
-												<div class="unread"></div>
-												<div class="row" style="user-select: none;">
-													<div class="col-8 p0" style="display: inline-flex;">
-														<p class="subject">This is the subject</p>
-													</div>
-													<div class="col-4 p0">
-														<div class="time">6:18PM</div>
-													</div>
-
-													<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
+												<div class="col-6">
+													<h1><img src="assets/icons/arrow-up.svg" class="arrow" width="20">Action if email is dragged to this board:</h1>
+													<br>
+													<p>Forward email to:</p>
+													<input type="email" name="" placeholder="Email">
 												</div>
 											</div>
 										</div>
+										<br><br>
+										<a href="#" class="blue">Add board</a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-
-					<!-- NEW MAILBOX MODAL --------------------------------------->
-					<div class="aiko-modal add-mailbox" style="display: none;">
-						<!-- STEP ONE --->
-						<div class="modal-dialog modal-md">
-							<div class="modal-content">
-								<div class="modal-reg" style="background: #fff !important">
-									<h1>Add a mailbox</h1>
-									<h2>Pick an email provider</h2>
-									<a href="#"><img src="assets/img/icloud.png"></a>
-									<a href="#"><img src="assets/img/exchange.png"></a>
-									<a href="#"><img src="assets/img/google.png"></a>
-									<a href="#"><img src="assets/img/yahoo.png"></a>
-									<a href="#"><img src="assets/img/aol.png"></a>
-									<a href="#"><img src="assets/img/outlook.png"></a>
-									<br>
-								</div>
-								<div class="modal-bottom" style="background: #fff !important">
-									<a href="#">Other</a>
-									<a href="#" class="add-2">Back</a>
-								</div>
-							</div>
-						</div>
-						<!-- STEP TWO --->
-						<div class="modal-dialog modal-md">
-							<div class="modal-content">
-								<div class="modal-reg" style="background: #fff !important">
-									<h1>Add a mailbox</h1>
-									<h2>Enter your credentials</h2>
-									<a href="#"><img src="assets/img/outlook.png"></a>
-									<input type="email" name="" placeholder="Email">
-									<input type="password" name="" placeholder="Password">
-									<input type="url" name="" placeholder="IMAP Host">
-									<input type="number" name="" placeholder="IMAP Port">
-									<input type="url" name="" placeholder="SMTP Host">
-									<input type="number" name="" placeholder="SMTP Port">
-									<br>
-									<a href="#" class="add-2 blue">Add mailbox</a>
-									<br><br>
-								</div>
-								<div class="modal-bottom" style="background: #fff !important">
-									<a href="#">Back</a>
-								</div>
-							</div>
-						</div>
-
-					</div>
-
-
-					<!-- NEW BOARD MODAL --------------------------------------->
-					<div class="aiko-modal" style="display: none;">
-						<!-- STEP ONE --->
-						<div class="modal-dialog modal-sm">  
-							<div class="modal-content">
-								<div class="modal-reg">
-									<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-									<h1>Add a board</h1>
-									<h2>Enter the board name</h2>
-									<input type="text" name="" placeholder="Board name" maxlength="10">
-									<p>Max 10 characters.</p>
-									<br>
-									<a href="#" class="blue">Next</a>
-									<p class="ns30"></p>
-									<br>
-								</div>
-							</div>
-						</div>
-						<!-- STEP TWO --->
-						<div class="modal-dialog modal-xl"> 
-							<div class="modal-content">
-								<div class="modal-reg">
-									<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-									<h1>Add board rules (optional)</h1>
-									<br><br>
-									<div class="container">
-										<div class="row">
-											<div class="col-6" style="border-right: solid 1px #d3d3d3">
-												<h1><img src="assets/icons/arrow-down.svg" class="arrow" width="20">Add received email to this board if:</h1>
-												<br>
-												<p>The email is from:</p>
-												<input type="email" name="" placeholder="Email">
-												<br>
-												<p>The email is about:</p>
-												<input type="text" name="" placeholder="Topic">
-											</div>
-											<div class="col-6">
-												<h1><img src="assets/icons/arrow-up.svg" class="arrow" width="20">Action if email is dragged to this board:</h1>
-												<br>
-												<p>Forward email to:</p>
-												<input type="email" name="" placeholder="Email">
-											</div>
-										</div>
-									</div>
-									<br><br>
-									<a href="#" class="blue">Add board</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
 
 				</div>
 				<script src="assets/js/jquery.min.js"></script>
