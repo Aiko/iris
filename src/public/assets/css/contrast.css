@@ -1,0 +1,26 @@
+.picker{
+	color: #333 !important;
+}
+.picker img{
+	filter: brightness(0.5);
+}
+.sidebar a{
+	color: #333 !important;
+}
+.sidebar a img{
+	filter: brightness(0.5);
+}
+.sidebar .compose{
+	    background: #fff !important;
+    border: 2px solid #333 !important;
+    padding-top: 2px !important;
+}
+.body{
+	color: #333 !important;
+}
+.time{
+	color: #333 !important;
+}
+.main-action{
+	color: #333 !important;
+}
