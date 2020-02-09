@@ -711,6 +711,12 @@ hr {
 .settings a{
 	color: #486fff;
 }
+.arrow{
+	border: 2px solid #000;
+    border-radius: 50%;
+    margin-right: 3px;
+    margin-bottom: 1px;
+}
 .email{
 	position: relative;
 	background: #fff;
@@ -720,6 +726,7 @@ hr {
 	height: 135px;
 	margin-bottom: 15px;
 	padding: 7px 17px 0px 24px;
+	transition: .2s;
 }
 
 .email:hover .delete {
@@ -826,8 +833,8 @@ hr {
 }
 .main-count{
 	float: right;
-    color: #486fff;
-    background: #d8e0ff;
+        color: #989898;
+    background: #e2e2e2;
     padding: 0px 6px;
     border-radius: 4px;
     font-size: 12px;
@@ -1012,6 +1019,10 @@ position: absolute;
 }
 .email-head img:hover{
 	opacity: .8;
+	transition: .2s;
+}
+.email:hover{
+	background: #fbfbfb;
 	transition: .2s;
 }
 .email-body{
@@ -1559,7 +1570,6 @@ unselectable {
 .modal-reg{
 	padding: 35px 10px;
 	text-align: center;
-	margin-bottom: 50px;
 }
 .add-mailbox a, .add-mailbox a:hover{
 	color: #000;

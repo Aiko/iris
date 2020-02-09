@@ -77,7 +77,7 @@
 									<div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
 									<br>
 									<div class="set">
-										<a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+										<a href="#open-compose-with-our-email-filled-in"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
 										<a href="#"><img src="assets/icons/sidebar-feedback.svg" width="30"></a>
 									</div>
 								</div>
@@ -804,7 +804,7 @@
 									<a href="#"><img src="assets/img/yahoo.png"></a>
 									<a href="#"><img src="assets/img/aol.png"></a>
 									<a href="#"><img src="assets/img/outlook.png"></a>
-									<br>
+
 
 									<!-- add-2 stuff --------------------------------------->
 									<h1 class="add-2">Add a mailbox</h1>
@@ -834,7 +834,8 @@
 					</div>
 					<!-- END Add Mailbox View --------------------------------------->
 
-					<div class="modal new" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
+					<!-- Add Board View ---------- add 'step2' class right below to show step 2 ---------------->
+					<div class="modal new-board step2" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
 						<div class="modal-dialog modal-sm">
 							<div class="modal-content">
 								<div class="modal-reg">
@@ -846,44 +847,28 @@
 									<br>
 									<a href="#" class="blue">Next</a>
 									<p class="ns30"></p>
+
+									<!-- add-2 stuff --------------------------------------->
+									<img class="add-2" src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+									<h1 class="add-2">Add board rules (optional)</h1>
+									<br class="add-2">
+									<h1 class="add-2">Add received email to this board if:</h1>
+									<br class="add-2">
+									<p class="add-2">The email is from:</p>
+									<input class="add-2" type="email" name="" placeholder="Email">
+									<p class="add-2">The email is about:</p>
+									<input class="add-2" type="text" name="" placeholder="Topic">
+									<br class="add-2">
+									<h1 class="add-2">Action if email is dragged to this board:</h1>
+									<br class="add-2">
+									<p class="add-2">Forward email to:</p>
+									<input class="add-2" type="email" name="" placeholder="Email">
+									<br class="add-2">
+									<a href="#" class="add-2 blue">Add board</a>
 								</div>
 							</div>
 						</div>
 					</div>
-
-					<div class="modal new-board" tabindex="-1" role="dialog" aria-labelledby="add-board-view" aria-hidden="true">
-						<div class="modal-dialog modal-xl">
-							<div class="modal-content">
-								<div class="modal-reg">
-									<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-									<h1>Add board rules (optional)</h1>
-									<br><br>
-									<div class="container">
-										<div class="row">
-											<div class="col-6" style="border-right: solid 1px #d3d3d3">
-												<h1><img src="assets/icons/arrow-down.svg" class="arrow" width="20">Add received email to this board if:</h1>
-												<br>
-												<p>The email is from:</p>
-												<input type="email" name="" placeholder="Email">
-												<br>
-												<p>The email is about:</p>
-												<input type="text" name="" placeholder="Topic">
-											</div>
-											<div class="col-6">
-												<h1><img src="assets/icons/arrow-up.svg" class="arrow" width="20">Action if email is dragged to this board:</h1>
-												<br>
-												<p>Forward email to:</p>
-												<input type="email" name="" placeholder="Email">
-											</div>
-										</div>
-									</div>
-									<br><br>
-									<a href="#" class="blue">Add board</a>
-								</div>
-							</div>
-						</div>
-					</div>
-
 					<!-- END Add Board View --------------------------------------->
 
 					<!-- Invite View ---------- add 'step2' class right below to show step 2 ---------------->
@@ -899,7 +884,6 @@
 								<p>We'll send them a link to Aiko Mail.</p>
 								<br>
 								<a href="#" class="blue">Done</a>
-								<br>
 								<p class="ns30"></p>
 
 								<!-- add-2 stuff --------------------------------------->
@@ -911,7 +895,6 @@
 								<input class="add-2" type="email" name="" placeholder="Email">
 								<br class="add-2">
 								<a href="#" class="add-2 blue">Done</a>
-								<br>
 								<p class="ns30 add-2"></p>
 							</div>
 						</div>
