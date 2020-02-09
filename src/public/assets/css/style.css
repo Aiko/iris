@@ -1623,15 +1623,20 @@ color: #848484;
 .settings-main .col-4{
 	text-align: right;
 }
+.settings-main .container{
+	max-width: 500px;
+    float: left;
+}
 [contenteditable]:focus {
     outline: 0px solid transparent;
 }
 
 .settings-main{
-	background: #ffffffe8;
+	background: #ffffffd6;
 	width: 100%;
 	height: 100%;
 	padding: 5vh 10vw;
+	overflow-y: scroll;
 }
 .modal-reg input{
 	width: 100%;
