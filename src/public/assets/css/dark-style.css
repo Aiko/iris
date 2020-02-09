@@ -21,6 +21,14 @@ body{
 .settings-main{
 	background: #21201dba !important;
 }
+.settings-main .row{
+	border-bottom: solid 1px #02020270 !important;
+    background: #312f2d !important;
+}
+.settings-main [contenteditable]{
+    background: #848484 !important;
+}
+
 .board{
 	background: #312f2e !important;
 	box-shadow: 0 15px 18px #00000094 !important; 
@@ -29,6 +37,7 @@ body{
 	background: #292929 !important;
 	box-shadow: 0 15px 10px #0e0e0e66 !important;
 }
+
 .email-footer{
 	box-shadow: inset 5px 22px 14px -20px #000000db !important;
 }
