@@ -18,6 +18,9 @@ body{
 .sidebar-collapse img{
 	filter: invert(1);
 }
+.settings-main{
+	background: #21201dba !important;
+}
 .board{
 	background: #312f2e !important;
 	box-shadow: 0 15px 18px #00000094 !important; 
