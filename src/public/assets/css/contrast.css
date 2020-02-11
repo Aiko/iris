@@ -119,12 +119,32 @@
 .modal-reg input{
 	border: 1px solid #000 !important;
 }
+.compose-to{
+	    border-bottom: 1px solid #000 !important;
+}
+[contenteditable=true]:empty:before{
+	content:attr(data-text);
+	color: #000;
+}
+.compose-bold{
+	background: #fff !important;
+    border: solid 1px #000 !important;
+}
+.compose-italic{
+	background: #fff !important;
+    border: solid 1px #000 !important;
+}
+.compose-attach{
+	background: #fff !important;
+    border: solid 1px #000 !important;
+}
 
-
-
-
-
-
+.no-calendar img{
+	filter: brightness(0);
+}
+.standalone .secondary-email h1{
+	    color: #000000 !important;
+}
 
 
 
