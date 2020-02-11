@@ -30,8 +30,7 @@
     font-weight: 700;
 }
 .email{
-	border: 1px solid #000000 !important;
-	box-shadow: 0 0 9px #00000000 !important;
+	box-shadow: 0px 0px 5px #000000 !important;
 }
 .email-footer{
 	box-shadow: inset 0px 21px 1px -20px #00000099 !important;
@@ -99,4 +98,38 @@
 #user .no-mobile{
 	font-weight: 600 !important;
 }
+.options{
+	background: #000 !important;
+}
+.secondary-head h2{
+	color: #000 !important;
+}
+.secondary-email h3{
+	color: #000 !important;
+}
+.email-head{
+	    border-bottom: solid #000 1px !important;
+}
+.main-email .action{
+	background: #fff !important;
+}
+.aiko-modal{
+	background: #ffffffed !important;
+}
+.modal-reg input{
+	border: 1px solid #000 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
