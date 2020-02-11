@@ -122,6 +122,12 @@
 .compose-to{
 	    border-bottom: 1px solid #000 !important;
 }
+.compose-cc{
+	    border-bottom: 1px solid #000 !important;
+}
+.compose-bcc{
+	    border-bottom: 1px solid #000 !important;
+}
 [contenteditable=true]:empty:before{
 	content:attr(data-text);
 	color: #000;
@@ -145,8 +151,19 @@
 .standalone .secondary-email h1{
 	    color: #000000 !important;
 }
-
-
+.savedraft{
+	color: #000 !important;
+	border: solid 1px #000;
+}
+.savedraft img{
+	filter: brightness(0);
+}
+.compose-options{
+	background: #000 !important;
+}
+.compose-attach img{
+	filter: brightness(0);
+}
 
 
 

@@ -1389,6 +1389,9 @@ hr {
 	content:attr(data-text);
 	color: #b0b0b0;
 }
+.no-calendar h1 img{
+	margin-bottom: 6px !important;
+}
 
 .compose-to{
 	border-bottom: 1px solid #ddd;
@@ -1457,7 +1460,7 @@ hr {
 	cursor: pointer;
 }
 .compose-attach img{
-	margin-top: -2px;
+	margin-top: -3px;
 }
 
 .compose-bottom{
@@ -2010,4 +2013,15 @@ unselectable {
 .cs-loader-inner label:nth-child(1) {
 	-webkit-animation: lol 3s 500ms infinite ease-in-out;
 	animation: lol 3s 500ms infinite ease-in-out;
+}
+
+.savedraft{
+	background: #f4f4f4 !important;
+    color: #b0b0b0 !important;
+    margin-left: 5px !important;
+    transition: .2s;
+}
+.savedraft:hover{
+	background: #efefef !important;
+	transition: .2s;
 }
