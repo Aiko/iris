@@ -1,3 +1,13 @@
+/* AIKO MAIL INC. ALL RIGHTS RESERVED. */
+
+/* Color Declarations */
+:root {
+  --main-color: #486fff;
+  --main-color-hover: #4366e8;
+}
+
+
+/* Main CSS Start */
 html, body, #app, .sidebar, .main{
 	height: 100%;
 }
@@ -28,7 +38,7 @@ hr{
 }
 .tag{
 	width: fit-content;
-	background: #486fff;
+	background: var(--main-color);
 	color: #fff;
 	padding: 0px 6px 2px 6px;
 	border-radius: 4px;
@@ -73,7 +83,7 @@ input{
 	width: 100%;
 }
 .back-to-inbox{
-	color: #486fff;
+	color: var(--main-color);
 	line-height: 35px;
 	font-size: 14px;
 	font-weight: 500;
@@ -351,14 +361,14 @@ a.main-action:hover{
 }
 
 .sidebar .compose{
-	background: #486FFF;
+	background: var(--main-color);
 	color: #fff;
 	margin-bottom: 5px;
 	margin-top: 0;
 	transition: .2s;
 }
 .sidebar .compose:hover{
-	background: #4368f1 !important;
+	background: var(--main-color-hover) !important;
 	color: #fff;
 	transition: .2s;
 }
@@ -617,13 +627,13 @@ a.main-action:hover{
 	min-width: 18px;
 	font-weight: 600;
 	height: 17px;
-	border: 1px solid #486fff;
-	color: #486fff;
+	border: 1px solid var(--main-color);
+	color: var(--main-color);
 	margin-top: 3px;
 	line-height: 10px;
 }
 .blue{
-	color: #486FFF !important;
+	color: var(--main-color) !important;
 }
 .sidebar p{
 	margin-left: 5px;
@@ -709,7 +719,7 @@ hr {
 	box-shadow: 0 0px 15px #00000024;
 }
 .settings a{
-	color: #486fff;
+	color: var(--main-color);
 }
 .arrow{
 	border: 2px solid #000;
@@ -812,7 +822,7 @@ hr {
 	border: solid 1px #e6e6e6;
 	background: #f7f7f7;
 	border-radius: 4px 4px 0px 0px;
-	color: #486fff;
+	color: var(--main-color);
 	padding: 5px 8px 5px 2px;
 	width: fit-content;
 	line-height: 18px;
@@ -888,7 +898,7 @@ hr {
 	position: relative;
 }
 .unread{
-	background: #486fff;
+	background: var(--main-color);
 	width: 10px;
 	height: 10px;
 	border-radius: 50%;
@@ -1037,7 +1047,7 @@ hr {
 	overflow: hidden;
 	margin-top: 1px;
 	min-width: 60px;
-	background: #486fff;
+	background: var(--main-color);
 	border-radius: 4px;
 	color: #fff;
 	padding: 0px 3px 4px 3px;
@@ -1052,7 +1062,7 @@ hr {
 .changer:hover{
 	height: fit-content;
 	overflow: visible;
-	background: #486fff;
+	background: var(--main-color);
 	z-index: 1;
 	border-radius: 4px;
 	color: #fff;
@@ -1344,7 +1354,7 @@ hr {
 	transform: translate(-50%, 0%);
 	z-index: 1;
 	padding: 10px 15px 3px 15px;
-	background: #486fff;
+	background: var(--main-color);
 	border-radius: 0px 0px 4px 4px;
 	margin-top: 20px;
 	color: #fff;
@@ -1357,7 +1367,7 @@ hr {
 }
 .aiko-toast .big{
 	background: #fff;
-	color: #486fff;
+	color: var(--main-color);
 	padding: 5px;
 	font-size: 14px;
 	border-radius: 4px;
@@ -1380,7 +1390,7 @@ hr {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	background: #486FFF;
+	background: var(--main-color);
 	color: #fff;
 	transition: .2s;
 }
@@ -1607,14 +1617,14 @@ unselectable {
 	border-radius: 4px;
 	font-size: 14px;
 	padding: 1px 4px;
-	border: solid 2px #486fff;
+	border: solid 2px var(--main-color);
 }
 .s-invite img{
 	width: 15px;
 	margin-bottom: 3px;
 }
 .settings-main .act{
-	color: #486fff;
+	color: var(--main-color);
 	font-weight: 600;
 	font-size: 14px;
 	cursor: pointer;
@@ -1742,8 +1752,8 @@ unselectable {
 	margin-bottom: 9px !important;
 }
 .btn-primary{
-	background-color: #486fff !important;
-	border-color: #486fff !important;
+	background-color: var(--main-color) !important;
+	border-color: var(--main-color) !important;
 }
 .aiko-form .form-signin .checkbox {
 	font-weight: 400;
@@ -1807,7 +1817,7 @@ unselectable {
 	margin-top: 10px;
 }
 .aiko-form  a{
-	color: #486fff;
+	color: var(--main-color);
 	font-weight: 500;
 }
 .aiko-form .form-signin input[type="password"] {
@@ -1882,7 +1892,7 @@ unselectable {
 	margin: auto;
 	height: 32px;
 	width: 32px;
-	border: 4px solid #486fff;
+	border: 4px solid var(--main-color);
 	border-radius: 50%;
 	opacity: 0;
 	-webkit-animation: loader-6-1 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) infinite;
