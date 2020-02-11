@@ -2025,3 +2025,6 @@ unselectable {
 	background: #efefef !important;
 	transition: .2s;
 }
+::-webkit-scrollbar {
+display: none;
+}
