@@ -1,19 +1,23 @@
 .picker{
 	color: #333 !important;
+	border: 1px solid #000000 !important;
 }
 .picker img{
-	filter: brightness(0.5);
+	filter: brightness(0);
+}
+.sidebar{
+	box-shadow: 1px 1px 10px #02020252 !important;
 }
 .sidebar a{
 	color: #333 !important;
 }
 .sidebar a img{
-	filter: brightness(0.5);
+	filter: brightness(0);
 }
 .sidebar .compose{
-	    background: #fff !important;
-    border: 2px solid #333 !important;
-    padding-top: 2px !important;
+	background: #fff !important;
+	border: 2px solid #333 !important;
+	padding-top: 2px !important;
 }
 .body{
 	color: #333 !important;
@@ -22,5 +26,77 @@
 	color: #333 !important;
 }
 .main-action{
+	color: #000 !important;
+    font-weight: 700;
+}
+.email{
+	border: 1px solid #000000 !important;
+	box-shadow: 0 0 9px #00000000 !important;
+}
+.email-footer{
+	box-shadow: inset 0px 21px 1px -20px #00000099 !important;
+}
+.board h1{
 	color: #333 !important;
 }
+.dropdown img{
+	filter: brightness(0);
+}
+.header .side img{
+	filter: brightness(0);
+}
+.board-header img{
+	filter: brightness(0);
+}
+.sidebar .compose:hover{
+	background: #f5f5f5!important;
+}
+.sidebar .active{
+	background: #d8d8d8 !important;
+	border-left: 3px solid #000000 !important;
+}
+.search{
+	    border: 1px solid #000000 !important;
+	    color: #000;
+}
+.search img{
+	filter: brightness(0);
+}
+.search input::placeholder{
+	color: #000 !important;
+}
+.email-footer img{
+	filter: brightness(.2);
+}
+.subject{
+	font-weight: 700 !important;
+}
+.notif-c{
+	color: #000 !important;
+}
+.notif-t{
+	color: #000 !important;
+}
+.add-board{
+	opacity: 1 !important;
+	background: #fff !important;
+}
+.archive{
+	background: #000 !important;
+}
+.archive img{
+	filter: brightness(1) !important;
+}
+.header{
+	box-shadow: 8px 1px 10px #1f1f1f8f !important;
+}
+.bottom{
+	border-top: 1px solid #000 !important;
+}
+.sidebar-collapse img{
+	opacity: 1 !important;
+}
+#user .no-mobile{
+	font-weight: 600 !important;
+}
+
