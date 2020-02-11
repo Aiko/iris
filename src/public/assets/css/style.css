@@ -4,6 +4,12 @@
 :root {
   --main-color: #486fff;
   --main-color-hover: #4366e8;
+
+  --main-text-color: #a0a0a0;
+  --main-text-color-hover: #b3b3b3;
+
+  --sender-text-color: #363636;
+  --subject-text-color: #000;
 }
 
 
@@ -90,7 +96,7 @@ input{
 }
 .header h1{
 	font-size: 20px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	margin-top: 2px;
 }
 .sidebar-collapse{
@@ -181,7 +187,7 @@ input{
 }
 .standalone .secondary-email h1{
 	font-size: 16px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	text-align: center;
 	margin-top: 20vh;
 }
@@ -287,9 +293,11 @@ input{
 }
 
 .main-action{
-	color: #b7b7b7;
-	font-size: 14px;
-	line-height: 28px;
+color: var(--main-text-color);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 28px;
+    text-transform: uppercase;
 }
 .main-action img{
 	color: #b7b7b7;
@@ -311,7 +319,7 @@ a.main-action:hover{
 	border-radius: 4px;
 	font-weight: 500;
 	font-size: 14px;
-	color: #B0B0B0;
+	color: var(--main-text-color);
 	margin-top: 3px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -321,7 +329,7 @@ a.main-action:hover{
 }
 .sidebar a:hover{
 	background: #f8f8f8;
-	color: #B0B0B0;
+	color: var(--main-text-color);
 	transition: .2s;
 }
 
@@ -398,7 +406,7 @@ a.main-action:hover{
 	overflow-y: visible;
 }
 .picker{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	padding: 0px 5px 5px 9px;
 	max-width: 210px;
 	text-overflow: ellipsis;
@@ -443,7 +451,7 @@ a.main-action:hover{
 	padding: 20px 30px;
 }
 .settings h2{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-size: 24px;
 }
 .settings h3{
@@ -496,7 +504,7 @@ a.main-action:hover{
 	overflow: hidden;
 	margin-top: 5px;
 	text-overflow: ellipsis;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	transition: .2s;
 }
 .notif-c:hover{
@@ -506,7 +514,7 @@ a.main-action:hover{
 .notif-t{
 	font-size: 13px;
 	margin-top: 4px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	text-align: right;
 }
 .search{
@@ -578,7 +586,7 @@ a.main-action:hover{
 	margin-top: -1px;
 }
 .board h1{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-size: 18px;
 	display: inline-flex;
 	margin-top: 3px;
@@ -590,7 +598,7 @@ a.main-action:hover{
 	width: 21px;
 	margin-right: 15px;
 	margin-top: 2px;
-	color: #B0B0B0;
+	color: var(--main-text-color);
 	opacity: 1;
 	transition: .2s;
 }
@@ -612,7 +620,7 @@ a.main-action:hover{
 }
 
 .search input::placeholder{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 }
 .p0{
 	padding: 0 !important;
@@ -637,7 +645,7 @@ a.main-action:hover{
 }
 .sidebar p{
 	margin-left: 5px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-stretch: 14px;
 }
 .board-body{
@@ -781,7 +789,7 @@ hr {
 }
 .sender{
 	font-size: 14px;
-	color: #363636;
+	color: var(--sender-text-color);
 	white-space: nowrap;
 	line-height: 20px;
 	text-overflow: ellipsis;
@@ -799,7 +807,7 @@ hr {
 }
 .time{
 	font-size: 13px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	text-align: right;
 	white-space: nowrap;
 }
@@ -808,7 +816,7 @@ hr {
 }
 .subject{
 	font-size: 14px;
-	color: #000;
+	color: var(--subject-text-color);
 	font-weight: 500;
 	margin-bottom: 2px;
 	height: 20px;
@@ -887,7 +895,7 @@ hr {
 }
 .body{
 	font-size: 13px;
-	color: #9f9f9f;
+	color: var(--main-text-color);
 	height: 50px;
 	overflow: hidden;
 	line-height: 16px;
@@ -985,7 +993,7 @@ hr {
 }
 .secondary-email h3{
 	font-size: 13px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	margin-bottom: 12px;
 }
 .inline{
@@ -1095,7 +1103,7 @@ hr {
 }
 .secondary-head h2{
 	font-size: 14px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-weight: 400;
 	width: 100%;
 	overflow: hidden;
@@ -1209,7 +1217,7 @@ hr {
 		border-radius: 4px;
 		font-weight: 500;
 		font-size: 14px;
-		color: #B0B0B0;
+		color: var(--main-text-color);
 		margin-top: 3px;
 		white-space: nowrap;
 		overflow: hidden;
@@ -1397,7 +1405,7 @@ hr {
 
 [contenteditable=true]:empty:before{
 	content:attr(data-text);
-	color: #b0b0b0;
+	color: var(--main-text-color);
 }
 .no-calendar h1 img{
 	margin-bottom: 6px !important;
@@ -1597,7 +1605,7 @@ unselectable {
 	margin-bottom: -30px !important;
 }
 .settings-main h1{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-weight: 300;
 	font-size: 32px;
 }
@@ -1760,7 +1768,7 @@ unselectable {
 	text-align: left;
 }
 .grey{
-	color: #b0b0b0 !important;
+	color: var(--main-text-color) !important;
 }
 .btn-primary.focus, .btn-primary:focus{
 	box-shadow: none !important;
@@ -1808,12 +1816,12 @@ unselectable {
 	top: 0;
 	right: 0;
 	padding: 15px 20px;
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	font-size: 15px;
 
 }
 .aiko-form label{
-	color: #b0b0b0;
+	color: var(--main-text-color);
 	margin-top: 10px;
 }
 .aiko-form  a{
@@ -1826,7 +1834,7 @@ unselectable {
 	border-top-right-radius: 0;
 }
 .aiko-form .title{
-	color: #b0b0b0 !important;
+	color: var(--main-text-color) !important;
 	margin-top: 0px !important;
 	margin-bottom: 0px !important;
 	margin-left: 30px;
@@ -2027,7 +2035,7 @@ unselectable {
 
 .savedraft{
 	background: #f4f4f4 !important;
-    color: #b0b0b0 !important;
+    color: var(--main-text-color) !important;
     margin-left: 5px !important;
     transition: .2s;
 }
