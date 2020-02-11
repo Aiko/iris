@@ -8,6 +8,8 @@
   --main-text-color: #a0a0a0;
   --main-text-color-hover: #b3b3b3;
 
+  --sidebar-bg-color: #f3f3f3;
+
   --sender-text-color: #363636;
   --subject-text-color: #000;
 }
@@ -324,11 +326,11 @@ a.main-action:hover{
 	white-space: nowrap;
 	overflow: hidden;
 	height: 30px;
-	margin-bottom: 5px !IMPORTANT;
+	margin-bottom: 5px !important;
 	transition: .2s;
 }
 .sidebar a:hover{
-	background: #f8f8f8;
+	background: var(--sidebar-bg-color);
 	color: var(--main-text-color);
 	transition: .2s;
 }
@@ -381,7 +383,7 @@ a.main-action:hover{
 	transition: .2s;
 }
 .sidebar .active{
-	background: #f5f5f5;
+	background: var(--sidebar-bg-color);
 	border-left: 3px solid #b0b0b0;
 	padding-left: 7px !important;
 }
