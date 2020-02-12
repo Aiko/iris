@@ -11,7 +11,9 @@
   --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
   --main-text-color-hover: #b3b3b3;
 
-  --sidebar-item-bg-color: #292929 !important;
+  --dark-text: #fff !important; /* Dropdown titles */
+
+  --sidebar-item-bg-color: #292929 !important; /* Active and hover in sidebar */
 
   --email-bg-color: #21201d !important;
   --email-hover-bg-color: #1b1a17 !important;
@@ -26,9 +28,9 @@
 .empty , .empty2{
 	box-shadow: none !important;
 }
-.board .dropdown-header{
-	color: #fff !important;
-}
 .sidebar-collapse img{
+	filter: invert(1);
+}
+.control-bar h1{
 	filter: invert(1);
 }

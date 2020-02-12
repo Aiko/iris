@@ -11,7 +11,9 @@
   --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
   --main-text-color-hover: #b3b3b3;
 
-  --sidebar-item-bg-color: #f3f3f3;
+  --dark-text: #3e3e3e; /* Dropdown titles */
+
+  --sidebar-item-bg-color: #f3f3f3;  /* Active and hover in sidebar */
 
   --email-bg-color: #fff;
   --email-hover-bg-color: #fbfbfb;
@@ -28,7 +30,7 @@ html, body, #app, .sidebar, .main{
 }
 body{
 	overflow: hidden;
-	background-color: #fff;
+	background-color: var(--secondary-bg-color) !important;
 	-webkit-user-select: none;  /* Chrome all / Safari all */
 	-moz-user-select: none;     /* Firefox all */
 	-ms-user-select: none;      /* IE 10+ */
@@ -41,6 +43,12 @@ body{
 }
 a, a:focus, a:hover, a:visited, a:active{
 	text-decoration: none !important;
+}
+.search-drop a{
+	color: var(--main-color) !important;
+}
+.search-drop a:hover{
+	color: var(--main-color-hover) !important;
 }
 hr{
 	margin-top: 1rem;
@@ -159,7 +167,8 @@ input{
 }
 .board .dropdown-header{
 	padding: .8rem 1.5rem 0rem 1.5rem;
-	color: #9fa4a9;
+	color: var(--dark-text);
+	margin-bottom: 5px;
 }
 .main{
 	width: calc(100% - 130px);
@@ -285,7 +294,7 @@ input{
 	padding: 8px 10px;
 	height: 45px;
 	background: var(--main-bg-color);
-	box-shadow: 8px 1px 10px #7373732e;
+	box-shadow: 8px 1px 10px #0000002e;
 	z-index: 1;
 	position: relative;
 }
@@ -548,7 +557,7 @@ a.main-action:hover{
 	color: 
 }
 .search-drop{
-	background: #fff;
+	background: var(--main-bg-color);
 	border: var(--main-border);
 	margin-top: -15px;
 	padding: 20px 5px 15px 30px;
@@ -568,6 +577,7 @@ a.main-action:hover{
 .search-drop p{
 	margin-bottom: 5px;
 	margin-top: 12px;
+	color: var(--main-text-color);
 }
 .search-drop div{
 	margin-top: 10px;
@@ -714,6 +724,11 @@ a.main-action:hover{
 	margin-top: 1px;
 	padding: 1px 8px;
 	cursor: pointer;
+	transition: .2s;
+}
+.archive:hover{
+	color:  var(--main-text-color-hover);
+	transition: .2s;
 }
 .archive img{
 	width: 14px;
