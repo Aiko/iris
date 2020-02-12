@@ -29,3 +29,6 @@
 .board .dropdown-header{
 	color: #fff !important;
 }
+.sidebar-collapse img{
+	filter: invert(1);
+}
