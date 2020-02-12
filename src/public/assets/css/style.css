@@ -6,7 +6,8 @@
   --main-color-hover: #4366e8;
 
   --main-bg-color: #fff; /* Sidebar and Header */
-  --secondary-bg-color: #f2f2f2; /* Control bar */
+  --secondary-bg-color: #f2f2f2; /* Control bar and picker and search, etc*/
+  --secondary-bg-color-hover: #efefef; /* Control bar and picker and search, etc*/
 
   --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
   --main-text-color-hover: #b3b3b3;
@@ -21,6 +22,10 @@
   --subject-text-color: #000;
 
   --main-border: 1px solid #d6d6d6;
+
+  --placeholder-text-color: #bdbdbd; /* Global placeholder color */
+
+   --modal-backdrop: #ffffffa1; /* Global modal backdrop */
 }
 
 
@@ -28,6 +33,10 @@
 html, body, #app, .sidebar, .main{
 	height: 100%;
 }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6, p{
+	color: var(--main-text-color);
+}
+
 body{
 	overflow: hidden;
 	background-color: var(--secondary-bg-color) !important;
@@ -102,7 +111,7 @@ input{
 	background-color: var(--main-bg-color);
 	padding: 15px 0px 10px 0px;
 	text-align: center;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid var(--main-text-color);
 	width: 100%;
 }
 .back-to-inbox{
@@ -210,6 +219,7 @@ input{
 	width: 100%;
 	height: 100%;
 	display: inline-flex;
+	background: var(--main-bg-color);
 }
 .standalone .secondary-email h1{
 	font-size: 16px;
@@ -763,7 +773,7 @@ hr {
 	color: var(--main-color);
 }
 .arrow{
-	border: 2px solid #000;
+	border: 2px solid var(--main-text-color);
 	border-radius: 50%;
 	margin-right: 3px;
 	margin-bottom: 1px;
@@ -988,7 +998,7 @@ hr {
 }
 .modal-content{
 	height: 100%;
-	background-color: transparent;
+	background: var(--main-bg-color) !important;
 	box-shadow: 0 0px 25px #0000003d;
 	border: none !important;
 }
@@ -997,9 +1007,9 @@ hr {
 }
 .main-email{
 	height: 100%;
-	background: #fff;
+	background: var(--main-bg-color);
 	width: 65%;
-	box-shadow: 0 15px 10px #3d3d3d66;
+	box-shadow: 0 15px 5px rgba(0, 0, 0, 0.02);
 	z-index: 1;
 	position: relative;
 	border-radius: 4px;
@@ -1009,10 +1019,10 @@ hr {
 .secondary-email{
 	height: 100%;
 	width: 35%;
-	background: #fff;
+	background: var(--main-bg-color);
 	position: relative;
 	border-radius: 4px;
-	box-shadow: 0 15px 10px #3d3d3d66;
+	box-shadow: inset -1px -12px 10px #00000026;
 	padding: 107px 15px 25px 15px;
 	transition: .2s;
 }
@@ -1439,45 +1449,49 @@ hr {
 	content:attr(data-text);
 	color: var(--main-text-color);
 }
+[contenteditable=true]:empty:before{
+	content:attr(data-text);
+	color: var(--placeholder-text-color);
+}
 .no-calendar h1 img{
 	margin-bottom: 6px !important;
 }
 
 .compose-to{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 7px 15px;
 	outline: none;
-	color: #000;
+	color: var(--dark-text);
 }
 .compose-cc{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 7px 15px;
 	outline: none;
-	color: #000;
+	color: var(--dark-text);
 }
 .compose-bcc{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 7px 15px;
 	outline: none;
-	color: #000;
+	color: var(--dark-text);
 }
 .compose-subject{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 7px 15px;
 	outline: none;
-	color: #000;
+	color: var(--dark-text);
 }
 .compose-options{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 5px;
 	height: 35px;
 	width: 100%;
-	background: #f4f4f4;
+	background: var(--secondary-bg-color);
 	display: inline-flex;
 }
 .compose-bold{
 	border-radius: 40px;
-	background: #ddd;
+	background: var(--main-bg-color);
 	width: 40px;
 	text-align: center;
 	font-weight: 700;
@@ -1487,13 +1501,13 @@ hr {
 .compose-body{
 	padding: 10px 15px 5px 15px;
 	outline: none;
-	color: #000;
+	color: var(--dark-text);
 	height: calc(100% - 255px);
 	overflow: scroll;
 }
 .compose-italic{
 	border-radius: 40px;
-	background: #ddd;
+	background: var(--main-bg-color);
 	width: 40px;
 	text-align: center;
 	margin-right: 6px;
@@ -1503,11 +1517,17 @@ hr {
 
 .compose-attach{
 	border-radius: 40px;
-	background: #ddd;
+	background: var(--main-bg-color);
 	width: 40px;
 	text-align: center;
 	margin-right: 6px;
 	cursor: pointer;
+	transition: .2s;
+}
+
+.compose-attach:hover{
+	opacity: .8;
+	transition: .2s;
 }
 .compose-attach img{
 	margin-top: -3px;
@@ -1519,7 +1539,7 @@ hr {
 	width: 100%;
 	left: 0;
 	padding: 20px;
-	box-shadow: inset 0px 50px 16px -49px rgba(212, 212, 212, 0.75);
+	box-shadow: inset 0px 54px 10px -54px rgba(0, 0, 0, 0.15);
 }
 
 .smart-compose {
@@ -1620,6 +1640,7 @@ unselectable {
 	width: 100%;
 	max-width: 130px;
 	margin-bottom: 20px;
+	border-radius: 4px;
 }
 
 .add-2{
@@ -1683,7 +1704,7 @@ unselectable {
 	width: 100%;
 	height: 100%;
 	z-index: 10000;
-	background: #ffffffa1;
+	background: var(--modal-backdrop);
 	cursor: pointer;
 }
 .settings-main [contenteditable]{
@@ -1718,12 +1739,13 @@ unselectable {
 	width: 100%;
 	max-width: 250px;
 	border-radius: 4px;
-	border: 1px solid #ddd;
+	border: var(--main-border);
 	padding: 4px 10px;
 	font-size: 16px;
 	margin-top: 10px !important;
 	margin-bottom: 10px !important;
-	color: #000;
+	color: var(--main-text-color);
+	background: var(--secondary-bg-color);
 }
 
 .modal-reg{
@@ -1731,7 +1753,7 @@ unselectable {
 	text-align: center;
 }
 .add-mailbox a, .add-mailbox a:hover{
-	color: #000;
+	color: var(--dark-text);
 	font-weight: 500;
 }
 .modal-reg h1{
@@ -1750,11 +1772,11 @@ unselectable {
 	width: 100%;
 	left: 0;
 	padding: 20px;
-	box-shadow: inset 0px 50px 16px -49px rgba(212, 212, 212, 0.75);
+	box-shadow: inset 0px 50px 16px -49px rgba(0, 0, 0, 0.32);
 }
 
 .compose-bottom a:hover{
-	background: #4368f1;
+	background: var(--main-color-hover);
 	color: #fff;
 	transition: .2s;
 }
@@ -2066,13 +2088,13 @@ unselectable {
 }
 
 .savedraft{
-	background: #f4f4f4 !important;
+	background: var(--secondary-bg-color) !important;
     color: var(--main-text-color) !important;
     margin-left: 5px !important;
     transition: .2s;
 }
 .savedraft:hover{
-	background: #efefef !important;
+	background: var(--secondary-bg-color-hover) !important;
 	transition: .2s;
 }
 ::-webkit-scrollbar {

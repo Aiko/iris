@@ -6,10 +6,11 @@
   --main-color-hover: #4366e8;
 
   --main-bg-color: #312f2e !important; /* Sidebar and Header */
-  --secondary-bg-color: #21201d !important; /* Control bar */
+  --secondary-bg-color: #21201d !important; /* Control bar and picker and search, etc*/
+  --secondary-bg-color-hover: #1d1c1a !important; /* Control bar and picker and search, etc*/
 
   --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
-  --main-text-color-hover: #b3b3b3;
+  --main-text-color-hover: #8c8c8c !important;
 
   --dark-text: #fff !important; /* Dropdown titles */
 
@@ -21,6 +22,10 @@
   --subject-text-color: #fff !important;
 
   --main-border: solid 1px #171615 !important;
+
+  --placeholder-text-color: #5d5d5d !important; /* Global placeholder color */
+
+  --modal-backdrop: #21201dd6 !important; /* Global modal backdrop */
 }
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
