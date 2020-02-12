@@ -1,0 +1,26 @@
+/* AIKO MAIL INC. ALL RIGHTS RESERVED. */
+
+/* Color Declarations */
+:root {
+  --main-color: #486fff; /* Main Aiko accent */
+  --main-color-hover: #4366e8;
+
+  --main-bg-color: #312f2e !important; /* Sidebar and Header */
+  --secondary-bg-color: #21201d !important; /* Control bar */
+
+  --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
+  --main-text-color-hover: #b3b3b3;
+
+  --sidebar-item-bg-color: #292929 !important;
+
+  --email-bg-color: #21201d !important;
+  --email-hover-bg-color: #1b1a17 !important;
+  --sender-text-color: #a0a0a0 !important;
+  --subject-text-color: #fff !important;
+}
+.email-footer{
+	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+}
+.empty , .empty2{
+	box-shadow: none !important;
+}
