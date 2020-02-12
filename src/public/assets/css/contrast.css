@@ -1,42 +1,73 @@
-.picker{
-	color: #333 !important;
-	border: 1px solid #000000 !important;
+/* AIKO MAIL INC. ALL RIGHTS RESERVED. */
+
+/* Color Declarations */
+:root {
+  --main-color: #000 !important; /* Main Aiko accent */
+  --main-color-hover: #000 !important;
+
+  --main-bg-color: #fff !important; /* Sidebar and Header */
+  --secondary-bg-color: #fff !important; /* Control bar and picker and search, etc*/
+  --secondary-bg-color-hover: #fff !important; /* Control bar and picker and search, etc*/
+
+  --main-text-color: #000 !important; /* Sidebar, body preview, board title */
+  --main-text-color-hover: #000 !important;
+
+  --dark-text: #000 !important; /* Dropdown titles */
+
+  --sidebar-item-bg-color: #f3f3f3 !important;  /* Active and hover in sidebar */
+
+  --email-bg-color: #fff !important;
+  --email-hover-bg-color: #fbfbfb !important;
+  --sender-text-color: #363636 !important;
+  --subject-text-color: #000 !important;
+
+  --main-border: 1px solid #000 !important;
+
+  --placeholder-text-color: #000 !important; /* Global placeholder color */
+
+   --modal-backdrop: #ffffffa1 !important; /* Global modal backdrop */
 }
+.compose-to{
+	border-bottom: 2px solid #000 !important;
+}
+.email{
+	box-shadow: 0 0px 3px #000000 !important;
+}
+.compose-cc{
+	border-bottom: 2px solid #000 !important;
+}
+.sidebar-collapse img{
+	opacity: 1 !important;
+}
+.compose-bcc{
+	border-bottom: 2px solid #000 !important;
+}
+.compose-subject{
+	border-bottom: 2px solid #000 !important;
+}
+.compose-options{
+	background: #000 !important;
+}
+.main-email .action{
+	content: #486fff !important;
+}
+
+.control-bar{
+	background: #000 !important;
+}
+.control-bar img{
+	 filter: invert(1);
+}
+
+* input{
+	background: #fff !important;
+}
+
 .picker img{
 	filter: brightness(0);
 }
-.sidebar{
-	box-shadow: 1px 1px 10px #02020252 !important;
-}
-.sidebar a{
-	color: #333 !important;
-}
 .sidebar a img{
 	filter: brightness(0);
-}
-.sidebar .compose{
-	background: #fff !important;
-	border: 2px solid #333 !important;
-	padding-top: 2px !important;
-}
-.body{
-	color: #333 !important;
-}
-.time{
-	color: #333 !important;
-}
-.main-action{
-	color: #000 !important;
-    font-weight: 700;
-}
-.email{
-	box-shadow: 0px 0px 5px #000000 !important;
-}
-.email-footer{
-	box-shadow: inset 0px 21px 1px -20px #00000099 !important;
-}
-.board h1{
-	color: #333 !important;
 }
 .dropdown img{
 	filter: brightness(0);
@@ -47,17 +78,6 @@
 .board-header img{
 	filter: brightness(0);
 }
-.sidebar .compose:hover{
-	background: #f5f5f5!important;
-}
-.sidebar .active{
-	background: #d8d8d8 !important;
-	border-left: 3px solid #000000 !important;
-}
-.search{
-	    border: 1px solid #000000 !important;
-	    color: #000;
-}
 .search img{
 	filter: brightness(0);
 }
@@ -67,104 +87,35 @@
 .email-footer img{
 	filter: brightness(.2);
 }
-.subject{
-	font-weight: 700 !important;
-}
-.notif-c{
-	color: #000 !important;
-}
-.notif-t{
-	color: #000 !important;
-}
-.add-board{
-	opacity: 1 !important;
-	background: #fff !important;
-}
-.archive{
-	background: #000 !important;
-}
 .archive img{
-	filter: brightness(1) !important;
+	filter: brightness(0) !important;
 }
-.header{
-	box-shadow: 8px 1px 10px #1f1f1f8f !important;
-}
-.bottom{
-	border-top: 1px solid #000 !important;
-}
-.sidebar-collapse img{
-	opacity: 1 !important;
-}
-#user .no-mobile{
-	font-weight: 600 !important;
-}
-.options{
-	background: #000 !important;
-}
-.secondary-head h2{
-	color: #000 !important;
-}
-.secondary-email h3{
-	color: #000 !important;
-}
-.email-head{
-	    border-bottom: solid #000 1px !important;
-}
-.main-email .action{
-	background: #fff !important;
-}
-.aiko-modal{
-	background: #ffffffed !important;
-}
-.modal-reg input{
-	border: 1px solid #000 !important;
-}
-.compose-to{
-	    border-bottom: 1px solid #000 !important;
-}
-.compose-cc{
-	    border-bottom: 1px solid #000 !important;
-}
-.compose-bcc{
-	    border-bottom: 1px solid #000 !important;
-}
-[contenteditable=true]:empty:before{
-	content:attr(data-text);
-	color: #000;
-}
-.compose-bold{
-	background: #fff !important;
-    border: solid 1px #000 !important;
-}
-.compose-italic{
-	background: #fff !important;
-    border: solid 1px #000 !important;
-}
-.compose-attach{
-	background: #fff !important;
-    border: solid 1px #000 !important;
-}
-
 .no-calendar img{
 	filter: brightness(0);
 }
-.standalone .secondary-email h1{
-	    color: #000000 !important;
-}
-.savedraft{
-	color: #000 !important;
-	border: solid 1px #000;
-}
 .savedraft img{
-	filter: brightness(0);
+	filter: brightness(2) !important;
 }
-.compose-options{
-	background: #000 !important;
+.archive{
+	border: 1px solid #000 !important;
+    padding-top: 0 !important;
 }
 .compose-attach img{
 	filter: brightness(0);
 }
+.compose-italic img{
+	filter: brightness(0);
+}
+.compose-bold img{
+	filter: brightness(0);
+}
+.compose img{
+	filter: brightness(1) !important;
+}
 
+.compose-bottom a{
+	color: #fff !important
+}
 
 
 
