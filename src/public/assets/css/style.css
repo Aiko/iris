@@ -871,7 +871,7 @@ hr {
 .action{
 	font-size: 12px !important;
 	border: solid 1px #e6e6e6;
-	background: #f7f7f7;
+	background: var(--secondary-bg-color);
 	border-radius: 4px 4px 0px 0px;
 	color: var(--main-color);
 	padding: 5px 8px 5px 2px;
@@ -885,7 +885,7 @@ hr {
 }
 .action:hover{
 	border: solid 1px #efefef;
-	background: #efefef;
+	background: var(--secondary-bg-color-hover);
 	transition: .2s;
 }
 .action img{
@@ -1043,7 +1043,7 @@ hr {
 }
 .email-head{
 	padding-bottom: 15px;
-	border-bottom: solid #ddd 1px;
+	border-bottom: solid var(--main-text-color) 1px;
 	position: relative;
 }
 
@@ -1057,6 +1057,7 @@ hr {
 	white-space: nowrap;
 }
 .email-head h3{
+	color: var(--subject-text-color);
 	font-size: 17px;
 	font-weight: 600;
 	margin-top: 7px;
@@ -1123,7 +1124,7 @@ hr {
 }
 .secondary-head{
 	padding-bottom: 15px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid var(--main-text-color);
 	position: absolute;
 	margin-left: -15px;
 	top: 0;
@@ -1134,7 +1135,7 @@ hr {
 }
 .secondary-head h1{
 	font-size: 16px;
-	color: #000;
+	color: var(--subject-text-color);
 	margin-bottom: 0;
 	margin-top: 9px;
 	white-space: nowrap;
@@ -1157,13 +1158,13 @@ hr {
 	width: fit-content;
 	border-radius: 4px;
 	transition: .2s;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 }
 .secondary-head h1:hover{
 	width: fit-content;
 	border-radius: 4px;
 	transition: .2s;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 }
 
 .secondary-head img{
@@ -1179,7 +1180,7 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-	background: #c6c6c6;
+	background: var(--secondary-bg-color);
 	width: 190px;
 	position: absolute;
 	right: 0;
@@ -1205,15 +1206,15 @@ hr {
 	height: 10px;
 	margin-left: 11px;
 	position: absolute;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 }
 .options-qa .action::before{
 	content: "";
 	width: 10px;
 	height: 10px;
-	margin-left: -15px;
+	margin-left: -14px;
 	position: absolute;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 }
 .spe{
 	margin-left: -10px;
