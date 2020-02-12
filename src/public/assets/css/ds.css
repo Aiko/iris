@@ -26,3 +26,6 @@
 .empty , .empty2{
 	box-shadow: none !important;
 }
+.board .dropdown-header{
+	color: #fff !important;
+}

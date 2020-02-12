@@ -145,12 +145,17 @@ input{
 .board .dropdown-menu.show{
 	margin-top: 10px;
 	margin-left: -5px;
-	box-shadow: 0 1px 9px #8484845c;
+	box-shadow: 0 1px 9px #00000038;
 	border: none;
 
 }
-.dropdown-menu{
+.dropdown-menu, .dropdown-menu a{
+	background-color: var(--secondary-bg-color) !important;
+	color: var(--main-text-color) !important;
+}
+.dropdown-item:focus, .dropdown-item:hover{
 	background-color: var(--main-bg-color) !important;
+	color: var(--main-text-color) !important;
 }
 .board .dropdown-header{
 	padding: .8rem 1.5rem 0rem 1.5rem;
@@ -864,8 +869,8 @@ hr {
 }
 .main-count{
 	float: right;
-	color: #ababab;
-	background: #ececec;
+	color: var(--main-text-color);
+	background: var(--secondary-bg-color);
 	padding: 0px 6px;
 	border-radius: 4px;
 	font-size: 12px;
