@@ -17,6 +17,8 @@
   --email-hover-bg-color: #fbfbfb;
   --sender-text-color: #363636;
   --subject-text-color: #000;
+
+  --main-border: 1px solid #d6d6d6;
 }
 
 
@@ -89,7 +91,7 @@ input{
 .bottom{
 	position: absolute;
 	bottom: 0;
-	background-color: #fff;
+	background-color: var(--main-bg-color);
 	padding: 15px 0px 10px 0px;
 	text-align: center;
 	border-top: 1px solid #ddd;
@@ -420,7 +422,7 @@ a.main-action:hover{
 	padding: 0px 5px 5px 9px;
 	max-width: 210px;
 	text-overflow: ellipsis;
-	border: 1px solid #d6d6d6;
+	border: var(--main-border);
 	border-radius:4px;
 	cursor: pointer;
 	height: 30px;
@@ -530,7 +532,7 @@ a.main-action:hover{
 .search{
 	border-radius: 4px;
 	padding: 0px 7px 0px 7px;
-	border: 1px solid #d6d6d6;
+	border: var(--main-border);
 	height: 30px;
 	background: var(--secondary-bg-color);
 	max-width: 500px;
@@ -542,7 +544,7 @@ a.main-action:hover{
 }
 .search-drop{
 	background: #fff;
-	border: 1px solid #d6d6d6;
+	border: var(--main-border);
 	margin-top: -15px;
 	padding: 20px 5px 15px 30px;
 	max-width: 500px;

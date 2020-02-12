@@ -17,6 +17,8 @@
   --email-hover-bg-color: #1b1a17 !important;
   --sender-text-color: #a0a0a0 !important;
   --subject-text-color: #fff !important;
+
+  --main-border: solid 1px #171615 !important;
 }
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
