@@ -604,13 +604,14 @@ a.main-action:hover{
 	overflow-x: hidden;
 	text-overflow: ellipsis;
 	top: 0;
-	background: #fff;
+	background: var(--secondary-bg-color);
 	font-size: 15px;
 	left: 0;
 	margin-top: 40px;
 }
 .drop-field div{
 	cursor: pointer;
+	color: var(--main-text-color);
 }
 .search-drop{
 

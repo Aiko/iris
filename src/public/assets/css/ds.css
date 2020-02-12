@@ -27,6 +27,11 @@
 
   --modal-backdrop: #21201dd6 !important; /* Global modal backdrop */
 }
+
+
+/*  Custom styling */
+
+
 .bg{
 	background-blend-mode: darken;
 }
