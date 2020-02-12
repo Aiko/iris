@@ -27,6 +27,9 @@
 
   --modal-backdrop: #21201dd6 !important; /* Global modal backdrop */
 }
+.bg{
+	background-blend-mode: darken;
+}
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
 }

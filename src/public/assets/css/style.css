@@ -1415,6 +1415,7 @@ hr {
 }
 .aiko-toast h1{
 	font-size: 14px;
+	color: #fff !important;
 }
 .aiko-toast .big{
 	background: #fff;
