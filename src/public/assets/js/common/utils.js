@@ -26,17 +26,16 @@ const post = async (url, data, token) => {
     if (d.error) throw d.error;
     else return d
 }
-
 window.post = post
 
 const toast = _ => _ // TODO: change this to an actual toast
-
 window.toast = toast
 
 const log = (...args) => {
     console.log("[App]", ...args)
 }
 const error = console.error
+window.info = console.info
 window.log = log
 window.error = error
 
@@ -172,7 +171,6 @@ const unescapeHTML = (
         }
     }
 )();
-
 function insertElementAtCursor(el) {
     var sel, range, html;
     if (window.getSelection) {
@@ -188,21 +186,18 @@ function insertElementAtCursor(el) {
         console.error("Error inserting element")
     }
 }
-
 const HTML2Text = html => {
     html = html.replace(/<style[^>]*>([^<]|\n|\r\n)*<\/style>/gi, '')
     const parser = new DOMParser()
     const doc = parser.parseFromString(html, 'text/html')
     return doc.body.innerText.trim().replace(/( |\n)+/g, ' ')
 }
-
 const HTML2Element = html => {
     const template = document.createElement('template')
     html = html.trim() // Never return a text node of whitespace as the result
     template.innerHTML = html
     return template.content.firstChild
 }
-
 const ObjectID2Date = _id => {
     const timestamp = _id.substring(0, 8)
     return new Date(parseInt(timestamp, 16) * 1000)
@@ -210,12 +205,10 @@ const ObjectID2Date = _id => {
 
 const _Channel2Hex = c => c.toString(16).padStart(2, '0')
 const RGB2Hex = (r, g, b) => _Channel2Hex(r) + _Channel2Hex(g) + _Channel2Hex(b)
-
 const rgbIsDark = (r, g, b) => {
     const hsp = Math.sqrt(0.299 * (r**2) + 0.587 * (g**2) + 0.114 * (b**2))
     return hsp < 150
 }
-
 const Image2Color = imurl => new Promise((s, _) => {
     const thief = new ColorThief()
     const image = new Image()

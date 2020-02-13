@@ -28,7 +28,6 @@ module.exports = (clientId) => {
                 fullscreen: false
             })
 
-            console.log(url)
             win.loadURL(url);
             win.on('closed', () => {
                 return s({
