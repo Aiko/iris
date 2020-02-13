@@ -1,6 +1,7 @@
 <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,9 +15,9 @@
 
 <body class="bg">
 	<div id="app" class="inline-flex">
-		<div class="control-bar pc" >
+		<div class="control-bar pc">
 			<p title="Close"></p> <!-- Close ------------------------>
-			<p title="Minimize" ></p> <!-- Minimize ------------------------>
+			<p title="Minimize"></p> <!-- Minimize ------------------------>
 			<p title="Full Screen"></p> <!-- Full Screen ------------------------>
 
 			<h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
@@ -30,8 +31,10 @@
 		<div class="sidebar">
 			<div class="container">
 				<div class="row">
-					<a href="compose.html" class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"><span>Compose</span></a>
-					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span class="main-count">3</span></span></a>
+					<a href="compose.html" class="compose" target="_blank"><img
+							src="assets/icons/sidebar-edit.svg"><span>Compose</span></a>
+					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
+								class="main-count">3</span></span></a>
 					<a href="#"><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
 					<a href="#"><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
 					<a href="#"><img src="assets/icons/sidebar-spam.svg" style="margin-top: 0px;"><span> Spam</span></a>
@@ -68,7 +71,8 @@
 					<div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
 					<br>
 					<div class="set">
-						<a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+						<a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg"
+								width="30"></a>
 						<a href="#"><img src="assets/icons/sidebar-feedback.svg" width="30"></a>
 					</div>
 				</div>
@@ -173,7 +177,8 @@
 
 			<div class="boards-container">
 
-				<div class="boards"> <!-- Hide this div to show other style -->
+				<div class="boards">
+					<!-- Hide this div to show other style -->
 
 					<div class="board">
 						<div class="board-header">
@@ -182,7 +187,237 @@
 									<div class="col-3">
 										<div class="dropdown">
 											<a href="#" title="Board options" data-toggle="dropdown"><img
-												src="assets/icons/board-dots.svg"></a>
+													src="assets/icons/board-dots.svg"></a>
+											<div class="dropdown-menu">
+												<h6 class="dropdown-header">Sort by</h6>
+												<a class="dropdown-item" href="#">Date (latest)</a>
+												<a class="dropdown-item" href="#">Date (oldest)</a>
+												<a class="dropdown-item" href="#">Size (largest)</a>
+												<a class="dropdown-item" href="#">Size (smallest)</a>
+												<h6 class="dropdown-header">Display only</h6>
+												<a class="dropdown-item" href="#">Unread</a>
+												<a class="dropdown-item" href="#">Read</a>
+												<h6 class="dropdown-header">More</h6>
+												<a class="dropdown-item" href="#">Mark all as read</a>
+												<a class="dropdown-item" href="#">Mark all as unread</a>
+												<a class="dropdown-item" href="#">Board options</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-6 text-center">
+										<h1>Inbox<div class="count">3</div>
+										</h1>
+									</div>
+									<div class="col-3 text-right">
+										<a href="#"><img src="assets/icons/toggle-right.svg"
+												title="Show important emails only" width="30"
+												style="cursor: pointer;"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="board-body">
+							<draggable class="draggable-emails" group="board-emails" ghost-class="ghost"
+								drag-class="drag">
+								<!-- Single Email ---------- add class 'drag' when dragged ------->
+								<div class="email">
+									<div class="container pr">
+										<div class="unread"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-8 p0" style="display: inline-flex;">
+												<h2 class="sender">
+													Ruben Touitou</h2>
+												<img src="assets/icons/badges-attach.svg" title="Attachment">
+												<!-- <img src="assets/icons/badges-tracker.svg">
+																<img src="assets/icons/badges-event.svg">
+																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
+											</div>
+											<div class="col-4 p0">
+												<div class="time">6:18PM</div>
+											</div>
+											<p class="subject">This is the subject</p>
+											<p class="body">This is the main content of the email, it is suppose to be
+												longer than the subject and a summary of the main content.</p>
+										</div>
+										<div class="email-footer" style="user-select: none;">
+											<div class="row">
+												<div class="col-5">
+													<a class="main-action" href="#"><img
+															src="assets/icons/badges-event.svg"> Schedule</a>
+												</div>
+												<div class="col-7 extra-actions">
+													<a href="#"><img src="assets/icons/options-reply.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-replya.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-forward.png"
+															width="15"></a>
+													<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+													<a href="#"><img src="assets/icons/options-trash.svg" class="redh"
+															width="15"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="email">
+									<div class="container pr">
+										<div class="unread"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-8 p0" style="display: inline-flex;">
+												<h2 class="sender">
+													Johnson Milky</h2>
+												<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
+												<img src="assets/icons/badges-tracker.svg">
+												<!-- <img src="assets/icons/badges-event.svg">
+																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
+											</div>
+											<div class="col-4 p0">
+												<div class="time">6:18PM</div>
+											</div>
+											<p class="subject">This is the subject</p>
+											<p class="body">This is the main content of the email, it is suppose to be
+												longer than the subject and a summary of the main content.</p>
+										</div>
+										<div class="email-footer" style="user-select: none;">
+											<div class="row">
+												<div class="col-5">
+													<a class="main-action" href="#"><img
+															src="assets/icons/check-circle.svg"> Verify</a>
+												</div>
+												<div class="col-7 extra-actions">
+													<a href="#"><img src="assets/icons/options-reply.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-replya.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-forward.png"
+															width="15"></a>
+													<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+													<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="email">
+									<div class="container pr">
+										<div class="unread"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-8 p0" style="display: inline-flex;">
+												<h2 class="sender">
+													Milky James</h2>
+												<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
+												<img src="assets/icons/badges-tracker.svg">
+												<!-- <img src="assets/icons/badges-event.svg">
+																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
+											</div>
+											<div class="col-4 p0">
+												<div class="time">6:18PM</div>
+											</div>
+											<p class="subject">This is the subject</p>
+											<p class="body">This is the main content of the email, it is suppose to be
+												longer than the subject and a summary of the main content.</p>
+										</div>
+										<div class="email-footer" style="user-select: none;">
+											<div class="row">
+												<div class="col-5">
+													<a class="main-action" href="#"><img
+															src="assets/icons/badges-event.svg"> Schedule</a>
+												</div>
+												<div class="col-7 extra-actions">
+													<a href="#"><img src="assets/icons/options-reply.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-replya.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-forward.png"
+															width="15"></a>
+													<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+													<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="email">
+									<div class="container pr">
+										<div class="unread"></div>
+										<div class="row" style="user-select: none;">
+											<div class="col-8 p0" style="display: inline-flex;">
+												<h2 class="sender">
+													Joana Guttierez</h2>
+												<!-- <img src="assets/icons/badges-attach.svg" title="Attachment">
+																<img src="assets/icons/badges-tracker.svg">
+																<img src="assets/icons/badges-event.svg">
+																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed"> -->
+												<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+											</div>
+											<div class="col-4 p0">
+												<div class="time">6:18PM</div>
+											</div>
+											<p class="subject">This is the subject</p>
+											<p class="body">This is the main content of the email, it is suppose to be
+												longer than the subject and a summary of the main content.</p>
+										</div>
+										<div class="email-footer" style="user-select: none;">
+											<div class="row">
+												<div class="col-5">
+													<a class="main-action" href="#"><img
+															src="assets/icons/badges-event.svg"> Schedule</a>
+												</div>
+												<div class="col-7 extra-actions">
+													<a href="#"><img src="assets/icons/options-reply.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-replya.png"
+															width="18"></a>
+													<a href="#"><img src="assets/icons/options-forward.png"
+															width="15"></a>
+													<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+													<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="cs-loader">
+									<div class="cs-loader-inner">
+										<label> ●</label>
+										<label> ●</label>
+										<label> ●</label>
+										<label> ●</label>
+										<label> ●</label>
+										<label> ●</label>
+									</div>
+								</div>
+						</div>
+						<!-- END Single Email ---------------------------------->
+						</draggable>
+						<!-- List loader -------------------------------------------->
+
+						<!-- END List loader ---------------------------------------->
+
+
+					</div>
+
+					<!-- END Inbox Board ----------------------------------->
+
+					<draggable style="display: inline-flex" class="draggable-boards" group="boards" draggable=".board"
+						ghost-class="ghost-board">
+
+						<!-- Regular Board Template ----------------------->
+						<div class="board">
+							<div class="board-header">
+								<div class="container">
+									<div class="row">
+										<div class="col-2">
+											<div class="dropdown">
+												<a href="#" title="Board options" data-toggle="dropdown"><img
+														src="assets/icons/board-dots.svg"></a>
 												<div class="dropdown-menu">
 													<h6 class="dropdown-header">Sort by</h6>
 													<a class="dropdown-item" href="#">Date (latest)</a>
@@ -196,748 +431,561 @@
 													<a class="dropdown-item" href="#">Mark all as read</a>
 													<a class="dropdown-item" href="#">Mark all as unread</a>
 													<a class="dropdown-item" href="#">Board options</a>
+													<a class="dropdown-item red" href="#">Hide Board</a>
 												</div>
 											</div>
 										</div>
-										<div class="col-6 text-center">
-											<h1>Inbox<div class="count">3</div>
+										<div class="col-8 text-center p0">
+											<h1>To-Do<div class="count">1</div>
 											</h1>
 										</div>
-										<div class="col-3 text-right">
-											<a href="#"><img src="assets/icons/toggle-right.svg" title="Show important emails only" width="30" style="cursor: pointer;"></a>
+										<div class="col-2 text-right">
+											<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="board-body">
-								<draggable class="draggable-emails" group="board-emails"
-								ghost-class="ghost" drag-class="drag">
-								<!-- Single Email ---------- add class 'drag' when dragged ------->
-								<div class="email">
-									<div class="container pr">
-										<div class="unread"></div>
-										<div class="row" style="user-select: none;">
-											<div class="col-8 p0" style="display: inline-flex;">
-												<h2 class="sender">
-												Ruben Touitou</h2>
-												<img src="assets/icons/badges-attach.svg" title="Attachment">
-																<!-- <img src="assets/icons/badges-tracker.svg">
-																<img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-															<p class="subject">This is the subject</p>
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-														<div class="email-footer" style="user-select: none;">
-															<div class="row">
-																<div class="col-5">
-																	<a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-																</div>
-																<div class="col-7 extra-actions">
-																	<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-trash.svg" class="redh" width="15"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="email">
-													<div class="container pr">
-														<div class="unread"></div>
-														<div class="row" style="user-select: none;">
-															<div class="col-8 p0" style="display: inline-flex;">
-																<h2 class="sender">
-																Johnson Milky</h2>
-																<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
-																<img src="assets/icons/badges-tracker.svg">
-																<!-- <img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-															<p class="subject">This is the subject</p>
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-														<div class="email-footer" style="user-select: none;">
-															<div class="row">
-																<div class="col-5">
-																	<a class="main-action" href="#"><img src="assets/icons/check-circle.svg"> Verify</a>
-																</div>
-																<div class="col-7 extra-actions">
-																	<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																	<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="email">
-													<div class="container pr">
-														<div class="unread"></div>
-														<div class="row" style="user-select: none;">
-															<div class="col-8 p0" style="display: inline-flex;">
-																<h2 class="sender">
-																Milky James</h2>
-																<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
-																<img src="assets/icons/badges-tracker.svg">
-																<!-- <img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-															<p class="subject">This is the subject</p>
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-														<div class="email-footer" style="user-select: none;">
-															<div class="row">
-																<div class="col-5">
-																	<a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-																</div>
-																<div class="col-7 extra-actions">
-																	<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																	<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-
-												<div class="email">
-													<div class="container pr">
-														<div class="unread"></div>
-														<div class="row" style="user-select: none;">
-															<div class="col-8 p0" style="display: inline-flex;">
-																<h2 class="sender">
-																Joana Guttierez</h2>
-																<!-- <img src="assets/icons/badges-attach.svg" title="Attachment">
-																<img src="assets/icons/badges-tracker.svg">
-																<img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed"> -->
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-															<p class="subject">This is the subject</p>
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-														<div class="email-footer" style="user-select: none;">
-															<div class="row">
-																<div class="col-5">
-																	<a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-																</div>
-																<div class="col-7 extra-actions">
-																	<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																	<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="cs-loader">
-													<div class="cs-loader-inner">
-														<label> ●</label>
-														<label> ●</label>
-														<label> ●</label>
-														<label> ●</label>
-														<label> ●</label>
-														<label> ●</label>
-													</div>
-												</div>
-											</div>
-											<!-- END Single Email ---------------------------------->
-										</draggable>
-										<!-- List loader -------------------------------------------->
-
-										<!-- END List loader ---------------------------------------->
-
-
-									</div>
-
-									<!-- END Inbox Board ----------------------------------->
-
-									<draggable style="display: inline-flex" class="draggable-boards"group="boards" draggable=".board" ghost-class="ghost-board">
-
-										<!-- Regular Board Template ----------------------->
-										<div class="board">
-											<div class="board-header">
-												<div class="container">
-													<div class="row">
-														<div class="col-2">
-															<div class="dropdown">
-																<a href="#" title="Board options" data-toggle="dropdown"><img
-																	src="assets/icons/board-dots.svg"></a>
-																	<div class="dropdown-menu">
-																		<h6 class="dropdown-header">Sort by</h6>
-																		<a class="dropdown-item" href="#">Date (latest)</a>
-																		<a class="dropdown-item" href="#">Date (oldest)</a>
-																		<a class="dropdown-item" href="#">Size (largest)</a>
-																		<a class="dropdown-item" href="#">Size (smallest)</a>
-																		<h6 class="dropdown-header">Display only</h6>
-																		<a class="dropdown-item" href="#">Unread</a>
-																		<a class="dropdown-item" href="#">Read</a>
-																		<h6 class="dropdown-header">More</h6>
-																		<a class="dropdown-item" href="#">Mark all as read</a>
-																		<a class="dropdown-item" href="#">Mark all as unread</a>
-																		<a class="dropdown-item" href="#">Board options</a>
-																		<a class="dropdown-item red" href="#">Hide Board</a>
-																	</div>
-																</div>
-															</div>
-															<div class="col-8 text-center p0">
-																<h1>To-Do<div class="count">1</div>
-																</h1>
-															</div>
-															<div class="col-2 text-right">
-																<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="board-body" :board="board">
-													<draggable :board="board" class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-														<!-- Single Email ---------- add class 'drag' when dragged ------->
-														<div class="email">
-															<div class="container pr">
-																<div class="unread"></div>
-																<div class="row" style="user-select: none;">
-																	<div class="col-8 p0" style="display: inline-flex;">
-																		<h2 class="sender">
-																		Himanshu Jumanji</h2>
-																		<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
-																		<img src="assets/icons/badges-tracker.svg"> <!--
+							<div class="board-body" :board="board">
+								<draggable :board="board" class="draggable-emails" group="board-emails"
+									ghost-class="ghost" drag-class="drag">
+									<!-- Single Email ---------- add class 'drag' when dragged ------->
+									<div class="email">
+										<div class="container pr">
+											<div class="unread"></div>
+											<div class="row" style="user-select: none;">
+												<div class="col-8 p0" style="display: inline-flex;">
+													<h2 class="sender">
+														Himanshu Jumanji</h2>
+													<!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
+													<img src="assets/icons/badges-tracker.svg">
+													<!--
 																		<img src="assets/icons/badges-event.svg">
 																		<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
 																		<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-																	</div>
-																	<div class="col-4 p0">
-																		<div class="time">6:18PM</div>
-																	</div>
-																	<p class="subject">This is the subject</p>
-																	<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-																</div>
-																<div class="email-footer" style="user-select: none;">
-																	<div class="row">
-																		<div class="col-5">
-																			<a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-																		</div>
-																		<div class="col-7 extra-actions">
-																			<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																			<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																			<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																			<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																			<a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-
-														<!-- END Single Email -------------------------------------------------------------->
-														<div slot="footer" class="empty2">
-														</div>
-													</draggable>
-
 												</div>
+												<div class="col-4 p0">
+													<div class="time">6:18PM</div>
+												</div>
+												<p class="subject">This is the subject</p>
+												<p class="body">This is the main content of the email, it is suppose to
+													be longer than the subject and a summary of the main content.</p>
 											</div>
-											<!-- END Regular Board Template ------------------->
-										</draggable>
-										<!-- Done Board Template ----------------------->
-										<div class="board">
-											<div class="board-header">
-												<div class="container">
-													<div class="row">
-														<div class="col-2">
-															<div class="dropdown">
-																<a href="#" title="Board options" data-toggle="dropdown"><img
-																	src="assets/icons/board-dots.svg"></a>
-																	<div class="dropdown-menu">
-																		<h6 class="dropdown-header">Sort by</h6>
-																		<a class="dropdown-item" href="#">Date (latest)</a>
-																		<a class="dropdown-item" href="#">Date (oldest)</a>
-																		<a class="dropdown-item" href="#">Size (largest)</a>
-																		<a class="dropdown-item" href="#">Size (smallest)</a>
-																		<h6 class="dropdown-header">Display only</h6>
-																		<a class="dropdown-item" href="#">Unread</a>
-																		<a class="dropdown-item" href="#">Read</a>
-																		<h6 class="dropdown-header">More</h6>
-																		<a class="dropdown-item" href="#">Mark all as read</a>
-																		<a class="dropdown-item" href="#">Mark all as unread</a>
-																		<a class="dropdown-item" href="#">Board options</a>
-																		<a class="dropdown-item red" href="#">Hide Board</a>
-																	</div>
-																</div>
-															</div>
-															<div class="col-8 text-center p0">
-																<h1>Done<div class="archive"><img src="assets/icons/board-archive.svg">Archive
-																all</div>
-															</h1>
-														</div>
-														<div class="col-2 text-right">
-															<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="board-body">
-												<draggable class="draggable-emails" group="board-emails"
-												ghost-class="ghost" drag-class="drag">
-												<div slot="footer" class="empty">
-													<h1>Drag emails here.</h1>
-												</div>
-											</draggable>
-										</div>
-									</div>
-									<!-- END Done Board Template ------------------->
-
-									<!-- Add Board ----------------------->
-									<div class="add-board">
-										<img src="assets/icons/boards-add.svg">
-									</div>
-									<!-- END Add Board ------------------->
-
-								</div>
-
-								<!-- END BOARDS ---- START OTHER LAYOUT --------------------------->
-								<div class="boards secondary"  style="display: none;">
-
-									<!-- Sent Board --------------------------------------->
-									<div class="board">
-										<div class="board-header">
-											<div class="container">
+											<div class="email-footer" style="user-select: none;">
 												<div class="row">
-													<div class="col-3">
-														<div class="dropdown">
-															<a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
-															<div class="dropdown-menu">
-																<h6 class="dropdown-header">Sort by</h6>
-																<a class="dropdown-item" href="#">Date (latest)</a>
-																<a class="dropdown-item" href="#">Date (oldest)</a>
-																<a class="dropdown-item" href="#">Size (largest)</a>
-																<a class="dropdown-item" href="#">Size (smallest)</a>
-																<h6 class="dropdown-header">Display only</h6>
-																<a class="dropdown-item" href="#">Unread</a>
-																<a class="dropdown-item" href="#">Read</a>
-																<h6 class="dropdown-header">More</h6>
-																<a class="dropdown-item" href="#">Mark all as read</a>
-																<a class="dropdown-item" href="#">Mark all as unread</a>
-															</div>
-														</div>
+													<div class="col-5">
+														<a class="main-action" href="#"><img
+																src="assets/icons/badges-event.svg"> Schedule</a>
 													</div>
-													<div class="col-6 text-center">
-														<h1>Sent<div class="count">99+</div></h1>
-													</div>
-													<div class="col-3 text-right">
+													<div class="col-7 extra-actions">
+														<a href="#"><img src="assets/icons/options-reply.png"
+																width="18"></a>
+														<a href="#"><img src="assets/icons/options-replya.png"
+																width="18"></a>
+														<a href="#"><img src="assets/icons/options-forward.png"
+																width="15"></a>
+														<a href="#"><img src="assets/icons/options-star.svg"
+																width="15"></a>
+														<a href=""><img src="assets/icons/options-trash.svg"
+																width="15"></a>
 													</div>
 												</div>
 											</div>
 										</div>
-										<div class="board-body">
+									</div>
 
-											<!-- Single Email ---------- add class 'drag' when dragged ------->
-											<div class="email">
-												<div class="container pr">
-													<div class="unread"></div>
-													<div class="row" style="user-select: none;">
-														<div class="col-8 p0" style="display: inline-flex;">
-															<h2 class="sender">Ruben Touitou</h2>
-															<img src="assets/icons/badges-attach.svg" title="Attachment">
-																<!-- <img src="assets/icons/badges-tracker.svg">
+									<!-- END Single Email -------------------------------------------------------------->
+									<div slot="footer" class="empty2">
+									</div>
+								</draggable>
+
+							</div>
+						</div>
+						<!-- END Regular Board Template ------------------->
+					</draggable>
+					<!-- Done Board Template ----------------------->
+					<div class="board">
+						<div class="board-header">
+							<div class="container">
+								<div class="row">
+									<div class="col-2">
+										<div class="dropdown">
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
+											<div class="dropdown-menu">
+												<h6 class="dropdown-header">Sort by</h6>
+												<a class="dropdown-item" href="#">Date (latest)</a>
+												<a class="dropdown-item" href="#">Date (oldest)</a>
+												<a class="dropdown-item" href="#">Size (largest)</a>
+												<a class="dropdown-item" href="#">Size (smallest)</a>
+												<h6 class="dropdown-header">Display only</h6>
+												<a class="dropdown-item" href="#">Unread</a>
+												<a class="dropdown-item" href="#">Read</a>
+												<h6 class="dropdown-header">More</h6>
+												<a class="dropdown-item" href="#">Mark all as read</a>
+												<a class="dropdown-item" href="#">Mark all as unread</a>
+												<a class="dropdown-item" href="#">Board options</a>
+												<a class="dropdown-item red" href="#">Hide Board</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-8 text-center p0">
+										<h1>Done<div class="archive"><img src="assets/icons/board-archive.svg">Archive
+												all</div>
+										</h1>
+									</div>
+									<div class="col-2 text-right">
+										<a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="board-body">
+							<draggable class="draggable-emails" group="board-emails" ghost-class="ghost"
+								drag-class="drag">
+								<div slot="footer" class="empty">
+									<h1>Drag emails here.</h1>
+								</div>
+							</draggable>
+						</div>
+					</div>
+					<!-- END Done Board Template ------------------->
+
+					<!-- Add Board ----------------------->
+					<div class="add-board">
+						<img src="assets/icons/boards-add.svg">
+					</div>
+					<!-- END Add Board ------------------->
+
+				</div>
+
+				<!-- END BOARDS ---- START OTHER LAYOUT --------------------------->
+				<div class="boards secondary" style="display: none;">
+
+					<!-- Sent Board --------------------------------------->
+					<div class="board">
+						<div class="board-header">
+							<div class="container">
+								<div class="row">
+									<div class="col-3">
+										<div class="dropdown">
+											<a href="#" title="Board options" data-toggle="dropdown"><img
+													src="assets/icons/board-dots.svg"></a>
+											<div class="dropdown-menu">
+												<h6 class="dropdown-header">Sort by</h6>
+												<a class="dropdown-item" href="#">Date (latest)</a>
+												<a class="dropdown-item" href="#">Date (oldest)</a>
+												<a class="dropdown-item" href="#">Size (largest)</a>
+												<a class="dropdown-item" href="#">Size (smallest)</a>
+												<h6 class="dropdown-header">Display only</h6>
+												<a class="dropdown-item" href="#">Unread</a>
+												<a class="dropdown-item" href="#">Read</a>
+												<h6 class="dropdown-header">More</h6>
+												<a class="dropdown-item" href="#">Mark all as read</a>
+												<a class="dropdown-item" href="#">Mark all as unread</a>
+											</div>
+										</div>
+									</div>
+									<div class="col-6 text-center">
+										<h1>Sent<div class="count">99+</div>
+										</h1>
+									</div>
+									<div class="col-3 text-right">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="board-body">
+
+							<!-- Single Email ---------- add class 'drag' when dragged ------->
+							<div class="email">
+								<div class="container pr">
+									<div class="unread"></div>
+									<div class="row" style="user-select: none;">
+										<div class="col-8 p0" style="display: inline-flex;">
+											<h2 class="sender">Ruben Touitou</h2>
+											<img src="assets/icons/badges-attach.svg" title="Attachment">
+											<!-- <img src="assets/icons/badges-tracker.svg">
 																<img src="assets/icons/badges-event.svg">
 																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
 																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-															<p class="subject">This is the subject</p>
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-														<div class="email-footer" style="user-select: none;">
-															<div class="row">
-																<div class="col-5">
-																	<a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-																</div>
-																<div class="col-7 extra-actions">
-																	<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-																	<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-																	<a href="#"><img src="assets/icons/options-trash.svg" class="redh" width="15"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
 										</div>
-										<!-- END Sent Board ----------------------------------->
-
-										<!-- Long Board ----------------------------------->
-										<div class="long-board">
-											<div class="main-email">
-												<div class="email-head">
-													<div class="container">
-														<div class="row">
-															<div class="col-8 p0" style="display: inline-flex;    display: inline-flex;height: 22px;">
-																<h2 class="sender">Ruben from Aiko</h2>
-																<img src="assets/icons/badges-attach.svg" title="Attachment">
-																<img src="assets/icons/badges-tracker.svg">
-																<img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-																<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-															</div>
-															<div class="col-4 p0">
-																<div class="time">Yesterday at 10:10PM</div>
-															</div>
-														</div>
-														<div class="row">
-															<h3>Meeting Request</h3>
-														</div>
-													</div>
-
-													<div class="options-qa">
-														<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
-													</div>
-
-
-													<div class="options">
-														<div class="container">
-															<div class="row">
-																<div class="col-2 p0"> 
-																	<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-																</div>
-																<div class="col-2 p0">
-																	<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-																</div>
-																<div class="col-2 p0">
-																	<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-																</div>
-																<div class="col-2 p0">
-																	<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-																</div>
-																<div class="col-2 p0">
-																	<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-																</div>
-																<div class="col-2 p0">
-																	<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="email-body">
-												</div>
-											</div>
+										<div class="col-4 p0">
+											<div class="time">6:18PM</div>
 										</div>
+										<p class="subject">This is the subject</p>
+										<p class="body">This is the main content of the email, it is suppose to be
+											longer than the subject and a summary of the main content.</p>
 									</div>
-									<!-- END OTHER LAYOUT ----------------------------------->
-								</div>
-							</div>
-
-
-							<!-- Invite Sent Toast -->
-							<div class="aiko-toast">
-								<h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
-							</div>
-							<!-- Connection Lost Toast -->
-							<div class="aiko-toast" style="background-color: red;display: none;">
-								<h1>We're having trouble connecting to the internet.</h1>
-							</div>
-							<!-- END Connection Lost Toast-->
-
-							<!-- IMAP Error Toast -->
-							<div class="aiko-toast" style="background-color: red;display: none;">
-								<h1>We're having issues connecting to your mail provider.</h1>
-							</div>
-							<!-- END IMAP Error Toast-->
-
-							<!-- Send Email Error Toast -->
-							<div class="aiko-toast" style="background-color: red;display: none;">
-								<h1>We were unable to send your message due to network issues.</h1>
-							</div>
-							<!-- END Send Email Error Toast-->
-
-
-							<!-- Toast -->
-							<div class="aiko-toast" style="display: none;">
-								<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
-							</div>
-							<!-- END Toast --------------------------------------->
-
-
-							<!-- INVITE MODAL --------------------------------------->
-							<div class="aiko-modal" style="display: none;">
-								<div class="modal-dialog modal-sm">
-									<div class="modal-content">
-										<div class="modal-reg">
-											<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-											<h1>Invite a team member</h1>
-											<h2>Enter their email address</h2>
-											<input type="email" name="" placeholder="Email">
-											<p>We'll send them a link to Aiko Mail.</p>
-											<br>
-											<a href="#" class="blue">Done</a>
-											<p class="ns30"></p>
-											<br>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- VIDEO TIP MODAL --------------------------------------->
-							<div class="aiko-modal">
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-reg">
-											<h1>Welcome to Aiko Mail</h1>
-											<h2>Watch this tutorial to get started!</h2>
-											<video autoplay controls><source src="assets/videos/tutorial.mp4" type="video/mp4"></video>
+									<div class="email-footer" style="user-select: none;">
+										<div class="row">
+											<div class="col-5">
+												<a class="main-action" href="#"><img
+														src="assets/icons/badges-event.svg"> Schedule</a>
 											</div>
-											<br><br>
-										</div>
-										<div class="modal-bottom">
-											<a href="#" class="blue" style="float: right;">Skip Tutorial</a>
-										</div>
-									</div>
-								</div>
-
-
-								<!-- SINGLE EMAIL VIEW MODAL --------------------------------------->
-								<div class="aiko-modal" style="display: none;">
-									<div class="modal-dialog modal-lg">
-										<div class="modal-content">
-											<div class="main-email">
-												<div class="email-head">
-													<div class="container">
-														<div class="row">
-															<div class="col-8 p0"
-															style="display: inline-flex;    display: inline-flex;height: 22px;">
-															<h2 class="sender">
-															Ruben Touitou</h2>
-															<img src="assets/icons/badges-attach.svg" title="Attachment">
-															<img src="assets/icons/badges-tracker.svg">
-															<img src="assets/icons/badges-event.svg">
-															<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-															<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-															<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-														</div>
-														<div class="col-4 p0">
-															<div class="time">6:18PM</div>
-														</div>
-													</div>
-													<div class="row">
-														<h3>This is a subject line</h3>
-													</div>
-												</div>
-
-												<div class="options-qa">
-													<a target="_blank">
-														<h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
-													</a>
-												</div>
-
-												<div class="options">
-													<div class="container">
-														<div class="row">
-															<div class="col-2 p0">
-																<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-															</div>
-															<div class="col-2 p0">
-																<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-															</div>
-															<div class="col-2 p0">
-																<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-															</div>
-															<div class="col-2 p0">
-																<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-															</div>
-															<div class="col-2 p0">
-																<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-															</div>
-															<div class="col-2 p0">
-																<a href="#">
-																	<img src="assets/icons/options-trash.svg" width="20">
-																</a>
-															</div>
-														</div>
-													</div>
-												</div>
+											<div class="col-7 extra-actions">
+												<a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+												<a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+												<a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+												<a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+												<a href="#"><img src="assets/icons/options-trash.svg" class="redh"
+														width="15"></a>
 											</div>
-											<div class="email-body">
-												<!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
-												<iframe style="border: none; width: 101%;" scrolling="no" frameborder="no"
-												class="html-content" id="messageBody"></iframe>
-											</div>
-										</div>
-										<div class="secondary-email">
-											<div class="secondary-head">
-												<div class="container">
-													<div class="row">
-														<div class="col-3 p0">
-															<img src="assets/img/avatar.png">
-														</div>
-														<div class="col-9 p0 spe">
-															<h1>Ruben Touitou</h1>
-															<h2>rubentouit@yahoo.fr</h2>
-														</div>
-													</div>
-												</div>
-											</div>
-											<h3>Previous threads with Ruben</h3>
-											<div class="previous-threads">
-
-
-												<div class="email thread">
-													<div class="container pr" data-toggle="modal" data-target=".email1">
-														<div class="unread"></div>
-														<div class="row" style="user-select: none;">
-															<div class="col-8 p0" style="display: inline-flex;">
-																<p class="subject">This is the subject</p>
-															</div>
-															<div class="col-4 p0">
-																<div class="time">6:18PM</div>
-															</div>
-
-															<p class="body">This is the main content of the email, it is suppose to be longer than the subject and a summary of the main content.</p>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- NEW MAILBOX MODAL --------------------------------------->
-							<div class="aiko-modal add-mailbox" style="display: none;">
-								<!-- STEP ONE --->
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-reg">
-											<h1>Add a mailbox</h1>
-											<h2>Pick an email provider</h2>
-											<a href="#"><img src="assets/img/icloud.png"></a>
-											<a href="#"><img src="assets/img/exchange.png"></a>
-											<a href="#"><img src="assets/img/google.png"></a>
-											<a href="#"><img src="assets/img/yahoo.png"></a>
-											<a href="#"><img src="assets/img/aol.png"></a>
-											<a href="#"><img src="assets/img/outlook.png"></a>
-											<br>
-										</div>
-										<div class="modal-bottom">
-											<a href="#">Other</a>
-											<a href="#" class="add-2">Back</a>
-										</div>
-									</div>
-								</div>
-								<!-- STEP TWO --->
-								<div class="modal-dialog modal-md">
-									<div class="modal-content">
-										<div class="modal-reg">
-											<h1>Add a mailbox</h1>
-											<h2>Enter your credentials</h2>
-											<a href="#"><img src="assets/img/outlook.png"></a>
-											<input type="email" name="" placeholder="Email">
-											<input type="password" name="" placeholder="Password">
-											<input type="url" name="" placeholder="IMAP Host">
-											<input type="number" name="" placeholder="IMAP Port">
-											<input type="url" name="" placeholder="SMTP Host">
-											<input type="number" name="" placeholder="SMTP Port">
-											<br>
-											<a href="#" class="add-2 blue">Add mailbox</a>
-											<br><br>
-										</div>
-										<div class="modal-bottom">
-											<a href="#">Back</a>
-										</div>
-									</div>
-								</div>
-
-							</div>
-
-
-							<!-- NEW BOARD MODAL --------------------------------------->
-							<div class="aiko-modal" style="display: none;">
-								<!-- STEP ONE --->
-								<div class="modal-dialog modal-sm">  
-									<div class="modal-content">
-										<div class="modal-reg">
-											<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-											<h1>Add a board</h1>
-											<h2>Enter the board name</h2>
-											<input type="text" name="" placeholder="Board name" maxlength="10">
-											<p>Max 10 characters.</p>
-											<br>
-											<a href="#" class="blue">Next</a>
-											<p class="ns30"></p>
-											<br>
-										</div>
-									</div>
-								</div>
-								<!-- STEP TWO --->
-								<div class="modal-dialog modal-xl"> 
-									<div class="modal-content">
-										<div class="modal-reg">
-											<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-											<h1>Add board rules (optional)</h1>
-											<br><br>
-											<div class="container">
-												<div class="row">
-													<div class="col-6" style="border-right: solid 1px #d3d3d3">
-														<h1><img src="assets/icons/arrow-down.svg" class="arrow" width="20">Add received email to this board if:</h1>
-														<br>
-														<p>The email is from:</p>
-														<input type="email" name="" placeholder="Email">
-														<br>
-														<p>The email is about:</p>
-														<input type="text" name="" placeholder="Topic">
-													</div>
-													<div class="col-6">
-														<h1><img src="assets/icons/arrow-up.svg" class="arrow" width="20">Action if email is dragged to this board:</h1>
-														<br>
-														<p>Forward email to:</p>
-														<input type="email" name="" placeholder="Email">
-													</div>
-												</div>
-											</div>
-											<br><br>
-											<a href="#" class="blue">Add board</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-
 					</div>
-					<script src="assets/js/jquery.min.js"></script>
-					<script src="assets/js/popper.min.js"></script>
-					<script src="assets/js/bootstrap.min.js"></script>
-				</body>
+					<!-- END Sent Board ----------------------------------->
 
-				</html>
+					<!-- Long Board ----------------------------------->
+					<div class="long-board">
+						<div class="main-email">
+							<div class="email-head">
+								<div class="container">
+									<div class="row">
+										<div class="col-8 p0"
+											style="display: inline-flex;    display: inline-flex;height: 22px;">
+											<h2 class="sender">Ruben from Aiko</h2>
+											<img src="assets/icons/badges-attach.svg" title="Attachment">
+											<img src="assets/icons/badges-tracker.svg">
+											<img src="assets/icons/badges-event.svg">
+											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+											<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
+										</div>
+										<div class="col-4 p0">
+											<div class="time">Yesterday at 10:10PM</div>
+										</div>
+									</div>
+									<div class="row">
+										<h3>Meeting Request</h3>
+									</div>
+								</div>
+
+								<div class="options-qa">
+									<h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+								</div>
+
+
+								<div class="options">
+									<div class="container">
+										<div class="row">
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+											</div>
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+											</div>
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+											</div>
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+											</div>
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+											</div>
+											<div class="col-2 p0">
+												<a href="#"><img src="assets/icons/options-trash.svg" width="20"></a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="email-body">
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END OTHER LAYOUT ----------------------------------->
+			</div>
+		</div>
+
+
+		<!-- Invite Sent Toast -->
+		<div class="aiko-toast">
+			<h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
+		</div>
+		<!-- Connection Lost Toast -->
+		<div class="aiko-toast" style="background-color: red;display: none;">
+			<h1>We're having trouble connecting to the internet.</h1>
+		</div>
+		<!-- END Connection Lost Toast-->
+
+		<!-- IMAP Error Toast -->
+		<div class="aiko-toast" style="background-color: red;display: none;">
+			<h1>We're having issues connecting to your mail provider.</h1>
+		</div>
+		<!-- END IMAP Error Toast-->
+
+		<!-- Send Email Error Toast -->
+		<div class="aiko-toast" style="background-color: red;display: none;">
+			<h1>We were unable to send your message due to network issues.</h1>
+		</div>
+		<!-- END Send Email Error Toast-->
+
+
+		<!-- Toast -->
+		<div class="aiko-toast" style="display: none;">
+			<h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+		</div>
+		<!-- END Toast --------------------------------------->
+
+
+		<!-- INVITE MODAL --------------------------------------->
+		<div class="aiko-modal" style="display: none;">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+						<h1>Invite a team member</h1>
+						<h2>Enter their email address</h2>
+						<input type="email" name="" placeholder="Email">
+						<p>We'll send them a link to Aiko Mail.</p>
+						<br>
+						<a href="#" class="blue">Done</a>
+						<p class="ns30"></p>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- VIDEO TIP MODAL --------------------------------------->
+		<div class="aiko-modal">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<h1>Welcome to Aiko Mail</h1>
+						<h2>Watch this tutorial to get started!</h2>
+						<video autoplay controls>
+							<source src="assets/videos/tutorial.mp4" type="video/mp4"></video>
+					</div>
+					<br><br>
+				</div>
+				<div class="modal-bottom">
+					<a href="#" class="blue" style="float: right;">Skip Tutorial</a>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- SINGLE EMAIL VIEW MODAL --------------------------------------->
+		<div class="aiko-modal" style="display: none;">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="main-email">
+						<div class="email-head">
+							<div class="container">
+								<div class="row">
+									<div class="col-8 p0"
+										style="display: inline-flex;    display: inline-flex;height: 22px;">
+										<h2 class="sender">
+											Ruben Touitou</h2>
+										<img src="assets/icons/badges-attach.svg" title="Attachment">
+										<img src="assets/icons/badges-tracker.svg">
+										<img src="assets/icons/badges-event.svg">
+										<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+										<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+										<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
+									</div>
+									<div class="col-4 p0">
+										<div class="time">6:18PM</div>
+									</div>
+								</div>
+								<div class="row">
+									<h3>This is a subject line</h3>
+								</div>
+							</div>
+
+							<div class="options-qa">
+								<a target="_blank">
+									<h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
+								</a>
+							</div>
+
+							<div class="options">
+								<div class="container">
+									<div class="row">
+										<div class="col-2 p0">
+											<a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+										</div>
+										<div class="col-2 p0">
+											<a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+										</div>
+										<div class="col-2 p0">
+											<a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+										</div>
+										<div class="col-2 p0">
+											<a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+										</div>
+										<div class="col-2 p0">
+											<a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+										</div>
+										<div class="col-2 p0">
+											<a href="#">
+												<img src="assets/icons/options-trash.svg" width="20">
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="email-body">
+							<!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
+							<iframe style="border: none; width: 101%;" scrolling="no" frameborder="no"
+								class="html-content" id="messageBody"></iframe>
+						</div>
+					</div>
+					<div class="secondary-email">
+						<div class="secondary-head">
+							<div class="container">
+								<div class="row">
+									<div class="col-3 p0">
+										<img src="assets/img/avatar.png">
+									</div>
+									<div class="col-9 p0 spe">
+										<h1>Ruben Touitou</h1>
+										<h2>rubentouit@yahoo.fr</h2>
+									</div>
+								</div>
+							</div>
+						</div>
+						<h3>Previous threads with Ruben</h3>
+						<div class="previous-threads">
+
+
+							<div class="email thread">
+								<div class="container pr" data-toggle="modal" data-target=".email1">
+									<div class="unread"></div>
+									<div class="row" style="user-select: none;">
+										<div class="col-8 p0" style="display: inline-flex;">
+											<p class="subject">This is the subject</p>
+										</div>
+										<div class="col-4 p0">
+											<div class="time">6:18PM</div>
+										</div>
+
+										<p class="body">This is the main content of the email, it is suppose to be
+											longer than the subject and a summary of the main content.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- NEW MAILBOX MODAL --------------------------------------->
+		<div class="aiko-modal add-mailbox" style="display: none;">
+			<!-- STEP ONE --->
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<h1>Add a mailbox</h1>
+						<h2>Pick an email provider</h2>
+						<a href="#"><img src="assets/img/icloud.png"></a>
+						<a href="#"><img src="assets/img/exchange.png"></a>
+						<a href="#"><img src="assets/img/google.png"></a>
+						<a href="#"><img src="assets/img/yahoo.png"></a>
+						<a href="#"><img src="assets/img/aol.png"></a>
+						<a href="#"><img src="assets/img/outlook.png"></a>
+						<br>
+					</div>
+					<div class="modal-bottom">
+						<a href="#">Other</a>
+						<a href="#" class="add-2">Back</a>
+					</div>
+				</div>
+			</div>
+			<!-- STEP TWO --->
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<h1>Add a mailbox</h1>
+						<h2>Enter your credentials</h2>
+						<a href="#"><img src="assets/img/outlook.png"></a>
+						<input type="email" name="" placeholder="Email">
+						<input type="password" name="" placeholder="Password">
+						<input type="url" name="" placeholder="IMAP Host">
+						<input type="number" name="" placeholder="IMAP Port">
+						<input type="url" name="" placeholder="SMTP Host">
+						<input type="number" name="" placeholder="SMTP Port">
+						<br>
+						<a href="#" class="add-2 blue">Add mailbox</a>
+						<br><br>
+					</div>
+					<div class="modal-bottom">
+						<a href="#">Back</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+
+		<!-- NEW BOARD MODAL --------------------------------------->
+		<div class="aiko-modal" style="display: none;">
+			<!-- STEP ONE --->
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+						<h1>Add a board</h1>
+						<h2>Enter the board name</h2>
+						<input type="text" name="" placeholder="Board name" maxlength="10">
+						<p>Max 10 characters.</p>
+						<br>
+						<a href="#" class="blue">Next</a>
+						<p class="ns30"></p>
+						<br>
+					</div>
+				</div>
+			</div>
+			<!-- STEP TWO --->
+			<div class="modal-dialog modal-xl">
+				<div class="modal-content">
+					<div class="modal-reg">
+						<img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+						<h1>Add board rules (optional)</h1>
+						<br><br>
+						<div class="container">
+							<div class="row">
+								<div class="col-6" style="border-right: solid 1px #d3d3d3">
+									<h1><img src="assets/icons/arrow-down.svg" class="arrow" width="20">Add received
+										email to this board if:</h1>
+									<br>
+									<p>The email is from:</p>
+									<input type="email" name="" placeholder="Email">
+									<br>
+									<p>The email is about:</p>
+									<input type="text" name="" placeholder="Topic">
+								</div>
+								<div class="col-6">
+									<h1><img src="assets/icons/arrow-up.svg" class="arrow" width="20">Action if email is
+										dragged to this board:</h1>
+									<br>
+									<p>Forward email to:</p>
+									<input type="email" name="" placeholder="Email">
+								</div>
+							</div>
+						</div>
+						<br><br>
+						<a href="#" class="blue">Add board</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<script src="assets/js/third-party/jquery.min.js"></script>
+	<script src="assets/js/third-party/popper.min.js"></script>
+	<script src="assets/js/third-party/bootstrap.min.js"></script>
+</body>
+
+</html>
