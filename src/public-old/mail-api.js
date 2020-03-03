@@ -1,15 +1,46 @@
+// this is a mixin because it has no template or component to attach to
+// it could be its own class but it's more useful as a mixin
+
 const mail_api_mixin = {
     data: {
-        email: '',
+        profile: {
+            name: '',
+            confirmed: false,
+            pictureURI: '',
+            email: '',
+            period_ends: null, // this needs to manually be turned into a date object
+            mailboxes: [{
+                boards: [{
+                    name: ''
+                }],
+                email: '',
+                events: []
+            }],
+            team: [{
+                member: {
+                    name: '',
+                    confirmed: false,
+                    pictureURI: '',
+                    email: '',
+                    created: null // this needs to manually be turned into a date object
+                },
+                role: ''
+            }, ]
+        },
         token: '',
-        name: '',
-        confirmed: false,
-        pictureURI: '',
-        period_ends: null,
-        mailboxes: [],
-        team: []
     },
     methods: {
+        async getProfile(token) {
+            try {
+
+            } catch (e) {
+                console.error(e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                }
+                return e
+            }
+        },
         async login(email, password) {
             try {
                 this.email = email

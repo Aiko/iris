@@ -2,16 +2,31 @@ const aikoapi = {
     data: {
         TAG: ["%c[AIKO API]", "color: #4b74ff"],
 
-        email: '',
+        profile: {
+            name: '',
+            confirmed: false,
+            pictureURI: '',
+            email: '',
+            period_ends: null, // this needs to manually be turned into a date object
+            mailboxes: [{
+                boards: [{
+                    name: ''
+                }],
+                email: '',
+                events: []
+            }],
+            team: [{
+                member: {
+                    name: '',
+                    confirmed: false,
+                    pictureURI: '',
+                    email: '',
+                    created: null // this needs to manually be turned into a date object
+                },
+                role: ''
+            }, ]
+        },
         token: '',
-
-        name: '',
-        confirmed: false,
-
-        pictureURI: '',
-        period_ends: null,
-        mailboxes: [],
-        team: {}
     },
     methods: {
         // USER API
