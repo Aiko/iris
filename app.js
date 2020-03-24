@@ -3,17 +3,15 @@
 // Utilities
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-const Sentry = require('@sentry/node')
+const Sentry = require('@sentry/node') // TODO: ipc
 Sentry.init({ dsn: 'https://a5c7cbba227443c09affd9b2aee59dea@sentry.io/1886420' })
 const Log = require('./src/js/utils/logger')
 Log.log("Starting up")
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-
 const { app, BrowserWindow } = require('electron')
 Log.log("Checking Electron Squirrel Startup")
 if (require('electron-squirrel-startup')) app.quit()
-
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 // Set up OAuth clients
@@ -23,17 +21,16 @@ const GOAuth2 = require('./src/js/oauth/goauth')
 const MSAuth = require('./src/js/oauth/msoauth')
 
 Log.log("Setting up GOauth")
-const GOAuth = GOAuth2(
+const GOAuth = GOAuth2( // TODO: ipc
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
   null, // no client secret if you registered as iOS app! wheeee
   ['https://mail.google.com']
 )
 
 Log.log("Setting up MSOauth")
-const MSOauth = MSAuth(
+const MSOauth = MSAuth( // TODO: ipc
   '65b77461-4950-4abb-b571-ad129d9923a3'
 )
-
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
@@ -44,7 +41,7 @@ const MSOauth = MSAuth(
 /////////////////////////////////////////////////////////
 Log.log("Setting up email IPC")
 require('./src/js/mail/email')
-const Mailman = require('./src/js/mail/sendmail')
+const Mailman = require('./src/js/mail/sendmail') // TODO: ipc
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
@@ -96,10 +93,6 @@ const entry = () => {
   }
 }
 
-const getWin = () => {
-  return win
-}
-
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
@@ -109,10 +102,3 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (win === null) init()
 })
-
-module.exports = {
-  // Setup
-  entry, Prefs,
-  // Electron Functions
-  platform, getWin
-}

@@ -30,10 +30,40 @@ const aikoapi = {
     },
     methods: {
         // USER API
+        async fetchProfile() {
+            info(...TAG, "Attempting to fetch user profile.")
+            if (!this.token) return error(...TAG, "Tried to fetch user profile but no token has been retrieved.")
+            try {
+                const d = await post('/v3/me', {}, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                this.profile = d
+
+                // manually form Date objects for later use
+                this.profile.period_ends = new Date(this.profile.period_ends)
+                this.profile.team = this.profile.team.map(tm => {
+                    tm.member.created = new Date(tm.member.created)
+                    return tm
+                })
+
+                success(...TAG, "Fetched user profile.")
+                return true
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return e
+            }
+        },
         async signup(email) {
             info(...TAG, "Attempting to sign up with email:", email)
             try {
-                this.email = email
+                this.profile.email = email
                 const d = await post('/v3/signup', {
                     email: this.email
                 })
@@ -112,37 +142,7 @@ const aikoapi = {
                 return null
             }
         },
-        async fetchProfile() {
-            info(...TAG, "Attempting to fetch user profile.")
-            if (!this.token) return error(...TAG, "Tried to fetch user profile but no token has been retrieved.")
-            try {
-                const d = await post('/v3/me', {}, this.token)
-                if (!d || d.error) {
-                    error(...TAG, d.error)
-                    return d.error
-                }
 
-                // TODO: add all user properties through here.
-                this.email = d.email
-
-                this.name = d.name
-                this.confirmed = d.confirmed
-
-                this.pictureURI = d.pictureURI
-                this.period_ends = d.period_ends
-                this.mailboxes = d.mailboxes
-                this.team = d.team
-                success(...TAG, "Fetched user profile.")
-                return true
-            } catch (e) {
-                error(...TAG, e)
-                if (e.message == 'Failed to fetch') {
-                    app.isOnline = false
-                    error(...TAG, "App is not online!")
-                }
-                return e
-            }
-        },
         async updateProfile() {
             info(...TAG, "Attempting to update user profile.")
             if (!this.token) return error(...TAG, "Tried to update user profile but no token has been retrieved.")
