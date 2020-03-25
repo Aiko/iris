@@ -65,7 +65,7 @@ const aikoapi = {
             try {
                 this.profile.email = email
                 const d = await post('/v3/signup', {
-                    email: this.email
+                    email: this.profile.email
                 })
                 if (!d || d.error || !d.accessToken) {
                     error(...TAG, d.error)
@@ -74,6 +74,7 @@ const aikoapi = {
                 this.token = d.accessToken
                 success(...TAG, "Successfully signed up with email:", email)
                 return this.token
+                // NOTE: this doesn't call fetch profile as the user should confirm email first
             } catch (e) {
                 error(...TAG, e)
                 if (e.message == 'Failed to fetch') {
@@ -86,9 +87,9 @@ const aikoapi = {
         async login(email, password) {
             info(...TAG, "Attempting to log in to account with email:", email)
             try {
-                this.email = email
+                this.profile.email = email
                 const d = await post('/v3/login', {
-                    email: this.email,
+                    email: this.profile.email,
                     password: password
                 })
                 if (!d || d.error || !d.accessToken) {
@@ -97,6 +98,7 @@ const aikoapi = {
                 }
                 this.token = d.accessToken
                 success(...TAG, "Logged into account with email:", email)
+                await this.fetchProfile()
                 return this.token
             } catch (e) {
                 error(...TAG, e)
@@ -114,15 +116,15 @@ const aikoapi = {
             info(...TAG, "Attempting to register account with email:", email)
             if (!this.token) return error(...TAG, "Tried to register account but no token has been retrieved.")
             let companyName, companyColor, companyLogo = null;
-            if (this.team) {
-                companyName = this.team.name;
-                companyColor = this.team.accentColor;
-                companyLogo = this.team.pictureURI;
+            if (this.profile.team) {
+                companyName = this.profile.team.name;
+                companyColor = this.profile.team.accentColor;
+                companyLogo = this.profile.team.pictureURI;
             }
             try {
-                this.email = email
+                this.profile.email = email
                 const d = await post('/v3/account/register', {
-                    name: this.name,
+                    name: this.profile.name,
                     email, password,
                     companyName, companyLogo, companyColor
                 })
@@ -132,6 +134,7 @@ const aikoapi = {
                 }
                 this.token = d.accessToken
                 success(...TAG, "Registered account with email:", email)
+                await this.fetchProfile()
                 return this.token
             } catch (e) {
                 error(...TAG, e)
@@ -142,31 +145,21 @@ const aikoapi = {
                 return null
             }
         },
-
         async updateProfile() {
             info(...TAG, "Attempting to update user profile.")
             if (!this.token) return error(...TAG, "Tried to update user profile but no token has been retrieved.")
             try {
                 const d = await post('/v3/account/update', {
-                    name: this.name,
-                    email: this.email
+                    name: this.profile.name,
+                    email: this.profile.email
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
                     return d.error
                 }
 
-                // TODO: add all user properties through here.
-                this.email = d.email
-
-                this.name = d.name
-                this.confirmed = d.confirmed
-
-                this.pictureURI = d.pictureURI
-                this.period_ends = d.period_ends
-                this.mailboxes = d.mailboxes
-                this.team = d.team
                 success(...TAG, "Updated user profile.")
+                await this.fetchProfile()
                 return true
             } catch (e) {
                 error(...TAG, e)
@@ -182,8 +175,8 @@ const aikoapi = {
             if (!this.token) return error(...TAG, "Tried to change password but no token has been retrieved.")
             try {
                 const d = await post('/v3/account/update', {
-                    name: this.name,
-                    email: this.email,
+                    name: this.profile.name,
+                    email: this.profile.email,
                     password: oldPassword,
                     newPassword
                 }, this.token)
@@ -192,17 +185,8 @@ const aikoapi = {
                     return d.error
                 }
 
-                // TODO: add all user properties through here.
-                this.email = d.email
-
-                this.name = d.name
-                this.confirmed = d.confirmed
-
-                this.pictureURI = d.pictureURI
-                this.period_ends = d.period_ends
-                this.mailboxes = d.mailboxes
-                this.team = d.team
                 success(...TAG, "Changed password.")
+                await this.fetchProfile()
                 return true
             } catch (e) {
                 error(...TAG, e)
@@ -227,6 +211,31 @@ const aikoapi = {
                     return d.error
                 }
                 success(...TAG, "Deleted account.")
+                this.profile = {
+                    name: '',
+                    confirmed: false,
+                    pictureURI: '',
+                    email: '',
+                    period_ends: null, // this needs to manually be turned into a date object
+                    mailboxes: [{
+                        boards: [{
+                            name: ''
+                        }],
+                        email: '',
+                        events: []
+                    }],
+                    team: [{
+                        member: {
+                            name: '',
+                            confirmed: false,
+                            pictureURI: '',
+                            email: '',
+                            created: null // this needs to manually be turned into a date object
+                        },
+                        role: ''
+                    }, ]
+                }
+                this.token = ''
                 return true
             } catch (e) {
                 error(...TAG, e)
