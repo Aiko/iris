@@ -15,16 +15,23 @@ const aikoapi = {
                 email: '',
                 events: []
             }],
-            team: [{
-                member: {
-                    name: '',
-                    confirmed: false,
-                    pictureURI: '',
-                    email: '',
-                    created: null // this needs to manually be turned into a date object
-                },
-                role: ''
-            }, ]
+            team: {
+                name: '',
+                planName: '',
+                paymentMethod: '',
+                accentColor: '486fff',
+                pictureURI: '',
+                team: [{
+                    member: {
+                        name: '',
+                        confirmed: false,
+                        pictureURI: '',
+                        email: '',
+                        created: null // this needs to manually be turned into a date object
+                    },
+                    role: ''
+                }]
+            }
         },
         token: '',
     },
@@ -44,7 +51,7 @@ const aikoapi = {
 
                 // manually form Date objects for later use
                 this.profile.period_ends = new Date(this.profile.period_ends)
-                this.profile.team = this.profile.team.map(tm => {
+                this.profile.team.team = this.profile.team.team.map(tm => {
                     tm.member.created = new Date(tm.member.created)
                     return tm
                 })
@@ -203,8 +210,7 @@ const aikoapi = {
             if (!this.token) return error(...TAG, "Tried to delete account but no token has been retrieved.")
             try {
                 const d = await post('/v3/account/delete', {
-                    email: email,
-                    password: password,
+                    email, password
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
@@ -254,12 +260,132 @@ const aikoapi = {
             of Aiko's actual website at any point.
         */
         // TEAM API
-        async teamInvite(emails) {
+        async updateTeam() {
+            info(...TAG, "Attempting to update team with id:", this.profile.team._id)
+            if (!this.token) return error(...TAG, "Tried to update team but no token has been retrieved.")
+            try {
+                const d = await post('/v3/team/update', {
+                    name: this.profile.team.name,
+                    color: this.profile.team.accentColor,
+                    pic: this.profile.team.pictureURI
+                }, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                success(...TAG, "Updated team with name:", this.profile.team.name)
+                return await this.fetchProfile()
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return false
+            }
+        },
+        async inviteToTeam(emails) {
             info(...TAG, "Attempting to invite new users with emails:", emails)
             if (!this.token) return error(...TAG, "Tried to invite to team but no token has been retrieved.")
             try {
                 const d = await post('/v3/team/invite', {
-                    emails: emails
+                    emails,
+                }, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                success(...TAG, "Added users with emails:", emails)
+                return await this.fetchProfile()
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return false
+            }
+        },
+        async removeFromTeam(memberId) {
+            info(...TAG, "Attempting to remove user from team:", memberId)
+            if (!this.token) return error(...TAG, "Tried to remove from team but no token has been retrieved.")
+            try {
+                const d = await post('/v3/team/remove', {
+                    memberId,
+                }, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                success(...TAG, "A user was removed from the team, the user has id:", memberId)
+                return await this.fetchProfile()
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return false
+            }
+        },
+        async promoteToAdmin(memberId) {
+            info(...TAG, "Attempting to promote user in team to admin:", memberId)
+            if (!this.token) return error(...TAG, "Tried to promote to admin but no token has been retrieved.")
+            try {
+                const d = await post('/v3/team/promote', {
+                    memberId,
+                }, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                success(...TAG, "A user was promoted to admin, the user has id:", memberId)
+                return await this.fetchProfile()
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return false
+            }
+        },
+        async demoteToMember(memberId) {
+            info(...TAG, "Attempting to demote user in team to member:", memberId)
+            if (!this.token) return error(...TAG, "Tried to demote to member but no token has been retrieved.")
+            try {
+                const d = await post('/v3/team/demote', {
+                    memberId,
+                }, this.token)
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
+
+                success(...TAG, "A user was demoted to member, the user has id:", memberId)
+                return await this.fetchProfile()
+            } catch (e) {
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
+                return false
+            }
+        },
+        /*
+            TODO: add billing as a separate component in settings to process upgrades
+        */
+        async addMailbox(email) {
+            info(...TAG, "Attempting to add a new mailbox with email:", email)
+            if (!this.token) return error(...TAG, "Tried to add mailbox but no token has been retrieved.")
+            try {
+                const d = await post('/v3/mailboxes/create', {
+                    email,
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
@@ -277,19 +403,19 @@ const aikoapi = {
                 return false
             }
         },
-        async addMailbox(email) {
-            info(...TAG, "Attempting to add a new mailbox with email:", email)
-            if (!this.token) return error(...TAG, "Tried to add mailbox but no token has been retrieved.")
+        async deleteMailbox(mailboxId) {
+            info(...TAG, "Attempting to delete a mailbox with id:", mailboxId)
+            if (!this.token) return error(...TAG, "Tried to delete mailbox but no token has been retrieved.")
             try {
-                const d = await post('/v3/mailboxes/create', {
-                    email: email
+                const d = await post('/v3/mailboxes/delete', {
+                    mailboxId,
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
                     return d.error
                 }
 
-                success(...TAG, "Added mailbox with email:", email)
+                success(...TAG, "Deleted mailbox with id:", mailboxId)
                 return await this.fetchProfile()
             } catch (e) {
                 error(...TAG, e)
@@ -301,22 +427,38 @@ const aikoapi = {
             }
         },
         async makeTracker(mid, to, subject) {
+            info(...TAG, "Attempting to make a tracker for message from", to, "with subject", subject, "\n>>> MID:", mid)
+            if (!this.token) return error(...TAG, "Tried to make tracker but no token has been retrieved.")
             try {
                 const d = await post('/v3/pixies/create', {
-                    mid: mid,
-                    to: to,
-                    subject: subject,
+                    mid, to, subject,
                     mailboxId: this.mailbox._id
                 }, this.token)
-                if (!d || d.error || !d.success) return false
+                if (!d || d.error || !d.success) {
+                    error(...TAG, d.error)
+                    return false
+                }
 
-                return d.pix
+                const pixId = d.pix
+                if (!d.pix) {
+                    error(...TAG, "Tracker creation did not return error but did not return pixel ID either!")
+                    return false
+                }
+
+                success(...TAG, "Made tracker with id:", pixId)
+                return pixId
             } catch (e) {
-                console.error(e)
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
                 return false
             }
         },
         async updateBoards() {
+            info(...TAG, "Attempting to update boards.")
+            if (!this.token) return error(...TAG, "Tried to update boards but no token has been retrieved.")
             try {
                 const d = await post('/v3/mailboxes/boards', {
                     mailboxId: this.mailbox._id,
@@ -327,14 +469,19 @@ const aikoapi = {
                         }
                     })
                 }, this.token)
-                if (!d || d.error) return false
+                if (!d || d.error) {
+                    error(...TAG, d.error)
+                    return d.error
+                }
 
-                await this.fetchProfile()
-                this.fetching = true
-                await this.switchToMailbox(this.mailboxes.filter(mailbox => mailbox.email == this.mailbox.email)[0])
-
+                success(...TAG, "Updated boards.")
+                return await this.fetchProfile()
             } catch (e) {
-                console.error(e)
+                error(...TAG, e)
+                if (e.message == 'Failed to fetch') {
+                    app.isOnline = false
+                    error(...TAG, "App is not online!")
+                }
                 return false
             }
         },
