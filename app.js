@@ -3,7 +3,10 @@
 // Utilities
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-const Sentry = require('@sentry/node') // TODO: ipc
+const Sentry = require('@sentry/node')
+// TODO: use sentry electron and do the config for that
+// TODO: should also track environment
+// TODO: bug reports, managed updates, etc. for electron
 Sentry.init({ dsn: 'https://a5c7cbba227443c09affd9b2aee59dea@sentry.io/1886420' })
 const Log = require('./src/js/utils/logger')
 Log.log("Starting up")
