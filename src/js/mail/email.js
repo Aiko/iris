@@ -1,19 +1,6 @@
 const Client = require('emailjs-imap-client').default
 const { ipcMain } = require('electron')
-
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
-// reinitialized every restart :) black box
-const key = crypto.randomBytes(32).toString('hex') // 32 bytes = 64 hex chars = 256 bits 💪
-
-ipcMain.handle('key exchange', async (_, q) => {
-    const { secret } = q
-    // this is what the client needs to send to auth requests
-    const token = jwt.sign({token: secret}, key, { expiresIn: 60 * 60 * 24 * 7 }) 
-    // we double sign the result payload
-    const payload = jwt.sign({token: token}, secret, { expiresIn: 60 * 60 * 24 * 7 })
-    return payload
-})
+const comms = require('../utils/comms.js')
 
 const assertions = true // please don't disable assertions
 let connected = false
@@ -76,18 +63,8 @@ if (true) {
     */
 }
 
-module["👈"] = async token => {
-    if (!token) throw 'Missing token'
-    const {secret} = jwt.verify(token, key) // returns {token: secret}
-    return secret
-}
-
-module["👉"] = (secret, d) => {
-    return jwt.sign(d, secret, { expiresIn: 60 * 60 * 24 * 7 })
-}
-
 // Create new Mail Client
-ipcMain.handle('make new client', async (_, q) => {
+ipcMain.handle('please make new client', async (_, q) => {
     const {
         token,
         host,
@@ -98,7 +75,7 @@ ipcMain.handle('make new client', async (_, q) => {
         secure
     } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     // assertions
@@ -128,14 +105,14 @@ ipcMain.handle('make new client', async (_, q) => {
 
     client = new Client(host, port, options)
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Connect to Mail Server
-ipcMain.handle('connect to server', async (_, q) => {
+ipcMain.handle('please connect to server', async (_, q) => {
     const { token } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -146,14 +123,14 @@ ipcMain.handle('connect to server', async (_, q) => {
     try { await client.connect() } catch (e) { return { error: e } }
     connected = true
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Disconnect from Mail Server
-ipcMain.handle('disconnect from server', async (_, q) => {
+ipcMain.handle('please disconnect from server', async (_, q) => {
     const { token } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -165,14 +142,14 @@ ipcMain.handle('disconnect from server', async (_, q) => {
     await client.close()
     connected = false
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Get Folders from Mailbox
 ipcMain.handle('please list folders', async (_, q) => {
     const { token } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -209,14 +186,14 @@ ipcMain.handle('please list folders', async (_, q) => {
     }
     const folders = helper(mailboxes)
 
-    return { s: module["👉"](client_secret, { success: true, payload: folders }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: folders }) }
 })
 
 // Create Folder
 ipcMain.handle('please make a new folder', async (_, q) => {
     const { path, token } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -227,14 +204,14 @@ ipcMain.handle('please make a new folder', async (_, q) => {
 
     try { await client.createMailbox(path) } catch (e) { return { error: e } }
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Delete Folder
 ipcMain.handle('please delete a folder', async (_, q) => {
     const { path, token } = q
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -245,7 +222,7 @@ ipcMain.handle('please delete a folder', async (_, q) => {
 
     try { await client.deleteMailbox(path) } catch (e) { return { error: e } }
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Open a Folder
@@ -256,7 +233,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
         condstore: true
     }
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -282,7 +259,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
     */
 
     currentFolder = path
-    return { s: module["👉"](client_secret, { success: true, payload: info }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: info }) }
 })
 
 // Get Emails
@@ -294,7 +271,7 @@ ipcMain.handle('please get emails', async (_, q) => {
     }
     if (modseq) options.changedSince = modseq
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -331,7 +308,7 @@ ipcMain.handle('please get emails', async (_, q) => {
     */
 
     currentFolder = path
-    return { s: module["👉"](client_secret, { success: true, payload: messages }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: messages }) }
 })
 
 // Search Emails
@@ -341,7 +318,7 @@ ipcMain.handle('please look for emails', async (_, q) => {
         byUid: true
     }
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     /*
@@ -375,7 +352,7 @@ ipcMain.handle('please look for emails', async (_, q) => {
         return { error: `Did not receive any UIDs back when calling client.listMessages(${path}, ${sequence}, [${peek.join(',')}]) in "please get emails"` };
 
     currentFolder = path
-    return { s: module["👉"](client_secret, { success: true, payload: results }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: results }) }
 })
 
 // Set flags
@@ -386,7 +363,7 @@ ipcMain.handle('please set email flags', async (_, q) => {
     }
     if (blind) options.silent = true
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     /*
@@ -411,7 +388,7 @@ ipcMain.handle('please set email flags', async (_, q) => {
         return { error: `Did not receive any messages back when calling client.setFlags in "please set email flags"` };
 
     currentFolder = path
-    if (!blind) return { s: module["👉"](client_secret, { success: true, payload: messages }) }
+    if (!blind) return { s: comms["👉"](client_secret, { success: true, payload: messages }) }
     return;
 })
 
@@ -422,7 +399,7 @@ ipcMain.handle('please delete emails', async (_, q) => {
         byUid: true,
     }
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -435,7 +412,7 @@ ipcMain.handle('please delete emails', async (_, q) => {
     try { await client.deleteMessages(path, sequence, options) } catch (e) { return { error: e } }
 
     currentFolder = path
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Copy Emails
@@ -445,7 +422,7 @@ ipcMain.handle('please copy emails', async (_, q) => {
         byUid: true,
     }
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -458,7 +435,7 @@ ipcMain.handle('please copy emails', async (_, q) => {
 
     try { await client.copyMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Copy Emails
@@ -468,7 +445,7 @@ ipcMain.handle('please move emails', async (_, q) => {
         byUid: true,
     }
 
-    let client_secret; try { client_secret = await module["👈"](token) } catch (e) { return { error: e } }
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
     if (!client_secret) return { error: "Couldn't decode client secret" };
 
     if (assertions) {
@@ -481,7 +458,7 @@ ipcMain.handle('please move emails', async (_, q) => {
 
     try { await client.moveMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
 
-    return { s: module["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // TODO: client.onupdate lets us listen for EXISTS messages and update the mailbox with pubsub
