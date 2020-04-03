@@ -14,6 +14,33 @@ ipcMain.handle('key exchange', async (_, q) => {
     return payload
 })
 
+
+/*
+
+USAGE:
+
+ipcMain.handle('', async (_, q) => {
+    const { token } = q
+
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
+    if (!client_secret) return { error: "Couldn't decode client secret" };
+
+    return { s: comms["👉"](client_secret, { success: true, payload: 'YOUR PAYLOAD HERE' }) }
+})
+
+Q: Why isn't this a method??
+A: You can refactor this out if you wish. For early debugging purposes it was kept
+so that it could be used through the raw ipcMain system with a lot of flexibility,
+but I recognize that when you're reading this, it may no longer be the case!
+
+Q: What is the _ argument?
+A: This is the IpcMainInvokeEvent! You can use this to get the frame id and sender,
+although the frame id is totaly and wholly useless, so I recommend much more to
+instead use async ({ sender }, q) => in order to get the sender! ES6 FTW!
+
+*/
+
+
 module.exports = {
     "👈": async token => { // incoming
         if (!token) throw 'Missing token'
