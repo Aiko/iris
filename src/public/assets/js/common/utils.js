@@ -198,6 +198,7 @@ const HTML2Element = html => {
     template.innerHTML = html
     return template.content.firstChild
 }
+
 const ObjectID2Date = _id => {
     const timestamp = _id.substring(0, 8)
     return new Date(parseInt(timestamp, 16) * 1000)
