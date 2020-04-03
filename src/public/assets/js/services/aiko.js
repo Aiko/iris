@@ -1,6 +1,6 @@
 const aikoapi = {
     data: {
-        TAG: ["%c[AIKO API]", "color: #4b74ff"],
+        TAG: ["%c[AIKO API]", "background-color: #4b74ff; color: #fff;"],
 
         profile: {
             name: '',
