@@ -20,18 +20,18 @@ if (require('electron-squirrel-startup')) app.quit()
 // Set up OAuth clients
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
-const GOAuth2 = require('./src/js/oauth/goauth')
+const GOAuth = require('./src/js/oauth/goauth')
 const MSAuth = require('./src/js/oauth/msoauth')
 
 Log.log("Setting up GOauth")
-const GOAuth = GOAuth2( // TODO: ipc
+GOAuth(
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
-  null, // no client secret if you registered as iOS app! wheeee
+  null, // no client secret if you registered as iOS app!
   ['https://mail.google.com']
 )
 
 Log.log("Setting up MSOauth")
-const MSOauth = MSAuth( // TODO: ipc
+MSAuth(
   '65b77461-4950-4abb-b571-ad129d9923a3'
 )
 /////////////////////////////////////////////////////////

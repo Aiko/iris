@@ -1,30 +1,28 @@
 const {
+    ipcMain,
     remote,
     BrowserWindow
 } = require('electron')
 const {
-    OAuth2Client
-} = require('google-auth-library')
-const {
-    Credentials
-} = require('google-auth-library/build/src/auth/credentials')
-const {
     google
 } = require('googleapis')
-const {
-    stringify
-} = require('querystring')
 const URL = require('url')
 const request = require('request')
-
 const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
-
-let oauth2Client;
-const scopes = [];
+const comms = require('../utils/comms.js')
 
 module.exports = (clientId, clientSecret, scopes) => {
-    return {
-        getToken: (login_hint=null) => new Promise((s, j) => {
+    let oauth2Client;
+
+    ipcMain.handle('please get google oauth token', async (_, q) => {
+        return await new Promise((s, _) => {
+            const { token, login_hint } = q
+
+            let client_secret;
+            try { client_secret = await comms["👈"](token) }
+            catch (e) { return s({ error: e }) }
+            if (!client_secret) return s({ error: "Couldn't decode client secret" })
+
             if (!scopes.includes('profile')) scopes.push('profile')
             if (!scopes.includes('email')) scopes.push('email')
             oauth2Client = new google.auth.OAuth2(
@@ -33,7 +31,12 @@ module.exports = (clientId, clientSecret, scopes) => {
                 'urn:ietf:wg:oauth:2.0:oob'
             )
             oauth2Client.on('tokens', tokens => {
-                s(tokens)
+                s({
+                    "s": comms["👉"](client_secret, {
+                        success: true,
+                        payload: tokens
+                    })
+                })
                 win.removeAllListeners('close')
                 win.close()
             })
@@ -50,17 +53,13 @@ module.exports = (clientId, clientSecret, scopes) => {
             })
             win.loadURL(url);
             win.on('closed', () => {
-                return s({
-                    error: 'window closed'
-                })
+                return s({ error: 'User closed the Google login window' })
             })
 
             win.webContents.on('did-navigate', (ev, newURL) => {
                 const parsed = URL.parse(newURL, true)
                 if (parsed.query.error) {
-                    s({
-                        error: parsed.query.error_description
-                    })
+                    s({ error: parsed.query.error_description })
                     win.removeAllListeners('close')
                     win.close()
                 } else if (parsed.query.code || parsed.query.approvalCode) {
@@ -72,9 +71,7 @@ module.exports = (clientId, clientSecret, scopes) => {
             win.on('page-title-updated', () => {
                 const title = win.getTitle()
                 if (title.startsWith('Denied')) {
-                    s({
-                        error: title
-                    })
+                    s({ error: `The request was denied with title: "${title}"` })
                     win.removeAllListeners('close')
                     win.close()
                 } else if (title.startsWith('Success')) {
@@ -86,8 +83,18 @@ module.exports = (clientId, clientSecret, scopes) => {
             const finish = code => oauth2Client
                 .getToken(code)
                 .then(res => oauth2Client.setCredentials(res.tokens))
-        }),
-        refreshToken: r_token => new Promise((s, j) => {
+        })
+    })
+
+    ipcMain.handle('please refresh google oauth token', async (_, q) => {
+        return await new Promise((s, _) => {
+            const { token, r_token } = q
+
+            let client_secret;
+            try { client_secret = await comms["👈"](token) }
+            catch (e) { return s({ error: e }) }
+            if (!client_secret) return s({ error: "Couldn't decode client secret" })
+
             const opts = {
                 method: 'POST',
                 url: 'https://oauth2.googleapis.com/token',
@@ -103,10 +110,15 @@ module.exports = (clientId, clientSecret, scopes) => {
             }
 
             request(opts, (e, res, b) => {
-                if (e) s({error: e})
+                if (e) return s({ error: e })
                 const d = JSON.parse(b);
-                s(d)
+                s({
+                    "s": comms["👉"](client_secret, {
+                        success: true,
+                        payload: d
+                    })
+                })
             })
         })
-    }
+    })
 }
