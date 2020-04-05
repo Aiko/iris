@@ -1138,7 +1138,6 @@ hr {
 }
 .secondary-head{
 	padding-bottom: 15px;
-	border-bottom: 1px solid var(--main-text-color);
 	position: absolute;
 	margin-left: -15px;
 	top: 0;
