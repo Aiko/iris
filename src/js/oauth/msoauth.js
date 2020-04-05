@@ -10,7 +10,7 @@ const comms = require('../utils/comms.js')
 
 module.exports = clientId => {
     ipcMain.handle('please get microsoft oauth token', async (_, q) => {
-        return await new Promise((s, _) => {
+        return await new Promise(async (s, _) => {
             const { token, login_hint } = q
 
             let client_secret;
@@ -95,7 +95,7 @@ module.exports = clientId => {
     })
 
     ipcMain.handle('please refresh microsoft oauth token', async (_, q) => {
-        return await new Promise((s, _) => {
+        return await new Promise(async (s, _) => {
             const { token, r_token } = q
 
             let client_secret;

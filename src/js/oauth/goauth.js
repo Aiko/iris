@@ -15,7 +15,7 @@ module.exports = (clientId, clientSecret, scopes) => {
     let oauth2Client;
 
     ipcMain.handle('please get google oauth token', async (_, q) => {
-        return await new Promise((s, _) => {
+        return await new Promise(async (s, _) => {
             const { token, login_hint } = q
 
             let client_secret;
@@ -87,7 +87,7 @@ module.exports = (clientId, clientSecret, scopes) => {
     })
 
     ipcMain.handle('please refresh google oauth token', async (_, q) => {
-        return await new Promise((s, _) => {
+        return await new Promise(async (s, _) => {
             const { token, r_token } = q
 
             let client_secret;
