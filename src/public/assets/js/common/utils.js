@@ -104,6 +104,13 @@ String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1)
 }
 
+// NOTE: only returns hexadecimal digits, can change radix to change base
+String.random = length => {
+    let str = ''
+    while (str.length < length) str += Math.random().toString(16).substring(2)
+    return str.substring(0, length)
+}
+
 Array.prototype.joinTo = function (to, separator) {
     const toJoin = this.slice(0, to)
     if (this.length > toJoin.length)
