@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer')
+// TODO: IPC
 
 module.exports = (mail, host, port, username='', password='', xoauth='') => new Promise((s, j) => {
     const transporter = password ? nodemailer.createTransport({
