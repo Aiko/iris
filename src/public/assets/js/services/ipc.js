@@ -47,6 +47,7 @@ const ipc = {
         },
         async handleIPCError(e) {
             error(...TAG, e)
-        }
+        },
+        // TODO: task queue similar to how node-email was designed
     }
 }
