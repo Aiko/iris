@@ -1104,7 +1104,7 @@ hr {
 }
 .email-body{
 	height: calc(100% - 50px);
-	overflow-y: scroll;
+	overflow-y: hidden;
 	padding-top: 17px;
 }
 .changer{
