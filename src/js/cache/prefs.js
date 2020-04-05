@@ -3,6 +3,8 @@ const {
     ipcMain
 } = require('electron')
 
+// FIXME: prefs should probably have middleware
+
 module.exports = fp => {
     const Prefs = {
         data: {
