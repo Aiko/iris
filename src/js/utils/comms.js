@@ -10,7 +10,7 @@ ipcMain.handle('key exchange', async (_, q) => {
     // this is what the client needs to send to auth requests
     const token = jwt.sign({token: secret}, key, { expiresIn: 60 * 60 * 24 * 7 }) 
     // we double sign the result payload
-    const payload = jwt.sign({token: token}, secret, { expiresIn: 60 * 60 * 24 * 7 })
+    const payload = jwt.sign({token}, secret, { expiresIn: 60 * 60 * 24 * 7 })
     return payload
 })
 
