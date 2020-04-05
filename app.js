@@ -156,6 +156,7 @@ const init = () => {
 // LAUNCH TIME 🚀🚀🚀🚀🚀🚀
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
+app.allowRendererProcessReuse = false
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
