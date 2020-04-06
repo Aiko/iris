@@ -1115,6 +1115,7 @@ hr {
 	height: 200px;
 	overflow-y: hidden;
 	padding-top: 17px;
+	width: 100%;
 }
 .changer{
 	height: 20px;
@@ -1202,13 +1203,14 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-	background: var(--secondary-bg-color);
+    background: var(--secondary-bg-color);
     width: 250px;
     position: relative;
     float: right;
     border-radius: 4px 0px 0px 0px;
-    padding: 1px 6px 7px 6px;
+    padding: 3px 6px 7px 6px;
     margin-bottom: -17px;
+    text-align: center;
     margin-right: -25px;
 }
 .options-qa{
