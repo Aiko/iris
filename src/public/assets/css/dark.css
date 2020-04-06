@@ -30,8 +30,13 @@
 
 
 /*  Custom styling */
-
-
+.main-email{
+  background: #312f2e !important;
+  box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.04);
+}
+.main-email .action{
+  background: #151515 !important;
+}
 .bg{
 	background-blend-mode: darken;
 }
