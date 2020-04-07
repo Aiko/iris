@@ -1104,7 +1104,7 @@ hr {
 	background: var(--email-bg-color);
 	border-radius: 4px;
 	box-shadow: 0 0px 9px #0000001a;
-	margin: 25px 15px;
+	margin: 20px 15px;
 }
 
 .email:hover{
