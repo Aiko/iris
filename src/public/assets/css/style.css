@@ -829,6 +829,20 @@ hr {
 	border-radius: 0px 4px 4px 0px;
 	transition: .2s;
 }
+.chip{
+	 background: var(--main-color);
+    padding: 1px 4px;
+    border-radius: 2px;
+    width: max-content;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.chip img{
+	margin-top: -2px;
+}
+.grouped-chips{
+	    display: inline-flex;
+}
 .delete img{
 	position: absolute;
 	top: 45%;
