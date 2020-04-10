@@ -39,6 +39,8 @@ const ipc = {
     data: {
         TAG: ["%c[IPC]", "background-color: #ff99ff; color: #000;"],
         middleware: null,
+        ipcQueue: [],
+        ipcRotating: false
     },
     methods: {
         // TODO: call init on IPC when loading the app
@@ -48,6 +50,54 @@ const ipc = {
         async handleIPCError(e) {
             error(...TAG, e)
         },
-        // TODO: task queue similar to how node-email was designed
+        /*
+
+        USAGE EXAMPLE:
+
+        For single tasks:
+        const {message} = await this.callIPC(
+            this.ipcTask('please echo', {message: "foo"})
+        )
+
+        For batch tasks:
+        const results = await this.callIPC(
+            this.ipcTask('please echo', {message: "hello"}),
+            this.ipcTask('please echo', {message: "world"})
+        )
+        console.log(results[0].message) // "hello"
+        console.log(results[1].message) // "world"
+
+        */
+        ipcTask(channel, data) {
+            return {
+                channel,
+                q: this.middleware.encode(data)
+            }
+        },
+        callIPC(...tasks) {
+            if (tasks.length == 0) throw "Calling IPC with no tasks"
+            return new Promise((s, _) => {
+                this.ipcQueue.push({ tasks, s })
+                if (!this.ipcRotating) this.ipcRotate()
+            })
+        },
+        async ipcRotate() {
+            this.ipcRotating = true
+            if (this.ipcQueue.length > 0) {
+                const { tasks, s } = this.ipcQueue.shift()
+                const results = []
+                for ({channel, q} of tasks)
+                    results.push(
+                        this.middleware.decode(
+                            ipcRenderer.invoke(channel, q)
+                        )
+                    )
+                if (results.length == 1) s(results[0])
+                else s(results)
+                this.ipcRotate()
+            } else {
+                this.ipcRotating = false
+            }
+        }
     }
 }
