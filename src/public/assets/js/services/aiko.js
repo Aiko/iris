@@ -1,3 +1,6 @@
+// NOTE: this module relies on ipc.js being loaded FIRST
+// Without ipc.js loaded first the ipcRenderer calls will fail
+
 const aikoapi = {
     data: {
         TAG: ["%c[AIKO API]", "background-color: #4b74ff; color: #fff;"],
@@ -36,6 +39,21 @@ const aikoapi = {
         token: '',
     },
     methods: {
+        // Convenience
+        async initAPI(token) {
+            // USAGE:
+            // const { token } = await ipcRenderer.invoke('get preferences', ['token'])
+            // await this.initAPI(token)
+
+            this.token = token
+            if ((await this.fetchProfile()).error) {
+                const { email, password } = await ipcRenderer.invoke(
+                    'get preferences', ['email', 'password']
+                )
+                return await this.login(email, password)
+            }
+            return this.token
+        },
         // USER API
         async fetchProfile() {
             info(...TAG, "Attempting to fetch user profile.")

@@ -1,4 +1,7 @@
+// NOTE: this module should be loaded first
+
 const { ipcRenderer } = require('electron')
+window.ipcRenderer = ipcRenderer
 
 const IPCMiddleware = (errorHandler => {
     const checkError = (e, msg) => {
