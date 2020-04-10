@@ -2,30 +2,30 @@
 
 /* Color Declarations */
 :root {
-  --main-color: #486fff; /* Main Aiko accent */
-  --main-color-hover: #4366e8;
+	--main-color: #486fff; /* Main Aiko accent */
+	--main-color-hover: #4366e8;
 
-  --main-bg-color: #fff; /* Sidebar and Header */
-  --secondary-bg-color: #f2f2f2; /* Control bar and picker and search, etc*/
-  --secondary-bg-color-hover: #efefef; /* Control bar and picker and search, etc*/
+	--main-bg-color: #fff; /* Sidebar and Header */
+	--secondary-bg-color: #f2f2f2; /* Control bar and picker and search, etc*/
+	--secondary-bg-color-hover: #efefef; /* Control bar and picker and search, etc*/
 
-  --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
-  --main-text-color-hover: #b3b3b3;
+	--main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
+	--main-text-color-hover: #b3b3b3;
 
-  --dark-text: #3e3e3e; /* Dropdown titles */
+	--dark-text: #3e3e3e; /* Dropdown titles */
 
-  --sidebar-item-bg-color: #f3f3f3;  /* Active and hover in sidebar */
+	--sidebar-item-bg-color: #f3f3f3;  /* Active and hover in sidebar */
 
-  --email-bg-color: #fff;
-  --email-hover-bg-color: #fbfbfb;
-  --sender-text-color: #363636;
-  --subject-text-color: #000;
+	--email-bg-color: #fff;
+	--email-hover-bg-color: #fbfbfb;
+	--sender-text-color: #363636;
+	--subject-text-color: #000;
 
-  --main-border: 1px solid #d6d6d6;
+	--main-border: 1px solid #d6d6d6;
 
-  --placeholder-text-color: #bdbdbd; /* Global placeholder color */
+	--placeholder-text-color: #bdbdbd; /* Global placeholder color */
 
-   --modal-backdrop: #ffffffa1; /* Global modal backdrop */
+	--modal-backdrop: #3c3c3c85; /* Global modal backdrop */
 }
 
 
@@ -47,11 +47,11 @@ body{
 }
 video{
 	width: 100%;
-    height: auto;
-    border-radius: 4px;
+	height: auto;
+	border-radius: 4px;
 }
 video:focus {
-    outline: none;
+	outline: none;
 }
 .bg{
 	background-image: url("../img/bg.jpg");
@@ -200,7 +200,7 @@ input{
 	left: 0;
 	width: 100%;
 	background: var(--secondary-bg-color);
-	z-index: 100;
+	z-index: 100000;
 	margin-bottom: 10px;
 	display: inline-flex;
 	height: 20px;
@@ -337,11 +337,11 @@ input{
 }
 
 .main-action{
-color: var(--main-text-color);
-    font-size: 11px;
-    font-weight: 500;
-    line-height: 28px;
-    text-transform: uppercase;
+	color: var(--main-text-color);
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 28px;
+	text-transform: uppercase;
 }
 .main-action img{
 	color: #b7b7b7;
@@ -437,8 +437,8 @@ a.main-action:hover{
 }
 .sidebar .container .row:nth-child(2) .search img{
 	width: 18px;
-    margin-top: 0px;
-    margin-left: -2px;
+	margin-top: 0px;
+	margin-left: -2px;
 }
 .sidebar .container .row:nth-child(2) .search input{
 	font-size: 12px;
@@ -829,6 +829,20 @@ hr {
 	border-radius: 0px 4px 4px 0px;
 	transition: .2s;
 }
+.chip{
+	 background: var(--main-color);
+    padding: 1px 4px;
+    border-radius: 2px;
+    width: max-content;
+    cursor: pointer;
+    margin-right: 5px;
+}
+.chip img{
+	margin-top: -2px;
+}
+.grouped-chips{
+	    display: inline-flex;
+}
 .delete img{
 	position: absolute;
 	top: 45%;
@@ -1018,16 +1032,18 @@ hr {
 	width: 100%;
 	height: 100%;
 	border: none;
-	border-radius: 0px 0px 0px 4px;
+	border-radius: 0px 0px 4px 4px;
+	box-shadow: 0px 4px 9px #00000026;
 }
 .main-email{
 	height: 100%;
-	background: var(--main-bg-color);
+	background: #f7f7f7;
 	width: 65%;
-	box-shadow: 0 15px 5px rgba(0, 0, 0, 0.02);
+	box-shadow: 1px 0px 5px rgba(0, 0, 0, 0.04);
 	z-index: 1;
 	position: relative;
 	border-radius: 4px;
+	overflow-y: scroll;
 	transition: .2s;
 }
 .secondary-email{
@@ -1080,13 +1096,13 @@ hr {
 	height: 85px;
 }
 .main-email .action{
-	position: absolute;
-	right: 0;
-	border: 0;
-	border-radius: 4px 4px 0px 0px;
-	margin-top: -24px;
-	font-size: 14px !important;
-	padding: 8px 11px 8px 4px;
+    position: relative;
+    float: right;
+    border: 0;
+    border-radius: 4px 4px 0px 0px;
+    margin-bottom: -10px;
+    font-size: 14px !important;
+    padding: 8px 11px 8px 4px;
 }
 .email-head img{
 	height: 18px;
@@ -1098,14 +1114,22 @@ hr {
 	opacity: .8;
 	transition: .2s;
 }
+.single-email{
+	background: var(--email-bg-color);
+	border-radius: 4px;
+	box-shadow: 0 0px 9px #0000001a;
+	margin: 20px 15px;
+}
+
 .email:hover{
 	background: var(--email-hover-bg-color);
 	transition: .2s;
 }
 .email-body{
-	height: calc(100% - 50px);
+	height: 200px;
 	overflow-y: hidden;
 	padding-top: 17px;
+	width: 100%;
 }
 .changer{
 	height: 20px;
@@ -1193,42 +1217,26 @@ hr {
 	transition: opacity 0.01s linear;
 }
 .options{
-	background: var(--secondary-bg-color);
-	width: 190px;
-	position: absolute;
-	right: 0;
-	bottom: 0;
-	border-radius: 4px 0px 0px 0px;
-	padding: 1px 6px 7px 6px;
-	margin-bottom: -17px;
-	z-index: 1;
+    background: var(--secondary-bg-color);
+    width: 250px;
+    position: relative;
+    float: right;
+    border-radius: 4px 0px 0px 0px;
+    padding: 3px 6px 7px 6px;
+    margin-bottom: -17px;
+    text-align: center;
+    margin-right: -25px;
 }
 .options-qa{
-	width: 190px;
 	position: absolute;
 	right: 0;
 	bottom: 0;
-	margin-right: 200px;
+	margin-right: 265px;
 	border-radius: 40px;
 	padding: 5px 6px 7px 6px;
-	margin-bottom: -15px;
+	margin-bottom: -16px;
 }
-.options-qa .action::after{
-	content: "";
-	width: 10px;
-	height: 10px;
-	margin-left: 11px;
-	position: absolute;
-	background-color: var(--main-bg-color);
-}
-.options-qa .action::before{
-	content: "";
-	width: 10px;
-	height: 10px;
-	margin-left: -14px;
-	position: absolute;
-	background-color: var(--main-bg-color);
-}
+
 .spe{
 	margin-left: -10px;
 }
@@ -2110,14 +2118,14 @@ unselectable {
 
 .savedraft{
 	background: var(--secondary-bg-color) !important;
-    color: var(--main-text-color) !important;
-    margin-left: 5px !important;
-    transition: .2s;
+	color: var(--main-text-color) !important;
+	margin-left: 5px !important;
+	transition: .2s;
 }
 .savedraft:hover{
 	background: var(--secondary-bg-color-hover) !important;
 	transition: .2s;
 }
 ::-webkit-scrollbar {
-display: none;
+	display: none;
 }
