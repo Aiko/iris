@@ -44,7 +44,7 @@ const aikoapi = {
                 const d = await post('/v3/me', {}, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 this.profile = d
@@ -76,7 +76,7 @@ const aikoapi = {
                 })
                 if (!d || d.error || !d.accessToken) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
                 this.token = d.accessToken
                 success(...TAG, "Successfully signed up with email:", email)
@@ -101,7 +101,7 @@ const aikoapi = {
                 })
                 if (!d || d.error || !d.accessToken) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
                 this.token = d.accessToken
                 success(...TAG, "Logged into account with email:", email)
@@ -137,7 +137,7 @@ const aikoapi = {
                 })
                 if (!d || d.error || !d.accessToken) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
                 this.token = d.accessToken
                 success(...TAG, "Registered account with email:", email)
@@ -162,7 +162,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Updated user profile.")
@@ -189,7 +189,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Changed password.")
@@ -214,7 +214,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
                 success(...TAG, "Deleted account.")
                 this.profile = {
@@ -271,7 +271,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Updated team with name:", this.profile.team.name)
@@ -294,7 +294,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Added users with emails:", emails)
@@ -317,7 +317,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "A user was removed from the team, the user has id:", memberId)
@@ -340,7 +340,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "A user was promoted to admin, the user has id:", memberId)
@@ -363,7 +363,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "A user was demoted to member, the user has id:", memberId)
@@ -389,7 +389,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Added mailbox with email:", email)
@@ -412,7 +412,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Deleted mailbox with id:", mailboxId)
@@ -471,7 +471,7 @@ const aikoapi = {
                 }, this.token)
                 if (!d || d.error) {
                     error(...TAG, d.error)
-                    return d.error
+                    return { error: d.error || 'unknown' }
                 }
 
                 success(...TAG, "Updated boards.")
