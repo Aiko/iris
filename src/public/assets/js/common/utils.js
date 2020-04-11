@@ -114,6 +114,17 @@ String.random = length => {
     return str.substring(0, length)
 }
 
+String.prototype.hexEncode = function () {
+    let hex;
+    let result = "";
+    let i;
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += (hex).slice(-2);
+    }
+    return result
+}
+
 Array.prototype.joinTo = function (to, separator) {
     const toJoin = this.slice(0, to)
     if (this.length > toJoin.length)

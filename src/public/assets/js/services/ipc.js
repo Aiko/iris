@@ -4,7 +4,7 @@ const { ipcRenderer, remote } = require('electron')
 window.ipcRenderer = ipcRenderer
 window.remote = remote
 
-const IPCMiddleware = (errorHandler => {
+const IPCMiddleware = (async errorHandler => {
     const checkError = (e, msg) => {
         if (e) {
             errorHandler(e)
@@ -13,10 +13,9 @@ const IPCMiddleware = (errorHandler => {
     }
 
     const secret = String.random(32)
-
-    const maybeToken = ipcRenderer.invoke('key exchange', secret)
+    const maybeToken = await ipcRenderer.invoke('key exchange', {secret,})
     let token;
-    if (KJUR.jws.JWS.verify(maybeToken, secret)) {
+    if (KJUR.jws.JWS.verifyJWT(maybeToken, secret.hexEncode(), {alg: ['HS256']})) {
         token = jwt_decode(maybeToken)?.token
     } else checkError(maybeToken, "Key exchange token was invalid.")
     if (!token) throw "Key exchange failed 🤷‍♂️";
@@ -48,8 +47,8 @@ const ipc = {
     },
     methods: {
         // TODO: call init on IPC when loading the app
-        async init() {
-            this.middleware = Middleware(this.handleIPCError)
+        async initIPC() {
+            this.middleware = await IPCMiddleware(this.handleIPCError)
         },
         async handleIPCError(e) {
             error(...(this.TAG), e)
