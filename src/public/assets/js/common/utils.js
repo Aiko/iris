@@ -32,8 +32,11 @@ const toast = _ => _ // TODO: change this to an actual toast
 window.toast = toast
 
 const log = (...args) => {
+    // NOTE: you cannot pass colors or a tag to log
+    // please use info, success, or error for your pretty messages :)
     console.log("[App]", ...args)
 }
+const success = console.log
 const error = console.error
 window.info = console.info
 window.log = log
