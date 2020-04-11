@@ -40,6 +40,9 @@
 .bg{
 	background-blend-mode: darken;
 }
+.center-loader{
+  background: var(--main-bg-color) !important;
+}
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
 }
