@@ -4,6 +4,7 @@ const windowManager = {
     data: {
         isFullScreen: false,
         isMaximized: true,
+        isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
         isPC: platform == 'win32',
         isMac: platform == 'darwin',
         isLinux: (platform != 'win32' && platform != 'darwin'),

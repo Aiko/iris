@@ -122,6 +122,7 @@ const aikoapi = {
                     return { error: d.error || 'unknown' }
                 }
                 this.token = d.accessToken
+                ipcRenderer.invoke('save preferences', { token: this.token })
                 success(...(this.TAG), "Logged into account with email:", email)
                 await this.fetchProfile()
                 return this.token

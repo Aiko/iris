@@ -9,12 +9,12 @@
   <title>Home</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="stylesheet" href="assets/css/style.css">
-  <link rel="stylesheet" href="assets/css/dark.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 </head>
 
 <body class="bg">
   <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
     <div id="fixed" class="loader-6 center-loader"><span></span></div>
     <div :class="{
       'control-bar': true,
@@ -53,22 +53,11 @@
             <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search Team">
           </div>
 
-          <a href="#" id="user">
+          <a href="#" id="user" v-for="user in profile.team.team">
             <div class="active-user"></div>
-            <img src="assets/img/avatar.png">
-            <div class="no-mobile">Priansh Shah</div>
-          </a>
-
-          <a href="#" id="user">
-            <div class="active-user"></div>
-            <img src="assets/img/avatar.png">
-            <div class="no-mobile">Joana Guttierez</div>
-          </a>
-
-          <a href="#" id="user">
-            <div class="active-user"></div>
-            <img src="assets/img/avatar.png">
-            <div class="no-mobile">Johnson Shah</div>
+            <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+            <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+            <div class="no-mobile">{{user.member.name}}</div>
           </a>
 
           <a href="#"><img src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
