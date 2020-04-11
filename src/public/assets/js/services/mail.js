@@ -1,5 +1,3 @@
-import { ipcRenderer } from "electron"
-
 const mailapi = {
     data: {
         TAG: ["%c[MAIL API]", "background-color: #ffdddd; color: #000;"],

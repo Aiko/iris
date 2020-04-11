@@ -36,6 +36,9 @@ const app = new Vue({
         // setup window controls
         await this.initWindowControls()
 
+        // setup IMAP listeners
+        await this.initIMAP()
+
         // try logging in
         const { token } = await ipcRenderer.invoke('get preferences', ['token'])
         const { error } = await this.initAPI(token)
