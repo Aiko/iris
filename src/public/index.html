@@ -14,11 +14,11 @@
 </head>
 
 <body class="bg">
-  <div id="app" class="inline-flex" style="padding-top: 20px;">
+  <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;''">
     <div id="fixed" class="loader-6 center-loader"><span></span></div>
     <div :class="{
       'control-bar': true,
-      'pc': isPC || isLinux,
+      'pc': isPC,
     }" v-if="!isFullScreen">
       <p title="Close" @click="close"></p> <!-- Close ------------------------>
       <p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
@@ -27,7 +27,8 @@
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->
       <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10"></h1>
-      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10"></h1>
+      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10">
+      </h1>
       <!-- Maximize -->
       <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
       <!-- Close ---------------->
