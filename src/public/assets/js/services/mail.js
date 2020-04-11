@@ -5,7 +5,7 @@ const mailapi = {
         connected: false,
         imapConfig: {
             host: '',
-            port: 22,
+            port: 993,
             user: '',
             pass: '',
             xoauth2: '',
@@ -115,22 +115,22 @@ const mailapi = {
         console.log(results[0].message) // "hello"
         console.log(results[1].message) // "world"
         */
-        async switchMailbox() {
+        async switchMailServer() {
             // PRECONDITION: assumes imapConfig is your new mailbox
-            if (connected) {
+            if (this.connected) {
                 const results = await this.callIPC(
                     this.task_DisconnectFromServer(),
                     this.task_MakeNewClient(this.imapConfig),
                     this.task_ConnectToServer()
                 )
-                connected = true
+                this.connected = true
             } else {
                 const results = await this.callIPC(
                     this.task_DisconnectFromServer(),
                     this.task_MakeNewClient(this.imapConfig),
                     this.task_ConnectToServer()
                 )
-                connected = true
+                this.connected = true
             }
         }
     }
