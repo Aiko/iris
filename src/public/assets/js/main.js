@@ -1,4 +1,5 @@
-const app = Vue({
+const app = new Vue({
+    el: "#app",
     mixins: [
         ipc, // IPC communication
         aikoapi, // Aiko API
@@ -6,7 +7,6 @@ const app = Vue({
     data: {
         loading: false
     },
-    el: "#app",
     watch: {
         loading(isLoading, wasLoading) {
             if (wasLoading && isLoading) return;
