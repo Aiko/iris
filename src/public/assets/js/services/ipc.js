@@ -51,7 +51,7 @@ const ipc = {
             this.middleware = Middleware(this.handleIPCError)
         },
         async handleIPCError(e) {
-            error(...TAG, e)
+            error(...(this.TAG), e)
         },
         /*
 

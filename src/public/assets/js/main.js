@@ -5,6 +5,7 @@ const app = new Vue({
         aikoapi, // Aiko API
     ],
     data: {
+        TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
         loading: false
     },
     watch: {
@@ -24,6 +25,7 @@ const app = new Vue({
         },
     },
     async created() {
+        info(...(this.TAG), "Initializing application")
         this.loading = true
         // try logging in
         const { token } = await ipcRenderer.invoke('get preferences', ['token'])
