@@ -3,6 +3,7 @@ const app = new Vue({
     mixins: [
         ipc, // IPC communication
         aikoapi, // Aiko API
+        windowManager, // window controls
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],

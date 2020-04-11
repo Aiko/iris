@@ -16,16 +16,20 @@
 <body class="bg">
   <div id="app" class="inline-flex">
     <div id="fixed" class="loader-6 center-loader"><span></span></div>
-    <div class="control-bar pc">
-      <p title="Close"></p> <!-- Close ------------------------>
-      <p title="Minimize"></p> <!-- Minimize ------------------------>
-      <p title="Full Screen"></p> <!-- Full Screen ------------------------>
+    <div :class="{
+      'control-bar': true,
+      'pc': isPC || isLinux,
+    }" v-if="!isFullScreen">
+      <p title="Close" @click="close"></p> <!-- Close ------------------------>
+      <p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+      <p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+      <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->
-      <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
-      <!-- Full Screen -->
-      <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
+      <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10"></h1>
+      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10"></h1>
+      <!-- Maximize -->
+      <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
       <!-- Close ---------------->
     </div>
     <!-- Sidebar --------------------------------------------------->
@@ -375,8 +379,8 @@
                     <label> ●</label>
                   </div>
                 </div>
-            </div>
-            <!-- END Single Email ---------------------------------->
+              </div>
+              <!-- END Single Email ---------------------------------->
             </div>
             <!-- List loader -------------------------------------------->
 
@@ -427,8 +431,7 @@
                 </div>
               </div>
               <div class="board-body">
-                <div class="draggable-emails" group="board-emails" ghost-class="ghost"
-                  drag-class="drag">
+                <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <div class="email">
                     <div class="container pr">
@@ -1098,6 +1101,7 @@
   <!-- services -->
   <script src="assets/js/services/ipc.js"></script>
   <script src="assets/js/services/aiko.js"></script>
+  <script src="assets/js/services/window.js"></script>
   <!-- main/entrypoint -->
   <script src="assets/js/main.js"></script>
 

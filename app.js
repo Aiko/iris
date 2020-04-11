@@ -81,6 +81,7 @@ Prefs.data = Prefs.load()
 /////////////////////////////////////////////////////////
 // Controls the main window of our app :)
 let win;
+const WindowManager = require('./src/js/utils/window')(win)
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
@@ -141,13 +142,16 @@ const init = () => {
     // TODO: icon
     icon: './src/public-old/assets/img/icon.png'
   })
+  WindowManager.setWindow(win)
   win.maximize()
   win.show()
+  win.focus()
 
   entry()
 
   win.on('closed', () => {
     win = null
+    WindowManager.setWindow(null)
   })
 }
 /////////////////////////////////////////////////////////
@@ -162,6 +166,7 @@ app.allowRendererProcessReuse = false
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
+  // TODO: live on in the tray? would have to move email stuff to backend
   if (process.platform !== 'darwin') app.quit()
 })
 

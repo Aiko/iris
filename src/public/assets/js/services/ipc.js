@@ -1,7 +1,8 @@
-// NOTE: this module should be loaded first
+// NOTE: this mixin should be loaded first before anything else!!
 
-const { ipcRenderer } = require('electron')
+const { ipcRenderer, remote } = require('electron')
 window.ipcRenderer = ipcRenderer
+window.remote = remote
 
 const IPCMiddleware = (errorHandler => {
     const checkError = (e, msg) => {
