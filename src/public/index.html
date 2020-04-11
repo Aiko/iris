@@ -215,7 +215,7 @@
               </div>
             </div>
             <div class="board-body">
-              <draggable class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
+              <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
                 <div class="email">
                   <div class="container pr">
@@ -376,7 +376,7 @@
                 </div>
             </div>
             <!-- END Single Email ---------------------------------->
-            </draggable>
+            </div>
             <!-- List loader -------------------------------------------->
 
             <!-- END List loader ---------------------------------------->
@@ -386,7 +386,7 @@
 
           <!-- END Inbox Board ----------------------------------->
 
-          <draggable style="display: inline-flex" class="draggable-boards" group="boards" draggable=".board"
+          <div style="display: inline-flex" class="draggable-boards" group="boards" draggable=".board"
             ghost-class="ghost-board">
 
             <!-- Regular Board Template ----------------------->
@@ -425,8 +425,8 @@
                   </div>
                 </div>
               </div>
-              <div class="board-body" :board="board">
-                <draggable :board="board" class="draggable-emails" group="board-emails" ghost-class="ghost"
+              <div class="board-body">
+                <div class="draggable-emails" group="board-emails" ghost-class="ghost"
                   drag-class="drag">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <div class="email">
@@ -470,12 +470,12 @@
                   <!-- END Single Email -------------------------------------------------------------->
                   <div slot="footer" class="empty2">
                   </div>
-                </draggable>
+                </div>
 
               </div>
             </div>
             <!-- END Regular Board Template ------------------->
-          </draggable>
+          </div>
           <!-- Done Board Template ----------------------->
           <div class="board">
             <div class="board-header">
@@ -514,11 +514,11 @@
               </div>
             </div>
             <div class="board-body">
-              <draggable class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
+              <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <div slot="footer" class="empty">
                   <h1>Drag emails here.</h1>
                 </div>
-              </draggable>
+              </div>
             </div>
           </div>
           <!-- END Done Board Template ------------------->
