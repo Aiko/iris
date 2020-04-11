@@ -28,6 +28,13 @@ const app = new Vue({
     async created() {
         info(...(this.TAG), "Initializing application")
         this.loading = true
+
+        // setup IPC
+        await this.initIPC()
+
+        // setup window controls
+        await this.initWindowControls()
+
         // try logging in
         const { token } = await ipcRenderer.invoke('get preferences', ['token'])
         const { error } = await this.initAPI(token)
