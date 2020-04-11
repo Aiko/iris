@@ -1,5 +1,3 @@
-import { init } from "@sentry/node";
-
 const app = Vue({
     mixins: [
         ipc, // IPC communication
