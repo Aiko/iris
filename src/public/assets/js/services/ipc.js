@@ -26,9 +26,9 @@ const IPCMiddleware = (async errorHandler => {
         return d
     }
 
-    const decode = ({s, error}) => {
+    const decode = ({ s, error }) => {
         checkError(error, "Main process returned error.")
-        if (KJUR.jws.JWS.verify(s, secret)) {
+        if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), {alg: ['HS256']})) {
             const { success, payload } = jwt_decode(s)
             if (!success) checkError(payload, "Main process did not return success.")
             return payload
@@ -92,7 +92,7 @@ const ipc = {
                 for ({channel, q} of tasks)
                     results.push(
                         this.middleware.decode(
-                            ipcRenderer.invoke(channel, q)
+                            await ipcRenderer.invoke(channel, q)
                         )
                     )
                 if (results.length == 1) s(results[0])
