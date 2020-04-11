@@ -6,6 +6,7 @@ const assertions = true // please don't disable assertions
 let connected = false
 let currentFolder = null
 let client = null
+let win = null
 
 // just so that it folds up in the IDE I'm using
 if (true) {
@@ -104,6 +105,32 @@ ipcMain.handle('please make new client', async (_, q) => {
     }
 
     client = new Client(host, port, options)
+
+    // connects to listeners
+    client.onselectmailbox = (path, _) => (currentFolder = path);
+    client.onupdate = function(path, type, value){
+        if (type === 'expunge') {
+            win.webContents.send('email was deleted', {path, value})
+            // untagged EXPUNGE response, e.g. "* EXPUNGE 123"
+            // value is the sequence number of the deleted message prior to deletion, so adapt your cache accordingly
+        } else if (type === 'exists') {
+            win.webContents.send('exists value changed', {path, value})
+            // untagged EXISTS response, e.g. "* EXISTS 123"
+            // value is new EXISTS message count in the selected mailbox
+        } else if (type === 'fetch') {
+            // TODO: probably should listen for flag updates
+            // untagged FETCH response, e.g. "* 123 FETCH (FLAGS (\Seen))"
+            // add a considerable amount of input tolerance here!
+            // probably some flag updates, a message or messages have been altered in some way
+            // UID is probably not listed, probably includes only the sequence number `#` and `flags` array
+        } else {
+            // FIXME: remove before production
+            console.log("Mailbox sent unrecognized event:")
+            console.log("  type: ", type)
+            console.log("  path: ", path)
+            console.log("  value:", value)
+        }
+    }
 
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
@@ -384,12 +411,12 @@ ipcMain.handle('please set email flags', async (_, q) => {
     }
 
     let messages; try { messages = await client.setFlags(path, sequence, flags, options) } catch (e) { return { error: e } }
-    if ((!messages || messages.length===0) && !blind)
+    if (!messages || messages.length===0)
         return { error: `Did not receive any messages back when calling client.setFlags in "please set email flags"` };
 
     currentFolder = path
     if (!blind) return { s: comms["👉"](client_secret, { success: true, payload: messages }) }
-    return;
+    else return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
 // Delete Emails
@@ -438,7 +465,10 @@ ipcMain.handle('please copy emails', async (_, q) => {
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
-// Copy Emails
+
+// TODO: upload (APPEND) is now supported by emailjs
+
+// Move Emails
 ipcMain.handle('please move emails', async (_, q) => {
     const { srcPath, dstPath, sequence } = q
     const options = {
@@ -461,5 +491,6 @@ ipcMain.handle('please move emails', async (_, q) => {
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
-// TODO: client.onupdate lets us listen for EXISTS messages and update the mailbox with pubsub
+module.exports = (w => (win = w))
+
 // TODO: not technically threadsafe as currentFolder is modified so some sort of async here to prevent races would be good!
