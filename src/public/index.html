@@ -20,9 +20,9 @@
       'control-bar': true,
       'pc': isPC,
     }" v-if="!isFullScreen">
-      <p title="Close" @click="close"></p> <!-- Close ------------------------>
-      <p title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
-      <p title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
+      <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
+      <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+      <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->

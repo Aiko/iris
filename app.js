@@ -117,7 +117,8 @@ ipcMain.handle('reentry', (_, __) => entry())
 const init = () => {
   win = new BrowserWindow({
     show: false,
-    frame: false,
+    frame: process.platform == 'darwin',
+    titleBarStyle: 'hidden',
     webPreferences: {
       nodeIntegration: true
       // FIXME: while this is enabled we have to be 1000% sure that
