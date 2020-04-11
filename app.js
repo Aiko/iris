@@ -59,7 +59,7 @@ MSAuth(
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 Log.log("Setting up email IPC")
-require('./src/js/mail/email')
+const CarrierPigeon = require('./src/js/mail/email')
 const Mailman = require('./src/js/mail/sendmail') // TODO: ipc
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
@@ -144,6 +144,7 @@ const init = () => {
     icon: './src/public-old/assets/img/icon.png'
   })
   WindowManager.setWindow(win)
+  CarrierPigeon(win)
   win.maximize()
   win.show()
   win.focus()
