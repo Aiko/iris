@@ -4,6 +4,7 @@ const app = new Vue({
         ipc, // IPC communication
         aikoapi, // Aiko API
         windowManager, // window controls
+        mailapi, // IMAP API
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
