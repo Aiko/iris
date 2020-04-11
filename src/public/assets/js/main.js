@@ -37,6 +37,8 @@ const app = new Vue({
             await ipcRenderer.invoke('reentry')
             return
         }
+
+        this.loading = false
     },
     methods: {
 
