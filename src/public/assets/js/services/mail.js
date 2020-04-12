@@ -126,7 +126,6 @@ const mailapi = {
                 this.connected = true
             } else {
                 const results = await this.callIPC(
-                    this.task_DisconnectFromServer(),
                     this.task_MakeNewClient(this.imapConfig),
                     this.task_ConnectToServer()
                 )
