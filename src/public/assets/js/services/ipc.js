@@ -38,9 +38,10 @@ const IPCMiddleware = (async errorHandler => {
     return {encode, decode}
 })
 
+const IPC_TAG = ["%c[IPC]", "background-color: #ff99ff; color: #000;"]
+
 const ipc = {
     data: {
-        TAG: ["%c[IPC]", "background-color: #ff99ff; color: #000;"],
         middleware: null,
         ipcQueue: [],
         ipcRotating: false
@@ -51,7 +52,7 @@ const ipc = {
             this.middleware = await IPCMiddleware(this.handleIPCError)
         },
         async handleIPCError(e) {
-            error(...(this.TAG), e)
+            error(...(IPC_TAG), e)
         },
         /*
 
