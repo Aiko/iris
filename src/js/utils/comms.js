@@ -8,11 +8,9 @@ const key = crypto.randomBytes(32).toString('hex') // 32 bytes = 64 hex chars = 
 ipcMain.handle('key exchange', async (_, q) => {
     const { secret } = q
     // this is what the client needs to send to auth requests
-    console.log("SIGNING TOKEN")
-    const token = jwt.sign({token: secret}, key, { expiresIn: 60 * 60 * 24 * 7 }) 
+    const token = jwt.sign({"token": secret}, key, { expiresIn: 60 * 60 * 24 * 7 })
     // we double sign the result payload
-    console.log("DOUBLE SIGNING TOKEN")
-    const payload = jwt.sign({token}, secret, { expiresIn: 60 * 60 * 24 * 7 })
+    const payload = jwt.sign({token,}, secret, { expiresIn: 60 * 60 * 24 * 7 })
     return payload
 })
 

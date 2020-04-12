@@ -31,18 +31,25 @@ const app = new Vue({
         this.loading = true
 
         // setup IPC
+        info(...(this.TAG), "Initializing IPC")
         await this.initIPC()
 
         // setup window controls
+        info(...(this.TAG), "Initializing window controls")
         await this.initWindowControls()
 
         // setup IMAP listeners
+        info(...(this.TAG), "Initializing IMAP")
         await this.initIMAP()
 
         // try logging in
+        info(...(this.TAG), "Logging in")
         const { token } = await ipcRenderer.invoke('get preferences', ['token'])
         const { error } = await this.initAPI(token)
         if (error) {
+            error(...(this.TAG), "Authentication failed. User needs to login again?")
+            // FIXME: we can try relog with stored email/pass
+            // if those fail then we can ask for relog
             await ipcRenderer.invoke('save preferences', {
                 authenticated: false
             })
@@ -50,6 +57,7 @@ const app = new Vue({
             return
         }
 
+        success(...(this.TAG), "Finished initialization.")
         this.loading = false
     },
     methods: {
