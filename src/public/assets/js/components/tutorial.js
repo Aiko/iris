@@ -5,7 +5,6 @@ Vue.component('tutorial-modal', {
     },
     methods: {
         close() {
-            alert("HELLO HELLO HELLO!!!!")
             app.firstTime = false
         }
     }

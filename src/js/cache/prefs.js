@@ -10,6 +10,8 @@ module.exports = fp => {
         data: {
             authenticated: false,
             token: '',
+            email: '',
+            password: '',
             firstTime: true,
         },
         load: () => {
@@ -20,6 +22,9 @@ module.exports = fp => {
         save: d => {
             const s = JSON.stringify(d)
             fs.writeFileSync(fp, s)
+        },
+        set: d => {
+            Object.keys(d).map(k => Prefs.data[k] = d[k])
         }
     }
     ipcMain.handle('save preferences', (_, q) => {
