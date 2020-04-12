@@ -980,52 +980,53 @@
    --------------------------------------->
 
     <!-- NEW MAILBOX MODAL --------------------------------------->
-    <div class="aiko-modal add-mailbox" style="display: none;">
-      <!-- STEP ONE --->
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <div class="modal-reg">
-            <h1>Add a mailbox</h1>
-            <h2>Pick an email provider</h2>
-            <a href="#"><img src="assets/img/icloud.png"></a>
-            <a href="#"><img src="assets/img/exchange.png"></a>
-            <a href="#"><img src="assets/img/google.png"></a>
-            <a href="#"><img src="assets/img/yahoo.png"></a>
-            <a href="#"><img src="assets/img/aol.png"></a>
-            <a href="#"><img src="assets/img/outlook.png"></a>
-            <br>
-          </div>
-          <div class="modal-bottom">
-            <a href="#">Other</a>
-            <a href="#" class="add-2">Back</a>
-          </div>
-        </div>
-      </div>
-      <!-- STEP TWO --->
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <div class="modal-reg">
-            <h1>Add a mailbox</h1>
-            <h2>Enter your credentials</h2>
-            <a href="#"><img src="assets/img/outlook.png"></a>
-            <input type="email" name="" placeholder="Email">
-            <input type="password" name="" placeholder="Password">
-            <input type="url" name="" placeholder="IMAP Host">
-            <input type="number" name="" placeholder="IMAP Port">
-            <input type="url" name="" placeholder="SMTP Host">
-            <input type="number" name="" placeholder="SMTP Port">
-            <br>
-            <a href="#" class="add-2 blue">Add mailbox</a>
-            <br><br>
-          </div>
-          <div class="modal-bottom">
-            <a href="#">Back</a>
+    <add-mailbox-modal v-if="addMailbox" inline-template>
+      <div class="aiko-modal add-mailbox">
+        <!-- STEP ONE --->
+        <div class="modal-dialog modal-md" v-if="step == 1">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Add a mailbox</h1>
+              <h2>Pick an email provider</h2>
+              <a href="#"><img src="assets/img/icloud.png"></a>
+              <a href="#"><img src="assets/img/exchange.png"></a>
+              <a href="#"><img src="assets/img/google.png"></a>
+              <a href="#"><img src="assets/img/yahoo.png"></a>
+              <a href="#"><img src="assets/img/aol.png"></a>
+              <a href="#"><img src="assets/img/outlook.png"></a>
+              <br>
+            </div>
+            <div class="modal-bottom">
+              <a href="#">Other</a>
+              <a href="#" class="add-2">Back</a>
+            </div>
           </div>
         </div>
+        <!-- STEP TWO --->
+        <div class="modal-dialog modal-md" v-if="step == 2">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Add a mailbox</h1>
+              <h2>Enter your credentials</h2>
+              <a href="#"><img src="assets/img/outlook.png"></a>
+              <input type="email" name="" placeholder="Email">
+              <input type="password" name="" placeholder="Password">
+              <input type="url" name="" placeholder="IMAP Host">
+              <input type="number" name="" placeholder="IMAP Port">
+              <input type="url" name="" placeholder="SMTP Host">
+              <input type="number" name="" placeholder="SMTP Port">
+              <br>
+              <a href="#" class="add-2 blue">Add mailbox</a>
+              <br><br>
+            </div>
+            <div class="modal-bottom">
+              <a href="#">Back</a>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-    </div>
-
+    </add-mailbox-modal>
 
     <!-- NEW BOARD MODAL --------------------------------------->
     <div class="aiko-modal" style="display: none;">
@@ -1093,15 +1094,18 @@
   <!-- TODO: minify all sources into one js file -->
   <!-- common libraries -->
   <script src="assets/js/common/utils.js"></script>
+  <script src="assets/js/common/small-storage.js"></script>
   <!-- services -->
   <script src="assets/js/services/ipc.js"></script>
   <script src="assets/js/services/aiko.js"></script>
   <script src="assets/js/services/window.js"></script>
+  <script src="assets/js/services/goauth.js"></script>
   <script src="assets/js/services/mail.js"></script>
   <!-- main/entrypoint -->
   <script src="assets/js/main.js"></script>
   <!-- templates -->
-  <script src="assets/js/components/tutorial.js"></script>
+  <script src="assets/js/components/modals/tutorial.js"></script>
+  <script src="assets/js/components/modals/add-mailbox.js"></script>
 
 </body>
 
