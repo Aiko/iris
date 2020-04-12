@@ -51,7 +51,7 @@ module.exports = (clientId, clientSecret, scopes) => {
                 useContentSize: true,
                 fullscreen: false
             })
-            win.loadURL(url. {
+            win.loadURL(url, {
                 userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0"
             });
             win.on('closed', () => {
