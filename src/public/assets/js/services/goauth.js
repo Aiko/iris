@@ -12,11 +12,11 @@ const goauth = {
     },
     methods: {
         async google_saveConfig() {
-            SmallStorage.store(this.imapConfig.email + '/google-config', this.googleConfig)
+            await SmallStorage.store(this.imapConfig.email + '/google-config', this.googleConfig)
         },
         async google_loadConfig() {
             // must have called loadIMAPConfig first
-            this.googleConfig = SmallStorage.load(this.imapConfig.email + '/google-config')
+            this.googleConfig = await SmallStorage.load(this.imapConfig.email + '/google-config')
         },
         // Core Methods
         async google_addMailbox() {

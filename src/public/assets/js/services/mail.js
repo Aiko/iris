@@ -23,10 +23,10 @@ const mailapi = {
                 (_, {path, seq}) => app.onSyncRequested(path, seq));
         },
         async saveIMAPConfig() {
-            SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
+            await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
         },
         async loadIMAPConfig(email) {
-            this.imapConfig = SmallStorage.load(email + '/imap-config')
+            this.imapConfig = await SmallStorage.load(email + '/imap-config')
         },
         // Wrapper methods to create corresponding IPC tasks
         task_MakeNewClient(config) {
