@@ -5,6 +5,7 @@ const app = new Vue({
         aikoapi, // Aiko API
         windowManager, // window controls
         mailapi, // IMAP API
+        goauth, // Google OAuth
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],

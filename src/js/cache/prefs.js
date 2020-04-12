@@ -13,6 +13,7 @@ module.exports = fp => {
             email: '',
             password: '',
             firstTime: true,
+            
         },
         load: () => {
             const s = fs.readFileSync(fp)

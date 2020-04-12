@@ -1,15 +1,18 @@
+const MAILAPI_TAG = ["%c[MAIL API]", "background-color: #ffdddd; color: #000;"]
+
 const mailapi = {
     data: {
-        TAG: ["%c[MAIL API]", "background-color: #ffdddd; color: #000;"],
 
         connected: false,
         imapConfig: {
+            email: '',
             host: '',
             port: 993,
             user: '',
             pass: '',
             xoauth2: '',
-            secure: true
+            secure: true,
+            provider: 'other'
         },
     },
     methods: {
@@ -18,6 +21,12 @@ const mailapi = {
                 (_, {path, seq}) => app.onDeleteEmail(path, seq));
             ipcRenderer.on('exists value changed',
                 (_, {path, seq}) => app.onSyncRequested(path, seq));
+        },
+        async saveIMAPConfig() {
+            SmallStorage.store(imapConfig.email + '/imap-config', this.imapConfig)
+        },
+        async loadIMAPConfig(email) {
+            this.imapConfig = SmallStorage.load(email + '/imap-config')
         },
         // Wrapper methods to create corresponding IPC tasks
         task_MakeNewClient(config) {
