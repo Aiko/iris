@@ -8,7 +8,8 @@ const app = new Vue({
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
-        loading: false
+        loading: false,
+        firstTime: true,
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -42,9 +43,23 @@ const app = new Vue({
         info(...(this.TAG), "Initializing IMAP")
         await this.initIMAP()
 
+        // fetch preferences
+        info(...(this.TAG), "Fetching preferences")
+        const {
+            token,
+            firstTime
+        } = await ipcRenderer.invoke('get preferences', [
+            'token',
+            'firstTime'
+        ])
+        this.firstTime = firstTime
+        if (this.firstTime) {
+            info(...(this.TAG), "This is the user's first open of the app.")
+            await ipcRenderer.invoke('save preferences', {firstTime: false})
+        }
+
         // try logging in
         info(...(this.TAG), "Logging in")
-        const { token } = await ipcRenderer.invoke('get preferences', ['token'])
         const { error } = await this.initAPI(token)
         if (error) {
             error(...(this.TAG), "Authentication failed. User needs to login again?")

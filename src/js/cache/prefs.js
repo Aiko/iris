@@ -9,7 +9,8 @@ module.exports = fp => {
     const Prefs = {
         data: {
             authenticated: false,
-            token: ''
+            token: '',
+            firstTime: true,
         },
         load: () => {
             const s = fs.readFileSync(fp)

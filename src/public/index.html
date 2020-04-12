@@ -14,6 +14,9 @@
   <script>
     window.jQuery = window.$ = require('jquery');
   </script>
+  <!-- Using unsafe eval for Vue -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">
 </head>
 
 <body class="bg">
@@ -720,26 +723,26 @@
       </div>
     </div>
 
+    <tutorial-modal v-if="firstTime"></tutorial-modal>
 
-    <!-- VIDEO TIP MODAL 
-		<div class="aiko-modal">
-			<div class="modal-dialog modal-md">
-				<div class="modal-content">
-					<div class="modal-reg">
-						<h1>Welcome to Aiko Mail</h1>
-						<h2>Watch this tutorial to get started!</h2>
-						<video autoplay controls>
-							<source src="assets/videos/tutorial.mp4" type="video/mp4"></video>
-					</div>
-					<br><br>
-				</div>
-				<div class="modal-bottom">
-					<a href="#" class="blue" style="float: right;">Skip Tutorial</a>
-				</div>
-			</div>
-		</div>
-		VIDEO TIP MODAL --------------------------------------->
-
+    <script type="text/x-template" id="tutorial-modal">
+      <div class="aiko-modal">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Welcome to Aiko Mail</h1>
+              <h2>Watch this tutorial to get started!</h2>
+              <!-- TODO: change this to tutorial video once we have one -->
+              <video controls src="assets/videos/"></video>
+            </div>
+            <br><br>
+          </div>
+          <div class="modal-bottom">
+            <a @click="close" href="#" class="blue" style="float: right;">Skip Tutorial</a>
+          </div>
+        </div>
+      </div>
+    </script>
 
     <!-- SINGLE EMAIL VIEW MODAL 
 		<div class="aiko-modal" >
@@ -1098,6 +1101,8 @@
   <script src="assets/js/services/mail.js"></script>
   <!-- main/entrypoint -->
   <script src="assets/js/main.js"></script>
+  <!-- templates -->
+  <script src="assets/js/components/tutorial.js"></script>
 
 </body>
 
