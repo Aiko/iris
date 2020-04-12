@@ -21,8 +21,11 @@
 
 <body class="bg">
   <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <!-- THEMES GO HERE -->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+    <!-- LOADER -->
     <div id="fixed" class="loader-6 center-loader"><span></span></div>
+    <!-- CONTROL BAR -->
     <div :class="{
     'control-bar': true,
     'pc': isPC,
@@ -133,7 +136,7 @@
                           <img src="assets/icons/notif-click.svg" width="10">
                         </div>
                         <div class="col-7 notif-c">
-                          John clicked "Can you meet at ..."
+
                         </div>
                         <div class="col-3 notif-t p0">
                           35m
