@@ -23,7 +23,7 @@ const mailapi = {
                 (_, {path, seq}) => app.onSyncRequested(path, seq));
         },
         async saveIMAPConfig() {
-            SmallStorage.store(imapConfig.email + '/imap-config', this.imapConfig)
+            SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
         },
         async loadIMAPConfig(email) {
             this.imapConfig = SmallStorage.load(email + '/imap-config')
