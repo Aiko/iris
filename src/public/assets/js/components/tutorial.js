@@ -1,5 +1,4 @@
 Vue.component('tutorial-modal', {
-    template: '#tutorial-modal',
     data() {
         return {}
     },

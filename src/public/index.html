@@ -676,11 +676,11 @@
       </div>
     </div>
 
-
     <!-- Invite Sent Toast -->
-    <div class="aiko-toast">
+    <div class="aiko-toast" style="display: none">
       <h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
     </div>
+
     <!-- Connection Lost Toast -->
     <div class="aiko-toast" style="background-color: red;display: none;">
       <h1>We're having trouble connecting to the internet.</h1>
@@ -699,13 +699,11 @@
     </div>
     <!-- END Send Email Error Toast-->
 
-
     <!-- Toast -->
     <div class="aiko-toast" style="display: none;">
       <h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
     </div>
     <!-- END Toast --------------------------------------->
-
 
     <!-- INVITE MODAL --------------------------------------->
     <div class="aiko-modal" style="display: none;">
@@ -726,9 +724,7 @@
       </div>
     </div>
 
-    <tutorial-modal v-if="firstTime"></tutorial-modal>
-
-    <script type="text/x-template" id="tutorial-modal">
+    <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -745,7 +741,7 @@
           </div>
         </div>
       </div>
-    </script>
+    </tutorial-modal>
 
     <!-- SINGLE EMAIL VIEW MODAL 
 		<div class="aiko-modal" >
