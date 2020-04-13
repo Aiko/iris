@@ -2,7 +2,6 @@ const MAILAPI_TAG = ["%c[MAIL API]", "background-color: #ffdddd; color: #000;"]
 
 const mailapi = {
     data: {
-
         connected: false,
         imapConfig: {
             email: '',
@@ -14,13 +13,20 @@ const mailapi = {
             secure: true,
             provider: 'other'
         },
+        mailboxes: []
     },
     methods: {
         async initIMAP() {
             ipcRenderer.on('email was deleted',
-                (_, {path, seq}) => app.onDeleteEmail(path, seq));
+                (_, {path, seq}) => app.onDeleteEmail(path, seq))
             ipcRenderer.on('exists value changed',
-                (_, {path, seq}) => app.onSyncRequested(path, seq));
+                (_, {path, seq}) => app.onSyncRequested(path, seq))
+            this.mailboxes = (await SmallStorage.load('mailboxes')) || [];
+            const currentEmail = await SmallStorage.load('current-mailbox')
+            if (currentEmail) {
+                this.loadIMAPConfig(currentEmail)
+                // TODO: load cache for mailbox
+            }
         },
         async saveIMAPConfig() {
             await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)

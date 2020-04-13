@@ -29,6 +29,8 @@ const goauth = {
                 scope
             } = await this.callIPC(this.ipcTask('please get google oauth token', {}))
 
+            if (!access_token) return false
+
             info(...(GOAUTH_TAG), "Fetching profile.")
             const profile = await (
                 await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
@@ -54,7 +56,9 @@ const goauth = {
             this.googleConfig.expiry_date = expiry_date
             this.googleConfig.refresh_token = refresh_token
             this.googleConfig.scope = scope
-            await this.gmail_saveConfig()
+            await this.google_saveConfig()
+
+            return true
         },
         async google_checkTokens() {
             info(...(GOAUTH_TAG), "Checking tokens for expiration.")
