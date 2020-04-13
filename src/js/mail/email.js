@@ -64,6 +64,51 @@ if (true) {
     */
 }
 
+// Test a connection
+ipcMain.handle('please test a connection', async (_, q) => {
+    const {
+        token,
+        host,
+        port,
+        user,
+        pass,
+        xoauth2,
+        secure
+    } = q
+
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
+    if (!client_secret) return { error: "Couldn't decode client secret" };
+
+    // assertions
+    if (assertions) {
+        if (!user) return { error: 'No user provided to "test a connection"' };
+        if (!pass && !xoauth2) return { error: 'No password or XOAuth2 token provided to "test a connection"' };
+        if (!host) return { error: 'No host provided to "test a connection"' };
+        if (!port) return { error: 'No port provided to "test a connection"' };
+    }
+
+    const options = {
+        auth: {
+            user: user,
+            pass: pass,
+            xoauth2: xoauth2
+        },
+        id: {
+            version: '1.0-beta',
+            name: 'Aiko Mail'
+        },
+        useSecureTransport: !!secure,
+        enableCompression: true
+    }
+
+    const testClient = new Client(host, port, options)
+
+    try { await testClient.connect() } catch (e) { return { error: e } }
+
+    await testClient.close()
+    return { s: comms["👉"](client_secret, { success: true, payload: { valid: true } }) }
+})
+
 // Create new Mail Client
 ipcMain.handle('please make new client', async (_, q) => {
     const {

@@ -6,6 +6,7 @@ const app = new Vue({
         windowManager, // window controls
         mailapi, // IMAP API
         goauth, // Google OAuth
+        modalmanager
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
@@ -63,7 +64,7 @@ const app = new Vue({
         info(...(this.TAG), "Logging in")
         const { error } = await this.initAPI(token)
         if (error) {
-            error(...(this.TAG), "Authentication failed. User needs to login again?")
+            window.error(...(this.TAG), "Authentication failed. User needs to login again?")
             // FIXME: we can try relog with stored email/pass
             // if those fail then we can ask for relog
             await ipcRenderer.invoke('save preferences', {
@@ -77,6 +78,6 @@ const app = new Vue({
         this.loading = false
     },
     methods: {
-
+        
     }
 })
