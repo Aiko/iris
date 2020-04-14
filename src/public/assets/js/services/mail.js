@@ -168,6 +168,5 @@ const mailapi = {
             // TODO: load cache for email
             // TODO: if there is no cache do a full sync
         },
-        async 
     }
 }
