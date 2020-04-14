@@ -22,11 +22,18 @@ const mailapi = {
             ipcRenderer.on('exists value changed',
                 (_, {path, seq}) => app.onSyncRequested(path, seq))
             this.mailboxes = (await SmallStorage.load('mailboxes')) || [];
-            const currentEmail = await SmallStorage.load('current-mailbox')
-            if (currentEmail) {
-                this.loadIMAPConfig(currentEmail)
-                // TODO: load cache for mailbox
+            let currentEmail = await SmallStorage.load('current-mailbox')
+            if (!currentEmail) {
+                if (this.mailboxes.length > 0) {
+                    currentEmail = this.mailboxes[0]
+                } else {
+                    this.forceAddMailbox = true
+                    return
+                }
             }
+            this.loadIMAPConfig(currentEmail)
+            // TODO: load cache for mailbox
+
         },
         async saveIMAPConfig() {
             await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
