@@ -1,6 +1,8 @@
 const Client = require('emailjs-imap-client').default
 const { ipcMain } = require('electron')
 const comms = require('../utils/comms.js')
+// if this isnt MIT licensed in the future we're fucked
+const simpleParser = require('mailparser').simpleParser
 
 const assertions = true // please don't disable assertions
 let connected = false
@@ -87,19 +89,27 @@ ipcMain.handle('please test a connection', async (_, q) => {
         if (!port) return { error: 'No port provided to "test a connection"' };
     }
 
+    let auth;
+    if (xoauth2)
+        auth = {
+            user: user,
+            xoauth2: xoauth2
+        }
+    else auth = {
+        user: user,
+        pass: pass
+    }
+
+
     const options = {
         logLevel: 40, // ERROR
-        auth: {
-            user: user,
-            pass: pass,
-            xoauth2: xoauth2
-        },
+        auth,
         id: {
             version: '1.0-beta',
             name: 'Aiko Mail'
         },
         useSecureTransport: !!secure,
-        enableCompression: true
+        enableCompression: false // holy shit never set this to true
     }
 
     const testClient = new Client(host, port, options)
@@ -148,7 +158,7 @@ ipcMain.handle('please make new client', async (_, q) => {
             name: 'Aiko Mail'
         },
         useSecureTransport: !!secure,
-        enableCompression: true
+        enableCompression: false
     }
 
     client = new Client(host, port, options)
@@ -339,7 +349,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
 // Get Emails
 ipcMain.handle('please get emails', async (_, q) => {
     const { path, sequence, peek, token, modseq } = q
-    const query = ['uid', 'flags', peek ? 'body.peek[HEADER.FIELDS (FROM)]' : 'body.peek[]']
+    const query = ['uid', 'flags', peek ? 'body.peek[HEADER.FIELDS (FROM)]' : 'body.peek[]', 'envelope', 'bodystructure']
     const options = {
         byUid: true,
     }
@@ -356,8 +366,16 @@ ipcMain.handle('please get emails', async (_, q) => {
     }
 
     let messages; try { messages = await client.listMessages(path, sequence, query, options) } catch (e) { return { error: e } }
-    if (!messages || messages.length===0)
-        return { error: `Did not receive any messages back when calling client.listMessages(${path}, ${sequence}, [${peek.join(',')}]) in "please get emails"` };
+    // NOTE: uncomment the latter half of below conditional if you
+    // want it to strictly return something no matter what
+    if (!messages/*|| messages.length===0*/)
+        return { error: `Did not receive any messages back when calling client.listMessages(${path}, ${sequence}, ${peek}) in "please get emails"` };
+
+    // in mailparser we trust
+    if (!peek) messages = await Promise.all(messages.map(async msg => {
+        msg.parsed = await simpleParser(msg['body[]'])
+        return msg
+    }))
 
     /*
     {

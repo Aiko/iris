@@ -35,6 +35,8 @@ if (require('electron-squirrel-startup')) app.quit()
 // Set up OAuth clients
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
+// gmail uses self signed certs -_-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';
 const GOAuth = require('./src/js/oauth/goauth')
 const MSAuth = require('./src/js/oauth/msoauth')
 

@@ -15,7 +15,8 @@ const mailapi = {
         },
         mailboxes: [],
         currentMailbox: '',
-
+        uidLatest: -1,
+        uidNext: -1,
     },
     methods: {
         async initIMAP() {
@@ -168,5 +169,30 @@ const mailapi = {
             // TODO: load cache for email
             // TODO: if there is no cache do a full sync
         },
+        async initialSyncWithMailServer() {
+            // TODO: fetch like 200 messages or some shit
+            // we should call AI on priority inbox for this but
+            // probably upload stuff en masse.... which means we
+            // need batch prediction!!
+        },
+        async syncWithMailServer() {
+            // TODO: sync messages that we have locally
+            // we only need to peek the headers for this!
+        },
+        async checkForNewMessages() {
+            if (this.uidLatest < 0 || this.uidNext - this.uidLatest > 50) {
+                await this.initialSyncWithMailServer()
+                return false
+            }
+            // TODO: fetch uidLatest:uidNext
+        },
+        async checkForUpdates() {
+            // TODO: using modseq???????
+        },
+        async getOldMessages() {
+            // TODO: fetch like... 50 messages older
+            // don't call AI on them. old messages can smd
+        },
+
     }
 }

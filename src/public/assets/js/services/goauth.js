@@ -36,9 +36,10 @@ const goauth = {
                 await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
             ).json()
 
-            const xoauth = btoa(
+            const xoauth = access_token
+            /*const xoauth = btoa(
                 "user=" + profile.email + "\u0001auth=Bearer " + access_token + "\u0001\u0001"
-            )
+            )*/
 
             success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
             this.imapConfig.email = profile.email
@@ -48,6 +49,7 @@ const goauth = {
             this.imapConfig.user = profile.email
             this.imapConfig.pass = ''
             this.imapConfig.provider = 'google'
+            this.imapConfig.secure = true
             await this.saveIMAPConfig()
 
             success(...(GOAUTH_TAG), "Setting up Google configuration.")
@@ -73,7 +75,7 @@ const goauth = {
                     id_token,
                     expires_in,
                     scope
-                } = await this.callIPC(this.ipcTask('please update google oauth token', {
+                } = await this.callIPC(this.ipcTask('please refresh google oauth token', {
                     r_token: this.googleConfig.refreshToken
                 }))
 
@@ -82,9 +84,10 @@ const goauth = {
                     await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token)
                 ).json()
 
-                const xoauth = btoa(
+                const xoauth = access_token
+                /*const xoauth = btoa(
                     "user=" + profile.email + "\u0001auth=Bearer " + access_token + "\u0001\u0001"
-                )
+                )*/
 
                 success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
                 this.imapConfig.email = profile.email
@@ -93,6 +96,7 @@ const goauth = {
                 this.imapConfig.xoauth2 = xoauth
                 this.imapConfig.user = profile.email
                 this.imapConfig.pass = ''
+                this.imapConfig.secure = true // gmail uses self signed certs
                 this.imapConfig.provider = 'google'
                 await this.saveIMAPConfig()
 
