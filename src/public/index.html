@@ -983,6 +983,7 @@
     <add-mailbox-modal
       :googlestrategy="google_addMailbox"
       v-if="addMailbox"
+      :success="switchMailServer"
       :canClose="!forceAddMailbox"
     inline-template>
       <div class="aiko-modal add-mailbox">

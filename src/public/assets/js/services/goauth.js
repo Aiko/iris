@@ -101,7 +101,7 @@ const goauth = {
                 this.googleConfig.id_token = id_token
                 this.googleConfig.expiry_date = this.googleConfig.expiry_date + (expires_in * 1000)
                 this.googleConfig.scope = scope
-                await this.gmail_saveConfig()
+                await this.google_saveConfig()
 
                 // TODO: need to reconnect to mail server
             }

@@ -123,20 +123,6 @@ const mailapi = {
         folderWithSlug(slug) {
             return `"[Aiko Mail (DO NOT DELETE)]/${slug}"`
         },
-        // Email Management
-                /*
-        const {message} = await this.callIPC(
-            this.ipcTask('please echo', {message: "foo"})
-        )
-
-        For batch tasks:
-        const results = await this.callIPC(
-            this.ipcTask('please echo', {message: "hello"}),
-            this.ipcTask('please echo', {message: "world"})
-        )
-        console.log(results[0].message) // "hello"
-        console.log(results[1].message) // "world"
-        */
         async switchMailServer() {
             // PRECONDITION: assumes imapConfig is your new mailbox
             if (this.connected) {
@@ -153,6 +139,8 @@ const mailapi = {
                 )
                 this.connected = true
             }
+            await this.saveIMAPConfig()
+            // TODO: load cache for email
         }
     }
 }
