@@ -13,7 +13,9 @@ const mailapi = {
             secure: true,
             provider: 'other'
         },
-        mailboxes: []
+        mailboxes: [],
+        currentMailbox: '',
+
     },
     methods: {
         async initIMAP() {
@@ -31,6 +33,7 @@ const mailapi = {
                     return
                 }
             }
+            this.currentMailbox = currentEmail
             this.loadIMAPConfig(currentEmail)
             // TODO: load cache for mailbox
 
@@ -119,28 +122,51 @@ const mailapi = {
             // TODO: sync when requested
             // probably only need to sync if path is inbox or a board
         },
+        async onIMAPConnectionError() {
+            // NOTE: this is less of a listener and something this module calls
+            // app.toastIMAPError()
+            // TODO: uncomment once the toast manager has been configured
+        },
         // Utility methods
         folderWithSlug(slug) {
             return `"[Aiko Mail (DO NOT DELETE)]/${slug}"`
         },
-        async switchMailServer() {
-            // PRECONDITION: assumes imapConfig is your new mailbox
+        async reconnectToMailServer() {
+            let results;
             if (this.connected) {
-                const results = await this.callIPC(
+                results = await this.callIPC(
                     this.task_DisconnectFromServer(),
                     this.task_MakeNewClient(this.imapConfig),
                     this.task_ConnectToServer()
                 )
-                this.connected = true
             } else {
-                const results = await this.callIPC(
+                results = await this.callIPC(
                     this.task_MakeNewClient(this.imapConfig),
                     this.task_ConnectToServer()
                 )
-                this.connected = true
+            }
+            if (results.error) {
+                this.connected = false
+                this.onIMAPConnectionError()
+                return (this.connected = false);
+            }
+            return (this.connected = true)
+        },
+        async switchMailServer() {
+            // PRECONDITION: assumes imapConfig is your new mailbox
+            // CAUTION!!! this will switch the entire mailbox
+            if (!(await this.reconnectToMailServer())) {
+                return false
             }
             await this.saveIMAPConfig()
+            if (!this.mailboxes.includes(this.imapConfig.email)) {
+                this.mailboxes.push(this.imapConfig.email)
+                await SmallStorage.store('mailboxes', this.mailboxes)
+            }
+            this.currentMailbox = this.imapConfig.email
+            await SmallStorage.store('current-mailbox', this.imapConfig.email)
             // TODO: load cache for email
+            // TODO: if there is no cache do a full sync
         }
     }
 }

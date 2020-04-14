@@ -1,7 +1,7 @@
 // Cleans up some stuff and limits user interaction that would mess
 // with our electron setup! :- )
 
-$(window).load(function () {
+$(document).ready(function () {
 
     // Disable CTRL Mouse Click
     $('a').click(function (e) {

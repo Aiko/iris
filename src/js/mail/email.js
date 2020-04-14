@@ -88,6 +88,7 @@ ipcMain.handle('please test a connection', async (_, q) => {
     }
 
     const options = {
+        logLevel: 40, // ERROR
         auth: {
             user: user,
             pass: pass,
@@ -136,6 +137,7 @@ ipcMain.handle('please make new client', async (_, q) => {
     connected = false
 
     const options = {
+        logLevel: 40, // error
         auth: {
             user: user,
             pass: pass,

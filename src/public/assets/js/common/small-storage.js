@@ -9,7 +9,7 @@ const SmallStorage = (() => {
 
     const store = async (k, obj) => {
         const key = makeKey(k)
-        await smallStore.setItem(key, JSON.stringify(obj))
+        await smallStore.setItem(key, obj)
     }
 
     const load = async k => {

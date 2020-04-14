@@ -2,7 +2,7 @@ Vue.component('add-mailbox-modal', {
     props: [
         'googlestrategy',
         'success', // NOTE: success should be async
-        'canClose'
+        'closable'
     ],
     data() {
         return {
@@ -25,7 +25,7 @@ Vue.component('add-mailbox-modal', {
         async addGoogle() {
             if (await this.googlestrategy()) {
                 this.success()
-                this.canClose = true
+                this.closable = true
                 this.close()
             }
         },
@@ -53,14 +53,15 @@ Vue.component('add-mailbox-modal', {
             }
             else {
                 this.error = ''
+                this.imapConfig.email = this.imapConfig.user
                 app.imapConfig = this.imapConfig
                 this.success()
-                this.canClose = true
+                this.closable = true
                 this.close()
             }
         },
         async close() {
-            if (canClose)
+            if (this.closable)
                 app.addMailbox = false
         },
         async back() {

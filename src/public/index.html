@@ -984,7 +984,7 @@
       :googlestrategy="google_addMailbox"
       v-if="addMailbox"
       :success="switchMailServer"
-      :canClose="!forceAddMailbox"
+      :closable="!forceAddMailbox"
     inline-template>
       <div class="aiko-modal add-mailbox">
         <!-- STEP ONE --->
@@ -1003,7 +1003,7 @@
             </div>
             <div class="modal-bottom">
               <a href="#" @click="addOther">Other</a>
-              <a href="#" @click="close" v-if="canClose">Back</a>
+              <a href="#" @click="close" v-if="closable">Back</a>
             </div>
           </div>
         </div>
