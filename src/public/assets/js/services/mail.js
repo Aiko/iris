@@ -167,6 +167,7 @@ const mailapi = {
             await SmallStorage.store('current-mailbox', this.imapConfig.email)
             // TODO: load cache for email
             // TODO: if there is no cache do a full sync
-        }
+        },
+        async 
     }
 }
