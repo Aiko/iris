@@ -103,7 +103,7 @@ const goauth = {
                 this.googleConfig.scope = scope
                 await this.google_saveConfig()
 
-                // TODO: need to reconnect to mail server
+                await this.reconnectToMailServer
             }
         },
     }
