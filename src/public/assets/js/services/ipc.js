@@ -90,14 +90,18 @@ const ipc = {
             if (this.ipcQueue.length > 0) {
                 const { tasks, s } = this.ipcQueue.shift()
                 const results = []
-                for ({channel, q} of tasks)
+                try {
+                    for ({channel, q} of tasks)
                     results.push(
                         this.middleware.decode(
                             await ipcRenderer.invoke(channel, q)
                         )
                     )
-                if (results.length == 1) s(results[0])
-                else s(results)
+                    if (results.length == 1) s(results[0])
+                    else s(results)
+                } catch (error) {
+                    s({error,})
+                }
                 this.ipcRotate()
             } else {
                 this.ipcRotating = false

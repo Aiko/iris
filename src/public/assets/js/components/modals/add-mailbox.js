@@ -1,12 +1,14 @@
 Vue.component('add-mailbox-modal', {
     props: [
         'googlestrategy',
-        'success'
+        'success', // NOTE: success should be async
+        'canClose'
     ],
     data() {
         return {
             step: 1,
             error: '',
+            loading: false,
             imapConfig: {
                 email: '',
                 host: '',
@@ -21,7 +23,11 @@ Vue.component('add-mailbox-modal', {
     },
     methods: {
         async addGoogle() {
-            if (await this.googlestrategy()) this.success()
+            if (await this.googlestrategy()) {
+                this.success()
+                this.canClose = true
+                this.close()
+            }
         },
         async addMicrosoft() {
             this.imapConfig.host = 'outlook.office365.com'
@@ -33,20 +39,28 @@ Vue.component('add-mailbox-modal', {
             this.step = 2
         },
         async saveConfig() {
+            this.loading = true
             const {
                 host, port, user, pass, xoauth2, secure
             } = this.imapConfig
             const testConnection = await app.ipcTask('please test a connection', {
                 host, port, user, pass, xoauth2, secure
             })
-            const { valid, error } = await app.callIPC(testConnection)
+            const { valid, error } = await app.callIPC(testConnection).catch(_=>_)
             if (error || !valid) {
-                this.error = error
+                this.error = "We couldn't connect to your mail server. Please check your credentials or contact your administrator."
+                this.loading = false
             }
-            else this.success()
+            else {
+                this.error = ''
+                app.imapConfig = this.imapConfig
+                this.success()
+                this.canClose = true
+                this.close()
+            }
         },
         async close() {
-            if (!app.forceAddMailbox)
+            if (canClose)
                 app.addMailbox = false
         },
         async back() {

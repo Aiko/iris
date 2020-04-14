@@ -1731,7 +1731,6 @@ unselectable {
 	height: 100%;
 	z-index: 10000;
 	background: var(--modal-backdrop);
-	cursor: pointer;
 }
 .settings-main [contenteditable]{
 	display: inline;

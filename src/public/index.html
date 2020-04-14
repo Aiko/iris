@@ -983,6 +983,7 @@
     <add-mailbox-modal
       :googlestrategy="google_addMailbox"
       v-if="addMailbox"
+      :canClose="!forceAddMailbox"
     inline-template>
       <div class="aiko-modal add-mailbox">
         <!-- STEP ONE --->
@@ -992,16 +993,16 @@
               <h1>Add a mailbox</h1>
               <h2>Pick an email provider</h2>
               <!-- <a href="#"><img src="assets/img/icloud.png"></a> -->
-              <a href="#" @click="addMicrosoft"><img src="assets/img/exchange.png"></a>
-              <a href="#" @click="addGoogle"><img src="assets/img/google.png"></a>
+              <a href="#"><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
+              <a href="#"><img @click="addGoogle" src="assets/img/google.png"></a>
               <!-- <a href="#"><img src="assets/img/yahoo.png"></a> -->
               <!-- <a href="#"><img src="assets/img/aol.png"></a> -->
-              <a href="#" @click="addMicrosoft"><img src="assets/img/outlook.png"></a>
+              <a href="#"><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
               <br>
             </div>
             <div class="modal-bottom">
               <a href="#" @click="addOther">Other</a>
-              <a href="#" @click="close" class="add-2">Back</a>
+              <a href="#" @click="close" v-if="canClose">Back</a>
             </div>
           </div>
         </div>
@@ -1011,21 +1012,32 @@
             <div class="modal-reg">
               <h1>Add a mailbox</h1>
               <h2>Enter your credentials</h2>
-              <a href="#">
+              <a>
                 <!-- TODO: use clearbit to auto-show the user's email provider -->
-                <img v-if="provider == 'microsoft'" src="assets/img/outlook.png">
+                <img v-if="imapConfig.provider == 'microsoft'" src="assets/img/outlook.png">
               </a>
+              <p v-if="error" class="alert alert-danger">{{error}}</p>
               <input v-model="imapConfig.user" type="email" name="" placeholder="Email">
               <input v-model="imapConfig.pass" type="password" name="" placeholder="Password">
               <input v-model="imapConfig.host" type="url" name="" placeholder="IMAP Host">
               <input v-model="imapConfig.port" type="number" name="" placeholder="IMAP Port">
               <input type="url" name="" placeholder="SMTP Host">
               <input type="number" name="" placeholder="SMTP Port">
-              <br>
-              <a href="#" class="add-2 blue">Add mailbox</a>
+              <br><br>
+              <a v-if="!loading" href="#" @click="saveConfig" class="blue">Add mailbox</a>
+              <div v-if="loading" class="cs-loader">
+                <div class="cs-loader-inner">
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                </div>
+              </div>
               <br><br>
             </div>
-            <div class="modal-bottom">
+            <div v-if="!loading" class="modal-bottom">
               <a href="#" @click="back">Back</a>
             </div>
           </div>
@@ -1102,6 +1114,7 @@
   <!-- common libraries -->
   <script src="assets/js/common/utils.js"></script>
   <script src="assets/js/common/small-storage.js"></script>
+  <script src="assets/js/common/only-electron.js"></script>
   <!-- services -->
   <script src="assets/js/services/ipc.js"></script>
   <script src="assets/js/services/aiko.js"></script>
