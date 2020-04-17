@@ -407,7 +407,7 @@ ipcMain.handle('please get emails', async (_, q) => {
     */
 
     currentFolder = path
-    return { s: comms["👉"](client_secret, { success: true, payload: messages }) }
+    return { payload: messages }
 })
 
 // Search Emails
