@@ -378,6 +378,7 @@ ipcMain.handle('please get emails', async (_, q) => {
     // in mailparser we trust
     if (!peek) messages = await Promise.all(messages.map(async msg => {
         msg.parsed = await simpleParser(msg['body[]'])
+        msg.parsed.attachments = []
         return msg
     }))
 
