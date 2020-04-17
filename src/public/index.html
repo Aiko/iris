@@ -93,7 +93,7 @@
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>rubtouit@priansh.com</span>
+                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig.email}}</span>
                 </div>
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
@@ -222,153 +222,45 @@
             <div class="board-body">
               <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <div class="email">
-                  <div class="container pr">
-                    <div class="unread"></div>
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <h2 class="sender">
-                          Ruben Touitou</h2>
-                        <img src="assets/icons/badges-attach.svg" title="Attachment">
-                        <!-- <img src="assets/icons/badges-tracker.svg">
-																<img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                      <p class="subject">This is the subject</p>
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                    <div class="email-footer" style="user-select: none;">
-                      <div class="row">
-                        <div class="col-5">
-                          <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+                <email-card inline-template v-for="email in priorityInbox" :email="email">
+                  <div class="email">
+                    <div class="container pr">
+                      <div class="unread" v-if="!(email.ai.seen)"></div>
+                      <div class="row" style="user-select: none;">
+                        <div class="col-8 p0" style="display: inline-flex;">
+                          <h2 class="sender">
+                            {{email.envelope.from[0].name}}</h2>
+                          <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg" title="Attachment">
+                          <!-- <img src="assets/icons/badges-tracker.svg">
+                                  <img src="assets/icons/badges-event.svg">
+                                  <img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+                                  <img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
                         </div>
-                        <div class="col-7 extra-actions">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                          <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                          <a href="#"><img src="assets/icons/options-trash.svg" class="redh" width="15"></a>
+                        <div class="col-4 p0">
+                          <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
+                        </div>
+                        <p class="subject">{{email.envelope.subject}}</p>
+                        <p class="body">{{email.parsed.text}}</p>
+                      </div>
+                      <div class="email-footer" style="user-select: none;">
+                        <div class="row">
+                          <div class="col-5">
+                            <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+                          </div>
+                          <div class="col-7 extra-actions">
+                            <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+                            <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+                            <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+                            <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+                            <a href="#"><img src="assets/icons/options-trash.svg" class="redh" width="15"></a>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </email-card>
 
-                <div class="email">
-                  <div class="container pr">
-                    <div class="unread"></div>
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <h2 class="sender">
-                          Johnson Milky</h2>
-                        <!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
-                        <img src="assets/icons/badges-tracker.svg">
-                        <!-- <img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                      <p class="subject">This is the subject</p>
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                    <div class="email-footer" style="user-select: none;">
-                      <div class="row">
-                        <div class="col-5">
-                          <a class="main-action" href="#"><img src="assets/icons/check-circle.svg"> Verify</a>
-                        </div>
-                        <div class="col-7 extra-actions">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                          <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                          <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="email">
-                  <div class="container pr">
-                    <div class="unread"></div>
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <h2 class="sender">
-                          Milky James</h2>
-                        <!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
-                        <img src="assets/icons/badges-tracker.svg">
-                        <!-- <img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-																<img src="assets/icons/badges-star.svg" title="Starred/Flagged"> -->
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                      <p class="subject">This is the subject</p>
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                    <div class="email-footer" style="user-select: none;">
-                      <div class="row">
-                        <div class="col-5">
-                          <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                        </div>
-                        <div class="col-7 extra-actions">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                          <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                          <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email">
-                  <div class="container pr">
-                    <div class="unread"></div>
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <h2 class="sender">
-                          Joana Guttierez</h2>
-                        <!-- <img src="assets/icons/badges-attach.svg" title="Attachment">
-																<img src="assets/icons/badges-tracker.svg">
-																<img src="assets/icons/badges-event.svg">
-																<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed"> -->
-                        <img src="assets/icons/badges-star.svg" title="Starred/Flagged">
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                      <p class="subject">This is the subject</p>
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                    <div class="email-footer" style="user-select: none;">
-                      <div class="row">
-                        <div class="col-5">
-                          <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                        </div>
-                        <div class="col-7 extra-actions">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                          <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                          <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                          <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="cs-loader">
                   <div class="cs-loader-inner">
                     <label> ●</label>
@@ -1113,6 +1005,7 @@
   <!-- common libraries -->
   <script src="assets/js/common/utils.js"></script>
   <script src="assets/js/common/small-storage.js"></script>
+  <script src="assets/js/common/big-storage.js"></script>
   <script src="assets/js/common/only-electron.js"></script>
   <!-- services -->
   <script src="assets/js/services/ipc.js"></script>
@@ -1126,6 +1019,7 @@
   <!-- templates -->
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
+  <script src="assets/js/components/email-card.js"></script>
 
 </body>
 

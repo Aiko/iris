@@ -15,8 +15,27 @@ const mailapi = {
         },
         mailboxes: [],
         currentMailbox: '',
-        uidLatest: -1,
-        uidNext: -1,
+        uidLatest: -1, // inbox
+        folderNames: {
+            inbox: "INBOX",
+        },
+        inbox: [],
+        done: [],
+    },
+    watch: {
+        async inbox(updatedInbox) {
+            // NOTE: important to check length
+            // dont want to store empty inbox if it is reset
+            // if you need to store an empty inbox do it manually!
+            if (updatedInbox.length > 0)
+                await BigStorage.store(this.imapConfig.email + ':inbox',
+                    updatedInbox)
+        }
+    },
+    computed: {
+        priorityInbox() {
+            return this.inbox.filter(email => !email.ai.subscription)
+        }
     },
     methods: {
         async initIMAP() {
@@ -35,9 +54,8 @@ const mailapi = {
                 }
             }
             this.currentMailbox = currentEmail
-            this.loadIMAPConfig(currentEmail)
-            // TODO: load cache for mailbox
-
+            await this.loadIMAPConfig(currentEmail)
+            this.switchMailServer()
         },
         async saveIMAPConfig() {
             await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
@@ -156,24 +174,81 @@ const mailapi = {
         async switchMailServer() {
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
-            if (!(await this.reconnectToMailServer())) {
-                return false
-            }
-            await this.saveIMAPConfig()
+            info(...MAILAPI_TAG, "Switching mailbox to " + this.imapConfig.email)
             if (!this.mailboxes.includes(this.imapConfig.email)) {
                 this.mailboxes.push(this.imapConfig.email)
                 await SmallStorage.store('mailboxes', this.mailboxes)
             }
             this.currentMailbox = this.imapConfig.email
             await SmallStorage.store('current-mailbox', this.imapConfig.email)
+
+            // TODO: load folder names
+            this.folderNames.inbox = 'INBOX'
+
+            // TODO: empty everything
+            this.inbox = []
+            this.done = []
+
             // TODO: load cache for email
-            // TODO: if there is no cache do a full sync
+            const inboxCache = (
+                await BigStorage.load(this.imapConfig.email + ':inbox')
+                || [])
+            this.inbox = inboxCache.map(email => {
+                // TODO: this should also be a function that turns properties into
+                // objects that could not be stored as is
+                email.envelope.date = new Date(email.envelope.date)
+                return email
+            })
+
+            // Connect to mailserver
+            if (!(await this.reconnectToMailServer())) {
+                return false
+            }
+            await this.saveIMAPConfig()
+
+            // if there is no cache do a full sync
+            if (this.inbox.length == 0) await this.initialSyncWithMailServer()
         },
         async initialSyncWithMailServer() {
-            // TODO: fetch like 200 messages or some shit
+            info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
+            this.loading = true // its so big it blocks I/O
+            const { error, uidNext } = await this.callIPC(this.task_OpenFolder("INBOX"))
+            if (error) return window.error(...(MAILAPI_TAG), error)
+            if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            const uidMin = Math.max(uidNext - 100, 0) // fetch latest 100
+            info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
+            const emails = await this.callIPC(
+                this.task_FetchEmails("INBOX", `${uidMin}:${uidNext}`, false))
+            const processed_emails = emails
+                .reverse()
+                .map(email => {
+                    // FIXME: this should be a function that parses emails
+                    email.envelope.date = new Date(email.envelope.date)
+                    email.ai = {
+                        subscription: false,
+                        unsubscribeLink: '',
+                        seen: false
+                    }
+                    email.parsed.headerLines.map(({key, line}) => {
+                        if (key == 'list-unsubscribe') {
+                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
+                            if (urls && urls.length > 0) {
+                                email.ai.subscription = true
+                                email.ai.unsubscribeLink = urls[0]
+                            }
+                            else console.log("LIST-UNSUBSCRIBE", line)
+                        }
+                    })
+                    if (email.flags.includes('\\Seen')) email.ai.seen = true
+                    return email
+                })
             // we should call AI on priority inbox for this but
             // probably upload stuff en masse.... which means we
             // need batch prediction!!
+            this.inbox = processed_emails
+            if (this.inbox.length > 0)
+                this.uidLatest = this.inbox[0].uid
+            this.loading = false
         },
         async syncWithMailServer() {
             // TODO: sync messages that we have locally
