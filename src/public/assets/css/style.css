@@ -126,8 +126,8 @@ input{
 .version p{
 	font-size: 12px;
 	margin-bottom: 2px !important;
-    margin-top: -4px !important;
-    margin-left: 0px !important;
+	margin-top: -4px !important;
+	margin-left: 0px !important;
 }
 .version a{
 	background: var(--main-color);
@@ -160,6 +160,19 @@ input{
 	font-size: 20px;
 	color: var(--main-text-color);
 	margin-top: 2px;
+}
+.x-email{
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 10px;
+	cursor: pointer;
+	z-index: 1;
+	transition: .2s;
+}
+.x-email:hover{
+	opacity: .7;
+	transition: .2s;
 }
 .sidebar-collapse{
 	position: absolute;
