@@ -381,7 +381,7 @@ ipcMain.handle('please get emails', async (_, q) => {
         return msg
     }))
 
-    Log.log("Parsed messages.")
+    Log.log("Parsed " + messages.length + " messages.")
 
     /*
     {
