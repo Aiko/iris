@@ -279,6 +279,9 @@ input{
 	display: flex;
 	justify-content: flex-end;
 }
+.dropdown-divider{
+	border-top: 1px solid var(--main-bg-color);
+}
 .control-bar h1{
 	width: 25px;
 	border-radius: 1px;
