@@ -28,7 +28,10 @@
 	--modal-backdrop: #3c3c3c85; /* Global modal backdrop */
 }
 
-
+.modal-dialog{
+	top: 45%;
+    transform: translateY(-50%);
+}
 /* Main CSS Start */
 html, body, #app, .sidebar, .main{
 	height: 100%;
