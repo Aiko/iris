@@ -236,7 +236,7 @@
               <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
                 <email-card inline-template v-for="email in priorityInbox" :email="email">
-                  <div class="email">
+                  <div class="email" :class="{'unread': !(email.ai.seen)}">
                     <div class="container pr">
                       <div class="row" style="user-select: none;">
                         <div class="col-8 p0" style="display: inline-flex;">
@@ -327,7 +327,7 @@
             <div class="board-body">
               <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <div class="email unread">
+                <div class="email">
                   <div class="container pr">
                     <div class="row" style="user-select: none;">
                       <div class="col-8 p0" style="display: inline-flex;">
