@@ -57,6 +57,14 @@ transition: .2s;
 .sender{
   color: #c3c3c3 !important;
 }
+.search-drop a{
+  color: #fff !important;
+  transition: .2s;
+}
+.search-drop a:hover{
+  color: var(--main-text-color) !important;
+  transition: .2s;
+}
 .email{
   box-shadow: none !important;
 }
