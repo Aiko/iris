@@ -30,7 +30,7 @@
 
 .modal-dialog{
 	top: 45%;
-    transform: translateY(-50%);
+	transform: translateY(-50%);
 }
 /* Main CSS Start */
 html, body, #app, .sidebar, .main{
@@ -114,14 +114,40 @@ input{
 }
 
 /* END DRAGGABLE CLASSES */
-
+.version{
+	padding: 10px 7px;
+	margin-top: 5vh;
+	background: var(--secondary-bg-color);
+	border-radius: 4px;
+}
+.version h1{
+	font-size: 13px
+}
+.version p{
+	font-size: 12px;
+	margin-bottom: 2px !important;
+    margin-top: -4px !important;
+    margin-left: 0px !important;
+}
+.version a{
+	background: var(--main-color);
+	color: #fff !important;
+	padding: 4px 6px !important;
+	font-size: 13px !important;
+}
+.version a:hover{
+	background: var(--main-color-hover) !important;
+	color: #fff !important;
+	padding: 4px 6px !important;
+	font-size: 13px !important;
+}
 .bottom{
 	position: absolute;
 	bottom: 0;
 	background-color: var(--main-bg-color);
 	padding: 15px 0px 10px 0px;
 	text-align: center;
-	border-top: 1px solid var(--main-text-color);
+	border-top: 1px solid var(--secondary-bg-color);
 	width: 100%;
 }
 .back-to-inbox{
@@ -198,7 +224,7 @@ input{
 }
 .thin .email-footer{
 	width: 130px !important;
-    margin-left: -21px;
+	margin-left: -21px;
 	transition: .2s;
 }
 
@@ -343,7 +369,7 @@ input{
 }
 .header{
 	padding: 9px 5px 9px 20px;
-    height: 47px;
+	height: 47px;
 	background: var(--main-bg-color);
 	box-shadow: 8px 1px 10px #0000002e;
 	z-index: 1;
@@ -850,18 +876,18 @@ hr {
 	transition: .2s;
 }
 .chip{
-	 background: var(--main-color);
-    padding: 1px 4px;
-    border-radius: 2px;
-    width: max-content;
-    cursor: pointer;
-    margin-right: 5px;
+	background: var(--main-color);
+	padding: 1px 4px;
+	border-radius: 2px;
+	width: max-content;
+	cursor: pointer;
+	margin-right: 5px;
 }
 .chip img{
 	margin-top: -2px;
 }
 .grouped-chips{
-	    display: inline-flex;
+	display: inline-flex;
 }
 .delete img{
 	position: absolute;
@@ -947,14 +973,14 @@ hr {
 	margin-right: -5px;
 }
 .secondary-count{
-    color: var(--main-text-color);
-    background: var(--secondary-bg-color);
-    padding: 3px 6px 2px 6px;
-    border-radius: 4px;
-    font-size: 12px;
-    margin-left: 5px;
-    display: inline;
-    font-weight: 600;
+	color: var(--main-text-color);
+	background: var(--secondary-bg-color);
+	padding: 3px 6px 2px 6px;
+	border-radius: 4px;
+	font-size: 12px;
+	margin-left: 5px;
+	display: inline;
+	font-weight: 600;
 }
 .nowrap{
 	white-space: nowrap;
@@ -1009,10 +1035,10 @@ hr {
 	position: relative;
 }
 .unread{
-border-left: 3px solid var(--main-color);
+	border-left: 3px solid var(--main-color);
 }
 .starred{
-border-left: 3px solid #ffc107;
+	border-left: 3px solid #ffc107;
 }
 .unread .email-footer{
 	margin-left: -31px !important;
@@ -1131,13 +1157,13 @@ border-left: 3px solid #ffc107;
 	height: 85px;
 }
 .main-email .action{
-    position: relative;
-    float: right;
-    border: 0;
-    border-radius: 4px 4px 0px 0px;
-    margin-bottom: -10px;
-    font-size: 14px !important;
-    padding: 8px 11px 8px 4px;
+	position: relative;
+	float: right;
+	border: 0;
+	border-radius: 4px 4px 0px 0px;
+	margin-bottom: -10px;
+	font-size: 14px !important;
+	padding: 8px 11px 8px 4px;
 }
 .email-head img{
 	height: 18px;
@@ -1252,15 +1278,15 @@ border-left: 3px solid #ffc107;
 	transition: opacity 0.01s linear;
 }
 .options{
-    background: var(--secondary-bg-color);
-    width: 250px;
-    position: relative;
-    float: right;
-    border-radius: 4px 0px 0px 0px;
-    padding: 3px 6px 7px 6px;
-    margin-bottom: -17px;
-    text-align: center;
-    margin-right: -25px;
+	background: var(--secondary-bg-color);
+	width: 250px;
+	position: relative;
+	float: right;
+	border-radius: 4px 0px 0px 0px;
+	padding: 3px 6px 7px 6px;
+	margin-bottom: -17px;
+	text-align: center;
+	margin-right: -25px;
 }
 .options-qa{
 	position: absolute;

@@ -22,7 +22,7 @@
 <body class="bg" style="background-image: url(assets/img/bg.jpg)">
  <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
   <!-- THEMES GO HERE -->
-  <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dfark.css">
+  <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
   <!-- LOADER -->
   <div id="fixed" class="loader-6 center-loader"><span></span></div>
   <!-- CONTROL BAR -->
@@ -71,13 +71,18 @@
      </a>
 
      <a href="#"><img src="assets/icons/sidebar-invite.svg"> <span class="blue">Invite</span></a>
+     <div class="version">
+      <h1>Version <span class="blue">ALPHA</span></h1>
+      <p>Request features and report issues here.</p>
+      <a href="#">Give feedback</a>
+     </div>
     </div>
     <div class="row bottom">
      <div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
      <br>
      <div class="set">
       <a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-      <a href="#"><img src="assets/icons/sidebar-feedback.svg" width="30"></a>
+      <a href="https://helloaiko.com/documentation/" target="_blank"><img src="assets/icons/sidebar-help.svg" width="30"></a>
      </div>
     </div>
    </div>
