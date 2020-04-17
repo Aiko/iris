@@ -19,10 +19,10 @@
     content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">
 </head>
 
-<body class="bg">
+<body class="bg" style="background-image: url(assets/img/bg.jpg)">
   <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
-    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dadrk.css">
     <!-- LOADER -->
     <div id="fixed" class="loader-6 center-loader"><span></span></div>
     <!-- CONTROL BAR -->
