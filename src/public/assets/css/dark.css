@@ -43,8 +43,22 @@
 .center-loader{
   background: var(--main-bg-color) !important;
 }
+.board .dropdown-menu.show{
+  box-shadow: 0 1px 9px #0000006e !important;
+}
+.dropdown-menu, .dropdown-menu a{
+  background-color: var(--main-bg-color) !important;
+transition: .2s;
+}
+.dropdown-item:focus, .dropdown-item:hover{
+  background-color: var(--secondary-bg-color) !important;
+  transition: .2s;
+}
 .sender{
   color: #c3c3c3 !important;
+}
+.email{
+  box-shadow: none !important;
 }
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;

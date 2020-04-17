@@ -179,10 +179,12 @@ input{
 .dropdown-menu, .dropdown-menu a{
 	background-color: var(--secondary-bg-color) !important;
 	color: var(--main-text-color) !important;
+	transition: .2s;
 }
 .dropdown-item:focus, .dropdown-item:hover{
 	background-color: var(--main-bg-color) !important;
 	color: var(--main-text-color) !important;
+	transition: .2s;
 }
 .board .dropdown-header{
 	padding: .8rem 1.5rem 0rem 1.5rem;
@@ -792,7 +794,7 @@ hr {
 	position: relative;
 	background: var(--email-bg-color);
 	border-radius: 4px;
-	box-shadow: 0 0px 9px #00000026;
+	box-shadow: 0 0px 6px 0px #0000003d;
 	cursor: pointer;
 	height: 135px;
 	margin-bottom: 15px;
