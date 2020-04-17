@@ -1104,6 +1104,7 @@ hr {
 }
 .drag{
 	box-shadow: 0 10px 20px #5d5d5d29 !important;
+	transform: scale(1.05);
 }
 .email-iframe{
 	width: 100%;
@@ -2254,11 +2255,11 @@ unselectable {
 }
 [tooltip]::after {
 	content: attr(tooltip); /* magic! */
-	
+
 	/* most of the rest of this is opinion */
 	font-family: Helvetica, sans-serif;
 	text-align: center;
-	
+
   /* 
     Let the content set the size of the tooltips 
     but this will also keep them from being obnoxious
