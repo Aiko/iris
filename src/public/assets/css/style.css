@@ -989,7 +989,11 @@ hr {
 	transition: .2s;
 }
 .email-footer img:hover{
-	opacity: .5;
+	opacity: .7;
+	transition: .2s;
+}
+.email-footer .main-action:hover{
+	opacity: .7;
 	transition: .2s;
 }
 .body{
