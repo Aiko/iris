@@ -797,7 +797,7 @@ hr {
 	cursor: pointer;
 	height: 135px;
 	margin-bottom: 15px;
-	padding: 7px 17px 0px 24px;
+	padding: 8px 13px 0px 13px;
 	transition: .2s;
 }
 
@@ -934,7 +934,7 @@ hr {
 	bottom: 0;
 	width: 269px;
 	height: 27px;
-	margin-left: -39px;
+	margin-left: -27px;
 	border-radius: 0px 0px 4px 4px;
 	margin-bottom: -1px;
 }
@@ -974,15 +974,10 @@ hr {
 	position: relative;
 }
 .unread{
-	background: var(--main-color);
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	position: absolute;
-	left: 0;
-	top: 0;
-	margin-left: -15px;
-	margin-top: 5px;
+border-left: 3px solid var(--main-color);
+}
+.unread .email-footer{
+	margin-left: -31px !important;
 }
 .boards-container{
 	height: 100%;

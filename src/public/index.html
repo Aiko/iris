@@ -238,7 +238,6 @@
                 <email-card inline-template v-for="email in priorityInbox" :email="email">
                   <div class="email">
                     <div class="container pr">
-                      <div class="unread" v-if="!(email.ai.seen)"></div>
                       <div class="row" style="user-select: none;">
                         <div class="col-8 p0" style="display: inline-flex;">
                           <h2 class="sender">
@@ -328,9 +327,8 @@
             <div class="board-body">
               <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <div class="email">
+                <div class="email unread">
                   <div class="container pr">
-                    <div class="unread"></div>
                     <div class="row" style="user-select: none;">
                       <div class="col-8 p0" style="display: inline-flex;">
                         <h2 class="sender">
@@ -463,7 +461,6 @@
               <!-- Single Email ---------- add class 'drag' when dragged ------->
               <div class="email">
                 <div class="container pr">
-                  <div class="unread"></div>
                   <div class="row" style="user-select: none;">
                     <div class="col-8 p0" style="display: inline-flex;">
                       <h2 class="sender">Ruben Touitou</h2>
@@ -845,7 +842,6 @@
 
 							<div class="email thread">
 								<div class="container pr" data-toggle="modal" data-target=".email1">
-									<div class="unread"></div>
 									<div class="row" style="user-select: none;">
 										<div class="col-8 p0" style="display: inline-flex;">
 											<p class="subject">This is the subject</p>
