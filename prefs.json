@@ -1,3 +1,1 @@
-{
-    "authenticated": false
-}
+{"authenticated":true,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYmEwM2Q4ZTVmZjI3MDAxMWM1OGExZSIsImlhdCI6MTU4NzAxNjUzNSwiZXhwIjoxNTg3MTAyOTM1fQ.VxKlCAiGGB0AtPkxfCeAsM20vggiTPZPpc8qQpIiEDY","email":"shah@priansh.com","password":"mail123$","firstTime":false}
