@@ -807,7 +807,7 @@ hr {
 	position: relative;
 	background: var(--email-bg-color);
 	border-radius: 4px;
-	box-shadow: 0 0px 6px 0px #0000003d;
+	box-shadow: 0 0px 11px 0px #00000026;
 	cursor: pointer;
 	height: 135px;
 	margin-bottom: 15px;
