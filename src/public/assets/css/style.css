@@ -176,6 +176,7 @@ input{
 	border: none;
 
 }
+
 .dropdown-menu, .dropdown-menu a{
 	background-color: var(--secondary-bg-color) !important;
 	color: var(--main-text-color) !important;
@@ -675,21 +676,6 @@ a.main-action:hover{
 .p0{
 	padding: 0 !important;
 }
-.count{
-	padding: 3px;
-	background: var(--main-bg-color);
-	border-radius: 4px;
-	margin-left: 5px;
-	font-size: 12px;
-	width: fit-content;
-	min-width: 18px;
-	font-weight: 600;
-	height: 17px;
-	border: 1px solid var(--main-color);
-	color: var(--main-color);
-	margin-top: 3px;
-	line-height: 10px;
-}
 .blue{
 	color: var(--main-color) !important;
 }
@@ -738,13 +724,12 @@ a.main-action:hover{
 	font-size: 10px;
 	background: var(--secondary-bg-color);
 	border-radius: 4px;
-	height: 20px;
 	line-height: 19px;
 	color: var(--main-text-color);
 	margin-left: 5px;
 	font-weight: 500;
 	margin-top: 1px;
-	padding: 1px 8px;
+	padding: 2px 8px 1px 8px;
 	cursor: pointer;
 	transition: .2s;
 }
@@ -927,6 +912,15 @@ hr {
 	font-size: 12px;
 	margin-top: 2px;
 	margin-right: -5px;
+}
+.secondary-count{
+	color: var(--main-text-color);
+    background: var(--secondary-bg-color);
+    padding: 3px 6px 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 2px;
+    margin-left: 5px;
 }
 .email-footer{
 	user-select: none;
