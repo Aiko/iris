@@ -43,6 +43,9 @@
 .center-loader{
   background: var(--main-bg-color) !important;
 }
+.sender{
+  color: #c3c3c3 !important;
+}
 .email-footer{
 	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
 }
