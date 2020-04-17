@@ -219,6 +219,7 @@ const mailapi = {
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidNext}`, false))
+            if (!emails) return error(...MAILAPI_TAG, emails)
             const processed_emails = emails
                 .reverse()
                 .map(email => {
