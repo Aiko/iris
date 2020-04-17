@@ -1,3 +1,5 @@
+const Log = require('./src/js/utils/logger')
+
 const Client = require('emailjs-imap-client').default
 const { ipcMain } = require('electron')
 const comms = require('../utils/comms.js')
@@ -365,17 +367,21 @@ ipcMain.handle('please get emails', async (_, q) => {
         if (!sequence) return { error:  'No message sequence provided to "please get emails"' }
     }
 
+    Log.log("Fetching messages.")
     let messages; try { messages = await client.listMessages(path, sequence, query, options) } catch (e) { return { error: e } }
     // NOTE: uncomment the latter half of below conditional if you
     // want it to strictly return something no matter what
     if (!messages/*|| messages.length===0*/)
         return { error: `Did not receive any messages back when calling client.listMessages(${path}, ${sequence}, ${peek}) in "please get emails"` };
 
+    Log.log("Received messages.")
     // in mailparser we trust
     if (!peek) messages = await Promise.all(messages.map(async msg => {
         msg.parsed = await simpleParser(msg['body[]'])
         return msg
     }))
+
+    Log.log("Parsed messages.")
 
     /*
     {
