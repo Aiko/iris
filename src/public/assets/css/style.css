@@ -971,6 +971,9 @@ hr {
 .unread{
 border-left: 3px solid var(--main-color);
 }
+.starred{
+border-left: 3px solid #ffc107;
+}
 .unread .email-footer{
 	margin-left: -31px !important;
 }
