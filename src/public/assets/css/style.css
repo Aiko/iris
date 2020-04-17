@@ -181,7 +181,7 @@ input{
 	transition: .2s;
 }
 .thin .email{
-	padding: 8px 7px 0px 7px !important;
+	padding: 7px 8px 0px 8px !important;
 	transition: .2s;
 }
 .thin .exp{
@@ -752,9 +752,9 @@ a.main-action:hover{
 	color: var(--main-text-color);
 	margin-left: 5px;
 	font-weight: 500;
-	margin-top: 1px;
-	padding: 2px 8px 1px 8px;
+	padding: 5px 8px 5px 8px;
 	cursor: pointer;
+	display: inline;
 	transition: .2s;
 }
 .archive:hover{
@@ -944,13 +944,17 @@ hr {
 	margin-right: -5px;
 }
 .secondary-count{
-	color: var(--main-text-color);
+    color: var(--main-text-color);
     background: var(--secondary-bg-color);
-    padding: 3px 6px 1px 6px;
+    padding: 3px 6px 2px 6px;
     border-radius: 4px;
     font-size: 12px;
-    margin-top: 2px;
     margin-left: 5px;
+    display: inline;
+    font-weight: 600;
+}
+.nowrap{
+	white-space: nowrap;
 }
 .email-footer{
 	user-select: none;

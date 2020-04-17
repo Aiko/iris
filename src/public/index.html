@@ -216,15 +216,15 @@
              </div>
             </div>
            </div>
-           <div class="col-5 text-center exp margin-auto">
-            <h1>Inbox<div class="secondary-count">267</div>
-            </h1>
+           <div class="col-5 text-center exp margin-auto nowrap">
+            <h1>Inbox</h1>
+            <div class="secondary-count">267</div>
            </div>
            <div class="col-3 text-right cll">
             <a href="#"><img src="assets/icons/toggle-right.svg" title="Show important emails only" width="30"
              style="cursor: pointer;"></a>
             </div>
-            <div class="col-1 text-right">
+            <div class="col-1 text-right cll">
             </div>
            </div>
           </div>
@@ -295,6 +295,8 @@
        <!-- END Inbox Board ---------------------------->
 
        <!-- TODO: Boards should be draggable ----------->
+       <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
+
        <!-- To-Do Board Template ----------------------->
        <div class="board">
         <div class="board-header">
@@ -313,9 +315,8 @@
               </div>
              </div>
             </div>
-            <div class="col-8 text-center p0 exp margin-auto">
-             <h1>To-Do<div class="secondary-count">1</div>
-             </h1>
+            <div class="col-8 text-center p0 exp margin-auto nowrap">
+             <h1>To-Do</h1><div class="secondary-count">1</div>
             </div>
             <div class="col-2 text-right cll">
              <a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
@@ -372,7 +373,7 @@
                  <!-- END To-Do Board Template ------------------->
 
                  <!-- START Done Board Template ----------------------->
-                 <div class="board thin">
+                 <div class="board">
                   <div class="board-header">
                    <div class="container p0">
                     <div class="row">
@@ -389,106 +390,105 @@
                         </div>
                        </div>
                       </div>
-                      <div class="col-8 text-center p0 exp margin-auto">
-                       <h1>Done<div class="archive"><img src="assets/icons/board-archive.svg">Archive
+                      <div class="col-8 text-center p0 exp margin-auto nowrap">
+                       <h1>Done</h1><div class="archive"><img src="assets/icons/board-archive.svg">Archive
                        all</div>
-                      </h1>
+                      </div>
+                      <div class="col-2 text-right cll">
+                       <a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
+                      </div>
                      </div>
-                     <div class="col-2 text-right cll">
-                      <a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
+                    </div>
+                   </div>
+                   <div class="board-body">
+                    <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
+                     <div slot="footer" class="empty">
+                      <h1>Drag emails here.</h1>
                      </div>
                     </div>
                    </div>
                   </div>
-                  <div class="board-body">
-                   <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-                    <div slot="footer" class="empty">
-                     <h1>Drag emails here.</h1>
-                    </div>
-                   </div>
+                  <!-- END Done Board Template ------------------->
+
+                  <!-- START Add Board ----------------------->
+                  <div class="add-board">
+                   <img src="assets/icons/boards-add.svg">
                   </div>
-                 </div>
-                 <!-- END Done Board Template ------------------->
+                  <!-- END Add Board ------------------->
 
-                 <!-- START Add Board ----------------------->
-                 <div class="add-board">
-                  <img src="assets/icons/boards-add.svg">
-                 </div>
-                 <!-- END Add Board ------------------->
+                  <!-- END BOARDS --------------------------->
 
-                 <!-- END BOARDS --------------------------->
+                 </div>
 
                 </div>
-
                </div>
-              </div>
 
-              <!-- Invite Sent Toast -->
-              <div class="aiko-toast" style="display: none">
-               <h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
-              </div>
-
-              <!-- Connection Lost Toast -->
-              <div class="aiko-toast" style="background-color: red;display: none;">
-               <h1>We're having trouble connecting to the internet.</h1>
-              </div>
-              <!-- END Connection Lost Toast-->
-
-              <!-- IMAP Error Toast -->
-              <div class="aiko-toast" style="background-color: red;display: none;">
-               <h1>We're having issues connecting to your mail provider.</h1>
-              </div>
-              <!-- END IMAP Error Toast-->
-
-              <!-- Send Email Error Toast -->
-              <div class="aiko-toast" style="background-color: red;display: none;">
-               <h1>We were unable to send your message due to network issues.</h1>
-              </div>
-              <!-- END Send Email Error Toast-->
-
-              <!-- Toast -->
-              <div class="aiko-toast" style="display: none;">
-               <h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
-              </div>
-              <!-- END Toast --------------------------------------->
-
-              <!-- INVITE MODAL --------------------------------------->
-              <div class="aiko-modal" style="display: none;">
-               <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                 <div class="modal-reg">
-                  <img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-                  <h1>Invite a team member</h1>
-                  <h2>Enter their email address</h2>
-                  <input type="email" name="" placeholder="Email">
-                  <p>We'll send them a link to Aiko Mail.</p>
-                  <br>
-                  <a href="#" class="blue">Done</a>
-                  <p class="ns30"></p>
-                  <br>
-                 </div>
-                </div>
+               <!-- Invite Sent Toast -->
+               <div class="aiko-toast" style="display: none">
+                <h1>Invite sent! <a href="#" class="small">Dismiss</a></h1>
                </div>
-              </div>
 
-              <tutorial-modal v-if="firstTime" inline-template>
-               <div class="aiko-modal">
-                <div class="modal-dialog modal-md">
+               <!-- Connection Lost Toast -->
+               <div class="aiko-toast" style="background-color: red;display: none;">
+                <h1>We're having trouble connecting to the internet.</h1>
+               </div>
+               <!-- END Connection Lost Toast-->
+
+               <!-- IMAP Error Toast -->
+               <div class="aiko-toast" style="background-color: red;display: none;">
+                <h1>We're having issues connecting to your mail provider.</h1>
+               </div>
+               <!-- END IMAP Error Toast-->
+
+               <!-- Send Email Error Toast -->
+               <div class="aiko-toast" style="background-color: red;display: none;">
+                <h1>We were unable to send your message due to network issues.</h1>
+               </div>
+               <!-- END Send Email Error Toast-->
+
+               <!-- Toast -->
+               <div class="aiko-toast" style="display: none;">
+                <h1>Email sent! <a href="#" class="big">Undo</a><a href="#" class="small">Dismiss</a></h1>
+               </div>
+               <!-- END Toast --------------------------------------->
+
+               <!-- INVITE MODAL --------------------------------------->
+               <div class="aiko-modal" style="display: none;">
+                <div class="modal-dialog modal-sm">
                  <div class="modal-content">
                   <div class="modal-reg">
-                   <h1>Welcome to Aiko Mail</h1>
-                   <h2>Watch this tutorial to get started!</h2>
-                   <!-- TODO: change this to tutorial video once we have one -->
-                   <video controls src="assets/videos/"></video>
-                  </div>
-                  <br><br>
-                  <div class="modal-bottom">
-                   <a @click="close" href="#" class="blue" style="float: right; color: #fff">Skip Tutorial</a>
+                   <img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+                   <h1>Invite a team member</h1>
+                   <h2>Enter their email address</h2>
+                   <input type="email" name="" placeholder="Email">
+                   <p>We'll send them a link to Aiko Mail.</p>
+                   <br>
+                   <a href="#" class="blue">Done</a>
+                   <p class="ns30"></p>
+                   <br>
                   </div>
                  </div>
                 </div>
                </div>
-              </tutorial-modal>
+
+               <tutorial-modal v-if="firstTime" inline-template>
+                <div class="aiko-modal">
+                 <div class="modal-dialog modal-md">
+                  <div class="modal-content">
+                   <div class="modal-reg">
+                    <h1>Welcome to Aiko Mail</h1>
+                    <h2>Watch this tutorial to get started!</h2>
+                    <!-- TODO: change this to tutorial video once we have one -->
+                    <video controls src="assets/videos/"></video>
+                   </div>
+                   <br><br>
+                   <div class="modal-bottom">
+                    <a @click="close" href="#" class="blue" style="float: right; color: #fff">Skip Tutorial</a>
+                   </div>
+                  </div>
+                 </div>
+                </div>
+               </tutorial-modal>
 
 
 
