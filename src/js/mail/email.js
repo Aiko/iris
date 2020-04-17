@@ -1,4 +1,4 @@
-const Log = require('./src/js/utils/logger')
+const Log = require('../utils/logger')
 
 const Client = require('emailjs-imap-client').default
 const { ipcMain } = require('electron')
