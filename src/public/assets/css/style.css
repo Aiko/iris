@@ -174,8 +174,34 @@ input{
 	margin-left: -5px;
 	box-shadow: 0 1px 9px #00000038;
 	border: none;
-
 }
+
+.thin{
+	width: 150px !important;
+	transition: .2s;
+}
+.thin .email{
+	padding: 8px 7px 0px 7px !important;
+	transition: .2s;
+}
+.thin .exp{
+	max-width: 100% !important;
+	transition: .2s;
+}
+.thin .exp img{
+	display: none !important;
+	transition: .2s;
+}
+.thin .cll{
+	display: none !important;
+	transition: .2s;
+}
+.thin .email-footer{
+	width: 130px !important;
+    margin-left: -21px;
+	transition: .2s;
+}
+
 
 .dropdown-menu, .dropdown-menu a{
 	background-color: var(--secondary-bg-color) !important;
@@ -337,6 +363,7 @@ input{
 
 .extra-actions{
 	text-align: right;
+	white-space: nowrap;
 	padding-right: 25px !important;
 }
 
@@ -575,9 +602,6 @@ a.main-action:hover{
 	z-index: 1;
 	position: relative;
 }
-.redh:hover{
-	color: 
-}
 .search-drop{
 	background: var(--main-bg-color);
 	border: var(--main-border);
@@ -685,7 +709,7 @@ a.main-action:hover{
 	font-stretch: 14px;
 }
 .board-body{
-	padding: 10px 15px;
+	padding: 10px;
 	overflow-y: scroll;
 	height: 100%;
 	padding-bottom: 200px;
@@ -718,7 +742,7 @@ a.main-action:hover{
 	box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 }
 .empty h1{
-	font-size: 16px !important;
+	font-size: 15px !important;
 }
 .archive{
 	font-size: 10px;
@@ -763,8 +787,12 @@ hr {
 	width: 300px;
 	border-radius: 4px;
 	height: 100%;
-	margin-right: 30px;
+	margin-right: 25px;
 	box-shadow: 0 0px 15px #00000024;
+}
+.board-header h1{
+	cursor: pointer;
+	white-space: nowrap;
 }
 .settings a{
 	color: var(--main-color);
@@ -785,6 +813,7 @@ hr {
 	margin-bottom: 15px;
 	padding: 8px 13px 0px 13px;
 	transition: .2s;
+	overflow: hidden;
 }
 
 .email:hover .delete {
@@ -848,6 +877,7 @@ hr {
 	line-height: 20px;
 	text-overflow: ellipsis;
 	overflow: hidden;
+	text-align: left;
 	margin-bottom: 0px;
 }
 .email img{
@@ -927,9 +957,9 @@ hr {
 	box-shadow: inset 5px 22px 4px -20px #0000000d;
 	position: absolute;
 	bottom: 0;
-	width: 269px;
+	width: 280px;
 	height: 27px;
-	margin-left: -27px;
+	margin-left: -28px;
 	border-radius: 0px 0px 4px 4px;
 	margin-bottom: -1px;
 }
@@ -949,11 +979,10 @@ hr {
 }
 .email-footer img{
 	margin-top: 1px;
-	filter: contrast(0.5);
 	transition: .2s;
 }
 .email-footer img:hover{
-	filter: contrast(0.3);
+	opacity: .5;
 	transition: .2s;
 }
 .body{
