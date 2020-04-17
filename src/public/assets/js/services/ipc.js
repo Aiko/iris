@@ -28,9 +28,9 @@ const IPCMiddleware = (async errorHandler => {
 
     const decode = ({ s, error }) => {
         checkError(error, "Main process returned error.")
-        checkError(!s, "Did not receive anything back.")
+        const { success, payload } = jwt_decode(s)
+        checkError(!success, payload)
         if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), {alg: ['HS256']})) {
-            const { success, payload } = jwt_decode(s)
             if (!success) checkError(payload, "Main process did not return success.")
             return payload
         } else checkError(s, "JWT token was not valid.")
