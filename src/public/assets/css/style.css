@@ -2130,3 +2130,28 @@ unselectable {
 ::-webkit-scrollbar {
 	display: none;
 }
+
+.two-lines .body{
+	height: 35px !important;
+}
+.two-lines .email{
+	height: 115px !important;
+}
+
+.one-line .body{
+	height: 19px !important;
+}
+.one-line .email{
+	height: 95px !important;
+}
+
+.zero-lines .body{
+	height: 0px !important;
+}
+.zero-lines .email{
+	height: 78px !important;
+}
+
+
+
+
