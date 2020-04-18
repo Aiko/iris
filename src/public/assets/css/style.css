@@ -1354,6 +1354,7 @@ hr {
 	}
 	.sidebar-settings{
 		width: 140px !important;
+		padding: 9px 10px !important;
 	}
 	.sidebar-settings a{
 		width: 100% !important;
