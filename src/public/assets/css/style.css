@@ -14,7 +14,7 @@
 
 	--dark-text: #3e3e3e; /* Dropdown titles */
 
-	--sidebar-item-bg-color: #f3f3f3;  /* Active and hover in sidebar */
+	--sidebar-item-bg-color: #f2f2f2;  /* Active and hover in sidebar */
 
 	--email-bg-color: #fff;
 	--email-hover-bg-color: #fbfbfb;
@@ -1097,6 +1097,7 @@ hr {
 .drag{
 	box-shadow: 0 10px 20px #5d5d5d29 !important;
 	transform: scale(1.05);
+	transition: .2s;
 }
 .email-iframe{
 	width: 100%;
@@ -2210,7 +2211,7 @@ unselectable {
 }
 
 .two-lines .body{
-	height: 35px !important;
+	height: 33px !important;
 }
 .two-lines .email{
 	height: 115px !important;
