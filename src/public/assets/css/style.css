@@ -87,7 +87,18 @@ hr{
 }
 input{
 	outline: none;
+	opacity: .7;
+	transition: .2s;
 }
+input:hover{
+	opacity: .75;
+	transition: .2s;
+}
+input:focus, input:active{
+	opacity: 1;
+	transition: .2s;
+}
+
 ::-webkit-scrollbar{
 	display: none;
 }
@@ -1825,6 +1836,12 @@ unselectable {
     margin-left: 5px;
     color: var( --main-text-color);
     font-size: 14px;
+    opacity: .7;
+    transition: .2s;
+}
+.settings-main [contenteditable]:focus, .settings-main [contenteditable]:active{
+    opacity: 1;
+    transition: .2s;
 }
 .settings-main .col-4{
 	text-align: right;
