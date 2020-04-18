@@ -53,7 +53,7 @@
 		</div>
 		<!-- END Sidebar ----------------------------------------------->
 
-		<div class="main" style="width: calc(100% - 140px);">
+		<div class="main" style="width: calc(100% - 130px);">
 			<div class="settings-main">
 				<div class="container" id="account">
 					<h1>Account</h1>
@@ -108,7 +108,6 @@
 					</div>
 				</div>
 
-
 				<div class="container" id="appearance" style="display: none;">
 					<h1>Appearance</h1>
 					<br>
@@ -155,7 +154,7 @@
 						<div class="col-8">
 							<p>Increased contrast</p>
 						</div>
-						<div class="col-4">
+						<div class="col-4 text-right">
 							<p class="act">Turn on</p>
 						</div>
 					</div>
@@ -163,13 +162,10 @@
 						<div class="col-8">
 							<p>Increased font size (coming soon)</p>
 						</div>
-						<div class="col-4">
+						<div class="col-4 text-right">
 							<p class="act">Turn on</p>
 						</div>
 					</div>
-
-
-
 				</div>
 
 				<div class="container" id="Team" style="display: none;">
@@ -178,19 +174,35 @@
 					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/sidebar-invite.svg"> <span
 						class="blue">Invite</span></a></h2>
 						<div class="row">
-							<div class="col-8">
-								<p>Ruben Touitou&nbsp;<b>ruben@priansh.com</b></p>
+							<div class="col-7">
+								<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
 							</div>
-							<div class="col-4">
-								<p class="act">Make admin </p>&nbsp;&nbsp;<p class="act">Remove </p>
+							<div class="col-1 text-right" tooltip="User is an admin">
+								<img src="assets/icons/admin.svg" width="20" >
+							</select>
+							</div>
+							<div class="col-4 text-right">
+								<select class="aiko-select">
+								<option value="1" selected="selected">Action</option>
+								<option value="2">Remove admin</option>
+								<option value="3" class="red">Delete user</option>
+							</select>
 							</div>
 						</div>
+
 						<div class="row">
-							<div class="col-8">
-								<p>Priansh Shah</p>
+							<div class="col-7">
+								<p><b>Joana Gutierrez </b> &lt;joana@priansh.com&gt;</p>
 							</div>
-							<div class="col-4">
-								<p class="act">Make admin </p>&nbsp;&nbsp;<p class="act">Remove </p>
+							<div class="col-1 text-right">
+							</select>
+							</div>
+							<div class="col-4 text-right">
+								<select class="aiko-select">
+								<option value="1" selected="selected">Action</option>
+								<option value="2">Make admin</option>
+								<option value="3" class="red">Delete user</option>
+							</select>
 							</div>
 						</div>
 					</div>

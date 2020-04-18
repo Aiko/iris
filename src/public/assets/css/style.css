@@ -1337,7 +1337,7 @@ hr {
 	}
 }
 .sidebar-settings{
-	width: 140px !important;
+	width: 130px !important;
 }
 .invite-icon{
 	padding-left: 5px !important;
@@ -1353,7 +1353,7 @@ hr {
 		transition: .2s;
 	}
 	.sidebar-settings{
-		width: 140px !important;
+		width: 130px !important;
 		padding: 9px 10px !important;
 	}
 	.sidebar-settings a{
@@ -1782,11 +1782,11 @@ unselectable {
 	white-space: nowrap;
 }
 .s-invite{
-	background: #fff;
+	background: transparent;
 	border-radius: 4px;
 	font-size: 14px;
 	padding: 1px 4px;
-	border: solid 2px var(--main-color);
+	border: solid 1px var(--main-color);
 }
 .s-invite img{
 	width: 15px;
