@@ -2455,7 +2455,12 @@ unselectable {
 		opacity: 0;
 	}
 }
-
+.aiko-select{
+	background: transparent;
+	color: var(--main-color);
+	border: 2px solid var(--main-color);
+	outline: none;
+}
 
 
 
