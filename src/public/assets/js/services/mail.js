@@ -45,10 +45,12 @@ const mailapi = {
     },
     methods: {
         async initIMAP() {
+            info(...MAILAPI_TAG, "Registering listeners...")
             ipcRenderer.on('email was deleted',
                 (_, {path, seq}) => app.onDeleteEmail(path, seq))
             ipcRenderer.on('exists value changed',
                 (_, {path, seq}) => app.onSyncRequested(path, seq))
+            info(...MAILAPI_TAG, "Loading address cache...")
             this.mailboxes = (await SmallStorage.load('mailboxes')) || [];
             let currentEmail = await SmallStorage.load('current-mailbox')
             if (!currentEmail) {
@@ -60,8 +62,10 @@ const mailapi = {
                 }
             }
             this.currentMailbox = currentEmail
+            info(...MAILAPI_TAG, "Loading IMAP config...")
             await this.loadIMAPConfig(currentEmail)
             if (this.imapConfig.provider == 'google') {
+                info(...MAILAPI_TAG, "Loading Google config...")
                 await this.google_loadConfig()
                 await this.google_checkTokens()
             }
@@ -232,6 +236,7 @@ const mailapi = {
             this.done.emails = []
 
             // TODO: load cache for email
+            info(...MAILAPI_TAG, "Loading cache...")
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + ':inbox')
                 || this.inbox)
@@ -244,13 +249,16 @@ const mailapi = {
             this.inbox = inboxCache
 
             // Connect to mailserver
+            info(...MAILAPI_TAG, "Connecting to MX...")
             if (!(await this.reconnectToMailServer())) {
                 return false
             }
+            info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
 
             // if there is no cache do a full sync
-            if (this.inbox.length == 0) await this.initialSyncWithMailServer()
+            info(...MAILAPI_TAG, "Checking for need to do a sync...")
+            if (this.inbox.emails.length == 0) await this.initialSyncWithMailServer()
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
