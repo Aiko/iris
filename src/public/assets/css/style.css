@@ -1576,34 +1576,11 @@ hr {
 	margin-bottom: 6px !important;
 }
 
-.compose-to{
-	border-bottom: 1px solid var(--secondary-bg-color);
-	padding: 7px 15px;
-	outline: none;
-	color: var(--dark-text);
-}
-.compose-cc{
-	border-bottom: 1px solid var(--secondary-bg-color);
-	padding: 7px 15px;
-	outline: none;
-	color: var(--dark-text);
-}
-.compose-bcc{
-	border-bottom: 1px solid var(--secondary-bg-color);
-	padding: 7px 15px;
-	outline: none;
-	color: var(--dark-text);
-}
-.compose-subject{
-	border-bottom: 1px solid var(--secondary-bg-color);
-	padding: 7px 15px;
-	outline: none;
-	color: var(--dark-text);
-}
+
 .compose-options{
 	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 5px;
-	height: 35px;
+	height: 40px;
 	width: 100%;
 	background: var(--secondary-bg-color);
 	display: inline-flex;
@@ -1830,18 +1807,18 @@ unselectable {
 	background: var(--modal-backdrop);
 }
 .settings-main [contenteditable]{
-    display: inline;
-    padding: 10px;
-    background: var( --main-bg-color);
-    margin-left: 5px;
-    color: var( --main-text-color);
-    font-size: 14px;
-    opacity: .7;
-    transition: .2s;
+	display: inline;
+	padding: 10px;
+	background: var( --main-bg-color);
+	margin-left: 5px;
+	color: var( --main-text-color);
+	font-size: 14px;
+	opacity: .7;
+	transition: .2s;
 }
 .settings-main [contenteditable]:focus, .settings-main [contenteditable]:active{
-    opacity: 1;
-    transition: .2s;
+	opacity: 1;
+	transition: .2s;
 }
 .settings-main .col-4{
 	text-align: right;
@@ -2477,10 +2454,55 @@ unselectable {
 	outline: none;
 }
 
-
-
-
-
+.amsify-suggestags-input{
+	background: var(--main-bg-color);
+	border: none;
+	color: var(--dark-text);
+	margin-left: 5px;
+	width: 100%;
+}
+.amsify-select-tag{
+color: var(--main-text-color);
+    background-color: var( --secondary-bg-color);
+    padding: 2px 0px 4px 6px;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-left: 5px;
+}
+.amsify-suggestags-input-area{
+	display: inline-flex;
+	width: 100%;
+	font-size: 1rem;
+	height: 40px;
+	border-bottom: 1px solid var(--secondary-bg-color);
+}
+.amsify-remove-tag{
+	filter: invert(1);
+}
+.amsify-suggestags-list{
+	position: absolute;
+    background: var(--secondary-bg-color);
+    z-index: 1;
+    font-size: 1rem;
+    width: 100% !important;
+    min-height: 80px;
+}
+.amsify-list{
+    padding: 7px 0px 10px 10px;
+    margin: 0;
+    list-style: none;
+    box-shadow: inset -1px 2px 9px 1px #00000040;
+    min-height: 80px;
+}
+.amsify-list-item{
+    color: var(--main-text-color);
+ 	cursor: pointer;
+}
+.amsify-list-item:hover{
+    color: var(--main-text-color-hover);
+ 	cursor: pointer;
+}
 
 
 
