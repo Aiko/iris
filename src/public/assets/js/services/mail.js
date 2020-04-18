@@ -235,12 +235,13 @@ const mailapi = {
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + ':inbox')
                 || this.inbox)
-            this.inbox = inboxCache.emails.map(email => {
+            inboxCache.emails = inboxCache.emails.map(email => {
                 // TODO: this should also be a function that turns properties into
                 // objects that could not be stored as is
                 email.envelope.date = new Date(email.envelope.date)
                 return email
             })
+            this.inbox = inboxCache
 
             // Connect to mailserver
             if (!(await this.reconnectToMailServer())) {
