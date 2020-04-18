@@ -260,7 +260,10 @@ const mailapi = {
 
             // if there is no cache do a full sync
             info(...MAILAPI_TAG, "Checking for need to do a sync...")
-            if (this.inbox.emails.length == 0) await this.initialSyncWithMailServer()
+            if (this.inbox.emails.length == 0) {
+                return window.error("WHY THE FUCK IS IT 0")
+                await this.initialSyncWithMailServer()
+            }
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
