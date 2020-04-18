@@ -15,12 +15,18 @@ const mailapi = {
         },
         mailboxes: [],
         currentMailbox: '',
-        uidLatest: -1, // inbox
         folderNames: {
             inbox: "INBOX",
+
         },
-        inbox: [],
-        done: [],
+        inbox: {
+            uidLatest: -1,
+            emails: [],
+        },
+        done: {
+            uidLatest: -1,
+            emails: [],
+        },
     },
     watch: {
         async inbox(updatedInbox) {
@@ -34,7 +40,7 @@ const mailapi = {
     },
     computed: {
         priorityInbox() {
-            return this.inbox.filter(email => !email.ai.subscription)
+            return this.inbox.emails.filter(email => !email.ai.subscription)
         }
     },
     methods: {
@@ -55,6 +61,10 @@ const mailapi = {
             }
             this.currentMailbox = currentEmail
             await this.loadIMAPConfig(currentEmail)
+            if (this.imapConfig.provider == 'google') {
+                await this.google_loadConfig()
+                await this.google_checkTokens()
+            }
             this.switchMailServer()
         },
         async saveIMAPConfig() {
@@ -148,7 +158,39 @@ const mailapi = {
         },
         // Utility methods
         folderWithSlug(slug) {
-            return `"[Aiko Mail (DO NOT DELETE)]/${slug}"`
+            return `[Aiko Mail]/${slug}`
+        },
+        async findFolderNames(folders) {
+            // TODO: caching
+            if (this.imapConfig.provider == 'google') {
+                this.folderNames.inbox = "INBOX"
+                this.folderNames.sent = "[Gmail]/Sent Email"
+                this.folderNames.starred = "[Gmail]/Starred"
+                this.folderNames.spam = "[Gmail]/Spam"
+                this.folderNames.drafts = "[Gmail]/Drafts"
+                this.folderNames.archive = "[Gmail]/All Mail"
+                this.folderNames.trash = "[Gmail]/Trash"
+            }
+            else {
+                // TODO: default detection of folder names
+            }
+
+
+            // Sync board folders
+            this.folderNames.done = this.folderWithSlug("Done")
+            const folders = await this.callIPC(this.task_ListFolders())
+            if (!folders || !(typeof folders == "object")) return window.error(...MAILAPI_TAG, folders)
+            const aikoFolder = folders["[Aiko Mail]"]
+            if (aikoFolder) {
+                this.folderNames.boards = Object
+                    .values(aikoFolder.children).map(_ => _.path)
+            }
+
+            // TODO: sync
+            // if there is a board locally that is not on MX, make it
+            // if there is a board on MX that is not local, make it
+            // if board exists on cloud then overwrite local with cloud
+            // if board does not exist on cloud then create it
         },
         async reconnectToMailServer() {
             let results;
@@ -212,8 +254,7 @@ const mailapi = {
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
             this.loading = true // its so big it blocks I/O
-            const { error, uidNext } = await this.callIPC(this.task_OpenFolder("INBOX"))
-            if (error) return window.error(...(MAILAPI_TAG), error)
+            const { uidNext } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
             const uidMin = Math.max(uidNext - 100, 0) // fetch latest 100
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")

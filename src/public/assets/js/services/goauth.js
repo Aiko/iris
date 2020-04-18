@@ -67,7 +67,7 @@ const goauth = {
             const today = new Date()
             const expiry = new Date(this.googleConfig.expiry_date)
             if (today > expiry || !this.googleConfig.access_token) {
-                log(...(GOAUTH_TAG), "Tokens have expired, updating them automatically.")
+                info(...(GOAUTH_TAG), "Tokens have expired, updating them automatically.")
 
                 info(...(GOAUTH_TAG), "Refreshing tokens.")
                 const {
@@ -76,7 +76,7 @@ const goauth = {
                     expires_in,
                     scope
                 } = await this.callIPC(this.ipcTask('please refresh google oauth token', {
-                    r_token: this.googleConfig.refreshToken
+                    r_token: this.googleConfig.refresh_token
                 }))
 
                 info(...(GOAUTH_TAG), "Fetching profile.")
