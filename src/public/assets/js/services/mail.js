@@ -40,7 +40,7 @@ const mailapi = {
     },
     computed: {
         priorityInbox() {
-            return this.inbox.emails.filter(email => !email.ai.subscription)
+            return (this.inbox.emails || this.inbox).filter(email => !email.ai.subscription)
         }
     },
     methods: {
