@@ -160,7 +160,7 @@ const mailapi = {
         folderWithSlug(slug) {
             return `[Aiko Mail]/${slug}`
         },
-        async findFolderNames(folders) {
+        async findFolderNames() {
             // TODO: caching
             if (this.imapConfig.provider == 'google') {
                 this.folderNames.inbox = "INBOX"
