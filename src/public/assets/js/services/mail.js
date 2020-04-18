@@ -287,7 +287,7 @@ const mailapi = {
             // we should call AI on priority inbox for this but
             // probably upload stuff en masse.... which means we
             // need batch prediction!!
-            this.inbox = processed_emails
+            this.inbox.emails = processed_emails
             if (this.inbox.length > 0)
                 this.uidLatest = this.inbox[0].uid
             this.loading = false
