@@ -29,16 +29,16 @@ const mailapi = {
         },
     },
     watch: {
-        async inbox(updatedInbox) {
+        'inbox.emails': async function (updatedInbox) {
             // NOTE: important to check length
             // dont want to store empty inbox if it is reset
             // if you need to store an empty inbox do it manually!
-            if (updatedInbox.emails.length > 0) {
+            if (updatedInbox.length > 0) {
                 info(...MAILAPI_TAG, "Saving inbox cache")
                 await BigStorage.store(this.imapConfig.email + ':inbox',
-                    updatedInbox)
+                    this.inbox)
             }
-        }
+        },
     },
     computed: {
         priorityInbox() {
