@@ -126,6 +126,7 @@ const init = () => {
     show: false,
     frame: process.platform == 'darwin',
     titleBarStyle: 'hidden',
+    backgroundColor: "#312f2e",
     webPreferences: {
       nodeIntegration: true
       // FIXME: while this is enabled we have to be 1000% sure that

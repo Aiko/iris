@@ -1088,6 +1088,9 @@ hr {
 .modal-lg .modal-content{
 	display: -webkit-inline-box;
 }
+.fw700{
+	font-weight: 700;
+}
 .modal-content{
 	height: 100%;
 	background: var(--main-bg-color) !important;
