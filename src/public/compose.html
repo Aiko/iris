@@ -11,11 +11,15 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/dark.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <script src="assets/js/third-party/jquery.min.js"></script>
+ <script>
+  window.jQuery = window.$ = require('jquery');
+ </script>
 </head>
 
 <body class="bg">
     <div id="app" class="inline-flex" style="padding-top: 20px;">
-        <div id="fixed" class="loader-6 center-loader"><span></span></div>
+      <!--  <div id="fixed" class="loader-6 center-loader"><span></span></div> -->
         <div class="control-bar pc">
             <p title="Close"></p> <!-- Close ------------------------>
             <p title="Minimize"></p> <!-- Minimize ------------------------>
@@ -87,7 +91,6 @@
 
         </div>
         <!-- END id="app" -------------------------------------------------->
-        <script src="assets/js/third-party/jquery.js"></script>
         <script src="assets/js/third-party/popper.min.js"></script>
         <script src="assets/js/third-party/bootstrap.min.js"></script>
     </body>
