@@ -1802,12 +1802,12 @@ unselectable {
 	color: var(--main-color-hover);
 }
 .settings-main .row{
-	border-bottom: solid 1px #d6d6d670;
-	height: 40px;
+	height: 39px;
 	background: var(--secondary-bg-color);
 	border-radius: 4px;
 	padding-top: 7px;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
+	box-shadow: 0 0px 1px 1px #00000026;
 }
 .aiko-modal{
 	position: absolute;
@@ -1819,14 +1819,12 @@ unselectable {
 	background: var(--modal-backdrop);
 }
 .settings-main [contenteditable]{
-	display: inline;
-	padding: 5px;
-	border-radius: 2px;
-	background: var(--main-bg-color);
-	cursor: pointer;
-	margin-left: 5px;
-	color: var(--main-text-color);
-	font-size: 14px;
+    display: inline;
+    padding: 10px;
+    background: var( --main-bg-color);
+    margin-left: 5px;
+    color: var( --main-text-color);
+    font-size: 14px;
 }
 .settings-main .col-4{
 	text-align: right;
