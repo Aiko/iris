@@ -297,7 +297,7 @@ const mailapi = {
             // probably upload stuff en masse.... which means we
             // need batch prediction!!
             this.inbox.emails = processed_emails
-            if (this.inbox.length > 0)
+            if (this.inbox.emails.length > 0)
                 this.uidLatest = this.inbox.emails[0].uid
             this.loading = false
         },
