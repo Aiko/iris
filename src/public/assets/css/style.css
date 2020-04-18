@@ -1420,8 +1420,8 @@ hr {
 		width: calc(100% - 45px);
 	}
 	#user img{
-	width: 21px;
-    margin-left: -1px;
+		width: 21px;
+		margin-left: -1px;
 	}
 	.invite-icon{
 		padding-left: 10px !important;
@@ -2386,7 +2386,74 @@ unselectable {
 }
 
 
-
+#load-text {
+	color: var(--main-color);
+	margin-top: 60px;
+	font-size: 15px;
+	opacity: 0;
+	animation: cssAnimation 5s 5s;
+	animation-fill-mode: forwards;
+}
+#load-text2 {
+	color: var(--main-color);
+	margin-top: -20px;
+	font-size: 15px;
+	opacity: 0;
+	animation: cssAnimationt 5s 10s;
+	animation-fill-mode: forwards;
+}
+#load-text3 {
+	color: var(--main-color);
+	margin-top: -20px;
+	font-size: 15px;
+	opacity: 0;
+	animation: cssAnimationt 5s 15s;
+	animation-fill-mode: forwards;
+}
+@keyframes cssAnimation {
+	0% {
+		opacity: 0;
+	}
+	15% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		display: none;
+	}
+}
+@keyframes cssAnimationt {
+	0% {
+		opacity: 0;
+	}
+	15% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		display: none;
+	}
+}
+@keyframes cssAnimationtt {
+	0% {
+		opacity: 0;
+	}
+	15% {
+		opacity: 1;
+	}
+	85% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
 
 
 
