@@ -228,14 +228,14 @@ const mailapi = {
             this.folderNames.inbox = 'INBOX'
 
             // TODO: empty everything
-            this.inbox = []
-            this.done = []
+            this.inbox.emails = []
+            this.done.emails = []
 
             // TODO: load cache for email
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + ':inbox')
-                || [])
-            this.inbox = inboxCache.map(email => {
+                || this.inbox)
+            this.inbox = inboxCache.emails.map(email => {
                 // TODO: this should also be a function that turns properties into
                 // objects that could not be stored as is
                 email.envelope.date = new Date(email.envelope.date)
@@ -289,7 +289,7 @@ const mailapi = {
             // need batch prediction!!
             this.inbox.emails = processed_emails
             if (this.inbox.length > 0)
-                this.uidLatest = this.inbox[0].uid
+                this.uidLatest = this.inbox.emails[0].uid
             this.loading = false
         },
         async syncWithMailServer() {
