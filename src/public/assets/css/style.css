@@ -149,7 +149,6 @@ input:focus, input:active{
 .version a:hover{
 	background: var(--main-color-hover) !important;
 	color: #fff !important;
-	padding: 4px 6px !important;
 	font-size: 13px !important;
 }
 .bottom{
@@ -1743,15 +1742,17 @@ unselectable {
 	white-space: nowrap;
 }
 .s-invite{
-	background: transparent;
+	background: var(--main-color);
 	border-radius: 4px;
 	font-size: 14px;
-	padding: 1px 4px;
-	border: solid 1px var(--main-color);
+	padding: 2px 6px;
 }
 .s-invite img{
 	width: 15px;
 	margin-bottom: 3px;
+}
+.s-invite span{
+	color: #fff;
 }
 .settings-main .act{
 	color: var(--main-color);
@@ -2257,63 +2258,63 @@ unselectable {
 	display: none !important;
 }
 
-/* FLOW: UP */
-[tooltip]:not([flow])::before,
-[tooltip][flow^="up"]::before {
+/* tflow: UP */
+[tooltip]:not([tflow])::before,
+[tooltip][tflow^="up"]::before {
 	bottom: 100%;
 	border-bottom-width: 0;
 	border-top-color: #333;
 }
-[tooltip]:not([flow])::after,
-[tooltip][flow^="up"]::after {
+[tooltip]:not([tflow])::after,
+[tooltip][tflow^="up"]::after {
 	bottom: calc(100% + 5px);
 }
-[tooltip]:not([flow])::before,
-[tooltip]:not([flow])::after,
-[tooltip][flow^="up"]::before,
-[tooltip][flow^="up"]::after {
+[tooltip]:not([tflow])::before,
+[tooltip]:not([tflow])::after,
+[tooltip][tflow^="up"]::before,
+[tooltip][tflow^="up"]::after {
 	left: 50%;
 	transform: translate(-50%, -.5em);
 }
 
-/* FLOW: DOWN */
-[tooltip][flow^="down"]::before {
+/* tflow: DOWN */
+[tooltip][tflow^="down"]::before {
 	top: 100%;
 	border-top-width: 0;
 	border-bottom-color: #333;
 }
-[tooltip][flow^="down"]::after {
+[tooltip][tflow^="down"]::after {
 	top: calc(100% + 5px);
 }
-[tooltip][flow^="down"]::before,
-[tooltip][flow^="down"]::after {
+[tooltip][tflow^="down"]::before,
+[tooltip][tflow^="down"]::after {
 	left: 50%;
 	transform: translate(-50%, .5em);
 }
 
-/* FLOW: LEFT */
-[tooltip][flow^="left"]::before {
+/* tflow: LEFT */
+[tooltip][tflow^="left"]::before {
 	top: 50%;
 	border-right-width: 0;
 	border-left-color: #333;
 	left: calc(0em - 5px);
 	transform: translate(-.5em, -50%);
 }
-[tooltip][flow^="left"]::after {
+[tooltip][tflow^="left"]::after {
 	top: 50%;
 	right: calc(100% + 5px);
 	transform: translate(-.5em, -50%);
 }
 
-/* FLOW: RIGHT */
-[tooltip][flow^="right"]::before {
+/* tflow: RIGHT */
+[tooltip][tflow^="right"]::before {
 	top: 50%;
 	border-left-width: 0;
 	border-right-color: #333;
 	right: calc(0em - 5px);
 	transform: translate(.5em, -50%);
 }
-[tooltip][flow^="right"]::after {
+[tooltip][tflow^="right"]::after {
 	top: 50%;
 	left: calc(100% + 5px);
 	transform: translate(.5em, -50%);
@@ -2335,19 +2336,19 @@ unselectable {
 }
 
 /* FX All The Things */ 
-[tooltip]:not([flow]):hover::before,
-[tooltip]:not([flow]):hover::after,
-[tooltip][flow^="up"]:hover::before,
-[tooltip][flow^="up"]:hover::after,
-[tooltip][flow^="down"]:hover::before,
-[tooltip][flow^="down"]:hover::after {
-	animation: tooltips-vert 300ms ease-out forwards;
+[tooltip]:not([tflow]):hover::before,
+[tooltip]:not([tflow]):hover::after,
+[tooltip][tflow^="up"]:hover::before,
+[tooltip][tflow^="up"]:hover::after,
+[tooltip][tflow^="down"]:hover::before,
+[tooltip][tflow^="down"]:hover::after {
+	animation: tooltips-vert 300ms 1s ease-out forwards;
 }
 
-[tooltip][flow^="left"]:hover::before,
-[tooltip][flow^="left"]:hover::after,
-[tooltip][flow^="right"]:hover::before,
-[tooltip][flow^="right"]:hover::after {
+[tooltip][tflow^="left"]:hover::before,
+[tooltip][tflow^="left"]:hover::after,
+[tooltip][tflow^="right"]:hover::before,
+[tooltip][tflow^="right"]:hover::after {
 	animation: tooltips-horz 300ms ease-out forwards;
 }
 
@@ -2592,5 +2593,66 @@ color: var(--main-text-color);
 }
 .settings-toast{
 	margin-top: 0px !important;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+width: 48px;
+    height: 26px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: var(--main-color);
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .s-admin{
+    background-color: #ffc107 !important;
+}
+
+input:checked + .slider:before {
+  transform: translateX(21px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 

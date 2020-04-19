@@ -80,7 +80,7 @@
       </div>
      </div>
      <div class="row bottom">
-      <div class="sidebar-collapse"><img src="assets/icons/sidebar-collapse.svg"></div>
+      <div class="sidebar-collapse"  ><img  tooltip="Minimize" tflow="left" src="assets/icons/sidebar-collapse.svg"></div>
       <br>
       <div class="set">
        <a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
@@ -227,7 +227,7 @@
          <div class="row">
           <div class="col-1 cll">
            <div class="dropdown">
-            <a href="#" title="Board options" data-toggle="dropdown"><img
+            <a href="#" tooltip="Board options" data-toggle="dropdown"><img
              src="assets/icons/board-dots.svg"></a>
              <div class="dropdown-menu">
               <h6 class="dropdown-header">Actions</h6>
@@ -241,7 +241,7 @@
 
            <div class="col-2 cll">
             <div class="dropdown">
-             <a href="#" title="Board options" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
+             <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
              <div class="dropdown-menu">
               <h6 class="dropdown-header">Sort by</h6>
               <a class="dropdown-item" href="#">Date (newest)</a>
@@ -278,11 +278,11 @@
                 <h2 class="sender">
                 {{email.envelope.from[0].name}}</h2>
                 <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg"
-                title="Attachment">
+                >
                           <!--
                 <img tooltip="Show important emails only" src="assets/icons/badges-tracker.svg">
                 <img src="assets/icons/badges-event.svg">
-                <img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
+                <img src="assets/icons/badges-bcc.svg">
                -->
               </div>
               <div class="col-4 p0 cll">
@@ -343,7 +343,7 @@
           <div class="row">
            <div class="col-2 cll">
             <div class="dropdown">
-             <a href="#" title="Board options" data-toggle="dropdown"><img
+             <a href="#" tooltip="Board options" data-toggle="dropdown"><img
               src="assets/icons/board-dots.svg"></a>
               <div class="dropdown-menu">
                <h6 class="dropdown-header">Actions</h6>
@@ -360,7 +360,7 @@
              <div class="secondary-count">1</div>
             </div>
             <div class="col-2 text-right cll">
-             <a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
+             <a href="#"  tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
             </div>
            </div>
           </div>
@@ -374,11 +374,11 @@
               <div class="col-8 p0 exp" style="display: inline-flex;">
                <h2 class="sender">
                Himanshu Jumanji</h2>
-               <!-- <img src="assets/icons/badges-attach.svg" title="Attachment"> -->
+               <!-- <img src="assets/icons/badges-attach.svg" > -->
                <img src="assets/icons/badges-tracker.svg">
                         <!--
                         <img src="assets/icons/badges-event.svg">
-                        <img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">-->
+                        <img src="assets/icons/badges-bcc.svg">-->
                        </div>
                        <div class="col-4 p0 cll">
                         <div class="time">6:18PM</div>
@@ -420,7 +420,7 @@
                     <div class="row">
                      <div class="col-2 cll">
                       <div class="dropdown">
-                       <a href="#" title="Board options" data-toggle="dropdown"><img
+                       <a href="#" tooltip="Board options" data-toggle="dropdown"><img
                         src="assets/icons/board-dots.svg"></a>
                         <div class="dropdown-menu">
                          <h6 class="dropdown-header">Actions</h6>
@@ -437,7 +437,7 @@
                        all</div>
                       </div>
                       <div class="col-2 text-right cll">
-                       <a href="#" title="Grab"><img src="assets/icons/board-dots2.svg"></a>
+                       <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                       </div>
                      </div>
                     </div>
@@ -534,11 +534,11 @@
               										<div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
               											<h2 class="sender">
               											Ruben Touitou</h2>
-              											<img src="assets/icons/badges-attach.svg" title="Attachment">
+              											<img src="assets/icons/badges-attach.svg" >
               											<img src="assets/icons/badges-tracker.svg">
               											<img src="assets/icons/badges-event.svg">
-              											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-              											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+              											<img src="assets/icons/badges-bcc.svg" >
+              											<img src="assets/icons/badges-star.svg">
               											<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
               										</div>
               										<div class="col-4 p0">
@@ -597,11 +597,11 @@
               										<div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
               											<h2 class="sender">
               											Ruben Touitou</h2>
-              											<img src="assets/icons/badges-attach.svg" title="Attachment">
+              											<img src="assets/icons/badges-attach.svg" >
               											<img src="assets/icons/badges-tracker.svg">
               											<img src="assets/icons/badges-event.svg">
-              											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-              											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+              											<img src="assets/icons/badges-bcc.svg">
+              											<img src="assets/icons/badges-star.svg">
               											<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
               										</div>
               										<div class="col-4 p0">
@@ -660,11 +660,11 @@
               										<div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
               											<h2 class="sender">
               											Ruben Touitou</h2>
-              											<img src="assets/icons/badges-attach.svg" title="Attachment">
+              											<img src="assets/icons/badges-attach.svg" >
               											<img src="assets/icons/badges-tracker.svg">
               											<img src="assets/icons/badges-event.svg">
-              											<img src="assets/icons/badges-bcc.svg" title="You've been BCC'ed">
-              											<img src="assets/icons/badges-star.svg" title="Starred/Flagged">
+              											<img src="assets/icons/badges-bcc.svg">
+              											<img src="assets/icons/badges-star.svg">
               											<div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
               										</div>
               										<div class="col-4 p0">

@@ -19,7 +19,7 @@
 
 <body class="bg">
 	<div id="app" class="inline-flex" style="padding-top: 20px;">
-		 <div id="fixed" class="loader-6 center-loader"><span></span></div>
+		<div id="fixed" class="loader-6 center-loader"><span></span></div>
 		<div class="control-bar pc">
 			<p title="Close"></p> <!-- Close ------------------------>
 			<p title="Minimize"></p> <!-- Minimize ------------------------>
@@ -75,7 +75,7 @@
 
 
 			<div class="settings-main">
-				<div class="container" id="account">
+				<div class="container" id="account" >
 					<h1>Account</h1>
 					<br>
 					<h2>Personal Information</h2>
@@ -133,10 +133,10 @@
 					<br>
 					<h2>General</h2>
 					<div class="row">
-						<div class="col-7">
+						<div class="col-5">
 							<p>Color scheme</p>
 						</div>
-						<div class="col-5 text-right">
+						<div class="col-7 text-right">
 							<select class="aiko-select">
 								<option value="1" selected="selected">Same as system</option>
 								<option value="2">Light mode</option>
@@ -145,10 +145,10 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-8">
+						<div class="col-5">
 							<p>Background image</p>
 						</div>
-						<div class="col-4 text-right">
+						<div class="col-7 text-right">
 							<p class="act">Browse Unsplash</p>
 						</div>
 					</div>
@@ -175,7 +175,10 @@
 							<p>Increased contrast</p>
 						</div>
 						<div class="col-4 text-right">
-							<p class="act">Turn on</p>
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</div>
 					<div class="row">
@@ -183,7 +186,10 @@
 							<p>Increased font size (coming soon)</p>
 						</div>
 						<div class="col-4 text-right">
-							<p class="act">Turn on</p>
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -191,38 +197,37 @@
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
-					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/sidebar-invite.svg"> <span
-						class="blue">Invite</span></a></h2>
-						<div class="row">
-							<div class="col-7">
+					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>Invite</span></a></h2>
+					<div class="row">
+							<div class="col-8">
 								<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
 							</div>
-							<div class="col-1 text-right" tooltip="User is an admin">
-								<img src="assets/icons/admin.svg" width="20" >
+							<div class="col-2 text-right" tooltip="Admin toggle">
+								<label class="switch">
+								<input type="checkbox">
+								<span class="slider s-admin round"></span>
+							</label>
 							</select>
 						</div>
-						<div class="col-4 text-right">
-							<select class="aiko-select">
-								<option value="1" selected="selected">Action</option>
-								<option value="2">Remove admin</option>
-								<option value="3" class="red">Delete user</option>
-							</select>
+						<div class="col-2 text-right">
+							<p class="act red">Delete</p>
 						</div>
 					</div>
 
 					<div class="row">
-						<div class="col-7">
-							<p><b>Joana Gutierrez </b> &lt;joana@priansh.com&gt;</p>
+							<div class="col-8">
+								<p><b>Priansh Touitou </b> &lt;priansh@priansh.com&gt;</p>
+							</div>
+							<div class="col-2 text-right" tooltip="Admin toggle">
+								<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider s-admin round"></span>
+							</label>
+							</select>
 						</div>
-						<div class="col-1 text-right">
-						</select>
-					</div>
-					<div class="col-4 text-right">
-						<select class="aiko-select">
-							<option value="1" selected="selected">Action</option>
-							<option value="2">Make admin</option>
-							<option value="3" class="red">Delete user</option>
-						</select>
+						<div class="col-2 text-right">
+							<p class="act red">Delete</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -329,7 +334,10 @@
 						<p>Desktop Notifications</p>
 					</div>
 					<div class="col-4 text-right">
-						<p class="act">Turn off</p>
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 				<div class="row">
@@ -337,7 +345,10 @@
 						<p>Desktop Notifications</p>
 					</div>
 					<div class="col-4 text-right">
-						<p class="act">Turn off</p>
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 
@@ -348,7 +359,10 @@
 						<p>Automatic Updates</p>
 					</div>
 					<div class="col-4 text-right">
-						<p class="act">Turn off</p>
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 				<p>Automatic updates are important to keep your data safe.</p>
@@ -360,7 +374,10 @@
 						<p>Disable incoming trackers</p>
 					</div>
 					<div class="col-4 text-right">
-						<p class="act">Turn off</p>
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 				<p>This option blocks most tracker meant to track when you open emails.</p>
@@ -369,7 +386,10 @@
 						<p>Automatically send trackers</p>
 					</div>
 					<div class="col-4 text-right">
-						<p class="act">Turn off</p>
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 
