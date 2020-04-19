@@ -27,7 +27,9 @@
 
 	--modal-backdrop: #3c3c3c85; /* Global modal backdrop */
 }
-
+*{
+	letter-spacing: .3px;
+}
 .modal-dialog{
 	top: 45%;
 	transform: translateY(-50%);
@@ -130,6 +132,7 @@ input:focus, input:active{
 	margin-top: 5vh;
 	background: var(--secondary-bg-color);
 	border-radius: 4px;
+		letter-spacing: 0px !important;
 }
 .version h1{
 	font-size: 13px
@@ -139,12 +142,14 @@ input:focus, input:active{
 	margin-bottom: 5px !important;
 	margin-top: -4px !important;
 	margin-left: 0px !important;
+	letter-spacing: 0px !important;
 }
 .version a{
 	background: var(--main-color);
 	color: #fff !important;
 	padding: 4px 6px !important;
 	font-size: 13px !important;
+	letter-spacing: 0px !important;
 }
 .version a:hover{
 	background: var(--main-color-hover) !important;
@@ -456,6 +461,7 @@ a.main-action:hover{
 	overflow: hidden;
 	height: 30px;
 	margin-bottom: 5px !important;
+	letter-spacing: .3px;
 	transition: .2s;
 }
 .sidebar a:hover{
@@ -937,6 +943,7 @@ hr {
 	overflow: hidden;
 	text-align: left;
 	margin-bottom: 0px;
+	letter-spacing: .4px;
 }
 .email img{
 	height: 15px;
@@ -966,6 +973,7 @@ hr {
 	text-overflow: ellipsis;
 	margin-top: -1px;
 	white-space: nowrap;
+	letter-spacing: .4px;
 }
 .action{
 	font-size: 12px !important;
@@ -1059,6 +1067,7 @@ hr {
 	line-height: 16px;
 	margin-bottom: 3px;
 	text-overflow: ellipsis;
+	letter-spacing: .1px;
 }
 .pr{
 	position: relative;
