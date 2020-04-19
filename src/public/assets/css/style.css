@@ -2476,6 +2476,31 @@ unselectable {
 	border-bottom-right-radius: 0px;
 }
 
+.t-loader-green { 
+    bottom: 0;
+    position: absolute;
+    border: 0;
+    width: 100%;
+    height: 1px;
+    background: transparent;
+    margin-bottom: 26px;
+}
+
+/* .loader:after */
+.t-loader-green span {
+	display: inline-block; position: absolute;
+	left: 0; bottom:0;
+	overflow: hidden;
+	animation-name: load;
+	animation-duration: 10s;
+	animation-delay: 0s;
+	animation-iteration-count: 1;
+	padding: 1px 0em;
+	background: #28a745;
+	border-top-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
 @keyframes load{
 	0% { width:0;}
 	100% { width:100%;}
@@ -2568,5 +2593,8 @@ color: var(--main-text-color);
     opacity: 1;
     transition: .2s;
 }
-
+.settings-toast{
+	margin-top: 0px !important;
+	margin-left: -11vw !important;
+}
 
