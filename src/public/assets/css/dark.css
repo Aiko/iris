@@ -83,3 +83,23 @@ transition: .2s;
 .control-bar h1{
 	filter: invert(1);
 }
+
+
+.aiko-toast {
+    box-shadow: -4px 3px 5px 3px #00000021 !important;
+}
+
+.aiko-toast p{
+    color: #fff !important;
+}
+
+.aiko-toast a{
+    color: #fff !important;
+}
+.aiko-toast a:hover{
+    color: #fff !important;
+}
+
+.t-loader span {
+  background: #fff !important;
+}
