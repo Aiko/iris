@@ -1974,6 +1974,12 @@ unselectable {
 	display: inline;
 }
 
+@keyframes textinout {
+	0%   { opacity: .75; }
+	50% { opacity: 1; }
+	100% { opacity: .75; }
+}
+
 @keyframes fadein {
 	from {
 		opacity:0;
@@ -2139,6 +2145,9 @@ unselectable {
 .cs-loader-inner label:nth-child(6) {
 	-webkit-animation: lol 3s infinite ease-in-out;
 	animation: lol 3s infinite ease-in-out;
+}
+.textinout{
+	animation: textinout 2s infinite ease-in-out;
 }
 
 .cs-loader-inner label:nth-child(5) {
