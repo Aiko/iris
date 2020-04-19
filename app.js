@@ -149,7 +149,7 @@ const init = () => {
       // alternative course of action.
     },
     // TODO: icon
-    icon: './src/public-old/assets/img/icon.png'
+    icon: './src/public/assets/img/icon.png'
   })
   WindowManager.setWindow(win)
   CarrierPigeon(win)
