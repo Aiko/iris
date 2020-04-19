@@ -273,6 +273,7 @@ input:focus, input:active{
 }
 .main{
 	width: calc(100% - 130px);
+	position: relative;
 }
 #app{
 	width: 100%;
@@ -2562,14 +2563,11 @@ color: var(--main-text-color);
     height: 28px;
     background: var(--secondary-bg-color);
     width: 100%;
-    padding: 1px 20px;
+    padding-top: 1px;
     text-align: center;
-    margin-left: -65px;
     box-shadow: -4px 3px 6px 0px #0000002e;
-    width: calc(100% + 65px);
     z-index: 1;
 }
-
 .aiko-toast p{
     font-size: 13px;
     font-weight: 600;
@@ -2578,7 +2576,6 @@ color: var(--main-text-color);
     display: inline;
     margin-right: 10px;
 }
-
 .aiko-toast a{
 	font-size: 12px;
 	font-weight: 600;
@@ -2595,6 +2592,5 @@ color: var(--main-text-color);
 }
 .settings-toast{
 	margin-top: 0px !important;
-	margin-left: -11vw !important;
 }
 
