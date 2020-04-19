@@ -135,7 +135,11 @@ input:focus, input:active{
 		letter-spacing: 0px !important;
 }
 .version h1{
-	font-size: 13px
+	font-size: 13px;
+	letter-spacing: 0px !important;
+}
+.version span{
+	letter-spacing: 0px !important;
 }
 .version p{
 	font-size: 12px;
