@@ -714,6 +714,8 @@ a.main-action:hover{
     margin-right: -10px;
     border-radius: 0;
     padding-left: 20px;
+    border-right: none !important;
+    border-left: none !important;
 }
 .board h1{
 	color: var(--main-text-color);
