@@ -63,6 +63,7 @@
      <div class="search no-mobile">
       <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search Team">
      </div>
+     <div style="height: 30px"></div>
 
      <a href="#" id="user" v-for="user in profile.team.team">
       <div class="active-user"></div>
@@ -71,7 +72,7 @@
       <div class="no-mobile">{{user.member.name}}</div>
      </a>
 
-     <a href="#" class="invite-icon"><img src="assets/icons/sidebar-invite.svg"> <span
+     <a href="#" class="invite-icon" tooltip="invite team members" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
       class="blue">Invite</span></a>
       <div class="version">
        <h1>Version: <span class="blue fw700">ALPHA</span></h1>

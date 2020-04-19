@@ -509,7 +509,7 @@ a.main-action:hover{
 	padding-left: 7px !important;
 }
 .sidebar .container .row:nth-child(2){
-	margin-top: 15px;
+	margin-top: 5vh;
 	overflow-y: scroll;
 	height: calc(100% - 370px);
 	display: block;
@@ -706,6 +706,14 @@ a.main-action:hover{
 .search img{
 	width: 21px;
 	margin-top: -1px;
+}
+.sidebar .search{
+	position: absolute;
+    left: 0;
+    margin-left: -10px;
+    margin-right: -10px;
+    border-radius: 0;
+    padding-left: 20px;
 }
 .board h1{
 	color: var(--main-text-color);
@@ -1352,6 +1360,7 @@ hr {
 }
 .invite-icon{
 	padding-left: 5px !important;
+	display: inline-block;
 }
 @media all and (max-width: 992px) {
 
