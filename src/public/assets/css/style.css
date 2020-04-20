@@ -109,7 +109,7 @@ input:focus, input:active{
 /* WHATEVER YOU DONT CHANGE THESE DIRECTLY */
 
 .draggable-emails {
-	min-height: 600px;
+	height: 100%;
 }
 
 .draggable-boards {
@@ -128,7 +128,9 @@ input:focus, input:active{
 
 /* END DRAGGABLE CLASSES */
 
-
+.safety{
+	height: 150px;
+}
 .version{
 	padding: 10px 7px;
 	margin-top: 5vh;
@@ -789,7 +791,6 @@ a.main-action:hover{
 	padding: 10px;
 	overflow-y: scroll;
 	height: 100%;
-	padding-bottom: 140px;
 	overflow: scroll;
 }
 .badges{
