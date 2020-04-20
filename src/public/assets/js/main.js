@@ -30,8 +30,13 @@ const app = new Vue({
         },
     },
     async created() {
+        console.time("APP STARTUP")
         info(...(this.TAG), "Initializing application")
         this.loading = true
+
+        info(...(this.TAG), "Initializing cache")
+        await BigStorage.load('random')
+        await SmallStorage.load('random')
 
         // setup IPC
         info(...(this.TAG), "Initializing IPC")
@@ -76,6 +81,7 @@ const app = new Vue({
 
         success(...(this.TAG), "Finished initialization.")
         this.loading = false
+        console.timeEnd("APP STARTUP")
     },
     methods: {
         

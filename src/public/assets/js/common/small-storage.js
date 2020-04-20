@@ -2,7 +2,8 @@
 
 const SmallStorage = (() => {
     const smallStore = localforage.createInstance({
-        name: "ko-quick-access"
+        name: "ko-quick-access",
+        driver: localforage.WEBSQL
     });
 
     const makeKey = k => "aiko-mail:" + k

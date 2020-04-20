@@ -16,17 +16,19 @@ const mailapi = {
         mailboxes: [],
         currentMailbox: '',
         folderNames: {
-            inbox: "INBOX",
-
+            inbox: 'INBOX',
+            sent: '',
+            starred: '',
+            spam: '',
+            drafts: '',
+            archive: '',
+            trash: ''
         },
+        boardNames: [],
         inbox: {
             uidLatest: -1,
             emails: [],
-        },
-        done: {
-            uidLatest: -1,
-            emails: [],
-        },
+        }
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -49,11 +51,18 @@ const mailapi = {
         async initIMAP() {
             info(...MAILAPI_TAG, "Registering listeners...")
             ipcRenderer.on('email was deleted',
-                (_, {path, seq}) => app.onDeleteEmail(path, seq))
+                (_, {
+                    path,
+                    seq
+                }) => app.onDeleteEmail(path, seq))
             ipcRenderer.on('exists value changed',
-                (_, {path, seq}) => app.onSyncRequested(path, seq))
+                (_, {
+                    path,
+                    seq
+                }) => app.onSyncRequested(path, seq))
             info(...MAILAPI_TAG, "Loading address cache...")
             this.mailboxes = (await SmallStorage.load('mailboxes')) || [];
+            info(...MAILAPI_TAG, "Loading previously selected mailbox")
             let currentEmail = await SmallStorage.load('current-mailbox')
             if (!currentEmail) {
                 if (this.mailboxes.length > 0) {
@@ -93,17 +102,25 @@ const mailapi = {
             return this.ipcTask('please list folders', {})
         },
         task_NewFolder(path) {
-            return this.ipcTask('please make a new folder', {path,})
+            return this.ipcTask('please make a new folder', {
+                path,
+            })
         },
         task_DeleteFolder(path) {
-            return this.ipcTask('please delete a folder', {path,})
+            return this.ipcTask('please delete a folder', {
+                path,
+            })
         },
         task_OpenFolder(path) {
-            return this.ipcTask('please open a folder', {path,})
+            return this.ipcTask('please open a folder', {
+                path,
+            })
         },
         task_FetchEmails(path, sequence, peek) {
             return this.ipcTask('please get emails', {
-                path, sequence, peek
+                path,
+                sequence,
+                peek
             })
         },
         task_SearchEmails(path, query) {
@@ -123,27 +140,39 @@ const mailapi = {
                 SINCE 2011-11-23
                 query = {since: new Date(2011, 11, 23, 0, 0, 0)}
             */
-            return this.ipcTask('please look for emails', { path, query })
+            return this.ipcTask('please look for emails', {
+                path,
+                query
+            })
         },
         task_SetFlags(path, sequence, flags) {
             // there is a non-blind version of this that returns the emails
             // just set blind: false in the payload
             return this.ipcTask('please set email flags', {
-                path, sequence, flags,
+                path,
+                sequence,
+                flags,
                 blind: true
             })
         },
         task_DeleteEmails(path, sequence) {
-            return this.ipcTask('please delete emails', { path, sequence })
+            return this.ipcTask('please delete emails', {
+                path,
+                sequence
+            })
         },
         task_CopyEmails(srcPath, dstPath, sequence) {
             return this.ipcTask('please copy emails', {
-                srcPath, dstPath, sequence
+                srcPath,
+                dstPath,
+                sequence
             })
         },
         task_MoveEmails(srcPath, dstPath, sequence) {
             return this.ipcTask('please move emails', {
-                srcPath, dstPath, sequence
+                srcPath,
+                dstPath,
+                sequence
             })
         },
         // Listener methods
@@ -167,36 +196,74 @@ const mailapi = {
             return `[Aiko Mail]/${slug}`
         },
         async findFolderNames() {
-            // TODO: caching
+            // load cache for folderNames and boardNames
+            this.folderNames = (
+                await SmallStorage.load(this.imapConfig.email + ':folder-names') ||
+                this.folderNames
+            )
+            this.boardNames = (
+                await SmallStorage.load(this.imapConfig.email + ':board-names') ||
+                this.boardNames
+            )
+
+            // Fetch remote folders
+            const folders = await this.callIPC(this.task_ListFolders())
+            if (!folders || !(typeof folders == "object")) return window.error(...MAILAPI_TAG, folders)
+
+            // Default folder names
+            this.folderNames.inbox = "INBOX"
             if (this.imapConfig.provider == 'google') {
-                this.folderNames.inbox = "INBOX"
                 this.folderNames.sent = "[Gmail]/Sent Email"
                 this.folderNames.starred = "[Gmail]/Starred"
                 this.folderNames.spam = "[Gmail]/Spam"
                 this.folderNames.drafts = "[Gmail]/Drafts"
                 this.folderNames.archive = "[Gmail]/All Mail"
                 this.folderNames.trash = "[Gmail]/Trash"
+            } else {
+                const detectFolderName = keyword => {
+                    const matches = folders.filter(f => f.includes(keyword))
+                    if (matches.length > 0) return matches[1]
+                    return ''
+                }
+                this.folderNames.sent = detectFolderName('Sent')
+                this.folderNames.starred = detectFolderName('Star')
+                this.folderNames.spam = detectFolderName('Spam') || detectFolderName('Junk')
+                this.folderNames.drafts = detectFolderName('Drafts')
+                this.folderNames.archive = detectFolderName('All Mail') || detectFolderName('Archive')
+                this.folderNames.trash = detectFolderName('Trash') || detectFolderName('Deleted')
             }
-            else {
-                // TODO: default detection of folder names
-            }
+            /////////
 
-
-            // Sync board folders
+            // Form local boards
             this.folderNames.done = this.folderWithSlug("Done")
-            const folders = await this.callIPC(this.task_ListFolders())
-            if (!folders || !(typeof folders == "object")) return window.error(...MAILAPI_TAG, folders)
-            const aikoFolder = folders["[Aiko Mail]"]
-            if (aikoFolder) {
-                this.folderNames.boards = Object
-                    .values(aikoFolder.children).map(_ => _.path)
-            }
+            const localBoards = [
+                ...this.boardNames,
+                this.folderNames.done
+            ]
+            /////////
 
-            // TODO: sync
+            // Form remote boards
+            const aikoFolder = folders["[Aiko Mail]"]
+            const remoteBoards = Object.values(aikoFolder?.children || {}).map(_ => _.path)
+            /////////
+
             // if there is a board locally that is not on MX, make it
+            const MakeFolders = localBoards
+                .filter(_ => !(remoteBoards.includes(_)))
+                .map(path => this.task_NewFolder(path))
+            const results = MakeFolders.length > 0 ? await this.callIPC(...MakeFolders) : []
+            if (results.length != null) {
+                for (let result of results) {
+                    if (!(result?.path))
+                        return window.error(...MAILAPI_TAG, result)
+                }
+            } else if (!(results?.path)) return window.error(...MAILAPI_TAG, results)
             // if there is a board on MX that is not local, make it
-            // if board exists on cloud then overwrite local with cloud
-            // if board does not exist on cloud then create it
+            this.boardNames.push(...(
+                remoteBoards.filter(_ => !(localBoards.includes(_)))
+            ))
+            await SmallStorage.store(this.imapConfig.email + ':folder-names', this.folderNames)
+            await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
         },
         async reconnectToMailServer() {
             let results;
@@ -222,6 +289,7 @@ const mailapi = {
         async switchMailServer() {
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
+            console.time("SWITCH MAILBOX")
             info(...MAILAPI_TAG, "Switching mailbox to " + this.imapConfig.email)
             if (!this.mailboxes.includes(this.imapConfig.email)) {
                 this.mailboxes.push(this.imapConfig.email)
@@ -230,18 +298,26 @@ const mailapi = {
             this.currentMailbox = this.imapConfig.email
             await SmallStorage.store('current-mailbox', this.imapConfig.email)
 
-            // TODO: load folder names
-            this.folderNames.inbox = 'INBOX'
-
-            // TODO: empty everything
             this.inbox.emails = []
-            this.done.emails = []
+            this.inbox.uidLatest = -1
+            this.boardNames = []
+            this.folderNames = {
+                inbox: 'INBOX',
+                sent: '',
+                starred: '',
+                spam: '',
+                drafts: '',
+                archive: '',
+                trash: ''
+            }
 
-            // TODO: load cache for email
+            await this.findFolderNames()
+
+            // load cache for the inbox
             info(...MAILAPI_TAG, "Loading cache...")
             const inboxCache = (
-                await BigStorage.load(this.imapConfig.email + ':inbox')
-                || this.inbox)
+                await BigStorage.load(this.imapConfig.email + ':inbox') ||
+                this.inbox)
             inboxCache.emails = inboxCache.emails.map(email => {
                 // TODO: this should also be a function that turns properties into
                 // objects that could not be stored as is
@@ -263,11 +339,14 @@ const mailapi = {
             if (this.inbox.emails.length == 0) {
                 await this.initialSyncWithMailServer()
             }
+            console.timeEnd("SWITCH MAILBOX")
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
             this.loading = true // its so big it blocks I/O
-            const { uidNext } = await this.callIPC(this.task_OpenFolder("INBOX"))
+            const {
+                uidNext
+            } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
             const uidMin = Math.max(uidNext - 100, 0) // fetch latest 100
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
@@ -284,14 +363,16 @@ const mailapi = {
                         unsubscribeLink: '',
                         seen: false
                     }
-                    email.parsed.headerLines.map(({key, line}) => {
+                    email.parsed.headerLines.map(({
+                        key,
+                        line
+                    }) => {
                         if (key == 'list-unsubscribe') {
                             const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
                             if (urls && urls.length > 0) {
                                 email.ai.subscription = true
                                 email.ai.unsubscribeLink = urls[0]
-                            }
-                            else console.log("LIST-UNSUBSCRIBE", line)
+                            } else console.log("LIST-UNSUBSCRIBE", line)
                         }
                     })
                     if (email.flags.includes('\\Seen')) email.ai.seen = true
@@ -310,19 +391,94 @@ const mailapi = {
             // we only need to peek the headers for this!
         },
         async checkForNewMessages() {
-            if (this.uidLatest < 0 || this.uidNext - this.uidLatest > 50) {
+            const {
+                uidNext
+            } = await this.callIPC(this.task_OpenFolder("INBOX"))
+            if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            if (this.inbox.uidLatest < 0 || uidNext - this.inbox.uidLatest > 50) {
+                info(...MAILAPI_TAG, "There are too many emails to update, need to sync.")
+                // TODO: probably show a modal since this is blocking
                 await this.initialSyncWithMailServer()
                 return false
             }
-            // TODO: fetch uidLatest:uidNext
+            info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest}:${uidNext}`)
+            const emails = await this.callIPC(
+                this.task_FetchEmails("INBOX", `${this.inbox.uidLatest}:${uidNext}`, false))
+            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = emails
+                .reverse()
+                .map(email => {
+                    // FIXME: this should be a function that parses emails
+                    email.envelope.date = new Date(email.envelope.date)
+                    email.ai = {
+                        subscription: false,
+                        unsubscribeLink: '',
+                        seen: false
+                    }
+                    email.parsed.headerLines.map(({
+                        key,
+                        line
+                    }) => {
+                        if (key == 'list-unsubscribe') {
+                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
+                            if (urls && urls.length > 0) {
+                                email.ai.subscription = true
+                                email.ai.unsubscribeLink = urls[0]
+                            } else console.log("LIST-UNSUBSCRIBE", line)
+                        }
+                    })
+                    if (email.flags.includes('\\Seen')) email.ai.seen = true
+                    return email
+                })
+            // we should call AI on priority inbox for this but
+            // probably upload stuff en masse.... which means we
+            // need batch prediction!!
+            this.inbox.emails.unshift(...processed_emails)
+            if (this.inbox.emails.length > 0)
+                this.uidLatest = this.inbox.emails[0].uid
         },
         async checkForUpdates() {
             // TODO: using modseq???????
         },
         async getOldMessages() {
-            // TODO: fetch like... 50 messages older
-            // don't call AI on them. old messages can smd
-        },
-
+            if (this.inbox.emails.length <= 0) {
+                info(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
+                return false
+            }
+            const uidOldest = this.inbox.emails.last()?.uid
+            if (!uidOldest) return window.error("Couldn't identify oldest UID.")
+            const uidMin = Math.max(0, uidOldest - 50)
+            info(...MAILAPI_TAG, `Seeking history - last 50 messages (${uidMin}:${uidOldest})`)
+            const emails = await this.callIPC(
+                this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
+            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = emails
+                .reverse()
+                .map(email => {
+                    // FIXME: this should be a function that parses emails
+                    // TODO: this one shouldn't have any server-side AI
+                    email.envelope.date = new Date(email.envelope.date)
+                    email.ai = {
+                        subscription: false,
+                        unsubscribeLink: '',
+                        seen: false
+                    }
+                    email.parsed.headerLines.map(({
+                        key,
+                        line
+                    }) => {
+                        if (key == 'list-unsubscribe') {
+                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
+                            if (urls && urls.length > 0) {
+                                email.ai.subscription = true
+                                email.ai.unsubscribeLink = urls[0]
+                            } else console.log("LIST-UNSUBSCRIBE", line)
+                        }
+                    })
+                    if (email.flags.includes('\\Seen')) email.ai.seen = true
+                    return email
+                })
+            this.inbox.emails.push(...processed_emails)
+        }
     }
 }

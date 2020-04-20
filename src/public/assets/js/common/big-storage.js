@@ -2,7 +2,8 @@
 
 const BigStorage = (() => {
     const bigStore = localforage.createInstance({
-        name: "ko-big-boi"
+        name: "ko-big-boi",
+        driver: localforage.WEBSQL
     });
 
     const makeKey = k => "aiko-mail:" + k
