@@ -12,87 +12,101 @@
     <link rel="stylesheet" href="assets/css/dark.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
- <script>
-  window.jQuery = window.$ = require('jquery');
- </script>
+    <script>
+      window.jQuery = window.$ = require('jquery');
+  </script>
 </head>
 
 <body class="bg">
     <div id="app" class="inline-flex" style="padding-top: 20px;">
       <!--  <div id="fixed" class="loader-6 center-loader"><span></span></div> -->
-        <div class="control-bar pc">
-            <p title="Close"></p> <!-- Close ------------------------>
-            <p title="Minimize"></p> <!-- Minimize ------------------------>
-            <p title="Full Screen"></p> <!-- Full Screen ------------------------>
+      <div class="control-bar pc">
+        <p title="Close"></p> <!-- Close ------------------------>
+        <p title="Minimize"></p> <!-- Minimize ------------------------>
+        <p title="Full Screen"></p> <!-- Full Screen ------------------------>
 
-            <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-            <!-- Minimize ---------->
-            <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
-            <!-- Full Screen -->
-            <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
-            <!-- Close ---------------->
-        </div>
-        <div class="standalone">
-            <div class="main-email">
-                <div id="composerTo" class="compose-to" contenteditable="true" data-text="To">
-                    <div class="grouped-chips">
-                        <div class="chip">ruben@priansh.com <img src="assets/icons/x-white.svg" width="15"></div>
-                        <div class="chip">joana@priansh.com <img src="assets/icons/x-white.svg" width="15"></div>re
-                    </div>
-                </div>
-                <div class="drop-field" style="display: none;">
-                    <div>{{autocompletion}}</div>
-                </div>
-                <div id="composerCC" class="compose-cc" contenteditable="true" data-text="CC"></div>
-                <div id="composerBCC" class="compose-bcc" contenteditable="true" data-text="BCC"></div>
-                <div id="composerSubject" class="compose-subject" contenteditable="true" data-text="Subject"></div>
-                <div class="compose-options">
-                    <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
-                    </div>
-                    <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
-                    </div>
-                    <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
-                        width="16"></div>
-                    </div>
-                    <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
-                    <div class="compose-bottom">
-                        <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
-                        <a href="#" class="savedraft"><img src="assets/icons/sidebar-drafts.svg" width="20"><span> Save as
-                        draft</span></a>
-                    </div>
-                </div>
-                <div class="secondary-email">
-                    <a href="#" class="no-calendar">
-                        <h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1>
-                    </a>
-                </div>
+        <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+        <!-- Minimize ---------->
+        <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
+        <!-- Full Screen -->
+        <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
+        <!-- Close ---------------->
+    </div>
+    <div class="standalone">
+        <div class="main-email">
 
+
+            <input type="text" name="composerField" value="hi" placeholder="To">
+            <input type="text" name="composerField" value="hello" placeholder="CC">
+            <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
+
+
+            <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
+                <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
             </div>
-            <!-- END Compose View --------------------------------------->
 
-            <!-- Connection Lost Toast -->
-            <div class="aiko-toast" style="background-color: red;display: none;">
-                <h1>We're having trouble connecting to the internet.</h1>
+            <div class="compose-options">
+                <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
+                </div>
+                <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
+                </div>
+                <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
+                    width="16"></div>
+                </div>
+                <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
+                <div class="compose-bottom">
+                    <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
+                    <a href="#" class="savedraft"><img src="assets/icons/sidebar-drafts.svg" width="20"><span> Save as
+                    draft</span></a>
+                </div>
             </div>
-            <!-- END Connection Lost Toast-->
-
-            <!-- IMAP Error Toast -->
-            <div class="aiko-toast" style="background-color: red;display: none;">
-                <h1>We're having issues connecting to your mail provider.</h1>
+            <div class="secondary-email">
+                <a href="#" class="no-calendar">
+                    <h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1>
+                </a>
             </div>
-            <!-- END IMAP Error Toast-->
-
-            <!-- Send Email Error Toast -->
-            <div class="aiko-toast" style="background-color: red;display: none;">
-                <h1>We were unable to send your message due to network issues.</h1>
-            </div>
-            <!-- END Send Email Error Toast-->
-            <!-- END Toast --------------------------------------->
 
         </div>
-        <!-- END id="app" -------------------------------------------------->
-        <script src="assets/js/third-party/popper.min.js"></script>
-        <script src="assets/js/third-party/bootstrap.min.js"></script>
-    </body>
+        <!-- END Compose View --------------------------------------->
 
-    </html>
+        <!-- Connection Lost Toast -->
+        <div class="aiko-toast" style="background-color: red;display: none;">
+            <h1>We're having trouble connecting to the internet.</h1>
+        </div>
+        <!-- END Connection Lost Toast-->
+
+        <!-- IMAP Error Toast -->
+        <div class="aiko-toast" style="background-color: red;display: none;">
+            <h1>We're having issues connecting to your mail provider.</h1>
+        </div>
+        <!-- END IMAP Error Toast-->
+
+        <!-- Send Email Error Toast -->
+        <div class="aiko-toast" style="background-color: red;display: none;">
+            <h1>We were unable to send your message due to network issues.</h1>
+        </div>
+        <!-- END Send Email Error Toast-->
+        <!-- END Toast --------------------------------------->
+
+    </div>
+    <!-- END id="app" -------------------------------------------------->
+    <script src="assets/js/third-party/popper.min.js"></script>
+    <script src="assets/js/third-party/bootstrap.min.js"></script>
+    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
+
+
+    <script type="text/javascript">
+        $('input[name="composerField"]').amsifySuggestags({
+          type :'amsify',
+          suggestions: [
+          {'tag':'ruben@priansh.com','value': 1},
+
+          {'tag':'rubtouit@yahoo.fr','value': 2},
+          ]
+      });
+  </script>
+
+
+</body>
+
+</html>

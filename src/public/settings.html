@@ -11,11 +11,15 @@
 	<link rel="stylesheet" href="assets/css/style.css">
 	<link rel="stylesheet" href="assets/css/dark.css">
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<script src="assets/js/third-party/jquery.min.js"></script>
+	<script>
+		window.jQuery = window.$ = require('jquery');
+	</script>
 </head>
 
 <body class="bg">
 	<div id="app" class="inline-flex" style="padding-top: 20px;">
-		<div id="fixed" class="loader-6 center-loader"><span></span></div>
+		<!-- <div id="fixed" class="loader-6 center-loader"><span></span></div> -->
 		<div class="control-bar pc">
 			<p title="Close"></p> <!-- Close ------------------------>
 			<p title="Minimize"></p> <!-- Minimize ------------------------>
@@ -33,32 +37,54 @@
 			<div class="container">
 				<div class="row">
 					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Account</span></a>
-					<a href="#"><img src="assets/icons/image.svg" style="width: 20px !important">
-						<span>Appearance</span></a>
-					<a href="#"><img src="assets/icons/settings-team.svg"
-							style="width: 22px !important"><span>Team</span></a>
-					<a href="#"><img src="assets/icons/settings-billing.svg" style="margin-top: 0px;"><span>
-							Billing</span></a>
+					<a href="#"><img src="assets/icons/image.svg" style="width: 20px !important"><span>Appearance</span></a>
+					<a href="#"><img src="assets/icons/settings-team.svg" style="width: 22px !important"><span>Team</span></a>
+					<a href="#"><img src="assets/icons/settings-billing.svg" style="margin-top: 0px;"><span>Billing</span></a>
 					<a href="#"><img src="assets/icons/integrations.svg"> <span>Integrations</span></a>
-					<a href="#"><img src="assets/icons/accounts.svg"> <span>Accounts</span></a>
 					<a href="#"><img src="assets/icons/settings-customize.svg"> <span>Settings</span></a>
+					<div class="version" style="display: unset !important;">
+						<h1>Version: <span class="blue fw700">ALPHA</span></h1>
+						<p>Request features and report issues</p>
+						<a href="#" style="padding:4px 6px !important">Give feedback</a>
+					</div>
 				</div>
+
 			</div>
 		</div>
 		<!-- END Sidebar ----------------------------------------------->
 
-		<div class="main" style="width: calc(100% - 140px);">
+		<div class="main" style="width: calc(100% - 130px);">
+
+			<!-- TOAST Connection Lost -->
+			<div class="aiko-toast settings-toast"  style="display: none;">
+				<p style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
+				<div class="t-loader-red"><span></span></div>
+			</div>
+
+			<!-- TOAST Settings Saved -->
+			<div class="aiko-toast settings-toast">
+				<p style="color: #28a745 !important">Settings saved</p>
+				<div class="t-loader-green"><span></span></div>
+			</div>
+
+			<!-- TOAST Error Field -->
+			<div class="aiko-toast settings-toast" style="display: none;">
+				<p style="color: #dc3545 !important">This is an error</p>
+				<div class="t-loader-red"><span></span></div>
+			</div>
+
+
 			<div class="settings-main">
-				<div class="container" id="account">
+				<div class="container" id="account" >
 					<h1>Account</h1>
 					<br>
-					<h2>Information</h2>
+					<h2>Personal Information</h2>
 					<div class="row">
 						<div class="col-8">
 							<p>Name</p>
-							<div class="s-edit" contenteditable="true">Priansh</div>
+							<div class="s-edit" contenteditable="true">Priansh Shah</div>
 						</div>
-						<div class="col-4">
+						<div class="col-4 text-right">
 							<p class="act">Save</p>
 						</div>
 					</div>
@@ -67,7 +93,7 @@
 							<p>Login email</p>
 							<div class="s-edit" contenteditable="true">priansh@ruben.com</div>
 						</div>
-						<div class="col-4">
+						<div class="col-4 text-right">
 							<p class="act">Save</p>
 						</div>
 					</div>
@@ -77,68 +103,93 @@
 							<p>Password</p>
 							<div class="s-edit" contenteditable="true">********</div>
 						</div>
-						<div class="col-4">
+						<div class="col-4 text-right">
 							<p class="act">Reset</p>
 						</div>
 					</div>
 					<br>
-					<h2>Notifications</h2>
+					<br>
+					<h2>Linked Accounts</h2>
 					<div class="row">
 						<div class="col-8">
-							<p>Desktop Notifications</p>
+							<p>rubencharlestouitou@gmailcom</p>
 						</div>
-						<div class="col-4">
-							<p class="act">Turn off</p>
+						<div class="col-4 text-right">
+							<p class="act red">Remove</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>ruben@gmailcom</p>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act red">Remove</p>
 						</div>
 					</div>
 				</div>
-
 
 				<div class="container" id="appearance" style="display: none;">
 					<h1>Appearance</h1>
 					<br>
 					<h2>General</h2>
 					<div class="row">
-						<div class="col-8">
+						<div class="col-5">
+							<p>Color scheme</p>
+						</div>
+						<div class="col-7 text-right">
+							<select class="aiko-select">
+								<option value="1" selected="selected">Same as system</option>
+								<option value="2">Light mode</option>
+								<option value="3">Dark mode</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-5">
 							<p>Background image</p>
 						</div>
-						<div class="col-4">
+						<div class="col-7 text-right">
 							<p class="act">Browse Unsplash</p>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>Dark mode</p>
-						</div>
-						<div class="col-4">
-							<p class="act">Turn on</p>
-						</div>
-					</div>
 					<br>
+					<h2>Inbox</h2>
 					<div class="row">
 						<div class="col-8">
-							<p>Preview email lines to display</p>
+							<p>Email list content preview</p>
 						</div>
-						<div class="col-4">
-							<p class="act">number picker here 0,1,2,3</p>
+						<div class="col-4 text-right">
+							<select class="aiko-select">
+								<option value="1">0 lines</option>
+								<option value="2">1 line</option>
+								<option value="3" selected="selected">2 lines</option>
+								<option value="4">3 lines</option>
+							</select>
 						</div>
 					</div>
 					<br>
 					<h2>Accessibility</h2>
+					<!-- this removes dark.css if present and adds contrast.css -->
 					<div class="row">
 						<div class="col-8">
 							<p>Increased contrast</p>
 						</div>
-						<div class="col-4">
-							<p class="act">Turn on</p>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-8">
-							<p>Increased font size</p>
+							<p>Increased font size (coming soon)</p>
 						</div>
-						<div class="col-4">
-							<p class="act">Turn on</p>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox">
+								<span class="slider round"></span>
+							</label>
 						</div>
 					</div>
 				</div>
@@ -146,138 +197,216 @@
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
-					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/sidebar-invite.svg"> <span
-								class="blue">Invite</span></a></h2>
+					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>Invite</span></a></h2>
 					<div class="row">
-						<div class="col-8">
-							<p>Ruben Touitou&nbsp;<b>ruben@priansh.com</b></p>
+							<div class="col-8">
+								<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
+							</div>
+							<div class="col-2 text-right" tooltip="Admin toggle">
+								<label class="switch">
+								<input type="checkbox">
+								<span class="slider s-admin round"></span>
+							</label>
+							</select>
 						</div>
-						<div class="col-4">
-							<p class="act">Make admin </p>&nbsp;&nbsp;<p class="act">Remove </p>
+						<div class="col-2 text-right">
+							<p class="act red">Delete</p>
 						</div>
 					</div>
+
 					<div class="row">
-						<div class="col-8">
-							<p>Priansh Shah</p>
+							<div class="col-8">
+								<p><b>Priansh Touitou </b> &lt;priansh@priansh.com&gt;</p>
+							</div>
+							<div class="col-2 text-right" tooltip="Admin toggle">
+								<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider s-admin round"></span>
+							</label>
+							</select>
 						</div>
-						<div class="col-4">
-							<p class="act">Make admin </p>&nbsp;&nbsp;<p class="act">Remove </p>
+						<div class="col-2 text-right">
+							<p class="act red">Delete</p>
 						</div>
 					</div>
 				</div>
+			</div>
 
-				<div class="container" id="Billing" style="display: none;">
-					<h1>Billing</h1>
-					<br>
-					<h2>Billing information</h2>
-					<div class="row">
-						<div class="col-8">
-							<p>Name</p>
-							<div class="s-edit" contenteditable="true">Priansh</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
+			<div class="container" id="Billing" style="display: none;">
+				<h1>Billing</h1>
+				<br>
+				<h2>Plan</h2>
+				<div class="row">
+					<div class="col-8">
+						<img src="assets/img/logo.svg" width="80" style="margin-bottom: 4px">
+						<p><b>Pro</b>&nbsp;$19/Month</p><br>
 					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>Address</p>
-							<div class="s-edit" contenteditable="true">120 S Miami Avenue</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>City</p>
-							<div class="s-edit" contenteditable="true">Miami</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>State</p>
-							<div class="s-edit" contenteditable="true">Florida</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>Zip</p>
-							<div class="s-edit" contenteditable="true">33030</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-8">
-							<p>Stripe ree</p>
-							<div class="s-edit" contenteditable="true">Ree</div>
-						</div>
-						<div class="col-4">
-							<p class="act">Save</p>
-						</div>
-					</div>
-					<br>
-					<h2>Plan</h2>
-					<div class="row">
-						<div class="col-8">
-							<p>Current plan:&nbsp;<b>Startup</b>&nbsp;$9/Seat/Month</p>
-						</div>
-						<div class="col-4">
-							<p class="act">Upgrade</p>
-						</div>
+					<div class="col-4 text-right">
+						<p class="act">See plans</p>
 					</div>
 				</div>
-				<div class="container" id="integrations" style="display: none;">
-					<h1>Integrations</h1>
-					<br>
-					<div class="row">
-						<div class="col-8">
-							<p><b>Trello</b>&nbsp;Description</p>
-						</div>
-						<div class="col-4">
-							<p class="act">Remove</p>
-						</div>
+				<br><br>
+				<h2>Billing information</h2>
+				<div class="row">
+					<div class="col-8">
+						<p>Name</p>
+						<div class="s-edit" contenteditable="true">Priansh</div>
 					</div>
-					<div class="row">
-						<div class="col-8">
-							<p><b>Asana</b>&nbsp;Description</p>
-						</div>
-						<div class="col-4">
-							<p class="act">Add</p>
-						</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>Address</p>
+						<div class="s-edit" contenteditable="true">120 S Miami Avenue</div>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>City</p>
+						<div class="s-edit" contenteditable="true">Miami</div>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>State</p>
+						<div class="s-edit" contenteditable="true">Florida</div>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>Zip</p>
+						<div class="s-edit" contenteditable="true">33030</div>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>Stripe ree? reee ?</p>
+						<div class="s-edit" contenteditable="true">Ree?????</div>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Save</p>
+					</div>
+				</div>
+				<br>
+
+			</div>
+			<div class="container" id="integrations" style="display: none;">
+				<h1>Integrations</h1>
+				<br>
+				<div class="row">
+					<div class="col-8">
+						<p><b>Trello</b>&nbsp;Description</p>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Remove</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p><b>Asana</b>&nbsp;Description</p>
+					</div>
+					<div class="col-4 text-right">
+						<p class="act">Add</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="container" id="settings" style="display: none;">
+				<h1>Settings</h1>
+				<br>
+				<h2>Notifications</h2>
+				<div class="row">
+					<div class="col-8">
+						<p>Desktop Notifications</p>
+					</div>
+					<div class="col-4 text-right">
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-8">
+						<p>Desktop Notifications</p>
+					</div>
+					<div class="col-4 text-right">
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
 					</div>
 				</div>
 
-				<div class="container" id="accounts" style="display: none;">
-					<h1>Accounts</h1>
-					<p>Add remove accounts<br>
-						<p>--<br>
+				<br><br>
+				<h2>Updates</h2>
+				<div class="row">
+					<div class="col-8">
+						<p>Automatic Updates</p>
+					</div>
+					<div class="col-4 text-right">
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+					</div>
+				</div>
+				<p>Automatic updates are important to keep your data safe.</p>
 
+				<br><br>
+				<h2>Trackers</h2>
+				<div class="row">
+					<div class="col-8">
+						<p>Disable incoming trackers</p>
+					</div>
+					<div class="col-4 text-right">
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+					</div>
+				</div>
+				<p>This option blocks most tracker meant to track when you open emails.</p>
+				<div class="row">
+					<div class="col-8">
+						<p>Automatically send trackers</p>
+					</div>
+					<div class="col-4 text-right">
+						<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+					</div>
+				</div>
+
+				<p>Settings coming soon<br>
+					<p>Out of Office Replies<br>
+						Manage Rules and Alerts<br>
+						Privacy Settings ( displays what admin gave you the option of controlling)<br>
+						Attachment Options (Ask me how i want to attach them everytime, always share as links,
+						always attach them as copies)<br>
+						Enable Linkedin features<br>
+						Editor Options (Compose message in this format with drop down: HTML, RIch text, plain
+						text)<br>
+						Spelling and Autocorrect<br>
+						Signature<br>
 					</p>
-				</div>
 
-				<div class="container" id="settings" style="display: none;">
-					<h1>Settings</h1>
-					<p>Brainstorm of remaining options<br>
-						<p>Out of Office Replies<br>
-							Manage Rules and Alerts<br>
-							Privacy Settings ( displays what admin gave you the option of controlling)<br>
-							Attachment Options (Ask me how i want to attach them everytime, always share as links,
-							always attach them as copies)<br>
-							Enable Linkedin features<br>
-							Editor Options (Compose message in this format with drop down: HTML, RIch text, plain
-							text)<br>
-							Spelling and Autocorrect<br>
-							Signature<br>
-					</p>
+
 				</div>
 
 
@@ -323,7 +452,6 @@
 
 	</div>
 	<!-- END id="app" -------------------------------------------------->
-	<script src="assets/js/third-party/jquery.js"></script>
 	<script src="assets/js/third-party/popper.min.js"></script>
 	<script src="assets/js/third-party/bootstrap.min.js"></script>
 </body>
