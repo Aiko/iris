@@ -1142,6 +1142,9 @@ hr {
 .fw700{
 	font-weight: 700;
 }
+.fw600{
+	font-weight: 600;
+}
 .modal-content{
 	height: 100%;
 	background: var(--main-bg-color) !important;
@@ -2655,18 +2658,24 @@ unselectable {
 	width: 48px;
 	height: 26px;
 }
-
+.cap{
+	text-transform: capitalize !important;
+}
 .switch input { 
 	opacity: 0;
 	width: 0;
 	height: 0;
 }
-
+.accordion{
+	border-radius: 4px !important;
+}
 .accordion .card{
 	background: var(--main-bg-color);
+	border-radius: 4px !important;
 }
 .accordion .card-header{
 	background: var(--secondary-bg-color);
+	border-radius: 4px !important;
 }
 .accordion .btn, .accordion .btn:hover, .accordion .btn:active, .accordion .btn:focus {
 	color: var(--main-color) !important;
