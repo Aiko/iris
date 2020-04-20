@@ -264,7 +264,14 @@ input:focus, input:active{
 	margin-left: -21px;
 	transition: .2s;
 }
-
+.thin .board-header h1{
+	width: 100%;
+	max-width: unset;
+	transition: .2s;
+}
+.thin .secondary-count{
+	display: none;
+}
 
 .dropdown-menu, .dropdown-menu a{
 	background-color: var(--secondary-bg-color) !important;
@@ -782,7 +789,7 @@ a.main-action:hover{
 	padding: 10px;
 	overflow-y: scroll;
 	height: 100%;
-	padding-bottom: 200px;
+	padding-bottom: 140px;
 	overflow: scroll;
 }
 .badges{
@@ -863,6 +870,9 @@ hr {
 .board-header h1{
 	cursor: pointer;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: calc(100% - 45px);
 }
 .settings a{
 	color: var(--main-color);
@@ -2668,26 +2678,26 @@ unselectable {
 }
 .accordion input{
 	height: 100% !important;
-    margin-top: 0px !important;
-    border: none !important;
+	margin-top: 0px !important;
+	border: none !important;
 }
 .accordion .amsify-select-tag{
 	box-shadow: 0px 0px 4px 0px #0000002e;
 	margin-left: 0 !important;
-    margin-right: 5px;
+	margin-right: 5px;
 }
 .accordion .amsify-suggestags-list{
-    margin-left: -20px;
+	margin-left: -20px;
 }
 .modal-bottom a{
 	font-weight: 600 !important;
 }
 .accordion input{
 	height: 100%;
-    margin-top: 0px !important;
-    border: none;
-    width: 100%;
-    max-width: unset;
+	margin-top: 0px !important;
+	border: none;
+	width: 100%;
+	max-width: unset;
 }
 .accordion .amsify-suggestags-input-area{
 	max-width: 300px !important;
