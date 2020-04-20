@@ -2664,7 +2664,7 @@ unselectable {
 	background: var(--secondary-bg-color);
 }
 .accordion .card-body{
-	box-shadow: inset 0px 0px 6px 1px #0000001f;
+	box-shadow: inset 0px 0px 4px 0px #0000001f;
 }
 .accordion input{
 	height: 100% !important;

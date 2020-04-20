@@ -824,19 +824,20 @@
               </add-mailbox-modal>
 
               <!-- NEW BOARD MODAL --------------------------------------->
-              <div class="aiko-modal">
+              <div class="aiko-modal"   style="display: none;">
                <!-- STEP ONE --->
-               <div class="modal-dialog modal-sm" style="display: none;">
+               <div class="modal-dialog modal-sm" >
                 <div class="modal-content">
                  <div class="modal-reg">
                   <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
                   <h1>Add a board</h1>
-                  <h2>Enter the board name</h2>
+                  <h2>Enter a name for your board</h2>
                   <input type="text" name="" placeholder="Board name" maxlength="10">
-                  <p>Max 10 characters.</p>
+                  <h2>Max. 10 characters</h2>
                   <br>
-                  <a href="#" class="blue">Next</a>
-                  <p class="ns30"></p>
+                   <div class="modal-bottom">
+                   <a href="#" class="blue">Next</a>
+                  </div>
                   <br>
                  </div>
                 </div>
@@ -860,7 +861,7 @@
 
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                      <div class="card-body">
-                      <p>Forward email to:</p>
+                      <p style="margin-bottom: 12px;">Forward email to:</p>
                       <input type="text" name="rulesField" value="pri@gmail.com" placeholder="Email">
                       <p style="margin-top: 10px;margin-bottom: -10px">This will automatically send the email to this address when dragged to this board.</p>
                      </div>
@@ -877,10 +878,10 @@
                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                      <div class="card-body">
                       <p>Automatically add emails to this board if:</p>
-                      <p>The email is from:</p>
+                      <p style="margin-bottom: 12px;">The email is from:</p>
                       <input type="text" name="rulesField" value="pri@gmail.com" placeholder="Email">
                       <br>
-                      <p>Subject contains:</p>
+                      <p style="margin-bottom: 12px;">Subject contains:</p>
                       <input type="text" name="rulesField2" value="Salsa boy" placeholder="Phrase">
                      </div>
                     </div>
