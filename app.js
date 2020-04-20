@@ -149,7 +149,7 @@ const init = () => {
       // alternative course of action.
     },
     // TODO: icon
-    icon: './src/public/assets/img/icon.png'
+    icon: process.platform == 'darwin' ? './src/public/assets/img/icon.png' : './src/public/assets/img/app-icon/square-icon-shadow.png'
   })
   WindowManager.setWindow(win)
   CarrierPigeon(win)
