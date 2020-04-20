@@ -507,9 +507,9 @@ a.main-action:hover{
 	top: 0;
 }
 .sidebar a img{
-	width: 19px;
-	margin-top: -4px;
-	margin-right: 2px;
+	width: 17px;
+    margin-top: -4px;
+    margin-right: 1px;
 }
 
 .sidebar .compose{
@@ -639,9 +639,10 @@ a.main-action:hover{
 	margin-left: 5px !important;
 }
 .off-star{
-	width: 24px !important;
-	margin-right: 0px !important;
-	margin-left: -3px !important;
+    width: 19px !important;
+    margin-right: 0px !important;
+    margin-left: -1px !important;
+    margin-top: -3px !important;
 }
 .notif-c{
 	font-size: 13px;
@@ -731,7 +732,7 @@ a.main-action:hover{
 .sidebar .search{
 	position: absolute;
 	left: 0;
-	margin-left: -10px;
+	margin-left: -12px;
 	margin-right: -10px;
 	border-radius: 0;
 	padding-left: 20px;
@@ -1019,8 +1020,7 @@ hr {
 .main-count{
 	float: right;
 	color: var(--main-text-color);
-	background: var(--secondary-bg-color);
-	padding: 0px 6px;
+	padding: 0;
 	border-radius: 4px;
 	font-size: 12px;
 	margin-top: 3px;
@@ -1370,8 +1370,9 @@ hr {
 	text-align: center;
 }
 .sent-fix{
-	width: 22px !important;
-	margin-left: -3px !important;
+width: 18px !important;
+    margin-left: -2px !important;
+    margin-top: -3px !important;
 }
 
 @media all and (max-width: 968px) {
@@ -1463,7 +1464,7 @@ hr {
 		margin-left: 4px !important;
 	}
 	.sidebar .active{
-		padding-left: 4px !important;
+		padding-left: 6px !important;
 	}
 	.sidebar-settings .active{
 		padding-left: 7px !important;
@@ -1491,7 +1492,7 @@ hr {
 	.sidebar a{
 		height: 30px;
 		width: 34px;
-		padding: 4px 10px 5px 8px;
+		padding: 4px 0px 5px 9px;
 		transition: .2s;
 	}
 	.sidebar span{
