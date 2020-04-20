@@ -298,6 +298,12 @@ const mailapi = {
             this.currentMailbox = this.imapConfig.email
             await SmallStorage.store('current-mailbox', this.imapConfig.email)
 
+            // Connect to mailserver
+            info(...MAILAPI_TAG, "Connecting to MX...")
+            if (!(await this.reconnectToMailServer())) {
+                return false
+            }
+
             this.inbox.emails = []
             this.inbox.uidLatest = -1
             this.boardNames = []
@@ -310,7 +316,6 @@ const mailapi = {
                 archive: '',
                 trash: ''
             }
-
             await this.findFolderNames()
 
             // load cache for the inbox
@@ -326,11 +331,6 @@ const mailapi = {
             })
             this.inbox = inboxCache
 
-            // Connect to mailserver
-            info(...MAILAPI_TAG, "Connecting to MX...")
-            if (!(await this.reconnectToMailServer())) {
-                return false
-            }
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
 
