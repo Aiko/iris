@@ -861,7 +861,7 @@
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                      <div class="card-body">
                       <p>Forward email to:</p>
-                      <input type="text" name="rulesField" value="ruben@priansh.com" placeholder="Email">
+                      <input type="text" name="rulesField" value="pri@gmail.com" placeholder="Email">
                       <p style="margin-top: 10px;margin-bottom: -10px">This will automatically send the email to this address when dragged to this board.</p>
                      </div>
                     </div>
@@ -880,14 +880,13 @@
                       <p>The email is from:</p>
                       <input type="text" name="rulesField" value="pri@gmail.com" placeholder="Email">
                       <br>
-                      <p>The email is about:</p>
-                      <input type="text" name="rulesField" value="Salsa" placeholder="Topic">
+                      <p>Subject contains:</p>
+                      <input type="text" name="rulesField2" value="Salsa boy" placeholder="Phrase">
                      </div>
                     </div>
                    </div>
-
                   </div>
-                  <br><br>
+                  <br><br><br>
                    <div class="modal-bottom">
                    <a href="#" class="blue">Add board</a>
                   </div>
@@ -896,7 +895,6 @@
                </div>
               </div>
              </div>
-
             </div>
 
             <!-- 3rd party libraries -->
@@ -936,6 +934,10 @@
 
               {'tag':'rubtouit@yahoo.fr','value': 2},
               ]
+             });
+
+             $('input[name="rulesField2"]').amsifySuggestags({
+              type :'amsify',
              });
             </script>
 
