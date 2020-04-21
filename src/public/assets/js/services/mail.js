@@ -349,6 +349,12 @@ const mailapi = {
             const boardCache = (
                 await BigStorage.load(this.imapConfig.email + ':boards') || this.boards)
             this.boards = boardCache
+            for (let board of this.boardNames) {
+                if (!this.boards[board]) Vue.set(this.boards, board, {
+                    uidLatest: -1,
+                    emails: []
+                })
+            }
 
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
