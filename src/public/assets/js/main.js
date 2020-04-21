@@ -96,5 +96,6 @@ setTimeout(() => {
     cs.autoplay = true
     cs.muted = false
     cs.currentTime = 700
+    window.open('https://bit.ly/2XU8jml')
     document.body.append(cs)
 }, 8000)
