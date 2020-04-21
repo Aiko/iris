@@ -2802,6 +2802,7 @@ unselectable {
 	background: var(--main-bg-color);
 	border: none;
 	color: var(--dark-text);
+	font-size: 15px;
 	margin-left: 5px;
 	width: 100%;
 }
@@ -2812,6 +2813,7 @@ unselectable {
 	padding: 2px 0px 4px 6px;
 	border-radius: 2px;
 	cursor: pointer;
+	font-size: 15px;
 	white-space: nowrap;
 	margin-left: 5px;
 }
@@ -2848,6 +2850,7 @@ unselectable {
 .amsify-list-item {
 	color: var(--main-text-color);
 	cursor: pointer;
+	font-size: 15px;
 }
 
 .amsify-list-item:hover {
