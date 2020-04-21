@@ -69,7 +69,7 @@
             </div>
             <div style="height: 30px"></div>
             <div class="user-list">
-              <a href="#" id="user" v-for="user in profile.team.team">
+              <a href="#" class="user" v-for="user in profile.team.team">
                 <div class="active-user"></div>
                 <!-- TODO: on server change user.pictureURI to be from assets/ default -->
                 <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
@@ -793,7 +793,6 @@
           </div>
         </div>
       </div>
-
 
       <!-- STEP ONE - INBOX BOARD SETTINGS --------------------------------------->
       <div class="aiko-modal" style="display: none">
