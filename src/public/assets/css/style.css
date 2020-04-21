@@ -2675,11 +2675,16 @@ unselectable {
     background: var(--secondary-bg-color-hover);
     transition: .2s;
 }
-
+.mw600{
+	max-width: 600px !important;
+	max-height: 90vh;
+}
 .container-rules{
-	max-height: 110px;
     overflow-y: scroll;
-    
+max-height: 50vh;    
+}
+.backbtn{
+	color: var(--main-text-color) !important;
 }
 .switch input { 
 	opacity: 0;
