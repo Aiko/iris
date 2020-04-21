@@ -109,7 +109,7 @@
         </div>
 
         <!-- TOAST Connection Lost -->
-        <div class="aiko-toast">
+        <div class="aiko-toast" style="display: none">
           <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
           <div class="t-loader-red"><span></span></div>
         </div>
@@ -229,6 +229,7 @@
 
         <div class="boards-container">
           <div class="boards two-lines">
+            <!-- INBOX BOARD -->
             <div class="board">
               <div class="board-header">
                 <div class="container p0">
@@ -343,8 +344,9 @@
 
             <!-- TODO: Boards should be draggable ----------->
             <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
+            <!-- START BOARDS-->
 
-            <!-- To-Do Board Template ----------------------->
+            <!-- START Default Board Template ----------------------->
             <div class="board">
               <div class="board-header">
                 <div class="container p0">
@@ -416,7 +418,7 @@
                 </div>
               </div>
             </div>
-            <!-- END To-Do Board Template ------------------->
+            <!-- END Default Board Template ------------------->
 
             <!-- START Done Board Template ----------------------->
             <div class="board">
@@ -505,6 +507,7 @@
         </div>
       </div>
 
+      <!-- TUTORIAL MODAL -->
       <tutorial-modal v-if="firstTime" inline-template>
         <div class="aiko-modal">
           <div class="modal-dialog modal-md">
@@ -524,11 +527,12 @@
         </div>
       </tutorial-modal>
 
-
+      <!-- VIEW EMAIL -->
       <div class="aiko-modal" style="display: none;">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
+              <!-- Single Message in Thread -->
               <div class="single-email">
                 <div class="email-head">
                   <div class="container">
@@ -590,140 +594,9 @@
                   https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
 
                   <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                    src="https://calendly.com/rebelorigin"></iframe>
+                    src=""></iframe>
                 </div>
               </div>
-
-              <div class="single-email">
-                <div class="email-head">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
-                        <h2 class="sender">
-                          Ruben Touitou</h2>
-                        <img src="assets/icons/badges-attach.svg">
-                        <img src="assets/icons/badges-tracker.svg">
-                        <img src="assets/icons/badges-event.svg">
-                        <img src="assets/icons/badges-bcc.svg">
-                        <img src="assets/icons/badges-star.svg">
-                        <div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <h3>This is a subject line</h3>
-                    </div>
-                  </div>
-
-                  <div class="options-qa">
-                    <a target="_blank">
-                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
-                    </a>
-                  </div>
-
-                  <div class="options">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#">
-                            <img src="assets/icons/options-trash.svg" width="20">
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="email-body">
-                  FIXME: using iframe right now, will be insecure until I safely inject HTML, see
-                  https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
-
-                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                    src="https://calendly.com/rebelorigin"></iframe>
-                </div>
-              </div>
-
-              <div class="single-email">
-                <div class="email-head">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
-                        <h2 class="sender">
-                          Ruben Touitou</h2>
-                        <img src="assets/icons/badges-attach.svg">
-                        <img src="assets/icons/badges-tracker.svg">
-                        <img src="assets/icons/badges-event.svg">
-                        <img src="assets/icons/badges-bcc.svg">
-                        <img src="assets/icons/badges-star.svg">
-                        <div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <h3>This is a subject line</h3>
-                    </div>
-                  </div>
-
-                  <div class="options-qa">
-                    <a target="_blank">
-                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
-                    </a>
-                  </div>
-
-                  <div class="options">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#">
-                            <img src="assets/icons/options-trash.svg" width="20">
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="email-body">
-                  FIXME: using iframe right now, will be insecure until I safely inject HTML, see
-                  https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
-
-                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                    src="https://calendly.com/rebelorigin"></iframe>
-                </div>
-              </div>
-
             </div>
             <div class="secondary-email">
               <img src="assets/icons/grey-x.svg" class="x-email" width="25">
@@ -743,7 +616,6 @@
 
               <h3>Previous threads with Ruben</h3>
               <div class="previous-threads">
-
                 <div class="email thread">
                   <div class="container pr" data-toggle="modal" data-target=".email1">
                     <div class="row" style="user-select: none;">
@@ -764,8 +636,6 @@
           </div>
         </div>
       </div>
-
-
 
       <!-- NEW MAILBOX MODAL --------------------------------------->
       <add-mailbox-modal :googlestrategy="google_addMailbox" v-if="addMailbox" :success="switchMailServer"
@@ -1092,10 +962,10 @@
         </div>
 
     </div>
-    </div>
 
     <!-- 3rd party libraries -->
     <script src="assets/js/third-party/popper.min.js"></script>
+    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
     <script src="assets/js/third-party/jwt-decode.min.js"></script>
     <script src="assets/js/third-party/jsrsasign.min.js"></script>
@@ -1108,6 +978,7 @@
     <script src="assets/js/common/small-storage.js"></script>
     <script src="assets/js/common/big-storage.js"></script>
     <script src="assets/js/common/only-electron.js"></script>
+    <script src="assets/js/common/mailcleaner.js"></script>
     <!-- services -->
     <script src="assets/js/services/ipc.js"></script>
     <script src="assets/js/services/aiko.js"></script>
@@ -1121,7 +992,6 @@
     <script src="assets/js/components/modals/tutorial.js"></script>
     <script src="assets/js/components/modals/add-mailbox.js"></script>
     <script src="assets/js/components/email-card.js"></script>
-    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
 
     <script type="text/javascript">
       /*

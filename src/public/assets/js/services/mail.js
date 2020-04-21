@@ -323,12 +323,7 @@ const mailapi = {
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + ':inbox') ||
                 this.inbox)
-            inboxCache.emails = inboxCache.emails.map(email => {
-                // TODO: this should also be a function that turns properties into
-                // objects that could not be stored as is
-                email.envelope.date = new Date(email.envelope.date)
-                return email
-            })
+            inboxCache.emails = await MailCleaner.peek(inboxCache.emails)
             this.inbox = inboxCache
 
             info(...MAILAPI_TAG, "Saving config...")
@@ -344,43 +339,20 @@ const mailapi = {
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
             this.loading = true // its so big it blocks I/O
+
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
             const uidMin = Math.max(uidNext - 100, 0) // fetch latest 100
+
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
+
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = emails
-                .reverse()
-                .map(email => {
-                    // FIXME: this should be a function that parses emails
-                    email.envelope.date = new Date(email.envelope.date)
-                    email.ai = {
-                        subscription: false,
-                        unsubscribeLink: '',
-                        seen: false
-                    }
-                    email.parsed.headerLines.map(({
-                        key,
-                        line
-                    }) => {
-                        if (key == 'list-unsubscribe') {
-                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
-                            if (urls && urls.length > 0) {
-                                email.ai.subscription = true
-                                email.ai.unsubscribeLink = urls[0]
-                            } else console.log("LIST-UNSUBSCRIBE", line)
-                        }
-                    })
-                    if (email.flags.includes('\\Seen')) email.ai.seen = true
-                    return email
-                })
-            // we should call AI on priority inbox for this but
-            // probably upload stuff en masse.... which means we
-            // need batch prediction!!
+            const processed_emails = await MailCleaner.full(emails.reverse())
+
             this.inbox.emails = processed_emails
             if (this.inbox.emails.length > 0)
                 this.uidLatest = this.inbox.emails[0].uid
@@ -395,44 +367,21 @@ const mailapi = {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+
             if (this.inbox.uidLatest < 0 || uidNext - this.inbox.uidLatest > 50) {
                 info(...MAILAPI_TAG, "There are too many emails to update, need to sync.")
                 // TODO: probably show a modal since this is blocking
                 await this.initialSyncWithMailServer()
                 return false
             }
+
             info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest}:${uidNext}`)
+
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${this.inbox.uidLatest}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = emails
-                .reverse()
-                .map(email => {
-                    // FIXME: this should be a function that parses emails
-                    email.envelope.date = new Date(email.envelope.date)
-                    email.ai = {
-                        subscription: false,
-                        unsubscribeLink: '',
-                        seen: false
-                    }
-                    email.parsed.headerLines.map(({
-                        key,
-                        line
-                    }) => {
-                        if (key == 'list-unsubscribe') {
-                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
-                            if (urls && urls.length > 0) {
-                                email.ai.subscription = true
-                                email.ai.unsubscribeLink = urls[0]
-                            } else console.log("LIST-UNSUBSCRIBE", line)
-                        }
-                    })
-                    if (email.flags.includes('\\Seen')) email.ai.seen = true
-                    return email
-                })
-            // we should call AI on priority inbox for this but
-            // probably upload stuff en masse.... which means we
-            // need batch prediction!!
+            const processed_emails = await MailCleaner.full(emails.reverse())
+
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
                 this.uidLatest = this.inbox.emails[0].uid
@@ -445,39 +394,18 @@ const mailapi = {
                 info(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
                 return false
             }
+
             const uidOldest = this.inbox.emails.last()?.uid
             if (!uidOldest) return window.error("Couldn't identify oldest UID.")
             const uidMin = Math.max(0, uidOldest - 50)
+
             info(...MAILAPI_TAG, `Seeking history - last 50 messages (${uidMin}:${uidOldest})`)
+
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = emails
-                .reverse()
-                .map(email => {
-                    // FIXME: this should be a function that parses emails
-                    // TODO: this one shouldn't have any server-side AI
-                    email.envelope.date = new Date(email.envelope.date)
-                    email.ai = {
-                        subscription: false,
-                        unsubscribeLink: '',
-                        seen: false
-                    }
-                    email.parsed.headerLines.map(({
-                        key,
-                        line
-                    }) => {
-                        if (key == 'list-unsubscribe') {
-                            const urls = line.match(/(http:\/\/|mailto:|https:\/\/)[^>]*/gim)
-                            if (urls && urls.length > 0) {
-                                email.ai.subscription = true
-                                email.ai.unsubscribeLink = urls[0]
-                            } else console.log("LIST-UNSUBSCRIBE", line)
-                        }
-                    })
-                    if (email.flags.includes('\\Seen')) email.ai.seen = true
-                    return email
-                })
+            const processed_emails = await MailCleaner.base(emails.reverse())
+
             this.inbox.emails.push(...processed_emails)
         }
     }
