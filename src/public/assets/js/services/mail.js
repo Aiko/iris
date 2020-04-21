@@ -404,7 +404,7 @@ const mailapi = {
 
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
-                this.uidLatest = this.inbox.emails[0].uid
+                this.inbox.uidLatest = this.inbox.emails[0].uid
         },
         async checkForUpdates() {
             // TODO: using modseq???????
