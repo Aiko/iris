@@ -76,10 +76,6 @@ body {
 	background-color: var(--secondary-bg-color) !important;
 	-webkit-user-select: none;
 	/* Chrome all / Safari all */
-	-moz-user-select: none;
-	/* Firefox all */
-	-ms-user-select: none;
-	/* IE 10+ */
 	user-select: none;
 }
 
@@ -852,8 +848,6 @@ a.main-action:hover {
 	color: var(--main-text-color);
 }
 
-.search-drop {}
-
 .margin-auto {
 	margin: auto;
 }
@@ -955,7 +949,6 @@ a.main-action:hover {
 	text-align: center;
 	padding-top: 40px;
 	-webkit-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
-	-moz-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 	box-shadow: inset inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 }
 
@@ -965,7 +958,6 @@ a.main-action:hover {
 	height: 50px;
 	border-radius: 4px;
 	-webkit-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
-	-moz-box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 	box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 }
 
@@ -1556,9 +1548,6 @@ hr {
 
 .fade {
 	-webkit-transition: opacity 0.01s linear;
-	-moz-transition: opacity 0.01s linear;
-	-ms-transition: opacity 0.01s linear;
-	-o-transition: opacity 0.01s linear;
 	transition: opacity 0.01s linear;
 }
 
@@ -1926,15 +1915,12 @@ unselectable {
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 }
 
 .highlight-blue {
 	height: 30px;
 	width: fit-content;
-	width: -moz-fit-content;
 	color: #fff;
 	background: #4b74ff;
 	border-radius: 3px;
@@ -1948,7 +1934,6 @@ unselectable {
 .highlight-green {
 	height: 30px;
 	width: fit-content;
-	width: -moz-fit-content;
 	color: #fff;
 	background: #28a745;
 	border-radius: 3px;
@@ -1962,7 +1947,6 @@ unselectable {
 .highlight-none {
 	height: 30px;
 	width: fit-content;
-	width: -moz-fit-content;
 	color: #000;
 	background: transparent;
 	border-radius: 3px;
@@ -2187,6 +2171,10 @@ unselectable {
 	margin-bottom: 20px;
 }
 
+.mikiiiii {
+	display: none;
+}
+
 .modal-bottom {
 	position: absolute;
 	bottom: 0;
@@ -2214,40 +2202,13 @@ unselectable {
 
 .fade-in {
 	animation: fadein 3s;
-	-moz-animation: fadein 3s;
-	/* Firefox */
 	-webkit-animation: fadein 3s;
 	/* Safari and Chrome */
-	-o-animation: fadein 3s;
-	/* Opera */
-}
-
-.aiko-form .form-signin {
-	width: 100%;
-	max-width: 330px;
-	padding: 15px;
-	margin: auto;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-
-.aiko-form .form-logo {
-	padding: 10px 40px 10px 0px;
-	border-right: 1px solid #ddd;
-	width: 150px;
-	margin-bottom: 9px !important;
 }
 
 .btn-primary {
 	background-color: var(--main-color) !important;
 	border-color: var(--main-color) !important;
-}
-
-.aiko-form .form-signin .checkbox {
-	font-weight: 400;
-	text-align: left;
 }
 
 .grey {
@@ -2279,64 +2240,6 @@ unselectable {
 	margin-bottom: -100px;
 }
 
-.aiko-form .form-signin .form-control {
-	position: relative;
-	box-sizing: border-box;
-	height: auto;
-	padding: 8px 10px;
-	font-size: 15px;
-}
-
-.aiko-form .form-signin .form-control:focus {
-	z-index: 2;
-}
-
-.form-control:focus {
-	border: 1px solid #a4a4a4 !important;
-	box-shadow: none !important;
-}
-
-.aiko-form .form-signin input[type="email"] {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-	margin-top: 20px;
-}
-
-.aiko-form .top-link {
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding: 15px 20px;
-	color: var(--main-text-color);
-	font-size: 15px;
-
-}
-
-.aiko-form label {
-	color: var(--main-text-color);
-	margin-top: 10px;
-}
-
-.aiko-form a {
-	color: var(--main-color);
-	font-weight: 500;
-}
-
-.aiko-form .form-signin input[type="password"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-
-.aiko-form .title {
-	color: var(--main-text-color) !important;
-	margin-top: 0px !important;
-	margin-bottom: 0px !important;
-	margin-left: 30px;
-	display: inline;
-}
-
 @keyframes textinout {
 	0% {
 		opacity: .75;
@@ -2361,18 +2264,6 @@ unselectable {
 	}
 }
 
-@-moz-keyframes fadein {
-
-	/* Firefox */
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-
 @-webkit-keyframes fadein {
 
 	/* Safari and Chrome */
@@ -2384,19 +2275,6 @@ unselectable {
 		opacity: 1;
 	}
 }
-
-@-o-keyframes fadein {
-
-	/* Opera */
-	from {
-		opacity: 0;
-	}
-
-	to {
-		opacity: 1;
-	}
-}
-
 
 /* Loader 6 */
 .loader-6 {
@@ -2492,8 +2370,6 @@ unselectable {
 .non-drag {
 	-webkit-user-select: none;
 	-khtml-user-select: none;
-	-moz-user-select: none;
-	-o-user-select: none;
 	user-select: none;
 }
 
@@ -2685,9 +2561,9 @@ unselectable {
 	text-align: center;
 
 	/* 
-    Let the content set the size of the tooltips 
-    but this will also keep them from being obnoxious
-    */
+	Let the content set the size of the tooltips 
+	but this will also keep them from being obnoxious
+	*/
 	min-width: 3em;
 	max-width: 21em;
 	white-space: nowrap;
@@ -2735,52 +2611,6 @@ unselectable {
 	transform: translate(-50%, -.5em);
 }
 
-/* tflow: DOWN */
-[tooltip][tflow^="down"]::before {
-	top: 100%;
-	border-top-width: 0;
-	border-bottom-color: #333;
-}
-
-[tooltip][tflow^="down"]::after {
-	top: calc(100% + 5px);
-}
-
-[tooltip][tflow^="down"]::before,
-[tooltip][tflow^="down"]::after {
-	left: 50%;
-	transform: translate(-50%, .5em);
-}
-
-/* tflow: LEFT */
-[tooltip][tflow^="left"]::before {
-	top: 50%;
-	border-right-width: 0;
-	border-left-color: #333;
-	left: calc(0em - 5px);
-	transform: translate(-.5em, -50%);
-}
-
-[tooltip][tflow^="left"]::after {
-	top: 50%;
-	right: calc(100% + 5px);
-	transform: translate(-.5em, -50%);
-}
-
-/* tflow: RIGHT */
-[tooltip][tflow^="right"]::before {
-	top: 50%;
-	border-left-width: 0;
-	border-right-color: #333;
-	right: calc(0em - 5px);
-	transform: translate(.5em, -50%);
-}
-
-[tooltip][tflow^="right"]::after {
-	top: 50%;
-	left: calc(100% + 5px);
-	transform: translate(.5em, -50%);
-}
 
 /* KEYFRAMES */
 @keyframes tooltips-vert {
@@ -2810,14 +2640,6 @@ unselectable {
 	font-weight: 500 !important;
 	letter-spacing: .2px;
 }
-
-[tooltip][tflow^="left"]:hover::before,
-[tooltip][tflow^="left"]:hover::after,
-[tooltip][tflow^="right"]:hover::before,
-[tooltip][tflow^="right"]:hover::after {
-	animation: tooltips-horz 300ms ease-out forwards;
-}
-
 
 #load-text {
 	color: var(--main-color);
@@ -3073,7 +2895,6 @@ unselectable {
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--main-text-color);
-	margin-top: 6px;
 	display: inline;
 	margin-right: 10px;
 }
