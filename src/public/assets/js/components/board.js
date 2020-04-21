@@ -1,3 +1,8 @@
 Vue.component('board', {
-    props: ['boardName']
+    props: ['boardName'],
+    computed: {
+        prettyBoardName() {
+            return this.boardName.replace("[Aiko Mail]/", '')
+        }
+    }
 })
