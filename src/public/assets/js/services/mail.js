@@ -244,6 +244,14 @@ const mailapi = {
 
             // Form remote boards
             const aikoFolder = folders["[Aiko Mail]"]
+            // If there is no Aiko Mail folder on remote, make it
+            if (!aikoFolder) {
+                info(...MAILAPI_TAG, "Making the Aiko Mail folder on MX as it does not exist otherwise.")
+                if (!(
+                    await this.callIPC(this.task_NewFolder("[Aiko Mail]"))
+                )) return window.error(...MAILAPI_TAG, "Couldn't make Aiko Mail folder on MX!")
+            }
+            // Collect remote boards
             const remoteBoards = Object.values(aikoFolder?.children || {}).map(_ => _.path)
             /////////
 
@@ -262,6 +270,16 @@ const mailapi = {
             this.boardNames.push(...(
                 remoteBoards.filter(_ => !(localBoards.includes(_)))
             ))
+            // If 'Done' is the only board locally then make a 'To-Do' board
+            if (this.boardNames.length == 0) {
+                info(...MAILAPI_TAG, "Making a To-Do board as it doesn't exist otherwise.")
+                const todoPath = this.folderWithSlug("To-Do")
+                const todoResult = await this.callIPC(this.task_NewFolder(todoPath))
+                if (!todoResult || todoResult.error)
+                    return window.error(...MAILAPI_TAG, "Couldn't make To-Do board:", todoResult?.error)
+                this.boardNames.push(todoPath)
+            }
+
             await SmallStorage.store(this.imapConfig.email + ':folder-names', this.folderNames)
             await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
         },

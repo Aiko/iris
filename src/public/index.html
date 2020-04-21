@@ -278,120 +278,27 @@
                 </div>
               </div>
               <div class="board-body">
-                  <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card inline-template v-for="email in priorityInbox" :email="email">
-                    <div class="email" :class="{'unread': !(email.ai.seen)}">
-                      <div class="container pr">
-                        <div class="row" style="user-select: none;">
-                          <div class="col-8 p0 exp" style="display: inline-flex;">
-                            <h2 class="sender">
-                              {{email.envelope.from[0].name}}</h2>
-                            <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
-
-                            <img src="assets/icons/badges-tracker.svg" style="display: none;">
-                            <img src="assets/icons/badges-event.svg" style="display: none;">
-                            <img src="assets/icons/badges-bcc.svg" style="display: none;">
-
-
-                          </div>
-                          <div class="col-4 p0 cll">
-                            <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
-                          </div>
-                          <p class="subject">{{email.envelope.subject}}</p>
-                          <p class="body">{{email.parsed.text}}</p>
-                        </div>
-                        <div class="email-footer" style="user-select: none;">
-                          <div class="row">
-                            <div class="col-5 cll">
-                              <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                            </div>
-                            <div class="col-7 extra-actions">
-                              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-
-                              <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-                              <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                              <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
-
-                              <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </email-card>
-                  <!-- START List loader ----------------------->
-                  <div class="cs-loader">
-                    <div class="cs-loader-inner">
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                    </div>
-                  </div>
-                  <div class="safety"></div>
-                  <!-- END List loader -------------------------->
-              </div>
-            </div>
-            <!-- END Inbox Board ---------------------------->
-
-            <!-- TODO: Boards should be draggable ----------->
-            <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
-            <!-- START BOARDS-->
-
-            <!-- START Default Board Template ----------------------->
-            <div class="board">
-              <div class="board-header">
-                <div class="container p0">
-                  <div class="row">
-                    <div class="col-2 cll">
-                      <div class="dropdown">
-                        <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                            src="assets/icons/board-dots.svg"></a>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Actions</h6>
-                          <a class="dropdown-item" href="#">Mark all as read</a>
-                          <a class="dropdown-item" href="#">Mark all as unread</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Board settings</a>
-                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-8 text-center p0 exp margin-auto nowrap">
-                      <h1>To-Do</h1>
-                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
-                    </div>
-                    <div class="col-2 text-right cll">
-                      <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="board-body">
-                <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-                  <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <div class="email starred">
+                <!-- Single Email ---------- add class 'drag' when dragged ------->
+                <email-card inline-template v-for="email in priorityInbox" :email="email">
+                  <div class="email" :class="{'unread': !(email.ai.seen)}">
                     <div class="container pr">
                       <div class="row" style="user-select: none;">
                         <div class="col-8 p0 exp" style="display: inline-flex;">
                           <h2 class="sender">
-                            Himanshu Jumanji</h2>
-                          <!-- <img src="assets/icons/badges-attach.svg" > -->
-                          <img src="assets/icons/badges-tracker.svg">
-                          <!--
-  <img src="assets/icons/badges-event.svg">
-  <img src="assets/icons/badges-bcc.svg">-->
+                            {{email.envelope.from[0].name}}</h2>
+                          <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
+
+                          <img src="assets/icons/badges-tracker.svg" style="display: none;">
+                          <img src="assets/icons/badges-event.svg" style="display: none;">
+                          <img src="assets/icons/badges-bcc.svg" style="display: none;">
+
+
                         </div>
                         <div class="col-4 p0 cll">
-                          <div class="time">6:18PM</div>
+                          <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
                         </div>
-                        <p class="subject">This is the subject</p>
-                        <p class="body">This is the main content of the email, it is suppose to
-                          be longer than the subject and a summary of the main content.</p>
+                        <p class="subject">{{email.envelope.subject}}</p>
+                        <p class="body">{{email.parsed.text}}</p>
                       </div>
                       <div class="email-footer" style="user-select: none;">
                         <div class="row">
@@ -402,18 +309,113 @@
                             <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
                             <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
                             <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                            <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a>
-                            <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
+
+                            <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
+                            <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+                            <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
+
+                            <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div slot="footer" class="empty2">
+                </email-card>
+                <!-- START List loader ----------------------->
+                <div class="cs-loader">
+                  <div class="cs-loader-inner">
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                  </div>
+                </div>
+                <div class="safety"></div>
+                <!-- END List loader -------------------------->
+              </div>
+            </div>
+            <!-- END Inbox Board ---------------------------->
+
+            <!-- TODO: Boards should be draggable ----------->
+            <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
+            <!-- START BOARDS-->
+
+            <!-- START Default Board Template ----------------------->
+            <board v-for="boardName in boardNames" :board-name.camel="boardName" inline-template>
+              <div class="board">
+                <div class="board-header">
+                  <div class="container p0">
+                    <div class="row">
+                      <div class="col-2 cll">
+                        <div class="dropdown">
+                          <a href="#" tooltip="Board options" data-toggle="dropdown"><img
+                              src="assets/icons/board-dots.svg"></a>
+                          <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Actions</h6>
+                            <a class="dropdown-item" href="#">Mark all as read</a>
+                            <a class="dropdown-item" href="#">Mark all as unread</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Board settings</a>
+                            <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-8 text-center p0 exp margin-auto nowrap">
+                        <h1>{{boardName}}</h1>
+                        <div class="secondary-count" tooltip="Unread emails in board">999+</div>
+                      </div>
+                      <div class="col-2 text-right cll">
+                        <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="board-body">
+                  <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
+                    <!-- Single Email ---------- add class 'drag' when dragged ------->
+                    <div class="email starred">
+                      <div class="container pr">
+                        <div class="row" style="user-select: none;">
+                          <div class="col-8 p0 exp" style="display: inline-flex;">
+                            <h2 class="sender">
+                              Himanshu Jumanji</h2>
+                            <!-- <img src="assets/icons/badges-attach.svg" > -->
+                            <img src="assets/icons/badges-tracker.svg">
+                            <!--
+  <img src="assets/icons/badges-event.svg">
+  <img src="assets/icons/badges-bcc.svg">-->
+                          </div>
+                          <div class="col-4 p0 cll">
+                            <div class="time">6:18PM</div>
+                          </div>
+                          <p class="subject">This is the subject</p>
+                          <p class="body">This is the main content of the email, it is suppose to
+                            be longer than the subject and a summary of the main content.</p>
+                        </div>
+                        <div class="email-footer" style="user-select: none;">
+                          <div class="row">
+                            <div class="col-5 cll">
+                              <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+                            </div>
+                            <div class="col-7 extra-actions">
+                              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+                              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+                              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+                              <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a>
+                              <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div slot="footer" class="empty2">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </board>
             <!-- END Default Board Template ------------------->
 
             <!-- START Done Board Template ----------------------->
@@ -992,6 +994,7 @@
       <script src="assets/js/components/modals/tutorial.js"></script>
       <script src="assets/js/components/modals/add-mailbox.js"></script>
       <script src="assets/js/components/email-card.js"></script>
+      <script src="assets/js/components/board.js"></script>
       <!-- main/entrypoint -->
       <script src="assets/js/main.js"></script>
 
