@@ -2661,6 +2661,26 @@ unselectable {
 .cap{
 	text-transform: capitalize !important;
 }
+.existing-rules{
+	margin: auto;
+    background: var(--secondary-bg-color);
+    border-radius: 4px !important;
+    padding: 10px 0px 10px 10px;
+    border-bottom: 2px solid var(--main-bg-color);
+        margin: auto !important;
+    width: 100%;
+    cursor: pointer;
+}
+.existing-rules:hover{
+    background: var(--secondary-bg-color-hover);
+    transition: .2s;
+}
+
+.container-rules{
+	max-height: 110px;
+    overflow-y: scroll;
+    
+}
 .switch input { 
 	opacity: 0;
 	width: 0;
@@ -2676,6 +2696,9 @@ unselectable {
 .accordion .card-header{
 	background: var(--secondary-bg-color);
 	border-radius: 4px !important;
+}
+.card-header{
+	padding: 0.1rem 1.25rem !important;
 }
 .accordion .btn, .accordion .btn:hover, .accordion .btn:active, .accordion .btn:focus {
 	color: var(--main-color) !important;
