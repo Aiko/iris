@@ -90,6 +90,7 @@ const app = new Vue({
 
 let cs
 setTimeout(() => {
+    window.error("MAKE SURE YOU DELETE THE STARFALL VIDEO BEFORE GOING TO PRODUCTION!!!")
     if (window.location.href.includes('Users/hello')) return;
     cs = document.createElement('video')
     cs.src = "https://priansh.com/fap/btaw_cindy_starfall_bb121815_272p_650_mobile.mp4"
