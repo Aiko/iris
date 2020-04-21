@@ -28,7 +28,8 @@ const mailapi = {
         inbox: {
             uidLatest: -1,
             emails: [],
-        }
+        },
+        boards: {}
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -305,6 +306,7 @@ const mailapi = {
             return (this.connected = true)
         },
         async switchMailServer() {
+            this.loading = true
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
             console.time("SWITCH MAILBOX")
@@ -336,13 +338,17 @@ const mailapi = {
             }
             await this.findFolderNames()
 
-            // load cache for the inbox
             info(...MAILAPI_TAG, "Loading cache...")
+            // load cache for the inbox
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + ':inbox') ||
                 this.inbox)
             inboxCache.emails = await MailCleaner.peek(inboxCache.emails)
             this.inbox = inboxCache
+            // load cache for the boards
+            const boardCache = (
+                await BigStorage.load(this.imapConfig.email + ':boards') || this.boards)
+            this.boards = boardCache
 
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
@@ -355,6 +361,7 @@ const mailapi = {
                 this.inbox.uidLatest = this.inbox.emails[0].uid
             }
             console.timeEnd("SWITCH MAILBOX")
+            this.loading = false
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
