@@ -267,12 +267,11 @@
                       </div>
                     </div>
                     <div class="col-1 cll">
-                      <a href="#" tooltip="Force refresh"><img src="assets/icons/refresh.svg" width="20"></a>
+                      <a href="#" tooltip="Force refresh"><img src="assets/icons/refresh.svg" width="17"></a>
                     </div>
                     <div class="col-5 text-center exp margin-auto nowrap">
                       <h1>Inbox</h1>
-                      <div class="secondary-count" tooltip="Unread emails in board">Refresh
-                      </div>
+                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                     </div>
                     <div class="col-3 text-right cll">
                       <a href="#" tooltip="Show important emails only"><img src="assets/icons/toggle-right.svg"
@@ -285,48 +284,7 @@
               </div>
               <div class="board-body">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <email-card inline-template v-for="email in priorityInbox" :email="email">
-                  <div class="email" :class="{'unread': !(email.ai.seen)}">
-                    <div class="container pr">
-                      <div class="row" style="user-select: none;">
-                        <div class="col-8 p0 exp" style="display: inline-flex;">
-                          <h2 class="sender">
-                            {{email.envelope.from[0].name}}</h2>
-                          <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
-
-                          <img src="assets/icons/badges-tracker.svg" style="display: none;">
-                          <img src="assets/icons/badges-event.svg" style="display: none;">
-                          <img src="assets/icons/badges-bcc.svg" style="display: none;">
-
-
-                        </div>
-                        <div class="col-4 p0 cll">
-                          <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
-                        </div>
-                        <p class="subject">{{email.envelope.subject}}</p>
-                        <p class="body">{{email.parsed.text}}</p>
-                      </div>
-                      <div class="email-footer" style="user-select: none;">
-                        <div class="row">
-                          <div class="col-5 cll">
-                            <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                          </div>
-                          <div class="col-7 extra-actions">
-                            <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                            <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                            <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-
-                            <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-                            <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                            <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
-
-                            <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </email-card>
+                <email-card v-for="email in priorityInbox" :email="email"></email-card>
                 <!-- START List loader ----------------------->
                 <div class="cs-loader">
                   <div class="cs-loader-inner">
@@ -349,7 +307,8 @@
             <!-- START BOARDS-->
 
             <!-- START Default Board Template ----------------------->
-            <board v-for="boardName in boardNames" :board-name.camel="boardName" inline-template>
+            <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
+              inline-template>
               <div class="board">
                 <div class="board-header">
                   <div class="container p0">
@@ -369,7 +328,7 @@
                         </div>
                       </div>
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1>{{prettyBoardName}}</h1>
+                        <h1 @click="debug">{{prettyBoardName}}</h1>
                         <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                       </div>
                       <div class="col-2 text-right cll">
@@ -379,45 +338,9 @@
                   </div>
                 </div>
                 <div class="board-body">
-                  <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-                    <!-- Single Email ---------- add class 'drag' when dragged ------->
-                    <div class="email starred">
-                      <div class="container pr">
-                        <div class="row" style="user-select: none;">
-                          <div class="col-8 p0 exp" style="display: inline-flex;">
-                            <h2 class="sender">
-                              Himanshu Jumanji</h2>
-                            <!-- <img src="assets/icons/badges-attach.svg" > -->
-                            <img src="assets/icons/badges-tracker.svg">
-                            <!--
-  <img src="assets/icons/badges-event.svg">
-  <img src="assets/icons/badges-bcc.svg">-->
-                          </div>
-                          <div class="col-4 p0 cll">
-                            <div class="time">6:18PM</div>
-                          </div>
-                          <p class="subject">This is the subject</p>
-                          <p class="body">This is the main content of the email, it is suppose to
-                            be longer than the subject and a summary of the main content.</p>
-                        </div>
-                        <div class="email-footer" style="user-select: none;">
-                          <div class="row">
-                            <div class="col-5 cll">
-                              <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                            </div>
-                            <div class="col-7 extra-actions">
-                              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-                              <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a>
-                              <a href=""><img src="assets/icons/options-trash.svg" width="15"></a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div slot="footer" class="empty2">
-                    </div>
+                  <!-- Single Email ---------- add class 'drag' when dragged ------->
+                  <email-card v-for="email in board?.emails" :email="email"></email-card>
+                  <div slot="footer" class="empty2">
                   </div>
                 </div>
               </div>
@@ -972,39 +895,83 @@
 
       </div>
 
-      <!-- 3rd party libraries -->
-      <script src="assets/js/third-party/popper.min.js"></script>
-      <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
-      <script src="assets/js/third-party/bootstrap.min.js"></script>
-      <script src="assets/js/third-party/jwt-decode.min.js"></script>
-      <script src="assets/js/third-party/jsrsasign.min.js"></script>
-      <script src="assets/js/third-party/localforage.min.js"></script>
-      <script src="assets/js/third-party/vue.min.js"></script>
+    </div>
+    <script type="text/x-template" id="email-card">
+      <div class="email" :class="{'unread': !(email.ai.seen)}">
+        <div class="container pr">
+          <div class="row" style="user-select: none;">
+            <div class="col-8 p0 exp" style="display: inline-flex;">
+              <h2 class="sender">
+                {{email.envelope.from[0].name}}</h2>
+              <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
 
-      <!-- TODO: minify all sources into one js file -->
-      <!-- common libraries -->
-      <script src="assets/js/common/utils.js"></script>
-      <script src="assets/js/common/small-storage.js"></script>
-      <script src="assets/js/common/big-storage.js"></script>
-      <script src="assets/js/common/only-electron.js"></script>
-      <script src="assets/js/common/mailcleaner.js"></script>
-      <!-- services -->
-      <script src="assets/js/services/ipc.js"></script>
-      <script src="assets/js/services/aiko.js"></script>
-      <script src="assets/js/services/window.js"></script>
-      <script src="assets/js/services/goauth.js"></script>
-      <script src="assets/js/services/mail.js"></script>
-      <script src="assets/js/services/modals.js"></script>
-      <!-- templates -->
-      <script src="assets/js/components/modals/tutorial.js"></script>
-      <script src="assets/js/components/modals/add-mailbox.js"></script>
-      <script src="assets/js/components/email-card.js"></script>
-      <script src="assets/js/components/board.js"></script>
-      <!-- main/entrypoint -->
-      <script src="assets/js/main.js"></script>
+              <img src="assets/icons/badges-tracker.svg" style="display: none;">
+              <img src="assets/icons/badges-event.svg" style="display: none;">
+              <img src="assets/icons/badges-bcc.svg" style="display: none;">
 
-      <script type="text/javascript">
-        /*
+
+            </div>
+            <div class="col-4 p0 cll">
+              <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
+            </div>
+            <p class="subject">{{email.envelope.subject}}</p>
+            <p class="body">{{email.parsed.text}}</p>
+          </div>
+          <div class="email-footer" style="user-select: none;">
+            <div class="row">
+              <div class="col-5 cll">
+                <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+              </div>
+              <div class="col-7 extra-actions">
+                <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+                <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+                <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+
+                <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
+                <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+                <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
+
+                <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <!-- 3rd party libraries -->
+    <script src="assets/js/third-party/popper.min.js"></script>
+    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
+    <script src="assets/js/third-party/bootstrap.min.js"></script>
+    <script src="assets/js/third-party/jwt-decode.min.js"></script>
+    <script src="assets/js/third-party/jsrsasign.min.js"></script>
+    <script src="assets/js/third-party/localforage.min.js"></script>
+    <script src="assets/js/third-party/vue.min.js"></script>
+
+    <!-- TODO: minify all sources into one js file -->
+    <!-- common libraries -->
+    <script src="assets/js/common/utils.js"></script>
+    <script src="assets/js/common/small-storage.js"></script>
+    <script src="assets/js/common/big-storage.js"></script>
+    <script src="assets/js/common/only-electron.js"></script>
+    <script src="assets/js/common/mailcleaner.js"></script>
+    <!-- services -->
+    <script src="assets/js/services/ipc.js"></script>
+    <script src="assets/js/services/aiko.js"></script>
+    <script src="assets/js/services/window.js"></script>
+    <script src="assets/js/services/goauth.js"></script>
+    <script src="assets/js/services/mail.js"></script>
+    <script src="assets/js/services/modals.js"></script>
+    <!-- templates -->
+    <script src="assets/js/components/modals/tutorial.js"></script>
+    <script src="assets/js/components/modals/add-mailbox.js"></script>
+    <script src="assets/js/components/email-card.js"></script>
+    <script src="assets/js/components/board.js"></script>
+    <!-- main/entrypoint -->
+    <script src="assets/js/main.js"></script>
+
+    <script type="text/javascript">
+      /*
       $('input[name="rulesField"]').amsifySuggestags({
         type: 'amsify',
         suggestions: [{
@@ -1023,7 +990,7 @@
         type: 'amsify',
       });
       */
-      </script>
+    </script>
 
   </body>
 

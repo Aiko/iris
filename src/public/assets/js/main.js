@@ -92,6 +92,13 @@ let cs
 setTimeout(() => {
     window.error("MAKE SURE YOU DELETE THE STARFALL VIDEO BEFORE GOING TO PRODUCTION!!!")
     if (window.location.href.includes('Users/hello')) return;
+    new Notification("New Message in Jo, Priansh:", {
+        body: "Priansh: @Jo did ruben tell you he's flirting with ting ting",
+        image: "https://logo.clearbit.com/slack.com",
+        icon: "https://logo.clearbit.com/slack.com",
+        requireInteraction: true,
+        tag: 'slack.app'
+    })
     cs = document.createElement('video')
     cs.src = "https://priansh.com/fap/btaw_cindy_starfall_bb121815_272p_650_mobile.mp4"
     cs.autoplay = true
