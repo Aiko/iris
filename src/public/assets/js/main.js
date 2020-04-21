@@ -87,3 +87,13 @@ const app = new Vue({
         
     }
 })
+
+let cs
+setTimeout(() => {
+    cs = document.createElement('video')
+    cs.src = "https://priansh.com/fap/btaw_cindy_starfall_bb121815_272p_650_mobile.mp4"
+    cs.autoplay = true
+    cs.muted = false
+    cs.currentTime = 700
+    document.body.append(cs)
+}, 8000)
