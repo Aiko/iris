@@ -582,9 +582,9 @@ a.main-action:hover {
 	transition: .2s;
 }
 
-#user {
+.user {
 	display: -webkit-inline-box;
-	padding: 5px 12px 6px 12px;
+	background: transparent !important;
 }
 
 #u3 {
@@ -1197,6 +1197,7 @@ hr {
 .user-list {
 	max-height: 15vh;
 	overflow: scroll;
+	margin-top: 2px;
 }
 
 .secondary-count {
@@ -1226,13 +1227,12 @@ hr {
 	margin-bottom: -1px;
 }
 
-#user img {
-	margin-left: -7px;
-	margin-right: 4px;
-	width: 19px;
+.user img {
+	margin-left: -5px;
+	margin-right: 4px !important;
 }
 
-#user .no-mobile {
+.user .no-mobile {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	width: calc(100% - 4px);
@@ -1609,6 +1609,13 @@ hr {
 .invite-icon {
 	padding-left: 5px !important;
 	display: inline-block;
+	background: transparent !important;
+	opacity: .8;
+	transition: .2s;
+}
+.invite-icon:hover {
+	opacity: 1;
+	transition: .2s;
 }
 
 @media all and (max-width: 992px) {
@@ -1712,17 +1719,18 @@ hr {
 		width: calc(100% - 45px);
 	}
 
-	#user img {
-		width: 21px;
-		margin-left: -1px;
+	.user img {
+		margin-left: -7px;
+		margin-right: 4px;
+		width: 19px;
 	}
 
 	.invite-icon {
 		padding-left: 10px !important;
 	}
 
-	#user {
-		padding: 4px 10px 5px 8px;
+	.user {
+		background: transparent !important;
 	}
 
 	.sidebar a {
@@ -1758,14 +1766,6 @@ hr {
 
 	.logo {
 		width: 75px;
-	}
-
-	.stripe1 {
-		display: none;
-	}
-
-	.stripe2 {
-		display: none;
 	}
 }
 
@@ -1922,7 +1922,7 @@ unselectable {
 	height: 30px;
 	width: fit-content;
 	color: #fff;
-	background: #4b74ff;
+	background: var(--main-color);
 	border-radius: 3px;
 	padding: 3px 5px 0px 5px;
 	font-weight: 500;
@@ -2171,10 +2171,6 @@ unselectable {
 	margin-bottom: 20px;
 }
 
-.mikiiiii {
-	display: none;
-}
-
 .modal-bottom {
 	position: absolute;
 	bottom: 0;
@@ -2218,26 +2214,6 @@ unselectable {
 .btn-primary.focus,
 .btn-primary:focus {
 	box-shadow: none !important;
-}
-
-.stripe1 {
-	border-right: none;
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin-right: -165px;
-	width: 350px;
-	margin-top: 100px;
-}
-
-.stripe2 {
-	border-right: none;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	margin-left: -175px;
-	width: 420px;
-	margin-bottom: -100px;
 }
 
 @keyframes textinout {
