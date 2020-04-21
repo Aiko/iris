@@ -395,10 +395,10 @@ const mailapi = {
                 return false
             }
 
-            info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest}:${uidNext}`)
+            info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest + 1}:${uidNext}`)
 
             const emails = await this.callIPC(
-                this.task_FetchEmails("INBOX", `${this.inbox.uidLatest}:${uidNext}`, false))
+                this.task_FetchEmails("INBOX", `${this.inbox.uidLatest + 1}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full(emails.reverse())
 
