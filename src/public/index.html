@@ -1,6 +1,7 @@
   <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
   <!DOCTYPE html>
   <html>
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -100,7 +101,7 @@
 
       <div class="main">
 
-        <!-- TOASTS (MAKE TOAST DISAPEAR AFTER 10 SECONDS) -->
+        <!-- TOASTS (MAKE TOASTS DISAPEAR AFTER 10 SECONDS) -->
         <!-- TOAST Invite Sent -->
         <div class="aiko-toast" style="display: none;">
           <p class="textinout">Sending invite</p><a href="#">Undo</a>
@@ -127,7 +128,9 @@
           <div class="t-loader-red"><span></span></div>
         </div>
 
-        <!-- TOAST Sending Email -->
+
+        <!-- TOAST Sending Email 
+        -->
         <div class="aiko-toast" style="display: none;">
           <p class="textinout">Sending email</p><a href="#">Undo</a>
           <div class="t-loader"><span></span></div>
@@ -247,10 +250,10 @@
                       </div>
                     </div>
 
-                    <div class="col-2 cll">
+                    <div class="col-1 cll">
                       <div class="dropdown">
-                        <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img
-                            src="assets/icons/sort.svg"></a>
+                        <a href="#" @click="checkForNewMessages" tooltip="Sort and filter emails"
+                          data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                         <div class="dropdown-menu">
                           <h6 class="dropdown-header">Sort by</h6>
                           <a class="dropdown-item" href="#">Date (newest)</a>
@@ -263,9 +266,13 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-1 cll">
+                      <a href="#" tooltip="Force refresh"><img src="assets/icons/refresh.svg" width="20"></a>
+                    </div>
                     <div class="col-5 text-center exp margin-auto nowrap">
                       <h1>Inbox</h1>
-                      <div @click="checkForNewMessages" class="secondary-count" tooltip="Unread emails in board">Refresh</div>
+                      <div class="secondary-count" tooltip="Unread emails in board">Refresh
+                      </div>
                     </div>
                     <div class="col-3 text-right cll">
                       <a href="#" tooltip="Show important emails only"><img src="assets/icons/toggle-right.svg"
@@ -534,7 +541,7 @@
                 <div class="email-head">
                   <div class="container">
                     <div class="row">
-                      <div class="col-8 p0" style="display: inline-flex;display: inline-flex;height: 22px;">
+                      <div class="col-8 p0" style="display: inline-flex;height: 22px;">
                         <h2 class="sender">
                           Ruben Touitou</h2>
                         <img src="assets/icons/badges-attach.svg">

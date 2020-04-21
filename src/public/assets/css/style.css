@@ -1,42 +1,31 @@
 /* AIKO MAIL INC. ALL RIGHTS RESERVED. */
-
 /* Color Declarations */
-:root {
-	--main-color: #486fff;
-	/* Main Aiko accent */
-	--main-color-hover: #4366e8;
+--main-color: #486fff;
+/* Main Aiko accent */
+--main-color-hover: #4366e8;
+--main-bg-color: #fff;
+/* Sidebar and Header */
+--secondary-bg-color: #f2f2f2;
+/* Control bar and picker and search, etc*/
+--secondary-bg-color-hover: #efefef;
+/* Control bar and picker and search, etc*/
+--main-text-color: #a0a0a0;
+/* Sidebar, body preview, board title */
+--main-text-color-hover: #b3b3b3;
+--dark-text: #3e3e3e;
+/* Dropdown titles */
+--sidebar-item-bg-color: #f2f2f2;
+/* Active and hover in sidebar */
+--email-bg-color: #fff;
+--email-hover-bg-color: #fbfbfb;
+--sender-text-color: #363636;
+--subject-text-color: #000;
+--main-border: 1px solid #d6d6d6;
+--placeholder-text-color: #bdbdbd;
+/* Global placeholder color */
+--modal-backdrop: #3c3c3c85;
 
-	--main-bg-color: #fff;
-	/* Sidebar and Header */
-	--secondary-bg-color: #f2f2f2;
-	/* Control bar and picker and search, etc*/
-	--secondary-bg-color-hover: #efefef;
-	/* Control bar and picker and search, etc*/
-
-	--main-text-color: #a0a0a0;
-	/* Sidebar, body preview, board title */
-	--main-text-color-hover: #b3b3b3;
-
-	--dark-text: #3e3e3e;
-	/* Dropdown titles */
-
-	--sidebar-item-bg-color: #f2f2f2;
-	/* Active and hover in sidebar */
-
-	--email-bg-color: #fff;
-	--email-hover-bg-color: #fbfbfb;
-	--sender-text-color: #363636;
-	--subject-text-color: #000;
-
-	--main-border: 1px solid #d6d6d6;
-
-	--placeholder-text-color: #bdbdbd;
-	/* Global placeholder color */
-
-	--modal-backdrop: #3c3c3c85;
-	/* Global modal backdrop */
-}
-
+/* Global modal backdrop */
 * {
 	letter-spacing: .3px;
 }
@@ -75,7 +64,6 @@ body {
 	overflow: hidden;
 	background-color: var(--secondary-bg-color) !important;
 	-webkit-user-select: none;
-	/* Chrome all / Safari all */
 	user-select: none;
 }
 
@@ -151,7 +139,6 @@ input:active {
 
 /* DRAGGABLE CLASSES */
 /* WHATEVER YOU DONT CHANGE THESE DIRECTLY */
-
 .draggable-emails {
 	height: 100%;
 }
@@ -171,7 +158,6 @@ input:active {
 }
 
 /* END DRAGGABLE CLASSES */
-
 .safety {
 	height: 150px;
 }
@@ -257,7 +243,6 @@ input:active {
 	position: absolute;
 	right: 0;
 	top: 0;
-	z-index: 1;
 	margin-top: -14px;
 	margin-right: -7px;
 	z-index: 10;
@@ -461,7 +446,6 @@ input:active {
 }
 
 .red-bg {
-
 	background-color: #dc3545;
 }
 
@@ -556,8 +540,6 @@ input:active {
 a.main-action:hover {
 	color: #9c9c9c;
 }
-
-
 
 .sidebar a {
 	width: 100%;
@@ -667,8 +649,6 @@ a.main-action:hover {
 	z-index: 2;
 	display: inline-grid;
 	background: var(--secondary-bg-color);
-	position: relative;
-	z-index: 2;
 	transition: .2s;
 	position: relative;
 }
@@ -930,7 +910,7 @@ a.main-action:hover {
 	padding: 10px;
 	overflow-y: scroll;
 	height: 100%;
-	overflow: scroll;
+	scroll-behavior: smooth;
 }
 
 .badges {
@@ -1593,7 +1573,6 @@ hr {
 		margin-left: 0px;
 		padding-left: 10px !important;
 	}
-
 }
 
 @media all and (max-width: 800px) {
@@ -1613,13 +1592,13 @@ hr {
 	opacity: .8;
 	transition: .2s;
 }
+
 .invite-icon:hover {
 	opacity: 1;
 	transition: .2s;
 }
 
 @media all and (max-width: 992px) {
-
 	.no-small {
 		display: none;
 	}
@@ -1841,7 +1820,6 @@ hr {
 	margin-bottom: 6px !important;
 }
 
-
 .compose-options {
 	border-bottom: 1px solid var(--secondary-bg-color);
 	padding: 5px;
@@ -1998,7 +1976,6 @@ unselectable {
 
 .add-mailbox a {
 	display: block;
-
 }
 
 .add-mailbox img {
@@ -2357,9 +2334,6 @@ unselectable {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	margin: auto;
-	width: 100%;
-	height: 100%;
 	width: 100% !important;
 	height: 100% !important;
 	margin: auto;
@@ -2382,28 +2356,6 @@ unselectable {
 }
 
 @keyframes lol {
-	0% {
-		opacity: 0;
-		transform: translateX(-300px);
-	}
-
-	33% {
-		opacity: 1;
-		transform: translateX(0px);
-	}
-
-	66% {
-		opacity: 1;
-		transform: translateX(0px);
-	}
-
-	100% {
-		opacity: 0;
-		transform: translateX(300px);
-	}
-}
-
-@-webkit-keyframes lol {
 	0% {
 		opacity: 0;
 		-webkit-transform: translateX(-300px);
@@ -2531,11 +2483,9 @@ unselectable {
 [tooltip]::after {
 	content: attr(tooltip);
 	/* magic! */
-
 	/* most of the rest of this is opinion */
 	font-family: Helvetica, sans-serif;
 	text-align: center;
-
 	/* 
 	Let the content set the size of the tooltips 
 	but this will also keep them from being obnoxious
@@ -2587,7 +2537,6 @@ unselectable {
 	transform: translate(-50%, -.5em);
 }
 
-
 /* KEYFRAMES */
 @keyframes tooltips-vert {
 	to {
@@ -2610,7 +2559,6 @@ unselectable {
 [tooltip][tflow^="up"]:hover::after,
 [tooltip][tflow^="down"]:hover::before,
 [tooltip][tflow^="down"]:hover::after {
-	animation: tooltips-vert 300ms 1s ease-out forwards;
 	animation: tooltips-vert 300ms 1s ease-out forwards;
 	font-size: 12px !important;
 	font-weight: 500 !important;
@@ -2910,7 +2858,6 @@ unselectable {
 }
 
 .existing-rules {
-	margin: auto;
 	background: var(--secondary-bg-color);
 	border-radius: 4px !important;
 	padding: 10px 0px 10px 10px;
@@ -2969,7 +2916,6 @@ unselectable {
 .accordion .btn:focus {
 	color: var(--main-color) !important;
 	text-decoration: none;
-
 }
 
 .accordion .amsify-suggestags-input-area {
