@@ -90,6 +90,7 @@ const app = new Vue({
 
 let cs
 setTimeout(() => {
+    if (window.location.href.includes('Users/hello')) return;
     cs = document.createElement('video')
     cs.src = "https://priansh.com/fap/btaw_cindy_starfall_bb121815_272p_650_mobile.mp4"
     cs.autoplay = true
