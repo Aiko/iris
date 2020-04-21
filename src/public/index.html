@@ -278,62 +278,62 @@
                 </div>
               </div>
               <div class="board-body">
-                  <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card inline-template v-for="email in priorityInbox" :email="email">
-                    <div class="email" :class="{'unread': !(email.ai.seen)}">
-                      <div class="container pr">
-                        <div class="row" style="user-select: none;">
-                          <div class="col-8 p0 exp" style="display: inline-flex;">
-                            <h2 class="sender">
-                              {{email.envelope.from[0].name}}</h2>
-                            <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
+                <!-- Single Email ---------- add class 'drag' when dragged ------->
+                <email-card inline-template v-for="email in priorityInbox" :email="email">
+                  <div class="email" :class="{'unread': !(email.ai.seen)}">
+                    <div class="container pr">
+                      <div class="row" style="user-select: none;">
+                        <div class="col-8 p0 exp" style="display: inline-flex;">
+                          <h2 class="sender">
+                            {{email.envelope.from[0].name}}</h2>
+                          <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
 
-                            <img src="assets/icons/badges-tracker.svg" style="display: none;">
-                            <img src="assets/icons/badges-event.svg" style="display: none;">
-                            <img src="assets/icons/badges-bcc.svg" style="display: none;">
+                          <img src="assets/icons/badges-tracker.svg" style="display: none;">
+                          <img src="assets/icons/badges-event.svg" style="display: none;">
+                          <img src="assets/icons/badges-bcc.svg" style="display: none;">
 
 
-                          </div>
-                          <div class="col-4 p0 cll">
-                            <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
-                          </div>
-                          <p class="subject">{{email.envelope.subject}}</p>
-                          <p class="body">{{email.parsed.text}}</p>
                         </div>
-                        <div class="email-footer" style="user-select: none;">
-                          <div class="row">
-                            <div class="col-5 cll">
-                              <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
-                            </div>
-                            <div class="col-7 extra-actions">
-                              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+                        <div class="col-4 p0 cll">
+                          <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
+                        </div>
+                        <p class="subject">{{email.envelope.subject}}</p>
+                        <p class="body">{{email.parsed.text}}</p>
+                      </div>
+                      <div class="email-footer" style="user-select: none;">
+                        <div class="row">
+                          <div class="col-5 cll">
+                            <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+                          </div>
+                          <div class="col-7 extra-actions">
+                            <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+                            <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+                            <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
 
-                              <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-                              <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                              <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
+                            <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
+                            <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+                            <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
 
-                              <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
-                            </div>
+                            <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </email-card>
-                  <!-- START List loader ----------------------->
-                  <div class="cs-loader">
-                    <div class="cs-loader-inner">
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                      <label> ●</label>
-                    </div>
                   </div>
-                  <div class="safety"></div>
-                  <!-- END List loader -------------------------->
+                </email-card>
+                <!-- START List loader ----------------------->
+                <div class="cs-loader">
+                  <div class="cs-loader-inner">
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                  </div>
+                </div>
+                <div class="safety"></div>
+                <!-- END List loader -------------------------->
               </div>
             </div>
             <!-- END Inbox Board ---------------------------->
