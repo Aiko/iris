@@ -278,7 +278,6 @@
                 </div>
               </div>
               <div class="board-body">
-                <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card inline-template v-for="email in priorityInbox" :email="email">
                     <div class="email" :class="{'unread': !(email.ai.seen)}">
@@ -335,9 +334,6 @@
                   </div>
                   <div class="safety"></div>
                   <!-- END List loader -------------------------->
-
-
-                </div>
               </div>
             </div>
             <!-- END Inbox Board ---------------------------->
@@ -759,7 +755,7 @@
 
 
       <!-- BOARD RULES (Board already exists) --------------------------------------->
-      <div class="aiko-modal"   style="display: none;">
+      <div class="aiko-modal" style="display: none;">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
             <img src="assets/icons/grey-x.svg" class="x-email" width="25">
@@ -785,7 +781,8 @@
                   </div>
                 </div>
               </div>
-              <p style="margin-top: 20px;margin-bottom: -15px">Check your <a href="#" class="blue fw600">Inbox board rules</a> to see if emails are being automatically added to this board.</p>
+              <p style="margin-top: 20px;margin-bottom: -15px">Check your <a href="#" class="blue fw600">Inbox board
+                  rules</a> to see if emails are being automatically added to this board.</p>
               <br><br><br>
               <div class="modal-bottom">
                 <a href="#" class="blue">Save</a>
@@ -796,8 +793,8 @@
       </div>
 
 
-       <!-- STEP ONE - INBOX BOARD SETTINGS --------------------------------------->
-      <div class="aiko-modal" >
+      <!-- STEP ONE - INBOX BOARD SETTINGS --------------------------------------->
+      <div class="aiko-modal" style="display: none">
         <div class="modal-dialog modal-md mw600">
           <div class="modal-content">
             <img src="assets/icons/grey-x.svg" class="x-email" width="25">
@@ -807,73 +804,73 @@
               <br>
               <div class="container-rules">
                 <div class="row margin-auto existing-rules">
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto text-left">if from: </p>
                   </div>
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto blue text-left">ruben@pri.com</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto text-left">move to: </p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto blue">To-Do</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <a href="#" class="red margin-auto text-right">Delete</a>
                   </div>
                 </div>
 
                 <div class="row margin-auto existing-rules">
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto text-left">Contains: </p>
                   </div>
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto blue text-left">salsa</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto text-left">move to: </p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto blue">Done</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <a href="#" class="red margin-auto text-right">Delete</a>
                   </div>
                 </div>
 
                 <div class="row margin-auto existing-rules">
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto text-left">if from: </p>
                   </div>
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto blue text-left">jojo@pri.com</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto text-left">move to: </p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto blue">From Jo</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <a href="#" class="red margin-auto text-right">Delete</a>
                   </div>
                 </div>
 
                 <div class="row margin-auto existing-rules">
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto text-left">if from: </p>
                   </div>
-                  <div class="col-3"> 
+                  <div class="col-3">
                     <p class="margin-auto blue text-left">ruben@pri.com</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto text-left">move to: </p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <p class="margin-auto blue">To-Do</p>
                   </div>
-                  <div class="col-2"> 
+                  <div class="col-2">
                     <a href="#" class="red margin-auto text-right">Delete</a>
                   </div>
                 </div>
@@ -905,22 +902,22 @@
                     <div class="card-body">
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-4 text-right"> 
-                      <p>Move email to: </p>
+                          <div class="col-4 text-right">
+                            <p>Move email to: </p>
+                          </div>
+                          <div class="col-4 text-center">
+                            <select class="aiko-select">
+                              <option value="1" selected="selected">To-Do</option>
+                              <option value="2">Done</option>
+                            </select>
+                          </div>
+                          <div class="col-4 text-left">
+                            <p>if it's from:</p>
+                          </div>
+                        </div>
+                        <br>
+                        <input type="text" name="rulesField" placeholder="Email">
                       </div>
-                      <div class="col-4 text-center"> 
-                      <select class="aiko-select">
-                          <option value="1" selected="selected">To-Do</option>
-                          <option value="2">Done</option>
-                        </select>
-                      </div>
-                      <div class="col-4 text-left"> 
-                        <p>if it's from:</p>
-                      </div>
-                      </div>
-                      <br>
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -936,23 +933,23 @@
                   <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                     <div class="card-body">
                       <div class="card-body">
-                      <div class="row">
-                          <div class="col-4 text-right"> 
-                      <p>Move email to: </p>
+                        <div class="row">
+                          <div class="col-4 text-right">
+                            <p>Move email to: </p>
+                          </div>
+                          <div class="col-4 text-center">
+                            <select class="aiko-select">
+                              <option value="1" selected="selected">To-Do</option>
+                              <option value="2">Done</option>
+                            </select>
+                          </div>
+                          <div class="col-4 text-left">
+                            <p>if subject contains:</p>
+                          </div>
+                        </div>
+                        <br>
+                        <input type="text" name="rulesField2" placeholder="Word">
                       </div>
-                      <div class="col-4 text-center"> 
-                      <select class="aiko-select">
-                          <option value="1" selected="selected">To-Do</option>
-                          <option value="2">Done</option>
-                        </select>
-                      </div>
-                      <div class="col-4 text-left"> 
-                        <p>if subject contains:</p>
-                      </div>
-                      </div>
-                      <br>
-                      <input type="text" name="rulesField2" placeholder="Word">
-                    </div>
                     </div>
                   </div>
                 </div>
@@ -966,40 +963,40 @@
           </div>
         </div>
 
-    </div>
+      </div>
 
-    <!-- 3rd party libraries -->
-    <script src="assets/js/third-party/popper.min.js"></script>
-    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
-    <script src="assets/js/third-party/bootstrap.min.js"></script>
-    <script src="assets/js/third-party/jwt-decode.min.js"></script>
-    <script src="assets/js/third-party/jsrsasign.min.js"></script>
-    <script src="assets/js/third-party/localforage.min.js"></script>
-    <script src="assets/js/third-party/vue.min.js"></script>
+      <!-- 3rd party libraries -->
+      <script src="assets/js/third-party/popper.min.js"></script>
+      <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
+      <script src="assets/js/third-party/bootstrap.min.js"></script>
+      <script src="assets/js/third-party/jwt-decode.min.js"></script>
+      <script src="assets/js/third-party/jsrsasign.min.js"></script>
+      <script src="assets/js/third-party/localforage.min.js"></script>
+      <script src="assets/js/third-party/vue.min.js"></script>
 
-    <!-- TODO: minify all sources into one js file -->
-    <!-- common libraries -->
-    <script src="assets/js/common/utils.js"></script>
-    <script src="assets/js/common/small-storage.js"></script>
-    <script src="assets/js/common/big-storage.js"></script>
-    <script src="assets/js/common/only-electron.js"></script>
-    <script src="assets/js/common/mailcleaner.js"></script>
-    <!-- services -->
-    <script src="assets/js/services/ipc.js"></script>
-    <script src="assets/js/services/aiko.js"></script>
-    <script src="assets/js/services/window.js"></script>
-    <script src="assets/js/services/goauth.js"></script>
-    <script src="assets/js/services/mail.js"></script>
-    <script src="assets/js/services/modals.js"></script>
-    <!-- main/entrypoint -->
-    <script src="assets/js/main.js"></script>
-    <!-- templates -->
-    <script src="assets/js/components/modals/tutorial.js"></script>
-    <script src="assets/js/components/modals/add-mailbox.js"></script>
-    <script src="assets/js/components/email-card.js"></script>
+      <!-- TODO: minify all sources into one js file -->
+      <!-- common libraries -->
+      <script src="assets/js/common/utils.js"></script>
+      <script src="assets/js/common/small-storage.js"></script>
+      <script src="assets/js/common/big-storage.js"></script>
+      <script src="assets/js/common/only-electron.js"></script>
+      <script src="assets/js/common/mailcleaner.js"></script>
+      <!-- services -->
+      <script src="assets/js/services/ipc.js"></script>
+      <script src="assets/js/services/aiko.js"></script>
+      <script src="assets/js/services/window.js"></script>
+      <script src="assets/js/services/goauth.js"></script>
+      <script src="assets/js/services/mail.js"></script>
+      <script src="assets/js/services/modals.js"></script>
+      <!-- templates -->
+      <script src="assets/js/components/modals/tutorial.js"></script>
+      <script src="assets/js/components/modals/add-mailbox.js"></script>
+      <script src="assets/js/components/email-card.js"></script>
+      <!-- main/entrypoint -->
+      <script src="assets/js/main.js"></script>
 
-    <script type="text/javascript">
-      /*
+      <script type="text/javascript">
+        /*
       $('input[name="rulesField"]').amsifySuggestags({
         type: 'amsify',
         suggestions: [{
@@ -1018,7 +1015,7 @@
         type: 'amsify',
       });
       */
-    </script>
+      </script>
 
   </body>
 

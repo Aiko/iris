@@ -333,6 +333,8 @@ const mailapi = {
             info(...MAILAPI_TAG, "Checking for need to do a sync...")
             if (this.inbox.emails.length == 0) {
                 await this.initialSyncWithMailServer()
+            } else {
+                this.inbox.uidLatest = this.inbox.emails[0].uid
             }
             console.timeEnd("SWITCH MAILBOX")
         },
