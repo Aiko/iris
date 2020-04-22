@@ -859,15 +859,14 @@ a.main-action:hover {
 	border-left: none !important;
 }
 
-.board h1 {
+.board-header h1 {
 	color: var(--main-text-color);
 	font-size: 18px;
-	display: inline-flex;
-	margin-top: 3px;
+	display: inline;
 }
 
 .board-header {
-	padding: 20px 10px 5px 10px;
+	padding: 20px 15px 5px 5px;
 }
 
 .header .side img {
@@ -938,7 +937,7 @@ a.main-action:hover {
 	height: 110px;
 	border-radius: 4px;
 	text-align: center;
-	padding-top: 40px;
+	padding-top: 45px;
 	box-shadow: inset 0px 0px 3px 1px rgba(215, 215, 215, 0.75);
 }
 
@@ -951,7 +950,11 @@ a.main-action:hover {
 }
 
 .empty h1 {
-	font-size: 15px !important;
+	font-size: 15px;
+}
+
+.thin .empty h1 {
+	font-size: 13px;
 }
 
 .archive {

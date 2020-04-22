@@ -66,6 +66,10 @@
   transition: .2s;
 }
 
+.add-board img {
+  filter: none !important;
+}
+
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: var(--secondary-bg-color) !important;
