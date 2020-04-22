@@ -672,13 +672,14 @@ a.main-action:hover {
 .account {
 	display: inline-flex;
 	width: 190px;
+	opacity: 1;
 	text-overflow: ellipsis;
 	padding: 3px 1px 2px 1px;
 	transition: .2s;
 }
 
 .account:hover {
-	color: #7a7a7a;
+	opacity: .7;
 	transition: .2s;
 }
 
@@ -706,8 +707,10 @@ a.main-action:hover {
 }
 
 .picker img {
-	width: 21px;
+	width: 19px;
+	height: 19px;
 	margin-right: 5px;
+	margin-top: 2px;
 }
 
 .account span {
