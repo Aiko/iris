@@ -29,7 +29,8 @@ const mailapi = {
             uidLatest: -1,
             emails: [],
         },
-        boards: {}
+        boards: {},
+        syncing: false
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -426,6 +427,7 @@ const mailapi = {
             this.loading = false
         },
         async initialSyncBoard(boardName) {
+            this.syncing = true
             // boardname should be the path!
             const board = this.boards[boardName]
             let uidMin = 1
@@ -453,12 +455,14 @@ const mailapi = {
             this.boards[boardName].emails.unshift(...processed_emails)
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = this.boards[boardName].emails[0].uid
+            this.syncing = false
         },
         async syncWithMailServer() {
             // TODO: sync messages that we have locally
             // we only need to peek the headers for this!
         },
         async checkForNewMessages() {
+            this.syncing = true
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
@@ -481,6 +485,7 @@ const mailapi = {
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = this.inbox.emails[0].uid
+            this.syncing = false
         },
         async checkForUpdates() {
             // TODO: using modseq???????
