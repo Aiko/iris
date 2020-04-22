@@ -19,7 +19,7 @@
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
   </head>
 
-  <body class="bg" style="background-image: url(assets/img/bg.jpg)">
+  <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
     <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
       <!-- THEMES GO HERE -->
       <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
@@ -245,7 +245,7 @@
                           <a class="dropdown-item" href="#">Mark all as read</a>
                           <a class="dropdown-item" href="#">Mark all as unread</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Board settings</a>
+                          <a class="dropdown-item" href="#">Board rules</a>
                         </div>
                       </div>
                     </div>
@@ -327,7 +327,7 @@
                             <a class="dropdown-item" href="#">Mark all as read</a>
                             <a class="dropdown-item" href="#">Mark all as unread</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Board settings</a>
+                            <a class="dropdown-item" href="#">Board rules</a>
                             <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
                           </div>
                         </div>
@@ -366,7 +366,7 @@
                           <a class="dropdown-item" href="#">Mark all as read</a>
                           <a class="dropdown-item" href="#">Mark all as unread</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Board settings</a>
+                          <a class="dropdown-item" href="#">Board rules</a>
                         </div>
                       </div>
                     </div>
@@ -728,7 +728,7 @@
         </div>
       </div>
 
-      <!-- STEP ONE - INBOX BOARD SETTINGS --------------------------------------->
+      <!-- STEP ONE - INBOX Board rules --------------------------------------->
       <div class="aiko-modal" style="display: none">
         <div class="modal-dialog modal-md mw600">
           <div class="modal-content">

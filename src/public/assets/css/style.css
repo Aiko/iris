@@ -116,12 +116,12 @@ hr {
 
 input {
 	outline: none;
-	opacity: .7;
+	opacity: .8;
 	transition: .2s;
 }
 
 input:hover {
-	opacity: .75;
+	opacity: .85;
 	transition: .2s;
 }
 
@@ -1255,9 +1255,11 @@ hr {
 	height: 50px;
 	overflow: hidden;
 	line-height: 16px;
+	filter: brightness(0.7);
 	margin-bottom: 3px;
 	text-overflow: ellipsis;
 	letter-spacing: .1px;
+	transition: .2s;
 }
 
 .pr {
@@ -1267,18 +1269,22 @@ hr {
 .unread {
 	border-left: 3px solid var(--main-color);
 	padding-left: 10px !important;
+	transition: .2s;
 }
 
 .unread .subject {
 	font-weight: 500 !important;
+	transition: .2s;
 }
 
 .unread .body {
-	filter: brightness(0.8);
+	filter: brightness(0.7);
+	transition: .2s;
 }
 
 .starred {
 	border-left: 3px solid #ffc107;
+	transition: .2s;
 }
 
 .boards-container {

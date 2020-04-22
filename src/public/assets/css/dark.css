@@ -94,8 +94,12 @@
   transition: .2s;
 }
 
+.body {
+  filter: brightness(0.8);
+}
+
 .unread .body {
-  filter: brightness(0.5) !important;
+  filter: brightness(1.2) !important;
 }
 
 .email {
