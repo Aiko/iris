@@ -1596,12 +1596,12 @@ hr {
 	padding-left: 5px !important;
 	display: inline-block;
 	background: transparent !important;
-	opacity: .8;
+	opacity: 1;
 	transition: .2s;
 }
 
 .invite-icon:hover {
-	opacity: 1;
+	opacity: .7;
 	transition: .2s;
 }
 
