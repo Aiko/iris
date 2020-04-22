@@ -169,6 +169,11 @@ const mailapi = {
                 sequence
             })
         },
+        task_UploadEmail(dstPath, message) {
+            return this.ipcTask('please upload an email', {
+                dstPath, message
+            })
+        },
         task_MoveEmails(srcPath, dstPath, sequence) {
             return this.ipcTask('please move emails', {
                 srcPath,
