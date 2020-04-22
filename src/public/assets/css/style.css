@@ -1139,7 +1139,6 @@ hr {
 .subject {
 	font-size: 14px;
 	color: var(--subject-text-color);
-	font-weight: 500;
 	margin-bottom: 2px;
 	height: 20px;
 	overflow: hidden;
@@ -1268,6 +1267,14 @@ hr {
 .unread {
 	border-left: 3px solid var(--main-color);
 	padding-left: 10px !important;
+}
+
+.unread .subject {
+	font-weight: 500 !important;
+}
+
+.unread .body {
+	filter: brightness(0.8);
 }
 
 .starred {
