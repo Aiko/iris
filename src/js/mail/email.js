@@ -378,7 +378,11 @@ ipcMain.handle('please get emails', async (_, q) => {
     // in mailparser we trust
     if (!peek) messages = await Promise.all(messages.map(async msg => {
         msg.parsed = await simpleParser(msg['body[]'])
-        msg.parsed.attachments = []
+        msg.parsed.attachments = msg.parsed.attachments.map(_ => {
+            // only allows aiko metadata
+            if (!(_.contentType.includes("aiko/"))) _.content = null;
+            return _
+        })
         return msg
     }))
 
@@ -539,7 +543,7 @@ ipcMain.handle('please copy emails', async (_, q) => {
 
 ipcMain.handle('please upload an email', async (_, q) => {
     // by default, will add the \Seen flag, unless you specify a new flags array
-    const { dstPath, message, flags } = q
+    const { dstPath, message, flags, token } = q
     const options = {
         flags: flags || ["\\Seen"]
     }

@@ -586,6 +586,37 @@ const mailapi = {
                 this.inbox.uidLatest = this.inbox.emails[0].uid
             this.syncing = false
         },
+        async uploadMessage(path, message, customData) {
+            info(...MAILAPI_TAG, "Uploading a message to", path)
+            if (path == "INBOX")
+                return window.error(...MAILAPI_TAG, "Don't upload messages to the inbox.")
+
+            const to_upload = Object.assign({}, message);
+
+            // customData is stringified and base64 encoded
+            // to parse it you'll have to use the parseAikoDataAttachment method
+            const data = btoa(JSON.stringify(customData || {}))
+
+            const boundary = to_upload['bodystructure']['parameters']['boundary']
+            const lines = to_upload['body[]'].trim().split('\n')
+            const ending = lines.splice(lines.length - 1, 1)[0] + '\n'
+            const splitter = ending.split(boundary)[0]
+            to_upload['body[]'] = lines.join('\n');
+            to_upload['body[]'] += '\r\n\r\n\r\n' + splitter + boundary + '\r\n'
+            // use fake ass mimetype to make gmail ignore it
+            to_upload['body[]'] += `Content-Type: aiko/data; charset="UTF-8"\r\n`
+            to_upload['body[]'] += `Content-Transfer-Encoding: quoted-printable\r\n`
+            to_upload['body[]'] += `\r\n`
+            to_upload['body[]'] += data
+            to_upload['body[]'] += '\r\n' + ending
+
+            return await app.callIPC(app.task_UploadEmail(path, to_upload['body[]']))
+        },
+        parseAikoDataAttachment(att_content) {
+            att_content = new Uint8Array(Object.values(att_content))
+            const enc = new TextDecoder("utf-8").decode(att_content)
+            return JSON.parse(atob(enc + "="))
+        },
         async checkForUpdates() {
             // TODO: using modseq???????
         },
