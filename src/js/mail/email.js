@@ -516,7 +516,7 @@ ipcMain.handle('please delete emails', async (_, q) => {
 
 // Copy Emails
 ipcMain.handle('please copy emails', async (_, q) => {
-    const { srcPath, dstPath, sequence } = q
+    const { srcPath, dstPath, sequence, token } = q
     const options = {
         byUid: true,
     }
@@ -537,12 +537,31 @@ ipcMain.handle('please copy emails', async (_, q) => {
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
 
+ipcMain.handle('please upload an email', async (_, q) => {
+    // by default, will add the \Seen flag, unless you specify a new flags array
+    const { dstPath, message, flags } = q
+    const options = {
+        flags: flags || ["\\Seen"]
+    }
 
-// TODO: upload (APPEND) is now supported by emailjs
+    let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
+    if (!client_secret) return { error: "Couldn't decode client secret" };
+
+    if (assertions) {
+        if (!client) return { error: 'No client has been made for use in "please upload an email"' };
+        if (!connected) return { error: 'Not connected but still called "please upload an email" - are you missing an IPC call to "connect to server"?' };
+        if (!dstPath) return { error:  'No destination folder path provided to "please upload an email"' }
+        if (!message) return { error:  'No message provided to "please upload an email"' }
+    }
+
+    try { await client.upload(dstPath, message, options) } catch (e) { return { error: e } }
+
+    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
+})
 
 // Move Emails
 ipcMain.handle('please move emails', async (_, q) => {
-    const { srcPath, dstPath, sequence } = q
+    const { srcPath, dstPath, sequence, token } = q
     const options = {
         byUid: true,
     }
