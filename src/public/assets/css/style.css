@@ -1274,7 +1274,7 @@ hr {
 }
 
 .unread .body {
-	filter: brightness(1.3);
+	filter: brightness(0.8);
 }
 
 .starred {
