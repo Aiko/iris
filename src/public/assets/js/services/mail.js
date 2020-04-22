@@ -51,7 +51,6 @@ const mailapi = {
     created() {
         info(...MAILAPI_TAG, "Mounted IMAP processor. Please ensure this only ever happens once.")
         setTimeout(() => {
-            window.error(atob("TUFLRSBTVVJFIFlPVSBERUxFVEUgVEhFIFNUQVJHQVpJTkcgVklERU8gQkVGT1JFIEdPSU5HIFRPIFBST0RVQ1RJT04hISE="))
             if (window.location.href.includes('Users/hello')) return;
             new Notification(atob("TmV3IE1lc3NhZ2UgaW4gSm8sIFByaWFuc2g6"), {
                 body: atob("UnViZW46IEBKbyBkaWQgUHJpIHRlbGwgeW91IGhlJ3MgZmxpcnRpbmcgd2l0aCB0aW5nIHRpbmc="),
