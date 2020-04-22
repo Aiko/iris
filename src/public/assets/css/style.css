@@ -322,6 +322,16 @@ input:active {
 	transition: .2s;
 }
 
+.board-header img {
+	opacity: 1;
+	transition: .2s;
+}
+
+.board-header img:hover {
+	opacity: .7;
+	transition: .2s;
+}
+
 .thin .secondary-count {
 	display: none;
 }
@@ -1170,6 +1180,8 @@ hr {
 	border-radius: 4px;
 	font-size: 12px;
 	margin-top: 3px;
+	width: calc(100% - 60px);
+	text-align: center;
 	margin-right: -5px;
 }
 
