@@ -2,19 +2,26 @@
 
 /* Color Declarations */
 :root {
-  --main-color: #486fff; /* Main Aiko accent */
+  --main-color: #486fff;
+  /* Main Aiko accent */
   --main-color-hover: #4366e8;
 
-  --main-bg-color: #312f2e !important; /* Sidebar and Header */
-  --secondary-bg-color: #21201d !important; /* Control bar and picker and search, etc*/
-  --secondary-bg-color-hover: #1d1c1a !important; /* Control bar and picker and search, etc*/
+  --main-bg-color: #312f2e !important;
+  /* Sidebar and Header */
+  --secondary-bg-color: #21201d !important;
+  /* Control bar and picker and search, etc*/
+  --secondary-bg-color-hover: #1d1c1a !important;
+  /* Control bar and picker and search, etc*/
 
-  --main-text-color: #a0a0a0; /* Sidebar, body preview, board title */
+  --main-text-color: #a0a0a0;
+  /* Sidebar, body preview, board title */
   --main-text-color-hover: #8c8c8c !important;
 
-  --dark-text: #fff !important; /* Dropdown titles */
+  --dark-text: #fff !important;
+  /* Dropdown titles */
 
-  --sidebar-item-bg-color: #21201d !important; /* Active and hover in sidebar */
+  --sidebar-item-bg-color: #21201d !important;
+  /* Active and hover in sidebar */
 
   --email-bg-color: #21201d !important;
   --email-hover-bg-color: #1b1a17 !important;
@@ -23,79 +30,102 @@
 
   --main-border: solid 1px #171615 !important;
 
-  --placeholder-text-color: #5d5d5d !important; /* Global placeholder color */
+  --placeholder-text-color: #5d5d5d !important;
+  /* Global placeholder color */
 
-  --modal-backdrop: #21201dd6 !important; /* Global modal backdrop */
+  --modal-backdrop: #21201dd6 !important;
+  /* Global modal backdrop */
 }
 
 
 /*  Custom styling */
-.main-email{
+.main-email {
   background: #312f2e !important;
   box-shadow: 4px 0px 5px rgba(0, 0, 0, 0.08);
 }
-.main-email .action{
+
+.main-email .action {
   background: #151515 !important;
 }
-.bg{
-	background: var(--secondary-bg-color) !important;
+
+.bg {
+  background: var(--secondary-bg-color) !important;
 }
-.center-loader{
+
+.center-loader {
   background: var(--main-bg-color) !important;
 }
-.board .dropdown-menu.show{
+
+.board .dropdown-menu.show {
   box-shadow: 0 1px 9px #0000006e !important;
 }
-.dropdown-menu, .dropdown-menu a{
+
+.dropdown-menu,
+.dropdown-menu a {
   background-color: var(--main-bg-color) !important;
-transition: .2s;
+  transition: .2s;
 }
-.dropdown-item:focus, .dropdown-item:hover{
+
+.dropdown-item:focus,
+.dropdown-item:hover {
   background-color: var(--secondary-bg-color) !important;
   transition: .2s;
 }
-.sender{
+
+.sender {
   color: #c3c3c3 !important;
 }
-.dropdown-divider{
+
+.dropdown-divider {
   border-top: 1px solid var(--secondary-bg-color) !important;
 }
-.search-drop a{
+
+.search-drop a {
   color: #fff !important;
   transition: .2s;
 }
-.search-drop a:hover{
+
+.search-drop a:hover {
   color: var(--main-text-color) !important;
   transition: .2s;
 }
-.email{
+
+.email {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.email-footer {
+  box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+}
+
+.empty,
+.empty2 {
   box-shadow: none !important;
 }
-.email-footer{
-	box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+
+.sidebar-collapse img {
+  filter: invert(1);
 }
-.empty , .empty2{
-	box-shadow: none !important;
+
+.control-bar h1 {
+  filter: invert(1);
 }
-.sidebar-collapse img{
-	filter: invert(1);
-}
-.control-bar h1{
-	filter: invert(1);
-}
+
 .aiko-toast {
-    box-shadow: -4px 3px 5px 3px #00000021 !important;
+  box-shadow: -4px 3px 5px 3px #00000021 !important;
 }
 
-.aiko-toast p{
-    color: #fff !important;
+.aiko-toast p {
+  color: #fff !important;
 }
 
-.aiko-toast a{
-    color: #fff !important;
+.aiko-toast a {
+  color: #fff !important;
 }
-.aiko-toast a:hover{
-    color: #fff !important;
+
+.aiko-toast a:hover {
+  color: #fff !important;
 }
 
 .t-loader span {
