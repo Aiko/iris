@@ -91,16 +91,3 @@ const app = new Vue({
 
     }
 })
-
-let cs
-setTimeout(() => {
-    window.error("MAKE SURE YOU DELETE THE STARGAZING VIDEO BEFORE GOING TO PRODUCTION!!!")
-    if (!window.location.href.includes('Users/hello')) return;
-    new Notification("New Message in Jo, Priansh:", {
-        body: "Ruben: @Jo did Pri tell you he's flirting with ting ting",
-        image: "https://logo.clearbit.com/slack.com",
-        icon: "https://logo.clearbit.com/slack.com",
-        requireInteraction: false,
-        tag: 'slack.app'
-    })
-}, 8000)
