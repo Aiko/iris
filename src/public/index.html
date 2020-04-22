@@ -252,8 +252,8 @@
 
                     <div class="col-1 cll">
                       <div class="dropdown">
-                        <a href="#" @click="checkForNewMessages" tooltip="Sort and filter emails"
-                          data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
+                        <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img
+                            src="assets/icons/sort.svg"></a>
                         <div class="dropdown-menu">
                           <h6 class="dropdown-header">Sort by</h6>
                           <a class="dropdown-item" href="#">Date (newest)</a>
@@ -267,8 +267,12 @@
                       </div>
                     </div>
                     <div class="col-1 cll">
-                      <a href="#" tooltip="Force refresh"><img src="assets/icons/refresh.svg" width="17"
-                          class="rotating"></a>
+                      <a v-if="!syncing" href="#" @click="checkForNewMessages" tooltip="Force refresh">
+                        <img src="assets/icons/refresh.svg" width="17">
+                      </a>
+                      <a v-if="syncing" href="#" tooltip="Force refresh">
+                        <img class="rotating" src="assets/icons/refresh.svg" width="17">
+                      </a>
                     </div>
                     <div class="col-5 text-center exp margin-auto nowrap">
                       <h1>Inbox</h1>
