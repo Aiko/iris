@@ -33,16 +33,17 @@
 			<!-- Close ---------------->
 		</div>
 		<!-- Sidebar --------------------------------------------------->
-		<div class="sidebar sidebar-settings">
+		<div class="sidebar settings-sidebar">
 			<div class="container">
 				<div class="row">
-					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Account</span></a>
-					<a href="#"><img src="assets/icons/image.svg" style="width: 20px !important"><span>Appearance</span></a>
-					<a href="#"><img src="assets/icons/settings-team.svg" style="width: 22px !important"><span>Team</span></a>
-					<a href="#"><img src="assets/icons/settings-billing.svg" style="margin-top: 0px;"><span>Billing</span></a>
-					<a href="#"><img src="assets/icons/integrations.svg"> <span>Integrations</span></a>
-					<a href="#"><img src="assets/icons/settings-customize.svg"> <span>Settings</span></a>
-					<div class="version" style="display: unset !important;">
+					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span> Account</span></a>
+					<a href="#"><img src="assets/icons/image.svg"> <span> Appearance</span></a>
+					<a href="#"><img src="assets/icons/settings-team.svg"> <span> Team</span></a>
+					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing</span>
+					</a>
+					<a href="#"><img src="assets/icons/integrations.svg"> <span> Integrations</span></a>
+					<a href="#"><img src="assets/icons/settings-customize.svg"> <span> Settings</span></a>
+					<div class="version">
 						<h1>Version: <span class="blue fw700">ALPHA</span></h1>
 						<p>Request features and report issues</p>
 						<a href="#" style="padding:4px 6px !important">Give feedback</a>
@@ -53,10 +54,10 @@
 		</div>
 		<!-- END Sidebar ----------------------------------------------->
 
-		<div class="main" style="width: calc(100% - 130px);">
+		<div class="main">
 
 			<!-- TOAST Connection Lost -->
-			<div class="aiko-toast settings-toast"  style="display: none;">
+			<div class="aiko-toast settings-toast" style="display: none;">
 				<p style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
 				<div class="t-loader-red"><span></span></div>
 			</div>
@@ -75,7 +76,7 @@
 
 
 			<div class="settings-main">
-				<div class="container" id="account" >
+				<div class="container" id="account">
 					<h1>Account</h1>
 					<br>
 					<h2>Personal Information</h2>
@@ -197,13 +198,14 @@
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
-					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>Invite</span></a></h2>
+					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>Invite</span></a>
+					</h2>
 					<div class="row">
-							<div class="col-8">
-								<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
-							</div>
-							<div class="col-2 text-right" tooltip="Admin toggle">
-								<label class="switch">
+						<div class="col-8">
+							<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
+						</div>
+						<div class="col-2 text-right" tooltip="Admin toggle">
+							<label class="switch">
 								<input type="checkbox">
 								<span class="slider s-admin round"></span>
 							</label>
@@ -215,11 +217,11 @@
 					</div>
 
 					<div class="row">
-							<div class="col-8">
-								<p><b>Priansh Touitou </b> &lt;priansh@priansh.com&gt;</p>
-							</div>
-							<div class="col-2 text-right" tooltip="Admin toggle">
-								<label class="switch">
+						<div class="col-8">
+							<p><b>Priansh Touitou </b> &lt;priansh@priansh.com&gt;</p>
+						</div>
+						<div class="col-2 text-right" tooltip="Admin toggle">
+							<label class="switch">
 								<input type="checkbox" checked>
 								<span class="slider s-admin round"></span>
 							</label>
@@ -335,9 +337,9 @@
 					</div>
 					<div class="col-4 text-right">
 						<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider round"></span>
-							</label>
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label>
 					</div>
 				</div>
 				<div class="row">
@@ -346,9 +348,9 @@
 					</div>
 					<div class="col-4 text-right">
 						<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider round"></span>
-							</label>
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label>
 					</div>
 				</div>
 
@@ -360,9 +362,9 @@
 					</div>
 					<div class="col-4 text-right">
 						<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider round"></span>
-							</label>
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label>
 					</div>
 				</div>
 				<p>Automatic updates are important to keep your data safe.</p>
@@ -375,9 +377,9 @@
 					</div>
 					<div class="col-4 text-right">
 						<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider round"></span>
-							</label>
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label>
 					</div>
 				</div>
 				<p>This option blocks most tracker meant to track when you open emails.</p>
@@ -387,9 +389,9 @@
 					</div>
 					<div class="col-4 text-right">
 						<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider round"></span>
-							</label>
+							<input type="checkbox" checked>
+							<span class="slider round"></span>
+						</label>
 					</div>
 				</div>
 
@@ -407,48 +409,48 @@
 					</p>
 
 
+			</div>
+
+
+		</div>
+	</div>
+
+	<!-- INVITE MODAL --------------------------------------->
+	<div class="aiko-modal" style="display: none;">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-reg">
+					<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+					<h1>Invite a team member</h1>
+					<h2>Enter their email address</h2>
+					<input type="email" name="" placeholder="Email">
+					<p>We'll send them a link to Aiko Mail.</p>
+					<br>
+					<a href="#" class="blue">Done</a>
+					<p class="ns30"></p>
+					<br>
 				</div>
-
-
 			</div>
 		</div>
+	</div>
 
-		<!-- INVITE MODAL --------------------------------------->
-		<div class="aiko-modal" style="display: none;">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<div class="modal-reg">
-						<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-						<h1>Invite a team member</h1>
-						<h2>Enter their email address</h2>
-						<input type="email" name="" placeholder="Email">
-						<p>We'll send them a link to Aiko Mail.</p>
-						<br>
-						<a href="#" class="blue">Done</a>
-						<p class="ns30"></p>
-						<br>
-					</div>
-				</div>
-			</div>
-		</div>
+	<!-- Connection Lost Toast -->
+	<div class="aiko-toast" style="background-color: red;display: none;">
+		<h1>We're having trouble connecting to the internet.</h1>
+	</div>
+	<!-- END Connection Lost Toast-->
 
-		<!-- Connection Lost Toast -->
-		<div class="aiko-toast" style="background-color: red;display: none;">
-			<h1>We're having trouble connecting to the internet.</h1>
-		</div>
-		<!-- END Connection Lost Toast-->
+	<!-- IMAP Error Toast -->
+	<div class="aiko-toast" style="background-color: red;display: none;">
+		<h1>We're having issues connecting to your mail provider.</h1>
+	</div>
+	<!-- END IMAP Error Toast-->
 
-		<!-- IMAP Error Toast -->
-		<div class="aiko-toast" style="background-color: red;display: none;">
-			<h1>We're having issues connecting to your mail provider.</h1>
-		</div>
-		<!-- END IMAP Error Toast-->
-
-		<!-- Send Email Error Toast -->
-		<div class="aiko-toast" style="background-color: red;display: none;">
-			<h1>We were unable to send your message due to network issues.</h1>
-		</div>
-		<!-- END Send Email Error Toast-->
+	<!-- Send Email Error Toast -->
+	<div class="aiko-toast" style="background-color: red;display: none;">
+		<h1>We were unable to send your message due to network issues.</h1>
+	</div>
+	<!-- END Send Email Error Toast-->
 
 	</div>
 	<!-- END id="app" -------------------------------------------------->
