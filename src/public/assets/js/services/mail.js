@@ -366,8 +366,18 @@ const mailapi = {
             } else {
                 this.inbox.uidLatest = this.inbox.emails[0].uid
             }
+
             console.timeEnd("SWITCH MAILBOX")
             this.loading = false
+
+            // check for new messages in background
+            this.checkForNewMessages()
+
+            // sync boards and save their cache
+            await Promise.all(
+                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName)))
+            info(...MAILAPI_TAG, "Saving boards cache")
+            await BigStorage.store(this.imapConfig.email + ':boards', this.boards)
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
@@ -390,6 +400,35 @@ const mailapi = {
             if (this.inbox.emails.length > 0)
                 this.uidLatest = this.inbox.emails[0].uid
             this.loading = false
+        },
+        async initialSyncBoard(boardName) {
+            // boardname should be the path!
+            const board = this.boards[boardName]
+            let uidMin = 1
+            const { uidLatest } = board
+            if (uidLatest > 0) uidMin = uidLatest + 1
+            const {
+                uidNext
+            } = await this.callIPC(this.task_OpenFolder(boardName))
+            if (!uidNext || uidNext.error) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+
+            if (uidNext - uidMin > 50) {
+                info(...MAILAPI_TAG, "There are more than 50 emails in the board. There should be a limit of 50.")
+                uidMin = uidNext - 50
+            }
+            uidMin = Math.max(1, uidMin)
+
+            info(...MAILAPI_TAG, `Updating ${boardName} - scanning ${uidMin}:${uidNext}`)
+
+            const emails = await this.callIPC(
+                this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, false))
+            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = await MailCleaner.full(emails.reverse())
+            // TODO: ai should be stored in their headers automatically.
+
+            this.boards[boardName].emails.unshift(...processed_emails)
+            if (this.boards[boardName].emails.length > 0)
+                this.boards[boardName].uidLatest = this.boards[boardName].emails[0].uid
         },
         async syncWithMailServer() {
             // TODO: sync messages that we have locally
