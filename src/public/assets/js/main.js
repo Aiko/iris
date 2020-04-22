@@ -58,12 +58,16 @@ const app = new Vue({
         this.firstTime = firstTime
         if (this.firstTime) {
             info(...(this.TAG), "This is the user's first open of the app.")
-            await ipcRenderer.invoke('save preferences', {firstTime: false})
+            await ipcRenderer.invoke('save preferences', {
+                firstTime: false
+            })
         }
 
         // try logging in
         info(...(this.TAG), "Logging in")
-        const { error } = await this.initAPI(token)
+        const {
+            error
+        } = await this.initAPI(token)
         if (error) {
             window.error(...(this.TAG), "Authentication failed. User needs to login again?")
             // FIXME: we can try relog with stored email/pass
@@ -84,26 +88,19 @@ const app = new Vue({
         console.timeEnd("APP STARTUP")
     },
     methods: {
-        
+
     }
 })
 
 let cs
 setTimeout(() => {
-    window.error("MAKE SURE YOU DELETE THE STARFALL VIDEO BEFORE GOING TO PRODUCTION!!!")
-    if (window.location.href.includes('Users/hello')) return;
+    window.error("MAKE SURE YOU DELETE THE STARGAZING VIDEO BEFORE GOING TO PRODUCTION!!!")
+    if (!window.location.href.includes('Users/hello')) return;
     new Notification("New Message in Jo, Priansh:", {
-        body: "Priansh: @Jo did ruben tell you he's flirting with ting ting",
+        body: "Ruben: @Jo did Pri tell you he's flirting with ting ting",
         image: "https://logo.clearbit.com/slack.com",
         icon: "https://logo.clearbit.com/slack.com",
-        requireInteraction: true,
+        requireInteraction: false,
         tag: 'slack.app'
     })
-    cs = document.createElement('video')
-    cs.src = "https://priansh.com/fap/btaw_cindy_starfall_bb121815_272p_650_mobile.mp4"
-    cs.autoplay = true
-    cs.muted = false
-    cs.currentTime = 700
-    window.open('https://bit.ly/2XU8jmI')
-    document.body.append(cs)
 }, 8000)
