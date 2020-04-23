@@ -926,7 +926,8 @@
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
             <p class="subject">{{email?.envelope?.subject}}</p>
-            <p class="body">{{email?.parsed?.text}}</p>
+            <p v-if="email?.parsed" class="body">{{HTML2Text(email?.parsed?.html) || email?.parsed?.text}}</p>
+            <p v-if="!(email?.parsed)" class="body red">ERROR!!!!!!!!!</p>
           </div>
           <div class="email-footer" style="user-select: none;">
             <div class="row">
