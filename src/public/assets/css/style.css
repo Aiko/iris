@@ -93,6 +93,7 @@ a:active {
 	color: var(--main-color) !important;
 }
 
+
 .search-drop a:hover {
 	color: var(--main-color-hover) !important;
 }
@@ -137,7 +138,7 @@ input:active {
 }
 
 /* DRAGGABLE CLASSES */
-/* WHATEVER YOU DONT CHANGE THESE DIRECTLY */
+/* WHATEVER YOU DON'T CHANGE THESE DIRECTLY */
 .draggable-emails {
 	height: 100%;
 }
@@ -602,10 +603,13 @@ a.main-action:hover {
 
 .sidebar .compose {
 	background: var(--main-color);
-	color: #fff;
 	margin-bottom: 5px;
 	margin-top: 0;
 	transition: .2s;
+}
+
+.sidebar .compose span {
+	color: #fff !important;
 }
 
 .sidebar .compose:hover {
@@ -1027,13 +1031,53 @@ hr {
 	margin-bottom: 1px;
 }
 
+.three-lines .body {
+	height: 50px;
+}
+
+.three-lines .email {
+	height: 125px;
+}
+
+.two-lines .body {
+	height: 33px;
+}
+
+.two-lines .email {
+	height: 115px;
+}
+
+.one-lines .body {
+	height: 19px;
+}
+
+.one-lines .email {
+	height: 95px;
+}
+
+.zero-lines .body {
+	height: 0;
+}
+
+.zero-lines .email {
+	height: 78px;
+}
+
+.zero .body {
+	height: 0 !important;
+}
+
+.zero {
+	height: 78px !important;
+}
+
 .email {
 	position: relative;
 	background: var(--email-bg-color);
 	border-radius: 4px;
 	box-shadow: 0 0 2px 1px #00000026;
 	cursor: pointer;
-	height: 135px;
+	height: 115px;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 13px;
 	transition: .2s;
@@ -1251,7 +1295,7 @@ hr {
 .body {
 	font-size: 13px;
 	color: var(--main-text-color);
-	height: 50px;
+	height: 33px;
 	overflow: hidden;
 	line-height: 16px;
 	filter: brightness(0.7);
@@ -1455,6 +1499,28 @@ hr {
 	border-radius: 4px;
 	box-shadow: 0 0 9px #0000001a;
 	margin: 20px 15px;
+}
+
+.short {
+	cursor: pointer;
+}
+
+.short .email-head h3 {
+	max-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.short .email-head {
+	padding: 15px 25px 5px 25px;
+	transition: .2s;
+}
+
+.short .email-body,
+.short .options,
+.short .options-qa {
+	display: none;
+	transition: .2s;
 }
 
 .email:hover {
@@ -2374,30 +2440,6 @@ unselectable {
 
 ::-webkit-scrollbar {
 	display: none;
-}
-
-.two-lines .body {
-	height: 33px !important;
-}
-
-.two-lines .email {
-	height: 115px !important;
-}
-
-.one-line .body {
-	height: 19px !important;
-}
-
-.one-line .email {
-	height: 95px !important;
-}
-
-.zero-lines .body {
-	height: 0 !important;
-}
-
-.zero-lines .email {
-	height: 78px !important;
 }
 
 /* START TOOLTIP STYLES */

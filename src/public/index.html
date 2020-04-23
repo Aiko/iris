@@ -102,7 +102,7 @@
 
       <div class="main">
 
-        <!-- TOASTS (MAKE TOASTS DISAPEAR AFTER 10 SECONDS) -->
+        <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
         <!-- TOAST Invite Sent -->
         <div class="aiko-toast" style="display: none;">
           <p class="textinout">Sending invite</p><a href="#">Undo</a>
@@ -230,6 +230,9 @@
         <!-- END Header -------------------------------------------->
 
         <div class="boards-container">
+
+          <!-- TODO: rig settings to add 'zero-lines, one-lines, two-line, three-lines'  to 'boards'-->
+
           <div class="boards two-lines">
             <!-- INBOX BOARD -->
             <div class="board">
@@ -421,16 +424,27 @@
         </div>
       </div>
 
-      <!-- UPGRADE MODAL -->
-      <div class="aiko-modal" style="display: none">
+      <!-- UPGRADE MODAL - QUICK ACTIONS -->
+      <div class="aiko-modal" style="display: none;">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
             <img src="assets/icons/grey-x.svg" class="x-email">
             <div class="modal-reg">
-              <img src="assets/img/logo-white.svg" width="140" style="margin-bottom: 15px;">
-              <h1>Upgrade to use this feature</h1>
-              <br><br><br><br>
-              <a href="#" class="blue">Get Started</a>
+              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                style="margin-bottom: 15px;margin-top:10px">
+              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+              <h1>You found a premium feature.</h1>
+
+              <img v-if="isDarkMode" src="assets/img/u-quick-black.png" width="300">
+              <img v-if="!isDarkMode" src="assets/img/u-quick-white.png" width="300">
+              <br>
+              <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
+                and lets you manage
+                them with the click of a
+                button.</p><br> <br>
+              <div class="modal-bottom">
+                <a href="#" class="blue">Get Started</a>
+              </div>
               <p class="ns30"></p>
               <br>
             </div>
@@ -463,6 +477,9 @@
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
+
+              <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
+
               <!-- Single Message in Thread -->
               <div class="single-email">
                 <div class="email-head">
@@ -896,9 +913,7 @@
             </div>
           </div>
         </div>
-
       </div>
-
     </div>
 
     <script type="text/x-template" id="email-card">
