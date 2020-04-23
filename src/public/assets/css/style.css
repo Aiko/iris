@@ -223,6 +223,7 @@ input:active {
 	position: absolute;
 	top: 0;
 	right: 0;
+	width: 25px !important;
 	margin: 10px;
 	cursor: pointer;
 	z-index: 1;
