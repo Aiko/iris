@@ -156,9 +156,6 @@ input:active {
 }
 
 /* END DRAGGABLE CLASSES */
-.safety {
-	height: 150px;
-}
 
 .version {
 	padding: 10px 7px;
@@ -917,9 +914,9 @@ a.main-action:hover {
 }
 
 .board-body {
-	padding: 10px;
+	padding: 10px 10px 30px 10px;
 	overflow-y: scroll;
-	height: 100%;
+	height: calc(100% - 55px);
 	scroll-behavior: smooth;
 }
 
@@ -994,7 +991,7 @@ hr {
 }
 
 .boards {
-	height: 100%;
+	height: calc(100% - 20px);
 	margin: 20px 0px 0px 20px;
 	overflow: visible;
 	display: inline-flex;
@@ -1003,7 +1000,7 @@ hr {
 .board {
 	background: var(--main-bg-color);
 	width: 300px;
-	border-radius: 4px;
+	border-radius: 4px 4px 0 0;
 	height: 100%;
 	margin-right: 25px;
 	box-shadow: 0 0px 15px #00000024;
@@ -1288,7 +1285,7 @@ hr {
 }
 
 .boards-container {
-	height: 100%;
+	height: calc(100% - 47px);
 	width: 100%;
 	overflow-x: scroll;
 	overflow-y: hidden;
