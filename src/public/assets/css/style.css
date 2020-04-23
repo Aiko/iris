@@ -603,7 +603,7 @@ a.main-action:hover {
 
 .sidebar .compose {
 	background: var(--main-color);
-	color: #fff;
+	color: #fff !important;
 	margin-bottom: 5px;
 	margin-top: 0;
 	transition: .2s;

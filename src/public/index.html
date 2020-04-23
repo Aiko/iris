@@ -424,7 +424,7 @@
         </div>
       </div>
 
-      <!-- UPGRADE MODAL -->
+      <!-- UPGRADE MODAL - QUICK ACTIONS -->
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -432,9 +432,16 @@
             <div class="modal-reg">
               <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140" style="margin-bottom: 15px;">
               <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;">
-              <h1>Upgrade to use this feature</h1>
-              <br><br><br><br>
-              <a href="#" class="blue">Get Started</a>
+              <h1>You found a premium feature.</h1>
+              <br>
+              <p>Quick actions detects intent in your emails and lets you manage them with the click of a
+                button.</p>
+              <img v-if="isDarkMode" src="assets/img/u-quick-black.png" width="300">
+              <img v-if="!isDarkMode" src="assets/img/u-quick-white.png" width="300">
+              <br><br> <br>
+              <div class="modal-bottom">
+                <a href="#" class="blue">Get Started</a>
+              </div>
               <p class="ns30"></p>
               <br>
             </div>
