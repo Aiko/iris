@@ -20,10 +20,7 @@
   </head>
 
   <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
-    <div id="app" class="inline-flex"
-      style="opacity: 0"
-      :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'"
-    >
+    <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
       <!-- THEMES GO HERE -->
       <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
       <!-- LOADER -->
@@ -300,8 +297,8 @@
               <div class="board-body">
                 <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost" drag-class="drag"
                   :move="log">
-                  <email-card v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails"
-                    :email="email"></email-card>
+                  <email-card v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails" :email="email">
+                  </email-card>
                 </draggable>
                 <!-- START List loader ----------------------->
                 <div class="cs-loader">
