@@ -908,13 +908,13 @@
     </div>
 
     <script type="text/x-template" id="email-card">
-      <div :uid="email.uid" class="email" :class="{'unread': !(email.ai.seen)}">
+      <div :uid="email.uid" class="email" :class="{'unread': !(email?.ai?.seen)}">
         <div class="container pr">
           <div class="row" style="user-select: none;">
             <div class="col-8 p0 exp" style="display: inline-flex;">
               <h2 class="sender">
-                {{email.envelope.from[0].name}}</h2>
-              <img v-if="email.parsed.attachments.length > 0" src="assets/icons/badges-attach.svg">
+                {{email?.envelope?.from[0]?.name}}</h2>
+              <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
 
               <img src="assets/icons/badges-tracker.svg" style="display: none;">
               <img src="assets/icons/badges-event.svg" style="display: none;">
@@ -923,10 +923,10 @@
 
             </div>
             <div class="col-4 p0 cll">
-              <div class="time">{{new Date(email.envelope.date).toNiceDateTime()}}</div>
+              <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
-            <p class="subject">{{email.envelope.subject}}</p>
-            <p class="body">{{email.parsed.text}}</p>
+            <p class="subject">{{email?.envelope?.subject}}</p>
+            <p class="body">{{email?.parsed?.text}}</p>
           </div>
           <div class="email-footer" style="user-select: none;">
             <div class="row">
