@@ -1027,13 +1027,53 @@ hr {
 	margin-bottom: 1px;
 }
 
+.three-lines .body {
+	height: 50px;
+}
+
+.three-lines .email {
+	height: 125px;
+}
+
+.two-lines .body {
+	height: 33px;
+}
+
+.two-lines .email {
+	height: 115px;
+}
+
+.one-lines .body {
+	height: 19px;
+}
+
+.one-lines .email {
+	height: 95px;
+}
+
+.zero-lines .body {
+	height: 0;
+}
+
+.zero-lines .email {
+	height: 78px;
+}
+
+.zero .body {
+	height: 0 !important;
+}
+
+.zero {
+	height: 78px !important;
+}
+
 .email {
 	position: relative;
 	background: var(--email-bg-color);
 	border-radius: 4px;
 	box-shadow: 0 0 2px 1px #00000026;
 	cursor: pointer;
-	height: 135px;
+	height: 115px;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 13px;
 	transition: .2s;
@@ -1251,7 +1291,7 @@ hr {
 .body {
 	font-size: 13px;
 	color: var(--main-text-color);
-	height: 50px;
+	height: 33px;
 	overflow: hidden;
 	line-height: 16px;
 	filter: brightness(0.7);
@@ -2396,38 +2436,6 @@ unselectable {
 
 ::-webkit-scrollbar {
 	display: none;
-}
-
-.two-lines .body {
-	height: 33px;
-}
-
-.two-lines .email {
-	height: 115px;
-}
-
-.one-line .body {
-	height: 19px;
-}
-
-.one-line .email {
-	height: 95px;
-}
-
-.zero-lines .body {
-	height: 0;
-}
-
-.zero .body {
-	height: 0 !important;
-}
-
-.zero {
-	height: 78px !important;
-}
-
-.zero-lines .email {
-	height: 78px;
 }
 
 /* START TOOLTIP STYLES */
