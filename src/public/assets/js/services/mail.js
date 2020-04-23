@@ -37,6 +37,8 @@ const mailapi = {
             // NOTE: important to check length
             // dont want to store empty inbox if it is reset
             // if you need to store an empty inbox do it manually!
+            // you also should set the uidLatest every time it has changed
+
             if (updatedInbox.length > 0) {
                 info(...MAILAPI_TAG, "Saving inbox cache")
                 await BigStorage.store(this.imapConfig.email + ':inbox',
@@ -373,7 +375,7 @@ const mailapi = {
             if (this.inbox.emails.length == 0) {
                 await this.initialSyncWithMailServer()
             } else {
-                this.inbox.uidLatest = this.inbox.emails[0].uid
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             }
 
             console.timeEnd("SWITCH MAILBOX")
@@ -407,7 +409,7 @@ const mailapi = {
 
             this.inbox.emails = processed_emails
             if (this.inbox.emails.length > 0)
-                this.uidLatest = this.inbox.emails[0].uid
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             this.loading = false
         },
         async initialSyncBoard(boardName) {
@@ -438,7 +440,7 @@ const mailapi = {
 
             this.boards[boardName].emails.unshift(...processed_emails)
             if (this.boards[boardName].emails.length > 0)
-                this.boards[boardName].uidLatest = this.boards[boardName].emails[0].uid
+                this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             this.syncing = false
         },
         async syncWithMailServer() {
@@ -468,7 +470,7 @@ const mailapi = {
 
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
-                this.inbox.uidLatest = this.inbox.emails[0].uid
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             this.syncing = false
         },
         async uploadMessage(path, message, headerData, customData) {
