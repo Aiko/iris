@@ -10,7 +10,7 @@ const app = new Vue({
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
-        loading: false,
+        loading: true,
         firstTime: true,
         priority: true
     },
@@ -31,6 +31,7 @@ const app = new Vue({
         },
     },
     async created() {
+        document.getElementById('app').style.opacity = 1
         console.time("APP STARTUP")
         info(...(this.TAG), "Initializing application")
         this.loading = true

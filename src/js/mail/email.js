@@ -452,7 +452,7 @@ ipcMain.handle('please look for emails', async (_, q) => {
         if (!query) return { error:  'No search query provided to "please look for emails"' }
     }
 
-    let results; try { results = client.search(path, query, options) } catch (e) { return { error: e } }
+    let results; try { results = await client.search(path, query, options) } catch (e) { return { error: e } }
     if (!results || results.length===0)
         return { error: `Did not receive any UIDs back when calling client.listMessages(${path}, ${sequence}, [${peek.join(',')}]) in "please get emails"` };
 
