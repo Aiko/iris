@@ -2399,27 +2399,35 @@ unselectable {
 }
 
 .two-lines .body {
-	height: 33px !important;
+	height: 33px;
 }
 
 .two-lines .email {
-	height: 115px !important;
+	height: 115px;
 }
 
 .one-line .body {
-	height: 19px !important;
+	height: 19px;
 }
 
 .one-line .email {
-	height: 95px !important;
+	height: 95px;
 }
 
 .zero-lines .body {
+	height: 0;
+}
+
+.zero .body {
 	height: 0 !important;
 }
 
-.zero-lines .email {
+.zero {
 	height: 78px !important;
+}
+
+.zero-lines .email {
+	height: 78px;
 }
 
 /* START TOOLTIP STYLES */
