@@ -93,6 +93,7 @@ a:active {
 	color: var(--main-color) !important;
 }
 
+
 .search-drop a:hover {
 	color: var(--main-color-hover) !important;
 }
@@ -137,7 +138,7 @@ input:active {
 }
 
 /* DRAGGABLE CLASSES */
-/* WHATEVER YOU DONT CHANGE THESE DIRECTLY */
+/* WHATEVER YOU DON'T CHANGE THESE DIRECTLY */
 .draggable-emails {
 	height: 100%;
 }
