@@ -12,6 +12,7 @@ const app = new Vue({
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
         loading: false,
         firstTime: true,
+        priority: true
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -88,7 +89,9 @@ const app = new Vue({
         console.timeEnd("APP STARTUP")
     },
     methods: {
-
+        log(...msg) {
+            console.log(...msg)
+        }
     }
 })
 
