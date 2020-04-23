@@ -293,7 +293,7 @@
               <div class="board-body">
                 <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost" drag-class="drag"
                   :move="log">
-                  <email-card v-if="!priority || priorityInbox.includes(email)" :key="email.uid" v-for="email in inbox.emails"
+                  <email-card v-if="!priority || priorityInbox.includes(email)" v-for="email in inbox.emails"
                     :email="email"></email-card>
                 </draggable>
                 <!-- START List loader ----------------------->
