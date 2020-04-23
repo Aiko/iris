@@ -1457,6 +1457,28 @@ hr {
 	margin: 20px 15px;
 }
 
+.short {
+	cursor: pointer;
+}
+
+.short .email-head h3 {
+	max-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.short .email-head {
+	padding: 15px 25px 5px 25px;
+	transition: .2s;
+}
+
+.short .email-body,
+.short .options,
+.short .options-qa {
+	display: none;
+	transition: .2s;
+}
+
 .email:hover {
 	background: var(--email-hover-bg-color);
 	transition: .2s;
