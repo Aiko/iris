@@ -603,10 +603,13 @@ a.main-action:hover {
 
 .sidebar .compose {
 	background: var(--main-color);
-	color: #fff !important;
 	margin-bottom: 5px;
 	margin-top: 0;
 	transition: .2s;
+}
+
+.sidebar .compose span {
+	color: #fff !important;
 }
 
 .sidebar .compose:hover {
