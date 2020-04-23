@@ -28,6 +28,7 @@ const mailapi = {
         inbox: {
             uidLatest: -1,
             emails: [],
+            oldEmails: [],
         },
         boards: {},
         syncing: false
@@ -41,17 +42,13 @@ const mailapi = {
 
             if (updatedInbox.length > 0) {
                 info(...MAILAPI_TAG, "Saving inbox cache")
-                await BigStorage.store(this.imapConfig.email + ':inbox', {
+                await BigStorage.store(this.imapConfig.email + '/inbox', {
                     uidLatest: this.inbox.uidLatest,
-                    emails: this.inbox.emails.slice(0,200)
+                    emails: this.inbox.emails.slice(0,100),
+                    oldEmails: this.inbox.oldEmails
                 })
             }
         },
-    },
-    computed: {
-        priorityInbox() {
-            return (this.inbox.emails || this.inbox).filter(email => !email.ai.subscription)
-        }
     },
     created() {
         info(...MAILAPI_TAG, "Mounted IMAP processor. Please ensure this only ever happens once.")
@@ -354,13 +351,13 @@ const mailapi = {
             info(...MAILAPI_TAG, "Loading cache...")
             // load cache for the inbox
             const inboxCache = (
-                await BigStorage.load(this.imapConfig.email + ':inbox') ||
+                await BigStorage.load(this.imapConfig.email + '/inbox') ||
                 this.inbox)
             inboxCache.emails = await MailCleaner.peek(inboxCache.emails)
             this.inbox = inboxCache
             // load cache for the boards
             const boardCache = (
-                await BigStorage.load(this.imapConfig.email + ':boards') || this.boards)
+                await BigStorage.load(this.imapConfig.email + '/boards') || this.boards)
             this.boards = boardCache
             for (let board of this.boardNames) {
                 if (!this.boards[board]) Vue.set(this.boards, board, {
@@ -390,7 +387,7 @@ const mailapi = {
             await Promise.all(
                 this.boardNames.map(async boardName => await this.initialSyncBoard(boardName)))
             info(...MAILAPI_TAG, "Saving boards cache")
-            await BigStorage.store(this.imapConfig.email + ':boards', this.boards)
+            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
@@ -404,25 +401,36 @@ const mailapi = {
 
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
 
-            let MESSAGE_COUNT = 100
+            let MESSAGE_COUNT = 0
             const INCREMENT = 50 // small ram bubbles
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
-            while (MESSAGE_COUNT > 0 && uidMin > 1) {
+            while (MESSAGE_COUNT < 100 && uidMin > 1) {
                 uidMin = Math.max(uidMax - INCREMENT, 1)
-                MESSAGE_COUNT -= INCREMENT
                 info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
-                emails.push(...await this.callIPC(
-                    this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false)))
+                const received = await this.callIPC(
+                    this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
+                if (!(received?.reverse)) return window.error(...MAILAPI_TAG, received);
+                MESSAGE_COUNT += received.length
+                const processed_received = await MailCleaner.full(received.reverse())
+                emails.push(...processed_received)
                 uidMax = uidMin - 1
-                info(...MAILAPI_TAG, MESSAGE_COUNT, "left to fetch...")
+                info(...MAILAPI_TAG, 100 - MESSAGE_COUNT, "left to fetch...")
             }
 
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.full(emails.reverse())
+            if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = emails // await MailCleaner.full(emails)
+
+            info(...MAILAPI_TAG, "Peeking 4000 additional messages for threading.")
+            uidMin = Math.max(uidMax - 4000, 1)
+            const thread_messages = await this.callIPC(
+                this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, true))
+            if (!(thread_messages?.reverse)) return window.error(...MAILAPI_TAG, thread_messages)
+            const processed_old_emails = await MailCleaner.peek(thread_messages)
 
             this.inbox.emails = processed_emails
+            this.inbox.oldEmails = processed_old_emails
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             this.loading = false
@@ -498,6 +506,8 @@ const mailapi = {
 
             const to_upload = Object.assign({}, message);
 
+            // NOTE: body[] is no longer included
+            // you'll need to remove it
             // data is stringified and base64 encoded
             // to parse it you'll have to atob and JSON.parse
             // for attachments you have to add an = after decoding the uint8array before enc
@@ -550,11 +560,35 @@ const mailapi = {
         async getThread(email) {
             // returns thread array for email
             const thread = [email]
-            let reply_id = email.envelope['in-reply-to']
-            while (reply_id) {
-                
+
+            const get_reply = reply_id => {
+                // search inbox
+                for (let email of this.inbox.emails) {
+                    if (email.envelope['message-id'] == reply_id)
+                        return email
+                }
+                // search old emails
+                for (let email of this.inbox.oldEmails) {
+                    if (email.envelope['message-id'] == reply_id)
+                        return email
+                }
+                // TODO: check sent
+                // TODO: search mailserver
+                return null
             }
 
+            let reply_id = email.envelope['in-reply-to']
+            const reply_ids = new Set()
+
+            while (reply_id && !(reply_ids.has(reply_id))) {
+                info(...MAILAPI_TAG, "Threading: ", reply_id)
+                reply_ids.add(reply_id)
+                const reply = get_reply(reply_id)
+                if (reply) thread.push(reply)
+                reply_id = reply?.envelope?.['in-reply-to']
+            }
+
+            return thread
         },
         async threading() {
             const reply_ids = new Set()

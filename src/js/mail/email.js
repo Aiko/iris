@@ -384,6 +384,7 @@ ipcMain.handle('please get emails', async (_, q) => {
             if (!(_.contentType.includes("aiko/"))) _.content = null;
             return _
         })
+        delete msg['body[]']
         return msg
     }))
 

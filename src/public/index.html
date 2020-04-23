@@ -294,7 +294,7 @@
               <div class="board-body">
                 <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost" drag-class="drag"
                   :move="log">
-                  <email-card v-if="!priority || priorityInbox.includes(email)" v-for="email in inbox.emails"
+                  <email-card v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails"
                     :email="email"></email-card>
                 </draggable>
                 <!-- START List loader ----------------------->
@@ -902,7 +902,10 @@
     </div>
 
     <script type="text/x-template" id="email-card">
-      <div :uid="email.uid" class="email" :class="{'unread': !(email?.ai?.seen)}">
+      <div :uid="email.uid" class="email" :class="{
+        'unread': !(email?.ai?.seen),
+        'zero': !(email?.parsed)
+      }">
         <div class="container pr">
           <div class="row" style="user-select: none;">
             <div class="col-8 p0 exp" style="display: inline-flex;">
@@ -921,7 +924,6 @@
             </div>
             <p class="subject">{{email?.envelope?.subject}}</p>
             <p v-if="email?.parsed" class="body">{{HTML2Text(email?.parsed?.html || email?.parsed?.text)}}</p>
-            <p v-if="!(email?.parsed)" class="body red">ERROR!!!!!!!!!</p>
           </div>
           <div class="email-footer" style="user-select: none;">
             <div class="row">

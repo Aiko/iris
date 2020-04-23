@@ -3,6 +3,10 @@ const MailCleaner = (() => {
     const peek_clean = async email => {
         // just makes it easier to use in JS
         email.envelope.date = new Date(email.envelope.date)
+        email.ai = {
+            seen: false
+        }
+        if (email.flags.includes('\\Seen')) email.ai.seen = true
         return email
     }
 

@@ -36,7 +36,6 @@ const app = new Vue({
         this.loading = true
 
         info(...(this.TAG), "Initializing cache")
-        await BigStorage.load('random')
         await SmallStorage.load('random')
 
         // setup IPC
