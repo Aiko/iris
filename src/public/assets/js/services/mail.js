@@ -41,8 +41,10 @@ const mailapi = {
 
             if (updatedInbox.length > 0) {
                 info(...MAILAPI_TAG, "Saving inbox cache")
-                await BigStorage.store(this.imapConfig.email + ':inbox',
-                    this.inbox.slice(0, 100))
+                await BigStorage.store(this.imapConfig.email + ':inbox', {
+                    uidLatest: this.inbox.uidLatest,
+                    emails: this.inbox.emails.slice(0,100)
+                })
             }
         },
     },
