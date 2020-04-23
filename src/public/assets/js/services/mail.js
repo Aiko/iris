@@ -394,6 +394,7 @@ const mailapi = {
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
+            console.time("Initial Sync")
             this.loading = true // its so big it blocks I/O
 
             const {
@@ -413,6 +414,7 @@ const mailapi = {
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             this.loading = false
+            console.timeEnd("Initial Sync")
         },
         async initialSyncBoard(boardName) {
             this.syncing = true
