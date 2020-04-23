@@ -425,12 +425,13 @@
       </div>
 
       <!-- UPGRADE MODAL -->
-      <div class="aiko-modal" style="display: none">
+      <div class="aiko-modal">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
             <img src="assets/icons/grey-x.svg" class="x-email">
             <div class="modal-reg">
-              <img src="assets/img/logo-white.svg" width="140" style="margin-bottom: 15px;">
+              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140" style="margin-bottom: 15px;">
+              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;">
               <h1>Upgrade to use this feature</h1>
               <br><br><br><br>
               <a href="#" class="blue">Get Started</a>
