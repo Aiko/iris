@@ -42,7 +42,7 @@ const mailapi = {
             if (updatedInbox.length > 0) {
                 info(...MAILAPI_TAG, "Saving inbox cache")
                 await BigStorage.store(this.imapConfig.email + ':inbox',
-                    this.inbox)
+                    this.inbox.slice(0, 100))
             }
         },
     },
