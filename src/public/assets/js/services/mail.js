@@ -43,7 +43,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, "Saving inbox cache")
                 await BigStorage.store(this.imapConfig.email + ':inbox', {
                     uidLatest: this.inbox.uidLatest,
-                    emails: this.inbox.emails.slice(0,100)
+                    emails: this.inbox.emails.slice(0,200)
                 })
             }
         },
@@ -401,12 +401,24 @@ const mailapi = {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
-            const uidMin = Math.max(uidNext - 100, 0) // fetch latest 100
 
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
 
-            const emails = await this.callIPC(
-                this.task_FetchEmails("INBOX", `${uidMin}:${uidNext}`, false))
+            let MESSAGE_COUNT = 100
+            const INCREMENT = 50 // small ram bubbles
+            const emails = []
+            let uidMax = uidNext
+            let uidMin = uidMax
+            while (MESSAGE_COUNT > 0 && uidMin > 1) {
+                uidMin = Math.max(uidMax - INCREMENT, 1)
+                MESSAGE_COUNT -= INCREMENT
+                info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
+                emails.push(...await this.callIPC(
+                    this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false)))
+                uidMax = uidMin - 1
+                info(...MAILAPI_TAG, MESSAGE_COUNT, "left to fetch...")
+            }
+
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full(emails.reverse())
 
@@ -534,6 +546,37 @@ const mailapi = {
             const processed_emails = await MailCleaner.base(emails.reverse())
 
             this.inbox.emails.push(...processed_emails)
-        }
+        },
+        async getThread(email) {
+            // returns thread array for email
+            const thread = [email]
+            let reply_id = email.envelope['in-reply-to']
+            while (reply_id) {
+                
+            }
+
+        },
+        async threading() {
+            const reply_ids = new Set()
+
+            /* Super Inefficient Threading algorithm:
+
+            for every email:
+                if the email is a reply to message with id X:
+                    prev = find previous message with reply id X
+                    append prev to the email thread
+                    prev.ai.threaded = true
+
+            */
+
+            const thread_single = email => {
+                const reply_id = email.envelope['in-reply-to']
+                if (!reply_id) return email
+                // search for reply thread in inbox
+                for (let i = 0; i < this.inbox.emails.length; i++) {
+
+                }
+            }
+        },
     }
 }
