@@ -913,7 +913,7 @@
           <div class="row" style="user-select: none;">
             <div class="col-8 p0 exp" style="display: inline-flex;">
               <h2 class="sender">
-                {{email?.envelope?.from[0]?.name}}</h2>
+                {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
               <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
 
               <img src="assets/icons/badges-tracker.svg" style="display: none;">
