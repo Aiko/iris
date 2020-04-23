@@ -2,9 +2,9 @@
 
 /* Color Declarations */
 :root {
-  --main-color: #486fff;
+  --main-color: #ffa31a; /* #486fff; */
   /* Main Aiko accent */
-  --main-color-hover: #4366e8;
+  --main-color-hover: #ffa31a; /* #4366e8; */
 
   --main-bg-color: #312f2e !important;
   /* Sidebar and Header */
