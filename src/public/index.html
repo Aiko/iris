@@ -926,13 +926,12 @@
             <div class="col-8 p0 exp" style="display: inline-flex;">
               <h2 class="sender">
                 {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+              <!-- TODO: Rig badges, thread, bcc, event, tracker -->
+              <img src="assets/icons/thread.svg" style="display: none;">
               <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-
               <img src="assets/icons/badges-tracker.svg" style="display: none;">
               <img src="assets/icons/badges-event.svg" style="display: none;">
               <img src="assets/icons/badges-bcc.svg" style="display: none;">
-
-
             </div>
             <div class="col-4 p0 cll">
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
