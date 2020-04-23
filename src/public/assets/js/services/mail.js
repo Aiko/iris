@@ -27,8 +27,7 @@ const mailapi = {
         boardNames: [],
         inbox: {
             uidLatest: -1,
-            emails: [],
-            oldEmails: [],
+            emails: []
         },
         boards: {},
         syncing: false
@@ -41,12 +40,12 @@ const mailapi = {
             // you also should set the uidLatest every time it has changed
 
             if (updatedInbox.length > 0) {
-                info(...MAILAPI_TAG, "Saving inbox cache")
+                info(...MAILAPI_TAG, "Saving inbox cache...")
                 await BigStorage.store(this.imapConfig.email + '/inbox', {
                     uidLatest: this.inbox.uidLatest,
-                    emails: this.inbox.emails.slice(0,100),
-                    oldEmails: this.inbox.oldEmails
+                    emails: this.inbox.emails.slice(0,90)
                 })
+                info(...MAILAPI_TAG, "Saved inbox cache.")
             }
         },
     },
@@ -422,15 +421,18 @@ const mailapi = {
             if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
             const processed_emails = emails // await MailCleaner.full(emails)
 
+            // DANGER: this is scary and takes like 30s on main thread
+            // super super dangerous, avengers level threat
+            /*
             info(...MAILAPI_TAG, "Peeking 4000 additional messages for threading.")
             uidMin = Math.max(uidMax - 4000, 1)
             const thread_messages = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, true))
             if (!(thread_messages?.reverse)) return window.error(...MAILAPI_TAG, thread_messages)
             const processed_old_emails = await MailCleaner.peek(thread_messages)
+            */
 
             this.inbox.emails = processed_emails
-            this.inbox.oldEmails = processed_old_emails
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             this.loading = false
@@ -561,19 +563,23 @@ const mailapi = {
             // returns thread array for email
             const thread = [email]
 
-            const get_reply = reply_id => {
+            const get_reply = async reply_id => {
                 // search inbox
                 for (let email of this.inbox.emails) {
                     if (email.envelope['message-id'] == reply_id)
                         return email
                 }
                 // search old emails
+                /*
                 for (let email of this.inbox.oldEmails) {
                     if (email.envelope['message-id'] == reply_id)
                         return email
-                }
+                }*/
                 // TODO: check sent
                 // TODO: search mailserver
+                const search_results = await this.callIPC(
+                    this.task_SearchEmails("INBOX",null)
+                )
                 return null
             }
 

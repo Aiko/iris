@@ -3,6 +3,7 @@
 const BigStorage = (() => {
 
     const makeKey = k => "aiko-mail/" + k
+    const decoder = new TextDecoder()
 
     const store = async (k, obj) => {
         const key = makeKey(k)
@@ -23,7 +24,9 @@ const BigStorage = (() => {
             })
         )
         if (!success || !data) return null
-        else return data
+        const jsonString = decoder.decode(data)
+        if (!jsonString) return null
+        else return JSON.parse(jsonString)
     }
 
     return { store, load }
