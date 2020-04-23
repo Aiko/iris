@@ -90,3 +90,5 @@ out/
 .vscode/settings.json
 package-lock.json
 prefs.json
+
+cache/*
