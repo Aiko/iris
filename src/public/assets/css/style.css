@@ -311,8 +311,9 @@ input:active {
 
 .thin .email-footer {
 	width: 130px !important;
-	margin-left: -21px;
+	margin-left: -23px;
 	transition: .2s;
+	padding-left: 1px;
 }
 
 .thin .board-header h1 {
@@ -496,6 +497,60 @@ input:active {
 .long-board .main-email {
 	z-index: 0;
 	width: 100%;
+}
+
+.note {
+	width: calc(100% + 56px);
+	position: relative;
+	margin-left: -28px;
+	background: var(--secondary-bg-color);
+	overflow: hidden;
+	color: var(--dark-text);
+	font-size: 14px;
+	border: 1px solid #486fff;
+	z-index: 1;
+	margin-top: -25px;
+	border-radius: 0 0 4px 4px;
+	height: 33px;
+	cursor: text;
+}
+
+.note a {
+	width: 30px;
+	background: var(--main-color);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px 0;
+	transition: .2s;
+}
+
+.thin .note input {
+	padding: 5px 0 5px 6px !important;
+}
+
+.note a:hover {
+	background: var(--main-color-hover) !important;
+	transition: .2s;
+}
+
+.note input {
+	background: transparent;
+	border: none;
+	color: var(--dark-text);
+	padding: 5px 5px 12px;
+	width: calc(100% - 30px);
+}
+
+.hide {
+	display: none !important;
+	transition: .2s;
+}
+
+.thin .note {
+	width: 130px !important;
+	margin-left: -23px !important;
 }
 
 .header {
@@ -1035,32 +1090,16 @@ hr {
 	height: 50px;
 }
 
-.three-lines .email {
-	height: 125px;
-}
-
 .two-lines .body {
 	height: 33px;
-}
-
-.two-lines .email {
-	height: 115px;
 }
 
 .one-lines .body {
 	height: 19px;
 }
 
-.one-lines .email {
-	height: 95px;
-}
-
 .zero-lines .body {
 	height: 0;
-}
-
-.zero-lines .email {
-	height: 78px;
 }
 
 .zero .body {
@@ -1077,11 +1116,10 @@ hr {
 	border-radius: 4px;
 	box-shadow: 0 0 2px 1px #00000026;
 	cursor: pointer;
-	height: 115px;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 13px;
 	transition: .2s;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .email:hover .delete {
@@ -1254,13 +1292,11 @@ hr {
 .email-footer {
 	user-select: none;
 	box-shadow: inset 5px 22px 4px -20px #0000000d;
-	position: absolute;
-	bottom: 0;
 	width: 280px;
 	height: 27px;
 	margin-left: -28px;
 	border-radius: 0 0 4px 4px;
-	margin-bottom: -1px;
+	margin-top: 2px;
 }
 
 .user img {
