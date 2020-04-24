@@ -1423,7 +1423,7 @@ hr {
 }
 
 .sortable-drag {
-	box-shadow: 0 10px 20px #5d5d5d29 !important;
+	box-shadow: 0 6px 15px 1px #0000002b;
 	transform: scale(1.06);
 	opacity: 1 !important;
 }
