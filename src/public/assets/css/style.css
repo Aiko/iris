@@ -1349,7 +1349,6 @@ hr {
 .unread {
 	border-left: 3px solid var(--main-color);
 	padding-left: 10px !important;
-	transition: .2s;
 }
 
 .unread .subject {
