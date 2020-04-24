@@ -979,6 +979,7 @@ a.main-action:hover {
 	overflow-y: scroll;
 	height: calc(100% - 55px);
 	scroll-behavior: smooth;
+	overflow-x: hidden;
 }
 
 .badges {
