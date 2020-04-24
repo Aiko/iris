@@ -20,10 +20,7 @@
   </head>
 
   <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
-    <div id="app" class="inline-flex"
-      style="opacity: 0"
-      :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'"
-    >
+    <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
       <!-- THEMES GO HERE -->
       <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
       <!-- LOADER -->
@@ -282,6 +279,7 @@
                     </div>
                     <div class="col-5 text-center exp margin-auto nowrap">
                       <h1>Inbox</h1>
+                      <!-- TODO: Rig the unread count per board ----------->
                       <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                     </div>
                     <div class="col-3 text-right cll">
@@ -358,6 +356,7 @@
                 <div class="board-body">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card v-for="email in board?.emails" :email="email"></email-card>
+                  <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox-->
                   <div slot="footer" class="empty2">
                   </div>
                 </div>
@@ -437,14 +436,11 @@
                 style="margin-bottom: 15px;margin-top:10px">
               <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
               <h1>You found a premium feature.</h1>
-
               <img v-if="isDarkMode" src="assets/img/u-quick-black.png" width="300">
               <img v-if="!isDarkMode" src="assets/img/u-quick-white.png" width="300">
               <br>
               <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
-                and lets you manage
-                them with the click of a
-                button.</p><br> <br>
+                and lets you manage them with the click of a button.</p><br> <br>
               <div class="modal-bottom">
                 <a href="#" class="blue">Get Started</a>
               </div>
@@ -482,7 +478,6 @@
             <div class="main-email">
 
               <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
-
               <!-- Single Message in Thread -->
               <div class="single-email">
                 <div class="email-head">
@@ -509,7 +504,7 @@
 
                   <div class="options-qa">
                     <a target="_blank">
-                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Verify</h2>
+                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
                     </a>
                   </div>
 
@@ -929,13 +924,12 @@
             <div class="col-8 p0 exp" style="display: inline-flex;">
               <h2 class="sender">
                 {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+              <!-- TODO: Rig badges, thread, bcc, event, tracker -->
+              <img src="assets/icons/thread.svg" style="display: none;">
               <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-
               <img src="assets/icons/badges-tracker.svg" style="display: none;">
               <img src="assets/icons/badges-event.svg" style="display: none;">
               <img src="assets/icons/badges-bcc.svg" style="display: none;">
-
-
             </div>
             <div class="col-4 p0 cll">
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
@@ -946,7 +940,11 @@
           <div class="email-footer" style="user-select: none;">
             <div class="row">
               <div class="col-5 cll">
-                <a class="main-action" href="#"><img src="assets/icons/badges-event.svg"> Schedule</a>
+                <a class="main-action" href="#">
+                  <img src="assets/icons/badges-event.svg"> Schedule
+                  <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
+                  <!-- TODO: Rig <img src="assets/icons/sign.svg"> Sign -->
+                </a>
               </div>
               <div class="col-7 extra-actions">
                 <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
