@@ -298,8 +298,8 @@
                 </div>
               </div>
               <div class="board-body">
-                <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost" drag-class="drag"
-                  :move="log">
+                <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost"
+                  :move="log" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0">
                   <email-card v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails"
                     :email="email"></email-card>
                 </draggable>
@@ -327,7 +327,7 @@
             <!-- START Default Board Template ----------------------->
             <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
               inline-template>
-              <div class="board">
+              <div :board-name="boardName" class="board">
                 <div class="board-header">
                   <div class="container p0">
                     <div class="row">

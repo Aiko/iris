@@ -352,7 +352,7 @@ const mailapi = {
             const inboxCache = (
                 await BigStorage.load(this.imapConfig.email + '/inbox') ||
                 this.inbox)
-            inboxCache.emails = await MailCleaner.peek(inboxCache.emails)
+            inboxCache.emails = await MailCleaner.peek("INBOX", inboxCache.emails)
             this.inbox = inboxCache
             // load cache for the boards
             const boardCache = (
@@ -363,6 +363,7 @@ const mailapi = {
                     uidLatest: -1,
                     emails: []
                 })
+                this.boards[board].emails = await MailCleaner.peek(board, this.boards[board].emails)
             }
 
             info(...MAILAPI_TAG, "Saving config...")
@@ -412,7 +413,7 @@ const mailapi = {
                     this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
                 if (!(received?.reverse)) return window.error(...MAILAPI_TAG, received);
                 MESSAGE_COUNT += received.length
-                const processed_received = await MailCleaner.full(received.reverse())
+                const processed_received = await MailCleaner.full("INBOX", received.reverse())
                 emails.push(...processed_received)
                 uidMax = uidMin - 1
                 info(...MAILAPI_TAG, 100 - MESSAGE_COUNT, "left to fetch...")
@@ -461,7 +462,7 @@ const mailapi = {
             const emails = await this.callIPC(
                 this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.full(emails.reverse())
+            const processed_emails = await MailCleaner.full(boardName, emails.reverse())
             // TODO: ai should be stored in their headers automatically.
 
             this.boards[boardName].emails.unshift(...processed_emails)
@@ -492,7 +493,7 @@ const mailapi = {
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${this.inbox.uidLatest + 1}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.full(emails.reverse())
+            const processed_emails = await MailCleaner.full("INBOX", emails.reverse())
 
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
@@ -555,7 +556,7 @@ const mailapi = {
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.base(emails.reverse())
+            const processed_emails = await MailCleaner.base("INBOX", emails.reverse())
 
             this.inbox.emails.push(...processed_emails)
         },
@@ -596,16 +597,18 @@ const mailapi = {
 
             return thread
         },
-        async threading() {
-            const reply_ids = new Set()
+        async halfThreading() {
+            // does the very simple act of:
+            // email.ai.isInThread = true
+            // on emails that are part of a thread
+            // and not the final msg in thread
 
             /* Super Inefficient Threading algorithm:
 
             for every email:
                 if the email is a reply to message with id X:
                     prev = find previous message with reply id X
-                    append prev to the email thread
-                    prev.ai.threaded = true
+                    prev.ai.isInThread = true
 
             */
 
@@ -616,6 +619,12 @@ const mailapi = {
                 for (let i = 0; i < this.inbox.emails.length; i++) {
 
                 }
+                // search boards
+                // and if the email is not in the board,
+                // move it there
+
+                // don't need to search the sent folder :)
+                // 
             }
         },
     }
