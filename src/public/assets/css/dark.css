@@ -102,7 +102,7 @@
 }
 
 .email {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 .email-footer {
