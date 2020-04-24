@@ -296,9 +296,11 @@
                 </div>
               </div>
               <div class="board-body">
-                <draggable v-model.lazy="inbox.emails" group="board-emails" ghost-class="ghost" :move="log"
-                  :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0">
-                  <email-card v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails" :email="email">
+                <!-- Can use :move to prevent it from moving into this board -->
+                <draggable v-model.lazy="inbox.emails" :group="{name: 'board-emails', pull: 'clone'}"
+                  ghost-class="ghost" @end="log" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0"
+                  draggable=".email">
+                  <email-card :key="email.uid" v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails" :email="email">
                   </email-card>
                 </draggable>
                 <!-- START List loader ----------------------->
@@ -915,7 +917,7 @@
     </div>
 
     <script type="text/x-template" id="email-card">
-      <div :uid="email.uid" class="email" :class="{
+      <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed)
       }">
