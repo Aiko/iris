@@ -1857,8 +1857,11 @@ hr {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	background: var(--main-color);
-	color: #fff;
 	transition: .2s;
+}
+
+.compose-bottom span {
+	color: #fff !important;
 }
 
 [contenteditable=true]:empty:before {
@@ -1900,6 +1903,7 @@ hr {
 	color: var(--dark-text);
 	height: calc(100% - 255px);
 	overflow: scroll;
+	font-size: 16px;
 }
 
 .compose-italic {
@@ -2713,7 +2717,7 @@ unselectable {
 	background: var(--main-bg-color);
 	border: none;
 	color: var(--dark-text);
-	font-size: 15px;
+	font-size: 16px;
 	margin-left: 5px;
 	width: 100%;
 }
