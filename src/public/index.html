@@ -356,6 +356,7 @@
                 <div class="board-body">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card v-for="email in board?.emails" :email="email"></email-card>
+                  <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox-->
                   <div slot="footer" class="empty2">
                   </div>
                 </div>
