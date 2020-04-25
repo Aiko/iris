@@ -20,8 +20,7 @@
   </head>
 
   <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
-    <div id="app" class="inline-flex collapsed" style="opacity: 0"
-      :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
       <!-- THEMES GO HERE -->
       <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
       <!-- LOADER -->
@@ -93,7 +92,7 @@
             </div>
           </div>
           <div class="row bottom">
-            <div class="sidebar-collapse no-mobile">
+            <div @click="collapseSidebar = !collapseSidebar" class="sidebar-collapse no-mobile">
               <img src="assets/icons/sidebar-collapse.svg">
             </div>
             <br>
@@ -304,9 +303,9 @@
               </div>
               <div class="board-body">
                 <!-- Can use :move to prevent it from moving into this board -->
-                <draggable v-model.lazy="inbox.emails" :group="{name: 'board-emails', pull: 'clone'}"
-                  ghost-class="ghost" @end="log" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0"
-                  draggable=".email">
+                <draggable id="aikomail--inbox" v-model.lazy="inbox.emails"
+                  :group="{name: 'board-emails', pull: 'clone'}" ghost-class="ghost" @end="log" :force-fallback="true"
+                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                   <email-card :key="email.uid" v-if="!priority || !email?.ai?.subscription"
                     v-for="email in inbox.emails" :email="email">
                   </email-card>

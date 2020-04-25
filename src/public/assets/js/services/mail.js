@@ -627,5 +627,14 @@ const mailapi = {
                 // 
             }
         },
+        checkMove({to, from}) {
+            // prevents moving from&to inbox
+            if (to.id == from.id && to.id == "aikomail--inbox")
+                return false
+            return true
+        },
+        async moveEmail(event) {
+
+        },
     }
 }
