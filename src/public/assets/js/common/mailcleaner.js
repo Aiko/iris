@@ -5,9 +5,8 @@ const MailCleaner = (() => {
         email.envelope.date = new Date(email.envelope.date)
         email.folder = folder
         email.syncing = false
-        email.ai = {
-            seen: false
-        }
+        if (!email.ai) email.ai = {}
+        email.ai.seen = false
         if (email.flags.includes('\\Seen')) email.ai.seen = true
         return email
     })

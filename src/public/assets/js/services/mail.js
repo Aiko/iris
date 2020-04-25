@@ -718,17 +718,29 @@ const mailapi = {
         async moveEmail({to, from, item, oldIndex, newIndex}) {
             // ignore from-to same board
             if (from.id == to.id) return;
+            // TODO: calculating index should use message id
+            const uid = item.getAttribute('uid')
 
             // 2 types of events, to inbox and to board
             // to inbox
             if (to.id == 'aikomail--inbox') {
-                const email = app.inbox.emails[newIndex]
+                let email, index;
+                for (let i = 0; i < app.inbox.emails.length; i++) {
+                    if (app.inbox.emails[i].uid == uid) {
+                        email = app.inbox.emails[i]
+                        index = i
+                        break
+                    }
+                }
+                if (!email) return window.error(...MAILAPI_TAG, "Couldn't find an email with that UID in the inbox.")
+
                 // if its mid sync use that folder, otherwise its normal folder
                 const folder = email.syncFolder || email.folder
                 // update UI right away
                 email.folder = "INBOX"
                 // remove to prevent clones
-                app.inbox.emails.splice(newIndex, 1)
+                log(index)
+                app.inbox.emails.splice(index, 1)
 
                 // if mid sync from inbox, can ignore
                 // otherwise just delete the email from its board
@@ -748,8 +760,20 @@ const mailapi = {
                 const boardName = to.id.substring('aikomail--'.length)
                 // could also use:
                 // to.parentElement.parentElement.getAttribute('board-name')
-                // get email
-                const email = app.boards[boardName].emails[newIndex]
+                // get email, calculate index ourselves
+                let email;
+                for (let i = 0; i < app.boards[boardName].emails.length; i++) {
+                    if (app.boards[boardName].emails[i].uid == uid) {
+                        email = app.boards[boardName].emails[i]
+                        break
+                    }
+                }
+                if (!email) return window.error(...MAILAPI_TAG, "Couldn't find an email with that UID in the board.")
+
+                info(...MAILAPI_TAG, "Dragged", email.uid,
+                    "of", (email.syncFolder || email.folder),
+                    "from", from.id, "to", to.id
+                )
 
                 // if this is the first movement of the email
                 // since it was last synced to mailserver,
