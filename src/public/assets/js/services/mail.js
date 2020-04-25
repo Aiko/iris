@@ -796,6 +796,7 @@ const mailapi = {
                         email.uid
                     )
                     // clean up post-sync
+                    email.syncing = false
                     email.syncFolder = null
                     if (app.boards[boardName].emails.length > 0)
                         app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
