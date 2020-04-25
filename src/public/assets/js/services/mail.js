@@ -627,10 +627,17 @@ const mailapi = {
                 // 
             }
         },
-        checkMove({to, from}) {
+        checkMove(e) {
+            const { to, from } = e
             // prevents moving from&to inbox
-            if (to.id == from.id && to.id == "aikomail--inbox")
+            // this is buggy because the vue.draggable lib is trash
+            // so we dont use it anymore :/
+            /*
+            if (to.id == from.id && to.id == "aikomail--inbox") {
+                info(...MAILAPI_TAG, "Cancelled move; to id:", to.id, "from id:", from.id)
                 return false
+            }
+            */
             return true
         },
         async moveEmail(event) {
