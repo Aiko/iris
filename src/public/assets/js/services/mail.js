@@ -727,6 +727,7 @@ const mailapi = {
                 const folder = email.syncFolder || email.folder
                 // update UI right away
                 email.folder = "INBOX"
+                email.uid = email.inboxUID || email.uid
                 // remove to prevent clones
                 app.inbox.emails.splice(newIndex, 1)
 
