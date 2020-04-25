@@ -725,7 +725,7 @@ const mailapi = {
                         (email.syncFolder == "INBOX") ?
                             app.task_CopyEmails : app.task_MoveEmails
                     );
-                    const { destSeqSet } = await app.callIPC(syncStrategy(
+                    const { srcSeqSet, destSeqSet } = await app.callIPC(syncStrategy(
                         email.syncFolder, email.folder, email.uid
                     ))
                     // TODO: should probably move it back if we failed
@@ -745,6 +745,8 @@ const mailapi = {
                     email.syncFolder = null
                     if (app.boards[boardName].emails.length > 0)
                         app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
+                    info(...MAILAPI_TAG, "Saving boards cache")
+                    await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
                 }, SYNC_TIMEOUT)
             }
             // TODO: special for done? idk
