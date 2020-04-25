@@ -300,9 +300,9 @@
               </div>
               <div class="board-body">
                 <!-- Can use :move to prevent it from moving into this board -->
-                <draggable v-model.lazy="inbox.emails" :group="{name: 'board-emails', pull: 'clone'}"
+                <draggable id="aikomail--inbox" v-model.lazy="inbox.emails" :group="{name: 'board-emails', pull: 'clone'}"
                   ghost-class="ghost" @end="log" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0"
-                  draggable=".email">
+                  draggable=".email" :move="checkMove">
                   <email-card :key="email.uid" v-if="!priority || !email?.ai?.subscription" v-for="email in inbox.emails" :email="email">
                   </email-card>
                 </draggable>
