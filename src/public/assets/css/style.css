@@ -1945,6 +1945,10 @@ hr {
 	margin-top: 1px !important;
 }
 
+.zen .board {
+	margin-right: 15px !important;
+}
+
 .zen .boards-container {
 	height: 100% !important;
 }
