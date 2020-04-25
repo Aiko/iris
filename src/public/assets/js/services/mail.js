@@ -727,7 +727,6 @@ const mailapi = {
                 const folder = email.syncFolder || email.folder
                 // update UI right away
                 email.folder = "INBOX"
-                email.uid = email.inboxUID || email.uid
                 // remove to prevent clones
                 app.inbox.emails.splice(newIndex, 1)
 
@@ -739,6 +738,8 @@ const mailapi = {
                         folder, email.uid
                     ))
                 }
+
+                email.uid = email.inboxUID || email.uid
             }
             // to board
             else {
@@ -763,9 +764,9 @@ const mailapi = {
                 const SYNC_TIMEOUT = 5000
                 setTimeout(async () => {
                     // if it's already syncing, don't race
-                    if (email.syncing) return;
+                    if (email.syncing) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
                     // if the email's folder has changed, don't race
-                    if (email.folder != targetFolder) return;
+                    if (email.folder != targetFolder) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because the target folder is", email.folder);
                     // lock email in UI
                     email.syncing = true // TODO: should add a class that exists in draggable filter
                     info(...MAILAPI_TAG, "Moving email",
@@ -785,17 +786,17 @@ const mailapi = {
                     ))
                     // TODO: should probably move it back if we failed
                     if (!destSeqSet)
-                        return window.error(...MAILAPI_TAG, "Syncing moved email failed.")
+                        return window.error(...MAILAPI_TAG, "Syncing moved email failed.");
+                    info(...MAILAPI_TAG, "Moved email",
+                        email.uid, "from", email.syncFolder,
+                        "to", targetFolder, "with new uid",
+                        destSeqSet
+                    )
 
                     // make sure we set the current folder/uid pair
                     // and this eval is why we check integrity of IPC :)
                     email.uid = eval(destSeqSet)
                     email.folder = targetFolder
-                    info(...MAILAPI_TAG, "Moved email",
-                        destSeqSet, "from", email.syncFolder,
-                        "to", targetFolder, "with new uid",
-                        email.uid
-                    )
                     // clean up post-sync
                     email.syncing = false
                     email.syncFolder = null

@@ -4,6 +4,7 @@ const MailCleaner = (() => {
         // just makes it easier to use in JS
         email.envelope.date = new Date(email.envelope.date)
         email.folder = folder
+        email.syncing = false
         email.ai = {
             seen: false
         }
