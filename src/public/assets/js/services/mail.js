@@ -230,9 +230,15 @@ const mailapi = {
                 this.folderNames.archive = "[Gmail]/All Mail"
                 this.folderNames.trash = "[Gmail]/Trash"
             } else {
+                const allfolders = []
+                const walk = folder => {
+                    allfolders.push(folder.path)
+                    allfolders.push(...Object.values(folder?.children).map(_ => _.path))
+                }
+                Object.values(folders).map(walk)
                 const detectFolderName = keyword => {
-                    const matches = folders.filter(f => f.includes(keyword))
-                    if (matches.length > 0) return matches[1]
+                    const matches = allfolders.filter(f => f.includes(keyword))
+                    if (matches.length > 0) return matches[0]
                     return ''
                 }
                 this.folderNames.sent = detectFolderName('Sent')
