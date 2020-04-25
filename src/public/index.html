@@ -20,7 +20,7 @@
   </head>
 
   <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
-    <div id="app" class="inline-flex collapsed" style="opacity: 0"
+    <div id="app" class="inline-flex" style="opacity: 0"
       :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
       <!-- THEMES GO HERE -->
       <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
@@ -93,7 +93,7 @@
             </div>
           </div>
           <div class="row bottom">
-            <div class="sidebar-collapse no-mobile">
+            <div @click="collapseSidebar = !collapseSidebar" class="sidebar-collapse no-mobile">
               <img src="assets/icons/sidebar-collapse.svg">
             </div>
             <br>

@@ -12,7 +12,8 @@ const app = new Vue({
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
         loading: true,
         firstTime: true,
-        priority: true
+        priority: true,
+        collapseSidebar: false,
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -29,6 +30,18 @@ const app = new Vue({
             }
             return
         },
+        collapseSidebar(collapse, collapsed) {
+            if (collapse == collapsed) return;
+            if (!collapse && collapsed) {
+                document.getElementById('app').classList.toggle('collapsed', false)
+                return
+            }
+            if (collapse && !collapsed) {
+                document.getElementById('app').classList.toggle('collapsed', true)
+                return
+            }
+            return
+        }
     },
     async created() {
         document.getElementById('app').style.opacity = 1
@@ -91,7 +104,7 @@ const app = new Vue({
     methods: {
         log(...msg) {
             console.log(...msg)
-        }
+        },
     }
 })
 
