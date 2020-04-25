@@ -377,6 +377,13 @@ const mailapi = {
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             }
 
+            /* TODO:/FIXME:
+                so basically, we need to compute based on message-id header,
+                which emails match, so that if an email is in a board,
+                the copy of it in the inbox is set to the email in the board (in memory),
+                and also that the .folder prop is correctly updated to show it in board
+            */
+
             console.timeEnd("SWITCH MAILBOX")
             this.loading = false
 
@@ -627,8 +634,7 @@ const mailapi = {
                 // 
             }
         },
-        checkMove(e) {
-            const { to, from } = e
+        checkMove({to, from}) {
             // prevents moving from&to inbox
             // this is buggy because the vue.draggable lib is trash
             // so we dont use it anymore :/
@@ -640,8 +646,92 @@ const mailapi = {
             */
             return true
         },
-        async moveEmail(event) {
+        async moveEmail({to, from, item, oldIndex, newIndex}) {
+            // ignore from-to same board
+            if (from.id == to.id) return;
 
+            // 2 types of events, to inbox and to board
+            // to inbox
+            if (to.id == 'aikomail--inbox') {
+                const email = app.inbox.emails[newIndex]
+                // if its mid sync use that folder, otherwise its normal folder
+                const folder = email.syncFolder || email.folder
+                // update UI right away
+                email.folder = "INBOX"
+                // remove to prevent clones
+                app.inbox.emails.splice(newIndex, 1)
+
+                // if mid sync from inbox, can ignore
+                // otherwise just delete the email from its board
+                if (folder != "INBOX") {
+                    info(...MAILAPI_TAG, "Deleting email", email.uid, "from", folder)
+                    await app.callIPC(app.task_DeleteEmails(
+                        folder, email.uid
+                    ))
+                }
+            }
+            // to board
+            else {
+                // add to board ids
+                // get board name
+                const boardName = to.id.substring('aikomail--'.length)
+                // could also use:
+                // to.parentElement.parentElement.getAttribute('board-name')
+                // get email
+                const email = app.boards[boardName].emails[newIndex]
+
+                // if this is the first movement of the email
+                // since it was last synced to mailserver,
+                // set the folder it originated from
+                if (!email.syncFolder) email.syncFolder = email.folder
+                // update UI right away though!
+                email.folder = boardName
+
+                // Sync
+                const targetFolder = email.folder
+                const SYNC_TIMEOUT = 5000
+                setTimeout(async () => {
+                    // if it's already syncing, don't race
+                    if (email.syncing) return;
+                    // if the email's folder has changed, don't race
+                    if (email.folder != targetFolder) return;
+                    // lock email in UI
+                    email.syncing = true // TODO: should add a class that exists in draggable filter
+                    info(...MAILAPI_TAG, "Moving email",
+                        email.uid, "from", email.syncFolder,
+                        "to", targetFolder
+                    )
+                    // if it comes from inbox copy,
+                    // otherwise move it (move it)
+                    const syncStrategy = (
+                        (email.syncFolder == "INBOX") ?
+                            app.task_CopyEmails : app.task_MoveEmails
+                    );
+                    const { destSeqSet } = await app.callIPC(syncStrategy(
+                        email.syncFolder, email.folder, email.uid
+                    ))
+                    // TODO: should probably move it back if we failed
+                    if (!destSeqSet)
+                        return window.error(...MAILAPI_TAG, "Syncing moved email failed.")
+
+                    // make sure we set the current folder/uid pair
+                    // and this eval is why we check integrity of IPC :)
+                    email.uid = eval(destSeqSet)
+                    email.folder = targetFolder
+                    info(...MAILAPI_TAG, "Moved email",
+                        destSeqSet, "from", email.syncFolder,
+                        "to", targetFolder, "with new uid",
+                        email.uid
+                    )
+                    // clean up post-sync
+                    email.syncFolder = null
+                    if (app.boards[boardName].emails.length > 0)
+                        app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
+                }, SYNC_TIMEOUT)
+            }
+            // TODO: special for done? idk
+            info(...MAILAPI_TAG, "Saving boards cache")
+            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
         },
     }
 }

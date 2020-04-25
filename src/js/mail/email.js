@@ -538,9 +538,10 @@ ipcMain.handle('please copy emails', async (_, q) => {
         if (!sequence) return { error:  'No message sequence provided to "please copy emails"' }
     }
 
-    try { await client.copyMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
+    let results;
+    try { results = await client.copyMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
 
-    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: results }) }
 })
 
 ipcMain.handle('please upload an email', async (_, q) => {
@@ -583,9 +584,10 @@ ipcMain.handle('please move emails', async (_, q) => {
         if (!sequence) return { error:  'No message sequence provided to "please move emails"' }
     }
 
-    try { await client.moveMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
+    let results;
+    try { results = await client.moveMessages(srcPath, sequence, dstPath, options) } catch (e) { return { error: e } }
 
-    return { s: comms["👉"](client_secret, { success: true, payload: q }) }
+    return { s: comms["👉"](client_secret, { success: true, payload: results }) }
 })
 
 module.exports = (w => (win = w))
