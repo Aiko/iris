@@ -1929,6 +1929,31 @@ hr {
 	color: #fff !important;
 }
 
+.zen .sidebar {
+	display: none !important;
+}
+
+.zen .header {
+	display: none !important;
+}
+
+.zen .main {
+	width: 100% !important;
+}
+
+.zen .aiko-toast {
+	margin-top: 1px !important;
+}
+
+.zen .boards-container {
+	height: 100% !important;
+}
+
+.zen .boards {
+	height: calc(100% - 10px) !important;
+	margin: 10px 0 0 10px !important;
+}
+
 [contenteditable=true]:empty:before {
 	content: attr(data-text);
 	color: var(--main-text-color);
