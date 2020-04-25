@@ -106,6 +106,7 @@
       </div>
       <!-- END Sidebar ----------------------------------------------->
 
+      <!-- MAIN INBOX -->
       <div class="main">
 
         <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
@@ -303,7 +304,7 @@
               </div>
               <div class="board-body">
                 <!-- Can use :move to prevent it from moving into this board -->
-                <draggable id="aikomail--inbox" v-model.lazy="inbox.emails" :group="{name: 'emails', pull: 'clone'}"
+                <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails" :group="{name: 'emails', pull: 'clone'}"
                   ghost-class="ghost" @end="moveEmail" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0"
                   draggable=".email" :move="checkMove">
                   <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
@@ -363,7 +364,7 @@
                   </div>
                 </div>
                 <div class="board-body">
-                  <draggable v-if="board" :id="'aikomail--' + boardName" v-model.lazy="board.emails"
+                  <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model.lazy="board.emails"
                     :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                     :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
@@ -931,7 +932,8 @@
     <script type="text/x-template" id="email-card">
       <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
-        'zero': !(email?.parsed)
+        'zero': !(email?.parsed),
+        'syncing': email?.syncing
       }">
         <div class="container pr">
           <div class="row" style="user-select: none;">
