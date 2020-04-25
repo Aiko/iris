@@ -811,9 +811,11 @@ const mailapi = {
                     );
                     if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
                     // do the actual copy/move
-                    const { srcSeqSet, destSeqSet } = await app.callIPC(syncStrategy(
+                    const d = await app.callIPC(syncStrategy(
                         email.syncFolder, email.folder, email.uid
                     ))
+                    const destSeqSet = d?.destSeqSet;
+                    if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d);
                     // TODO: should probably move it back if we failed
                     if (!destSeqSet)
                         return window.error(...MAILAPI_TAG, "Syncing moved email failed.");
