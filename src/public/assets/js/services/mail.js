@@ -364,6 +364,17 @@ const mailapi = {
                     emails: []
                 })
                 this.boards[board].emails = await MailCleaner.peek(board, this.boards[board].emails)
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                        }
+                    }
+                }
             }
 
             info(...MAILAPI_TAG, "Saving config...")
@@ -377,13 +388,6 @@ const mailapi = {
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
             }
 
-            /* TODO:/FIXME:
-                so basically, we need to compute based on message-id header,
-                which emails match, so that if an email is in a board,
-                the copy of it in the inbox is set to the email in the board (in memory),
-                and also that the .folder prop is correctly updated to show it in board
-            */
-
             console.timeEnd("SWITCH MAILBOX")
             this.loading = false
 
@@ -395,6 +399,20 @@ const mailapi = {
                 this.boardNames.map(async boardName => await this.initialSyncBoard(boardName)))
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+            // FIXME: must be better way to do this
+            for (let board of this.boardNames) {
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                        }
+                    }
+                }
+            }
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
