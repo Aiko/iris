@@ -371,7 +371,12 @@ const mailapi = {
                     for (let j = 0; j < this.inbox.emails.length; j++) {
                         if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
                             // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
                             Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                log("changing uid to", wasUID)
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
                         }
                     }
                 }
@@ -385,14 +390,11 @@ const mailapi = {
             if (this.inbox.emails.length == 0) {
                 await this.initialSyncWithMailServer()
             } else {
-                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             }
 
             console.timeEnd("SWITCH MAILBOX")
             this.loading = false
-
-            // check for new messages in background
-            this.checkForNewMessages()
 
             // sync boards and save their cache
             await Promise.all(
@@ -408,11 +410,19 @@ const mailapi = {
                     for (let j = 0; j < this.inbox.emails.length; j++) {
                         if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
                             // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
                             Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                log("Changing uid to", wasUID)
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
                         }
                     }
                 }
             }
+
+            // check for new messages in background
+            this.checkForNewMessages()
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
@@ -460,7 +470,27 @@ const mailapi = {
 
             this.inbox.emails = processed_emails
             if (this.inbox.emails.length > 0)
-                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
+
+            // memory linking
+            for (let board of this.boardNames) {
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                log("changing uid to", wasUID)
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
+                        }
+                    }
+                }
+            }
             this.loading = false
             console.timeEnd("Initial Sync")
         },
@@ -513,6 +543,7 @@ const mailapi = {
                 return false
             }
 
+            this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest + 1}:${uidNext}`)
 
             const emails = await this.callIPC(
@@ -522,7 +553,27 @@ const mailapi = {
 
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
-                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.uid))
+                this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
+
+            // memory linking
+            for (let board of this.boardNames) {
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                log("Chanign guid to", wasUID)
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
+                        }
+                    }
+                }
+            }
             this.syncing = false
         },
         async uploadMessage(path, message, headerData, customData) {
@@ -706,6 +757,7 @@ const mailapi = {
                 email.folder = boardName
 
                 // Sync
+                // TODO: make hash to signify this sync and store in email
                 const targetFolder = email.folder
                 const SYNC_TIMEOUT = 5000
                 setTimeout(async () => {
@@ -725,6 +777,8 @@ const mailapi = {
                         (email.syncFolder == "INBOX") ?
                             app.task_CopyEmails : app.task_MoveEmails
                     );
+                    if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
+                    // do the actual copy/move
                     const { srcSeqSet, destSeqSet } = await app.callIPC(syncStrategy(
                         email.syncFolder, email.folder, email.uid
                     ))
@@ -747,6 +801,12 @@ const mailapi = {
                         app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
                     info(...MAILAPI_TAG, "Saving boards cache")
                     await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+                    info(...MAILAPI_TAG, "Saving inbox cache...")
+                    await BigStorage.store(this.imapConfig.email + '/inbox', {
+                        uidLatest: this.inbox.uidLatest,
+                        emails: this.inbox.emails.slice(0,90)
+                    })
+                    info(...MAILAPI_TAG, "Saved inbox cache.")
                 }, SYNC_TIMEOUT)
             }
             // TODO: special for done? idk
