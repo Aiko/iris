@@ -39,11 +39,12 @@
 					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span> Account</span></a>
 					<a href="#"><img src="assets/icons/image.svg"> <span> Appearance</span></a>
 					<a href="#"><img src="assets/icons/settings-team.svg"> <span> Team</span></a>
+					<a href="#"><img src="assets/icons/settings-templates.svg"> <span> Templates</span></a>
 					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing</span>
 					</a>
 					<a href="#"><img src="assets/icons/integrations.svg"> <span> Integrations</span></a>
 					<a href="#"><img src="assets/icons/settings-customize.svg"> <span> Settings</span></a>
-					<div class="version">
+					<div class="version no-mobile">
 						<h1>Version: <span class="blue fw700">ALPHA</span></h1>
 						<p>Request features and report issues</p>
 						<a href="#" style="padding:4px 6px !important">Give feedback</a>
@@ -194,7 +195,6 @@
 						</div>
 					</div>
 				</div>
-
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
@@ -232,186 +232,188 @@
 						</div>
 					</div>
 				</div>
+				<div class="container" id="Templates" style="display: none;">
+					<h1>Templates</h1>
+					<br>
+
+				</div>
+				<div class="container" id="Billing" style="display: none;">
+					<h1>Billing</h1>
+					<br>
+					<h2>Plan</h2>
+					<div class="row">
+						<div class="col-8">
+							<img src="assets/img/logo.svg" width="80" style="margin-bottom: 4px">
+							<p><b>Pro</b>&nbsp;$19/Month</p><br>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">See plans</p>
+						</div>
+					</div>
+					<br><br>
+					<h2>Billing information</h2>
+					<div class="row">
+						<div class="col-8">
+							<p>Name</p>
+							<div class="s-edit" contenteditable="true">Priansh</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>Address</p>
+							<div class="s-edit" contenteditable="true">120 S Miami Avenue</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>City</p>
+							<div class="s-edit" contenteditable="true">Miami</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>State</p>
+							<div class="s-edit" contenteditable="true">Florida</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>Zip</p>
+							<div class="s-edit" contenteditable="true">33030</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>Stripe stuff</p>
+							<div class="s-edit" contenteditable="true">Ree?????</div>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Save</p>
+						</div>
+					</div>
+					<br>
+				</div>
+				<div class="container" id="integrations" style="display: none;">
+					<h1>Integrations</h1>
+					<br>
+					<div class="row">
+						<div class="col-8">
+							<p><b>Trello</b>&nbsp;Description</p>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Remove</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p><b>Asana</b>&nbsp;Description</p>
+						</div>
+						<div class="col-4 text-right">
+							<p class="act">Add</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="container" id="settings" style="display: none;">
+					<h1>Settings</h1>
+					<br>
+					<h2>Notifications</h2>
+					<div class="row">
+						<div class="col-8">
+							<p>Desktop Notifications</p>
+						</div>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-8">
+							<p>Desktop Notifications</p>
+						</div>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+
+					<br><br>
+					<h2>Updates</h2>
+					<div class="row">
+						<div class="col-8">
+							<p>Automatic Updates</p>
+						</div>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<p>Automatic updates are important to keep your data safe.</p>
+
+					<br><br>
+					<h2>Trackers</h2>
+					<div class="row">
+						<div class="col-8">
+							<p>Disable incoming trackers</p>
+						</div>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+					<p>This option blocks most tracker meant to track when you open emails.</p>
+					<div class="row">
+						<div class="col-8">
+							<p>Automatically send trackers</p>
+						</div>
+						<div class="col-4 text-right">
+							<label class="switch">
+								<input type="checkbox" checked>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div>
+
+					<p>Settings coming soon<br>
+						<p>Out of Office Replies<br>
+							Manage Rules and Alerts<br>
+							Privacy Settings ( displays what admin gave you the option of controlling)<br>
+							Attachment Options (Ask me how i want to attach them every time, always share as links,
+							always attach them as copies)<br>
+							Enable Linkedin features<br>
+							Editor Options (Compose message in this format with drop down: HTML, RIch text, plain
+							text)<br>
+							Spelling and Autocorrect<br>
+							Signature<br>
+						</p>
+
+
+				</div>
+
 			</div>
-
-			<div class="container" id="Billing" style="display: none;">
-				<h1>Billing</h1>
-				<br>
-				<h2>Plan</h2>
-				<div class="row">
-					<div class="col-8">
-						<img src="assets/img/logo.svg" width="80" style="margin-bottom: 4px">
-						<p><b>Pro</b>&nbsp;$19/Month</p><br>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">See plans</p>
-					</div>
-				</div>
-				<br><br>
-				<h2>Billing information</h2>
-				<div class="row">
-					<div class="col-8">
-						<p>Name</p>
-						<div class="s-edit" contenteditable="true">Priansh</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>Address</p>
-						<div class="s-edit" contenteditable="true">120 S Miami Avenue</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>City</p>
-						<div class="s-edit" contenteditable="true">Miami</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>State</p>
-						<div class="s-edit" contenteditable="true">Florida</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>Zip</p>
-						<div class="s-edit" contenteditable="true">33030</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>Stripe stuff</p>
-						<div class="s-edit" contenteditable="true">Ree?????</div>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Save</p>
-					</div>
-				</div>
-				<br>
-
-			</div>
-			<div class="container" id="integrations" style="display: none;">
-				<h1>Integrations</h1>
-				<br>
-				<div class="row">
-					<div class="col-8">
-						<p><b>Trello</b>&nbsp;Description</p>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Remove</p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p><b>Asana</b>&nbsp;Description</p>
-					</div>
-					<div class="col-4 text-right">
-						<p class="act">Add</p>
-					</div>
-				</div>
-			</div>
-
-			<div class="container" id="settings" style="display: none;">
-				<h1>Settings</h1>
-				<br>
-				<h2>Notifications</h2>
-				<div class="row">
-					<div class="col-8">
-						<p>Desktop Notifications</p>
-					</div>
-					<div class="col-4 text-right">
-						<label class="switch">
-							<input type="checkbox" checked>
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-8">
-						<p>Desktop Notifications</p>
-					</div>
-					<div class="col-4 text-right">
-						<label class="switch">
-							<input type="checkbox" checked>
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-
-				<br><br>
-				<h2>Updates</h2>
-				<div class="row">
-					<div class="col-8">
-						<p>Automatic Updates</p>
-					</div>
-					<div class="col-4 text-right">
-						<label class="switch">
-							<input type="checkbox" checked>
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-				<p>Automatic updates are important to keep your data safe.</p>
-
-				<br><br>
-				<h2>Trackers</h2>
-				<div class="row">
-					<div class="col-8">
-						<p>Disable incoming trackers</p>
-					</div>
-					<div class="col-4 text-right">
-						<label class="switch">
-							<input type="checkbox" checked>
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-				<p>This option blocks most tracker meant to track when you open emails.</p>
-				<div class="row">
-					<div class="col-8">
-						<p>Automatically send trackers</p>
-					</div>
-					<div class="col-4 text-right">
-						<label class="switch">
-							<input type="checkbox" checked>
-							<span class="slider round"></span>
-						</label>
-					</div>
-				</div>
-
-				<p>Settings coming soon<br>
-					<p>Out of Office Replies<br>
-						Manage Rules and Alerts<br>
-						Privacy Settings ( displays what admin gave you the option of controlling)<br>
-						Attachment Options (Ask me how i want to attach them every time, always share as links,
-						always attach them as copies)<br>
-						Enable Linkedin features<br>
-						Editor Options (Compose message in this format with drop down: HTML, RIch text, plain
-						text)<br>
-						Spelling and Autocorrect<br>
-						Signature<br>
-					</p>
-
-
-			</div>
-
-
 		</div>
 	</div>
 
