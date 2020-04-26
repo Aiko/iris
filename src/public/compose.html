@@ -9,7 +9,6 @@
     <title>Compose</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/dark.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
@@ -66,7 +65,7 @@
                         <input type="checkbox">
                         <span class="slider round eye"></span>
                     </label>
-                    <p class="inline">Track open email</p>
+                    <p class="inline ml5">Track email open</p>
                 </div>
             </div>
             <div class="secondary-email">
@@ -97,6 +96,31 @@
         <!-- END Send Email Error Toast-->
         <!-- END Toast --------------------------------------->
 
+        <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+        <div class="aiko-modal" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <img src="assets/icons/grey-x.svg" class="x-email">
+                    <div class="modal-reg">
+                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <h1>You found a premium feature.</h1>
+                        <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200">
+                        <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200">
+                        <br><br>
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b> to be
+                            notified when your recipient has opened your email.</p><br> <br>
+                        <div class="modal-bottom">
+                            <a href="#" class="blue">Get Started</a>
+                        </div>
+                        <p class="ns30"></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- END id="app" -------------------------------------------------->
     <script src="assets/js/third-party/popper.min.js"></script>
