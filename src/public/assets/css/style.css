@@ -73,7 +73,7 @@ body {
 video {
 	width: 100%;
 	height: auto;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 video:focus {
@@ -117,7 +117,7 @@ hr {
 	background: var(--main-color);
 	color: #fff;
 	padding: 0 6px 2px 6px;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 input {
@@ -167,7 +167,7 @@ input:active {
 	padding: 10px 7px;
 	margin-top: 5vh;
 	background: var(--secondary-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	letter-spacing: 0 !important;
 }
 
@@ -251,7 +251,7 @@ input:active {
 	padding: 0 5px 3px 5px;
 	cursor: pointer;
 	background: var(--secondary-bg-color) !important;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 .sidebar-collapse img {
@@ -489,14 +489,14 @@ input:active {
 .long-board {
 	display: inline-flex;
 	background-color: #fff;
-	border-radius: 4px;
+	border-radius: 3px;
 	margin-left: -33px;
 	width: calc(100% - 300px);
 }
 
 .secondary {
 	width: calc(100% - 40px);
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 .long-board .main-email {
@@ -613,7 +613,7 @@ a.main-action:hover {
 	width: 100%;
 	position: relative;
 	padding: 4px 10px 5px 10px;
-	border-radius: 4px;
+	border-radius: 3px;
 	font-weight: 500;
 	font-size: 14px;
 	color: var(--main-text-color);
@@ -713,7 +713,7 @@ a.main-action:hover {
 	max-width: 210px;
 	text-overflow: ellipsis;
 	border: var(--main-border);
-	border-radius: 4px;
+	border-radius: 3px;
 	cursor: pointer;
 	height: 30px;
 	overflow: hidden;
@@ -726,7 +726,7 @@ a.main-action:hover {
 
 .picker:hover {
 	height: fit-content;
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: 0 0 5px #0000003b;
 	transition: .2s;
 }
@@ -753,7 +753,7 @@ a.main-action:hover {
 .settings {
 	margin: 40px;
 	background: #f7f7f7;
-	border-radius: 4px;
+	border-radius: 3px;
 	padding: 20px 30px;
 }
 
@@ -839,7 +839,7 @@ a.main-action:hover {
 }
 
 .search {
-	border-radius: 4px;
+	border-radius: 3px;
 	padding: 0 7px 0 7px;
 	border: var(--main-border);
 	height: 30px;
@@ -856,7 +856,7 @@ a.main-action:hover {
 	padding: 20px 5px 15px 30px;
 	max-width: 500px;
 	z-index: 0;
-	border-radius: 4px;
+	border-radius: 3px;
 	font-size: 14px;
 	line-height: 12px;
 	box-shadow: 0 0 15px #0000003b;
@@ -952,7 +952,7 @@ a.main-action:hover {
 
 .search input {
 	width: calc(100% - 21px);
-	border-radius: 4px;
+	border-radius: 3px;
 	border: none;
 	color: var(--main-text-color);
 	font-size: 14px;
@@ -999,7 +999,7 @@ a.main-action:hover {
 .empty {
 	background: var(--secondary-bg-color);
 	height: 110px;
-	border-radius: 4px;
+	border-radius: 3px;
 	text-align: center;
 	padding-top: 45px;
 	box-shadow: inset 0 0 3px 1px rgba(215, 215, 215, 0.75);
@@ -1009,7 +1009,7 @@ a.main-action:hover {
 	margin-top: 10px;
 	background: var(--secondary-bg-color);
 	height: 50px;
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: inset 0 0 3px 1px rgba(215, 215, 215, 0.75);
 }
 
@@ -1024,7 +1024,7 @@ a.main-action:hover {
 .archive {
 	font-size: 10px;
 	background: var(--secondary-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	line-height: 19px;
 	color: var(--main-text-color);
 	margin-left: 5px;
@@ -1119,7 +1119,7 @@ hr {
 .email {
 	position: relative;
 	background: var(--email-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: 0 0 2px 1px #00000026;
 	cursor: pointer;
 	margin-bottom: 15px;
@@ -1265,7 +1265,7 @@ hr {
 	float: right;
 	color: var(--main-text-color);
 	padding: 0;
-	border-radius: 4px;
+	border-radius: 3px;
 	font-size: 12px;
 	margin-top: 3px;
 	width: calc(100% - 60px);
@@ -1283,7 +1283,7 @@ hr {
 	color: var(--main-text-color);
 	background: var(--secondary-bg-color);
 	padding: 3px 6px 2px 6px;
-	border-radius: 4px;
+	border-radius: 3px;
 	font-size: 12px;
 	margin-left: 5px;
 	display: inline;
@@ -1378,7 +1378,7 @@ hr {
 
 .add-board {
 	background: var(--main-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	opacity: .4;
 	margin: auto;
 	text-align: center;
@@ -1474,7 +1474,7 @@ hr {
 	box-shadow: 1px 0 5px rgba(0, 0, 0, 0.04);
 	z-index: 1;
 	position: relative;
-	border-radius: 4px;
+	border-radius: 3px;
 	overflow-y: scroll;
 	transition: .2s;
 }
@@ -1484,7 +1484,7 @@ hr {
 	width: 35%;
 	background: var(--main-bg-color);
 	position: relative;
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: inset 6px 0 10px -4px #00000014;
 	padding: 107px 15px 25px 15px;
 	transition: .2s;
@@ -1567,7 +1567,7 @@ hr {
 
 .single-email {
 	background: var(--email-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	box-shadow: 0 0 9px #0000001a;
 	margin: 20px 15px;
 }
@@ -1612,7 +1612,7 @@ hr {
 	margin-top: 1px;
 	min-width: 60px;
 	background: var(--main-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	color: #fff;
 	padding: 0 3px 4px 3px;
 	margin-left: 3px;
@@ -1629,7 +1629,7 @@ hr {
 	overflow: visible;
 	background: var(--main-color);
 	z-index: 1;
-	border-radius: 4px;
+	border-radius: 3px;
 	color: #fff;
 	font-weight: 500;
 	text-align: center;
@@ -1673,14 +1673,14 @@ hr {
 
 .secondary-head h2:hover {
 	width: fit-content;
-	border-radius: 4px;
+	border-radius: 3px;
 	transition: .2s;
 	background-color: var(--main-bg-color);
 }
 
 .secondary-head h1:hover {
 	width: fit-content;
-	border-radius: 4px;
+	border-radius: 3px;
 	transition: .2s;
 	background-color: var(--main-bg-color);
 }
@@ -1847,7 +1847,7 @@ hr {
 	.picker {
 		max-width: 30px;
 		padding-left: 3px;
-		border-radius: 4px;
+		border-radius: 3px;
 		padding-top: 1px;
 		height: 30px;
 		margin-left: -5px;
@@ -1921,7 +1921,7 @@ hr {
 	height: 40px;
 	position: relative;
 	padding: 7px 11px 8px 7px;
-	border-radius: 4px;
+	border-radius: 3px;
 	font-weight: 500;
 	font-size: 14px;
 	margin-top: 5px;
@@ -2142,7 +2142,7 @@ unselectable {
 	width: 100%;
 	max-width: 130px;
 	margin-bottom: 20px;
-	border-radius: 4px;
+	border-radius: 3px;
 }
 
 .add-2 {
@@ -2190,7 +2190,7 @@ unselectable {
 
 .s-invite {
 	background: var(--main-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	font-size: 14px;
 	padding: 2px 6px;
 }
@@ -2218,7 +2218,7 @@ unselectable {
 .settings-main .row {
 	height: 39px;
 	background: var(--secondary-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	padding-top: 7px;
 	margin-bottom: 10px;
 	box-shadow: 0 0 1px 1px #00000026;
@@ -2276,7 +2276,7 @@ unselectable {
 .modal-reg input {
 	width: 100%;
 	max-width: 250px;
-	border-radius: 4px;
+	border-radius: 3px;
 	border: var(--main-border);
 	padding: 4px 10px;
 	font-size: 16px;
@@ -2994,7 +2994,7 @@ unselectable {
 .accordion .amsify-suggestags-input-area {
 	padding: 5px;
 	border: 2px solid var(--secondary-bg-color);
-	border-radius: 4px;
+	border-radius: 3px;
 	background: var(--secondary-bg-color);
 }
 
