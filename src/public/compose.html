@@ -13,51 +13,60 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
-      window.jQuery = window.$ = require('jquery');
-  </script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
 </head>
+
+<!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft"-->
 
 <body class="bg">
     <div id="app" class="inline-flex" style="padding-top: 20px;">
-      <!--  <div id="fixed" class="loader-6 center-loader"><span></span></div> -->
-      <div class="control-bar pc">
-        <p title="Close"></p> <!-- Close ------------------------>
-        <p title="Minimize"></p> <!-- Minimize ------------------------>
-        <p title="Full Screen"></p> <!-- Full Screen ------------------------>
+        <!-- THEMES GO HERE -->
+        <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+        <!-- TODO: Rig LOADER 
+        <div id="fixed" class="loader-6 center-loader"></div> -->
+        <!-- TODO: Rig CONTROL BAR 
+        <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
+            <p v-if="isLinux" title="Close" @click="close"></p> 
+            <p v-if="isLinux" title="Minimize" @click="minimize"></p> 
+            <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>              
 
-        <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-        <!-- Minimize ---------->
-        <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
-        <!-- Full Screen -->
-        <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
-        <!-- Close ---------------->
-    </div>
-    <div class="standalone">
-        <div class="main-email">
+            <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+            <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png"
+                    width="10">
+            </h1>
+            <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png"
+                    width="10">
+            </h1>
+            <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
+        </div>
+        -->
+        <div class="standalone">
+            <div class="main-email">
+                <input type="text" name="composerField" value="hi" placeholder="To">
+                <input type="text" name="composerField" value="hello" placeholder="CC">
+                <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
 
-
-            <input type="text" name="composerField" value="hi" placeholder="To">
-            <input type="text" name="composerField" value="hello" placeholder="CC">
-            <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
-
-
-            <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
-                <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
-            </div>
-
-            <div class="compose-options">
-                <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
+                <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
+                    <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
                 </div>
-                <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
-                </div>
-                <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
-                    width="16"></div>
+
+                <div class="compose-options">
+                    <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
+                    </div>
+                    <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
+                    </div>
+                    <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
+                            width="16"></div>
                 </div>
                 <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
                 <div class="compose-bottom">
                     <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
-                    <a href="#" class="savedraft"><img src="assets/icons/sidebar-drafts.svg" width="20"><span> Save as
-                    draft</span></a>
+                    <label class="switch ml20">
+                        <input type="checkbox">
+                        <span class="slider round eye"></span>
+                    </label>
+                    <p class="inline">Track open email</p>
                 </div>
             </div>
             <div class="secondary-email">
@@ -97,14 +106,19 @@
 
     <script type="text/javascript">
         $('input[name="composerField"]').amsifySuggestags({
-          type :'amsify',
-          suggestions: [
-          {'tag':'ruben@priansh.com','value': 1},
+            type: 'amsify',
+            suggestions: [{
+                    'tag': 'ruben@priansh.com',
+                    'value': 1
+                },
 
-          {'tag':'rubtouit@yahoo.fr','value': 2},
-          ]
-      });
-  </script>
+                {
+                    'tag': 'rubtouit@yahoo.fr',
+                    'value': 2
+                },
+            ]
+        });
+    </script>
 
 
 </body>
