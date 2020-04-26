@@ -16,14 +16,16 @@
     </script>
 </head>
 
-<!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft"-->
+<!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft?"-->
 
 <body class="bg">
     <div id="app" class="inline-flex" style="padding-top: 20px;">
         <!-- THEMES GO HERE -->
         <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+
         <!-- TODO: Rig LOADER 
         <div id="fixed" class="loader-6 center-loader"></div> -->
+
         <!-- TODO: Rig CONTROL BAR 
         <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
             <p v-if="isLinux" title="Close" @click="close"></p> 
@@ -123,10 +125,11 @@
         </div>
     </div>
     <!-- END id="app" -------------------------------------------------->
+
+    <!-- TODO: Add sources for stuff like 'isdarkmode' and whatnot-->
     <script src="assets/js/third-party/popper.min.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
     <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
-
 
     <script type="text/javascript">
         $('input[name="composerField"]').amsifySuggestags({

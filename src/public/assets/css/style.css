@@ -123,6 +123,7 @@ hr {
 input {
 	outline: none;
 	opacity: .8;
+	letter-spacing: .3px;
 	transition: .2s;
 }
 
@@ -2843,12 +2844,14 @@ unselectable {
 	margin-left: 5px;
 }
 
+
 .amsify-suggestags-input-area {
 	display: inline-flex;
 	width: 100%;
 	font-size: 1rem;
 	height: 40px;
-	border-bottom: 1px solid var(--secondary-bg-color);
+	background: var(--main-bg-color);
+	border-bottom: 2px solid var(--secondary-bg-color);
 }
 
 .amsify-remove-tag {
