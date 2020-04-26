@@ -590,11 +590,25 @@ input:active {
 	padding-right: 25px !important;
 }
 
+.quick-reply .body {
+	height: 112px !important;
+	overflow: scroll !important;
+}
+
+.quick-reply {
+	height: 200px !important;
+}
+
+.quick-reply .note {
+	display: block !important;
+}
+
 .main-action {
 	color: var(--main-text-color);
 	font-size: 11px;
 	font-weight: 500;
 	line-height: 28px;
+	white-space: nowrap;
 	text-transform: uppercase;
 }
 

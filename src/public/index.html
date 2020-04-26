@@ -79,6 +79,7 @@
               <a href="#" class="user" v-for="user in profile.team.team">
                 <div class="active-user"></div>
                 <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+                <!-- TODO: can we fetch and download people's gmail profile pic? -->
                 <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
                 <div class="no-mobile sc">{{user.member.name}}</div>
               </a>
@@ -304,9 +305,9 @@
               </div>
               <div class="board-body">
                 <!-- Can use :move to prevent it from moving into this board -->
-                <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails" :group="{name: 'emails', pull: 'clone'}"
-                  ghost-class="ghost" @end="moveEmail" :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0"
-                  draggable=".email" :move="checkMove">
+                <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
+                  :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
+                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                   <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
                     v-for="email in inbox.emails" :email="email">
                   </email-card>
@@ -930,6 +931,7 @@
     </div>
 
     <script type="text/x-template" id="email-card">
+      <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
       <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed),
@@ -957,7 +959,8 @@
             <div class="row">
               <div class="col-5 cll">
                 <a class="main-action" href="#">
-                  <img src="assets/icons/badges-event.svg"> Schedule
+                  <img src="assets/icons/zap.svg"> Quick Reply
+                  <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
                   <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
                   <!-- TODO: Rig <img src="assets/icons/sign.svg"> Sign -->
                 </a>
@@ -976,7 +979,7 @@
             </div>
           </div>
           <div class="note hide">
-            <input placeholder="Add a message here or press enter" autofocus>
+            <input placeholder="Type message..." autofocus>
             <a href="#"><img src="assets/icons/compose-send.svg" width="20"></a>
           </div>
         </div>
