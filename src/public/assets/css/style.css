@@ -304,11 +304,6 @@ input:active {
 	transition: .2s;
 }
 
-.thin .exp img {
-	display: none !important;
-	transition: .2s;
-}
-
 .thin .cll {
 	display: none !important;
 	transition: .2s;
@@ -515,7 +510,7 @@ input:active {
 	font-size: 14px;
 	border: 1px solid #486fff;
 	z-index: 1;
-	margin-top: -25px;
+	margin-top: -26px;
 	border-radius: 0 0 4px 4px;
 	height: 33px;
 	cursor: text;
@@ -534,6 +529,10 @@ input:active {
 
 .thin .note input {
 	padding: 5px 0 5px 6px !important;
+}
+
+.thin .subject {
+	height: 21px !important;
 }
 
 .note a:hover {
@@ -1131,6 +1130,31 @@ hr {
 	height: 78px !important;
 }
 
+.sync .sync-message {
+	display: block !important;
+}
+
+.sync .extra-actions {
+	display: none !important;
+}
+
+.sync {
+	opacity: .7;
+}
+
+.sync .cll {
+	display: none !important;
+}
+
+.sync-message img {
+	margin-right: 2px;
+	width: 13px;
+}
+
+.sync-message {
+	display: none;
+}
+
 .email {
 	position: relative;
 	background: var(--email-bg-color);
@@ -1139,7 +1163,7 @@ hr {
 	cursor: pointer;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 13px;
-	overflow: visible;
+	overflow: hidden;
 }
 
 .email:hover .delete {
