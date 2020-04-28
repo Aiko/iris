@@ -1529,6 +1529,10 @@ hr {
 	transition: .2s;
 }
 
+.tempside .body {
+	height: 50px !important;
+}
+
 .previous-threads {
 	overflow: scroll;
 	height: calc(100% - 5px);
