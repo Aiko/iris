@@ -144,6 +144,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+        <div class="aiko-modal" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <img src="assets/icons/grey-x.svg" class="x-email">
+                    <div class="modal-reg">
+                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <h1>You found a premium feature.</h1>
+                        <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280">
+                        <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280">
+                        <br><br>
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to reply
+                            to future emails in just one click.</p><br> <br>
+                        <div class="modal-bottom">
+                            <a href="#" class="blue">Get Started</a>
+                        </div>
+                        <p class="ns30"></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- END id="app" -------------------------------------------------->
 
