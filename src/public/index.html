@@ -195,7 +195,7 @@
                             <img src="assets/icons/notif-click.svg" width="10">
                           </div>
                           <div class="col-7 notif-c">
-                            Priakanashito clicked something
+                            Ruben opened "Re: Meeting this saturday"
                           </div>
                           <div class="col-3 notif-t p0">
                             35m
@@ -208,7 +208,7 @@
                             <img src="assets/icons/notif-invite.svg" width="10">
                           </div>
                           <div class="col-7 notif-c">
-                            Louis joined your team
+                            Priansh joined your team
                           </div>
                           <div class="col-3 notif-t p0">
                             3h
@@ -442,7 +442,7 @@
         </div>
       </div>
 
-      <!-- UPGRADE MODAL - QUICK ACTIONS -->
+      <!-- TODO: Rig UPGRADE MODAL - QUICK ACTIONS -->
       <div class="aiko-modal" style="display: none;">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -457,6 +457,31 @@
               <br>
               <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
                 and lets you manage them with the click of a button.</p><br> <br>
+              <div class="modal-bottom">
+                <a href="#" class="blue">Get Started</a>
+              </div>
+              <p class="ns30"></p>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TODO: Rig UPGRADE MODAL - Notifications teehee -->
+      <div class="aiko-modal" style="display: none;">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                style="margin-bottom: 15px;margin-top:10px">
+              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+              <h1>You found a premium feature.</h1>
+              <img v-if="isDarkMode" src="assets/img/u-notif-black.png" width="300">
+              <img v-if="!isDarkMode" src="assets/img/u-notif-white.png" width="300">
+              <br><br>
+              <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Upgrade today to get notified when
+                someone opens your emails or joins your team.</p><br> <br>
               <div class="modal-bottom">
                 <a href="#" class="blue">Get Started</a>
               </div>
