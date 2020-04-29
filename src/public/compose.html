@@ -9,61 +9,92 @@
     <title>Compose</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/dark.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
-      window.jQuery = window.$ = require('jquery');
-  </script>
+        window.jQuery = window.$ = require('jquery');
+    </script>
 </head>
+
+<!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft?"-->
 
 <body class="bg">
     <div id="app" class="inline-flex" style="padding-top: 20px;">
-      <!--  <div id="fixed" class="loader-6 center-loader"><span></span></div> -->
-      <div class="control-bar pc">
-        <p title="Close"></p> <!-- Close ------------------------>
-        <p title="Minimize"></p> <!-- Minimize ------------------------>
-        <p title="Full Screen"></p> <!-- Full Screen ------------------------>
+        <!-- THEMES GO HERE -->
+        <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
 
-        <h1 title="Minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-        <!-- Minimize ---------->
-        <h1 title="Full Screen"><img src="assets/icons/top-expand.png" width="10"></h1>
-        <!-- Full Screen -->
-        <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
-        <!-- Close ---------------->
-    </div>
-    <div class="standalone">
-        <div class="main-email">
+        <!-- TODO: Rig LOADER 
+        <div id="fixed" class="loader-6 center-loader"></div> -->
 
+        <!-- TODO: Rig CONTROL BAR 
+        <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
+            <p v-if="isLinux" title="Close" @click="close"></p> 
+            <p v-if="isLinux" title="Minimize" @click="minimize"></p> 
+            <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>              
 
-            <input type="text" name="composerField" value="hi" placeholder="To">
-            <input type="text" name="composerField" value="hello" placeholder="CC">
-            <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
+            <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+            <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png"
+                    width="10">
+            </h1>
+            <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png"
+                    width="10">
+            </h1>
+            <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
+        </div>
+        -->
+        <div class="standalone">
+            <div class="main-email">
+                <input type="text" name="composerField" value="hi" placeholder="To">
+                <input type="text" name="composerField" value="hello" placeholder="CC">
+                <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
 
-
-            <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
-                <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
-            </div>
-
-            <div class="compose-options">
-                <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
+                <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
+                    <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
                 </div>
-                <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
-                </div>
-                <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
-                    width="16"></div>
+
+                <div class="compose-options">
+                    <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
+                    </div>
+                    <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
+                    </div>
+                    <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
+                            width="16"></div>
                 </div>
                 <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
                 <div class="compose-bottom">
                     <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
-                    <a href="#" class="savedraft"><img src="assets/icons/sidebar-drafts.svg" width="20"><span> Save as
-                    draft</span></a>
+                    <label class="switch ml20">
+                        <input type="checkbox">
+                        <span class="slider round eye"></span>
+                    </label>
+                    <p class="inline ml5">Track email open</p>
                 </div>
             </div>
-            <div class="secondary-email">
-                <a href="#" class="no-calendar">
-                    <h1><img src="assets/icons/badges-event.svg"> Connect your calendar</h1>
-                </a>
+            <div class="secondary-email" style="padding-top: 25px">
+                <h3>Reply with a template</h3>
+                <div class="previous-threads">
+                    <!-- TODO: This is the template for sidebar templates teehee-->
+                    <div class="email tempside" style="display: none;">
+                        <div class="container pr" data-toggle="modal" data-target=".email1">
+                            <div class="row" style="user-select: none;">
+                                <div class="col-8 p0" style="display: inline-flex;">
+                                    <p class="subject">Sales reply 1</p>
+                                </div>
+                                <p class="body">Hi John, I'm aware you choose to do all development in-house, however, I
+                                    am the head of a Ukrainian dev-shop, which is the best in the world i think.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
+                    <a href="settings.html" style="margin-top: 25vh;display: block;" target="_blank"><img
+                            src="assets/icons/settings-templates.svg" width="18" style="margin-top: -1px;">
+                        <p class="inline"><b>New template</b></p>
+
+                        <p>Add email templates in settings to reply to future emails in one click.</p>
+                    </a>
+
+                </div>
             </div>
 
         </div>
@@ -88,23 +119,81 @@
         <!-- END Send Email Error Toast-->
         <!-- END Toast --------------------------------------->
 
+        <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+        <div class="aiko-modal" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <img src="assets/icons/grey-x.svg" class="x-email">
+                    <div class="modal-reg">
+                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <h1>You found a premium feature.</h1>
+                        <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200">
+                        <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200">
+                        <br><br>
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b> to be
+                            notified when your recipient has opened your email.</p><br> <br>
+                        <div class="modal-bottom">
+                            <a href="#" class="blue">Get Started</a>
+                        </div>
+                        <p class="ns30"></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+        <div class="aiko-modal" style="display: none;">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <img src="assets/icons/grey-x.svg" class="x-email">
+                    <div class="modal-reg">
+                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+                            style="margin-bottom: 15px;margin-top:10px">
+                        <h1>You found a premium feature.</h1>
+                        <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280">
+                        <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280">
+                        <br><br>
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to reply
+                            to future emails in just one click.</p><br> <br>
+                        <div class="modal-bottom">
+                            <a href="#" class="blue">Get Started</a>
+                        </div>
+                        <p class="ns30"></p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- END id="app" -------------------------------------------------->
+
+    <!-- TODO: Add sources for stuff like 'isdarkmode' and whatnot-->
     <script src="assets/js/third-party/popper.min.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
     <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
 
-
     <script type="text/javascript">
         $('input[name="composerField"]').amsifySuggestags({
-          type :'amsify',
-          suggestions: [
-          {'tag':'ruben@priansh.com','value': 1},
+            type: 'amsify',
+            suggestions: [{
+                    'tag': 'ruben@priansh.com',
+                    'value': 1
+                },
 
-          {'tag':'rubtouit@yahoo.fr','value': 2},
-          ]
-      });
-  </script>
+                {
+                    'tag': 'rubtouit@yahoo.fr',
+                    'value': 2
+                },
+            ]
+        });
+    </script>
 
 
 </body>
