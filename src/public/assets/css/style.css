@@ -1789,8 +1789,8 @@ hr {
 
 .sent-fix {
 	width: 18px !important;
-	margin-left: -2px !important;
-	margin-top: -3px !important;
+	margin-left: -1px !important;
+	margin-top: -2px !important;
 }
 
 @media all and (max-width: 968px) {
