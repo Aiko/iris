@@ -2069,6 +2069,7 @@ hr {
 	height: calc(100% - 266px);
 	overflow: scroll;
 	font-size: 16px;
+	letter-spacing: .3px;
 }
 
 .compose-italic {
