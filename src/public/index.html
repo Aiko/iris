@@ -1,388 +1,344 @@
-  <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
-  <!DOCTYPE html>
-  <html>
+<!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
+<!-- TODO: Save state of interface (sidebar and boards...) so it stays same on restart (collapsed, not collapsed etc) -->
+<!DOCTYPE html>
+<html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Aiko AI">
-    <title>Home</title>
-    <link rel="icon" href="assets/img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <script src="assets/js/third-party/jquery.min.js"></script>
-    <script>
-      window.jQuery = window.$ = require('jquery');
-    </script>
-    <!-- Using unsafe eval for Vue -->
-    <!--<meta http-equiv="Content-Security-Policy"
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Aiko AI">
+  <title>Home</title>
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <script src="assets/js/third-party/jquery.min.js"></script>
+  <script>
+    window.jQuery = window.$ = require('jquery');
+  </script>
+  <!-- Using unsafe eval for Vue -->
+  <!--<meta http-equiv="Content-Security-Policy"
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
-  </head>
+</head>
 
-  <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
-    <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
-      <!-- THEMES GO HERE -->
-      <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
-      <!-- LOADER -->
-      <div id="fixed" class="loader-6 center-loader">
-        <span>
-          <div id='load-text'>Optimizing content...</div>
-          <div id='load-text2'>Almost done...</div>
-          <div id='load-text3'>Setting up your mailbox...</div>
-          <div id='load-text4'>Running AI model...</div>
-        </span>
-      </div>
-      <!-- CONTROL BAR -->
-      <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
+<body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
+  <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <!-- THEMES GO HERE -->
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+    <!-- LOADER -->
+    <div id="fixed" class="loader-6 center-loader">
+      <span>
+        <div id='load-text'>Optimizing content...</div>
+        <div id='load-text2'>Almost done...</div>
+        <div id='load-text3'>Setting up your mailbox...</div>
+        <div id='load-text4'>Running AI model...</div>
+      </span>
+    </div>
+    <!-- CONTROL BAR -->
+    <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
 
-        <!-- TODO: This is ugly ruben, fix
+      <!-- TODO: This is ugly ruben, fix
         <div class="upgrade-bar" :class="{'upgrade-bar': true,'upgrade-pc': isPC,}"><img src="assets/icons/up.svg">
           Upgrade
         </div>
         -->
-        <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
-        <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
-        <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
+      <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
+      <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+      <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-        <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-        <!-- Minimize ---------->
-        <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10">
-        </h1>
-        <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10">
-        </h1>
-        <!-- Maximize -->
-        <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
-        <!-- Close ---------------->
+      <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+      <!-- Minimize ---------->
+      <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10">
+      </h1>
+      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10">
+      </h1>
+      <!-- Maximize -->
+      <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
+      <!-- Close ---------------->
+    </div>
+    <!-- Sidebar --------------------------------------------------->
+    <div class="sidebar">
+      <div class="container">
+        <div class="row">
+          <a href="compose.html" class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"
+              style="margin-right: 6px;"><span>Compose</span></a>
+          <a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
+                class="main-count">3</span></span></a>
+          <a href="#"><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
+          <a href="#"><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
+          <a href="#"><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
+              Spam</span></a>
+          <a href="#"><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
+          <a href="#"><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
+          <a href="#"><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
+        </div>
+        <div class="row">
+          <div class="search no-mobile sc">
+            <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search Team">
+          </div>
+          <div style="height: 30px"></div>
+          <div class="user-list">
+            <a href="#" class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: can we fetch and download people's gmail profile pic? -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+          </div>
+          <a href="#" class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
+              class="blue sc">Invite</span></a>
+          <div class="version sc no-mobile">
+            <h1>Version: <span class="blue fw700">ALPHA</span></h1>
+            <p>Request features and report issues</p>
+            <a href="compose.html" target="_blank">Give feedback</a>
+          </div>
+        </div>
+        <div class="row bottom">
+          <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
+            class="sidebar-collapse no-mobile">
+            <img src="assets/icons/sidebar-collapse.svg">
+          </div>
+          <br>
+          <div class="set">
+            <a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a href="#" tooltip="Documentation" class="no-mobile sc" target="_blank"><img
+                src="assets/icons/sidebar-help.svg" width="30"></a>
+          </div>
+        </div>
       </div>
-      <!-- Sidebar --------------------------------------------------->
-      <div class="sidebar">
+    </div>
+    <!-- END Sidebar ----------------------------------------------->
+
+    <!-- MAIN INBOX -->
+    <div class="main">
+
+      <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
+      <!-- TOAST Invite Sent -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout">Sending invite</p><a href="#">Undo</a>
+        <div class="t-loader"><span></span></div>
+      </div>
+
+      <!-- TOAST Connection Lost -->
+      <div class="aiko-toast" style="display: none">
+        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- TOAST IMAP Error -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important">We're having issues connecting to your mail provider
+        </p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- TOAST Send Email Error -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to network
+          issues</p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+
+      <!-- TOAST Sending Email -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout">Sending email</p><a href="#">Undo</a>
+        <div class="t-loader"><span></span></div>
+      </div>
+
+      <!-- Header ------------------------------------------------>
+      <div class="header">
         <div class="container">
           <div class="row">
-            <a href="compose.html" class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"
-                style="margin-right: 3px;"><span>Compose</span></a>
-            <a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
-                  class="main-count">3</span></span></a>
-            <a href="#"><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
-            <a href="#"><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
-            <a href="#"><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
-                Spam</span></a>
-            <a href="#"><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
-            <a href="#"><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
-            <a href="#"><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
-          </div>
-          <div class="row">
-            <div class="search no-mobile sc">
-              <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search Team">
+            <div class="col-lg-3 col-md-4 col-2">
+              <div class="picker">
+                <div class="account">
+                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig.email}}</span>
+                </div>
+                <div class="account">
+                  <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
+                </div>
+                <div class="account">
+                  <img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
+                </div>
+              </div>
             </div>
-            <div style="height: 30px"></div>
-            <div class="user-list">
-              <a href="#" class="user" v-for="user in profile.team.team">
-                <div class="active-user"></div>
-                <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-                <!-- TODO: can we fetch and download people's gmail profile pic? -->
-                <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-                <div class="no-mobile sc">{{user.member.name}}</div>
-              </a>
+            <div class="col-lg-5 col-md-6 col-6 p0m">
+              <div class="search">
+                <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
+              </div>
+              <!-- TODO: Rig search + search dropdown -->
+              <div class="search-drop" style="display: none;">
+                <a href="#">
+                  <div>Subject contains "<span>Ruben</span>"</div>
+                </a>
+                <hr>
+                <p>People</p>
+                <a href="#">
+                  <div>ruben@priansh.com</div>
+                </a>
+                <a href="#">
+                  <div>rubencharles@gmail.com</div>
+                </a>
+                <a href="#">
+                  <div>rubencharlestouitou@gmail.com</div>
+                </a>
+              </div>
             </div>
-            <a href="#" class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
-                class="blue sc">Invite</span></a>
-            <div class="version sc no-mobile">
-              <h1>Version: <span class="blue fw700">ALPHA</span></h1>
-              <p>Request features and report issues</p>
-              <a href="compose.html" target="_blank">Give feedback</a>
-            </div>
-          </div>
-          <div class="row bottom">
-            <div @click="collapseSidebar = !collapseSidebar" class="sidebar-collapse no-mobile">
-              <img src="assets/icons/sidebar-collapse.svg">
-            </div>
-            <br>
-            <div class="set">
-              <a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-              <a href="#" tooltip="Documentation" class="no-mobile sc" target="_blank"><img
-                  src="assets/icons/sidebar-help.svg" width="30"></a>
+            <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
+              <!--  <a href="#" class="inline"><img src="assets/icons/header-calendar.svg"></a> -->
+              <div class="dropdown inline">
+                <a href="#" data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
+                  <!-- TODO: rig notif-count, the badge notification count by the bell-->
+                  <span class="notif-count">3</span></a>
+                <div class="dropdown-menu notif" style="margin-top: 10px">
+                  <div class="container">
+                    <a href="#">
+                      <div class="row">
+                        <div class="col-1">
+                          <img src="assets/icons/notif-click.svg" width="10">
+                        </div>
+                        <div class="col-7 notif-c">
+                          Ruben opened "Re: Meeting this saturday"
+                        </div>
+                        <div class="col-3 notif-t p0">
+                          35m
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#">
+                      <div class="row">
+                        <div class="col-1">
+                          <img src="assets/icons/notif-invite.svg" width="10">
+                        </div>
+                        <div class="col-7 notif-c">
+                          Prinakashiose joined your team
+                        </div>
+                        <div class="col-3 notif-t p0">
+                          3h
+                        </div>
+                      </div>
+                    </a>
+                    <a href="#">
+                      <div class="row">
+                        <div class="col-1">
+                          <img src="assets/icons/notif-eye.svg" width="10">
+                        </div>
+                        <div class="col-7 notif-c">
+                          John opened "Can you meet at ..."
+                        </div>
+                        <div class="col-3 notif-t p0">
+                          Yesterday
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- END Sidebar ----------------------------------------------->
+      <!-- END Header -------------------------------------------->
 
-      <!-- MAIN INBOX -->
-      <div class="main">
+      <div class="boards-container">
 
-        <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
-        <!-- TOAST Invite Sent -->
-        <div class="aiko-toast" style="display: none;">
-          <p class="textinout">Sending invite</p><a href="#">Undo</a>
-          <div class="t-loader"><span></span></div>
-        </div>
+        <!-- TODO: rig settings to add 'zero-lines, one-lines, two-line, three-lines'  to 'boards'-->
 
-        <!-- TOAST Connection Lost -->
-        <div class="aiko-toast" style="display: none">
-          <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
-          <div class="t-loader-red"><span></span></div>
-        </div>
-
-        <!-- TOAST IMAP Error -->
-        <div class="aiko-toast" style="display: none;">
-          <p class="textinout" style="color: #dc3545 !important">We're having issues connecting to your mail provider
-          </p>
-          <div class="t-loader-red"><span></span></div>
-        </div>
-
-        <!-- TOAST Send Email Error -->
-        <div class="aiko-toast" style="display: none;">
-          <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to network
-            issues</p>
-          <div class="t-loader-red"><span></span></div>
-        </div>
-
-
-        <!-- TOAST Sending Email -->
-        <div class="aiko-toast" style="display: none;">
-          <p class="textinout">Sending email</p><a href="#">Undo</a>
-          <div class="t-loader"><span></span></div>
-        </div>
-
-        <!-- Header ------------------------------------------------>
-        <div class="header">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-3 col-md-4 col-2">
-                <div class="picker">
-                  <div class="account">
-                    <img src="assets/icons/header-user.svg"> <span>{{imapConfig.email}}</span>
-                  </div>
-                  <div class="account">
-                    <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
-                  </div>
-                  <div class="account">
-                    <img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-5 col-md-6 col-6 p0m">
-                <div class="search">
-                  <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
-                </div>
-                <!-- TODO: Rig search + search dropdown -->
-                <div class="search-drop" style="display: none;">
-                  <a href="#">
-                    <div>Subject contains "<span>Ruben</span>"</div>
-                  </a>
-                  <hr>
-                  <p>People</p>
-                  <a href="#">
-                    <div>ruben@priansh.com</div>
-                  </a>
-                  <a href="#">
-                    <div>rubencharles@gmail.com</div>
-                  </a>
-                  <a href="#">
-                    <div>rubencharlestouitou@gmail.com</div>
-                  </a>
-                </div>
-              </div>
-              <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-                <!--  <a href="#" class="inline"><img src="assets/icons/header-calendar.svg"></a> -->
-                <div class="dropdown inline">
-                  <a href="#" data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
-                    <!-- TODO: rig notif-count, the badge notification count by the bell-->
-                    <span class="notif-count">3</span></a>
-                  <div class="dropdown-menu notif" style="margin-top: 10px">
-                    <div class="container">
-                      <a href="#">
-                        <div class="row">
-                          <div class="col-1">
-                            <img src="assets/icons/notif-click.svg" width="10">
-                          </div>
-                          <div class="col-7 notif-c">
-                            Ruben opened "Re: Meeting this saturday"
-                          </div>
-                          <div class="col-3 notif-t p0">
-                            35m
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#">
-                        <div class="row">
-                          <div class="col-1">
-                            <img src="assets/icons/notif-invite.svg" width="10">
-                          </div>
-                          <div class="col-7 notif-c">
-                            Prinakashiose joined your team
-                          </div>
-                          <div class="col-3 notif-t p0">
-                            3h
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#">
-                        <div class="row">
-                          <div class="col-1">
-                            <img src="assets/icons/notif-eye.svg" width="10">
-                          </div>
-                          <div class="col-7 notif-c">
-                            John opened "Can you meet at ..."
-                          </div>
-                          <div class="col-3 notif-t p0">
-                            Yesterday
-                          </div>
-                        </div>
-                      </a>
+        <div class="boards two-lines">
+          <!-- INBOX BOARD -->
+          <div class="board">
+            <div class="board-header">
+              <div class="container p0">
+                <div class="row">
+                  <div class="col-1 cll">
+                    <div class="dropdown">
+                      <a href="#" tooltip="Board options" data-toggle="dropdown"><img
+                          src="assets/icons/board-dots.svg"></a>
+                      <div class="dropdown-menu">
+                        <h6 class="dropdown-header">Actions</h6>
+                        <a class="dropdown-item" href="#">Mark all as read</a>
+                        <a class="dropdown-item" href="#">Mark all as unread</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Board rules</a>
+                      </div>
                     </div>
                   </div>
+
+                  <div class="col-1 cll">
+                    <div class="dropdown">
+                      <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img
+                          src="assets/icons/sort.svg"></a>
+                      <div class="dropdown-menu">
+                        <h6 class="dropdown-header">Sort by</h6>
+                        <a class="dropdown-item" href="#">Date (newest)</a>
+                        <a class="dropdown-item" href="#">Date (oldest)</a>
+                        <a class="dropdown-item" href="#">Size (largest)</a>
+                        <a class="dropdown-item" href="#">Size (smallest)</a>
+                        <h6 class="dropdown-header">Display only</h6>
+                        <a class="dropdown-item" href="#">Unread</a>
+                        <a class="dropdown-item" href="#">Read</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-1 cll">
+                    <a v-if="!syncing" href="#" @click="checkForNewMessages" tooltip="Force refresh">
+                      <img src="assets/icons/refresh.svg" width="17">
+                    </a>
+                    <a v-if="syncing" href="#" tooltip="Force refresh">
+                      <img class="rotating" src="assets/icons/refresh.svg" width="17">
+                    </a>
+                  </div>
+                  <div class="col-5 text-center exp margin-auto nowrap">
+                    <h1>Inbox</h1>
+                    <!-- TODO: Rig the unread count per board ----------->
+                    <div class="secondary-count" tooltip="Unread emails in board">999+</div>
+                  </div>
+                  <div class="col-3 text-right cll">
+                    <a v-if="priority" @click="priority = false" href="#" tooltip="Show important emails only"><img
+                        src="assets/icons/toggle-right.svg" width="30" style="cursor: pointer;opacity:1 !important"></a>
+                    <a v-if="!priority" @click="priority = true" href="#" tooltip="Show important emails only"><img
+                        src="assets/icons/toggle-left.svg" width="30" style="cursor: pointer;opacity:1 !important"></a>
+                  </div>
+                  <div class="col-1 text-right cll">
+                  </div>
                 </div>
               </div>
+            </div>
+            <div class="board-body">
+              <!-- Can use :move to prevent it from moving into this board -->
+              <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
+                :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
+                <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
+                  v-for="email in inbox.emails" :email="email">
+                </email-card>
+              </draggable>
+              <!-- START List loader ----------------------->
+              <div class="cs-loader">
+                <div class="cs-loader-inner">
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                </div>
+              </div>
+              <!-- END List loader -------------------------->
             </div>
           </div>
-        </div>
-        <!-- END Header -------------------------------------------->
+          <!-- END Inbox Board ---------------------------->
 
-        <div class="boards-container">
+          <!-- TODO: Boards should be draggable ----------->
+          <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
 
-          <!-- TODO: rig settings to add 'zero-lines, one-lines, two-line, three-lines'  to 'boards'-->
+          <!-- START BOARDS-->
 
-          <div class="boards two-lines">
-            <!-- INBOX BOARD -->
-            <div class="board">
-              <div class="board-header">
-                <div class="container p0">
-                  <div class="row">
-                    <div class="col-1 cll">
-                      <div class="dropdown">
-                        <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                            src="assets/icons/board-dots.svg"></a>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Actions</h6>
-                          <a class="dropdown-item" href="#">Mark all as read</a>
-                          <a class="dropdown-item" href="#">Mark all as unread</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Board rules</a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-1 cll">
-                      <div class="dropdown">
-                        <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img
-                            src="assets/icons/sort.svg"></a>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Sort by</h6>
-                          <a class="dropdown-item" href="#">Date (newest)</a>
-                          <a class="dropdown-item" href="#">Date (oldest)</a>
-                          <a class="dropdown-item" href="#">Size (largest)</a>
-                          <a class="dropdown-item" href="#">Size (smallest)</a>
-                          <h6 class="dropdown-header">Display only</h6>
-                          <a class="dropdown-item" href="#">Unread</a>
-                          <a class="dropdown-item" href="#">Read</a>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-1 cll">
-                      <a v-if="!syncing" href="#" @click="checkForNewMessages" tooltip="Force refresh">
-                        <img src="assets/icons/refresh.svg" width="17">
-                      </a>
-                      <a v-if="syncing" href="#" tooltip="Force refresh">
-                        <img class="rotating" src="assets/icons/refresh.svg" width="17">
-                      </a>
-                    </div>
-                    <div class="col-5 text-center exp margin-auto nowrap">
-                      <h1>Inbox</h1>
-                      <!-- TODO: Rig the unread count per board ----------->
-                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
-                    </div>
-                    <div class="col-3 text-right cll">
-                      <a v-if="priority" @click="priority = false" href="#" tooltip="Show important emails only"><img
-                          src="assets/icons/toggle-right.svg" width="30"
-                          style="cursor: pointer;opacity:1 !important"></a>
-                      <a v-if="!priority" @click="priority = true" href="#" tooltip="Show important emails only"><img
-                          src="assets/icons/toggle-left.svg" width="30"
-                          style="cursor: pointer;opacity:1 !important"></a>
-                    </div>
-                    <div class="col-1 text-right cll">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="board-body">
-                <!-- Can use :move to prevent it from moving into this board -->
-                <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
-                  :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
-                  <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
-                    v-for="email in inbox.emails" :email="email">
-                  </email-card>
-                </draggable>
-                <!-- START List loader ----------------------->
-                <div class="cs-loader">
-                  <div class="cs-loader-inner">
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                  </div>
-                </div>
-                <!-- END List loader -------------------------->
-              </div>
-            </div>
-            <!-- END Inbox Board ---------------------------->
-
-            <!-- TODO: Boards should be draggable ----------->
-            <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
-
-            <!-- START BOARDS-->
-
-            <!-- START Default Board Template ----------------------->
-            <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
-              inline-template>
-              <div :board-name="boardName" class="board">
-                <div class="board-header">
-                  <div class="container p0">
-                    <div class="row">
-                      <div class="col-2 cll">
-                        <div class="dropdown">
-                          <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                              src="assets/icons/board-dots.svg"></a>
-                          <div class="dropdown-menu">
-                            <h6 class="dropdown-header">Actions</h6>
-                            <a class="dropdown-item" href="#">Mark all as read</a>
-                            <a class="dropdown-item" href="#">Mark all as unread</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Board rules</a>
-                            <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1>{{prettyBoardName}}</h1>
-                        <div class="secondary-count" tooltip="Unread emails in board">999+</div>
-                      </div>
-                      <div class="col-2 text-right cll">
-                        <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="board-body">
-                  <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model.lazy="board.emails"
-                    :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                    :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
-                    <!-- Single Email ---------- add class 'drag' when dragged ------->
-                    <email-card v-if="email.folder == boardName" :key="boardName + email.uid"
-                      v-for="email in board?.emails" :email="email"></email-card>
-                  </draggable>
-                  <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox-->
-                  <div slot="footer" class="empty2">
-                  </div>
-                </div>
-              </div>
-            </board>
-
-            <!-- START Done Board Template ----------------------->
-            <div class="board">
+          <!-- START Default Board Template ----------------------->
+          <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
+            inline-template>
+            <div :board-name="boardName" class="board">
               <div class="board-header">
                 <div class="container p0">
                   <div class="row">
@@ -396,13 +352,13 @@
                           <a class="dropdown-item" href="#">Mark all as unread</a>
                           <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="#">Board rules</a>
+                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
                         </div>
                       </div>
                     </div>
                     <div class="col-8 text-center p0 exp margin-auto nowrap">
-                      <h1>Done</h1>
-                      <div class="archive cll" tooltip="Archive entire board"><img
-                          src="assets/icons/board-archive.svg">Archive all</div>
+                      <h1>{{prettyBoardName}}</h1>
+                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                     </div>
                     <div class="col-2 text-right cll">
                       <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
@@ -411,571 +367,284 @@
                 </div>
               </div>
               <div class="board-body">
-                <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-                  <div slot="footer" class="empty">
-                    <h1>Drag emails here.</h1>
+                <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model.lazy="board.emails"
+                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
+                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
+                  <!-- Single Email ---------- add class 'drag' when dragged ------->
+                  <email-card v-if="email.folder == boardName" :key="boardName + email.uid"
+                    v-for="email in board?.emails" :email="email"></email-card>
+                </draggable>
+                <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox-->
+                <div slot="footer" class="empty2">
+                </div>
+              </div>
+            </div>
+          </board>
+
+          <!-- START Done Board Template ----------------------->
+          <div class="board">
+            <div class="board-header">
+              <div class="container p0">
+                <div class="row">
+                  <div class="col-2 cll">
+                    <div class="dropdown">
+                      <a href="#" tooltip="Board options" data-toggle="dropdown"><img
+                          src="assets/icons/board-dots.svg"></a>
+                      <div class="dropdown-menu">
+                        <h6 class="dropdown-header">Actions</h6>
+                        <a class="dropdown-item" href="#">Mark all as read</a>
+                        <a class="dropdown-item" href="#">Mark all as unread</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Board rules</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-8 text-center p0 exp margin-auto nowrap">
+                    <h1>Done</h1>
+                    <div class="archive cll" tooltip="Archive entire board"><img
+                        src="assets/icons/board-archive.svg">Archive all</div>
+                  </div>
+                  <div class="col-2 text-right cll">
+                    <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="add-board">
-              <img src="assets/icons/boards-add.svg">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INVITE MODAL --------------------------------------->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <div class="modal-reg">
-              <img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
-              <h1>Invite a team member</h1>
-              <h2>Enter their email address</h2>
-              <input type="email" name="" placeholder="Email">
-              <p>We'll send them a link to Aiko Mail.</p>
-              <br>
-              <a href="#" class="blue">Done</a>
-              <p class="ns30"></p>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TODO: Rig UPGRADE MODAL - QUICK ACTIONS -->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                style="margin-bottom: 15px;margin-top:10px">
-              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
-              <h1>You found a premium feature.</h1>
-              <img v-if="isDarkMode" src="assets/img/u-quick-black.png" width="300">
-              <img v-if="!isDarkMode" src="assets/img/u-quick-white.png" width="300">
-              <br>
-              <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
-                and lets you manage them with the click of a button.</p><br> <br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Get Started</a>
-              </div>
-              <p class="ns30"></p>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TODO: Rig UPGRADE MODAL - MAILBOX SWITCHER -->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                style="margin-bottom: 15px;margin-top:10px">
-              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
-              <h1>You found a premium feature.</h1>
-              <img v-if="isDarkMode" src="assets/img/u-mailbox-black.png" width="250">
-              <img v-if="!isDarkMode" src="assets/img/u-mailbox-white.png" width="250">
-              <br> <br>
-              <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Add email accounts and seamlessly switch
-                between all your
-                mailboxes.</p><br><br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Get Started</a>
-              </div>
-              <p class="ns30"></p>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TODO: Rig UPGRADE MODAL - Notifications teehee -->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                style="margin-bottom: 15px;margin-top:10px">
-              <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
-              <h1>You found a premium feature.</h1>
-              <img v-if="isDarkMode" src="assets/img/u-notif-black.png" width="300">
-              <img v-if="!isDarkMode" src="assets/img/u-notif-white.png" width="300">
-              <br><br>
-              <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Upgrade today to get notified when
-                someone opens your emails or joins your team.</p><br> <br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Get Started</a>
-              </div>
-              <p class="ns30"></p>
-              <br>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TUTORIAL MODAL -->
-      <tutorial-modal v-if="firstTime" inline-template>
-        <div class="aiko-modal">
-          <div class="modal-dialog modal-md">
-            <div class="modal-content">
-              <div class="modal-reg">
-                <h1>Welcome to Aiko Mail</h1>
-                <h2>Watch this tutorial to get started!</h2>
-                <!-- TODO: change this to tutorial video once we have one -->
-                <video controls src="assets/videos/"></video>
-              </div>
-              <br><br>
-              <div class="modal-bottom">
-                <a @click="close" href="#" class="blue" style="float: right;">Skip Tutorial</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </tutorial-modal>
-
-      <!-- VIEW EMAIL -->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="main-email">
-
-              <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
-              <!-- Single Message in Thread -->
-              <div class="single-email">
-                <div class="email-head">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-8 p0" style="display: inline-flex;height: 22px;">
-                        <h2 class="sender">
-                          Ruben Touitou</h2>
-                        <img src="assets/icons/badges-attach.svg">
-                        <img src="assets/icons/badges-tracker.svg">
-                        <img src="assets/icons/badges-event.svg">
-                        <img src="assets/icons/badges-bcc.svg">
-                        <img src="assets/icons/badges-star.svg">
-                        <div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <h3>This is a subject line</h3>
-                    </div>
-                  </div>
-
-                  <div class="options-qa">
-                    <a target="_blank">
-                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
-                    </a>
-                  </div>
-
-                  <div class="options">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a href="#">
-                            <img src="assets/icons/options-trash.svg" width="20">
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="email-body">
-                  FIXME: using iframe right now, will be insecure until I safely inject HTML, see
-                  https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
-
-                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                    src=""></iframe>
+            <div class="board-body">
+              <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
+                <div slot="footer" class="empty">
+                  <h1>Drag emails here.</h1>
                 </div>
               </div>
             </div>
-            <div class="secondary-email">
-              <img src="assets/icons/grey-x.svg" class="x-email">
-              <div class="secondary-head">
+          </div>
+          <div class="add-board">
+            <img src="assets/icons/boards-add.svg">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVITE MODAL --------------------------------------->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-reg">
+            <img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+            <h1>Invite a team member</h1>
+            <h2>Enter their email address</h2>
+            <input type="email" name="" placeholder="Email">
+            <p>We'll send them a link to Aiko Mail.</p>
+            <br>
+            <a href="#" class="blue">Done</a>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig UPGRADE MODAL - QUICK ACTIONS -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px;margin-top:10px">
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-quick-black.png" width="300">
+            <img v-if="!isDarkMode" src="assets/img/u-quick-white.png" width="300">
+            <br>
+            <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
+              and lets you manage them with the click of a button.</p><br> <br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig UPGRADE MODAL - MAILBOX SWITCHER -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px;margin-top:10px">
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-mailbox-black.png" width="250">
+            <img v-if="!isDarkMode" src="assets/img/u-mailbox-white.png" width="250">
+            <br> <br>
+            <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Add email accounts and seamlessly switch
+              between all your
+              mailboxes.</p><br><br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig UPGRADE MODAL - Notifications teehee -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px;margin-top:10px">
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-notif-black.png" width="300">
+            <img v-if="!isDarkMode" src="assets/img/u-notif-white.png" width="300">
+            <br><br>
+            <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Upgrade today to get notified when
+              someone opens your emails or joins your team.</p><br> <br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUTORIAL MODAL -->
+    <tutorial-modal v-if="firstTime" inline-template>
+      <div class="aiko-modal">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Welcome to Aiko Mail</h1>
+              <h2>Watch this tutorial to get started!</h2>
+              <!-- TODO: change this to tutorial video once we have one -->
+              <video controls src="assets/videos/"></video>
+            </div>
+            <br><br>
+            <div class="modal-bottom">
+              <a @click="close" href="#" class="blue" style="float: right;">Skip Tutorial</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tutorial-modal>
+
+    <!-- VIEW EMAIL -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="main-email">
+
+            <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
+            <!-- Single Message in Thread -->
+            <div class="single-email">
+              <div class="email-head">
                 <div class="container">
                   <div class="row">
-                    <div class="col-3 p0">
-                      <img src="assets/img/avatar.png">
+                    <div class="col-8 p0" style="display: inline-flex;height: 22px;">
+                      <h2 class="sender">
+                        Ruben Touitou</h2>
+                      <img src="assets/icons/badges-attach.svg">
+                      <img src="assets/icons/badges-tracker.svg">
+                      <img src="assets/icons/badges-event.svg">
+                      <img src="assets/icons/badges-bcc.svg">
+                      <img src="assets/icons/badges-star.svg">
+                      <div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
                     </div>
-                    <div class="col-9 p0 spe">
-                      <h1>Ruben Touitou</h1>
-                      <h2>rubentouit@yahoo.fr</h2>
+                    <div class="col-4 p0">
+                      <div class="time">6:18PM</div>
                     </div>
                   </div>
+                  <div class="row">
+                    <h3>This is a subject line</h3>
+                  </div>
                 </div>
-              </div>
 
-              <h3>Previous threads with Ruben</h3>
-              <div class="previous-threads">
-                <div class="email thread">
-                  <div class="container pr" data-toggle="modal" data-target=".email1">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
+                <div class="options-qa">
+                  <a target="_blank">
+                    <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+                  </a>
+                </div>
+
+                <div class="options">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-2 p0">
+                        <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
                       </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
+                      <div class="col-2 p0">
+                        <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
                       </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NEW MAILBOX MODAL --------------------------------------->
-      <add-mailbox-modal :googlestrategy="google_addMailbox" v-if="addMailbox" :success="switchMailServer"
-        :closable="!forceAddMailbox" inline-template>
-        <div class="aiko-modal add-mailbox">
-          <!-- STEP ONE --->
-          <div class="modal-dialog modal-md" v-if="step == 1">
-            <div class="modal-content">
-              <img src="assets/icons/grey-x.svg" class="x-email">
-              <div class="modal-reg">
-                <h1>Add a mailbox</h1>
-                <h2>Pick an email provider</h2>
-                <!-- <a href="#"><img src="assets/img/icloud.png"></a> -->
-                <a href="#"><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
-                <a href="#"><img @click="addGoogle" src="assets/img/google.png"></a>
-                <!-- <a href="#"><img src="assets/img/yahoo.png"></a> -->
-                <!-- <a href="#"><img src="assets/img/aol.png"></a> -->
-                <a href="#"><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
-                <br>
-              </div>
-              <div class="modal-bottom">
-                <a href="#" @click="addOther">Other</a>
-                <a href="#" @click="close" v-if="closable">Back</a>
-              </div>
-            </div>
-          </div>
-          <!-- STEP TWO --->
-          <div class="modal-dialog modal-md" v-if="step == 2">
-            <div class="modal-content">
-              <div class="modal-reg">
-                <h1>Add a mailbox</h1>
-                <h2>Enter your credentials</h2>
-                <a>
-                  <!-- TODO: use clearbit to auto-show the user's email provider -->
-                  <img v-if="imapConfig.provider == 'microsoft'" src="assets/img/outlook.png">
-                </a>
-                <p v-if="error" class="alert alert-danger">{{error}}</p>
-                <input v-model="imapConfig.user" type="email" name="" placeholder="Email">
-                <input v-model="imapConfig.pass" type="password" name="" placeholder="Password">
-                <input v-model="imapConfig.host" type="url" name="" placeholder="IMAP Host">
-                <input v-model="imapConfig.port" type="number" name="" placeholder="IMAP Port">
-                <input type="url" name="" placeholder="SMTP Host">
-                <input type="number" name="" placeholder="SMTP Port">
-                <br><br>
-                <a v-if="!loading" href="#" @click="saveConfig" class="blue">Add mailbox</a>
-                <div v-if="loading" class="cs-loader">
-                  <div class="cs-loader-inner">
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                    <label> ●</label>
-                  </div>
-                </div>
-                <br><br>
-              </div>
-              <div v-if="!loading" class="modal-bottom">
-                <a href="#" @click="back">Back</a>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </add-mailbox-modal>
-
-      <!-- NEW BOARD MODAL --------------------------------------->
-      <div class="aiko-modal" style="display: none;">
-        <!-- STEP 1 - BOARD NAME --->
-        <div class="modal-dialog modal-sm">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1>Add a board</h1>
-              <h2>Enter a name for your board</h2>
-              <input type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
-              <br><br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Next</a>
-              </div>
-              <br>
-            </div>
-          </div>
-        </div>
-        <!-- STEP 2 - BOARD RULES (New Board only)--->
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1>Board rules (optional)</h1>
-              <br>
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Add automatic forwarding
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
-              <br><br><br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Add board</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- BOARD RULES (Board already exists) --------------------------------------->
-      <div class="aiko-modal" style="display: none;">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1><b>{BOARD NAME}</b> board rules</h1>
-              <br>
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Automatic forwarding
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <p style="margin-bottom: 12px;">Dragging an email to this board forwards it to:</p>
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p style="margin-top: 20px;margin-bottom: -15px">Check your <a href="#" class="blue fw600">Inbox board
-                  rules</a> to see if emails are being automatically added to this board.</p>
-              <br><br><br>
-              <div class="modal-bottom">
-                <a href="#" class="blue">Save</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP ONE - INBOX Board rules --------------------------------------->
-      <div class="aiko-modal" style="display: none">
-        <div class="modal-dialog modal-md mw600">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1><b>Inbox</b> board rules</h1>
-              <br>
-              <div class="container-rules">
-                <div class="row margin-auto existing-rules">
-                  <div class="col-3">
-                    <p class="margin-auto text-left">if from: </p>
-                  </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">ruben@pri.com</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">To-Do</p>
-                  </div>
-                  <div class="col-2">
-                    <a href="#" class="red margin-auto text-right">Delete</a>
-                  </div>
-                </div>
-
-                <div class="row margin-auto existing-rules">
-                  <div class="col-3">
-                    <p class="margin-auto text-left">Contains: </p>
-                  </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">salsa</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">Done</p>
-                  </div>
-                  <div class="col-2">
-                    <a href="#" class="red margin-auto text-right">Delete</a>
-                  </div>
-                </div>
-
-                <div class="row margin-auto existing-rules">
-                  <div class="col-3">
-                    <p class="margin-auto text-left">if from: </p>
-                  </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">jojo@pri.com</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">From Jo</p>
-                  </div>
-                  <div class="col-2">
-                    <a href="#" class="red margin-auto text-right">Delete</a>
-                  </div>
-                </div>
-
-                <div class="row margin-auto existing-rules">
-                  <div class="col-3">
-                    <p class="margin-auto text-left">if from: </p>
-                  </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">ruben@pri.com</p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">To-Do</p>
-                  </div>
-                  <div class="col-2">
-                    <a href="#" class="red margin-auto text-right">Delete</a>
-                  </div>
-                </div>
-              </div>
-              <br>
-              <a href="#" class="blue">Add new rule</a>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP TWO - INBOX BOARD ADD RULE --------------------------------------->
-        <div class="modal-dialog modal-md mw600" style="display: none;">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1>Add rule</h1>
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Add email address filter ("if email is from...")
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-4 text-right">
-                            <p>Move email to: </p>
-                          </div>
-                          <div class="col-4 text-center">
-                            <select class="aiko-select">
-                              <option value="1" selected="selected">To-Do</option>
-                              <option value="2">Done</option>
-                            </select>
-                          </div>
-                          <div class="col-4 text-left">
-                            <p>if it's from:</p>
-                          </div>
-                        </div>
-                        <br>
-                        <input type="text" name="rulesField" placeholder="Email">
+                      <div class="col-2 p0">
+                        <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Add subject keyword filter ("if subject contains...")
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-4 text-right">
-                            <p>Move email to: </p>
-                          </div>
-                          <div class="col-4 text-center">
-                            <select class="aiko-select">
-                              <option value="1" selected="selected">To-Do</option>
-                              <option value="2">Done</option>
-                            </select>
-                          </div>
-                          <div class="col-4 text-left">
-                            <p>if subject contains:</p>
-                          </div>
-                        </div>
-                        <br>
-                        <input type="text" name="rulesField2" placeholder="Word">
+                      <div class="col-2 p0">
+                        <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+                      </div>
+                      <div class="col-2 p0">
+                        <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+                      </div>
+                      <div class="col-2 p0">
+                        <a href="#">
+                          <img src="assets/icons/options-trash.svg" width="20">
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p style="margin-top: 20px;margin-bottom: 0">Check individual board rules to see dragging actions.</p>
-              <br><br>
-              <div class="modal-bottom">
-                <a href="#" class="backbtn float-left">Back</a><a href="#" class="blue float-right">Save rule</a>
+              <div class="email-body">
+                FIXME: using iframe right now, will be insecure until I safely inject HTML, see
+                https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
+
+                <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
+                  src=""></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="secondary-email">
+            <img src="assets/icons/grey-x.svg" class="x-email">
+            <div class="secondary-head">
+              <div class="container">
+                <div class="row">
+                  <div class="col-3 p0">
+                    <img src="assets/img/avatar.png">
+                  </div>
+                  <div class="col-9 p0 spe">
+                    <h1>Ruben Touitou</h1>
+                    <h2>rubentouit@yahoo.fr</h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h3>Previous threads with Ruben</h3>
+            <div class="previous-threads">
+              <div class="email thread">
+                <div class="container pr" data-toggle="modal" data-target=".email1">
+                  <div class="row" style="user-select: none;">
+                    <div class="col-8 p0" style="display: inline-flex;">
+                      <p class="subject">This is the subject</p>
+                    </div>
+                    <div class="col-4 p0">
+                      <div class="time">6:18PM</div>
+                    </div>
+
+                    <p class="body">This is the main content of the email, it is suppose to be
+                      longer than the subject and a summary of the main content.</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -983,104 +652,435 @@
       </div>
     </div>
 
-    <script type="text/x-template" id="email-card">
-      <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
-      <!-- TODO: add 'sync' class to 'email' class here, when syncing teehee -->
-      <!-- TODO: for ruben, fix ugly padding during drag........ -->
-      <div :key="email.uid" :uid="email.uid" class="email" :class="{
+    <!-- NEW MAILBOX MODAL --------------------------------------->
+    <add-mailbox-modal :googlestrategy="google_addMailbox" v-if="addMailbox" :success="switchMailServer"
+      :closable="!forceAddMailbox" inline-template>
+      <div class="aiko-modal add-mailbox">
+        <!-- STEP ONE --->
+        <div class="modal-dialog modal-md" v-if="step == 1">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <h1>Add a mailbox</h1>
+              <h2>Pick an email provider</h2>
+              <!-- <a href="#"><img src="assets/img/icloud.png"></a> -->
+              <a href="#"><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
+              <a href="#"><img @click="addGoogle" src="assets/img/google.png"></a>
+              <!-- <a href="#"><img src="assets/img/yahoo.png"></a> -->
+              <!-- <a href="#"><img src="assets/img/aol.png"></a> -->
+              <a href="#"><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
+              <br>
+            </div>
+            <div class="modal-bottom">
+              <a href="#" @click="addOther">Other</a>
+              <a href="#" @click="close" v-if="closable">Back</a>
+            </div>
+          </div>
+        </div>
+        <!-- STEP TWO --->
+        <div class="modal-dialog modal-md" v-if="step == 2">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Add a mailbox</h1>
+              <h2>Enter your credentials</h2>
+              <a>
+                <!-- TODO: use clearbit to auto-show the user's email provider -->
+                <img v-if="imapConfig.provider == 'microsoft'" src="assets/img/outlook.png">
+              </a>
+              <p v-if="error" class="alert alert-danger">{{error}}</p>
+              <input v-model="imapConfig.user" type="email" name="" placeholder="Email">
+              <input v-model="imapConfig.pass" type="password" name="" placeholder="Password">
+              <input v-model="imapConfig.host" type="url" name="" placeholder="IMAP Host">
+              <input v-model="imapConfig.port" type="number" name="" placeholder="IMAP Port">
+              <input type="url" name="" placeholder="SMTP Host">
+              <input type="number" name="" placeholder="SMTP Port">
+              <br><br>
+              <a v-if="!loading" href="#" @click="saveConfig" class="blue">Add mailbox</a>
+              <div v-if="loading" class="cs-loader">
+                <div class="cs-loader-inner">
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                  <label> ●</label>
+                </div>
+              </div>
+              <br><br>
+            </div>
+            <div v-if="!loading" class="modal-bottom">
+              <a href="#" @click="back">Back</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </add-mailbox-modal>
+
+    <!-- NEW BOARD MODAL --------------------------------------->
+    <div class="aiko-modal" style="display: none;">
+      <!-- STEP 1 - BOARD NAME --->
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+            <h1>Add a board</h1>
+            <h2>Enter a name for your board</h2>
+            <input type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
+            <br><br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Next</a>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <!-- STEP 2 - BOARD RULES (New Board only)--->
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+            <h1>Board rules (optional)</h1>
+            <br>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne">
+                      Add automatic forwarding
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
+                    <input type="text" name="rulesField" placeholder="Email">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
+            <br><br><br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Add board</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- BOARD RULES (Board already exists) --------------------------------------->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+            <h1><b>{BOARD NAME}</b> board rules</h1>
+            <br>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne">
+                      Automatic forwarding
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <p style="margin-bottom: 12px;">Dragging an email to this board forwards it to:</p>
+                    <input type="text" name="rulesField" placeholder="Email">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 20px;margin-bottom: -15px">Check your <a href="#" class="blue fw600">Inbox board
+                rules</a> to see if emails are being automatically added to this board.</p>
+            <br><br><br>
+            <div class="modal-bottom">
+              <a href="#" class="blue">Save</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP ONE - INBOX Board rules --------------------------------------->
+    <div class="aiko-modal" style="display: none">
+      <div class="modal-dialog modal-md mw600">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+            <h1><b>Inbox</b> board rules</h1>
+            <br>
+            <div class="container-rules">
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">if from: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">ruben@pri.com</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">To-Do</p>
+                </div>
+                <div class="col-2">
+                  <a href="#" class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">Contains: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">salsa</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">Done</p>
+                </div>
+                <div class="col-2">
+                  <a href="#" class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">if from: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">jojo@pri.com</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">From Jo</p>
+                </div>
+                <div class="col-2">
+                  <a href="#" class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">if from: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">ruben@pri.com</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">To-Do</p>
+                </div>
+                <div class="col-2">
+                  <a href="#" class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+            </div>
+            <br>
+            <a href="#" class="blue">Add new rule</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP TWO - INBOX BOARD ADD RULE --------------------------------------->
+      <div class="modal-dialog modal-md mw600" style="display: none;">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" class="x-email">
+          <div class="modal-reg">
+            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+            <h1>Add rule</h1>
+            <div class="accordion" id="accordionExample">
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne">
+                      Add email address filter ("if email is from...")
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-4 text-right">
+                          <p>Move email to: </p>
+                        </div>
+                        <div class="col-4 text-center">
+                          <select class="aiko-select">
+                            <option value="1" selected="selected">To-Do</option>
+                            <option value="2">Done</option>
+                          </select>
+                        </div>
+                        <div class="col-4 text-left">
+                          <p>if it's from:</p>
+                        </div>
+                      </div>
+                      <br>
+                      <input type="text" name="rulesField" placeholder="Email">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingOne">
+                  <h2 class="mb-0">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                      aria-expanded="true" aria-controls="collapseOne">
+                      Add subject keyword filter ("if subject contains...")
+                    </button>
+                  </h2>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                  <div class="card-body">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-4 text-right">
+                          <p>Move email to: </p>
+                        </div>
+                        <div class="col-4 text-center">
+                          <select class="aiko-select">
+                            <option value="1" selected="selected">To-Do</option>
+                            <option value="2">Done</option>
+                          </select>
+                        </div>
+                        <div class="col-4 text-left">
+                          <p>if subject contains:</p>
+                        </div>
+                      </div>
+                      <br>
+                      <input type="text" name="rulesField2" placeholder="Word">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top: 20px;margin-bottom: 0">Check individual board rules to see dragging actions.</p>
+            <br><br>
+            <div class="modal-bottom">
+              <a href="#" class="backbtn float-left">Back</a><a href="#" class="blue float-right">Save rule</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/x-template" id="email-card">
+    <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
+    <!-- TODO: add 'sync' class to 'email' class here, when syncing teehee -->
+    <!-- TODO: for ruben, fix ugly padding during drag........ -->
+    <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed),
         'syncing': email?.syncing
       }">
-        <div class="container pr">
-          <div class="row" style="user-select: none;">
-            <div class="col-8 p0 exp" style="display: inline-flex;">
-              <h2 class="sender">
-                {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
-              <!-- TODO: Rig badges, thread, bcc, event, tracker -->
-              <img src="assets/icons/thread.svg" style="display: none;">
-              <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-              <img src="assets/icons/badges-tracker.svg" style="display: none;">
-              <img src="assets/icons/badges-event.svg" style="display: none;">
-              <img src="assets/icons/badges-bcc.svg" style="display: none;">
-            </div>
-            <div class="col-4 p0 cll">
-              <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
-            </div>
-            <p class="subject">{{email?.envelope?.subject}}</p>
-            <p v-if="email?.parsed" class="body">{{HTML2Text(email?.parsed?.html || email?.parsed?.text)}}</p>
+      <div class="container pr">
+        <div class="row" style="user-select: none;">
+          <div class="col-8 p0 exp" style="display: inline-flex;">
+            <h2 class="sender">
+              {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+            <!-- TODO: Rig badges, thread, bcc, event, tracker -->
+            <img src="assets/icons/thread.svg" style="display: none;">
+            <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
+            <img src="assets/icons/badges-tracker.svg" style="display: none;">
+            <img src="assets/icons/badges-event.svg" style="display: none;">
+            <img src="assets/icons/badges-bcc.svg" style="display: none;">
           </div>
-          <div class="email-footer" style="user-select: none;">
-            <div class="row">
-              <div class="col-5 cll">
-                <a class="main-action" href="#">
-                  <img src="assets/icons/zap.svg"> Quick Reply
-                  <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
-                  <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
-                  <!-- TODO: Rig <img src="assets/icons/sign.svg"> Sign -->
-                </a>
-              </div>
-              <div class="col-5 sync-message">
-                <a class="main-action" href="#">
-                  <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
-                </a>
-              </div>
-              <div class="col-7 extra-actions">
-                <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-                <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-                <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
-
-                <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-                <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-                <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
-
-                <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
-              </div>
-            </div>
+          <div class="col-4 p0 cll">
+            <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
           </div>
-          <div class="note hide">
-            <input placeholder="Type a reply..." autofocus>
-            <a href="#"><img src="assets/icons/compose-send.svg" width="20"></a>
+          <p class="subject">{{email?.envelope?.subject}}</p>
+          <p v-if="email?.parsed" class="body">{{HTML2Text(email?.parsed?.html || email?.parsed?.text)}}</p>
+        </div>
+        <div class="email-footer" style="user-select: none;">
+          <div class="row">
+            <div class="col-5 cll">
+              <a class="main-action" href="#">
+                <img src="assets/icons/zap.svg"> Quick Reply
+                <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
+                <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
+                <!-- TODO: Rig <img src="assets/icons/sign.svg"> Sign -->
+              </a>
+            </div>
+            <div class="col-5 sync-message">
+              <a class="main-action" href="#">
+                <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
+              </a>
+            </div>
+            <div class="col-7 extra-actions">
+              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
+              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
+              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+
+              <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
+              <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
+              <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
+
+              <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+            </div>
           </div>
         </div>
+        <div class="note hide">
+          <input placeholder="Type a reply..." autofocus>
+          <a href="#"><img src="assets/icons/compose-send.svg" width="20"></a>
+        </div>
       </div>
-    </script>
+    </div>
+  </script>
 
-    <!-- 3rd party libraries -->
-    <script src="assets/js/third-party/popper.min.js"></script>
-    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
-    <script src="assets/js/third-party/bootstrap.min.js"></script>
-    <script src="assets/js/third-party/jwt-decode.min.js"></script>
-    <script src="assets/js/third-party/jsrsasign.min.js"></script>
-    <script src="assets/js/third-party/localforage.min.js"></script>
-    <script src="assets/js/third-party/sortable.min.js"></script>
-    <script src="assets/js/third-party/vue.min.js"></script>
-    <script src="assets/js/third-party/vue-draggable.min.js"></script>
+  <!-- 3rd party libraries -->
+  <script src="assets/js/third-party/popper.min.js"></script>
+  <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
+  <script src="assets/js/third-party/bootstrap.min.js"></script>
+  <script src="assets/js/third-party/jwt-decode.min.js"></script>
+  <script src="assets/js/third-party/jsrsasign.min.js"></script>
+  <script src="assets/js/third-party/localforage.min.js"></script>
+  <script src="assets/js/third-party/sortable.min.js"></script>
+  <script src="assets/js/third-party/vue.min.js"></script>
+  <script src="assets/js/third-party/vue-draggable.min.js"></script>
 
-    <!-- TODO: minify all sources into one js file -->
-    <!-- common libraries -->
-    <script src="assets/js/common/utils.js"></script>
-    <script src="assets/js/common/small-storage.js"></script>
-    <script src="assets/js/common/big-storage.js"></script>
-    <script src="assets/js/common/only-electron.js"></script>
-    <script src="assets/js/common/mailcleaner.js"></script>
-    <!-- services -->
-    <script src="assets/js/services/ipc.js"></script>
-    <script src="assets/js/services/aiko.js"></script>
-    <script src="assets/js/services/window.js"></script>
-    <script src="assets/js/services/goauth.js"></script>
-    <script src="assets/js/services/mail.js"></script>
-    <script src="assets/js/services/modals.js"></script>
-    <!-- templates -->
-    <script src="assets/js/components/modals/tutorial.js"></script>
-    <script src="assets/js/components/modals/add-mailbox.js"></script>
-    <script src="assets/js/components/email-card.js"></script>
-    <script src="assets/js/components/board.js"></script>
-    <!-- main/entrypoint -->
-    <script src="assets/js/main.js"></script>
+  <!-- TODO: minify all sources into one js file -->
+  <!-- common libraries -->
+  <script src="assets/js/common/utils.js"></script>
+  <script src="assets/js/common/small-storage.js"></script>
+  <script src="assets/js/common/big-storage.js"></script>
+  <script src="assets/js/common/only-electron.js"></script>
+  <script src="assets/js/common/mailcleaner.js"></script>
+  <!-- services -->
+  <script src="assets/js/services/ipc.js"></script>
+  <script src="assets/js/services/aiko.js"></script>
+  <script src="assets/js/services/window.js"></script>
+  <script src="assets/js/services/goauth.js"></script>
+  <script src="assets/js/services/mail.js"></script>
+  <script src="assets/js/services/modals.js"></script>
+  <!-- templates -->
+  <script src="assets/js/components/modals/tutorial.js"></script>
+  <script src="assets/js/components/modals/add-mailbox.js"></script>
+  <script src="assets/js/components/email-card.js"></script>
+  <script src="assets/js/components/board.js"></script>
+  <!-- main/entrypoint -->
+  <script src="assets/js/main.js"></script>
 
-    <script type="text/javascript">
-      /*
+  <script type="text/javascript">
+    /*
       $('input[name="rulesField"]').amsifySuggestags({
         type: 'amsify',
         suggestions: [{
@@ -1099,8 +1099,8 @@
         type: 'amsify',
       });
       */
-    </script>
+  </script>
 
-  </body>
+</body>
 
-  </html>
+</html>
