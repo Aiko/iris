@@ -434,6 +434,7 @@ const mailapi = {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
             console.time("Initial Sync")
             this.loading = true // its so big it blocks I/O
+            this.syncing = true
 
             const {
                 uidNext
@@ -498,6 +499,7 @@ const mailapi = {
                 }
             }
             this.loading = false
+            this.syncing = false
             console.timeEnd("Initial Sync")
         },
         async initialSyncBoard(boardName) {
@@ -685,22 +687,14 @@ const mailapi = {
             // on emails that are part of a thread
             // and not the final msg in thread
 
-            /* Super Inefficient Threading algorithm:
-
-            for every email:
-                if the email is a reply to message with id X:
-                    prev = find previous message with reply id X
-                    prev.ai.isInThread = true
-
-            */
+            const reply_ids = new Set()
 
             const thread_single = email => {
-                const reply_id = email.envelope['in-reply-to']
-                if (!reply_id) return email
-                // search for reply thread in inbox
-                for (let i = 0; i < this.inbox.emails.length; i++) {
+                const reply_id = email?.envelope?.['in-reply-to']
+                if (reply_id) reply_ids.add(reply_id)
 
-                }
+                if (email?.envelope?.['message-id']);
+                // search for reply thread in inbox
                 // search boards
                 // and if the email is not in the board,
                 // move it there
