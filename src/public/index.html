@@ -23,7 +23,7 @@
 <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
   <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
-    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dsark.css">
     <!-- LOADER -->
     <div id="fixed" class="loader-6 center-loader">
       <span>
@@ -244,7 +244,7 @@
       <div class="boards-container">
         <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
         <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
-        <div class="boards two-lines">
+        <div class="boards two-lines regular">
           <!-- INBOX BOARD -->
           <div class="board inbox">
             <div class="board-header">
@@ -419,7 +419,110 @@
           </div>
 
           <div class="long-board">
+            <div class="main-email">
 
+              <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
+              <!-- Single Message in Thread -->
+              <div class="single-email">
+                <div class="email-head">
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-8 p0" style="display: inline-flex;height: 22px;">
+                        <h2 class="sender">
+                          Ruben Touitou</h2>
+                        <img src="assets/icons/badges-attach.svg">
+                        <img src="assets/icons/badges-tracker.svg">
+                        <img src="assets/icons/badges-event.svg">
+                        <img src="assets/icons/badges-bcc.svg">
+                        <img src="assets/icons/badges-star.svg">
+                        <div class="changer">Inbox<br>To-Do<br>Done<br>Show Pri</div>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <h3>This is a subject line</h3>
+                    </div>
+                  </div>
+
+                  <div class="options-qa">
+                    <a target="_blank">
+                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+                    </a>
+                  </div>
+
+                  <div class="options">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-2 p0">
+                          <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a href="#">
+                            <img src="assets/icons/options-trash.svg" width="20">
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="email-body">
+                  FIXME: using iframe right now, will be insecure until I safely inject HTML, see
+                  https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page
+
+                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
+                    src=""></iframe>
+                </div>
+              </div>
+            </div>
+            <div class="secondary-email">
+              <img src="assets/icons/grey-x.svg" class="x-email">
+              <div class="secondary-head">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-3 p0">
+                      <img src="assets/img/avatar.png">
+                    </div>
+                    <div class="col-9 p0 spe">
+                      <h1>Ruben Touitou</h1>
+                      <h2>rubentouit@yahoo.fr</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <h3>Previous threads with Ruben</h3>
+              <div class="previous-threads">
+                <div class="email thread">
+                  <div class="container pr" data-toggle="modal" data-target=".email1">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="add-board">
