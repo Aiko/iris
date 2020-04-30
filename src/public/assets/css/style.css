@@ -484,22 +484,10 @@ input:active {
 	transition: .2s;
 }
 
-.long-board {
-	display: inline-flex;
-	background-color: #fff;
-	border-radius: 3px;
-	margin-left: -33px;
-	width: calc(100% - 300px);
-}
 
 .secondary {
 	width: calc(100% - 40px);
 	border-radius: 3px;
-}
-
-.long-board .main-email {
-	z-index: 0;
-	width: 100%;
 }
 
 .note {
@@ -1091,6 +1079,7 @@ hr {
 	margin: 20px 0 0 20px;
 	overflow: visible;
 	display: inline-flex;
+	min-width: calc(100% - 20px);
 }
 
 .board {
@@ -1098,7 +1087,7 @@ hr {
 	width: 300px;
 	border-radius: 4px 4px 0 0;
 	height: 100%;
-	margin-right: 25px;
+	margin-right: 20px;
 	box-shadow: 0 0 15px #00000024;
 }
 
@@ -1434,7 +1423,6 @@ hr {
 	background: var(--main-bg-color);
 	border-radius: 3px;
 	opacity: .4;
-	margin: auto;
 	text-align: center;
 	height: 100%;
 	width: 50px;
@@ -1768,6 +1756,37 @@ hr {
 	margin-right: -25px;
 }
 
+.regular {
+	overflow: hidden !important;
+	width: calc(100% - 20px);
+}
+
+.regular .noreg img {
+	display: none;
+}
+
+.regular .long-board {
+	display: unset !important;
+}
+
+.regular .board:not(.inbox) {
+	display: none !important;
+}
+
+.regular .add-board {
+	display: none !important;
+}
+
+.long-board {
+	display: none;
+	background: var(--main-bg-color);
+	border-radius: 4px 0 0 0;
+	height: 100%;
+	box-shadow: 0 0 15px #00000024;
+	width: calc(100% - 40px);
+	transition: .2s;
+}
+
 .options-qa {
 	position: absolute;
 	right: 0;
@@ -1800,12 +1819,6 @@ hr {
 	}
 }
 
-@media all and (max-width: 800px) {
-	.long-board {
-		display: none;
-	}
-}
-
 .invite-icon {
 	padding-left: 5px !important;
 	display: inline-block;
@@ -1830,10 +1843,6 @@ hr {
 		width: 45px !important;
 		padding: 8px 6px;
 		transition: .2s;
-	}
-
-	.long-board {
-		display: none;
 	}
 
 	.bottom {

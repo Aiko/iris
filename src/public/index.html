@@ -242,12 +242,11 @@
       <!-- END Header -------------------------------------------->
 
       <div class="boards-container">
-
-        <!-- TODO: rig settings to add 'zero-lines, one-lines, two-line, three-lines'  to 'boards'-->
-
+        <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
+        <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
         <div class="boards two-lines">
           <!-- INBOX BOARD -->
-          <div class="board">
+          <div class="board inbox">
             <div class="board-header">
               <div class="container p0">
                 <div class="row">
@@ -294,7 +293,7 @@
                     <!-- TODO: Rig the unread count per board ----------->
                     <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                   </div>
-                  <div class="col-3 text-right cll">
+                  <div class="col-3 text-right cll noreg">
                     <a v-if="priority" @click="priority = false" href="#" tooltip="Show important emails only"><img
                         src="assets/icons/toggle-right.svg" width="30" style="cursor: pointer;opacity:1 !important"></a>
                     <a v-if="!priority" @click="priority = true" href="#" tooltip="Show important emails only"><img
@@ -418,12 +417,19 @@
               </div>
             </div>
           </div>
+
+          <div class="long-board">
+
+          </div>
+
           <div class="add-board">
             <img src="assets/icons/boards-add.svg">
           </div>
+
         </div>
       </div>
     </div>
+
 
     <!-- INVITE MODAL --------------------------------------->
     <div class="aiko-modal" style="display: none;">
