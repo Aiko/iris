@@ -1919,7 +1919,7 @@ hr {
 	.sidebar a {
 		height: 30px;
 		width: 34px;
-		padding: 4px 0 5px 9px;
+		padding: 4px 0 5px 8px;
 		transition: .2s;
 	}
 
@@ -1973,7 +1973,7 @@ hr {
 .collapsed .sidebar a {
 	height: 30px !important;
 	width: 34px !important;
-	padding: 4px 0 5px 9px !important;
+	padding: 4px 0 5px 8px !important;
 	transition: .2s;
 }
 
