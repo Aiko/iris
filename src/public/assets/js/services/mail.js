@@ -811,8 +811,6 @@ const mailapi = {
                     const destSeqSet = d?.destSeqSet;
                     if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d);
                     // TODO: should probably move it back if we failed
-                    if (!destSeqSet)
-                        return window.error(...MAILAPI_TAG, "Syncing moved email failed.");
                     info(...MAILAPI_TAG, "Moved email",
                         email.uid, "from", email.syncFolder,
                         "to", targetFolder, "with new uid",
