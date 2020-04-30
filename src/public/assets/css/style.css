@@ -1140,19 +1140,20 @@ hr {
 	height: 78px !important;
 }
 
-.sync .sync-message {
+.syncing .sync-message {
 	display: block !important;
 }
 
-.sync .extra-actions {
+.syncing .extra-actions {
 	display: none !important;
 }
 
-.sync {
+.syncing {
 	opacity: .7;
+	transition: .2s;
 }
 
-.sync .cll {
+.syncing .cll {
 	display: none !important;
 }
 
