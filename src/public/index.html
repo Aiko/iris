@@ -59,17 +59,17 @@
     <div class="sidebar">
       <div class="container">
         <div class="row">
-          <a href="compose.html" class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"
+          <a class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
-          <a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
+          <a class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
                 class="main-count">3</span></span></a>
-          <a href="#"><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
-          <a href="#"><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
-          <a href="#"><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
+          <a><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
+          <a><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
+          <a><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
               Spam</span></a>
-          <a href="#"><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
-          <a href="#"><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
-          <a href="#"><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
+          <a><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
+          <a><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
+          <a><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
         </div>
         <div class="row">
           <div class="search no-mobile sc">
@@ -77,7 +77,7 @@
           </div>
           <div style="height: 30px"></div>
           <div class="user-list">
-            <a href="#" class="user" v-for="user in profile.team.team">
+            <a class="user" v-for="user in profile.team.team">
               <div class="active-user"></div>
               <!-- TODO: on server change user.pictureURI to be from assets/ default -->
               <!-- TODO: can we fetch and download people's gmail profile pic? -->
@@ -85,12 +85,12 @@
               <div class="no-mobile sc">{{user.member.name}}</div>
             </a>
           </div>
-          <a href="#" class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
+          <a class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
               class="blue sc">Invite</span></a>
           <div class="version sc no-mobile">
             <h1>Version: <span class="blue fw700">ALPHA</span></h1>
             <p>Request features and report issues</p>
-            <a href="compose.html" target="_blank">Give feedback</a>
+            <a target="_blank">Give feedback</a>
           </div>
         </div>
         <div class="row bottom">
@@ -100,9 +100,9 @@
           </div>
           <br>
           <div class="set">
-            <a href="settings.html" target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a href="#" tooltip="Documentation" class="no-mobile sc" target="_blank"><img
-                src="assets/icons/sidebar-help.svg" width="30"></a>
+            <a target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
+                width="30"></a>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
       <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
       <!-- TOAST Invite Sent -->
       <div class="aiko-toast" style="display: none;">
-        <p class="textinout">Sending invite</p><a href="#">Undo</a>
+        <p class="textinout">Sending invite</p><a>Undo</a>
         <div class="t-loader"><span></span></div>
       </div>
 
@@ -142,7 +142,7 @@
 
       <!-- TOAST Sending Email -->
       <div class="aiko-toast" style="display: none;">
-        <p class="textinout">Sending email</p><a href="#">Undo</a>
+        <p class="textinout">Sending email</p><a>Undo</a>
         <div class="t-loader"><span></span></div>
       </div>
 
@@ -169,31 +169,31 @@
               </div>
               <!-- TODO: Rig search + search dropdown -->
               <div class="search-drop" style="display: none;">
-                <a href="#">
+                <a>
                   <div>Subject contains "<span>Ruben</span>"</div>
                 </a>
                 <hr>
                 <p>People</p>
-                <a href="#">
+                <a>
                   <div>ruben@priansh.com</div>
                 </a>
-                <a href="#">
+                <a>
                   <div>rubencharles@gmail.com</div>
                 </a>
-                <a href="#">
+                <a>
                   <div>rubencharlestouitou@gmail.com</div>
                 </a>
               </div>
             </div>
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <!--  <a href="#" class="inline"><img src="assets/icons/header-calendar.svg"></a> -->
+              <!--  <a class="inline"><img src="assets/icons/header-calendar.svg"></a> -->
               <div class="dropdown inline">
-                <a href="#" data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
+                <a data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
                   <span class="notif-count">3</span></a>
                 <div class="dropdown-menu notif" style="margin-top: 10px">
                   <div class="container">
-                    <a href="#">
+                    <a>
                       <div class="row">
                         <div class="col-1">
                           <img src="assets/icons/notif-click.svg" width="10">
@@ -206,7 +206,7 @@
                         </div>
                       </div>
                     </a>
-                    <a href="#">
+                    <a>
                       <div class="row">
                         <div class="col-1">
                           <img src="assets/icons/notif-invite.svg" width="10">
@@ -219,7 +219,7 @@
                         </div>
                       </div>
                     </a>
-                    <a href="#">
+                    <a>
                       <div class="row">
                         <div class="col-1">
                           <img src="assets/icons/notif-eye.svg" width="10">
@@ -252,39 +252,37 @@
                 <div class="row">
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                          src="assets/icons/board-dots.svg"></a>
+                      <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Actions</h6>
-                        <a class="dropdown-item" href="#">Mark all as read</a>
-                        <a class="dropdown-item" href="#">Mark all as unread</a>
+                        <a class="dropdown-item">Mark all as read</a>
+                        <a class="dropdown-item">Mark all as unread</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Board rules</a>
+                        <a class="dropdown-item">Board rules</a>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a href="#" tooltip="Sort and filter emails" data-toggle="dropdown"><img
-                          src="assets/icons/sort.svg"></a>
+                      <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
-                        <a class="dropdown-item" href="#">Date (newest)</a>
-                        <a class="dropdown-item" href="#">Date (oldest)</a>
-                        <a class="dropdown-item" href="#">Size (largest)</a>
-                        <a class="dropdown-item" href="#">Size (smallest)</a>
+                        <a class="dropdown-item">Date (newest)</a>
+                        <a class="dropdown-item">Date (oldest)</a>
+                        <a class="dropdown-item">Size (largest)</a>
+                        <a class="dropdown-item">Size (smallest)</a>
                         <h6 class="dropdown-header">Display only</h6>
-                        <a class="dropdown-item" href="#">Unread</a>
-                        <a class="dropdown-item" href="#">Read</a>
+                        <a class="dropdown-item">Unread</a>
+                        <a class="dropdown-item">Read</a>
                       </div>
                     </div>
                   </div>
                   <div class="col-1 cll">
-                    <a v-if="!syncing" href="#" @click="checkForNewMessages" tooltip="Force refresh">
+                    <a v-if="!syncing" @click="checkForNewMessages" tooltip="Force refresh">
                       <img src="assets/icons/refresh.svg" width="17">
                     </a>
-                    <a v-if="syncing" href="#" tooltip="Force refresh">
+                    <a v-if="syncing" tooltip="Force refresh">
                       <img class="rotating" src="assets/icons/refresh.svg" width="17">
                     </a>
                   </div>
@@ -294,9 +292,9 @@
                     <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                   </div>
                   <div class="col-3 text-right cll noreg">
-                    <a v-if="priority" @click="priority = false" href="#" tooltip="Show important emails only"><img
+                    <a v-if="priority" @click="priority = false" tooltip="Show important emails only"><img
                         src="assets/icons/toggle-right.svg" width="30" style="cursor: pointer;opacity:1 !important"></a>
-                    <a v-if="!priority" @click="priority = true" href="#" tooltip="Show important emails only"><img
+                    <a v-if="!priority" @click="priority = true" tooltip="Show important emails only"><img
                         src="assets/icons/toggle-left.svg" width="30" style="cursor: pointer;opacity:1 !important"></a>
                   </div>
                   <div class="col-1 text-right cll">
@@ -343,15 +341,14 @@
                   <div class="row">
                     <div class="col-2 cll">
                       <div class="dropdown">
-                        <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                            src="assets/icons/board-dots.svg"></a>
+                        <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                         <div class="dropdown-menu">
                           <h6 class="dropdown-header">Actions</h6>
-                          <a class="dropdown-item" href="#">Mark all as read</a>
-                          <a class="dropdown-item" href="#">Mark all as unread</a>
+                          <a class="dropdown-item">Mark all as read</a>
+                          <a class="dropdown-item">Mark all as unread</a>
                           <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Board rules</a>
-                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" href="#" style="color: #dc3545 !important">Delete board</a> -->
+                          <a class="dropdown-item">Board rules</a>
+                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
                         </div>
                       </div>
                     </div>
@@ -360,7 +357,7 @@
                       <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                     </div>
                     <div class="col-2 text-right cll">
-                      <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                     </div>
                   </div>
                 </div>
@@ -387,14 +384,13 @@
                 <div class="row">
                   <div class="col-2 cll">
                     <div class="dropdown">
-                      <a href="#" tooltip="Board options" data-toggle="dropdown"><img
-                          src="assets/icons/board-dots.svg"></a>
+                      <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Actions</h6>
-                        <a class="dropdown-item" href="#">Mark all as read</a>
-                        <a class="dropdown-item" href="#">Mark all as unread</a>
+                        <a class="dropdown-item">Mark all as read</a>
+                        <a class="dropdown-item">Mark all as unread</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Board rules</a>
+                        <a class="dropdown-item">Board rules</a>
                       </div>
                     </div>
                   </div>
@@ -404,7 +400,7 @@
                         src="assets/icons/board-archive.svg">Archive all</div>
                   </div>
                   <div class="col-2 text-right cll">
-                    <a href="#" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                    <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                   </div>
                 </div>
               </div>
@@ -456,22 +452,22 @@
                     <div class="container">
                       <div class="row">
                         <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+                          <a><img src="assets/icons/options-reply.png" width="20"></a>
                         </div>
                         <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+                          <a><img src="assets/icons/options-replya.png" width="20"></a>
                         </div>
                         <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+                          <a><img src="assets/icons/options-forward.png" width="20"></a>
                         </div>
                         <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+                          <a><img src="assets/icons/options-star.svg" width="20"></a>
                         </div>
                         <div class="col-2 p0">
-                          <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+                          <a><img src="assets/icons/options-unsub.svg" width="20"></a>
                         </div>
                         <div class="col-2 p0">
-                          <a href="#">
+                          <a>
                             <img src="assets/icons/options-trash.svg" width="20">
                           </a>
                         </div>
@@ -545,7 +541,7 @@
             <input type="email" name="" placeholder="Email">
             <p>We'll send them a link to Aiko Mail.</p>
             <br>
-            <a href="#" class="blue">Done</a>
+            <a class="blue">Done</a>
             <p class="ns30"></p>
             <br>
           </div>
@@ -569,7 +565,7 @@
             <p style="max-width: 400px;margin: auto;margin-bottom: 10px;">Quick actions detects intent in your emails
               and lets you manage them with the click of a button.</p><br> <br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Get Started</a>
+              <a class="blue">Get Started</a>
             </div>
             <p class="ns30"></p>
             <br>
@@ -595,7 +591,7 @@
               between all your
               mailboxes.</p><br><br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Get Started</a>
+              <a class="blue">Get Started</a>
             </div>
             <p class="ns30"></p>
             <br>
@@ -620,7 +616,7 @@
             <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Upgrade today to get notified when
               someone opens your emails or joins your team.</p><br> <br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Get Started</a>
+              <a class="blue">Get Started</a>
             </div>
             <p class="ns30"></p>
             <br>
@@ -642,7 +638,7 @@
             </div>
             <br><br>
             <div class="modal-bottom">
-              <a @click="close" href="#" class="blue" style="float: right;">Skip Tutorial</a>
+              <a @click="close" class="blue" style="float: right;">Skip Tutorial</a>
             </div>
           </div>
         </div>
@@ -690,22 +686,22 @@
                   <div class="container">
                     <div class="row">
                       <div class="col-2 p0">
-                        <a href="#"><img src="assets/icons/options-reply.png" width="20"></a>
+                        <a><img src="assets/icons/options-reply.png" width="20"></a>
                       </div>
                       <div class="col-2 p0">
-                        <a href="#"><img src="assets/icons/options-replya.png" width="20"></a>
+                        <a><img src="assets/icons/options-replya.png" width="20"></a>
                       </div>
                       <div class="col-2 p0">
-                        <a href="#"><img src="assets/icons/options-forward.png" width="20"></a>
+                        <a><img src="assets/icons/options-forward.png" width="20"></a>
                       </div>
                       <div class="col-2 p0">
-                        <a href="#"><img src="assets/icons/options-star.svg" width="20"></a>
+                        <a><img src="assets/icons/options-star.svg" width="20"></a>
                       </div>
                       <div class="col-2 p0">
-                        <a href="#"><img src="assets/icons/options-unsub.svg" width="20"></a>
+                        <a><img src="assets/icons/options-unsub.svg" width="20"></a>
                       </div>
                       <div class="col-2 p0">
-                        <a href="#">
+                        <a>
                           <img src="assets/icons/options-trash.svg" width="20">
                         </a>
                       </div>
@@ -772,17 +768,17 @@
             <div class="modal-reg">
               <h1>Add a mailbox</h1>
               <h2>Pick an email provider</h2>
-              <!-- <a href="#"><img src="assets/img/icloud.png"></a> -->
-              <a href="#"><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
-              <a href="#"><img @click="addGoogle" src="assets/img/google.png"></a>
-              <!-- <a href="#"><img src="assets/img/yahoo.png"></a> -->
-              <!-- <a href="#"><img src="assets/img/aol.png"></a> -->
-              <a href="#"><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
+              <!-- <a><img src="assets/img/icloud.png"></a> -->
+              <a><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
+              <a><img @click="addGoogle" src="assets/img/google.png"></a>
+              <!-- <a><img src="assets/img/yahoo.png"></a> -->
+              <!-- <a><img src="assets/img/aol.png"></a> -->
+              <a><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
               <br>
             </div>
             <div class="modal-bottom">
-              <a href="#" @click="addOther">Other</a>
-              <a href="#" @click="close" v-if="closable">Back</a>
+              <a @click="addOther">Other</a>
+              <a @click="close" v-if="closable">Back</a>
             </div>
           </div>
         </div>
@@ -804,7 +800,7 @@
               <input type="url" name="" placeholder="SMTP Host">
               <input type="number" name="" placeholder="SMTP Port">
               <br><br>
-              <a v-if="!loading" href="#" @click="saveConfig" class="blue">Add mailbox</a>
+              <a v-if="!loading" @click="saveConfig" class="blue">Add mailbox</a>
               <div v-if="loading" class="cs-loader">
                 <div class="cs-loader-inner">
                   <label> ●</label>
@@ -818,7 +814,7 @@
               <br><br>
             </div>
             <div v-if="!loading" class="modal-bottom">
-              <a href="#" @click="back">Back</a>
+              <a @click="back">Back</a>
             </div>
           </div>
         </div>
@@ -839,7 +835,7 @@
             <input type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
             <br><br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Next</a>
+              <a class="blue">Next</a>
             </div>
             <br>
           </div>
@@ -874,7 +870,7 @@
             <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
             <br><br><br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Add board</a>
+              <a class="blue">Add board</a>
             </div>
           </div>
         </div>
@@ -909,11 +905,11 @@
                 </div>
               </div>
             </div>
-            <p style="margin-top: 20px;margin-bottom: -15px">Check your <a href="#" class="blue fw600">Inbox board
+            <p style="margin-top: 20px;margin-bottom: -15px">Check your <a class="blue fw600">Inbox board
                 rules</a> to see if emails are being automatically added to this board.</p>
             <br><br><br>
             <div class="modal-bottom">
-              <a href="#" class="blue">Save</a>
+              <a class="blue">Save</a>
             </div>
           </div>
         </div>
@@ -944,7 +940,7 @@
                   <p class="margin-auto blue">To-Do</p>
                 </div>
                 <div class="col-2">
-                  <a href="#" class="red margin-auto text-right">Delete</a>
+                  <a class="red margin-auto text-right">Delete</a>
                 </div>
               </div>
 
@@ -962,7 +958,7 @@
                   <p class="margin-auto blue">Done</p>
                 </div>
                 <div class="col-2">
-                  <a href="#" class="red margin-auto text-right">Delete</a>
+                  <a class="red margin-auto text-right">Delete</a>
                 </div>
               </div>
 
@@ -980,7 +976,7 @@
                   <p class="margin-auto blue">From Jo</p>
                 </div>
                 <div class="col-2">
-                  <a href="#" class="red margin-auto text-right">Delete</a>
+                  <a class="red margin-auto text-right">Delete</a>
                 </div>
               </div>
 
@@ -998,12 +994,12 @@
                   <p class="margin-auto blue">To-Do</p>
                 </div>
                 <div class="col-2">
-                  <a href="#" class="red margin-auto text-right">Delete</a>
+                  <a class="red margin-auto text-right">Delete</a>
                 </div>
               </div>
             </div>
             <br>
-            <a href="#" class="blue">Add new rule</a>
+            <a class="blue">Add new rule</a>
           </div>
         </div>
       </div>
@@ -1084,7 +1080,7 @@
             <p style="margin-top: 20px;margin-bottom: 0">Check individual board rules to see dragging actions.</p>
             <br><br>
             <div class="modal-bottom">
-              <a href="#" class="backbtn float-left">Back</a><a href="#" class="blue float-right">Save rule</a>
+              <a class="backbtn float-left">Back</a><a class="blue float-right">Save rule</a>
             </div>
           </div>
         </div>
@@ -1122,7 +1118,7 @@
         <div class="email-footer" style="user-select: none;">
           <div class="row">
             <div class="col-5 cll">
-              <a class="main-action" href="#">
+              <a class="main-action">
                 <img src="assets/icons/zap.svg"> Quick Reply
                 <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
                 <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
@@ -1130,26 +1126,26 @@
               </a>
             </div>
             <div class="col-5 sync-message">
-              <a class="main-action" href="#">
+              <a class="main-action">
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
             <div class="col-7 extra-actions">
-              <a href="#"><img src="assets/icons/options-reply.png" width="18"></a>
-              <a href="#"><img src="assets/icons/options-replya.png" width="18"></a>
-              <a href="#"><img src="assets/icons/options-forward.png" width="15"></a>
+              <a><img src="assets/icons/options-reply.png" width="18"></a>
+              <a><img src="assets/icons/options-replya.png" width="18"></a>
+              <a><img src="assets/icons/options-forward.png" width="15"></a>
 
               <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-              <a href="#"><img src="assets/icons/options-star.svg" width="15"></a>
-              <!-- <a href="#"><img src="assets/icons/badges-star.svg" width="15"></a> -->
+              <a><img src="assets/icons/options-star.svg" width="15"></a>
+              <!-- <a><img src="assets/icons/badges-star.svg" width="15"></a> -->
 
-              <a href="#"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+              <a><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
             </div>
           </div>
         </div>
         <div class="note hide">
           <input placeholder="Type a reply..." autofocus>
-          <a href="#"><img src="assets/icons/compose-send.svg" width="20"></a>
+          <a><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
       </div>
     </div>
