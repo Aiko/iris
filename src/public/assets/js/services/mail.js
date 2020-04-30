@@ -791,6 +791,8 @@ const mailapi = {
                     if (email.syncing) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
                     // if the email's folder has changed, don't race
                     if (email.folder != targetFolder) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because the target folder is", email.folder);
+                    // if there's no sync folder, there's an issue
+                    if (!email.syncFolder) return window.error(...MAILAPI_TAG, "There's no sync folder", email)
                     // lock email in UI
                     email.syncing = true // TODO: should add a class that exists in draggable filter
                     info(...MAILAPI_TAG, "Moving email",
@@ -809,7 +811,7 @@ const mailapi = {
                         email.syncFolder, email.folder, email.uid
                     ))
                     const destSeqSet = d?.destSeqSet;
-                    if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d);
+                    if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d, email);
                     // TODO: should probably move it back if we failed
                     info(...MAILAPI_TAG, "Moved email",
                         email.uid, "from", email.syncFolder,
