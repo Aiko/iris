@@ -2032,6 +2032,14 @@ hr {
 	left: 0;
 }
 
+.zen .fz {
+	margin-top: 20px;
+}
+
+.zen .sidebar-collapse {
+	display: none;
+}
+
 .zen .sidebar:hover {
 	margin-left: 0;
 	transition: .2s;

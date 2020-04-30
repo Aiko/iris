@@ -22,8 +22,7 @@
 
 <body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
-  <div id="app" class="inline-flex collapsed zen" style="opacity: 0"
-    :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+  <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
     <!-- LOADER -->
@@ -58,7 +57,8 @@
       <!-- Close ---------------->
     </div>
     <!-- Sidebar --------------------------------------------------->
-    <div class="sidebar" :style="'margin-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <!-- TODO: Ruben need to fix, if zen mode, AND full screen sidebar add 20px margin top and fix height... -->
+    <div class="sidebar">
       <div class="container">
         <div class="row">
           <a class="compose" target="_blank"><img src="assets/icons/sidebar-edit.svg"
