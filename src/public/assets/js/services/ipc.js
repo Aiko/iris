@@ -33,7 +33,7 @@ const IPCMiddleware = (async errorHandler => {
         const { success } = d
         if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), {alg: ['HS256']})) {
             if (!success) checkError(d.payload, "Main process did not return success.")
-            if (!d.payload) warn(...MAILAPI_TAG, "IPC payload is empty!")
+            if (!d.payload) console.warn(...MAILAPI_TAG, "IPC payload is empty!")
             return d.payload
         } else checkError(s, "JWT token was not valid.")
     }
