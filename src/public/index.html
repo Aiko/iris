@@ -370,9 +370,9 @@
                   <email-card v-if="email.folder == boardName" :key="boardName + email.uid"
                     v-for="email in board?.emails" :email="email"></email-card>
                 </draggable>
-                <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox-->
-                <div slot="footer" class="empty2">
-                </div>
+                <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox
+                <div slot="footer" class="empty2"></div>
+                -->
               </div>
             </div>
           </board>
