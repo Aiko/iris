@@ -2025,7 +2025,16 @@ hr {
 }
 
 .zen .sidebar {
-	display: none !important;
+	margin-left: -44px;
+	transition: .2s;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.zen .sidebar:hover {
+	margin-left: 0;
+	transition: .2s;
 }
 
 .zen .header {
