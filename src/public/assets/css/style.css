@@ -1620,6 +1620,7 @@ hr {
 	border-radius: 3px;
 	box-shadow: 0 0 9px #0000001a;
 	margin: 20px 15px;
+	overflow-x: hidden;
 }
 
 .short {
@@ -1767,6 +1768,7 @@ hr {
 
 .regular .main-email {
 	width: 100%;
+	background: transparent;
 }
 
 .regular .long-board {
