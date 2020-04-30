@@ -785,7 +785,7 @@ const mailapi = {
                 // Sync
                 // TODO: make hash to signify this sync and store in email
                 const targetFolder = email.folder
-                const SYNC_TIMEOUT = 5000
+                const SYNC_TIMEOUT = 3000
                 setTimeout(async () => {
                     // if it's already syncing, don't race
                     if (email.syncing) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
