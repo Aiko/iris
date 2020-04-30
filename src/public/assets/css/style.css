@@ -1153,7 +1153,7 @@ hr {
 	transition: .2s;
 }
 
-.syncing .cll {
+.syncing .cll2 {
 	display: none !important;
 }
 
@@ -1796,10 +1796,11 @@ hr {
 .long-board {
 	display: none;
 	background: var(--main-bg-color);
-	border-radius: 4px 0 0 0;
+	margin-left: -21px;
+	border-radius: 0;
 	height: 100%;
 	box-shadow: 0 0 15px #00000024;
-	width: calc(100% - 320px);
+	width: calc(100% - 299px);
 	transition: .2s;
 }
 

@@ -24,7 +24,7 @@
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
   <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
-    <link v-if="!isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
     <!-- LOADER -->
     <div id="fixed" class="loader-6 center-loader">
       <span>
@@ -246,7 +246,7 @@
       <div class="boards-container">
         <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
         <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
-        <div class="boards two-lines">
+        <div class="boards two-lines regular">
           <!-- INBOX BOARD -->
           <div class="board inbox">
             <div class="board-header">
@@ -418,7 +418,7 @@
 
           <div class="long-board">
             <div class="main-email">
-
+              <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
               <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
               <!-- Single Message in Thread -->
               <div class="single-email">
@@ -1119,7 +1119,7 @@
         </div>
         <div class="email-footer" style="user-select: none;">
           <div class="row">
-            <div class="col-5 cll">
+            <div class="col-5 cll cll2">
               <a class="main-action">
                 <img src="assets/icons/zap.svg"> Quick Reply
                 <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
@@ -1132,7 +1132,7 @@
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
-            <div class="col-7 extra-actions">
+            <div class="col-7 extra-actions cll2">
               <a><img src="assets/icons/options-reply.png" width="18"></a>
               <a><img src="assets/icons/options-replya.png" width="18"></a>
               <a><img src="assets/icons/options-forward.png" width="15"></a>
