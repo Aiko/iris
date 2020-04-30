@@ -805,6 +805,7 @@ const mailapi = {
                         (email.syncFolder == "INBOX") ?
                             app.task_CopyEmails : app.task_MoveEmails
                     );
+                    info(...MAILAPI_TAG, "Using sync strategy", syncStrategy.name)
                     if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
                     // do the actual copy/move
                     const d = await app.callIPC(syncStrategy(
