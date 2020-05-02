@@ -557,7 +557,7 @@ const mailapi = {
             // for something to be unsynced older than latest
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
-            await this.initialSyncBoard()
+            await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n)))
             this.syncing = false
         },
         async checkForNewMessages() {
