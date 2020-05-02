@@ -1403,7 +1403,7 @@ hr {
 }
 
 .unread {
-	border-left: 3px solid var(--main-color);
+	border-left: 3px solid var(--main-color) !important;
 	padding-left: 10px !important;
 }
 

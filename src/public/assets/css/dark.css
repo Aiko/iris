@@ -120,7 +120,7 @@ body {
 
 .email {
   box-shadow: none !important;
-  border: none !important;
+  border: none;
 }
 
 .add-board {
