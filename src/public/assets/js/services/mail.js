@@ -550,6 +550,13 @@ const mailapi = {
             this.syncing = true
             await this.checkForUpdates()
             await this.checkForNewMessages()
+            // we can call initial sync board here
+            // only because it only checks for new emails
+            // uids are consecutive, i.e. its unlikely/impossible
+            // for something to be unsynced older than latest
+            // (unsynced here = not present, flags are synced
+            //  separately through checkForUpdates for boards)
+            await this.initialSyncBoard()
             this.syncing = false
         },
         async checkForNewMessages() {
