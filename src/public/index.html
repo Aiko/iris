@@ -281,7 +281,7 @@
                     </div>
                   </div>
                   <div class="col-1 cll">
-                    <a v-if="!syncing" @click="checkForNewMessages" tooltip="Force refresh">
+                    <a v-if="!syncing" @click="updateAndFetch" tooltip="Force refresh">
                       <img src="assets/icons/refresh.svg" width="17">
                     </a>
                     <a v-if="syncing" tooltip="Force refresh">
@@ -1098,7 +1098,7 @@
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed),
         'syncing': email?.syncing
-      }">
+      }" v-if="!email.ai.deleted">
       <div class="container pr">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
