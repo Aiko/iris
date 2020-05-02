@@ -27,6 +27,7 @@ const mailapi = {
         boardNames: [],
         inbox: {
             uidLatest: -1,
+            //modSeq: -1,
             emails: []
         },
         boards: {},
@@ -43,6 +44,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, "Saving inbox cache...")
                 await BigStorage.store(this.imapConfig.email + '/inbox', {
                     uidLatest: this.inbox.uidLatest,
+                    //modSeq: this.inbox.modSeq,
                     emails: this.inbox.emails.slice(0,90)
                 })
                 info(...MAILAPI_TAG, "Saved inbox cache.")
@@ -121,11 +123,12 @@ const mailapi = {
                 path,
             })
         },
-        task_FetchEmails(path, sequence, peek) {
+        task_FetchEmails(path, sequence, peek, modseq) {
             return this.ipcTask('please get emails', {
                 path,
                 sequence,
-                peek
+                peek,
+                //modseq
             })
         },
         task_SearchEmails(path, query) {
@@ -367,7 +370,8 @@ const mailapi = {
             for (let board of this.boardNames) {
                 if (!this.boards[board]) Vue.set(this.boards, board, {
                     uidLatest: -1,
-                    emails: []
+                    emails: [],
+                    //modSeq: -1,
                 })
                 this.boards[board].emails = await MailCleaner.peek(board, this.boards[board].emails)
                 // TODO: this could easily be refactored into a map or something
@@ -427,8 +431,8 @@ const mailapi = {
                 }
             }
 
-            // check for new messages in background
-            this.checkForNewMessages()
+            // update & check for new messages in background
+            this.updateAndFetch()
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
@@ -453,6 +457,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
                 const received = await this.callIPC(
                     this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
+                info(...MAILAPI_TAG, `Parsing...`)
                 if (!(received?.reverse)) return window.error(...MAILAPI_TAG, received);
                 MESSAGE_COUNT += received.length
                 const processed_received = await MailCleaner.full("INBOX", received.reverse())
@@ -535,7 +540,15 @@ const mailapi = {
         },
         async syncWithMailServer() {
             // TODO: sync messages that we have locally
-            // we only need to peek the headers for this!
+            // doesn't use modseq
+            // i don't think we will need this so it's unwritten
+            // maybe this should be specifically for syncing the
+            // sent, trash, drafts etc folders to the mailserver
+        },
+        async updateAndFetch() {
+            // simply checkForUpdates and checkForNewMessages both
+            await this.checkForUpdates()
+            await this.checkForNewMessages()
         },
         async checkForNewMessages() {
             this.syncing = true
@@ -584,6 +597,98 @@ const mailapi = {
             }
             this.syncing = false
         },
+        async checkForUpdates() {
+            info(...MAILAPI_TAG, "Checking for updates to existing emails.")
+            //const getChanges = async (modseq, folder, uids) => {
+            const getChanges = async (folder, uids) => {
+                    const changes = {}
+                // FIXME: disabled modseq as gmail doesnt support condstore anymore
+                // check folder modseq
+                //const { highestModseq } = await this.callIPC(this.task_OpenFolder(folder))
+                //if (modseq < 0) modseq = highestModseq
+                // if the modseq doesnt match something changed
+                //if (modseq != highestModseq) {
+                    // calc min/max, dont reuse bc sanity check
+                    const uidMin = Math.min(...uids)
+                    // TODO: uidmin should be max 100 below uidmax
+                    const uidMax = Math.max(...uids)
+                    // get changes, only need peek
+                    const changedEmails = await this.callIPC(
+                        this.task_FetchEmails(folder,
+                            `${uidMin}:${uidMax}`, true,
+                            //modseq
+                    ))
+                    // populate changes with uid => flags
+                    changedEmails.map(e => changes[e.uid] = e.flags)
+                //}
+                //return {changes, highestModseq}
+                return changes
+            }
+
+            // check inbox
+            const inboxDelta = await getChanges(
+                //this.inbox.modSeq,
+                this.folderNames.inbox,
+                this.inbox.emails.filter(e => e.folder == "INBOX").map(e => e.inboxUID || e.uid)
+            )
+            // update the inbox
+            //this.inbox.modSeq = inboxDelta.highestModseq
+            this.inbox.emails = await Promise.all(this.inbox.emails.map(
+                async email => {
+                    if (inboxDelta[email.uid]) {
+                        const flags = inboxDelta[email.uid]
+                        Object.assign(email.flags, flags)
+                        email.ai.seen = flags.includes('\\Seen')
+                        email.ai.deleted = flags.includes('\\Deleted')
+                    }
+                    return email
+                }
+            ))
+
+            // update boards
+            for (let board of this.boardNames) {
+                // check board
+                const boardDelta = await getChanges(
+                    //this.boards[board].modSeq,
+                    board,
+                    this.boards[board].emails.map(e => e.uid)
+                )
+                // update the board
+                //this.boards[board].modSeq = boardDelta.highestModseq
+                this.boards[board].emails = await Promise.all(this.boards[board].emails.map(
+                    async email => {
+                        if (boardDelta[email.uid]) {
+                            const flags = boardDelta[email.uid]
+                            email.flags = flags
+                            email.ai.seen = flags.includes('\\Seen')
+                            email.ai.deleted = flags.includes('\\Deleted')
+                        }
+                        return email
+                    }
+                ))
+            }
+            // cache boards
+            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+        },
+        async getOldMessages() {
+            if (this.inbox.emails.length <= 0) {
+                info(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
+                return false
+            }
+
+            const uidOldest = this.inbox.emails.last()?.uid
+            if (!uidOldest) return window.error("Couldn't identify oldest UID.")
+            const uidMin = Math.max(0, uidOldest - 50)
+
+            info(...MAILAPI_TAG, `Seeking history - last 50 messages (${uidMin}:${uidOldest})`)
+
+            const emails = await this.callIPC(
+                this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
+            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = await MailCleaner.base("INBOX", emails.reverse())
+
+            this.inbox.emails.push(...processed_emails)
+        },
         async uploadMessage(path, message, headerData, customData) {
             info(...MAILAPI_TAG, "Uploading a message to", path)
             return window.error(...MAILAPI_TAG, "We disabled upload message because it duplicates messages when threading is activated.")
@@ -621,28 +726,6 @@ const mailapi = {
             att_content = new Uint8Array(Object.values(att_content))
             const enc = new TextDecoder("utf-8").decode(att_content)
             return JSON.parse(atob(enc + "="))
-        },
-        async checkForUpdates() {
-            // TODO: using modseq???????
-        },
-        async getOldMessages() {
-            if (this.inbox.emails.length <= 0) {
-                info(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
-                return false
-            }
-
-            const uidOldest = this.inbox.emails.last()?.uid
-            if (!uidOldest) return window.error("Couldn't identify oldest UID.")
-            const uidMin = Math.max(0, uidOldest - 50)
-
-            info(...MAILAPI_TAG, `Seeking history - last 50 messages (${uidMin}:${uidOldest})`)
-
-            const emails = await this.callIPC(
-                this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.base("INBOX", emails.reverse())
-
-            this.inbox.emails.push(...processed_emails)
         },
         async getThread(email) {
             // returns thread array for email
@@ -700,7 +783,7 @@ const mailapi = {
                 // move it there
 
                 // don't need to search the sent folder :)
-                // 
+                //
             }
         },
         checkMove({to, from}) {
@@ -835,6 +918,7 @@ const mailapi = {
                     info(...MAILAPI_TAG, "Saving inbox cache...")
                     await BigStorage.store(this.imapConfig.email + '/inbox', {
                         uidLatest: this.inbox.uidLatest,
+                        //modSeq: this.inbox.modSeq,
                         emails: this.inbox.emails.slice(0,90)
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
