@@ -511,6 +511,7 @@ const mailapi = {
             this.syncing = true
             // boardname should be the path!
             const board = this.boards[boardName]
+            if (!board) return console.warn("Tried to sync", boardName, "but the board is not yet created.")
             let uidMin = 1
             const { uidLatest } = board
             if (uidLatest > 0) uidMin = uidLatest + 1
