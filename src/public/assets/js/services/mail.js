@@ -609,9 +609,8 @@ const mailapi = {
                 // if the modseq doesnt match something changed
                 //if (modseq != highestModseq) {
                     // calc min/max, dont reuse bc sanity check
-                    const uidMin = Math.min(...uids)
-                    // TODO: uidmin should be max 100 below uidmax
-                    const uidMax = Math.max(...uids)
+                    const uidMax = Math.max(...uids, 1)
+                    const uidMin = Math.min(...uids, uidMax)
                     // get changes, only need peek
                     const changedEmails = await this.callIPC(
                         this.task_FetchEmails(folder,
@@ -655,7 +654,7 @@ const mailapi = {
                 const boardDelta = await getChanges(
                     //this.boards[board].modSeq,
                     board,
-                    this.boards[board].emails.map(e => e.uid)
+                    this.boards[board].emails.filter(e => e.folder == board).map(e => e.uid)
                 )
                 info(...MAILAPI_TAG, "Computed", board, "delta")
                 // update the board
