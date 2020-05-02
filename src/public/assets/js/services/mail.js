@@ -631,6 +631,7 @@ const mailapi = {
                 this.folderNames.inbox,
                 this.inbox.emails.filter(e => e.folder == "INBOX").map(e => e.inboxUID || e.uid)
             )
+            info(...MAILAPI_TAG, "Computed inbox delta.")
             // update the inbox
             //this.inbox.modSeq = inboxDelta.highestModseq
             this.inbox.emails = await Promise.all(this.inbox.emails.map(
@@ -646,6 +647,7 @@ const mailapi = {
                     return email
                 }
             ))
+            info(...MAILAPI_TAG, "Synced inbox messages with remote flags.")
 
             // update boards
             for (let board of this.boardNames) {
@@ -655,6 +657,7 @@ const mailapi = {
                     board,
                     this.boards[board].emails.map(e => e.uid)
                 )
+                info(...MAILAPI_TAG, "Computed", board, "delta")
                 // update the board
                 //this.boards[board].modSeq = boardDelta.highestModseq
                 this.boards[board].emails = await Promise.all(this.boards[board].emails.map(
@@ -668,6 +671,7 @@ const mailapi = {
                         return email
                     }
                 ))
+                info(...MAILAPI_TAG, "Synced", board, "messages with remote flags.")
             }
             // cache boards
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
