@@ -316,7 +316,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
     const { path, token, readOnly } = q
     const options = {
         readOnly: !!readOnly,
-        condstore: true
+        condstore: true,
     }
 
     let client_secret; try { client_secret = await comms["👈"](token) } catch (e) { return { error: e } }
@@ -328,7 +328,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
         if (!path) return { error:  'No folder path provided to "please open a folder"' }
     }
 
-    let info; try { info = await client.selectMailbox(path) } catch (e) { return { error: e } }
+    let info; try { info = await client.selectMailbox(path, options) } catch (e) { return { error: e } }
     if (!info) return { error: 'Did not receive any mailbox info back when calling client.selectMailbox(' + path + ') in "please open a folder"' };
 
     /*
