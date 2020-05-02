@@ -640,6 +640,8 @@ const mailapi = {
                         Object.assign(email.flags, flags)
                         email.ai.seen = flags.includes('\\Seen')
                         email.ai.deleted = flags.includes('\\Deleted')
+                    } else {
+                        email.ai.deleted = true
                     }
                     return email
                 }
