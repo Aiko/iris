@@ -547,11 +547,12 @@ const mailapi = {
         },
         async updateAndFetch() {
             // simply checkForUpdates and checkForNewMessages both
+            this.syncing = true
             await this.checkForUpdates()
             await this.checkForNewMessages()
+            this.syncing = false
         },
         async checkForNewMessages() {
-            this.syncing = true
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
@@ -595,7 +596,6 @@ const mailapi = {
                     }
                 }
             }
-            this.syncing = false
         },
         async checkForUpdates() {
             info(...MAILAPI_TAG, "Checking for updates to existing emails.")
