@@ -586,7 +586,7 @@ const mailapi = {
 
             if (processed_emails.length > 3) {
                 new window.Notification(processed_emails.length + " new emails", {
-                    body: "You received " + processed_emails + " new messages, click here to view them.",
+                    body: "You received " + processed_emails.length + " new messages, click here to view them.",
                     icon: "https://helloaiko.com/mail/images/icon-download.png",
                     badge: "https://helloaiko.com/mail/images/icon-download.png",
                     timestamp: new Date(),
