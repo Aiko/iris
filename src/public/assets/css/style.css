@@ -1420,7 +1420,7 @@ hr {
 }
 
 .starred {
-	border-left: 3px solid #ffc107;
+	border-left: 3px solid #ffc107 !important;
 }
 
 .boards-container {
