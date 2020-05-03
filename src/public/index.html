@@ -32,7 +32,8 @@
         <div id='load-text'>Optimizing content...</div>
         <div id='load-text2'>Almost done...</div>
         <div id='load-text3'>Setting up your mailbox...</div>
-        <div id='load-text4'>Running AI model...</div>
+        <div id='load-text4'>This will only happen once...</div>
+        <div id='load-text5'>Just a moment...</div>
       </span>
     </div>
     <!-- CONTROL BAR -->
@@ -103,7 +104,7 @@
           </div>
           <br>
           <div class="set">
-            <a target="_blank"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a><img src="assets/icons/sidebar-settings.svg" width="30"></a>
             <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
                 width="30"></a>
           </div>
@@ -309,7 +310,8 @@
               <!-- Can use :move to prevent it from moving into this board -->
               <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove" @clone="cloneEmail">
+                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
+                @clone="cloneEmail">
                 <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
                   v-for="email in inbox.emails" :email="email">
                 </email-card>

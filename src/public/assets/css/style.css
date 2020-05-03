@@ -2813,6 +2813,15 @@ unselectable {
 	animation-fill-mode: forwards;
 }
 
+#load-text5 {
+	color: var(--main-color);
+	margin-top: -20px;
+	font-size: 15px;
+	opacity: 0;
+	animation: cssAnimation 20s 40s;
+	animation-fill-mode: forwards;
+}
+
 @keyframes cssAnimation {
 	0% {
 		opacity: 0;
