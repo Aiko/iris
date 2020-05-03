@@ -118,6 +118,14 @@ body {
   filter: brightness(1.2) !important;
 }
 
+.email-footer img {
+  opacity: 1 !important;
+}
+
+.email-footer img:hover {
+  opacity: .8 !important;
+}
+
 .email {
   box-shadow: none !important;
   border: none;

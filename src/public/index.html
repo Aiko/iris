@@ -304,7 +304,8 @@
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
                 @clone="cloneEmail">
-                <email-card :inbox="true" :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
+                <email-card :inbox="true" :key="email.uid"
+                  v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
                   v-for="(email, i) in inbox.emails" :index="i" :email.sync="email">
                 </email-card>
               </draggable>
@@ -996,7 +997,8 @@
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 class="sender" @click="debug">
-              {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+              {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
+            </h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
