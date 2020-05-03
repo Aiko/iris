@@ -547,6 +547,7 @@ const mailapi = {
             // sent, trash, drafts etc folders to the mailserver
         },
         async updateAndFetch() {
+            info(...MAILAPI_TAG, "Running update and fetch.")
             // simply checkForUpdates and checkForNewMessages both
             this.syncing = true
             await this.checkForUpdates()
@@ -580,6 +581,28 @@ const mailapi = {
                 this.task_FetchEmails("INBOX", `${this.inbox.uidLatest + 1}:${uidNext}`, false))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full("INBOX", emails.reverse())
+
+            if (processed_emails.length > 3) {
+                new window.Notification(processed_emails.length + " new emails", {
+                    body: "You received " + processed_emails + " new messages, click here to view them.",
+                    icon: "https://helloaiko.com/mail/images/icon-download.png",
+                    image: "https://helloaiko.com/mail/images/icon-download.png",
+                    badge: "https://helloaiko.com/mail/images/icon-download.png",
+                    timestamp: new Date(),
+                    tag: "Aiko Mail"
+                })
+            } else {
+                processed_emails.map(email => {
+                    new window.Notification(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address, {
+                        body: email?.envelope?.subject + '\n' + email?.parsed?.text,
+                        icon: "https://helloaiko.com/mail/images/icon-download.png",
+                        image: "https://helloaiko.com/mail/images/icon-download.png",
+                        badge: "https://helloaiko.com/mail/images/icon-download.png",
+                        timestamp: email?.envelope?.date,
+                        tag: "Aiko Mail"
+                    })
+                })
+            }
 
             this.inbox.emails.unshift(...processed_emails)
             if (this.inbox.emails.length > 0)
@@ -956,3 +979,8 @@ const mailapi = {
         },
     }
 }
+
+window.setInterval(async () => {
+    await app.updateAndFetch()
+}, 20 * 1000)
+Notification.requestPermission()
