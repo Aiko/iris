@@ -14,7 +14,7 @@ const { ipcMain } = require('electron')
 */
 
 module.exports = (win => {
-    const isFullscreen = false
+    let isFullscreen = false
 
     const addListeners = win => {
         if (win) {
