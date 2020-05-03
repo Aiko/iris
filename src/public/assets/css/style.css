@@ -322,7 +322,7 @@ input:active {
 	width: 130px !important;
 	margin-left: -23px;
 	transition: .2s;
-	padding-left: 1px;
+	padding-left: 3px;
 }
 
 .thin .board-header h1 {
@@ -1627,6 +1627,20 @@ hr {
 .short .options-qa {
 	display: none;
 	transition: .2s;
+}
+
+.extra-actions a {
+	padding: 3px 4px 6px 1px;
+	margin-left: -4px;
+	margin-top: 4px;
+}
+
+.thin .extra-actions a {
+	padding: 3px 3px 6px 0;
+}
+
+.thin .extra-actions {
+	padding-left: 20px !important;
 }
 
 .email:hover {
