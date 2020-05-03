@@ -1,6 +1,6 @@
 Vue.component('email-card', {
     template: '#email-card',
-    props: ['email'],
+    props: ['email', 'board', 'inbox', 'index'],
     methods: {
         async debug() {
             console.log(this.email)
@@ -30,10 +30,16 @@ Vue.component('email-card', {
                 await BigStorage.store(app.imapConfig.email + '/inbox', {
                     uidLatest: app.inbox.uidLatest,
                     //modSeq: this.inbox.modSeq,
-                    emails: app.inbox.emails.slice(0,90)
+                    emails: app.inbox.emails.slice(0,50)
                 })
             } else {
                 await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
+            }
+
+            if (this.inbox) {
+                Vue.set(app.inbox.emails[this.index], this.email)
+            } else {
+                Vue.set(app.boards[this.board].emails, this.index, this.email)
             }
         },
         async starMessage() {
@@ -62,6 +68,8 @@ Vue.component('email-card', {
                         }
                     )
                 )
+
+                // update view model
                 this.saveToCache()
             }
         },

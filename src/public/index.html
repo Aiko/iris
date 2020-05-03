@@ -304,8 +304,8 @@
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
                 @clone="cloneEmail">
-                <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
-                  v-for="email in inbox.emails" :email.sync="email">
+                <email-card :inbox="true" :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
+                  v-for="(email, i) in inbox.emails" :index="i" :email.sync="email">
                 </email-card>
               </draggable>
               <!-- START List loader ----------------------->
@@ -364,8 +364,8 @@
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card v-if="email.folder == boardName" :key="boardName + email.uid"
-                    v-for="email in board?.emails" :email.sync="email"></email-card>
+                  <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
+                    v-for="(email, i) in board?.emails" :index="i" :email.sync="email"></email-card>
                 </draggable>
                 <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox
                 <div slot="footer" class="empty2"></div>
