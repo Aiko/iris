@@ -2735,7 +2735,11 @@ unselectable {
 	animation: tooltips-vert 300ms 1s ease-out forwards;
 	font-size: 12px !important;
 	font-weight: 500 !important;
-	letter-spacing: .2px;
+	letter-spacing: .3px;
+}
+
+.email-head .action img {
+	margin-right: 3px;
 }
 
 #load-text {
