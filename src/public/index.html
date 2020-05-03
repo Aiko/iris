@@ -38,12 +38,6 @@
     </div>
     <!-- CONTROL BAR -->
     <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
-
-      <!-- TODO: This is ugly ruben, fix
-        <div class="upgrade-bar" :class="{'upgrade-bar': true,'upgrade-pc': isPC,}"><img src="assets/icons/up.svg">
-          Upgrade
-        </div>
-        -->
       <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
@@ -59,7 +53,6 @@
       <!-- Close ---------------->
     </div>
     <!-- Sidebar --------------------------------------------------->
-    <!-- TODO: Ruben need to fix, if zen mode, AND full screen sidebar add 20px margin top and fix height... -->
     <div class="sidebar">
       <div class="container">
         <div class="row">
@@ -142,7 +135,6 @@
           issues</p>
         <div class="t-loader-red"><span></span></div>
       </div>
-
 
       <!-- TOAST Sending Email -->
       <div class="aiko-toast" style="display: none;">

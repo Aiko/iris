@@ -1485,34 +1485,6 @@ hr {
 	opacity: 1 !important;
 }
 
-.upgrade-bar {
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: var(--main-color);
-	color: #fff;
-	width: 80px;
-	height: 20px;
-	margin-right: 20px;
-	z-index: 1111111;
-	font-size: 13px;
-	line-height: 20px;
-	cursor: pointer;
-}
-
-.upgrade-pc {
-	right: unset !important;
-	left: 0;
-	margin-right: 0 !important;
-	margin-left: 20px;
-}
-
-.upgrade-bar img {
-	width: 15px;
-	margin-left: 3px;
-	margin-bottom: 2px;
-}
-
 .email-iframe {
 	width: 100%;
 	height: 100%;
