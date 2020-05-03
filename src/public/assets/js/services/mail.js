@@ -781,8 +781,10 @@ const mailapi = {
             // thread will not include the current message.
             // this creates a circular structure. big no!
             let thread = []
+            const reply_ids = new Set()
 
             const get_reply = async reply_id => {
+                if (reply_ids.has(reply_id)) return null
                 // search local
                 for (let i = 0; i < this.inbox.emails.length; i++) {
                     const email = this.inbox.emails[i]
@@ -837,32 +839,42 @@ const mailapi = {
             }
 
             let reply_id = email.envelope['in-reply-to']
-            const reply_ids = new Set()
 
-            while (reply_id && !(reply_ids.has(reply_id))) {
+            const full_thread = reply_id => {
                 info(...MAILAPI_TAG, "Threading: ", reply_id)
-                reply_ids.add(reply_id)
                 let reply = await get_reply(reply_id)
-                reply_id = null
+                reply_ids.add(reply_id)
                 if (reply.length > 0) {
                     reply = reply.map(msg => {
                         msg.parsed = null
                         return msg
                     })
                     thread.push(...reply)
-                    reply_id = reply?.last()?.envelope?.['in-reply-to']
+                    thread.push(...(reply.map(reply_email => {
+                        const rid = reply_email?.envelope?.['in-reply-to']
+                        if (rid) return full_thread(rid)
+                        return []
+                    })).flat())
                 }
             }
-            thread = thread.map(msg => {
-                msg.parsed = null
-                return msg
-            })
+
+            const uids = new Set()
+            const final_thread = []
+            for (let email of thread) {
+                if (email.length) return window.error("Array is not fully flattened!")
+                email.parsed = null
+                if (!(uids.has(email.uid))) {
+                    final_thread.push(email)
+                }
+                uids.add(email.uid)
+            }
+            // TODO: sort thread by date
 
             const getSender = email => {
                 return email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || ''
             }
 
-            return {messages: thread, senders: thread.map(getSender)}
+            return {messages: final_thread, senders: thread.map(getSender)}
         },
         async halfThreading() {
             // does the very simple act of:
@@ -894,7 +906,8 @@ const mailapi = {
                     if (reply_id) {
                         reply_ids.add(reply_id)
                         this.boards[boardName].emails[i].ai.thread = true
-                        if (!this.boards[boardName].emails[i].parsed.thread && !this.boards[boardName].emails[i].ai.threaded) {
+                        if (!this?.boards[boardName]?.emails?.[i]?.parsed?.thread && !this?.boards[boardName]?.emails?.[i]?.ai?.threaded) {
+                            if (!this.boards[boardName].emails[i].parsed) this.inbox.boards[board].emails[i].parsed = {}
                             this.boards[boardName].emails[i].parsed.thread =
                                 await this.getThread(this.boards[boardName].emails[i]);
                         }
