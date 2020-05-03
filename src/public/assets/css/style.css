@@ -2665,6 +2665,10 @@ unselectable {
 	/* opinion 1 */
 }
 
+[draggable='false'] {
+	opacity: 0 !important;
+}
+
 /* Applies to all tooltips */
 [tooltip]::before,
 [tooltip]::after {
