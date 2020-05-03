@@ -819,7 +819,12 @@ const mailapi = {
         async moveEmail({to, from, item, oldIndex, newIndex}) {
             // ignore from-to same board
             if (from.id == to.id) {
-                item.removeAttribute('draggable')
+                // it adds it to children randomly
+                const removeDraggable = el => {
+                    el.removeAttribute('draggable');
+                    [...(el.children)].map(removeDraggable)
+                }
+                removeDraggable(item)
                 return;
             }
             // TODO: calculating index should use message id
