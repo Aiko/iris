@@ -880,7 +880,8 @@ const mailapi = {
                 if (reply_id) {
                     reply_ids.add(reply_id)
                     this.inbox.emails[i].ai.thread = true;
-                    if (!this.inbox.emails[i].parsed.thread && !this.inbox.emails[i].ai.threaded) {
+                    if (!this?.inbox?.emails?.[i]?.parsed?.thread && !this?.inbox?.emails?.[i]?.ai?.threaded) {
+                        if (!this.inbox.emails[i].parsed) this.inbox.emails[i].parsed = {}
                         this.inbox.emails[i].parsed.thread =
                             await this.getThread(this.inbox.emails[i]);
                     }
