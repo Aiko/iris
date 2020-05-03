@@ -560,7 +560,7 @@ const mailapi = {
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n)))
-            //await this.halfThreading()
+            await this.halfThreading()
             this.syncing = false
         },
         async checkForNewMessages() {
@@ -1085,6 +1085,6 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-//    await app.updateAndFetch()
+    await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
