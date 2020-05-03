@@ -799,7 +799,7 @@ const mailapi = {
                 //
             }
         },
-        checkMove({to, from}) {
+        checkMove({to, from, draggedContext}) {
             // prevents moving from&to inbox
             // this is buggy because the vue.draggable lib is trash
             // so we dont use it anymore :/
@@ -811,24 +811,22 @@ const mailapi = {
             */
             return true
         },
-        cloneEmail(original) {
+        cloneEmail({item, clone}) {
             // you can do mail management on the "original"
-            // which is the view model for email
-            return original
+            // which is the HTML element for email in `item`
+            // and also clone which is the cloned email's
+            // corresponding HTML element
+            clone.classList.toggle('cloned', true)
         },
         async moveEmail({to, from, item, oldIndex, newIndex}) {
-            // ignore from-to same board
-            if (from.id == to.id) {
-                // it adds it to children randomly
-                const removeDraggable = el => {
-                    el.removeAttribute('draggable');
-                    [...(el.children)].map(removeDraggable)
-                }
-                removeDraggable(item)
-                return;
-            }
             // TODO: calculating index should use message id
             const uid = item.getAttribute('uid')
+
+            // ignore from-to same board
+            if (from.id == to.id) {
+                item.classList.toggle('cloned', false)
+                return;
+            }
 
             // 2 types of events, to inbox and to board
             // to inbox
@@ -953,7 +951,6 @@ const mailapi = {
             // TODO: special for done? idk
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
-            item.removeAttribute('draggable')
         },
     }
 }

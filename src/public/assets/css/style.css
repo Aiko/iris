@@ -159,7 +159,7 @@ input:active {
 	min-width: 330px;
 }
 
-.ghost {
+.ghost, .cloned {
 	opacity: 0;
 	height: fit-content;
 }
@@ -2663,10 +2663,6 @@ unselectable {
 [tooltip] {
 	position: relative;
 	/* opinion 1 */
-}
-
-[draggable='false'] {
-	opacity: 0 !important;
 }
 
 /* Applies to all tooltips */

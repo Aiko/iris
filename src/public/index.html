@@ -308,7 +308,7 @@
               <!-- Can use :move to prevent it from moving into this board -->
               <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove" :clone="cloneEmail">
+                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove" @clone="cloneEmail">
                 <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
                   v-for="email in inbox.emails" :email="email">
                 </email-card>
