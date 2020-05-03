@@ -305,7 +305,7 @@
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
                 @clone="cloneEmail">
                 <email-card :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
-                  v-for="email in inbox.emails" :email="email">
+                  v-for="email in inbox.emails" :email.sync="email">
                 </email-card>
               </draggable>
               <!-- START List loader ----------------------->
@@ -365,7 +365,7 @@
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card v-if="email.folder == boardName" :key="boardName + email.uid"
-                    v-for="email in board?.emails" :email="email"></email-card>
+                    v-for="email in board?.emails" :email.sync="email"></email-card>
                 </draggable>
                 <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox
                 <div slot="footer" class="empty2"></div>
@@ -1087,12 +1087,12 @@
 
   <script type="text/x-template" id="email-card">
     <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
-    <!-- TODO: add 'sync' class to 'email' class here, when syncing teehee -->
     <!-- TODO: for ruben, fix ugly padding during drag........ -->
     <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed),
-        'syncing': email?.syncing
+        'syncing': email?.syncing,
+        'starred': email?.starred,
       }" v-if="!email.ai.deleted">
       <div class="container pr">
         <div class="row" style="user-select: none;">
@@ -1133,10 +1133,10 @@
               <a><img src="assets/icons/options-forward.png" width="15"></a>
 
               <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-              <a><img src="assets/icons/options-star.svg" width="15"></a>
-              <!-- <a><img src="assets/icons/badges-star.svg" width="15"></a> -->
+              <a @click="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg" width="15"></a>
+              <a @click="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg" width="15"></a>
 
-              <a><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+              <a @click="deleteMessage"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
             </div>
           </div>
         </div>

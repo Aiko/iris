@@ -8,16 +8,14 @@ const MailCleaner = (() => {
         if (!email.ai) email.ai = {}
         email.ai.seen = false
         if (email.flags.includes('\\Seen')) email.ai.seen = true
+        if (email.flags.includes('\\Flagged')) email.ai.starred = true
         return email
     })
 
     const base_clean = folder => (async email => {
         email = await peek_clean(folder)(email)
-        email.ai = {
-            subscription: false,
-            unsubscribeLink: '',
-            seen: false
-        }
+        email.ai.subscription = false
+        email.ai.unsubscribeLink = ''
         email.parsed.headerLines.map(({
             key,
             line

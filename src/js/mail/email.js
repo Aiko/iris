@@ -489,7 +489,7 @@ ipcMain.handle('please set email flags', async (_, q) => {
     }
 
     let messages; try { messages = await client.setFlags(path, sequence, flags, options) } catch (e) { return { error: e } }
-    if (!messages || messages.length===0)
+    if (!blind && (!messages || messages.length===0))
         return { error: `Did not receive any messages back when calling client.setFlags in "please set email flags"` };
 
     currentFolder = path
