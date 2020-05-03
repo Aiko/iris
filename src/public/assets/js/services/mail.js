@@ -648,7 +648,7 @@ const mailapi = {
                         Object.assign(email.flags, flags)
                         email.ai.seen = flags.includes('\\Seen')
                         email.ai.deleted = flags.includes('\\Deleted')
-                    } else {
+                    } else if (email.folder == 'INBOX') {
                         email.ai.deleted = true
                     }
                     return email
@@ -674,6 +674,8 @@ const mailapi = {
                             email.flags = flags
                             email.ai.seen = flags.includes('\\Seen')
                             email.ai.deleted = flags.includes('\\Deleted')
+                        } else if (email.folder == board) {
+                            email.ai.deleted = true
                         }
                         return email
                     }
