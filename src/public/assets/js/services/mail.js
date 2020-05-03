@@ -688,7 +688,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, "Computed", board, "delta")
                 // update the board
                 //this.boards[board].modSeq = boardDelta.highestModseq
-                this.boards[board].emails = await Promise.all(this.boards[board].emails.map(
+                this.boards[board].emails = (await Promise.all(this.boards[board].emails.map(
                     async email => {
                         if (boardDelta[email.uid]) {
                             const flags = boardDelta[email.uid]
@@ -696,11 +696,11 @@ const mailapi = {
                             email.ai.seen = flags.includes('\\Seen')
                             email.ai.deleted = flags.includes('\\Deleted')
                         } else if (email.folder == board) {
-                            email.ai.deleted = true
+                            return null
                         }
                         return email
                     }
-                ))
+                ))).filter(_=>_)
                 info(...MAILAPI_TAG, "Synced", board, "messages with remote flags.")
             }
             // cache boards
@@ -980,5 +980,5 @@ const mailapi = {
 
 window.setInterval(async () => {
     await app.updateAndFetch()
-}, 20 * 1000)
+}, 30 * 1000)
 Notification.requestPermission()
