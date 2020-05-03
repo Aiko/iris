@@ -811,9 +811,17 @@ const mailapi = {
             */
             return true
         },
+        cloneEmail(original) {
+            // you can do mail management on the "original"
+            // which is the view model for email
+            return original
+        },
         async moveEmail({to, from, item, oldIndex, newIndex}) {
             // ignore from-to same board
-            if (from.id == to.id) return;
+            if (from.id == to.id) {
+                item.removeAttribute('draggable')
+                return;
+            }
             // TODO: calculating index should use message id
             const uid = item.getAttribute('uid')
 
@@ -940,6 +948,7 @@ const mailapi = {
             // TODO: special for done? idk
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+            item.removeAttribute('draggable')
         },
     }
 }
