@@ -1092,7 +1092,7 @@
         'unread': !(email?.ai?.seen),
         'zero': !(email?.parsed),
         'syncing': email?.syncing,
-        'starred': email?.starred,
+        'starred': email?.ai.starred,
       }" v-if="!email.ai.deleted">
       <div class="container pr">
         <div class="row" style="user-select: none;">
