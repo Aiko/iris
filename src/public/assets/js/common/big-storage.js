@@ -14,6 +14,7 @@ const BigStorage = (() => {
             })
         )
         if (!success) return null
+        return true
     }
 
     const load = async k => {

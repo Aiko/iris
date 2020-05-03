@@ -769,6 +769,7 @@ const mailapi = {
             // returns thread array for email
             // NOTE: threads are peeked!
             // TODO: write a non-peeked version
+            // maybe to at least get references :)
             // FIXME: this doesn't completely work
             // for example it breaks with concurrent replies
             // and if someone replies to a message that wasn't sent to you
@@ -776,29 +777,48 @@ const mailapi = {
             // would help to match subjects as well,
             // and then to include the subject
 
+            // if it already has been computed return its thread
             if (email?.parsed?.thread) return email.parsed.thread
 
             // thread will not include the current message.
             // this creates a circular structure. big no!
             let thread = []
-            const reply_ids = new Set()
+            // message ids is just the id of every message we've already
+            // put into thread
+            const message_ids = new Set()
 
-            const get_reply = async reply_id => {
-                if (reply_ids.has(reply_id)) return null
-                // search local
+            let iterations = 0
+            const MAX_ITER = 50
+
+            // takes an email and gives you array of replies to it
+            const find_replies = async email => {
+                const reply_id = email.envelope?.['in-reply-to']
+
+                // if it has no replies we are already done
+                if (!reply_id) return []
+                log("Looking for", reply_id)
+
+                // check to make sure we didn't already get it
+                if (message_ids.has(reply_id)) return []
+
+                // search inbox
                 for (let i = 0; i < this.inbox.emails.length; i++) {
                     const email = this.inbox.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
+                        log("Had email in inbox.")
                         this.inbox.emails[i].ai.threaded = true
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
                         return [email]
                     }
                 }
+
+                // search board
                 for (let board of this.boardNames) {
                     for (let i = 0; i < this.boards[board].emails.length; i++) {
                         const email = this.boards[board].emails[i]
                         if (email.envelope['message-id'] == reply_id) {
+                            log("Had email in a board.")
                             this.boards[board].emails[i].ai.threaded = true
                             if (email?.parsed?.thread?.messages)
                                 return [email, ...email?.parsed?.thread?.messages]
@@ -806,18 +826,18 @@ const mailapi = {
                         }
                     }
                 }
-                // TODO: check sent
 
-                // search old emails
-                /*
-                for (let email of this.inbox.oldEmails) {
-                    if (email.envelope['message-id'] == reply_id)
-                        return email
-                }*/
+                // enforce max iterations so not to crash the app
+                if (iterations > MAX_ITER) {
+                    window.error("Reached max iteration count.")
+                    return []
+                }
 
-                // TODO: can check references
-                // almost every imap server returns references
-                // easier than checking message id iteratively
+                // TODO: check sent trash etc folders locally
+
+                // TODO: check references > check reply id
+
+                // search server
                 const search_results = await this.callIPC(
                     this.task_SearchEmails(app.folderNames.archive, {
                         header: [
@@ -826,50 +846,70 @@ const mailapi = {
                     })
                 )
                 if (search_results.length > 0) {
+                    log("Found email on server.")
                     const email = await this.callIPC(this.task_FetchEmails(
                         this.folderNames.archive,
                         search_results[0],
                         true
                     ))
                     if (email.length > 0) return email
+                    window.error("Couldn't fetch email after getting it from server!")
                 }
-                // TODO: check... trash maybe? idk
 
+                // otherwise we give up
+                log("Couldn't find email")
                 return []
             }
 
-            let reply_id = email.envelope['in-reply-to']
-
-            const full_thread = reply_id => {
-                info(...MAILAPI_TAG, "Threading: ", reply_id)
-                let reply = await get_reply(reply_id)
-                reply_ids.add(reply_id)
-                if (reply.length > 0) {
-                    reply = reply.map(msg => {
-                        msg.parsed = null
-                        return msg
-                    })
-                    thread.push(...reply)
-                    thread.push(...(reply.map(reply_email => {
-                        const rid = reply_email?.envelope?.['in-reply-to']
-                        if (rid) return full_thread(rid)
-                        return []
-                    })).flat())
+            // takes an email and puts its replies into the thread
+            // recursively calls itself to exhaust the thread
+            // is a command, not a query! does not return val!
+            const threading = async email => {
+                iterations++;
+                const replies = await find_replies(email)
+                thread.push(...replies)
+                // we don't want to do this async
+                // to avoid computing multiples
+                for (let reply of replies) {
+                    message_ids.add(reply.envelope['message-id'])
+                    await threading(reply)
                 }
             }
 
-            const uids = new Set()
+            log("VENTURING DOWN THE RABBIT HOLE")
+            await threading(email)
+            log("MADE IT OUT ALIVE!")
+
+            // now, we remove any duplicates from the thread
+            const thread_ids = new Set()
             const final_thread = []
+            log("Cleaning thread")
             for (let email of thread) {
                 if (email.length) return window.error("Array is not fully flattened!")
-                email.parsed = null
-                if (!(uids.has(email.uid))) {
-                    final_thread.push(email)
+                // kill the parsed of the thread
+                // while searched emails are peeked,
+                // emails that we had locally aren't
+                // we need to make sure they get peeked :)
+                if (!(thread_ids.has(email.envelope['message-id']))) {
+                    log("Peeking email.")
+                    const peeked_email = Object.assign({}, email)
+                    // we don't need a deep clone because parsed is
+                    // a 1st level property
+                    // so we treat it like its a shallow property :)
+                    peeked_email.parsed = null
+                    // and now we can afford a deep clone
+                    // as parsed is finally gone
+                    log("Cloning email.")
+                    const cleaned_email = JSON.parse(JSON.stringify(peeked_email))
+                    // and finally, push it onto the main thread
+                    log("")
+                    final_thread.push(cleaned_email)
                 }
-                uids.add(email.uid)
+                thread_ids.add(email.envelope['message-id'])
             }
             // TODO: sort thread by date
 
+            // we add some metadata to our returned structure :)
             const getSender = email => {
                 return email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || ''
             }
@@ -883,42 +923,63 @@ const mailapi = {
             // and not the final msg in thread
             // only on emails that we have locally
 
+            // this is ridiculously inefficient lol
+            // at best, O(2n+S(2m))
+            // at worst, O(2n^2 + S(2m^2))
+            // WHERE n = length(inbox)
+            //       S = summation of boards
+            //       m = length(board)
+
+            // the message ids of messages that were replied to
+            // i.e. are part of a thread
             const reply_ids = new Set()
 
-            // thread everything that has a thread
+            // thread everything in the inbox
             for (let i = 0; i < this.inbox.emails.length; i++) {
                 const email = this.inbox.emails[i]
                 const reply_id = email?.envelope?.['in-reply-to']
                 if (reply_id) {
                     reply_ids.add(reply_id)
-                    this.inbox.emails[i].ai.thread = true;
-                    if (!this?.inbox?.emails?.[i]?.parsed?.thread && !this?.inbox?.emails?.[i]?.ai?.threaded) {
-                        if (!this.inbox.emails[i].parsed) this.inbox.emails[i].parsed = {}
-                        this.inbox.emails[i].parsed.thread =
-                            await this.getThread(this.inbox.emails[i]);
+                    // note that it has a thread
+                    this.inbox.emails[i].ai.thread = true
+                    if (this.inbox.emails[i].parsed) {
+                        // if it isn't already threaded
+                        if (!this.inbox.emails[i]?.ai?.threaded) {
+                            this.inbox.emails[i].parsed.thread = await this.getThread(this.inbox.emails[i])
+                        }
+                    } else {
+                        window.error("Email does not have body:", this.inbox.emails[i])
                     }
                 }
             }
-            for (let boardName of this.boardNames) {
-                for (let i = 0; i < this.boards[boardName].emails.length; i++) {
-                    const email = this.boards[boardName].emails[i]
+
+            // thread everything in boards
+            for (let board of this.boardNames) {
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    const email = this.boards[board].emails[i]
                     const reply_id = email?.envelope?.['in-reply-to']
                     if (reply_id) {
                         reply_ids.add(reply_id)
-                        this.boards[boardName].emails[i].ai.thread = true
-                        if (!this?.boards[boardName]?.emails?.[i]?.parsed?.thread && !this?.boards[boardName]?.emails?.[i]?.ai?.threaded) {
-                            if (!this.boards[boardName].emails[i].parsed) this.inbox.boards[board].emails[i].parsed = {}
-                            this.boards[boardName].emails[i].parsed.thread =
-                                await this.getThread(this.boards[boardName].emails[i]);
+                        // note that it has a thread
+                        this.boards[board].emails[i].ai.thread = true
+                        if (this.boards[board].emails[i].parsed) {
+                            // if it isn't already threaded
+                            if (!this.boards[board].emails[i]?.ai?.threaded) {
+                                this.boards[board].emails[i].parsed.thread = await this.getThread(this.boards[board].emails[i])
+                            }
+                        } else {
+                            window.error("Email does not have body:", this.boards[board].emails[i])
                         }
                     }
                 }
             }
 
-            // mark threaded emails as threaded
+            // if a message is part of a thread (was replied to by an email we have)
+            // => it must have been used in a thread when we called getThread
+            // => it is already threaded and we should make sure it's marked as such
             for (let i = 0; i < this.inbox.emails.length; i++) {
                 const email = this.inbox.emails[i]
-                const msgId = email?.envelope?.['message-id'];
+                const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
                     this.inbox.emails[i].ai.threaded = true
                 }
@@ -926,7 +987,7 @@ const mailapi = {
             for (let boardName of this.boardNames) {
                 for (let i = 0; i < this.boards[boardName].emails.length; i++) {
                     const email = this.boards[boardName].emails[i]
-                    const msgId = email?.envelope?.['message-id'];
+                    const msgId = email?.envelope?.['message-id']
                     if (msgId && reply_ids.has(msgId)) {
                         this.boards[boardName].emails[i].ai.threaded = true
                     }
@@ -935,12 +996,14 @@ const mailapi = {
 
             info(...MAILAPI_TAG, "Finished threading")
             // save cache
-            await BigStorage.store(this.imapConfig.email + '/inbox', {
+            const cache1 = await BigStorage.store(this.imapConfig.email + '/inbox', {
                 uidLatest: this.inbox.uidLatest,
                 //modSeq: this.inbox.modSeq,
                 emails: this.inbox.emails.slice(0,90)
             })
-            await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
+            if (!cache1) window.error("Couldn't cache the inbox. Check terminal for error.")
+            const cache2 = await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
+            if (!cache2) window.error("Couldn't cache the boards. Check terminal for error.")
         },
         checkMove({to, from, draggedContext}) {
             // prevents moving from&to inbox
@@ -1099,6 +1162,6 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-    await app.updateAndFetch()
+//    await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()

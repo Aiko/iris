@@ -995,7 +995,7 @@
       <div class="container pr">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
-            <h2 class="sender">
+            <h2 class="sender" @click="debug">
               {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">

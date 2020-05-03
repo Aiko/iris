@@ -2,6 +2,11 @@ Vue.component('email-card', {
     template: '#email-card',
     props: ['email'],
     methods: {
+        async debug() {
+            console.log(this.email)
+            console.log(this.email.ai.thread)
+            console.log(this.email.ai.threaded)
+        },
         async deleteMessage() {
             if (!this.email.syncing) {
                 this.email.ai.deleted = true
