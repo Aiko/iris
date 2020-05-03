@@ -2029,8 +2029,10 @@ hr {
 	margin-left: -44px;
 	transition: .2s;
 	position: absolute;
+	padding-top: 30px !important;
 	top: 0;
 	left: 0;
+	box-shadow: 1px 1px 10px #00000040 !important;
 }
 
 .zen .fz {
