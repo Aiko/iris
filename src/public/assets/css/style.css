@@ -322,7 +322,7 @@ input:active {
 	width: 130px !important;
 	margin-left: -23px;
 	transition: .2s;
-	padding-left: 1px;
+	padding-left: 3px;
 }
 
 .thin .board-header h1 {
@@ -1629,6 +1629,26 @@ hr {
 	transition: .2s;
 }
 
+.email-head .aiko-select {
+	margin-left: 5px;
+	width: 80px;
+	font-size: 14px;
+}
+
+.extra-actions a {
+	padding: 3px 4px 6px 1px;
+	margin-left: -4px;
+	margin-top: 4px;
+}
+
+.thin .extra-actions a {
+	padding: 3px 3px 6px 0;
+}
+
+.thin .extra-actions {
+	padding-left: 20px !important;
+}
+
 .email:hover {
 	background: var(--email-hover-bg-color);
 	transition: .2s;
@@ -1639,37 +1659,6 @@ hr {
 	overflow-y: hidden;
 	padding-top: 17px;
 	width: 100%;
-}
-
-.changer {
-	height: 20px;
-	overflow: hidden;
-	margin-top: 1px;
-	min-width: 60px;
-	background: var(--main-color);
-	border-radius: 3px;
-	color: #fff;
-	padding: 0 3px 4px 3px;
-	margin-left: 3px;
-	font-size: 14px;
-	line-height: 19px;
-	font-weight: 500;
-	text-align: center;
-	cursor: pointer;
-	transition: .2s;
-}
-
-.changer:hover {
-	height: fit-content;
-	overflow: visible;
-	background: var(--main-color);
-	z-index: 1;
-	border-radius: 3px;
-	color: #fff;
-	font-weight: 500;
-	text-align: center;
-	cursor: pointer;
-	transition: .2s;
 }
 
 .secondary-head {
@@ -2746,7 +2735,11 @@ unselectable {
 	animation: tooltips-vert 300ms 1s ease-out forwards;
 	font-size: 12px !important;
 	font-weight: 500 !important;
-	letter-spacing: .2px;
+	letter-spacing: .3px;
+}
+
+.email-head .action img {
+	margin-right: 3px;
 }
 
 #load-text {
