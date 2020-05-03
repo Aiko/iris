@@ -857,7 +857,7 @@ const mailapi = {
                 }
 
                 // otherwise we give up
-                log("Couldn't find email")
+                window.error("Couldn't find email", reply_id)
                 return []
             }
 
@@ -1162,6 +1162,6 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-//    await app.updateAndFetch()
+    await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
