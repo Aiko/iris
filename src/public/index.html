@@ -1093,14 +1093,14 @@
         'zero': !(email?.parsed),
         'syncing': email?.syncing,
         'starred': email?.ai.starred,
-      }" v-if="!email.ai.deleted">
+      }" v-if="!email?.ai?.deleted && !email?.ai?.threaded">
       <div class="container pr">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 class="sender">
-              {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+              {{(email?.parsed?.thread?.senders || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
-            <img src="assets/icons/thread.svg" style="display: none;">
+            <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
             <img src="assets/icons/badges-tracker.svg" style="display: none;">
             <img src="assets/icons/badges-event.svg" style="display: none;">

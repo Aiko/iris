@@ -453,8 +453,12 @@ ipcMain.handle('please look for emails', async (_, q) => {
     }
 
     let results; try { results = await client.search(path, query, options) } catch (e) { return { error: e } }
+
+    // the below gets pissed if your search has no results
+    /*
     if (!results || results.length===0)
-        return { error: `Did not receive any UIDs back when calling client.listMessages(${path}, ${sequence}, [${peek.join(',')}]) in "please get emails"` };
+        return { error: `Did not receive any UIDs back when calling client.search(${path}, ${query}) in "please look for emails"` };
+    */
 
     currentFolder = path
     return { s: comms["👉"](client_secret, { success: true, payload: results }) }
