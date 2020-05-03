@@ -159,7 +159,8 @@ input:active {
 	min-width: 330px;
 }
 
-.ghost, .cloned {
+.ghost,
+.cloned {
 	opacity: 0;
 	height: fit-content;
 }
@@ -636,8 +637,7 @@ a.main-action:hover {
 }
 
 .sidebar a:hover {
-	background: var(--sidebar-item-bg-color);
-	color: var(--main-text-color);
+	opacity: .8;
 	transition: .2s;
 }
 
@@ -1278,6 +1278,7 @@ hr {
 	margin-bottom: 2px;
 	height: 20px;
 	overflow: hidden;
+	width: 100%;
 	text-overflow: ellipsis;
 	margin-top: -1px;
 	white-space: nowrap;
@@ -1395,6 +1396,7 @@ hr {
 	margin-bottom: 3px;
 	text-overflow: ellipsis;
 	letter-spacing: .1px;
+	width: 100%;
 	transition: .2s;
 }
 
