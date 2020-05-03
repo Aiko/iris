@@ -14,11 +14,16 @@ const { ipcMain } = require('electron')
 */
 
 module.exports = (win => {
+    const isFullscreen = false
+
     const addListeners = win => {
         if (win) {
+
             // Handlers
-            const updateFullscreenStatus = s =>
-                win.webContents.send('fullscreen status changed', s);
+            const updateFullscreenStatus = s => {
+                win.webContents.send('fullscreen status changed', s)
+                isFullscreen = s
+            }
             const updateMaximizedStatus = s =>
                 win.webContents.send('maximized status changed', s);
 
@@ -29,6 +34,12 @@ module.exports = (win => {
 
             win.on('maximize', () => updateMaximizedStatus(true))
             win.on('unmaximize', () => updateMaximizedStatus(false))
+
+            ipcMain.handle('get fullscreen status', (_, __) => {
+                updateFullscreenStatus(isFullscreen)
+                return true
+            })
+
         }
     }
 
