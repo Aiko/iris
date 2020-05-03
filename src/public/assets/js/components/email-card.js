@@ -17,6 +17,18 @@ Vue.component('email-card', {
                         this.email.inboxUID
                     )
                 )
+                this.saveToCache()
+            }
+        },
+        async saveToCache() {
+            if (this.email.folder == "INBOX") {
+                await BigStorage.store(app.imapConfig.email + '/inbox', {
+                    uidLatest: app.inbox.uidLatest,
+                    //modSeq: this.inbox.modSeq,
+                    emails: app.inbox.emails.slice(0,90)
+                })
+            } else {
+                await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
             }
         },
         async starMessage() {
@@ -45,6 +57,7 @@ Vue.component('email-card', {
                         }
                     )
                 )
+                this.saveToCache()
             }
         },
         async unstarMessage() {
@@ -75,6 +88,7 @@ Vue.component('email-card', {
                         }
                     )
                 )
+                this.saveToCache()
             }
         }
     }

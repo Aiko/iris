@@ -537,6 +537,7 @@ const mailapi = {
             this.boards[boardName].emails.unshift(...processed_emails)
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
+            success(...MAILAPI_TAG, "Finished updating", boardName)
             this.syncing = false
         },
         async syncWithMailServer() {
