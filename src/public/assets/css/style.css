@@ -304,8 +304,20 @@ input:active {
 }
 
 .thin .email {
-	padding: 7px 8px 0 8px !important;
+	padding: 7px 8px 0 8px;
 	transition: .2s;
+}
+
+.thin .starred {
+	padding-left: 5px !important;
+	border-left: 3px solid #ffc107 !important;
+
+}
+
+.thin .unread {
+	padding-left: 5px;
+	border-left: 3px solid var(--main-color) !important;
+
 }
 
 .thin .exp {
@@ -1406,7 +1418,7 @@ hr {
 
 .unread {
 	border-left: 3px solid var(--main-color) !important;
-	padding-left: 10px !important;
+	padding-left: 10px;
 }
 
 .unread .subject {
@@ -1420,7 +1432,9 @@ hr {
 }
 
 .starred {
+	padding-left: 10px;
 	border-left: 3px solid #ffc107 !important;
+
 }
 
 .boards-container {
