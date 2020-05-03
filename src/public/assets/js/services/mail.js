@@ -595,7 +595,6 @@ const mailapi = {
                     new window.Notification(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address, {
                         body: email?.envelope?.subject + '\n' + email?.parsed?.text,
                         icon: "https://helloaiko.com/mail/images/icon-download.png",
-                        image: "https://helloaiko.com/mail/images/icon-download.png",
                         badge: "https://helloaiko.com/mail/images/icon-download.png",
                         timestamp: email?.envelope?.date,
                         tag: "Aiko Mail"
