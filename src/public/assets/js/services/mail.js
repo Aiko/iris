@@ -453,11 +453,11 @@ const mailapi = {
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
 
             let MESSAGE_COUNT = 0
-            const INCREMENT = 50 // small ram bubbles
+            const INCREMENT = 40 // small ram bubbles
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
-            while (MESSAGE_COUNT < 200 && uidMin > 1) {
+            while (MESSAGE_COUNT < 100 && uidMin > 1) {
                 uidMin = Math.max(uidMax - INCREMENT, 1)
                 info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
                 const received = await this.callIPC(
@@ -468,7 +468,7 @@ const mailapi = {
                 const processed_received = await MailCleaner.full("INBOX", received.reverse())
                 emails.push(...processed_received)
                 uidMax = uidMin - 1
-                info(...MAILAPI_TAG, 200 - MESSAGE_COUNT, "left to fetch...")
+                info(...MAILAPI_TAG, 100 - MESSAGE_COUNT, "left to fetch...")
             }
 
             if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
@@ -555,6 +555,7 @@ const mailapi = {
         async updateAndFetch() {
             info(...MAILAPI_TAG, "Running update and fetch.")
             // simply checkForUpdates and checkForNewMessages both
+            if (this.syncing) return info(...MAILAPI_TAG, "Already syncing. Cancelling flow.")
             this.syncing = true
             await this.checkForUpdates()
             await this.checkForNewMessages()
