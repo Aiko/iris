@@ -37,7 +37,7 @@ Vue.component('email-card', {
             }
 
             if (this.inbox) {
-                Vue.set(app.inbox.emails[this.index], this.email)
+                Vue.set(app.inbox.emails, this.index, this.email)
             } else {
                 Vue.set(app.boards[this.board].emails, this.index, this.email)
             }
