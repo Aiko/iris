@@ -94,12 +94,14 @@ const ipc = {
                 const { tasks, s } = this.ipcQueue.shift()
                 const results = []
                 try {
-                    for ({channel, q} of tasks)
-                    results.push(
-                        this.middleware.decode(
-                            await ipcRenderer.invoke(channel, q)
-                        )
-                    )
+                    for ({channel, q} of tasks) {
+                        //console.time(channel)
+                        const res = await ipcRenderer.invoke(channel, q)
+                        //console.timeEnd(channel)
+                        //console.time("Decode")
+                        results.push(this.middleware.decode(res))
+                        //console.timeEnd("Decode")
+                    }
                     if (results.length == 1) s(results[0])
                     else s(results)
                 } catch (error) {
