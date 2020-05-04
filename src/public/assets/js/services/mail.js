@@ -859,7 +859,7 @@ const mailapi = {
                 }
 
                 // otherwise we give up
-                window.error("Couldn't find email", reply_id)
+                log("Couldn't find email", reply_id)
                 return []
             }
 
