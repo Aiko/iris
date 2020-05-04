@@ -299,13 +299,13 @@
             </div>
             <div class="board-body">
               <!-- Can use :move to prevent it from moving into this board -->
-              <draggable filter=".syncing" id="aikomail--inbox" v-model.lazy="inbox.emails"
+              <draggable filter=".syncing" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
                 @clone="cloneEmail">
                 <email-card :inbox="true" :key="email.uid"
                   v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
-                  v-for="(email, i) in inbox.emails" :index="i" :email.sync="email">
+                  v-for="(email, i) in inbox.emails" :index="i" :email="email">
                 </email-card>
               </draggable>
               <!-- START List loader ----------------------->
@@ -360,12 +360,12 @@
                 </div>
               </div>
               <div class="board-body">
-                <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model.lazy="board.emails"
+                <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
-                    v-for="(email, i) in board?.emails" :index="i" :email.sync="email"></email-card>
+                    v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
                 </draggable>
                 <!-- TODO: add 'empty' when board empty and 'empty2' at end of board that isn't inbox
                 <div slot="footer" class="empty2"></div>
@@ -988,9 +988,9 @@
     <!-- TODO: for ruben, fix ugly padding during drag........ -->
     <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
-        'zero': !(email?.parsed),
+        'zero': !(email?.ai?.summary),
         'syncing': email?.syncing,
-        'starred': email?.ai.starred,
+        'starred': email?.ai?.starred,
       }" v-if="!email?.ai?.deleted && !email?.ai?.threaded">
       <div class="container pr">
         <div class="row" style="user-select: none;">
@@ -1009,7 +1009,7 @@
             <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
           </div>
           <p class="subject">{{email?.envelope?.subject}}</p>
-          <p v-if="email?.parsed" class="body">{{HTML2Text(email?.parsed?.html || email?.parsed?.text)}}</p>
+          <p v-if="email?.ai?.summary" class="body">{{email?.ai?.summary}}</p>
         </div>
         <div class="email-footer" style="user-select: none;">
           <div class="row">

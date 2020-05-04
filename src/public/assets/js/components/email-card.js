@@ -26,29 +26,29 @@ Vue.component('email-card', {
             }
         },
         async saveToCache() {
-            if (this.email.folder == "INBOX") {
-                await BigStorage.store(app.imapConfig.email + '/inbox', {
-                    uidLatest: app.inbox.uidLatest,
-                    //modSeq: this.inbox.modSeq,
-                    emails: app.inbox.emails.slice(0,50)
-                })
-            } else {
-                await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
-            }
-
+            return;
             if (this.inbox) {
+                log("Saving to inbox.")
                 Vue.set(app.inbox.emails, this.index, this.email)
             } else {
+                log("Saving to board.")
                 Vue.set(app.boards[this.board].emails, this.index, this.email)
+            }
+
+            if (this.email.folder == "INBOX") {
+                log("Inbox should auto-save.")
+            } else {
+                await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
             }
         },
         async starMessage() {
             if (!this.email.syncing) {
+                log("Starring", this.email.folder, ":", this.email.uid)
                 // update view model asap
                 this.email.ai.starred = true
                 // if it's already flagged but not starred idk?
                 // its a bug but fuck it, can ignore
-                if (this.email.flags.includes('\\Flagged')) return;
+                if (this.email.flags.includes('\\Flagged')) return window.error("Was already starred!");
                 this.email.flags.push('\\Flagged')
                 await app.callIPC(
                     app.task_SetFlags(

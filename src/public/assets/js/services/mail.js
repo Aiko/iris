@@ -31,7 +31,8 @@ const mailapi = {
             emails: []
         },
         boards: {},
-        syncing: false
+        syncing: false,
+        cachingInbox: false
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -39,16 +40,20 @@ const mailapi = {
             // dont want to store empty inbox if it is reset
             // if you need to store an empty inbox do it manually!
             // you also should set the uidLatest every time it has changed
-
-            if (updatedInbox.length > 0) {
-                info(...MAILAPI_TAG, "Saving inbox cache...")
-                await BigStorage.store(this.imapConfig.email + '/inbox', {
-                    uidLatest: this.inbox.uidLatest,
-                    //modSeq: this.inbox.modSeq,
-                    emails: this.inbox.emails.slice(0,50)
-                })
-                info(...MAILAPI_TAG, "Saved inbox cache.")
-            }
+            if (this.cachingInbox) return;
+            this.cachingInbox = true;
+            setTimeout(async () => {
+                if (updatedInbox.length > 0) {
+                    info(...MAILAPI_TAG, "Saving inbox cache...")
+                    await BigStorage.store(app.imapConfig.email + '/inbox', {
+                        uidLatest: app.inbox.uidLatest,
+                        //modSeq: this.inbox.modSeq,
+                        emails: app.inbox.emails.slice(0,200)
+                    })
+                    info(...MAILAPI_TAG, "Saved inbox cache.")
+                }
+                this.cachingInbox = false
+            }, 3000)
         },
     },
     created() {
@@ -452,7 +457,7 @@ const mailapi = {
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
-            while (MESSAGE_COUNT < 100 && uidMin > 1) {
+            while (MESSAGE_COUNT < 200 && uidMin > 1) {
                 uidMin = Math.max(uidMax - INCREMENT, 1)
                 info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
                 const received = await this.callIPC(
@@ -463,7 +468,7 @@ const mailapi = {
                 const processed_received = await MailCleaner.full("INBOX", received.reverse())
                 emails.push(...processed_received)
                 uidMax = uidMin - 1
-                info(...MAILAPI_TAG, 100 - MESSAGE_COUNT, "left to fetch...")
+                info(...MAILAPI_TAG, 200 - MESSAGE_COUNT, "left to fetch...")
             }
 
             if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
@@ -796,7 +801,7 @@ const mailapi = {
 
                 // if it has no replies we are already done
                 if (!reply_id) return []
-                log("Looking for", reply_id)
+                //log("Looking for", reply_id)
 
                 // check to make sure we didn't already get it
                 if (message_ids.has(reply_id)) return []
@@ -805,7 +810,7 @@ const mailapi = {
                 for (let i = 0; i < this.inbox.emails.length; i++) {
                     const email = this.inbox.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
-                        log("Had email in inbox.")
+                        //log("Had email in inbox.")
                         this.inbox.emails[i].ai.threaded = true
                         Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                         if (email?.parsed?.thread?.messages)
@@ -819,9 +824,8 @@ const mailapi = {
                     for (let i = 0; i < this.boards[board].emails.length; i++) {
                         const email = this.boards[board].emails[i]
                         if (email.envelope['message-id'] == reply_id) {
-                            log("Had email in a board.")
+                            //log("Had email in a board.")
                             this.boards[board].emails[i].ai.threaded = true
-                            Vue.set(this.boards[board].emails, i, this.boards[board].emails[i])
                             if (email?.parsed?.thread?.messages)
                                 return [email, ...email?.parsed?.thread?.messages]
                             return [email]
@@ -848,7 +852,7 @@ const mailapi = {
                     })
                 )
                 if (search_results.length > 0) {
-                    log("Found email on server.")
+                    //log("Found email on server.")
                     const email = await this.callIPC(this.task_FetchEmails(
                         this.folderNames.archive,
                         search_results[0],
@@ -859,7 +863,7 @@ const mailapi = {
                 }
 
                 // otherwise we give up
-                log("Couldn't find email", reply_id)
+                //log("Couldn't find email", reply_id)
                 return []
             }
 
@@ -878,14 +882,12 @@ const mailapi = {
                 }
             }
 
-            log("VENTURING DOWN THE RABBIT HOLE")
             await threading(email)
-            log("MADE IT OUT ALIVE!")
-
+            
             // now, we remove any duplicates from the thread
             const thread_ids = new Set()
             const final_thread = []
-            log("Cleaning thread")
+            //log("Cleaning thread")
             for (let email of thread) {
                 if (email.length) return window.error("Array is not fully flattened!")
                 // kill the parsed of the thread
@@ -893,7 +895,7 @@ const mailapi = {
                 // emails that we had locally aren't
                 // we need to make sure they get peeked :)
                 if (!(thread_ids.has(email.envelope['message-id']))) {
-                    log("Peeking email.")
+                    //log("Peeking email.")
                     const peeked_email = Object.assign({}, email)
                     // we don't need a deep clone because parsed is
                     // a 1st level property
@@ -901,10 +903,9 @@ const mailapi = {
                     peeked_email.parsed = null
                     // and now we can afford a deep clone
                     // as parsed is finally gone
-                    log("Cloning email.")
+                    //log("Cloning email.")
                     const cleaned_email = JSON.parse(JSON.stringify(peeked_email))
                     // and finally, push it onto the main thread
-                    log("")
                     final_thread.push(cleaned_email)
                 }
                 thread_ids.add(email.envelope['message-id'])
@@ -999,15 +1000,13 @@ const mailapi = {
             }
 
             info(...MAILAPI_TAG, "Finished threading")
+            // trigger UI update
+            this.inbox.emails = this.inbox.emails.map(_=>_)
+            for (let boardName of this.boardNames) {
+                this.boards[boardName].emails = this.boards[boardName].emails.map(_=>_)
+            }
             // save cache
-            const cache1 = await BigStorage.store(this.imapConfig.email + '/inbox', {
-                uidLatest: this.inbox.uidLatest,
-                //modSeq: this.inbox.modSeq,
-                emails: this.inbox.emails.slice(0,50)
-            })
-            if (!cache1) window.error("Couldn't cache the inbox. Check terminal for error.")
-            const cache2 = await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
-            if (!cache2) window.error("Couldn't cache the boards. Check terminal for error.")
+            await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
         },
         checkMove({to, from, draggedContext}) {
             // prevents moving from&to inbox
@@ -1153,7 +1152,7 @@ const mailapi = {
                     await BigStorage.store(this.imapConfig.email + '/inbox', {
                         uidLatest: this.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
-                        emails: this.inbox.emails.slice(0,50)
+                        emails: this.inbox.emails.slice(0,200)
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
                 }, SYNC_TIMEOUT)

@@ -5,8 +5,16 @@ const MailCleaner = (() => {
         email.envelope.date = new Date(email.envelope.date)
         email.folder = folder
         email.syncing = false
-        if (!email.ai) email.ai = {}
-        email.ai.seen = false
+        // NOTE: you need to define EVERYTHING
+        // that you want vue to watch here beforehand!!!
+        if (!email.ai) email.ai = {
+            seen: false,
+            starred: false,
+            deleted: false,
+            subscription: false,
+            unsubscribeLink: '',
+            summary: '',
+        }
         if (email.flags.includes('\\Seen')) email.ai.seen = true
         if (email.flags.includes('\\Flagged')) email.ai.starred = true
         return email
@@ -34,6 +42,10 @@ const MailCleaner = (() => {
 
     const full_clean = folder => (async email => {
         email = await base_clean(folder)(email)
+        email.ai.summary = "Coming Soon: SUMMARY"
+        email.parsed.text = null
+        email.parsed.html = null
+        email.parsed.textAsHtml = null
         // TODO: do AI pieces
         return email
     })
