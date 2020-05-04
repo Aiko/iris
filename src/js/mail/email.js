@@ -379,9 +379,6 @@ ipcMain.handle('please get emails', async (_, q) => {
     // in mailparser we trust
     if (!peek) messages = await Promise.all(messages.map(async msg => {
         msg.parsed = await simpleParser(msg['body[]'], {skipHtmlToText: true})
-        // TODO: do summarization here :)
-        msg.parsed.html = ''
-        msg.parsed.text = ''
         msg.parsed.textAsHtml = ''
         msg.parsed.attachments = msg.parsed.attachments.map(_ => {
             // only allows aiko metadata
