@@ -45,7 +45,7 @@ const mailapi = {
                 await BigStorage.store(this.imapConfig.email + '/inbox', {
                     uidLatest: this.inbox.uidLatest,
                     //modSeq: this.inbox.modSeq,
-                    emails: this.inbox.emails.slice(0,90)
+                    emails: this.inbox.emails.slice(0,50)
                 })
                 info(...MAILAPI_TAG, "Saved inbox cache.")
             }
@@ -807,6 +807,7 @@ const mailapi = {
                     if (email.envelope['message-id'] == reply_id) {
                         log("Had email in inbox.")
                         this.inbox.emails[i].ai.threaded = true
+                        Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
                         return [email]
@@ -820,6 +821,7 @@ const mailapi = {
                         if (email.envelope['message-id'] == reply_id) {
                             log("Had email in a board.")
                             this.boards[board].emails[i].ai.threaded = true
+                            Vue.set(this.boards[board].emails, i, this.boards[board].emails[i])
                             if (email?.parsed?.thread?.messages)
                                 return [email, ...email?.parsed?.thread?.messages]
                             return [email]
@@ -982,6 +984,7 @@ const mailapi = {
                 const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
                     this.inbox.emails[i].ai.threaded = true
+                    Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                 }
             }
             for (let boardName of this.boardNames) {
@@ -990,6 +993,7 @@ const mailapi = {
                     const msgId = email?.envelope?.['message-id']
                     if (msgId && reply_ids.has(msgId)) {
                         this.boards[boardName].emails[i].ai.threaded = true
+                        Vue.set(this.boards[boardName].emails, i, this.boards[boardName].emails[i])
                     }
                 }
             }
@@ -999,7 +1003,7 @@ const mailapi = {
             const cache1 = await BigStorage.store(this.imapConfig.email + '/inbox', {
                 uidLatest: this.inbox.uidLatest,
                 //modSeq: this.inbox.modSeq,
-                emails: this.inbox.emails.slice(0,90)
+                emails: this.inbox.emails.slice(0,50)
             })
             if (!cache1) window.error("Couldn't cache the inbox. Check terminal for error.")
             const cache2 = await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
@@ -1149,7 +1153,7 @@ const mailapi = {
                     await BigStorage.store(this.imapConfig.email + '/inbox', {
                         uidLatest: this.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
-                        emails: this.inbox.emails.slice(0,90)
+                        emails: this.inbox.emails.slice(0,50)
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
                 }, SYNC_TIMEOUT)

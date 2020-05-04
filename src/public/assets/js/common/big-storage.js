@@ -10,7 +10,7 @@ const BigStorage = (() => {
         const { success } = await app.callIPC(
             app.ipcTask('save cache', {
                 key: k,
-                data: obj
+                data: JSON.stringify(obj)
             })
         )
         if (!success) return null
@@ -27,7 +27,7 @@ const BigStorage = (() => {
         if (!success || !data) return null
         const jsonString = decoder.decode(data)
         if (!jsonString) return null
-        else return JSON.parse(jsonString)
+        else return JSON.parse(JSON.parse(jsonString))
     }
 
     return { store, load }
