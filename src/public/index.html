@@ -65,7 +65,6 @@
           <a><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
               Spam</span></a>
           <a><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
-          <a><img src="assets/icons/sidebar-archive.svg"> <span>Archive</span></a>
           <a><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
         </div>
         <div class="row">
@@ -304,7 +303,8 @@
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
                 @clone="cloneEmail">
-                <email-card :inbox="true" :key="email.uid" v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
+                <email-card :inbox="true" :key="email.uid"
+                  v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
                   v-for="(email, i) in inbox.emails" :index="i" :email.sync="email">
                 </email-card>
               </draggable>
@@ -393,8 +393,8 @@
                   </div>
                   <div class="col-8 text-center p0 exp margin-auto nowrap">
                     <h1>Done</h1>
-                    <div class="archive cll" tooltip="Archive entire board"><img
-                        src="assets/icons/board-archive.svg">Archive all</div>
+                    <div class="archive cll" tooltip="Trash entire board"><img
+                        src="assets/icons/sidebar-trash.svg">Trash all</div>
                   </div>
                   <div class="col-2 text-right cll">
                     <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
@@ -996,7 +996,8 @@
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 class="sender" @click="debug">
-              {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}</h2>
+              {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
+            </h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">

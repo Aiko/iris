@@ -304,20 +304,8 @@ input:active {
 }
 
 .thin .email {
-	padding: 7px 8px 0 8px;
+	padding: 7px 8px 0 5px;
 	transition: .2s;
-}
-
-.thin .starred {
-	padding-left: 5px !important;
-	border-left: 3px solid #ffc107 !important;
-
-}
-
-.thin .unread {
-	padding-left: 5px;
-	border-left: 3px solid var(--main-color) !important;
-
 }
 
 .thin .exp {
@@ -1183,9 +1171,10 @@ hr {
 	background: var(--email-bg-color);
 	border-radius: 3px;
 	box-shadow: 0 4px 4px 0 #0000000a;
+	border-left: 3px solid transparent !important;
 	cursor: pointer;
 	margin-bottom: 15px;
-	padding: 8px 13px 0 13px;
+	padding: 8px 13px 0 10px;
 	overflow: hidden;
 }
 
@@ -1386,15 +1375,16 @@ hr {
 .email-footer img {
 	margin-top: 1px;
 	transition: .2s;
+	opacity: .8;
 }
 
 .email-footer img:hover {
-	opacity: .7;
+	opacity: 1;
 	transition: .2s;
 }
 
 .email-footer .main-action:hover {
-	opacity: .7;
+	opacity: 1;
 	transition: .2s;
 }
 
@@ -1418,7 +1408,6 @@ hr {
 
 .unread {
 	border-left: 3px solid var(--main-color) !important;
-	padding-left: 10px;
 }
 
 .unread .subject {
@@ -1432,7 +1421,6 @@ hr {
 }
 
 .starred {
-	padding-left: 10px;
 	border-left: 3px solid #ffc107 !important;
 
 }

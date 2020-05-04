@@ -24,7 +24,7 @@
   /* Active and hover in sidebar */
 
   --email-bg-color: #21201d !important;
-  --email-hover-bg-color: #1b1a17 !important;
+  --email-hover-bg-color: #1f1e1a !important;
   --sender-text-color: #a0a0a0 !important;
   --subject-text-color: #fff !important;
 
@@ -116,6 +116,14 @@ body {
 
 .unread .body {
   filter: brightness(1.2) !important;
+}
+
+.email-footer img {
+  opacity: 1 !important;
+}
+
+.email-footer img:hover {
+  opacity: .8 !important;
 }
 
 .email {
