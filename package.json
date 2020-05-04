@@ -5,7 +5,7 @@
   "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
-    "anus": "echo \"82.192.65.65 pornhub.com\" | sudo tee -a /etc/hosts; echo \"82.192.65.65 xvideos.com\" | sudo tee -a /etc/hosts; echo \"82.192.65.65 instagram.com\" | sudo tee -a /etc/hosts; echo \"82.192.65.65 hellaiko.com\" | sudo tee -a /etc/hosts; sudo killall -HUP mDNSResponder; electron-forge start",
+    "anus": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
