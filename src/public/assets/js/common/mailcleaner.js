@@ -14,6 +14,8 @@ const MailCleaner = (() => {
             subscription: false,
             unsubscribeLink: '',
             summary: '',
+            thread: false,
+            threaded: false
         }
         if (email.flags.includes('\\Seen')) email.ai.seen = true
         if (email.flags.includes('\\Flagged')) email.ai.starred = true
