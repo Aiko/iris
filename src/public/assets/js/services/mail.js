@@ -514,14 +514,14 @@ const mailapi = {
             this.syncing = false
             console.timeEnd("Initial Sync")
         },
-        async initialSyncBoard(boardName) {
+        async initialSyncBoard(boardName, newest=false) {
             this.syncing = true
             // boardname should be the path!
             const board = this.boards[boardName]
             if (!board) return console.warn("Tried to sync", boardName, "but the board is not yet created.")
             let uidMin = 1
             const { uidLatest } = board
-            //if (uidLatest > 0) uidMin = uidLatest + 1
+            if (newest && uidLatest > 0) uidMin = uidLatest + 1
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder(boardName))
@@ -541,7 +541,8 @@ const mailapi = {
             const processed_emails = await MailCleaner.full(boardName, emails.reverse())
             // TODO: ai should be stored in their headers automatically.
 
-            this.boards[boardName].emails.unshift(...processed_emails)
+            if (newest) this.boards[boardName].emails.unshift(...processed_emails)
+            else this.boards[boardName].emails = processed_emails
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             success(...MAILAPI_TAG, "Finished updating", boardName)
@@ -567,7 +568,7 @@ const mailapi = {
             // for something to be unsynced older than latest
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
-            await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n)))
+            await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
             await this.halfThreading()
             this.syncing = false
         },
