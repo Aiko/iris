@@ -521,15 +521,15 @@ const mailapi = {
             if (!board) return console.warn("Tried to sync", boardName, "but the board is not yet created.")
             let uidMin = 1
             const { uidLatest } = board
-            if (uidLatest > 0) uidMin = uidLatest + 1
+            //if (uidLatest > 0) uidMin = uidLatest + 1
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder(boardName))
             if (!uidNext || uidNext.error) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
-            if (uidNext - uidMin > 50) {
-                info(...MAILAPI_TAG, "There are more than 50 emails in the board. There should be a limit of 50.")
-                uidMin = uidNext - 50
+            if (uidNext - uidMin > 100) {
+                info(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
+                uidMin = uidNext - 100
             }
             uidMin = Math.max(1, uidMin)
 
