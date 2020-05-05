@@ -351,7 +351,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
 
 // Get Emails
 ipcMain.handle('please get emails', async (_, q) => {
-    const { path, sequence, peek, token, modseq } = q
+    const { path, sequence, peek, token, modseq, limit } = q
     const query = ['uid', 'flags', 'envelope']
     if (!peek) query.push('body.peek[]', 'bodystructure')
     const options = {
@@ -379,6 +379,8 @@ ipcMain.handle('please get emails', async (_, q) => {
     Log.log("Received messages.")
     // in mailparser we trust
     //console.time("Parse messages")
+    if (limit && messages.length > limit)
+        messages = messages.slice(messages.length - limit)
     if (!peek) messages = await Promise.all(messages.map(async msg => {
         //console.time("Parse " + msg['body[]'].length)
         msg.parsed = await simpleParser(msg['body[]'], {

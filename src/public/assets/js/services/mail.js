@@ -128,12 +128,13 @@ const mailapi = {
                 path,
             })
         },
-        task_FetchEmails(path, sequence, peek, modseq) {
+        task_FetchEmails(path, sequence, peek, modseq, limit) {
             return this.ipcTask('please get emails', {
                 path,
                 sequence,
                 peek,
-                //modseq
+                //modseq,
+                limit
             })
         },
         task_SearchEmails(path, query) {
@@ -454,21 +455,22 @@ const mailapi = {
 
             let MESSAGE_COUNT = 0
             const INCREMENT = 100 // small ram bubbles
+            const MAX_COUNT = 100
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
-            while (MESSAGE_COUNT < 100 && uidMin > 1) {
+            while (MESSAGE_COUNT < MAX_COUNT && uidMin > 1) {
                 uidMin = Math.max(uidMax - INCREMENT, 1)
                 info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
                 const received = await this.callIPC(
-                    this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
+                    this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false, MAX_COUNT - MESSAGE_COUNT))
                 info(...MAILAPI_TAG, `Parsing...`)
                 if (!(received?.reverse)) return window.error(...MAILAPI_TAG, received);
                 MESSAGE_COUNT += received.length
                 const processed_received = await MailCleaner.full("INBOX", received.reverse())
                 emails.push(...processed_received)
                 uidMax = uidMin - 1
-                info(...MAILAPI_TAG, 100 - MESSAGE_COUNT, "left to fetch...")
+                info(...MAILAPI_TAG, MAX_COUNT - MESSAGE_COUNT, "left to fetch...")
             }
 
             if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
