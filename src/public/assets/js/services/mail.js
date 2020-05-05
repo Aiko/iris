@@ -453,7 +453,7 @@ const mailapi = {
             info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
 
             let MESSAGE_COUNT = 0
-            const INCREMENT = 40 // small ram bubbles
+            const INCREMENT = 100 // small ram bubbles
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
