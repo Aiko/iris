@@ -301,7 +301,7 @@
               <!-- Can use :move to prevent it from moving into this board -->
               <draggable filter=".syncing" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove"
+                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email"
                 @clone="cloneEmail">
                 <email-card :inbox="true" :key="email.uid"
                   v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
@@ -362,7 +362,7 @@
               <div class="board-body">
                 <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" :move="checkMove">
+                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
                     v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
