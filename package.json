@@ -59,7 +59,8 @@
     "mailparser": "^2.7.7",
     "node-email": "github:Aiko/node-email",
     "nodemailer": "^6.3.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "ws": "^7.2.5"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.50",
@@ -67,6 +68,6 @@
     "@electron-forge/maker-rpm": "6.0.0-beta.50",
     "@electron-forge/maker-squirrel": "6.0.0-beta.50",
     "@electron-forge/maker-zip": "6.0.0-beta.50",
-    "electron": "^8.2.3"
+    "electron": "^8.2.5"
   }
 }

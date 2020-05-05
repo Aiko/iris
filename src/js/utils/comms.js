@@ -1,4 +1,6 @@
 const { ipcMain } = require('electron')
+const WebSocket = require('ws')
+const net = require('net')
 
 const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
@@ -12,6 +14,65 @@ ipcMain.handle('key exchange', async (_, q) => {
     // we double sign the result payload
     const payload = jwt.sign({token,}, secret, { expiresIn: 60 * 60 * 24 * 7 })
     return payload
+})
+
+const DEFUALT_PORT = 41604
+
+const unused_port = async () => {
+    const look_for_port = p => new Promise((s, _) => {
+        let port = DEFUALT_PORT
+
+        const serv = net.createServer()
+        serv.listen(port, _ => {
+            serv.once('close', () => s(port))
+            serv.close()
+        })
+        serv.on('error', _ => look_for_port(port + 1))
+    })
+
+    return await look_for_port(DEFUALT_PORT)
+}
+
+/*
+    Usage: (until this is turned into a shim)
+
+    get a tag:
+        const tag = ipcStream.tag()
+
+    send data:
+        await ipcStream.send(tag, myData)
+
+    Respond via normal IPC with {stream: tag}
+*/
+const ipcStream = {
+    port: null,
+    send: (..._) => {throw "WebSocket server has not yet been started!"},
+    tag: () => crypto.randomBytes(32).toString('hex')
+}
+
+ipcMain.handle('start websocket server', async (_, q) => {
+    if (ipcStream.port) return ipcStream.port;
+
+    const port = await unused_port()
+    ipcStream.port = port
+    const wss = new WebSocket.Server({
+        port,
+        // TODO: custom config for compression, etc
+    })
+
+    wss.on('connection', ws => {
+        const outgoing = {}
+        ws.on('message', m => {
+            const { stream } = JSON.parse(m)
+            if (outgoing[stream]) outgoing[stream]()
+        })
+        ipcStream.send = (tag, data) => new Promise((s, j) => {
+            outgoing[tag] = s
+            ws.send(JSON.stringify({ tag, data }))
+        })
+    })
+
+    return port
 })
 
 
@@ -49,5 +110,6 @@ module.exports = {
     },
     "👉": (secret, d) => { // outgoing
         return jwt.sign(d, secret, { expiresIn: 60 * 60 * 24 * 7 })
-    }
+    },
+    ipcStream
 }

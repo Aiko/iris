@@ -4,7 +4,7 @@ const { ipcRenderer, remote } = require('electron')
 window.ipcRenderer = ipcRenderer
 window.remote = remote
 
-const IPCMiddleware = (async errorHandler => {
+const IPCMiddleware = (async (errorHandler, ipcStream) => {
     const checkError = (e, msg) => {
         if (e) {
             errorHandler(e)
@@ -26,9 +26,10 @@ const IPCMiddleware = (async errorHandler => {
         return d
     }
 
-    const decode = ({ s, error, payload }) => {
+    const decode = ({ s, error, payload, stream }) => {
         checkError(error, "Main process returned error.")
         if (payload) return payload
+        if (stream) return ipcStream.get(stream)
         const d = jwt_decode(s)
         const { success } = d
         if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), {alg: ['HS256']})) {
@@ -41,10 +42,67 @@ const IPCMiddleware = (async errorHandler => {
     return {encode, decode}
 })
 
+const IPCStream = (async () => {
+    /*
+    Usage: (until this is turned into a shim)
+
+    ipc response has "stream" property
+    this is the string identifier of ws objects,
+    i.e. {stream: "foo"}
+
+    when this ipcstream middleware receives a payload,
+    it will be named, i.e.
+    { tag: "foo", data: bar}
+
+    this will be inserted into mailbox below as
+    mailbox["foo"] = bar
+
+    then you can ask this ipcStream for the "foo" key
+    i.e. ipcStream.get(response.stream)
+
+    be careful that you are sure it has been received!
+    */
+    const mailbox = {}
+
+    // now for the websocket stuff
+    // first, start the websocket server
+    const port = await ipcRenderer.invoke('start websocket server', {})
+    // then, connect to it
+    const socket = new WebSocket('ws://localhost:' + port)
+    socket.binaryType = "arraybuffer"
+    socket.onmessage = m => {
+        const { tag, data } = JSON.parse(m.data)
+        mailbox[tag] = data
+        socket.send(JSON.stringify({stream: tag}))
+    }
+
+    // it's like a queue so it deletes the tag after
+    // you .get it, you can .peek to prevent deletion
+    // or .clear to manually clear without a get/peek
+    // operation (which could save you a cpu cycle or two, lol)
+
+    const peek = tag => mailbox[tag];;
+    const clear = tag => delete mailbox[tag];;
+
+    return {
+        peek, clear,
+        get: tag => {
+            const d = peek(tag)
+            clear(tag)
+            return d
+        },
+        // FIXME: remove tags in prod
+        // NOTE: don't use tags in your code!
+        // we shouldn't expose this for security reaasons!
+        tags: () => Object.keys(mailbox)
+    }
+})
+
 const IPC_TAG = ["%c[IPC]", "background-color: #ff99ff; color: #000;"]
 
 const ipc = {
     data: {
+        ipcStream: null,
         middleware: null,
         ipcQueue: [],
         ipcRotating: false
@@ -52,7 +110,8 @@ const ipc = {
     methods: {
         // TODO: call init on IPC when loading the app
         async initIPC() {
-            this.middleware = await IPCMiddleware(this.handleIPCError)
+            this.ipcStream = await IPCStream()
+            this.middleware = await IPCMiddleware(this.handleIPCError, this.ipcStream)
         },
         async handleIPCError(e) {
             error(...(IPC_TAG), e)
@@ -95,12 +154,12 @@ const ipc = {
                 const results = []
                 try {
                     for ({channel, q} of tasks) {
-                        //console.time(channel)
+                        console.time(channel)
                         const res = await ipcRenderer.invoke(channel, q)
-                        //console.timeEnd(channel)
-                        //console.time("Decode")
+                        console.timeEnd(channel)
+                        console.time("Decode")
                         results.push(this.middleware.decode(res))
-                        //console.timeEnd("Decode")
+                        console.timeEnd("Decode")
                     }
                     if (results.length == 1) s(results[0])
                     else s(results)

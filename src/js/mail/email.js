@@ -3,6 +3,7 @@ const Log = require('../utils/logger')
 const Client = require('emailjs-imap-client').default
 const { ipcMain } = require('electron')
 const comms = require('../utils/comms.js')
+const { ipcStream } = comms
 // if this isnt MIT licensed in the future we're fucked
 const simpleParser = require('mailparser').simpleParser
 
@@ -377,8 +378,17 @@ ipcMain.handle('please get emails', async (_, q) => {
 
     Log.log("Received messages.")
     // in mailparser we trust
+    //console.time("Parse messages")
     if (!peek) messages = await Promise.all(messages.map(async msg => {
-        msg.parsed = await simpleParser(msg['body[]'], {skipHtmlToText: true})
+        //console.time("Parse " + msg['body[]'].length)
+        msg.parsed = await simpleParser(msg['body[]'], {
+            skipHtmlToText: true,
+            skipTextToHtml: true,
+            maxHtmlLengthToParse: 1000 * 1000,
+            skipAttachments: true
+        })
+        //console.timeEnd("Parse " + msg['body[]'].length)
+        //console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
         msg.parsed.textAsHtml = ''
         msg.parsed.attachments = msg.parsed.attachments.map(_ => {
             // only allows aiko metadata
@@ -388,6 +398,7 @@ ipcMain.handle('please get emails', async (_, q) => {
         delete msg['body[]']
         return msg
     }))
+    //console.timeEnd("Parse messages")
 
     Log.log("Parsed " + messages.length + " messages.")
 
@@ -414,7 +425,13 @@ ipcMain.handle('please get emails', async (_, q) => {
     */
 
     currentFolder = path
-    return { payload: messages }
+
+    const tag = ipcStream.tag()
+    console.time("Send using stream")
+    await ipcStream.send(tag, messages)
+    console.timeEnd("Send using stream")
+
+    return { stream: tag }
 })
 
 // Search Emails

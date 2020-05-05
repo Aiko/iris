@@ -1166,6 +1166,6 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-    await app.updateAndFetch()
+//    await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
