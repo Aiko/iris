@@ -105,7 +105,8 @@ const ipc = {
         ipcStream: null,
         middleware: null,
         ipcQueue: [],
-        ipcRotating: false
+        ipcRotating: false,
+        ipcProcessed: 0,
     },
     methods: {
         // TODO: call init on IPC when loading the app
@@ -149,23 +150,22 @@ const ipc = {
         },
         async ipcRotate() {
             this.ipcRotating = true
+            if (this.ipcRotating)
             if (this.ipcQueue.length > 0) {
                 const { tasks, s } = this.ipcQueue.shift()
                 const results = []
                 try {
                     for ({channel, q} of tasks) {
-                        console.time(channel)
                         const res = await ipcRenderer.invoke(channel, q)
-                        console.timeEnd(channel)
-                        console.time("Decode")
                         results.push(this.middleware.decode(res))
-                        console.timeEnd("Decode")
                     }
                     if (results.length == 1) s(results[0])
                     else s(results)
                 } catch (error) {
+                    window.error(error)
                     s({error,})
                 }
+                this.ipcProcessed += 1
                 this.ipcRotate()
             } else {
                 this.ipcRotating = false
@@ -173,3 +173,11 @@ const ipc = {
         }
     }
 }
+
+let ipcCounter = 0
+
+// if ipc is stuck more 2s then rotate it
+window.setInterval(() => {
+    if (app.ipcProcessed == ipcCounter) app.ipcRotate()
+    ipcCounter = app.ipcProcessed
+}, 2000)

@@ -303,7 +303,7 @@
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
                 <email-card :inbox="true" :key="email.uid"
-                  v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription)"
+                  v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription) && !email?.ai?.threaded"
                   v-for="(email, i) in inbox.emails" :index="i" :email="email">
                 </email-card>
               </draggable>
@@ -990,7 +990,7 @@
         'zero': !(email?.ai?.summary),
         'syncing': email?.syncing,
         'starred': email?.ai?.starred,
-      }" v-if="!email?.ai?.deleted && !email?.ai?.threaded">
+      }" v-if="!email?.ai?.deleted">
       <div class="container pr">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
