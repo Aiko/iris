@@ -1150,6 +1150,7 @@ hr {
 
 .syncing {
 	opacity: .7;
+	cursor: wait !important;
 	transition: .2s;
 }
 
@@ -1171,8 +1172,8 @@ hr {
 	background: var(--email-bg-color);
 	border-radius: 3px;
 	box-shadow: 0 4px 4px 0 #0000000a;
-	border-left: 3px solid transparent !important;
-	cursor: pointer;
+	border-left: 3px solid #0000002e !important;
+	cursor: grab;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 10px;
 	overflow: hidden;
