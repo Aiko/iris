@@ -302,7 +302,7 @@
 
               <!-- DON'T MODIFY BELOW -->
               <!-- Can use :move to prevent it from moving into this board -->
-              <draggable filter=".syncing" id="aikomail--inbox" v-model="inbox.emails"
+              <draggable filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
                 <email-card :inbox="true" :key="email.uid"
@@ -368,7 +368,7 @@
                 </div>
 
                 <!-- DON'T MODIFY BELOW -->
-                <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
+                <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
@@ -995,6 +995,7 @@
         'unread': !(email?.ai?.seen),
         'zero': !(email?.ai?.summary),
         'syncing': email?.syncing,
+        'dont-drag-this': email?.syncing,
         'starred': email?.ai?.starred,
       }" v-if="!email?.ai?.deleted">
       <div class="container pr">
@@ -1016,7 +1017,7 @@
           <p class="subject">{{email?.envelope?.subject}}</p>
           <p v-if="email?.ai?.summary" class="body">{{email?.ai?.summary}}</p>
         </div>
-        <div class="email-footer" style="user-select: none;">
+        <div class="email-footer dont-drag-this" style="user-select: none;">
           <div class="row">
             <div class="col-5 cll cll2">
               <a class="main-action">
