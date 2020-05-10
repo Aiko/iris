@@ -517,6 +517,7 @@ const mailapi = {
         },
         async initialSyncBoard(boardName, newest=false) {
             this.syncing = true
+            if (!newest) info(...MAILAPI_TAG, "FULLY syncing", boardName)
             // boardname should be the path!
             const board = this.boards[boardName]
             if (!board) return console.warn("Tried to sync", boardName, "but the board is not yet created.")
