@@ -32,7 +32,8 @@ const mailapi = {
         },
         boards: {},
         syncing: false,
-        cachingInbox: false
+        cachingInbox: false,
+        dragging: false
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -1025,6 +1026,7 @@ const mailapi = {
             return true
         },
         startMove({from, item}) {
+            this.dragging = true
             const uid = item.getAttribute('uid')
             let email;
             if (from.id == "aikomail--inbox") {
@@ -1043,6 +1045,7 @@ const mailapi = {
                     }
                 }
             }
+            // TODO: check done
             if (!email) return window.error("Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
             return (email.dragging = true)
         },
@@ -1054,6 +1057,7 @@ const mailapi = {
             clone.classList.toggle('cloned', true)
         },
         async moveEmail({to, from, item, oldIndex, newIndex}) {
+            this.dragging = false
             // TODO: calculating index should use message id
             const uid = item.getAttribute('uid')
 
@@ -1232,6 +1236,7 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-    await app.updateAndFetch()
+    if (!app.dragging)
+        await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
