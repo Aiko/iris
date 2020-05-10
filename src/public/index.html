@@ -363,11 +363,6 @@
                 <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
-
-                  <div class="empty">
-                    <h1>Drag emails here.</h1>
-                  </div>
-
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
                     v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
