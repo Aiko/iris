@@ -1024,6 +1024,28 @@ const mailapi = {
             */
             return true
         },
+        startMove({from, item}) {
+            const uid = item.getAttribute('uid')
+            let email;
+            if (from.id == "aikomail--inbox") {
+                for (let i = 0; i < app.inbox.emails.length; i++) {
+                    if (app.inbox.emails[i].uid == uid) {
+                        email = app.inbox.emails[i]
+                        break
+                    }
+                }
+            } else {
+                const boardName = from.id.substring('aikomail--'.length)
+                for (let i = 0; i < app.boards[boardName].emails.length; i++) {
+                    if (app.boards[boardName].emails[i].uid == uid) {
+                        email = app.boards[boardName].emails[i]
+                        break
+                    }
+                }
+            }
+            if (!email) return window.error("Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
+            return (email.dragging = true)
+        },
         cloneEmail({item, clone}) {
             // you can do mail management on the "original"
             // which is the HTML element for email in `item`
@@ -1037,7 +1059,26 @@ const mailapi = {
 
             // ignore from-to same board
             if (from.id == to.id) {
-                item.classList.toggle('cloned', false)
+                item.classList.toggle('cloned', false);
+                let email;
+                if (from.id == "aikomail--inbox") {
+                    for (let i = 0; i < app.inbox.emails.length; i++) {
+                        if (app.inbox.emails[i].uid == uid) {
+                            email = app.inbox.emails[i]
+                            break
+                        }
+                    }
+                } else {
+                    const boardName = from.id.substring('aikomail--'.length)
+                    for (let i = 0; i < app.boards[boardName].emails.length; i++) {
+                        if (app.boards[boardName].emails[i].uid == uid) {
+                            email = app.boards[boardName].emails[i]
+                            break
+                        }
+                    }
+                }
+                if (!email) return window.error("Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
+                email.dragging = false
                 return;
             }
 
@@ -1072,6 +1113,7 @@ const mailapi = {
                 const folder = email.syncFolder || email.folder
                 // update UI right away
                 email.folder = "INBOX"
+                email.dragging = false
 
                 // if mid sync from inbox, can ignore
                 // otherwise just delete the email from its board
@@ -1112,12 +1154,20 @@ const mailapi = {
                 if (!email.syncFolder) email.syncFolder = email.folder
                 // update UI right away though!
                 email.folder = boardName
+                email.dragging = false
 
                 // Sync
                 // TODO: make hash to signify this sync and store in email
                 const targetFolder = email.folder
                 const SYNC_TIMEOUT = 3000
-                setTimeout(async () => {
+
+
+                const sync = async () => {
+                    // if it's been picked up, let's wait a bit
+                    if (email.dragging) {
+                        window.setTimeout(sync, SYNC_TIMEOUT)
+                        return info(...MAILAPI_TAG, "Postponed move to", targetFolder, "because the email is currently being dragged.");
+                    }
                     // if it's already syncing, don't race
                     if (email.syncing) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
                     // if the email's folder has changed, don't race
@@ -1170,7 +1220,9 @@ const mailapi = {
                         emails: this.inbox.emails.slice(0,200)
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
-                }, SYNC_TIMEOUT)
+                }
+
+                setTimeout(sync, SYNC_TIMEOUT)
             }
             // TODO: special for done? idk
             info(...MAILAPI_TAG, "Saving boards cache")

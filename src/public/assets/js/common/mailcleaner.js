@@ -48,6 +48,8 @@ const MailCleaner = (() => {
         email.parsed.text = null
         email.parsed.html = null
         email.parsed.textAsHtml = null
+        email.syncing = false
+        email.dragging = false
         // TODO: do AI pieces
         return email
     })

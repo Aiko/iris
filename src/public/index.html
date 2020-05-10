@@ -369,7 +369,7 @@
 
                 <!-- DON'T MODIFY BELOW -->
                 <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
-                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
+                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
