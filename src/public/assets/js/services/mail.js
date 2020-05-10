@@ -415,7 +415,7 @@ const mailapi = {
 
             // sync boards and save their cache
             await Promise.all(
-                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName)))
+                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName, newest=false)))
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
             // FIXME: must be better way to do this
