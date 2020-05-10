@@ -299,6 +299,8 @@
               </div>
             </div>
             <div class="board-body">
+
+              <!-- DON'T MODIFY BELOW -->
               <!-- Can use :move to prevent it from moving into this board -->
               <draggable filter=".syncing" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
@@ -308,6 +310,7 @@
                   v-for="(email, i) in inbox.emails" :index="i" :email="email">
                 </email-card>
               </draggable>
+
               <!-- START List loader ----------------------->
               <div class="cs-loader">
                 <div class="cs-loader-inner">
@@ -360,6 +363,11 @@
                 </div>
               </div>
               <div class="board-body">
+                <div class="empty" v-if="board?.emails?.length == 0">
+                  <h1>Ting Ting's pussy juice.</h1>
+                </div>
+
+                <!-- DON'T MODIFY BELOW -->
                 <draggable filter=".syncing" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                   :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
@@ -367,9 +375,6 @@
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
                     v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
                 </draggable>
-                <!-- TODO: 'empty2' at end of board email list
-                <div slot="footer" class="empty2"></div>
-                -->
               </div>
             </div>
           </board>
