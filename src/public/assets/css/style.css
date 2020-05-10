@@ -75,7 +75,6 @@ body {
 
 div.board-body>div:first-child {
 	min-height: 100%;
-	position: relative;
 }
 
 video {
@@ -1027,11 +1026,6 @@ a.main-action:hover {
 	text-align: center;
 	padding-top: 45px;
 	box-shadow: inset 0 0 3px 1px rgba(215, 215, 215, 0.75);
-
-	position: absolute;
-	top: 0;
-	width: 100%;
-	z-index: 0;
 }
 
 .empty2 {
@@ -1146,6 +1140,10 @@ hr {
 	height: 78px !important;
 }
 
+.no-action-bar .email-footer {
+	display: none !important;
+}
+
 .syncing .sync-message {
 	display: block !important;
 }
@@ -1183,7 +1181,6 @@ hr {
 	margin-bottom: 15px;
 	padding: 8px 13px 0 10px;
 	overflow: hidden;
-	z-index: 1;
 }
 
 .email:hover .delete {
