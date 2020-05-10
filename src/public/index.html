@@ -363,10 +363,6 @@
                 </div>
               </div>
               <div class="board-body">
-                <div class="empty" v-if="board?.emails?.length == 0">
-                  <h1>Ting Ting's pussy juice.</h1>
-                </div>
-
                 <!-- DON'T MODIFY BELOW -->
                 <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                   :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
@@ -375,6 +371,9 @@
                   <email-card :board="boardName" v-if="email.folder == boardName" :key="boardName + email.uid"
                     v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
                 </draggable>
+                <div class="empty" v-if="board?.emails?.length == 0">
+                  <h1>Ryan's pussy juice.</h1>
+                </div>
               </div>
             </div>
           </board>
