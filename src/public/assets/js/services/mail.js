@@ -1052,15 +1052,26 @@ const mailapi = {
                         break
                     }
                 }
-                if (!email) return window.error(...MAILAPI_TAG, "Couldn't find an email with that UID in the inbox.")
+
+                // remove to prevent clones
+                if (email) {
+                    app.inbox.emails.splice(index, 1)
+                } else {
+                    const fromBoard = from.id.substring('aikomail--'.length)
+                    for (let i = 0; i < app.boards[fromBoard].emails.length; i++) {
+                        if (app.boards[fromBoard].emails[i].uid == uid) {
+                            email = app.boards[fromBoard].emails[i]
+                            index = i
+                            break
+                        }
+                    }
+                    if (!email) return window.error("Couldn't find an email with that UID something is super wrong.")
+                }
 
                 // if its mid sync use that folder, otherwise its normal folder
                 const folder = email.syncFolder || email.folder
                 // update UI right away
                 email.folder = "INBOX"
-                // remove to prevent clones
-                log(index)
-                app.inbox.emails.splice(index, 1)
 
                 // if mid sync from inbox, can ignore
                 // otherwise just delete the email from its board
@@ -1169,6 +1180,6 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
-//    await app.updateAndFetch()
+    await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
