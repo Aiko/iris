@@ -89,6 +89,7 @@ module.exports = (win => {
         setWindow: w => {
             win = w
             addListeners(win)
-        }
+        },
+        getWindow: () => win
     }
 })

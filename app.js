@@ -23,7 +23,7 @@ const Log = require('./src/js/utils/logger')
 // Startup
 /////////////////////////////////////////////////////////
 Log.log("Starting up")
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, protocol } = require('electron')
 Log.log("Checking Electron Squirrel Startup")
 if (require('electron-squirrel-startup')) app.quit()
 /////////////////////////////////////////////////////////

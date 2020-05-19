@@ -58,6 +58,7 @@
     "jsonwebtoken": "^8.5.1",
     "mailparser": "^2.7.7",
     "node-email": "github:Aiko/node-email",
+    "node-summarizer": "^1.0.7",
     "nodemailer": "^6.3.1",
     "request": "^2.88.0",
     "ws": "^7.2.5"
