@@ -15,7 +15,9 @@ module.exports = fp => {
             firstTime: true,
         },
         load: () => {
+            fs2.ensureFileSync(fp)
             const s = fs.readFileSync(fp)
+            if (!s) s = "{}"
             const d = JSON.parse(s)
             return d
         },
