@@ -1,4 +1,5 @@
 const fs = require('fs')
+const fs2 = require('fs-extra')
 const {
     ipcMain
 } = require('electron')
