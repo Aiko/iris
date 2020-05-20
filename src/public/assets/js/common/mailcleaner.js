@@ -166,7 +166,7 @@ const MailCleaner = (() => {
         //* if it's not a verification email try to show an unsubscribe button
         let unsubLink = email.parsed.headers?.['list-unsubscribe']
         const unsubLinks = links.filter(link => link.href.includes('unsubscribe'))
-        if (unsubLinks?.length > 0) unsubLink = unsubLinks[0]
+        if (unsubLinks?.length > 0) unsubLink = unsubLinks[0].href
         if (!email.ai.intents.verify && unsubLink) {
             email.ai.links.unsubscribe = unsubLink.replace(/<|>/g, '')
             email.ai.intents.main = 'unsubscribe'
