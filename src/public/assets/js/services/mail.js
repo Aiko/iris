@@ -31,6 +31,10 @@ const mailapi = {
             emails: []
         },
         boards: {},
+        done: {
+            uidLatest: -1,
+            emails: []
+        },
         syncing: false,
         cachingInbox: false,
         dragging: false
@@ -351,6 +355,8 @@ const mailapi = {
 
             this.inbox.emails = []
             this.inbox.uidLatest = -1
+            this.done.emails = []
+            this.done.uidLatest = -1
             this.boardNames = []
             this.folderNames = {
                 inbox: 'INBOX',
@@ -398,6 +404,27 @@ const mailapi = {
                     }
                 }
             }
+            // load cache for done
+            const doneCache = (
+                await BigStorage.load(this.imapConfig.email + '/done') ||
+                this.done)
+            doneCache.emails = await MailCleaner.peek(this.folderNames.done, doneCache.emails)
+            this.done = doneCache
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            log("changing uid to", wasUID)
+                            this.done.emails[i].inboxUID = wasUID
+                        }
+                    }
+                }
+            }
 
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
@@ -416,8 +443,10 @@ const mailapi = {
             // sync boards and save their cache
             await Promise.all(
                 this.boardNames.map(async boardName => await this.initialSyncBoard(boardName, newest=false)))
+            await this.initialSyncDone(newest=false)
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+            await BigStorage.store(this.imapConfig.email + '/done', this.done)
             // FIXME: must be better way to do this
             for (let board of this.boardNames) {
                 // TODO: this could easily be refactored into a map or something
@@ -433,6 +462,21 @@ const mailapi = {
                                 log("Changing uid to", wasUID)
                                 this.boards[board].emails[i].inboxUID = wasUID
                             }
+                        }
+                    }
+                }
+            }
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            log("changing uid to", wasUID)
+                            this.done.emails[i].inboxUID = wasUID
                         }
                     }
                 }
@@ -511,6 +555,21 @@ const mailapi = {
                     }
                 }
             }
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            log("changing uid to", wasUID)
+                            this.done.emails[i].inboxUID = wasUID
+                        }
+                    }
+                }
+            }
             this.loading = false
             this.syncing = false
             console.timeEnd("Initial Sync")
@@ -548,6 +607,41 @@ const mailapi = {
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             success(...MAILAPI_TAG, "Finished updating", boardName)
+            this.syncing = false
+        },
+        async initialSyncDone(newest=false) {
+            this.syncing = true
+            if (!newest) info(...MAILAPI_TAG, "FULLY syncing", this.folderNames.done)
+            // boardname should be the path!
+            const board = this.done
+            if (!board) return console.warn("Tried to sync", this.folderNames.done, "but the board is not yet created.")
+            let uidMin = 1
+            const { uidLatest } = board
+            if (newest && uidLatest > 0) uidMin = uidLatest + 1
+            const {
+                uidNext
+            } = await this.callIPC(this.task_OpenFolder(this.folderNames.done))
+            if (!uidNext || uidNext.error) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+
+            if (uidNext - uidMin > 100) {
+                info(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
+                uidMin = uidNext - 100
+            }
+            uidMin = Math.max(1, uidMin)
+
+            info(...MAILAPI_TAG, `Updating ${this.folderNames.done} - scanning ${uidMin}:${uidNext}`)
+
+            const emails = await this.callIPC(
+                this.task_FetchEmails(this.folderNames.done, `${uidMin}:${uidNext}`, false))
+            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            const processed_emails = await MailCleaner.full(this.folderNames.done, emails.reverse())
+            // TODO: ai should be stored in their headers automatically.
+
+            if (newest) this.done.emails.unshift(...processed_emails)
+            else this.done.emails = processed_emails
+            if (this.done.emails.length > 0)
+                this.done.uidLatest = Math.max(...this.done.emails.map(email => email.uid))
+            success(...MAILAPI_TAG, "Finished updating", this.folderNames.done)
             this.syncing = false
         },
         async syncWithMailServer() {
@@ -638,6 +732,21 @@ const mailapi = {
                     }
                 }
             }
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            log("changing uid to", wasUID)
+                            this.done.emails[i].inboxUID = wasUID
+                        }
+                    }
+                }
+            }
         },
         async checkForUpdates() {
             info(...MAILAPI_TAG, "Checking for updates to existing emails.")
@@ -718,6 +827,31 @@ const mailapi = {
             }
             // cache boards
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+
+            // update done
+            // check inbox
+            const doneDelta = await getChanges(
+                //this.inbox.modSeq,
+                this.folderNames.done,
+                this.done.emails.filter(e => e.folder == "INBOX").map(e => e.inboxUID || e.uid)
+            )
+            info(...MAILAPI_TAG, "Computed Done delta.")
+            // update the inbox
+            //this.inbox.modSeq = inboxDelta.highestModseq
+            this.done.emails = await Promise.all(this.done.emails.map(
+                async email => {
+                    if (doneDelta[email.uid]) {
+                        const flags = doneDelta[email.uid]
+                        Object.assign(email.flags, flags)
+                        email.ai.seen = flags.includes('\\Seen')
+                        email.ai.deleted = flags.includes('\\Deleted')
+                    } else if (email.folder == 'INBOX') {
+                        email.ai.deleted = true
+                    }
+                    return email
+                }
+            ))
+            info(...MAILAPI_TAG, "Synced done messages with remote flags.")
         },
         async getOldMessages() {
             if (this.inbox.emails.length <= 0) {
@@ -836,6 +970,19 @@ const mailapi = {
                                 return [email, ...email?.parsed?.thread?.messages]
                             return [email]
                         }
+                    }
+                }
+
+                // search done
+                for (let i = 0; i < this.done.emails.length; i++) {
+                    const email = this.done.emails[i]
+                    if (email.envelope['message-id'] == reply_id) {
+                        //log("Had email in done.")
+                        this.done.emails[i].ai.threaded = true
+                        Vue.set(this.done.emails, i, this.done.emails[i])
+                        if (email?.parsed?.thread?.messages)
+                            return [email, ...email?.parsed?.thread?.messages]
+                        return [email]
                     }
                 }
 
@@ -983,6 +1130,25 @@ const mailapi = {
                 }
             }
 
+            // thread everything in done
+            for (let i = 0; i < this.done.emails.length; i++) {
+                const email = this.done.emails[i]
+                const reply_id = email?.envelope?.['in-reply-to']
+                if (reply_id) {
+                    reply_ids.add(reply_id)
+                    // note that it has a thread
+                    this.done.emails[i].ai.thread = true
+                    if (this.done.emails[i].parsed) {
+                        // if it isn't already threaded
+                        if (!this.done.emails[i]?.ai?.threaded) {
+                            this.done.emails[i].parsed.thread = await this.getThread(this.done.emails[i])
+                        }
+                    } else {
+                        window.error("Email does not have body:", this.done.emails[i])
+                    }
+                }
+            }
+
             // if a message is part of a thread (was replied to by an email we have)
             // => it must have been used in a thread when we called getThread
             // => it is already threaded and we should make sure it's marked as such
@@ -1004,6 +1170,14 @@ const mailapi = {
                     }
                 }
             }
+            for (let i = 0; i < this.done.emails.length; i++) {
+                const email = this.done.emails[i]
+                const msgId = email?.envelope?.['message-id']
+                if (msgId && reply_ids.has(msgId)) {
+                    this.done.emails[i].ai.threaded = true
+                    Vue.set(this.done.emails, i, this.done.emails[i])
+                }
+            }
 
             info(...MAILAPI_TAG, "Finished threading")
             // trigger UI update
@@ -1011,6 +1185,7 @@ const mailapi = {
             for (let boardName of this.boardNames) {
                 this.boards[boardName].emails = this.boards[boardName].emails.map(_=>_)
             }
+            this.done.emails = this.done.emails.map(_=>_)
             // save cache
             await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
         },
@@ -1034,6 +1209,13 @@ const mailapi = {
                 for (let i = 0; i < app.inbox.emails.length; i++) {
                     if (app.inbox.emails[i].uid == uid) {
                         email = app.inbox.emails[i]
+                        break
+                    }
+                }
+            } else if (from.id == 'aikomail--done') {
+                for (let i = 0; i < app.done.emails.length; i++) {
+                    if (app.done.emails[i].uid == uid) {
+                        email = app.done.emails[i]
                         break
                     }
                 }
@@ -1087,7 +1269,7 @@ const mailapi = {
                 return;
             }
 
-            // 2 types of events, to inbox and to board
+            // 2 types of events, to inbox, to board
             // to inbox
             if (to.id == 'aikomail--inbox') {
                 let email, index;
@@ -1140,10 +1322,19 @@ const mailapi = {
                 // to.parentElement.parentElement.getAttribute('board-name')
                 // get email, calculate index ourselves
                 let email;
-                for (let i = 0; i < app.boards[boardName].emails.length; i++) {
-                    if (app.boards[boardName].emails[i].uid == uid) {
-                        email = app.boards[boardName].emails[i]
-                        break
+                if (boardName == 'done') {
+                    for (let i = 0; i < app.done.emails.length; i++) {
+                        if (app.done.emails[i].uid == uid) {
+                            email = app.done.emails[i]
+                            break
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < app.boards[boardName].emails.length; i++) {
+                        if (app.boards[boardName].emails[i].uid == uid) {
+                            email = app.boards[boardName].emails[i]
+                            break
+                        }
                     }
                 }
                 if (!email) return window.error(...MAILAPI_TAG, "Couldn't find an email with that UID in the board.")
@@ -1158,7 +1349,8 @@ const mailapi = {
                 // set the folder it originated from
                 if (!email.syncFolder) email.syncFolder = email.folder
                 // update UI right away though!
-                email.folder = boardName
+                if (boardName == 'done') email.folder = this.folderNames.done
+                else email.folder = boardName
                 email.dragging = false
 
                 // Sync
@@ -1214,8 +1406,13 @@ const mailapi = {
                     // clean up post-sync
                     email.syncing = false
                     email.syncFolder = null
-                    if (app.boards[boardName].emails.length > 0)
-                        app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
+                    if (boardName == 'done') {
+                        if (app.done.emails.length > 0)
+                            app.done.uidLatest = Math.max(...app.done.emails.map(email => email.uid))
+                    } else {
+                        if (app.boards[boardName].emails.length > 0)
+                            app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
+                    }
                     info(...MAILAPI_TAG, "Saving boards cache")
                     await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
                     info(...MAILAPI_TAG, "Saving inbox cache...")
@@ -1224,7 +1421,12 @@ const mailapi = {
                         //modSeq: this.inbox.modSeq,
                         emails: this.inbox.emails.slice(0,200)
                     })
-                    info(...MAILAPI_TAG, "Saved inbox cache.")
+                    info(...MAILAPI_TAG, "Saving done cache...")
+                    await BigStorage.store(this.imapConfig.email + '/done', {
+                        uidLatest: this.done.uidLatest,
+                        emails: this.done.emails.slice(0, 100)
+                    })
+                    info(...MAILAPI_TAG, "Saved all caches.")
                 }
 
                 setTimeout(sync, SYNC_TIMEOUT)
@@ -1232,6 +1434,11 @@ const mailapi = {
             // TODO: special for done? idk
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
+            info(...MAILAPI_TAG, "Saving done cache...")
+            await BigStorage.store(this.imapConfig.email + '/done', {
+                uidLatest: this.done.uidLatest,
+                emails: this.done.emails.slice(0, 100)
+            })
         },
     }
 }

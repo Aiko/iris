@@ -372,7 +372,7 @@
                     v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
                 </draggable>
                 <div class="empty" v-if="board?.emails?.length == 0">
-                  <h1>Ryan's pussy juice.</h1>
+                  <h1>Drag emails here.</h1>
                 </div>
               </div>
             </div>
@@ -407,10 +407,16 @@
               </div>
             </div>
             <div class="board-body">
-              <div class="draggable-emails" group="board-emails" ghost-class="ghost" drag-class="drag">
-                <div slot="footer" class="empty">
-                  <h1>Drag emails here.</h1>
-                </div>
+              <!-- DON'T MODIFY BELOW -->
+              <draggable filter=".dont-drag-this" v-if="done" id="aikomail--done" v-model="done.emails"
+                :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
+                <!-- Single Email ---------- add class 'drag' when dragged ------->
+                <email-card :board="folderNames.done" v-if="email.folder == folderNames.done" :key="folderNames.done + email.uid"
+                  v-for="(email, i) in done.emails" :index="i" :email="email"></email-card>
+              </draggable>
+              <div class="empty" v-if="done?.emails?.length == 0">
+                <h1>Drag emails here.</h1>
               </div>
             </div>
           </div>
