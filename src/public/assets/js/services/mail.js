@@ -571,7 +571,7 @@ const mailapi = {
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
-            await this.halfThreading()
+            await this.halfThreading().catch(window.error)
             this.syncing = false
         },
         async checkForNewMessages() {

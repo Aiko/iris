@@ -992,7 +992,7 @@
     <!-- TODO: for ruben, fix ugly padding during drag........ -->
     <div :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
-        'zero': !(email?.ai?.summary),
+        'zero': !(email?.ai?.summary?.sentences?.length > 0),
         'syncing': email?.syncing,
         'dont-drag-this': email?.syncing,
         'starred': email?.ai?.starred,
@@ -1006,24 +1006,36 @@
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-            <img src="assets/icons/badges-tracker.svg" style="display: none;">
-            <img src="assets/icons/badges-event.svg" style="display: none;">
-            <img src="assets/icons/badges-bcc.svg" style="display: none;">
+            <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
+            <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
+            <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
           </div>
           <div class="col-4 p0 cll">
             <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
           </div>
           <p class="subject">{{email?.envelope?.subject}}</p>
-          <p v-if="email?.ai?.summary" class="body">{{email?.ai?.summary}}</p>
+          <p v-if="email?.ai?.summary?.sentences?.length > 0" class="body">{{email?.ai?.summary?.text}}</p>
         </div>
         <div class="email-footer dont-drag-this" style="user-select: none;">
           <div class="row">
             <div class="col-5 cll cll2">
-              <a class="main-action">
+              <a v-if="email?.ai?.intents?.main == 'schedule'" class="main-action">
+                <img src="assets/icons/badges-event.svg"> Schedule
+              </a>
+              <a v-if="email?.ai?.intents?.main == 'verify'" class="main-action">
+                <img src="assets/icons/link.svg"> Verify
+              </a>
+              <a v-if="email?.ai?.intents?.main == 'subscribe'" class="main-action">
+                <img src="assets/icons/link.svg"> Subscribe
+              </a>
+              <a v-if="email?.ai?.intents?.main == 'unsubscribe'" class="main-action">
+                <img src="assets/icons/link.svg"> Unsubscribe
+              </a>
+              <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action">
+                <img src="assets/icons/sign.svg"> Sign
+              </a>
+              <a v-if="email?.ai?.intents?.main == null" class="main-action">
                 <img src="assets/icons/zap.svg"> Quick Reply
-                <!-- TODO: Rig <img src="assets/icons/badges-event.svg"> Schedule -->
-                <!-- TODO: Rig <img src="assets/icons/link.svg"> Verify (and all other links) -->
-                <!-- TODO: Rig <img src="assets/icons/sign.svg"> Sign -->
               </a>
             </div>
             <div class="col-5 sync-message">
@@ -1064,6 +1076,7 @@
   <script src="assets/js/third-party/sortable.min.js"></script>
   <script src="assets/js/third-party/vue.min.js"></script>
   <script src="assets/js/third-party/vue-draggable.min.js"></script>
+  <script src="assets/js/third-party/chrono.min.js"></script>
 
   <!-- TODO: minify all sources into one js file -->
   <!-- common libraries -->
@@ -1071,6 +1084,7 @@
   <script src="assets/js/common/small-storage.js"></script>
   <script src="assets/js/common/big-storage.js"></script>
   <script src="assets/js/common/only-electron.js"></script>
+  <script src="assets/js/common/ai-core.js"></script>
   <script src="assets/js/common/mailcleaner.js"></script>
   <!-- services -->
   <script src="assets/js/services/ipc.js"></script>
