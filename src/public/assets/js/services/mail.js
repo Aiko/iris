@@ -219,6 +219,17 @@ const mailapi = {
         folderWithSlug(slug) {
             return `[Aiko Mail]/${slug}`
         },
+        async newBoard(slug) {
+            const boardName = this.folderWithSlug(slug)
+            if (this.boards[boardName]) return window.error("Tried to create board that exists.");
+            await this.callIPC(this.task_NewFolder(boardName))
+            Vue.set(this.boards, boardName, {
+                uidLatest: -1,
+                emails: [],
+                //modSeq: -1,
+            })
+            this.boardNames.push(boardName)
+        },
         async findFolderNames() {
             // load cache for folderNames and boardNames
             this.folderNames = (

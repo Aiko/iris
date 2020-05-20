@@ -5,7 +5,8 @@
   "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
-    "anus": "electron-forge start",
+    "start": "electron-forge start",
+    "anus": "tell application \"System Events\" to set picture of (reference to current desktop) to \"./public/assets/img/dash.jpg\"",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
