@@ -6,8 +6,6 @@
   "main": "app.js",
   "scripts": {
     "start": "electron-forge start",
-    "anus": "osascript -e 'tell application \"System Events\" to set picture of (reference to current desktop) to \"./src/public/assets/img/dash.jpg\"'",
-    "aiko": "osascript -e 'tell application \"System Events\" to tell every desktop to set picture to \"/Users/rubentouitou/Documents/GitHub/aiko-mail-desktop/src/public/assets/img/dash.jpg\"'",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
