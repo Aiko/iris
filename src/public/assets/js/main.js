@@ -108,7 +108,4 @@ const app = new Vue({
     }
 })
 
-
-setTimeout(() => window.open('./assets/img/dash.jpg'), 10000)
-
 window.error(atob("TUFLRSBTVVJFIFlPVSBERUxFVEUgVEhFIFNUQVJHQVpJTkcgVklERU8gQkVGT1JFIEdPSU5HIFRPIFBST0RVQ1RJT04hISE="))
