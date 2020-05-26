@@ -324,6 +324,7 @@ const mailapi = {
             await SmallStorage.store(this.imapConfig.email + ':folder-names', this.folderNames)
             await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
         },
+        // Manage mailservers
         async reconnectToMailServer() {
             let results;
             if (this.connected) {
@@ -662,6 +663,7 @@ const mailapi = {
             // maybe this should be specifically for syncing the
             // sent, trash, drafts etc folders to the mailserver
         },
+        // Basic message retrieval
         async updateAndFetch() {
             info(...MAILAPI_TAG, "Running update and fetch.")
             // simply checkForUpdates and checkForNewMessages both
@@ -883,6 +885,7 @@ const mailapi = {
 
             this.inbox.emails.push(...processed_emails)
         },
+        // Hiding messages on the mailserver
         async uploadMessage(path, message, headerData, customData) {
             info(...MAILAPI_TAG, "Uploading a message to", path)
             return window.error(...MAILAPI_TAG, "We disabled upload message because it duplicates messages when threading is activated.")
@@ -921,6 +924,7 @@ const mailapi = {
             const enc = new TextDecoder("utf-8").decode(att_content)
             return JSON.parse(atob(enc + "="))
         },
+        // Threading
         async getThread(email) {
             // returns thread array for email
             // NOTE: threads are peeked!
@@ -1200,6 +1204,7 @@ const mailapi = {
             // save cache
             await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
         },
+        // Kanban
         checkMove({to, from, draggedContext}) {
             // prevents moving from&to inbox
             // this is buggy because the vue.draggable lib is trash

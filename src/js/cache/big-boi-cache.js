@@ -26,6 +26,14 @@ module.exports = dir => {
             fs2.ensureFileSync(fp)
             const s = JSON.stringify(d)
             fs.writeFileSync(fp, s)
+        },
+        pop: key => {
+            key = clean_key(key)
+            const fp = `${dir}/${key}.json`
+            fs2.ensureFileSync(fp)
+            const s = fs.readFileSync(fp)
+            fs.unlinkSync(fp)
+            return s
         }
     }
     ipcMain.handle('save cache', (_, q) => {
@@ -49,6 +57,19 @@ module.exports = dir => {
             payload: {
                 success: true,
                 data: Cache.load(key)
+            }
+        }
+    })
+    ipcMain.handle('pop cache', (_, q) => {
+        // fetch & delete
+        const { key } = q
+        if (!key) return {
+            error: "Missing key"
+        }
+        return {
+            payload: {
+                success: true,
+                data: Cache.pop(key)
             }
         }
     })
