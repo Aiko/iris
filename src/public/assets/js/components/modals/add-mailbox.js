@@ -18,6 +18,16 @@ Vue.component('add-mailbox-modal', {
                 xoauth2: '',
                 secure: true,
                 provider: 'other'
+            },
+            smtpConfig: {
+                email: '',
+                host: '',
+                port: 587,
+                user: '',
+                pass: '',
+                xoauth2: '',
+                secure: true,
+                provider: 'other'
             }
         }
     },
@@ -33,32 +43,55 @@ Vue.component('add-mailbox-modal', {
             this.imapConfig.host = 'outlook.office365.com'
             this.imapConfig.port = 993
             this.imapConfig.provider = 'microsoft'
+            this.smtpConfig.host = 'outlook.office365.com'
+            this.smtpConfig.port = 587
+            this.smtpConfig.provider = 'microsoft'
             this.step = 2
         },
         async addOther() {
             this.step = 2
         },
-        async saveConfig() {
-            this.loading = true
-            const {
-                host, port, user, pass, xoauth2, secure
-            } = this.imapConfig
+        async testIMAP() {
             const testConnection = await app.ipcTask('please test a connection', {
-                host, port, user, pass, xoauth2, secure
+                ...this.imapConfig
             })
             const { valid, error } = await app.callIPC(testConnection).catch(_=>_)
+
             if (error || !valid) {
                 this.error = "We couldn't connect to your mail server. Please check your credentials or contact your administrator."
-                this.loading = false
+                return false
             }
             else {
                 this.error = ''
                 this.imapConfig.email = this.imapConfig.user
-                app.imapConfig = this.imapConfig
-                this.success()
-                this.closable = true
-                this.close()
+                return true
             }
+        },
+        async testSMTP() {
+            const testConnection = await app.ipcTask('please test SMTP connection', {
+                ...this.smtpConfig
+            })
+            const { valid, error } = await app.callIPC(testConnection).catch(_=>_)
+
+            if (error || !valid) {
+                this.error = "We couldn't verify your SMTP details. Please check your credentials or contact your administrator."
+                return false
+            }
+            else {
+                this.error = ''
+                this.smtpConfig.email = this.smtpConfig.user
+                return true
+            }
+        },
+        async saveConfig() {
+            this.loading = true
+            if (!(await this.testIMAP())) return (this.loading = false);
+            if (!(await this.testSMTP())) return (this.loading = false);
+            app.imapConfig = this.imapConfig
+            app.smtpConfig = this.smtpConfig
+            this.success()
+            this.closable = true
+            this.close()
         },
         async close() {
             if (this.closable)
