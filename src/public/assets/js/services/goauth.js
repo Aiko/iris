@@ -52,6 +52,17 @@ const goauth = {
             this.imapConfig.secure = true
             await this.saveIMAPConfig()
 
+            success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
+            this.smtpConfig.email = profile.email
+            this.smtpConfig.host = 'smtp.gmail.com'
+            this.smtpConfig.port = 587
+            this.smtpConfig.xoauth2 = xoauth
+            this.smtpConfig.user = profile.email
+            this.smtpConfig.pass = ''
+            this.smtpConfig.provider = 'google'
+            this.smtpConfig.secure = true
+            await this.saveSMTPConfig()
+
             success(...(GOAUTH_TAG), "Setting up Google configuration.")
             this.googleConfig.access_token = access_token
             this.googleConfig.id_token = id_token
@@ -100,6 +111,17 @@ const goauth = {
                 this.imapConfig.provider = 'google'
                 await this.saveIMAPConfig()
 
+                success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
+                this.smtpConfig.email = profile.email
+                this.smtpConfig.host = 'smtp.gmail.com'
+                this.smtpConfig.port = 587
+                this.smtpConfig.xoauth2 = xoauth
+                this.smtpConfig.user = profile.email
+                this.smtpConfig.pass = ''
+                this.smtpConfig.provider = 'google'
+                this.smtpConfig.secure = true
+                await this.saveSMTPConfig()
+
                 success(...(GOAUTH_TAG), "Setting up Google configuration.")
                 this.googleConfig.access_token = access_token
                 this.googleConfig.id_token = id_token
@@ -107,7 +129,7 @@ const goauth = {
                 this.googleConfig.scope = scope
                 await this.google_saveConfig()
 
-                await this.reconnectToMailServer
+                await this.reconnectToMailServer()
             }
         },
     }
