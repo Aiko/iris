@@ -9,7 +9,7 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configu  red\""
+    "lint": "echo \"No linting configured\""
   },
   "keywords": [],
   "author": {
