@@ -64,6 +64,12 @@ Vue.component('add-mailbox-modal', {
             else {
                 this.error = ''
                 this.imapConfig.email = this.imapConfig.user
+                this.smtpConfig.email = this.imapConfig.email
+                this.smtpConfig.provider = this.imapConfig.provider
+                this.smtpConfig.user = this.imapConfig.user
+                this.smtpConfig.pass = this.imapConfig.pass
+                this.smtpConfig.xoauth2 = this.imapConfig.xoauth2
+                this.smtpConfig.secure = this.imapConfig.secure
                 return true
             }
         },

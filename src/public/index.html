@@ -702,8 +702,8 @@
               <input v-model="imapConfig.pass" type="password" name="" placeholder="Password">
               <input v-model="imapConfig.host" type="url" name="" placeholder="IMAP Host">
               <input v-model="imapConfig.port" type="number" name="" placeholder="IMAP Port">
-              <input type="url" name="" placeholder="SMTP Host">
-              <input type="number" name="" placeholder="SMTP Port">
+              <input v-model="smtpConfig.host" type="url" name="" placeholder="SMTP Host">
+              <input v-model="smtpConfig.port" type="number" name="" placeholder="SMTP Port">
               <br><br>
               <a v-if="!loading" @click="saveConfig" class="blue">Add mailbox</a>
               <div v-if="loading" class="cs-loader">
