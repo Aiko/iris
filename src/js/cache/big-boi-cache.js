@@ -9,7 +9,7 @@ const {
 module.exports = dir => {
 
     const clean_key = key =>
-        key.replace(/[^A-z/\-_]/g, '');;
+        key.replace(/[^A-z0-9/\-_]/g, '');;
 
 
     const Cache = {
