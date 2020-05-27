@@ -5,8 +5,9 @@ const app = new Vue({
         aikoapi, // Aiko API
         windowManager, // window controls
         mailapi, // IMAP API
+        composer, // SMTP API
         goauth, // Google OAuth
-        modalmanager
+        modalmanager, // Modals
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],
