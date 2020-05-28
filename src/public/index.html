@@ -561,10 +561,10 @@
               <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
 
               <!-- Newest Message in Thread  -->
-              <view-email-single :expanded="true" :email="email"></view-email-single>
+              <view-email-single :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :email="e" v-for="e in email?.parsed?.thread?.messages">
+              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>
             <div class="secondary-email">

@@ -1,6 +1,11 @@
 Vue.component('view-email-single', {
-    props: ['email', 'expanded'],
+    props: ['emailsingle', 'expanded'],
     template: "#view-email-single",
+    data() {
+        return {
+            email: this.emailsingle
+        }
+    },
     computed: {
         sender() {
             return this?.email?.envelope?.from?.[0] || this?.email?.envelope?.sender?.[0] || {
@@ -21,13 +26,8 @@ Vue.component('view-email-single', {
         },
     },
     watch: {
-        email(_) {
-            this.setContent(blank="No message")
-        },
-        'email.parsed.html': function(_) {
-            this.setContent(blank="No message")
-        },
-        'email.parsed.text': function(_) {
+        emailsingle(_) {
+            this.email = this.emailsingle
             this.setContent(blank="No message")
         }
     },
