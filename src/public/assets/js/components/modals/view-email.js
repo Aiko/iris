@@ -9,7 +9,7 @@ Vue.component('view-email', {
     async created() {
         //* first fetch the selected email
         console.time("Fetching selected email.")
-        const s = await app.executeIPC(app.task_FetchEmails(this.email.folder, this.email.uid, false, null, null, null))
+        const s = await app.executeIPC(app.task_FetchEmails(this.email.folder, this.email.uid, false, null, null, null, true))
         console.timeEnd("Fetching selected email.")
         if (!s?.[0]) return window.error("Couldn't fetch selected email.");
         this.email.parsed.text = s[0]?.parsed?.text
@@ -39,7 +39,7 @@ Vue.component('view-email', {
                 }
                 const sequence = ranges.join(',')
                 const fetched = await app.executeIPC(app.task_FetchEmails(
-                    folder, sequence, false, null, null, null
+                    folder, sequence, false, null, null, null, true
                 ))
                 console.timeEnd("Fetching emails from " + folder)
                 if (!fetched) {

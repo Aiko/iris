@@ -133,14 +133,15 @@ const mailapi = {
                 path,
             })
         },
-        task_FetchEmails(path, sequence, peek, modseq, limit, downloadAttachments) {
+        task_FetchEmails(path, sequence, peek, modseq, limit, downloadAttachments, markAsSeen) {
             return this.ipcTask('please get emails', {
                 path,
                 sequence,
                 peek,
                 //modseq,
                 limit,
-                downloadAttachments
+                downloadAttachments,
+                markAsSeen
             })
         },
         task_SearchEmails(path, query) {

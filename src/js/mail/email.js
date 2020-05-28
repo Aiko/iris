@@ -351,9 +351,10 @@ ipcMain.handle('please open a folder', async (_, q) => {
 
 // Get Emails
 ipcMain.handle('please get emails', async (_, q) => {
-    const { path, sequence, peek, token, modseq, limit, downloadAttachments } = q
+    const { path, sequence, peek, token, modseq, limit, downloadAttachments, markAsSeen } = q
     const query = ['uid', 'flags', 'envelope']
-    if (!peek) query.push('body.peek[]', 'bodystructure')
+    if (!peek && !markAsSeen) query.push('body.peek[]', 'bodystructure')
+    else if (!peek && markAsSeen) query.push('body[]', 'bodystructure')
     const options = {
         byUid: true,
     }
