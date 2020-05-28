@@ -370,7 +370,9 @@ ipcMain.handle('please get emails', async (_, q) => {
     }
 
     // Log.log("Fetching messages.")
+    // console.time("Fetch messages: " + path + ", " + sequence)
     let messages; try { messages = await client.listMessages(path, sequence, query, options) } catch (e) { return { error: e } }
+    // console.timeEnd("Fetch messages: " + path + ", " + sequence)
     // NOTE: uncomment the latter half of below conditional if you
     // want it to strictly return something no matter what
     if (!messages/*|| messages.length===0*/)
@@ -378,7 +380,7 @@ ipcMain.handle('please get emails', async (_, q) => {
 
     // Log.log("Received messages.")
     // in mailparser we trust
-    //console.time("Parse messages")
+    // console.time("Parse messages")
     if (limit && messages.length > limit)
         messages = messages.slice(messages.length - limit)
     if (!peek) messages = await Promise.all(messages.map(async msg => {
