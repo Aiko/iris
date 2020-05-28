@@ -1180,7 +1180,7 @@ hr {
 .email {
 	position: relative;
 	background: var(--email-bg-color);
-	border-radius: 3px;
+	border-radius: 4px;
 	box-shadow: 0 4px 4px 0 #0000000a;
 	border-left: 3px solid #0000002e !important;
 	cursor: grab;
@@ -1641,7 +1641,7 @@ hr {
 	visibility: hidden;
 	height: 0;
 	opacity: 0;
-	transition: .2s;
+	transition: .1s;
 }
 
 .email-head .aiko-select {
