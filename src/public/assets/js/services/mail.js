@@ -1406,7 +1406,8 @@ const mailapi = {
                         email.syncFolder, email.folder,
                         email.syncFolder == 'INBOX' ? email.inboxUID : email.uid
                     ))
-                    const destSeqSet = d?.destSeqSet;
+                    let destSeqSet = d?.destSeqSet;
+                    if (!destSeqSet && d?.copyuid) destSeqSet = d.copyuid.last()
                     if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d, email);
                     // TODO: should probably move it back if we failed
                     info(...MAILAPI_TAG, "Moved email",
