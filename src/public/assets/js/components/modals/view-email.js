@@ -59,6 +59,7 @@ Vue.component('view-email', {
             })
         }
         info("Here is your view email:", this.email)
+        this.email = JSON.parse(JSON.stringify(this.email))
     },
     methods: {
         close() {
