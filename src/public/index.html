@@ -530,7 +530,7 @@
         </div>
       </div>
     </div>
-
+    <!-- TODO: add this video to initial load -->
     <!-- TUTORIAL MODAL -->
     <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
@@ -1033,9 +1033,16 @@
               <img src="assets/icons/badges-tracker.svg">
               <img src="assets/icons/badges-event.svg">
               <img src="assets/icons/badges-bcc.svg">
+                <select class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
+                <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
+              </select>
+
+
+              <!-- FUTURE DROP DOWN FOR BOARD CHANGE
               <select class="aiko-select">
                 <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
               </select>
+              -->
             </div>
             <div class="col-4 p0">
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
