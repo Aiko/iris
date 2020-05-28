@@ -6,7 +6,7 @@ ipcMain.handle('please send an email', async (_, q) => {
     const {
         token,
         mail, // mail options
-        email, // email address
+        user,
         pass,
         xoauth2,
         secure,
@@ -22,13 +22,13 @@ ipcMain.handle('please send an email', async (_, q) => {
     const transporter = !!pass ? nodemailer.createTransport({
         host, port, secure,
         auth: {
-            user: email, pass,
+            user, pass,
         }
     }) : nodemailer.createTransport({
         service: "gmail",
         auth: {
             type: "OAuth2",
-            user: email,
+            user,
             accessToken: xoauth2
         }
     });;
@@ -43,7 +43,7 @@ ipcMain.handle('please send an email', async (_, q) => {
 ipcMain.handle('please test SMTP connection', async (_, q) => {
     const {
         token,
-        email, pass, xoauth2,
+        user, pass, xoauth2,
         secure, host, port,
     } = q
 
@@ -55,19 +55,19 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
     const transporter = !!pass ? nodemailer.createTransport({
         host, port, secure,
         auth: {
-            user: email, pass,
+            user, pass,
         }
     }) : nodemailer.createTransport({
         service: "gmail",
         auth: {
             type: "OAuth2",
-            user: email,
+            user,
             accessToken: xoauth2
         }
     });;
 
     const d = await new Promise((s, _) => {
-        transporter.verify((error, success) => error ? s({error,}) : s({success,}))
+        transporter.verify((error, success) => error ? s({error,}) : s({valid: success}))
     })
 
     return { s: comms["👉"](client_secret, { success: true, payload: d }) }
