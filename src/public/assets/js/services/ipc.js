@@ -141,6 +141,21 @@ const ipc = {
                 q: this.middleware.encode(data)
             }
         },
+        async executeIPC(...tasks) {
+            //* WARNING: this is immediate don't use this unless you have to
+            const results = []
+            try {
+                for ({channel, q} of tasks) {
+                    const res = await ipcRenderer.invoke(channel, q)
+                    results.push(this.middleware.decode(res))
+                }
+                if (results.length == 1) return results[0]
+                else return results
+            } catch (error) {
+                window.error(error)
+                return {error,}
+            }
+        },
         callIPC(...tasks) {
             if (tasks.length == 0) throw "Calling IPC with no tasks"
             return new Promise((s, _) => {
