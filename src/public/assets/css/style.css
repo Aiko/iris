@@ -1504,6 +1504,7 @@ hr {
 	border: none;
 	border-radius: 0 0 4px 4px;
 	box-shadow: 0 4px 9px #00000026;
+	background: #fff;
 }
 
 .main-email {
@@ -1578,7 +1579,7 @@ hr {
 
 .email-head h3 {
 	color: var(--subject-text-color);
-	font-size: 17px;
+	font-size: 16px;
 	font-weight: 600;
 	margin-top: 7px;
 }
@@ -1685,6 +1686,7 @@ select.v1 {
 	overflow-y: hidden;
 	padding-top: 17px;
 	width: 100%;
+	margin-bottom: -4px;
 }
 
 .secondary-head {
