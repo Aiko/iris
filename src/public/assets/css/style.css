@@ -1563,6 +1563,7 @@ hr {
 	padding: 25px 25px 15px 25px;
 	/* border-bottom: solid var(--main-text-color) 1px; */
 	position: relative;
+	cursor: pointer;
 }
 
 .email-head .head-name {
@@ -1631,7 +1632,6 @@ hr {
 }
 
 .short .email-head {
-	padding: 15px 25px 5px 25px;
 	transition: .2s;
 }
 
@@ -1639,7 +1639,8 @@ hr {
 .short .options,
 .short .options-qa {
 	visibility: hidden;
-	height: 0px;
+	height: 0;
+	opacity: 0;
 	transition: .2s;
 }
 
@@ -1666,6 +1667,18 @@ hr {
 .email:hover {
 	background: var(--email-hover-bg-color);
 	transition: .2s;
+}
+
+select.v1 {
+	background: var(--main-color) !important;
+	color: #fff !important;
+	padding: 0 4px;
+	height: 19px;
+	margin-top: 2px;
+	font-size: 12px !important;
+	-webkit-appearance: none;
+	font-weight: 500;
+	width: unset !important;
 }
 
 .email-body {
@@ -1738,6 +1751,7 @@ hr {
 	float: right;
 	border-radius: 4px 0 0 0;
 	padding: 3px 6px 7px 6px;
+	opacity: 1;
 	margin-bottom: -17px;
 	text-align: center;
 	margin-right: -25px;
