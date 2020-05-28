@@ -669,7 +669,9 @@ const mailapi = {
             // simply checkForUpdates and checkForNewMessages both
             if (this.syncing) return info(...MAILAPI_TAG, "Already syncing. Cancelling flow.")
             this.syncing = true
+            info(...MAILAPI_TAG, "Checking for updates...")
             await this.checkForUpdates()
+            info(...MAILAPI_TAG, "Checking for new messages...")
             await this.checkForNewMessages()
             // we can call initial sync board here
             // only because it only checks for new emails
@@ -677,7 +679,9 @@ const mailapi = {
             // for something to be unsynced older than latest
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
+            info(...MAILAPI_TAG, "Syncing new boards...")
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
+            info(...MAILAPI_TAG, "Threading...")
             await this.halfThreading().catch(window.error)
             this.syncing = false
         },
@@ -966,7 +970,7 @@ const mailapi = {
                     const email = this.inbox.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
                         //log("Had email in inbox.")
-                        this.inbox.emails[i].ai.threaded = true
+                        this.inbox.emails[i].ai.threaded = "INBOX"
                         Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
@@ -980,7 +984,7 @@ const mailapi = {
                         const email = this.boards[board].emails[i]
                         if (email.envelope['message-id'] == reply_id) {
                             //log("Had email in a board.")
-                            this.boards[board].emails[i].ai.threaded = true
+                            this.boards[board].emails[i].ai.threaded = board
                             if (email?.parsed?.thread?.messages)
                                 return [email, ...email?.parsed?.thread?.messages]
                             return [email]
@@ -993,7 +997,7 @@ const mailapi = {
                     const email = this.done.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
                         //log("Had email in done.")
-                        this.done.emails[i].ai.threaded = true
+                        this.done.emails[i].ai.threaded = "done"
                         Vue.set(this.done.emails, i, this.done.emails[i])
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
@@ -1171,7 +1175,7 @@ const mailapi = {
                 const email = this.inbox.emails[i]
                 const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
-                    this.inbox.emails[i].ai.threaded = true
+                    this.inbox.emails[i].ai.threaded = "INBOX"
                     Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                 }
             }
@@ -1180,7 +1184,7 @@ const mailapi = {
                     const email = this.boards[boardName].emails[i]
                     const msgId = email?.envelope?.['message-id']
                     if (msgId && reply_ids.has(msgId)) {
-                        this.boards[boardName].emails[i].ai.threaded = true
+                        this.boards[boardName].emails[i].ai.threaded = boardName
                         Vue.set(this.boards[boardName].emails, i, this.boards[boardName].emails[i])
                     }
                 }
@@ -1189,7 +1193,7 @@ const mailapi = {
                 const email = this.done.emails[i]
                 const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
-                    this.done.emails[i].ai.threaded = true
+                    this.done.emails[i].ai.threaded = "done"
                     Vue.set(this.done.emails, i, this.done.emails[i])
                 }
             }
