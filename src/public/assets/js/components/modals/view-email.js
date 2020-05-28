@@ -16,7 +16,7 @@ Vue.component('view-email', {
         this.email.parsed.html = s[0]?.parsed?.html
         // this.email.parsed.attachments = s[0]?.parsed?.attachments || this.email.parsed?.attachments
         //* then fetch the thread
-        if (this.email.parsed.thread) {
+        if (this.email.parsed.thread?.messages?.length > 0) {
             const to_fetch = {}
             for (const threaded_email of this.email.parsed.thread.messages) {
                 if (!to_fetch[threaded_email.folder]) to_fetch[threaded_email.folder] = []
