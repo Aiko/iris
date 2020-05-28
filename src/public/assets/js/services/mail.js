@@ -509,10 +509,10 @@ const mailapi = {
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
-            info(...MAILAPI_TAG, "Fetching latest 100 emails from inbox.")
+            info(...MAILAPI_TAG, "Fetching latest 200 emails from inbox.")
 
             let MESSAGE_COUNT = 0
-            const MAX_COUNT = 100
+            const MAX_COUNT = 200
             const INCREMENT = MAX_COUNT * 2 // GOTTA GO FAST
             const emails = []
             let uidMax = uidNext
