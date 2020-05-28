@@ -530,7 +530,7 @@
         </div>
       </div>
     </div>
-
+    <!-- TODO: add this video to initial load -->
     <!-- TUTORIAL MODAL -->
     <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
@@ -564,7 +564,8 @@
               <view-email-single :expanded="true" :email="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :email="e" v-for="e in email?.parsed?.thread?.messages">
+              <view-email-single :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :email="e"
+                v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>
             <div class="secondary-email">
