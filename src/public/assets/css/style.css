@@ -1560,7 +1560,7 @@ hr {
 }
 
 .email-head {
-	padding: 25px 25px 15px 25px;
+	padding: 15px 25px 0 25px;
 	/* border-bottom: solid var(--main-text-color) 1px; */
 	position: relative;
 	cursor: pointer;
