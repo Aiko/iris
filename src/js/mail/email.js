@@ -351,7 +351,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
 
 // Get Emails
 ipcMain.handle('please get emails', async (_, q) => {
-    const { path, sequence, peek, token, modseq, limit } = q
+    const { path, sequence, peek, token, modseq, limit, downloadAttachments } = q
     const query = ['uid', 'flags', 'envelope']
     if (!peek) query.push('body.peek[]', 'bodystructure')
     const options = {
@@ -393,6 +393,8 @@ ipcMain.handle('please get emails', async (_, q) => {
         // console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
         msg.parsed.textAsHtml = ''
         msg.parsed.attachments = msg.parsed.attachments.map(_ => {
+            // TODO: maybe cache the attachment somehow so this is dynamic
+            if (downloadAttachments) return _;
             // only allows aiko metadata
             if (!(_.contentType.includes("aiko/"))) _.content = null;
             return _
