@@ -133,13 +133,14 @@ const mailapi = {
                 path,
             })
         },
-        task_FetchEmails(path, sequence, peek, modseq, limit) {
+        task_FetchEmails(path, sequence, peek, modseq, limit, downloadAttachments) {
             return this.ipcTask('please get emails', {
                 path,
                 sequence,
                 peek,
                 //modseq,
-                limit
+                limit,
+                downloadAttachments
             })
         },
         task_SearchEmails(path, query) {
@@ -587,6 +588,11 @@ const mailapi = {
             console.timeEnd("Initial Sync")
         },
         async initialSyncBoard(boardName, newest=false) {
+            /* FIXME:
+             * this should only check for updates in a peeked way for all emails
+             * and should only fetch all for latest.
+             * most likely there needs to be something to check for updates with peek
+            */
             this.syncing = true
             if (!newest) info(...MAILAPI_TAG, "FULLY syncing", boardName)
             // boardname should be the path!
