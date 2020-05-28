@@ -103,6 +103,9 @@ Vue.component('email-card', {
                 )
                 this.saveToCache()
             }
+        },
+        async viewMessage() {
+            app.viewEmail = this.email
         }
     }
 })

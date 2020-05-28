@@ -365,11 +365,12 @@
               <div class="board-body">
                 <!-- DON'T MODIFY BELOW -->
                 <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
-                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
-                  :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
+                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
+                  :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                   <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card :board="boardName" v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)" :key="boardName + email.uid"
-                    v-for="(email, i) in board?.emails" :index="i" :email="email"></email-card>
+                  <email-card :board="boardName" v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
+                    :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :email="email">
+                  </email-card>
                 </draggable>
                 <div class="empty" v-if="board?.emails?.length == 0">
                   <h1>Drag emails here.</h1>
@@ -412,8 +413,9 @@
                 :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <email-card :board="folderNames.done" v-if="email.folder == folderNames.done" :key="folderNames.done + email.uid"
-                  v-for="(email, i) in done.emails" :index="i" :email="email"></email-card>
+                <email-card :board="folderNames.done" v-if="email.folder == folderNames.done"
+                  :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i" :email="email">
+                </email-card>
               </draggable>
               <div class="empty" v-if="done?.emails?.length == 0">
                 <h1>Drag emails here.</h1>
@@ -550,109 +552,111 @@
     </tutorial-modal>
 
     <!-- VIEW EMAIL -->
-    <div class="aiko-modal" style="display: none;">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="main-email">
-            <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
-            <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
-            <!-- Single Message in Thread -->
-            <div class="single-email">
-              <div class="email-head">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-8 p0" style="display: inline-flex;height: 22px;">
-                      <h2 class="sender">
-                        Ruben Touitou</h2>
-                      <img src="assets/icons/badges-attach.svg">
-                      <img src="assets/icons/badges-tracker.svg">
-                      <img src="assets/icons/badges-event.svg">
-                      <img src="assets/icons/badges-bcc.svg">
-                      <select class="aiko-select">
-                        <option value="1">Inbox</option>
-                        <option value="2">To-Do</option>
-                        <option value="3">Show Priansh</option>
-                        <option value="4" selected="selected">Done</option>
-                      </select>
-                    </div>
-                    <div class="col-4 p0">
-                      <div class="time">6:18PM</div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <h3>This is a subject line</h3>
-                  </div>
-                </div>
-
-                <div class="options-qa">
-                  <a target="_blank" tooltip="Quick Action">
-                    <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
-                  </a>
-                </div>
-
-                <div class="options">
+    <view-email v-if="viewEmail" :email-card="viewEmail" inline-template>
+      <div class="aiko-modal">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="main-email">
+              <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
+              <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
+              <!-- Single Message in Thread -->
+              <div class="single-email">
+                <div class="email-head">
                   <div class="container">
                     <div class="row">
-                      <div class="col-2 p0">
-                        <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+                      <div class="col-8 p0" style="display: inline-flex;height: 22px;">
+                        <h2 class="sender">
+                          Ruben Touitou</h2>
+                        <img src="assets/icons/badges-attach.svg">
+                        <img src="assets/icons/badges-tracker.svg">
+                        <img src="assets/icons/badges-event.svg">
+                        <img src="assets/icons/badges-bcc.svg">
+                        <select class="aiko-select">
+                          <option value="1">Inbox</option>
+                          <option value="2">To-Do</option>
+                          <option value="3">Show Priansh</option>
+                          <option value="4" selected="selected">Done</option>
+                        </select>
                       </div>
-                      <div class="col-2 p0">
-                        <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
                       </div>
-                      <div class="col-2 p0">
-                        <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                      </div>
-                      <div class="col-2 p0">
-                        <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
-                      </div>
-                      <div class="col-2 p0">
-                        <a tooltip="Unsubscribe"><img src="assets/icons/options-unsub.svg" width="20"></a>
-                      </div>
-                      <div class="col-2 p0">
-                        <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
+                    </div>
+                    <div class="row">
+                      <h3>This is a subject line</h3>
+                    </div>
+                  </div>
+
+                  <div class="options-qa">
+                    <a target="_blank" tooltip="Quick Action">
+                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+                    </a>
+                  </div>
+
+                  <div class="options">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-2 p0">
+                          <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a tooltip="Unsubscribe"><img src="assets/icons/options-unsub.svg" width="20"></a>
+                        </div>
+                        <div class="col-2 p0">
+                          <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="email-body">
-                <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
+                <div class="email-body">
+                  <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
                 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
-                <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                  src=""></iframe>
-              </div>
-            </div>
-          </div>
-          <div class="secondary-email">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="secondary-head">
-              <div class="container">
-                <div class="row">
-                  <div class="col-3 p0">
-                    <img src="assets/img/avatar.png">
-                  </div>
-                  <div class="col-9 p0 spe">
-                    <h1>Ruben Touitou</h1>
-                    <h2>rubentouit@yahoo.fr</h2>
-                  </div>
+                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
+                    src=""></iframe>
                 </div>
               </div>
             </div>
-
-            <h3>Previous threads with Ruben</h3>
-            <div class="previous-threads">
-              <div class="email thread">
-                <div class="container pr" data-toggle="modal" data-target=".email1">
-                  <div class="row" style="user-select: none;">
-                    <div class="col-8 p0" style="display: inline-flex;">
-                      <p class="subject">This is the subject</p>
+            <div class="secondary-email">
+              <img src="assets/icons/grey-x.svg" class="x-email">
+              <div class="secondary-head">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-3 p0">
+                      <img src="assets/img/avatar.png">
                     </div>
-                    <div class="col-4 p0">
-                      <div class="time">6:18PM</div>
+                    <div class="col-9 p0 spe">
+                      <h1>Ruben Touitou</h1>
+                      <h2>rubentouit@yahoo.fr</h2>
                     </div>
+                  </div>
+                </div>
+              </div>
 
-                    <p class="body">This is the main content of the email, it is suppose to be
-                      longer than the subject and a summary of the main content.</p>
+              <h3>Previous threads with Ruben</h3>
+              <div class="previous-threads">
+                <div class="email thread">
+                  <div class="container pr" data-toggle="modal" data-target=".email1">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -660,7 +664,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </view-email>
 
     <!-- NEW MAILBOX MODAL --------------------------------------->
     <add-mailbox-modal :googlestrategy="google_addMailbox" v-if="addMailbox" :success="switchMailServer"
@@ -1003,7 +1007,7 @@
         'dont-drag-this': email?.syncing,
         'starred': email?.ai?.starred,
       }" v-if="!email?.ai?.deleted">
-      <div class="container pr">
+      <div class="container pr" @click="viewMessage">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 class="sender" @click="debug">
@@ -1055,12 +1059,13 @@
               <a><img src="assets/icons/options-forward.png" width="15"></a>
 
               <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
-              <a @click="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
+              <a @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
                   width="15"></a>
-              <a @click="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
+              <a @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
                   width="15"></a>
 
-              <a @click="deleteMessage"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+              <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
+                  width="15"></a>
             </div>
           </div>
         </div>
@@ -1103,6 +1108,7 @@
   <!-- templates -->
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
+  <script src="assets/js/components/modals/view-email.js"></script>
   <script src="assets/js/components/email-card.js"></script>
   <script src="assets/js/components/board.js"></script>
   <!-- main/entrypoint -->
