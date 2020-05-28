@@ -809,8 +809,10 @@ const mailapi = {
             //this.inbox.modSeq = inboxDelta.highestModseq
             this.inbox.emails = await Promise.all(this.inbox.emails.map(
                 async email => {
-                    if (inboxDelta[email.uid]) {
-                        const flags = inboxDelta[email.uid]
+                    // this is here to reset uid if someone deletes it
+                    if (email.folder == "INBOX") email.uid = email.inboxUID || email.uid;
+                    if (inboxDelta[email.inboxUID || email.uid]) {
+                        const flags = inboxDelta[email.inboxUID || email.uid]
                         Object.assign(email.flags, flags)
                         email.ai.seen = flags.includes('\\Seen')
                         email.ai.deleted = flags.includes('\\Deleted')
