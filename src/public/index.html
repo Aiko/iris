@@ -552,79 +552,20 @@
     </tutorial-modal>
 
     <!-- VIEW EMAIL -->
-    <view-email v-if="viewEmail" :email-card="viewEmail" inline-template>
+    <view-email v-if="viewEmail" :emailcard="viewEmail" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
               <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
               <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
-              <!-- Single Message in Thread -->
-              <div class="single-email">
-                <div class="email-head">
-                  <div class="container">
-                    <div class="row">
-                      <div class="col-8 p0" style="display: inline-flex;height: 22px;">
-                        <h2 class="sender">
-                          Ruben Touitou</h2>
-                        <img src="assets/icons/badges-attach.svg">
-                        <img src="assets/icons/badges-tracker.svg">
-                        <img src="assets/icons/badges-event.svg">
-                        <img src="assets/icons/badges-bcc.svg">
-                        <select class="aiko-select">
-                          <option value="1">Inbox</option>
-                          <option value="2">To-Do</option>
-                          <option value="3">Show Priansh</option>
-                          <option value="4" selected="selected">Done</option>
-                        </select>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <h3>This is a subject line</h3>
-                    </div>
-                  </div>
 
-                  <div class="options-qa">
-                    <a target="_blank" tooltip="Quick Action">
-                      <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
-                    </a>
-                  </div>
+              <!-- Newest Message in Thread  -->
+              <view-email-single :expanded="true" :email="email"></view-email-single>
 
-                  <div class="options">
-                    <div class="container">
-                      <div class="row">
-                        <div class="col-2 p0">
-                          <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a tooltip="Unsubscribe"><img src="assets/icons/options-unsub.svg" width="20"></a>
-                        </div>
-                        <div class="col-2 p0">
-                          <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="email-body">
-                  <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
-                https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
-                  <iframe scrolling="no" frameborder="no" class="html-content email-iframe" id="messageBody"
-                    src=""></iframe>
-                </div>
-              </div>
+              <!-- Message in Thread -->
+              <view-email-single :expanded="false" v-if="email.parsed.thread" :email="e" v-for="e in email.parsed.thread.messages">
+              </view-email-single>
             </div>
             <div class="secondary-email">
               <img src="assets/icons/grey-x.svg" class="x-email">
@@ -1077,6 +1018,87 @@
     </div>
   </script>
 
+  <script type="text/x-template" id="view-email-single">
+    <div :class="{
+      'single-email': true,
+      'short': !expanded
+    }">
+      <div class="email-head" @click="expanded = !expanded">
+        <div class="container">
+          <div class="row">
+            <div class="col-8 p0" style="display: inline-flex;height: 22px;">
+              <h2 class="sender">
+                {{sender.name || sender.address}}</h2>
+              <img src="assets/icons/badges-attach.svg">
+              <img src="assets/icons/badges-tracker.svg">
+              <img src="assets/icons/badges-event.svg">
+              <img src="assets/icons/badges-bcc.svg">
+              <select class="aiko-select">
+                <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
+              </select>
+            </div>
+            <div class="col-4 p0">
+              <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
+            </div>
+          </div>
+          <div class="row">
+            <h3>{{email?.envelope?.subject}}</h3>
+          </div>
+        </div>
+
+        <div class="options-qa">
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'schedule'" tooltip="Quick Action">
+            <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+          </a>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'verify'" tooltip="Quick Action">
+            <h2 class="action"><img src="assets/icons/link.svg">Verify</h2>
+          </a>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'subscribe'" tooltip="Quick Action">
+            <h2 class="action"><img src="assets/icons/link.svg">Subscribe</h2>
+          </a>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'" tooltip="Quick Action">
+            <h2 class="action"><img src="assets/icons/link.svg">Unsubscribe</h2>
+          </a>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'" tooltip="Quick Action">
+            <h2 class="action"><img src="assets/icons/link.svg">Sign</h2>
+          </a>
+        </div>
+
+        <div class="options">
+          <div class="container">
+            <div class="row">
+              <div class="col-2 p0">
+                <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+              </div>
+              <div class="col-2 p0">
+                <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+              </div>
+              <div class="col-2 p0">
+                <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
+              </div>
+              <div class="col-2 p0">
+                <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
+              </div>
+              <div class="col-2 p0">
+                <a tooltip="Unsubscribe"><img src="assets/icons/options-unsub.svg" width="20"></a>
+              </div>
+              <div class="col-2 p0">
+                <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="email-body">
+        <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
+        https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
+        <iframe scrolling="no" frameborder="no" class="html-content email-iframe" :id="iframeId" src="">
+
+        </iframe>
+      </div>
+    </div>
+  </script>
+
   <!-- 3rd party libraries -->
   <script src="assets/js/third-party/popper.min.js"></script>
   <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
@@ -1110,6 +1132,7 @@
   <script src="assets/js/components/modals/add-mailbox.js"></script>
   <script src="assets/js/components/modals/view-email.js"></script>
   <script src="assets/js/components/email-card.js"></script>
+  <script src="assets/js/components/view-email-single.js"></script>
   <script src="assets/js/components/board.js"></script>
   <!-- main/entrypoint -->
   <script src="assets/js/main.js"></script>
