@@ -678,59 +678,62 @@
     </add-mailbox-modal>
 
     <!-- NEW BOARD MODAL --------------------------------------->
-    <div class="aiko-modal" style="display: none;">
-      <!-- STEP 1 - BOARD NAME --->
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
-            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1>Add a board</h1>
-            <h2>Enter a name for your board</h2>
-            <input type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
-            <br><br>
-            <div class="modal-bottom">
-              <a class="blue">Next</a>
+    <add-board-modal v-if="addBoard" inline-template>
+      <div class="aiko-modal" @click.self="close">
+        <!-- STEP 1 - BOARD NAME --->
+        <div v-if="step == 1" class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+              <h1>Add a board</h1>
+              <h2>Enter a name for your board</h2>
+              <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
+              <br><br>
+              <div class="modal-bottom">
+                <!-- TODO: change this to do step = 2 and then rig the board rules -->
+                <a @click="addBoard" class="blue">Next</a>
+              </div>
+              <br>
             </div>
-            <br>
           </div>
         </div>
-      </div>
-      <!-- STEP 2 - BOARD RULES (New Board only)--->
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
-            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1>Board rules (optional)</h1>
-            <br>
-            <div class="accordion" id="accordionExample">
-              <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                      aria-expanded="true" aria-controls="collapseOne">
-                      Add automatic forwarding
-                    </button>
-                  </h2>
-                </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
-                    <input type="text" name="rulesField" placeholder="Email">
+        <!-- STEP 2 - BOARD RULES (New Board only)--->
+        <div v-if="step == 2" class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+              <h1>Board rules (optional)</h1>
+              <br>
+              <div class="accordion" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Add automatic forwarding
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                      <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
+                      <input type="text" name="rulesField" placeholder="Email">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
-            <br><br><br>
-            <div class="modal-bottom">
-              <a class="blue">Add board</a>
+              <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
+              <br><br><br>
+              <div class="modal-bottom">
+                <a class="blue">Add board</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </add-board-modal>
 
 
     <!-- BOARD RULES (Board already exists) --------------------------------------->
@@ -1143,6 +1146,7 @@
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
   <script src="assets/js/components/modals/view-email.js"></script>
+  <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/email-card.js"></script>
   <script src="assets/js/components/view-email-single.js"></script>
   <script src="assets/js/components/board.js"></script>
