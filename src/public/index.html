@@ -564,7 +564,8 @@
               <view-email-single :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
+              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"
+                :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>
             <div class="secondary-email">
@@ -980,7 +981,7 @@
                 <img src="assets/icons/link.svg"> Subscribe
               </a>
               <a v-if="email?.ai?.intents?.main == 'unsubscribe'" class="main-action">
-                <img src="assets/icons/link.svg"> Unsubscribe
+                <img src="assets/icons/options-unsub.svg"> Unsubscribe
               </a>
               <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action">
                 <img src="assets/icons/sign.svg"> Sign
@@ -1025,7 +1026,7 @@
     }">
       <div class="email-head" @click="expanded = !expanded">
         <div class="container">
-          <div class="row">
+          <div class="row sender-top">
             <div class="col-8 p0" style="display: inline-flex;height: 22px;">
               <h2 class="sender">
                 {{sender.name || sender.address}}</h2>
@@ -1064,7 +1065,7 @@
             <h2 class="action"><img src="assets/icons/link.svg">Subscribe</h2>
           </a>
           <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/link.svg">Unsubscribe</h2>
+            <h2 class="action"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
           </a>
           <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'" tooltip="Quick Action">
             <h2 class="action"><img src="assets/icons/link.svg">Sign</h2>
@@ -1074,24 +1075,11 @@
         <div class="options">
           <div class="container">
             <div class="row">
-              <div class="col-2 p0">
                 <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
-              </div>
-              <div class="col-2 p0">
                 <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
-              </div>
-              <div class="col-2 p0">
                 <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-              </div>
-              <div class="col-2 p0">
                 <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
-              </div>
-              <div class="col-2 p0">
-                <a tooltip="Unsubscribe"><img src="assets/icons/options-unsub.svg" width="20"></a>
-              </div>
-              <div class="col-2 p0">
                 <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
-              </div>
             </div>
           </div>
         </div>
