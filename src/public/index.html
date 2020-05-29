@@ -553,7 +553,7 @@
 
     <!-- VIEW EMAIL -->
     <view-email v-if="viewEmail" :emailcard="viewEmail" inline-template>
-      <div class="aiko-modal">
+      <div @click.self="close" class="aiko-modal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
