@@ -333,51 +333,55 @@
           <!-- START BOARDS-->
 
           <!-- START Default Board Template ----------------------->
-          <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
-            inline-template>
-            <div :board-name="boardName" class="board">
-              <div class="board-header">
-                <div class="container p0">
-                  <div class="row">
-                    <div class="col-2 cll">
-                      <div class="dropdown">
-                        <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Actions</h6>
-                          <a class="dropdown-item">Mark all as read</a>
-                          <a class="dropdown-item">Mark all as unread</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item">Board rules</a>
-                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+          <draggable v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost" :force-fallback="true"
+            :fallback-on-body="true" draggable=".board" handle=".board-drag-handle">
+            <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
+              inline-template>
+              <div :board-name="boardName" class="board">
+                <div class="board-header">
+                  <div class="container p0">
+                    <div class="row">
+                      <div class="col-2 cll">
+                        <div class="dropdown">
+                          <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                          <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Actions</h6>
+                            <a class="dropdown-item">Mark all as read</a>
+                            <a class="dropdown-item">Mark all as unread</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">Board rules</a>
+                            <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-8 text-center p0 exp margin-auto nowrap">
-                      <h1>{{prettyBoardName}}</h1>
-                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
-                    </div>
-                    <div class="col-2 text-right cll">
-                      <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      <div class="col-8 text-center p0 exp margin-auto nowrap">
+                        <h1>{{prettyBoardName}}</h1>
+                        <div class="secondary-count" tooltip="Unread emails in board">999+</div>
+                      </div>
+                      <div class="col-2 text-right cll">
+                        <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="board-body">
-                <!-- DON'T MODIFY BELOW -->
-                <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
-                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
-                  :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
-                  <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card :board="boardName" v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
-                    :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :email="email">
-                  </email-card>
-                </draggable>
-                <div class="empty" v-if="board?.emails?.length == 0">
-                  <h1>Drag emails here.</h1>
+                <div class="board-body">
+                  <!-- DON'T MODIFY BELOW -->
+                  <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
+                    :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
+                    :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
+                    <!-- Single Email ---------- add class 'drag' when dragged ------->
+                    <email-card :board="boardName"
+                      v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
+                      :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :email="email">
+                    </email-card>
+                  </draggable>
+                  <div class="empty" v-if="board?.emails?.length == 0">
+                    <h1>Drag emails here.</h1>
+                  </div>
                 </div>
               </div>
-            </div>
-          </board>
+            </board>
+          </draggable>
 
           <!-- START Done Board Template ----------------------->
           <div class="board">
@@ -674,59 +678,62 @@
     </add-mailbox-modal>
 
     <!-- NEW BOARD MODAL --------------------------------------->
-    <div class="aiko-modal" style="display: none;">
-      <!-- STEP 1 - BOARD NAME --->
-      <div class="modal-dialog modal-sm">
-        <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
-            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1>Add a board</h1>
-            <h2>Enter a name for your board</h2>
-            <input type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
-            <br><br>
-            <div class="modal-bottom">
-              <a class="blue">Next</a>
+    <add-board-modal v-if="addBoard" inline-template>
+      <div class="aiko-modal" @click.self="close">
+        <!-- STEP 1 - BOARD NAME --->
+        <div v-if="step == 1" class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+              <h1>Add a board</h1>
+              <h2>Enter a name for your board</h2>
+              <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
+              <br><br>
+              <div class="modal-bottom">
+                <!-- TODO: change this to do step = 2 and then rig the board rules -->
+                <a @click="addBoard" class="blue">Next</a>
+              </div>
+              <br>
             </div>
-            <br>
           </div>
         </div>
-      </div>
-      <!-- STEP 2 - BOARD RULES (New Board only)--->
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
-            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1>Board rules (optional)</h1>
-            <br>
-            <div class="accordion" id="accordionExample">
-              <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                      aria-expanded="true" aria-controls="collapseOne">
-                      Add automatic forwarding
-                    </button>
-                  </h2>
-                </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
-                    <input type="text" name="rulesField" placeholder="Email">
+        <!-- STEP 2 - BOARD RULES (New Board only)--->
+        <div v-if="step == 2" class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email">
+            <div class="modal-reg">
+              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+              <h1>Board rules (optional)</h1>
+              <br>
+              <div class="accordion" id="accordionExample">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Add automatic forwarding
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                      <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
+                      <input type="text" name="rulesField" placeholder="Email">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
-            <br><br><br>
-            <div class="modal-bottom">
-              <a class="blue">Add board</a>
+              <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
+              <br><br><br>
+              <div class="modal-bottom">
+                <a class="blue">Add board</a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </add-board-modal>
 
 
     <!-- BOARD RULES (Board already exists) --------------------------------------->
@@ -1126,6 +1133,7 @@
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
   <script src="assets/js/components/modals/view-email.js"></script>
+  <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/email-card.js"></script>
   <script src="assets/js/components/view-email-single.js"></script>
   <script src="assets/js/components/board.js"></script>
