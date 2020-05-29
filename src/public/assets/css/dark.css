@@ -131,6 +131,10 @@ body {
   border: none;
 }
 
+.options {
+  background: #151515 !important
+}
+
 .add-board {
   background: var(--main-bg-color) !important;
 }
