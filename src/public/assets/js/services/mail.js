@@ -1470,6 +1470,9 @@ const mailapi = {
                 emails: this.done.emails.slice(0, 100)
             })
         },
+        async reorderBoards() {
+            await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
+        }
     }
 }
 

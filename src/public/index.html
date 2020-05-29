@@ -333,8 +333,8 @@
           <!-- START BOARDS-->
 
           <!-- START Default Board Template ----------------------->
-          <draggable v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost" :force-fallback="true"
-            :fallback-on-body="true" draggable=".board" handle=".board-drag-handle">
+          <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost" :force-fallback="true"
+            :fallback-on-body="true" @end="reorderBoards" draggable=".board" handle=".board-drag-handle">
             <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
               inline-template>
               <div :board-name="boardName" class="board">

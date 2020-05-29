@@ -22,6 +22,7 @@ Vue.component('add-board-modal', {
             })
             info(...MODALS_TAG, "Updated the app's view model.")
             await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
+            await SmallStorage.store(app.imapConfig.email + ':board-names', app.boardNames)
             info(...MODALS_TAG, "Saved the boards cache for the app.")
             this.close()
         },
