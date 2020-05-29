@@ -1041,8 +1041,8 @@
               <img src="assets/icons/badges-tracker.svg">
               <img src="assets/icons/badges-event.svg">
               <img src="assets/icons/badges-bcc.svg">
-                <select class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
-                <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
+              <select class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
+                <option v-if="board.folder == email.folder" v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
               </select>
 
 
