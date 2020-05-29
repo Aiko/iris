@@ -11,7 +11,7 @@ Vue.component('view-email', {
         console.time("Fetching selected email.")
         const s = await app.executeIPC(app.task_FetchEmails(this.email.folder, this.email.uid, false, null, null, null, true))
         console.timeEnd("Fetching selected email.")
-        if (!s?.[0]) return window.error("Couldn't fetch selected email.");
+        if (!s?.[0]) return window.error(...MODALS_TAG, "Couldn't fetch selected email.");
         this.email.parsed.text = s[0]?.parsed?.text
         this.email.parsed.html = s[0]?.parsed?.html
         // this.email.parsed.attachments = s[0]?.parsed?.attachments || this.email.parsed?.attachments
@@ -43,7 +43,7 @@ Vue.component('view-email', {
                 ))
                 console.timeEnd("Fetching emails from " + folder)
                 if (!fetched) {
-                    window.error("Couldn't fetch threaded email. Skipping!")
+                    window.error(...MODALS_TAG, "Couldn't fetch threaded email. Skipping!")
                 } else {
                     console.time("Cleaning emails from " + folder)
                     const cleaned = await MailCleaner.base(folder, fetched)
@@ -54,11 +54,11 @@ Vue.component('view-email', {
             this.email.parsed.thread.messages = this.email.parsed.thread.messages.map(e => {
                 const matches = emails.filter(e2 => e2.folder == e.folder && e2.uid == e.uid)
                 if (matches.length > 0) e.parsed = matches[0].parsed
-                else window.error("Message in thread doesn't have a match:", e)
+                else window.error(...MODALS_TAG, "Message in thread doesn't have a match:", e)
                 return e
             })
         }
-        info("Here is your view email:", this.email)
+        info(...MODALS_TAG, "Here is your view email:", this.email)
         this.email = JSON.parse(JSON.stringify(this.email))
     },
     methods: {

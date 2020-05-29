@@ -1,3 +1,5 @@
+const MODALS_TAG = ["%c[MODALS API]", "background-color: #ff7895; color: #000;"]
+
 const modalmanager = {
     data: {
         addMailbox: false,
