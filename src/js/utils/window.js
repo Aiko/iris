@@ -1,4 +1,4 @@
-const { ipcMain } = require('electron')
+const { ipcMain, shell } = require('electron')
 
 // FIXME: window management should probably also use middleware
 
@@ -34,6 +34,12 @@ module.exports = (win => {
 
             win.on('maximize', () => updateMaximizedStatus(true))
             win.on('unmaximize', () => updateMaximizedStatus(false))
+
+            win.webContents
+            win.webContents.on('new-window', (e, url) => {
+                e.preventDefault()
+                shell.openExternal(url)
+            })
 
             ipcMain.handle('get fullscreen status', (_, __) => {
                 updateFullscreenStatus(isFullscreen)
