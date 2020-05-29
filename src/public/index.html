@@ -333,51 +333,55 @@
           <!-- START BOARDS-->
 
           <!-- START Default Board Template ----------------------->
-          <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
-            inline-template>
-            <div :board-name="boardName" class="board">
-              <div class="board-header">
-                <div class="container p0">
-                  <div class="row">
-                    <div class="col-2 cll">
-                      <div class="dropdown">
-                        <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
-                        <div class="dropdown-menu">
-                          <h6 class="dropdown-header">Actions</h6>
-                          <a class="dropdown-item">Mark all as read</a>
-                          <a class="dropdown-item">Mark all as unread</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item">Board rules</a>
-                          <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+          <draggable v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost" :force-fallback="true"
+            :fallback-on-body="true" draggable=".board" handle=".board-drag-handle">
+            <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
+              inline-template>
+              <div :board-name="boardName" class="board">
+                <div class="board-header">
+                  <div class="container p0">
+                    <div class="row">
+                      <div class="col-2 cll">
+                        <div class="dropdown">
+                          <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                          <div class="dropdown-menu">
+                            <h6 class="dropdown-header">Actions</h6>
+                            <a class="dropdown-item">Mark all as read</a>
+                            <a class="dropdown-item">Mark all as unread</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item">Board rules</a>
+                            <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-8 text-center p0 exp margin-auto nowrap">
-                      <h1>{{prettyBoardName}}</h1>
-                      <div class="secondary-count" tooltip="Unread emails in board">999+</div>
-                    </div>
-                    <div class="col-2 text-right cll">
-                      <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      <div class="col-8 text-center p0 exp margin-auto nowrap">
+                        <h1>{{prettyBoardName}}</h1>
+                        <div class="secondary-count" tooltip="Unread emails in board">999+</div>
+                      </div>
+                      <div class="col-2 text-right cll">
+                        <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="board-body">
-                <!-- DON'T MODIFY BELOW -->
-                <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
-                  :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
-                  :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
-                  <!-- Single Email ---------- add class 'drag' when dragged ------->
-                  <email-card :board="boardName" v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
-                    :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :email="email">
-                  </email-card>
-                </draggable>
-                <div class="empty" v-if="board?.emails?.length == 0">
-                  <h1>Drag emails here.</h1>
+                <div class="board-body">
+                  <!-- DON'T MODIFY BELOW -->
+                  <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
+                    :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
+                    :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
+                    <!-- Single Email ---------- add class 'drag' when dragged ------->
+                    <email-card :board="boardName"
+                      v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
+                      :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :email="email">
+                    </email-card>
+                  </draggable>
+                  <div class="empty" v-if="board?.emails?.length == 0">
+                    <h1>Drag emails here.</h1>
+                  </div>
                 </div>
               </div>
-            </div>
-          </board>
+            </board>
+          </draggable>
 
           <!-- START Done Board Template ----------------------->
           <div class="board">
@@ -564,7 +568,8 @@
               <view-email-single :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0" :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
+              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"
+                :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>
             <div class="secondary-email">
