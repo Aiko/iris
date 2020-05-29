@@ -333,8 +333,9 @@
           <!-- START BOARDS-->
 
           <!-- START Default Board Template ----------------------->
-          <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost" :force-fallback="true"
-            :fallback-on-body="true" @end="reorderBoards" draggable=".board" handle=".board-drag-handle">
+          <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost"
+            :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" draggable=".board"
+            handle=".board-drag-handle">
             <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
               inline-template>
               <div :board-name="boardName" class="board">
@@ -688,7 +689,8 @@
               <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
               <h1>Add a board</h1>
               <h2>Enter a name for your board</h2>
-              <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap" style="margin-top: -20px;">
+              <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap"
+                style="margin-top: -20px;">
               <br><br>
               <div class="modal-bottom">
                 <!-- TODO: change this to do step = 2 and then rig the board rules -->
@@ -978,22 +980,22 @@
         <div class="email-footer dont-drag-this" style="user-select: none;">
           <div class="row">
             <div class="col-5 cll cll2">
-              <a v-if="email?.ai?.intents?.main == 'schedule'" class="main-action">
-                <img src="assets/icons/badges-event.svg"> Schedule
+              <a v-if="email?.ai?.intents?.main == 'schedule'" class="main-action ma2">
+                <img src="assets/icons/badges-event-blue.svg"> Schedule
               </a>
-              <a v-if="email?.ai?.intents?.main == 'verify'" class="main-action">
+              <a v-if="email?.ai?.intents?.main == 'verify'" class="main-action ma2">
                 <img src="assets/icons/link.svg"> Verify
               </a>
-              <a v-if="email?.ai?.intents?.main == 'subscribe'" class="main-action">
+              <a v-if="email?.ai?.intents?.main == 'subscribe'" class="main-action ma2">
                 <img src="assets/icons/link.svg"> Subscribe
               </a>
-              <a v-if="email?.ai?.intents?.main == 'unsubscribe'" class="main-action">
+              <a v-if="email?.ai?.intents?.main == 'unsubscribe'" class="main-action ma3">
                 <img src="assets/icons/options-unsub.svg"> Unsubscribe
               </a>
-              <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action">
+              <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action ma2">
                 <img src="assets/icons/sign.svg"> Sign
               </a>
-              <a v-if="email?.ai?.intents?.main == null" class="main-action">
+              <a v-if="email?.ai?.intents?.main == null" class="main-action ma1">
                 <img src="assets/icons/zap.svg"> Quick Reply
               </a>
             </div>
@@ -1062,20 +1064,20 @@
         </div>
 
         <div class="options-qa">
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'schedule'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'schedule'">
+            <h2 class="action ma2"><img src="assets/icons/email-schedule.svg">Schedule</h2>
           </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'verify'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/link.svg">Verify</h2>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'verify'">
+            <h2 class="action ma2"><img src="assets/icons/link.svg">Verify</h2>
           </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'subscribe'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/link.svg">Subscribe</h2>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'subscribe'">
+            <h2 class="action ma2"><img src="assets/icons/link.svg">Subscribe</h2>
           </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'">
+            <h2 class="action  ma3"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
           </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'" tooltip="Quick Action">
-            <h2 class="action"><img src="assets/icons/link.svg">Sign</h2>
+          <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'">
+            <h2 class="action ma2"><img src="assets/icons/link.svg">Sign</h2>
           </a>
         </div>
 
