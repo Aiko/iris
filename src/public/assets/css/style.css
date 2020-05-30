@@ -1729,10 +1729,22 @@ select.v1 {
 	color: var(--main-text-color);
 	font-weight: 400;
 	width: 100%;
+	margin-bottom: -2px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	transition: .2s;
+}
+
+.secondary-head p {
+	background: var(--secondary-bg-color);
+	border-radius: 3px;
+	padding: 2px 5px;
+	font-size: 9px;
+	cursor: pointer;
+	margin-right: 2px;
+	letter-spacing: .3px;
+	display: inline;
 }
 
 .secondary-head h2:hover {
