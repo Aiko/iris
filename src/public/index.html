@@ -32,10 +32,30 @@
         <div id='load-text'>Optimizing content...</div>
         <div id='load-text2'>Almost done...</div>
         <div id='load-text3'>Setting up your mailbox...</div>
+        <div id='load-text4'>Just a moment...</div>
+      </span>
+    </div>
+
+
+    <!-- TODO: RIG FIRST TIME LOADER -  CSS NOT DONE YET -->
+    <div class="loader-6 center-loader" style="display: none;">
+      <div class="tut">
+        <h1>Welcome to Aiko Mail</h1>
+        <h2>Watch this tutorial while we set up your mailbox!</h2>
+        <!-- TODO: change this to tutorial video once we have one -->
+        <video controls src="assets/videos/"></video>
+      </div>
+      <span>
+        <div id='load-text'>Optimizing content...</div>
+        <div id='load-text2'>Almost done...</div>
+        <div id='load-text3'>Setting up your mailbox...</div>
         <div id='load-text4'>This will only happen once...</div>
         <div id='load-text5'>Just a moment...</div>
       </span>
     </div>
+
+
+
     <!-- CONTROL BAR -->
     <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
       <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
@@ -581,7 +601,8 @@
                     <div class="col-3 p0">
                       <img src="assets/img/avatar.png">
                     </div>
-                    <div class="col-9 p0 spe">
+                    <!-- TODO: Add options here? its a hover thingy-->
+                    <div class="col-9 p0 spe hover-name">
                       <h1>Ruben Touitou</h1>
                       <h2>rubentouit@yahoo.fr</h2>
                       <p>NEW EMAIL</p>

@@ -1724,6 +1724,38 @@ select.v1 {
 	text-overflow: ellipsis;
 }
 
+.hover-name {
+	height: 47px;
+	overflow: hidden;
+	transition: .2s;
+	cursor: pointer;
+}
+
+.hover-name:hover {
+	height: 67px;
+	overflow: hidden;
+	transition: .1s;
+}
+
+.tut {
+	width: 100%;
+	max-width: 700px;
+	margin: auto;
+	text-align: center;
+	margin-top: 6vh;
+}
+
+.tut h1 {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.tut h2 {
+	font-size: 14px;
+	font-weight: 400;
+	margin-bottom: 20px;
+}
+
 .secondary-head h2 {
 	font-size: 14px;
 	color: var(--main-text-color);
