@@ -36,7 +36,6 @@
       </span>
     </div>
 
-
     <!-- TODO: RIG FIRST TIME LOADER -  CSS NOT DONE YET -->
     <!-- TODO: ONCE THIS IS SETUP WE CAN UNRIG FIRST TIME VIDEO TUTORIAL BUT KEEP IT FOR WHEN THEY CLICK HELP LATER ON -->
     <div class="loader-6 center-loader" style="display:none">
@@ -56,8 +55,6 @@
       <video controls class="init" src="assets/videos/initial.mp4" playsinline controls="false"
         style="pointer-events: none;"></video>
     </div>
-
-
 
     <!-- CONTROL BAR -->
     <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
@@ -1027,7 +1024,7 @@
               </a>
             </div>
             <div class="col-5 sync-message">
-              <a class="main-action">
+              <a class="main-action ma1">
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
@@ -1129,9 +1126,6 @@
       </div>
     </div>
   </script>
-
-  <video controls class="init" src="assets/videos/log.mp4" autoplay playsinline controls="false"
-    style="pointer-events: none;display:none;"></video>
 
   <!-- 3rd party libraries -->
   <script src="assets/js/third-party/popper.min.js"></script>
