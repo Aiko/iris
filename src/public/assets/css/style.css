@@ -1738,11 +1738,45 @@ select.v1 {
 }
 
 .tut {
+	background: var(--main-color);
+	color: #fff !important;
+	z-index: 1;
+	border-radius: 4px 0px 0px 0px;
+	position: absolute;
+	bottom: 0;
+	height: 150px;
 	width: 100%;
-	max-width: 700px;
-	margin: auto;
-	text-align: center;
-	margin-top: 6vh;
+	max-width: 400px;
+	right: 0;
+	padding: 15px;
+	box-shadow: 0 0 15px #00000024;
+}
+
+.tut h1,
+.tut h2 {
+	color: #fff !important;
+}
+
+.tut div {
+	background: #fff;
+	position: absolute;
+	bottom: 0;
+	z-index: 2;
+	width: 100%;
+	left: 0;
+	padding: 3px;
+	font-weight: 500;
+	padding-left: 15px;
+}
+
+.init {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: auto;
+	border-radius: 0;
+	margin-top: 20px;
 }
 
 .tut h1 {
@@ -2838,7 +2872,7 @@ unselectable {
 	margin-top: 60px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 5s 5s;
+	animation: cssAnimation 5s 0s;
 	animation-fill-mode: forwards;
 }
 
