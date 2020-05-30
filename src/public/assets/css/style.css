@@ -2622,6 +2622,24 @@ unselectable {
 	animation: loader-6-1 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) infinite;
 }
 
+.tut span::before,
+.tut span::after {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	height: 32px;
+	width: 32px;
+	border: 4px solid var(--main-color);
+	border-radius: 50%;
+	opacity: 0;
+	animation: loader-6-1 1.5s cubic-bezier(0.075, 0.820, 0.165, 1.000) infinite;
+}
+
 @keyframes loader-6-1 {
 	0% {
 		transform: translate3d(0, 0, 0) scale(0);
@@ -2670,11 +2688,33 @@ unselectable {
 }
 
 .cs-loader-inner {
-	width: 300px;
-	color: #c7c7c7;
+	width: 100%;
+	color: #b0b0b0;
 	padding: 0 100px;
 	text-align: center;
 	margin-left: -15px;
+}
+
+.email-cs {
+	margin-top: 50px;
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+}
+
+.email-cs-inner {
+	width: 100%;
+	color: #b0b0b0;
+	padding: 0 100px;
+	text-align: center;
+	z-index: 100;
+	margin-left: -15px;
+}
+
+.email-cs-inner label {
+	font-size: 6px !important;
+	opacity: 0;
+	display: inline-block;
 }
 
 .cs-loader-inner label {
@@ -2730,6 +2770,31 @@ unselectable {
 }
 
 .cs-loader-inner label:nth-child(1) {
+	animation: lol 3s 500ms infinite ease-in-out;
+}
+
+
+.email-cs-inner label:nth-child(6) {
+	animation: lol 3s infinite ease-in-out;
+}
+
+.email-cs-inner label:nth-child(5) {
+	animation: lol 3s 100ms infinite ease-in-out;
+}
+
+.email-cs-inner label:nth-child(4) {
+	animation: lol 3s 200ms infinite ease-in-out;
+}
+
+.email-cs-inner label:nth-child(3) {
+	animation: lol 3s 300ms infinite ease-in-out;
+}
+
+.email-cs-inner label:nth-child(2) {
+	animation: lol 3s 400ms infinite ease-in-out;
+}
+
+.email-cs-inner label:nth-child(1) {
 	animation: lol 3s 500ms infinite ease-in-out;
 }
 

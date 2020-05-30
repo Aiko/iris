@@ -38,13 +38,11 @@
 
     <!-- TODO: RIG FIRST TIME LOADER -  CSS NOT DONE YET -->
     <!-- TODO: ONCE THIS IS SETUP WE CAN UNRIG FIRST TIME VIDEO TUTORIAL BUT KEEP IT FOR WHEN THEY CLICK HELP LATER ON -->
-    <div class="loader-6 center-loader" style="display:none">
+    <div class="loader-6 center-loader" style="display: none;">
       <div class="tut">
         <h1>Welcome to Aiko Mail</h1>
         <h2>Watch this tutorial while we set up your inbox.</h2>
         <a>Skip tutorial</a>
-        <span>
-        </span>
         <div id='load-text'>Optimizing content...</div>
         <div id='load-text2'>Setting up your mailbox...</div>
         <div id='load-text3'>Almost done...</div>
@@ -371,7 +369,7 @@
                             <a class="dropdown-item">Mark all as unread</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item">Board rules</a>
-                            <!--THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                            <!-- TODO: THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
                           </div>
                         </div>
                       </div>
@@ -1118,10 +1116,20 @@
         </div>
       </div>
       <div class="email-body">
+        <!-- TODO: MAKE LOADER DISAPPEAR WHEN IFRAME LOADED-->
+        <div class="email-cs">
+          <div class="email-cs-inner">
+            <label> ●</label>
+            <label> ●</label>
+            <label> ●</label>
+            <label> ●</label>
+            <label> ●</label>
+            <label> ●</label>
+          </div>
+        </div>
         <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
         https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
         <iframe scrolling="no" frameborder="no" class="html-content email-iframe" :id="iframeId" src="">
-
         </iframe>
       </div>
     </div>
