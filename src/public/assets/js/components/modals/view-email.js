@@ -14,6 +14,8 @@ Vue.component('view-email', {
         if (!s?.[0]) return window.error(...MODALS_TAG, "Couldn't fetch selected email.");
         this.email.parsed.text = s[0]?.parsed?.text
         this.email.parsed.html = s[0]?.parsed?.html
+        //* Update UI immediately
+        this.email = JSON.parse(JSON.stringify(this.email))
         // this.email.parsed.attachments = s[0]?.parsed?.attachments || this.email.parsed?.attachments
         //* then fetch the thread
         if (this.email.parsed.thread?.messages?.length > 0) {
