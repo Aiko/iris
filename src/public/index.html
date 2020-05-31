@@ -1117,7 +1117,7 @@
       </div>
       <div class="email-body">
         <!-- TODO: MAKE LOADER DISAPPEAR WHEN IFRAME LOADED-->
-        <div class="email-cs">
+        <div class="email-cs" v-if="email.parsed.text || email.parsed.html">
           <div class="email-cs-inner">
             <label> ●</label>
             <label> ●</label>
