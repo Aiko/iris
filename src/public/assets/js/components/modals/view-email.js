@@ -9,7 +9,7 @@ Vue.component('view-email', {
     async created() {
         //* first fetch the selected email
         console.time("Fetching selected email.")
-        const s = await app.executeIPC(app.task_FetchEmails(this.email.folder, this.email.uid, false, null, null, null, true))
+        const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, null, true))
         console.timeEnd("Fetching selected email.")
         if (!s?.[0]) return window.error(...MODALS_TAG, "Couldn't fetch selected email.");
         this.email.parsed.text = s[0]?.parsed?.text
