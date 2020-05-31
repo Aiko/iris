@@ -35,6 +35,7 @@ Vue.component('view-email-single', {
     },
     methods: {
         async setContent(blank='Loading message...') {
+            if (!(this?.email?.parsed?.html || this?.email?.parsed?.text)) return;
             const iframeID = this.iframeId
             const el = document.getElementById(iframeID)
             el.style.height = '0px'
