@@ -41,7 +41,7 @@ const app = new Vue({
 
         // setup IPC
         info(...(this.TAG), "Initializing IPC")
-        await this.initIPC()
+        await this.initIPCNoStream()
 
         // setup window controls
         info(...(this.TAG), "Initializing window controls")
