@@ -65,6 +65,7 @@ const composer = {
             const identifier = this.bang
             if (!identifier) return window.error(...COMPOSER_TAG, "No bang!")
             const config = await BigStorage.pop("composer/" + identifier)
+            if (!config) return window.error(...COMPOSER_TAG, "Config not found")
             this.smtpConfig = config.smtp
         },
     }
