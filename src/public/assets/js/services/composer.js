@@ -11,7 +11,7 @@ const composer = {
             xoauth2: '',
             secure: true,
             provider: 'other'
-        }
+        },
     },
     created() {
         info(...COMPOSER_TAG, "Mounted composer mixin. Please ensure this only ever happens once.")
@@ -57,9 +57,15 @@ const composer = {
             // cache with randomized identifier
             const identifier = String.random(12)
 
-            await BigStorage.store(this.smtpConfig.email + "/composer/" + identifier, config)
+            await BigStorage.store("composer/" + identifier, config)
 
             await this.callIPC(this.task_OpenComposer(identifier))
-        }
+        },
+        async loadComposer() {
+            const identifier = this.bang
+            if (!identifier) return window.error(...COMPOSER_TAG, "No bang!")
+            const config = await BigStorage.pop("composer/" + identifier)
+            this.smtpConfig = config.smtp
+        },
     }
 }

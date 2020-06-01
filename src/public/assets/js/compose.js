@@ -75,6 +75,7 @@ const app = new Vue({
         // setup SMTP listeners
         info(...(this.TAG), "Initializing SMTP")
         await this.initSMTP()
+        await this.loadComposer()
 
         success(...(this.TAG), "Finished initialization.")
         this.loading = false
