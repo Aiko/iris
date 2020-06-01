@@ -3176,6 +3176,13 @@ unselectable {
 	margin-right: 10px;
 }
 
+.control-bar h5 {
+	text-align: center;
+	margin: auto;
+	font-size: 16px;
+	letter-spacing: 5px;
+}
+
 .aiko-toast a {
 	font-size: 12px;
 	font-weight: 600;
