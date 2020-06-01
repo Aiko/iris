@@ -1,3 +1,30 @@
+const {
+    Editor,
+    EditorContent,
+    EditorMenuBar
+} = tiptapBuild.tiptap
+const {
+    Blockquote,
+    CodeBlock,
+    HardBreak,
+    Heading,
+    HorizontalRule,
+    OrderedList,
+    BulletList,
+    ListItem,
+    TodoItem,
+    TodoList,
+    Bold,
+    Code,
+    Italic,
+    Link,
+    Strike,
+    Underline,
+    History,
+    TrailingNode,
+    Image,
+} = tiptapBuild.tiptapExtensions
+
 const app = new Vue({
     el: "#app",
     mixins: [
@@ -7,10 +34,16 @@ const app = new Vue({
         composer, // SMTP API
         goauth, // Google OAuth
     ],
+    components: {
+        EditorContent,
+        EditorMenuBar
+    },
     data: {
         TAG: ["%c[COMPOSER MAIN]", "background-color: #dd00aa; color: #000;"],
         loading: true,
         bang: '',
+        editor: null,
+        html: '',
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -78,6 +111,9 @@ const app = new Vue({
         await this.initSMTP()
         await this.loadComposer()
 
+        info(...(this.TAG), "Initializing editor (tiptap)")
+        this.makeEditor()
+
         success(...(this.TAG), "Finished initialization.")
         this.loading = false
         console.timeEnd("APP STARTUP")
@@ -85,6 +121,39 @@ const app = new Vue({
     methods: {
         log(...msg) {
             console.log(...msg)
+        },
+        makeEditor() {
+            this.editor = new Editor({
+                extensions: [
+                    new Blockquote(),
+                    new BulletList(),
+                    new CodeBlock(),
+                    new HardBreak(),
+                    new Heading({
+                        levels: [1, 2, 3]
+                    }),
+                    new HorizontalRule(),
+                    new ListItem(),
+                    new OrderedList(),
+                    new TodoItem(),
+                    new TodoList(),
+                    new Link(),
+                    new Bold(),
+                    new Code(),
+                    new Italic(),
+                    new Strike(),
+                    new Underline(),
+                    new History(),
+                    new TrailingNode({
+                        node: 'paragraph',
+                        notAfter: ['paragraph'],
+                    }),
+                    new Image(),
+                ],
+                onUpdate: ({getHTML}) => {
+                    this.html = getHTML()
+                }
+            })
         },
     }
 })

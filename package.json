@@ -61,6 +61,7 @@
     "node-summarizer": "^1.0.7",
     "nodemailer": "^6.3.1",
     "request": "^2.88.0",
+    "tiptap": "^1.27.1",
     "ws": "^7.2.5"
   },
   "devDependencies": {

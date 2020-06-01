@@ -10,6 +10,7 @@
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/tiptap.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
         window.jQuery = window.$ = require('jquery');
@@ -63,7 +64,14 @@
                     <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
                             width="16"></div>
                 </div>
-                <div id="composerMsg" class="compose-body" contenteditable="true" data-text="Message"></div>
+                <div class="compose-body">
+                    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+                        <div class="menubar">
+
+                        </div>
+                    </editor-menu-bar>
+                    <editor-content class="editor" :editor="editor"></editor-content>
+                </div>
                 <div class="compose-bottom">
                     <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
                     <label class="switch ml20">
@@ -187,6 +195,7 @@
     <script src="assets/js/third-party/localforage.min.js"></script>
     <script src="assets/js/third-party/vue.min.js"></script>
     <script src="assets/js/third-party/chrono.min.js"></script>
+    <script src="assets/js/third-party/tiptap.min.js"></script>
 
     <!-- TODO: minify all sources into one js file -->
     <!-- common libraries -->
