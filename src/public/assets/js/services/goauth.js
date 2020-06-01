@@ -12,11 +12,11 @@ const goauth = {
     },
     methods: {
         async google_saveConfig() {
-            await SmallStorage.store(this.imapConfig.email + '/google-config', this.googleConfig)
+            await SmallStorage.store((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config', this.googleConfig)
         },
         async google_loadConfig() {
-            // must have called loadIMAPConfig first
-            this.googleConfig = await SmallStorage.load(this.imapConfig.email + '/google-config')
+            // must have called loadIMAPConfig or loadSMTPConfig first
+            this.googleConfig = await SmallStorage.load((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config')
         },
         // Core Methods
         async google_addMailbox() {
@@ -41,27 +41,31 @@ const goauth = {
                 "user=" + profile.email + "\u0001auth=Bearer " + access_token + "\u0001\u0001"
             )*/
 
-            success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
-            this.imapConfig.email = profile.email
-            this.imapConfig.host = 'imap.gmail.com'
-            this.imapConfig.port = 993
-            this.imapConfig.xoauth2 = xoauth
-            this.imapConfig.user = profile.email
-            this.imapConfig.pass = ''
-            this.imapConfig.provider = 'google'
-            this.imapConfig.secure = true
-            await this.saveIMAPConfig()
+            if (this.imapConfig) {
+                success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
+                this.imapConfig.email = profile.email
+                this.imapConfig.host = 'imap.gmail.com'
+                this.imapConfig.port = 993
+                this.imapConfig.xoauth2 = xoauth
+                this.imapConfig.user = profile.email
+                this.imapConfig.pass = ''
+                this.imapConfig.provider = 'google'
+                this.imapConfig.secure = true
+                await this.saveIMAPConfig()
+            }
 
-            success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
-            this.smtpConfig.email = profile.email
-            this.smtpConfig.host = 'smtp.gmail.com'
-            this.smtpConfig.port = 587
-            this.smtpConfig.xoauth2 = xoauth
-            this.smtpConfig.user = profile.email
-            this.smtpConfig.pass = ''
-            this.smtpConfig.provider = 'google'
-            this.smtpConfig.secure = true
-            await this.saveSMTPConfig()
+            if (this.smtpConfig) {
+                success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
+                this.smtpConfig.email = profile.email
+                this.smtpConfig.host = 'smtp.gmail.com'
+                this.smtpConfig.port = 587
+                this.smtpConfig.xoauth2 = xoauth
+                this.smtpConfig.user = profile.email
+                this.smtpConfig.pass = ''
+                this.smtpConfig.provider = 'google'
+                this.smtpConfig.secure = true
+                await this.saveSMTPConfig()
+            }
 
             success(...(GOAUTH_TAG), "Setting up Google configuration.")
             this.googleConfig.access_token = access_token
@@ -100,27 +104,31 @@ const goauth = {
                     "user=" + profile.email + "\u0001auth=Bearer " + access_token + "\u0001\u0001"
                 )*/
 
-                success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
-                this.imapConfig.email = profile.email
-                this.imapConfig.host = 'imap.gmail.com'
-                this.imapConfig.port = 993
-                this.imapConfig.xoauth2 = xoauth
-                this.imapConfig.user = profile.email
-                this.imapConfig.pass = ''
-                this.imapConfig.secure = true // gmail uses self signed certs
-                this.imapConfig.provider = 'google'
-                await this.saveIMAPConfig()
+                if (this.imapConfig) {
+                    success(...(GOAUTH_TAG), "Setting up IMAP configuration.")
+                    this.imapConfig.email = profile.email
+                    this.imapConfig.host = 'imap.gmail.com'
+                    this.imapConfig.port = 993
+                    this.imapConfig.xoauth2 = xoauth
+                    this.imapConfig.user = profile.email
+                    this.imapConfig.pass = ''
+                    this.imapConfig.secure = true // gmail uses self signed certs
+                    this.imapConfig.provider = 'google'
+                    await this.saveIMAPConfig()
+                }
 
-                success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
-                this.smtpConfig.email = profile.email
-                this.smtpConfig.host = 'smtp.gmail.com'
-                this.smtpConfig.port = 587
-                this.smtpConfig.xoauth2 = xoauth
-                this.smtpConfig.user = profile.email
-                this.smtpConfig.pass = ''
-                this.smtpConfig.provider = 'google'
-                this.smtpConfig.secure = true
-                await this.saveSMTPConfig()
+                if (this.smtpConfig) {
+                    success(...(GOAUTH_TAG), "Setting up SMTP configuration.")
+                    this.smtpConfig.email = profile.email
+                    this.smtpConfig.host = 'smtp.gmail.com'
+                    this.smtpConfig.port = 587
+                    this.smtpConfig.xoauth2 = xoauth
+                    this.smtpConfig.user = profile.email
+                    this.smtpConfig.pass = ''
+                    this.smtpConfig.provider = 'google'
+                    this.smtpConfig.secure = true
+                    await this.saveSMTPConfig()
+                }
 
                 success(...(GOAUTH_TAG), "Setting up Google configuration.")
                 this.googleConfig.access_token = access_token
@@ -129,7 +137,7 @@ const goauth = {
                 this.googleConfig.scope = scope
                 await this.google_saveConfig()
 
-                await this.reconnectToMailServer()
+                if (this.reconnectToMailServer) await this.reconnectToMailServer()
             }
         },
     }
