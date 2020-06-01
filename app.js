@@ -6,7 +6,7 @@
 // versioning for debugging
 const commit_hash = require('child_process')
   .execSync('git rev-parse HEAD')
-  .toString().trim()
+  .toString().trim();
 /////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////
 
