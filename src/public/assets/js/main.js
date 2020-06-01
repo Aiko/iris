@@ -15,6 +15,7 @@ const app = new Vue({
         firstTime: true,
         priority: true,
         collapseSidebar: false,
+        bang: ''
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -49,6 +50,7 @@ const app = new Vue({
         console.time("APP STARTUP")
         info(...(this.TAG), "Initializing application")
         this.loading = true
+        this.bang = window.location.hash
 
         info(...(this.TAG), "Initializing cache")
         await SmallStorage.load('random')
