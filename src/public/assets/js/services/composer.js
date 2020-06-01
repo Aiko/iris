@@ -45,6 +45,9 @@ const composer = {
         async loadSMTPConfig(email) {
             this.smtpConfig = await SmallStorage.load(email + '/smtp-config')
         },
+        task_OpenComposer(bang) {
+            return this.ipcTask('please open the composer', {bang,})
+        },
         async openComposer() {
             // TODO: somehow make settings
             const config = {
@@ -56,7 +59,7 @@ const composer = {
 
             await BigStorage.store(this.smtpConfig.email + "/composer/" + identifier, config)
 
-            // TODO: now call a remote method to open composer with this identifier hashbang
+            await this.callIPC(this.task_OpenComposer(identifier))
         }
     }
 }
