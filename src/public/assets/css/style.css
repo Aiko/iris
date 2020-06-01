@@ -3348,6 +3348,12 @@ unselectable {
 	transition: .4s;
 }
 
+.bgbl {
+	background-image: url("../img/blur.png") !important;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
 input:checked+.slider {
 	background-color: var(--main-color);
 }
