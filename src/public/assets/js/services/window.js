@@ -16,7 +16,7 @@ const windowManager = {
             ipcRenderer.on('maximized status changed',
                 (_, status) => app.isMaximized = status);
 
-            ipcRenderer.invoke('get fullscreen status')
+            ipcRenderer.invoke('please get fullscreen status')
         },
         // why use IPC here?
         // because we dont want everything to freeze

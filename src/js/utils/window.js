@@ -13,10 +13,10 @@ const { ipcMain, shell } = require('electron')
     mainWindowManager.setWindow(mainWindow)
 */
 
-module.exports = (win => {
+module.exports = ((win, prefix='please') => {
     let isFullscreen = false
 
-    const addListeners = win => {
+    const addListeners = (win) => {
         if (win) {
 
             // Handlers
@@ -41,7 +41,7 @@ module.exports = (win => {
                 shell.openExternal(url)
             })
 
-            ipcMain.handle('get fullscreen status', (_, __) => {
+            ipcMain.handle(prefix + ' get fullscreen status', (_, __) => {
                 updateFullscreenStatus(isFullscreen)
                 return true
             })
@@ -49,7 +49,7 @@ module.exports = (win => {
         }
     }
 
-    ipcMain.handle('please minimize window', (_, __) => {
+    ipcMain.handle(prefix + ' minimize window', (_, __) => {
         try {
             win.minimize()
             return true
@@ -57,7 +57,7 @@ module.exports = (win => {
             return { error: e }
         }
     })
-    ipcMain.handle('please maximize window', (_, __) => {
+    ipcMain.handle(prefix + ' maximize window', (_, __) => {
         try {
             win.maximize()
             return true
@@ -65,7 +65,7 @@ module.exports = (win => {
             return { error: e }
         }
     })
-    ipcMain.handle('please unmaximize window', (_, __) => {
+    ipcMain.handle(prefix + ' unmaximize window', (_, __) => {
         try {
             win.unmaximize()
             return true
@@ -73,7 +73,7 @@ module.exports = (win => {
             return { error: e }
         }
     })
-    ipcMain.handle('please fullscreen window', (_, __) => {
+    ipcMain.handle(prefix + ' fullscreen window', (_, __) => {
         try {
             win.setFullScreen(true)
             return true
@@ -81,7 +81,7 @@ module.exports = (win => {
             return { error: e}
         }
     })
-    ipcMain.handle('please close window', (_, __) => {
+    ipcMain.handle(prefix + ' close window', (_, __) => {
         try {
             win.close()
             return true
