@@ -371,9 +371,9 @@ ipcMain.handle('please get emails', async (_, q) => {
     }
 
     // Log.log("Fetching messages.")
-    // console.time("Fetch messages: " + path + ", " + sequence)
+    console.time("Fetch messages: " + path + ", " + sequence)
     let messages; try { messages = await client.listMessages(path, sequence, query, options) } catch (e) { return { error: e } }
-    // console.timeEnd("Fetch messages: " + path + ", " + sequence)
+    console.timeEnd("Fetch messages: " + path + ", " + sequence)
     // NOTE: uncomment the latter half of below conditional if you
     // want it to strictly return something no matter what
     if (!messages/*|| messages.length===0*/)
@@ -381,18 +381,18 @@ ipcMain.handle('please get emails', async (_, q) => {
 
     // Log.log("Received messages.")
     // in mailparser we trust
-    // console.time("Parse messages")
+    console.time("PARSING ALL MESSAGES")
     if (limit && messages.length > limit)
         messages = messages.slice(messages.length - limit)
     if (!peek) messages = await Promise.all(messages.map(async msg => {
-        // console.time("Parse " + msg['body[]'].length)
+        console.time("Parse " + msg['body[]'].length)
         msg.parsed = await simpleParser(msg['body[]'], {
             skipHtmlToText: true,
             skipTextToHtml: true,
             maxHtmlLengthToParse: 1000 * 1000,
             skipAttachments: true
         })
-        // console.timeEnd("Parse " + msg['body[]'].length)
+        console.timeEnd("Parse " + msg['body[]'].length)
         // console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
         msg.parsed.textAsHtml = ''
         msg.parsed.attachments = msg.parsed.attachments.map(_ => {
@@ -405,7 +405,7 @@ ipcMain.handle('please get emails', async (_, q) => {
         delete msg['body[]']
         return msg
     }))
-    // console.timeEnd("Parse messages")
+    console.timeEnd("PARSING ALL MESSAGES")
 
     // Log.log("Parsed " + messages.length + " messages.")
 

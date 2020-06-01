@@ -62,6 +62,7 @@ const MailCleaner = (() => {
     })
 
     const full_clean = folder => (async email => {
+        console.time("FULL CLEAN " + email.uid)
         email = await base_clean(folder)(email)
         email.syncing = false
         email.dragging = false
@@ -123,7 +124,9 @@ const MailCleaner = (() => {
         const sentences = email.parsed.msgText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT').split(/AIKO-SPLIT/g)
 
         //* summarize email text
+        console.time("SUMMARIZING " + email.uid)
         const summary = await AICore.summarize(email.parsed.text, 3)
+        console.timeEnd("SUMMARIZING " + email.uid)
         if (summary) {
             email.ai.summary = {
                 sentences: summary,
@@ -182,6 +185,7 @@ const MailCleaner = (() => {
         email.parsed.html = null
         email.parsed.textAsHtml = null
 
+        console.timeEnd("FULL CLEAN " + email.uid)
         return email
     })
 
