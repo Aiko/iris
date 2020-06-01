@@ -41,6 +41,7 @@ module.exports = ((win, prefix='please') => {
                 shell.openExternal(url)
             })
 
+            ipcMain.removeHandler(prefix + ' get fullscreen status')
             ipcMain.handle(prefix + ' get fullscreen status', (_, __) => {
                 updateFullscreenStatus(isFullscreen)
                 return true

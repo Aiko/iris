@@ -2,6 +2,7 @@ const { platform } = remote.require('./app.js')
 
 const windowManager = {
     data: {
+        windowPrefix: 'please',
         isFullScreen: false,
         isMaximized: true,
         isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
@@ -16,25 +17,25 @@ const windowManager = {
             ipcRenderer.on('maximized status changed',
                 (_, status) => app.isMaximized = status);
 
-            ipcRenderer.invoke('please get fullscreen status')
+            ipcRenderer.invoke(this.windowPrefix + ' get fullscreen status')
         },
         // why use IPC here?
         // because we dont want everything to freeze
         // and we want to be able to do some magic with these later on
         async minimize() {
-            await ipcRenderer.invoke('please minimize window')
+            await ipcRenderer.invoke(this.windowPrefix + ' minimize window')
         },
         async maximize() {
-            await ipcRenderer.invoke('please maximize window')
+            await ipcRenderer.invoke(this.windowPrefix + ' maximize window')
         },
         async unmaximize() {
-            await ipcRenderer.invoke('please unmaximize window')
+            await ipcRenderer.invoke(this.windowPrefix + ' unmaximize window')
         },
         async fullscreen() {
-            await ipcRenderer.invoke('please fullscreen window')
+            await ipcRenderer.invoke(this.windowPrefix + ' fullscreen window')
         },
         async close() {
-            await ipcRenderer.invoke('please close window')
+            await ipcRenderer.invoke(this.windowPrefix + ' close window')
         }
     }
 }
