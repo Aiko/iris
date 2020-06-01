@@ -114,6 +114,10 @@ const ipc = {
             this.ipcStream = await IPCStream()
             this.middleware = await IPCMiddleware(this.handleIPCError, this.ipcStream)
         },
+        async initIPCNoStream() {
+            console.warn(...IPC_TAG, "There will be no IPC streaming.")
+            this.middleware = await IPCMiddleware(this.handleIPCError, null)
+        },
         async handleIPCError(e) {
             error(...(IPC_TAG), e)
         },
