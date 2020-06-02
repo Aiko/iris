@@ -10,7 +10,7 @@
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/tiptap.css">
+    <link rel="stylesheet" href="assets/css/composer.css">
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
         window.jQuery = window.$ = require('jquery');
@@ -56,24 +56,29 @@
                     <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
                 </div>
 
-                <div class="compose-options">
-                    <div class="compose-bold" type="file" name="myFile"><img src="assets/icons/bold.svg" width="16">
-                    </div>
-                    <div class="compose-italic" type="file" name="myFile"><img src="assets/icons/italic.svg" width="16">
-                    </div>
-                    <div class="compose-attach" type="file" name="myFile"><img src="assets/icons/compose-attach.svg"
-                            width="16"></div>
-                </div>
                 <div class="compose-body">
                     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
                         <div class="menubar">
-                            <!-- TODO: ruben put btn here -->
+                            <div class="comp-sep">
+                                <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
+                            </div>
+                            <div class="comp-sep">
+                                <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
+                            </div>
+                            <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
+                            <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
+                            <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
                         </div>
                     </editor-menu-bar>
                     <editor-content class="editor" :editor="editor"></editor-content>
                 </div>
+
                 <div class="compose-bottom">
-                    <a href="#"><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
+                    <a><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
                     <label class="switch ml20">
                         <input type="checkbox">
                         <span class="slider round eye"></span>
@@ -98,7 +103,7 @@
                     </div>
 
                     <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
-                    <a href="settings.html" style="margin-top: 25vh;display: block;" target="_blank"><img
+                    <a style="margin-top: 25vh;display: block;" target="_blank"><img
                             src="assets/icons/settings-templates.svg" width="18" style="margin-top: -1px;">
                         <p class="inline"><b>New template</b></p>
 
@@ -147,7 +152,7 @@
                         <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b> to be
                             notified when your recipient has opened your email.</p><br> <br>
                         <div class="modal-bottom">
-                            <a href="#" class="blue">Get Started</a>
+                            <a class="blue">Get Started</a>
                         </div>
                         <p class="ns30"></p>
                         <br>
@@ -173,7 +178,7 @@
                         <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to reply
                             to future emails in just one click.</p><br> <br>
                         <div class="modal-bottom">
-                            <a href="#" class="blue">Get Started</a>
+                            <a class="blue">Get Started</a>
                         </div>
                         <p class="ns30"></p>
                         <br>

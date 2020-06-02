@@ -2093,26 +2093,6 @@ select.v1 {
 	width: calc(100% - 45px) !important;
 }
 
-
-.compose-bottom a {
-	height: 40px;
-	position: relative;
-	padding: 7px 11px 8px 7px;
-	border-radius: 3px;
-	font-weight: 500;
-	font-size: 14px;
-	margin-top: 5px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	background: var(--main-color);
-	transition: .2s;
-}
-
-.compose-bottom span {
-	color: #fff !important;
-}
-
 .zen .sidebar {
 	margin-left: -44px;
 	transition: .2s;
@@ -2179,80 +2159,14 @@ select.v1 {
 	margin-bottom: 6px !important;
 }
 
-.compose-options {
-	border-bottom: 1px solid var(--secondary-bg-color);
-	padding: 5px;
-	height: 40px;
-	width: 100%;
-	background: var(--secondary-bg-color);
-	display: inline-flex;
-}
-
-.compose-bold {
-	border-radius: 40px;
-	background: var(--main-bg-color);
-	width: 40px;
-	text-align: center;
-	font-weight: 700;
-	margin-right: 6px;
-	cursor: pointer;
-}
-
-.compose-body {
-	padding: 10px 15px 5px 15px;
-	outline: none;
-	color: var(--dark-text);
-	height: calc(100% - 266px);
-	overflow: scroll;
-	font-size: 16px;
-	letter-spacing: .3px;
-}
-
-.compose-italic {
-	border-radius: 40px;
-	background: var(--main-bg-color);
-	width: 40px;
-	text-align: center;
-	margin-right: 6px;
-	font-style: italic;
-	cursor: pointer;
-}
-
-.compose-attach {
-	border-radius: 40px;
-	background: var(--main-bg-color);
-	width: 40px;
-	text-align: center;
-	margin-right: 6px;
-	cursor: pointer;
-	transition: .2s;
-}
-
-.compose-attach:hover {
-	opacity: .8;
-	transition: .2s;
-}
-
-.compose-attach img {
-	margin-top: -3px;
-}
-
-.compose-bottom {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	left: 0;
-	padding: 20px 0 12px 20px;
-	box-shadow: inset 0 54px 10px -54px rgba(0, 0, 0, 0.15);
+unselectable {
+	user-select: none;
 }
 
 .smart-compose {
 	color: #adadad;
 }
 
-unselectable {
-	user-select: none;
-}
 
 .highlight-blue {
 	height: 30px;
@@ -2513,12 +2427,6 @@ unselectable {
 	left: 0;
 	padding: 20px;
 	box-shadow: inset 0 40px 16px -49px rgba(0, 0, 0, 0.58);
-}
-
-.compose-bottom a:hover {
-	background: var(--main-color-hover);
-	color: #fff;
-	transition: .2s;
 }
 
 .aiko-form {
