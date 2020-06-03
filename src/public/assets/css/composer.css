@@ -192,8 +192,19 @@
     padding: 5px;
     z-index: 1;
     white-space: nowrap;
-    overflow: scroll;
     width: fit-content;
+    overflow-x: scroll;
+    overflow: visible;
+}
+
+.menubar button {
+    background: transparent;
+    border: none;
+    text-align: center;
+    width: 30px;
+    height: 26px;
+    outline: none;
+    padding: 0 4px 10px 0;
 }
 
 .compose-body {
@@ -260,6 +271,42 @@
     opacity: .8;
     transition: .2s;
 }
+
+.bol-c {
+    font-weight: 600;
+}
+
+.italic-c {
+    font-style: italic;
+}
+
+.quote-c {
+    font-style: italic;
+}
+
+.compose-body .dropdown-menu,
+.dropdown-menu a {
+    background-color: var(--secondary-bg-color) !important;
+}
+
+.compose-body .dropdown-menu,
+.dropdown-menu a {
+    background-color: var(--secondary-bg-color) !important;
+
+}
+
+.compose-body .dropdown-menu {
+    font-size: .95rem !important;
+}
+
+.compose-body .dropdown-item span {
+    color: var(--dark-text) !important;
+}
+
+.compose-body .dropdown-item {
+    padding: .2rem .5rem !important;
+}
+
 
 .menubar.is-hidden {
     visibility: hidden;
