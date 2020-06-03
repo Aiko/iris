@@ -193,6 +193,7 @@
     z-index: 1;
     white-space: nowrap;
     overflow: scroll;
+    width: fit-content;
 }
 
 .compose-body {
@@ -372,7 +373,16 @@
 .editor {
     height: 100%;
     overflow: scroll;
+
 }
+
+.editor p {
+    color: var(--dark-text);
+    letter-spacing: normal;
+    font-size: 15px;
+}
+
+
 
 .ProseMirror {
     height: 100%
