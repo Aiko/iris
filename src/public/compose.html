@@ -57,6 +57,7 @@
                 </div>
 
                 <div class="compose-body">
+                    <editor-content class="editor" :editor="editor"></editor-content>
                     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
                         <div class="menubar">
                             <div class="comp-sep">
@@ -80,7 +81,6 @@
                             <a class="comp-btn nobg" tooltip="Markdown Info"><img src="assets/icons/info.svg"></a>
                         </div>
                     </editor-menu-bar>
-                    <editor-content class="editor" :editor="editor"></editor-content>
                 </div>
 
                 <div class="compose-bottom">
