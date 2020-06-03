@@ -253,6 +253,10 @@
     transition: .2s;
 }
 
+.nobg img {
+    background: none !important;
+}
+
 .comp-btn img:hover {
     opacity: .8;
     transition: .2s;
