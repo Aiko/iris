@@ -400,7 +400,7 @@ ipcMain.handle('please get emails', async (_, q) => {
             // TODO: maybe cache the attachment somehow so this is dynamic
             if (downloadAttachments) return _;
             // only allows aiko metadata
-            if (!(_.contentType.includes("aiko/"))) _.content = null;
+            if (!(_.contentType && _.contentType.includes("aiko/"))) _.content = null;
             return _
         })
         delete msg['body[]']
