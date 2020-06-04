@@ -371,28 +371,29 @@ ipcMain.handle('please get emails', async (_, q) => {
     }
 
     // Log.log("Fetching messages.")
-    console.time("Fetch messages: " + path + ", " + sequence)
+    //console.time("Fetch messages: " + path + ", " + sequence)
     let messages; try { messages = await client.listMessages(path, sequence, query, options) } catch (e) { return { error: e } }
-    console.timeEnd("Fetch messages: " + path + ", " + sequence)
+    //console.timeEnd("Fetch messages: " + path + ", " + sequence)
     // NOTE: uncomment the latter half of below conditional if you
     // want it to strictly return something no matter what
     if (!messages/*|| messages.length===0*/)
         return { error: `Did not receive any messages back when calling client.listMessages(${path}, ${sequence}, ${peek}) in "please get emails"` };
 
-    // Log.log("Received messages.")
+    //Log.log("Received messages.")
     // in mailparser we trust
-    console.time("PARSING ALL MESSAGES")
+    //console.time("PARSING ALL MESSAGES")
     if (limit && messages.length > limit)
         messages = messages.slice(messages.length - limit)
     if (!peek) messages = await Promise.all(messages.map(async msg => {
-        console.time("Parse " + msg['body[]'].length)
+
+        //console.time("Parse " + msg['body[]'].length)
         msg.parsed = await simpleParser(msg['body[]'], {
             skipHtmlToText: true,
             skipTextToHtml: true,
             maxHtmlLengthToParse: 1000 * 1000,
             skipAttachments: true
         })
-        console.timeEnd("Parse " + msg['body[]'].length)
+        //console.timeEnd("Parse " + msg['body[]'].length)
         // console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
         msg.parsed.textAsHtml = ''
         msg.parsed.attachments = msg.parsed.attachments.map(_ => {
@@ -405,9 +406,9 @@ ipcMain.handle('please get emails', async (_, q) => {
         delete msg['body[]']
         return msg
     }))
-    console.timeEnd("PARSING ALL MESSAGES")
+    //console.timeEnd("PARSING ALL MESSAGES")
 
-    // Log.log("Parsed " + messages.length + " messages.")
+    //Log.log("Parsed " + messages.length + " messages.")
 
     /*
     {
