@@ -190,11 +190,21 @@
     transition: visibility .2s .4s,
         opacity .2s .4s;
     padding: 5px;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin: 0 20px 80px 20px;
     z-index: 1;
+    white-space: nowrap;
+    width: fit-content;
+    overflow-x: scroll;
+    overflow: visible;
+}
+
+.menubar button {
+    background: transparent;
+    border: none;
+    text-align: center;
+    width: 30px;
+    height: 26px;
+    outline: none;
+    padding: 0 4px 10px 0;
 }
 
 .compose-body {
@@ -202,7 +212,7 @@
     outline: none;
     color: var(--dark-text);
     height: calc(100% - 226px);
-    overflow: scroll;
+    overflow: hidden;
     font-size: 16px;
     letter-spacing: .3px;
     position: relative;
@@ -253,10 +263,50 @@
     transition: .2s;
 }
 
+.nobg img {
+    background: none !important;
+}
+
 .comp-btn img:hover {
     opacity: .8;
     transition: .2s;
 }
+
+.bol-c {
+    font-weight: 600;
+}
+
+.italic-c {
+    font-style: italic;
+}
+
+.quote-c {
+    font-style: italic;
+}
+
+.compose-body .dropdown-menu,
+.dropdown-menu a {
+    background-color: var(--secondary-bg-color) !important;
+}
+
+.compose-body .dropdown-menu,
+.dropdown-menu a {
+    background-color: var(--secondary-bg-color) !important;
+
+}
+
+.compose-body .dropdown-menu {
+    font-size: .95rem !important;
+}
+
+.compose-body .dropdown-item span {
+    color: var(--dark-text) !important;
+}
+
+.compose-body .dropdown-item {
+    padding: .2rem .5rem !important;
+}
+
 
 .menubar.is-hidden {
     visibility: hidden;
@@ -370,7 +420,16 @@
 .editor {
     height: 100%;
     overflow: scroll;
+
 }
+
+.editor p {
+    color: var(--dark-text);
+    letter-spacing: normal;
+    font-size: 15px;
+}
+
+
 
 .ProseMirror {
     height: 100%

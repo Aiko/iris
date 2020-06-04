@@ -57,24 +57,54 @@
                 </div>
 
                 <div class="compose-body">
+                    <editor-content class="editor" :editor="editor"></editor-content>
                     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
                         <div class="menubar">
                             <div class="comp-sep">
-                                <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
-                                <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
-                                <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/bold.svg"></a>
+                                <a class="comp-btn"><img src="assets/icons/italic.svg"></a>
+                                <a class="comp-btn"><img src="assets/icons/underline.svg"></a>
                             </div>
                             <div class="comp-sep">
-                                <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
-                                <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
-                                <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
+                                <a class="comp-btn"><img src="assets/icons/badges-attach.svg"></a>
+                                <a class="comp-btn"><img src="assets/icons/link-3.svg"></a>
+                                <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
                             </div>
-                            <a class="comp-btn"><img src="assets/icons/bold.svg" width="20"></a>
-                            <a class="comp-btn"><img src="assets/icons/italic.svg" width="20"></a>
-                            <a class="comp-btn"><img src="assets/icons/underline.svg" width="20"></a>
+                            <div class="comp-sep">
+                                <a class="comp-btn"><img src="assets/icons/t.svg"></a>
+                                <a class="comp-btn"><img src="assets/icons/align-left.svg"></a>
+                                <a class="comp-btn"><img src="assets/icons/list.svg"></a>
+                            </div>
+                            <a class="comp-btn"><img src="assets/icons/code.svg"></a>
+                            <a class="comp-btn"><img src="assets/icons/q.svg"></a>
+
+
+
+
+                            <div class="btn-group dropup">
+                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a><img src="assets/icons/info.svg" width="20"></a>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item disabled" href="#"><span class="bold-c">*Hello*</span> Bold
+                                        text</a>
+                                    <a class="dropdown-item disabled" href="#"><span class="italic-c">~Hello~</span>
+                                        Italic text</a>
+                                    <a class="dropdown-item disabled" href="#"><span class="code-c">Hello</span> Code
+                                        format</a>
+                                    <a class="dropdown-item disabled" href="#"><span class="quotes-c">| Hello</span>
+                                        Quotation</a>
+
+                                </div>
+                            </div>
+
+
+
+
+
+
                         </div>
                     </editor-menu-bar>
-                    <editor-content class="editor" :editor="editor"></editor-content>
                 </div>
 
                 <div class="compose-bottom">

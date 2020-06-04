@@ -3006,7 +3006,7 @@ unselectable {
 	background: var(--main-bg-color);
 	border: none;
 	color: var(--dark-text);
-	font-size: 16px;
+	font-size: 15px;
 	margin-left: 5px;
 	width: 100%;
 }
