@@ -1,3 +1,4 @@
+const path = require('path')
 const fs = require('fs')
 const fs2 = require('fs-extra')
 const {
@@ -8,9 +9,15 @@ const {
 
 module.exports = fp => {
     switch (process.platform) {
-        case "darwin": fp = path.join(process.env.HOME, "Library", "Application Support", "Aiko Mail", fp); break;
-        case "win31": fp = path.join(process.env.APPDATA, "Aiko Mail", fp); break;
-        case "linux": fp = path.join(process.env.HOME, ".Aiko Mail", fp); break;
+        case "darwin":
+            fp = path.join(process.env.HOME, "Library", "Application Support", "Aiko Mail", fp);
+            break;
+        case "win31":
+            fp = path.join(process.env.APPDATA, "Aiko Mail", fp);
+            break;
+        case "linux":
+            fp = path.join(process.env.HOME, ".Aiko Mail", fp);
+            break;
     }
 
     const Prefs = {
@@ -24,7 +31,7 @@ module.exports = fp => {
         load: () => {
             fs2.ensureFileSync(fp)
             const s = fs.readFileSync(fp)
-            if (!(s?.length > 0)) return {}
+            if (!(s ? .length > 0)) return {}
             const d = JSON.parse(s)
             return d
         },
