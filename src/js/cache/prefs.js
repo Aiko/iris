@@ -7,6 +7,12 @@ const {
 // FIXME: prefs should probably have middleware
 
 module.exports = fp => {
+    switch (process.platform) {
+        case "darwin": fp = path.join(process.env.HOME, "Library", "Application Support", "Aiko Mail", fp); break;
+        case "win31": fp = path.join(process.env.APPDATA, "Aiko Mail", fp); break;
+        case "linux": fp = path.join(process.env.HOME, ".Aiko Mail", fp); break;
+    }
+
     const Prefs = {
         data: {
             authenticated: false,

@@ -1,3 +1,4 @@
+const path = require('path')
 const fs = require('fs')
 const fs2 = require('fs-extra');
 const {
@@ -7,6 +8,12 @@ const {
 // NOTE: dont give this middleware or itll break
 
 module.exports = dir => {
+
+    switch (process.platform) {
+        case "darwin": dir = path.join(process.env.HOME, "Library", "Application Support", "Aiko Mail", dir); break;
+        case "win31": dir = path.join(process.env.APPDATA, "Aiko Mail", dir); break;
+        case "linux": dir = path.join(process.env.HOME, ".Aiko Mail", dir); break;
+    }
 
     const clean_key = key =>
         key.replace(/[^A-z0-9/\-_]/g, '');;
