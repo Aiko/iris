@@ -302,7 +302,7 @@ input:active {
 }
 
 .thin .email {
-	padding: 7px 8px 0 5px;
+	padding: 7px 8px 0 8px;
 }
 
 .thin .exp {
@@ -317,7 +317,7 @@ input:active {
 
 .thin .email-footer {
 	width: 130px !important;
-	margin-left: -20px;
+	margin-left: -23px;
 	transition: 0.2s;
 	padding-left: 3px;
 }
@@ -548,7 +548,7 @@ input:active {
 
 .thin .note {
 	width: 130px !important;
-	margin-left: -20px !important;
+	margin-left: -23px !important;
 }
 
 .header {
