@@ -1173,6 +1173,10 @@ hr {
 	display: none !important;
 }
 
+.focus {
+	border: 2px solid #007bff !important;
+}
+
 .sync-message img {
 	margin-right: 2px;
 	width: 13px;
