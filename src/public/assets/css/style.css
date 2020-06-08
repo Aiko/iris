@@ -521,7 +521,7 @@ input:active {
 }
 
 .thin .note input {
-	padding: 3px 0 5px 6px !important;
+	padding: 3px 0 5px 3px !important;
 }
 
 .thin .subject {
