@@ -121,7 +121,6 @@ body {
 .email {
   background: var(--secondary-bg-color) !important;
   box-shadow: none !important;
-  transition: .2s;
 }
 
 .email:hover {

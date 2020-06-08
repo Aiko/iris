@@ -281,7 +281,7 @@ input:active {
 	padding: 9px 6px;
 	overflow-x: hidden;
 	z-index: 2;
-	box-shadow: 0px -1px 9px #2121213b;
+	box-shadow: 0 -1px 9px #2121213b;
 	transition: 0.2s;
 }
 
@@ -303,7 +303,6 @@ input:active {
 
 .thin .email {
 	padding: 7px 8px 0 5px;
-	transition: 0.2s;
 }
 
 .thin .exp {
@@ -1400,7 +1399,7 @@ hr {
 }
 
 .add-board {
-	background: var(--secondary-bg-color);
+	background: var(--main-bg-color);
 	border-radius: 3px;
 	opacity: 0.6;
 	text-align: center;
