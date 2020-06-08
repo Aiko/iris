@@ -33,7 +33,7 @@
   --placeholder-text-color: #5d5d5d !important;
   /* Global placeholder color */
 
-  --modal-backdrop: #21201dd6 !important;
+  --modal-backdrop: #21201db8 !important;
   /* Global modal backdrop */
 }
 
@@ -118,17 +118,23 @@ body {
   filter: brightness(1.2) !important;
 }
 
+.email {
+  background: var(--secondary-bg-color) !important;
+  box-shadow: none !important;
+  transition: .2s;
+}
+
+.email:hover {
+  transition: .2s;
+  filter: brightness(.9);
+}
+
 .email-footer img {
   opacity: 1 !important;
 }
 
 .email-footer img:hover {
   opacity: .8 !important;
-}
-
-.email {
-  box-shadow: none !important;
-  border: none;
 }
 
 .options {
@@ -145,6 +151,10 @@ body {
 
 .header {
   box-shadow: 8px 1px 10px #0000002e !important;
+}
+
+.bottom {
+  border-top: 1px solid var(--secondary-bg-color) !important;
 }
 
 .amsify-suggestags-input-area {
@@ -170,6 +180,7 @@ body {
 .empty,
 .empty2 {
   box-shadow: none !important;
+  background: var(--secondary-bg-color) !important;
 }
 
 .sidebar-collapse img {
