@@ -20,7 +20,7 @@
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
 </head>
 
-<body class="bg" style="background-image: url(futureUnsplashAPI.jpg)">
+<body class="bg" style="background-image: url(futureUnsplash)">
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
   <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
   <div id="app" class="inline-flex" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
@@ -703,6 +703,7 @@
       </div>
     </add-mailbox-modal>
 
+    <!-- TODO: Make it impossible to name a board like an existing one ------------->
     <!-- NEW BOARD MODAL --------------------------------------->
     <add-board-modal v-if="addBoard" inline-template>
       <div class="aiko-modal" @click.self="close">
@@ -972,7 +973,7 @@
       </div>
     </div>
   </div>
-
+  <!-- TODO: Add 'focus' class to 'email' class when it is focused (keyboard shortcuts) -->
   <script type="text/x-template" id="email-card">
     <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
     <!-- TODO: for ruben, fix ugly padding during drag........ -->
