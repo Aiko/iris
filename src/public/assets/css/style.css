@@ -494,15 +494,15 @@ input:active {
 }
 
 .note {
-	width: calc(100% + 56px);
+	width: calc(100% + 53px);
 	position: relative;
-	margin-left: -28px;
+	margin-left: -25px;
 	background: var(--secondary-bg-color);
 	overflow: hidden;
 	color: var(--dark-text);
 	font-size: 14px;
-	border: 1px solid #486fff;
-	z-index: 1;
+	border: 2px solid #486fff !important;
+	z-index: 3;
 	margin-top: -26px;
 	border-radius: 0 0 4px 4px;
 	height: 33px;
@@ -516,12 +516,12 @@ input:active {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: 4px 0;
+	padding: 2px 0;
 	transition: 0.2s;
 }
 
 .thin .note input {
-	padding: 5px 0 5px 6px !important;
+	padding: 3px 0 5px 6px !important;
 }
 
 .thin .subject {
@@ -537,7 +537,7 @@ input:active {
 	background: transparent;
 	border: none;
 	color: var(--dark-text);
-	padding: 5px 5px 12px;
+	padding: 3px 5px 12px;
 	width: calc(100% - 30px);
 }
 
@@ -547,8 +547,8 @@ input:active {
 }
 
 .thin .note {
-	width: 130px !important;
-	margin-left: -23px !important;
+	width: 127px !important;
+	margin-left: -20px !important;
 }
 
 .header {
@@ -1190,7 +1190,7 @@ hr {
 	position: relative;
 	background: #fff;
 	border-radius: 4px;
-	border-left: 3px solid #0000002e;
+	/* border-left: 3px solid #0000002e; */
 	cursor: pointer;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 10px;
