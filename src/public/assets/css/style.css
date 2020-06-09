@@ -1686,19 +1686,138 @@ select.v1 {
 	transition: 0.1s;
 }
 
+
+.loader-6 img {
+	position: absolute;
+	width: 100px;
+	top: 50%;
+	left: 50%;
+	border-radius: 4px;
+	transform: translate(-50%, -50%);
+	animation: fadelogo 13s forwards;
+	box-shadow: 0 2px 20px 0 #486fff38;
+	opacity: 0;
+}
+
+@keyframes fadelogo {
+	0% {
+		opacity: 0;
+	}
+
+	20% {
+		opacity: 0;
+	}
+
+	70% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.wv {
+	position: absolute !important;
+	top: 75%;
+	left: 50%;
+	transform: translate(-50%, -75%);
+	opacity: 0;
+	animation: fadebtn 5s 13s forwards;
+}
+
+@keyframes fadebtn {
+	0% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.loader-6 .modal-footer {
+	border-top: 1px solid var(--main-bg-color);
+}
+
+.loader-6 button {
+	background: var(--main-color);
+	transition: 0.2s;
+	border: none;
+	font-weight: 500;
+	letter-spacing: .4px;
+}
+
+.loader-6 button:hover {
+	opacity: .8;
+	background: var(--main-color);
+	transition: 0.2s;
+}
+
+.loader-6 .hide-whole {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	-webkit-animation: fadein2 5s;
+	animation: fadein2 5s;
+	background-color: var(--main-bg-color);
+	z-index: 1;
+}
+
+.loader-6 button {
+	z-index: 20;
+	position: relative;
+}
+
+.loader-6 .modal {
+	z-index: 20;
+	position: relative;
+	height: unset !important;
+}
+
+.loader-6 .modal-dialog {
+	max-width: unset !important;
+	width: 90% !important;
+}
+
+@keyframes fadeinbtn {
+	to {
+		opacity: 1;
+
+	}
+}
+
+@keyframes fadein2 {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+
 .tut {
 	background: var(--main-color);
 	color: #fff !important;
 	z-index: 1;
-	border-radius: 4px 0 0 0;
+	border-radius: 0 0 4px 4px;
+	margin-bottom: -60px;
 	position: absolute;
+	margin-right: -2px;
 	bottom: 0;
-	height: 150px;
-	width: 100%;
-	max-width: 400px;
+	height: 70px;
+	width: calc(100% + 4px);
 	right: 0;
 	padding: 15px;
-	box-shadow: 0 0 15px #00000024;
 }
 
 .tut h1,
@@ -1720,12 +1839,13 @@ select.v1 {
 
 .init {
 	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: auto;
-	border-radius: 0;
-	margin-top: 20px;
+	border-radius: 4px;
+	width: 80%;
+	max-width: 1500px;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -40%);
+	border: 2px solid var(--main-color);
 }
 
 .tut h1 {
@@ -2557,6 +2677,7 @@ unselectable {
 	margin: auto;
 	background: #fff !important;
 	z-index: 2000;
+	overflow: hidden;
 }
 
 .cs-loader-inner {
@@ -2808,8 +2929,14 @@ unselectable {
 	margin-top: 60px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 5s 0s;
+	animation: cssAnimation 5s 15s;
 	animation-fill-mode: forwards;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -10px;
+	font-weight: 500;
 }
 
 #load-text2 {
@@ -2817,8 +2944,14 @@ unselectable {
 	margin-top: -20px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 5s 10s;
+	animation: cssAnimation 5s 20s;
 	animation-fill-mode: forwards;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -10px;
+	font-weight: 500;
 }
 
 #load-text3 {
@@ -2826,8 +2959,14 @@ unselectable {
 	margin-top: -20px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 10s 15s;
+	animation: cssAnimation 10s 25s;
 	animation-fill-mode: forwards;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -10px;
+	font-weight: 500;
 }
 
 #load-text4 {
@@ -2835,8 +2974,14 @@ unselectable {
 	margin-top: -20px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 15s 25s;
+	animation: cssAnimation 15s 35s;
 	animation-fill-mode: forwards;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -10px;
+	font-weight: 500;
 }
 
 #load-text5 {
@@ -2844,8 +2989,14 @@ unselectable {
 	margin-top: -20px;
 	font-size: 15px;
 	opacity: 0;
-	animation: cssAnimation 20s 40s;
+	animation: cssAnimation 20s 55s;
 	animation-fill-mode: forwards;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: -10px;
+	font-weight: 500;
 }
 
 @keyframes cssAnimation {
@@ -3224,12 +3375,6 @@ unselectable {
 	background-repeat: no-repeat;
 	background-position: center;
 	transition: 0.4s;
-}
-
-.bgbl {
-	background-image: url("../img/blur.png") !important;
-	background-repeat: no-repeat;
-	background-position: center;
 }
 
 input:checked+.slider {
