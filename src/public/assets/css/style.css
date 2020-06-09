@@ -78,7 +78,7 @@ div.board-body>div:first-child {
 video {
 	width: 100%;
 	height: auto;
-	border-radius: 3px;
+	border-radius: 4px;
 }
 
 video:focus {
@@ -1689,13 +1689,12 @@ select.v1 {
 
 .loader-6 img {
 	position: absolute;
-	width: 100px;
+	width: 200px;
 	top: 50%;
 	left: 50%;
 	border-radius: 4px;
 	transform: translate(-50%, -50%);
 	animation: fadelogo 13s forwards;
-	box-shadow: 0 2px 20px 0 #486fff38;
 	opacity: 0;
 }
 
@@ -1726,6 +1725,11 @@ select.v1 {
 	animation: fadebtn 5s 13s forwards;
 }
 
+.loader-6 .modal-body {
+	padding: 1rem 1rem 0 1rem !important;
+	margin-bottom: -10px;
+}
+
 @keyframes fadebtn {
 	0% {
 		opacity: 0;
@@ -1750,12 +1754,6 @@ select.v1 {
 	border: none;
 	font-weight: 500;
 	letter-spacing: .4px;
-}
-
-.loader-6 button:hover {
-	opacity: .8;
-	background: var(--main-color);
-	transition: 0.2s;
 }
 
 .loader-6 .hide-whole {
@@ -1784,7 +1782,7 @@ select.v1 {
 
 .loader-6 .modal-dialog {
 	max-width: unset !important;
-	width: 90% !important;
+	width: 80% !important;
 }
 
 @keyframes fadeinbtn {
@@ -1835,17 +1833,6 @@ select.v1 {
 	padding: 3px;
 	font-weight: 500;
 	padding-left: 15px;
-}
-
-.init {
-	position: absolute;
-	border-radius: 4px;
-	width: 80%;
-	max-width: 1500px;
-	top: 40%;
-	left: 50%;
-	transform: translate(-50%, -40%);
-	border: 2px solid var(--main-color);
 }
 
 .tut h1 {
@@ -2927,7 +2914,7 @@ unselectable {
 #load-text {
 	color: var(--main-color);
 	margin-top: 60px;
-	font-size: 15px;
+	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 5s 15s;
 	animation-fill-mode: forwards;
@@ -2942,7 +2929,7 @@ unselectable {
 #load-text2 {
 	color: var(--main-color);
 	margin-top: -20px;
-	font-size: 15px;
+	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 5s 20s;
 	animation-fill-mode: forwards;
@@ -2957,7 +2944,7 @@ unselectable {
 #load-text3 {
 	color: var(--main-color);
 	margin-top: -20px;
-	font-size: 15px;
+	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 10s 25s;
 	animation-fill-mode: forwards;
@@ -2972,7 +2959,7 @@ unselectable {
 #load-text4 {
 	color: var(--main-color);
 	margin-top: -20px;
-	font-size: 15px;
+	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 15s 35s;
 	animation-fill-mode: forwards;
@@ -2987,7 +2974,7 @@ unselectable {
 #load-text5 {
 	color: var(--main-color);
 	margin-top: -20px;
-	font-size: 15px;
+	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 20s 55s;
 	animation-fill-mode: forwards;
