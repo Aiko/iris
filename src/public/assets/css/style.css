@@ -2913,76 +2913,66 @@ unselectable {
 
 #load-text {
 	color: var(--main-color);
-	margin-top: 60px;
 	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 14s 15s;
 	animation-fill-mode: forwards;
 	position: absolute;
-	top: 50%;
+	top: 51%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: -10px;
+	transform: translate(-50%, -51%);
 	font-weight: 500;
 }
 
 #load-text2 {
 	color: var(--main-color);
-	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 14s 29s;
 	animation-fill-mode: forwards;
 	position: absolute;
-	top: 50%;
+	top: 51%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: -10px;
+	transform: translate(-50%, -51%);
 	font-weight: 500;
 }
 
 #load-text3 {
 	color: var(--main-color);
-	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 14s 43s;
 	animation-fill-mode: forwards;
 	position: absolute;
-	top: 50%;
+	top: 51%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: -10px;
+	transform: translate(-50%, -51%);
 	font-weight: 500;
 }
 
 #load-text4 {
 	color: var(--main-color);
-	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 14s 57s;
 	animation-fill-mode: forwards;
 	position: absolute;
-	top: 50%;
+	top: 51%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: -10px;
+	transform: translate(-50%, -51%);
 	font-weight: 500;
 }
 
 #load-text5 {
 	color: var(--main-color);
-	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
 	animation: cssAnimation 14s 71s;
 	animation-fill-mode: forwards;
 	position: absolute;
-	top: 50%;
+	top: 51%;
 	left: 50%;
-	transform: translate(-50%, -50%);
-	margin-top: -10px;
+	transform: translate(-50%, -51%);
 	font-weight: 500;
 }
 
