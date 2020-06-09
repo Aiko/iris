@@ -1756,6 +1756,11 @@ select.v1 {
 	letter-spacing: .4px;
 }
 
+.loader-6 button:hover {
+	background: var(--main-color-hover) !important;
+	transition: 0.2s;
+}
+
 .loader-6 .hide-whole {
 	position: absolute;
 	width: 100%;
