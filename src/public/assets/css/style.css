@@ -2916,7 +2916,7 @@ unselectable {
 	margin-top: 60px;
 	font-size: 18px;
 	opacity: 0;
-	animation: cssAnimation 5s 15s;
+	animation: cssAnimation 14s 15s;
 	animation-fill-mode: forwards;
 	position: absolute;
 	top: 50%;
@@ -2931,7 +2931,7 @@ unselectable {
 	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
-	animation: cssAnimation 5s 20s;
+	animation: cssAnimation 14s 29s;
 	animation-fill-mode: forwards;
 	position: absolute;
 	top: 50%;
@@ -2946,7 +2946,7 @@ unselectable {
 	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
-	animation: cssAnimation 10s 25s;
+	animation: cssAnimation 14s 43s;
 	animation-fill-mode: forwards;
 	position: absolute;
 	top: 50%;
@@ -2961,7 +2961,7 @@ unselectable {
 	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
-	animation: cssAnimation 15s 35s;
+	animation: cssAnimation 14s 57s;
 	animation-fill-mode: forwards;
 	position: absolute;
 	top: 50%;
@@ -2976,7 +2976,7 @@ unselectable {
 	margin-top: -20px;
 	font-size: 18px;
 	opacity: 0;
-	animation: cssAnimation 20s 55s;
+	animation: cssAnimation 14s 71s;
 	animation-fill-mode: forwards;
 	position: absolute;
 	top: 50%;
