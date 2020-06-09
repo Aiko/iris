@@ -111,6 +111,4 @@ const app = new Vue({
     }
 })
 
-window.open('https://www.youtube.com/watch?v=153xbn1k2H8')
-
 window.error(atob("TUFLRSBTVVJFIFlPVSBERUxFVEUgVEhFIFNUQVJHQVpJTkcgVklERU8gQkVGT1JFIEdPSU5HIFRPIFBST0RVQ1RJT04hISE="))
