@@ -349,6 +349,7 @@ const mailapi = {
             return (this.connected = true)
         },
         async switchMailServer() {
+            const controlsLoader = !(this.loading);
             this.loading = true
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
@@ -452,7 +453,7 @@ const mailapi = {
             }
 
             console.timeEnd("SWITCH MAILBOX")
-            this.loading = false
+            if (controlsLoader) this.loading = false
 
             // sync boards and save their cache
             await Promise.all(
@@ -502,6 +503,7 @@ const mailapi = {
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
             console.time("Initial Sync")
+            const controlsLoader = !(this.loading);
             this.loading = true // its so big it blocks I/O
             this.syncing = true
 
@@ -584,7 +586,7 @@ const mailapi = {
                     }
                 }
             }
-            this.loading = false
+            if (controlsLoader) this.loading = false
             this.syncing = false
             console.timeEnd("Initial Sync")
         },
