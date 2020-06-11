@@ -1017,7 +1017,7 @@
     <!-- TODO: Make it impossible to name a board like an existing one ------------->
     <!-- NEW BOARD MODAL --------------------------------------->
     <add-board-modal v-if="addBoard" inline-template>
-      <div class="aiko-modal" @click.self="close">
+      <div class="aiko-modal addb" @click.self="close">
         <!-- STEP 1 - BOARD NAME --->
         <div v-if="step == 1" class="modal-dialog modal-sm">
           <div class="modal-content">
