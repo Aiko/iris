@@ -886,8 +886,8 @@
     </tutorial-modal>
 
     <!-- VIEW EMAIL -->
-    <view-email v-if="viewEmail" :emailcard="viewEmail" inline-template>
-      <div @click.self="close" class="aiko-modal">
+    <view-email tabindex="0" v-if="viewEmail" :emailcard="viewEmail" inline-template>
+      <div tabindex="0" @click.self="close" class="aiko-modal">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
