@@ -14,7 +14,7 @@ const shortcuts = {
         const enter = 13
 
         const that = this;
-        document.addEventListener('keyup', function (evt) {
+        document.addEventListener('keydown', function (evt) {
             // return if in viewing mode as that has diff shortcuts
             if (that.viewEmail) return;
             switch (evt.keyCode) {
