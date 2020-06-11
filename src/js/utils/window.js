@@ -21,11 +21,11 @@ module.exports = ((win, prefix='please') => {
 
             // Handlers
             const updateFullscreenStatus = s => {
-                win.webContents.send('fullscreen status changed', s)
+                win.webContents.send(prefix + ' fullscreen status changed', s)
                 isFullscreen = s
             }
             const updateMaximizedStatus = s =>
-                win.webContents.send('maximized status changed', s);
+                win.webContents.send(prefix + ' maximized status changed', s);
 
             win.on('enter-full-screen', () => updateFullscreenStatus(true))
             win.on('enter-html-full-screen', () => updateFullscreenStatus(true))

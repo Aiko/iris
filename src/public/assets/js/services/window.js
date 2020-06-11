@@ -12,9 +12,9 @@ const windowManager = {
     },
     methods: {
         async initWindowControls() {
-            ipcRenderer.on('fullscreen status changed',
+            ipcRenderer.on(this.windowPrefix + ' fullscreen status changed',
                 (_, status) => app.isFullScreen = status);
-            ipcRenderer.on('maximized status changed',
+            ipcRenderer.on(this.windowPrefix + ' maximized status changed',
                 (_, status) => app.isMaximized = status);
 
             ipcRenderer.invoke(this.windowPrefix + ' get fullscreen status')
