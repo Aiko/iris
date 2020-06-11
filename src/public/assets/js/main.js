@@ -31,18 +31,6 @@ const app = new Vue({
                 return
             }
             return
-        },
-        collapseSidebar(collapse, collapsed) {
-            if (collapse == collapsed) return;
-            if (!collapse && collapsed) {
-                document.getElementById('app').classList.toggle('collapsed', false)
-                return
-            }
-            if (collapse && !collapsed) {
-                document.getElementById('app').classList.toggle('collapsed', true)
-                return
-            }
-            return
         }
     },
     async created() {
