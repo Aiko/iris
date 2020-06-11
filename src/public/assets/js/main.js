@@ -8,6 +8,7 @@ const app = new Vue({
         composer, // SMTP API
         goauth, // Google OAuth
         modalmanager, // Modals
+        shortcuts // Shortcuts
     ],
     data: {
         TAG: ["%c[MAIN]", "background-color: #dd00aa; color: #000;"],

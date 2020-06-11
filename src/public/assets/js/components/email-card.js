@@ -1,6 +1,18 @@
 Vue.component('email-card', {
     template: '#email-card',
-    props: ['email', 'board', 'inbox', 'index'],
+    props: ['email', 'board', 'inbox', 'index', 'focusedFolder', 'focusedIndex'],
+    watch: {
+        focusedFolder() {
+            if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex) {
+                this.$el.scrollIntoViewIfNeeded();
+            }
+        },
+        focusedIndex() {
+            if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex) {
+                this.$el.scrollIntoViewIfNeeded();
+            }
+        }
+    },
     methods: {
         async debug() {
             console.log(this.email)
