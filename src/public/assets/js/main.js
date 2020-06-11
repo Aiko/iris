@@ -22,12 +22,12 @@ const app = new Vue({
             if (wasLoading && isLoading) return;
             if (wasLoading && !isLoading) {
                 setTimeout(() => {
-                    document.getElementById('fixed').style.display = 'none'
+                    document.getElementById('fixed').style.visibility = 'hidden'
                 }, 300)
                 return
             }
             if (!wasLoading && isLoading) {
-                document.getElementById('fixed').style.display = ''
+                document.getElementById('fixed').style.visibility = 'unset'
                 return
             }
             return
