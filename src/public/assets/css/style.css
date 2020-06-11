@@ -246,7 +246,10 @@ input:active {
 	opacity: 0.7;
 	transition: 0.2s;
 }
+.addb{
+  text-transform: capitalize;
 
+}
 .sidebar-collapse {
 	position: absolute;
 	right: 0;
