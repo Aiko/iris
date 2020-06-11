@@ -74,6 +74,7 @@ Vue.component('view-email', {
     methods: {
         close() {
             app.viewEmail = null
+            app.focused.view = false
         }
     }
 })

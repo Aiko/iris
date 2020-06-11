@@ -2,7 +2,8 @@ const shortcuts = {
     data: {
         focused: {
             index: -1,
-            folder: "INBOX"
+            folder: "INBOX",
+            view: false
         },
     },
     async created() {
@@ -10,14 +11,18 @@ const shortcuts = {
         const upArrow = 38
         const rightArrow = 39
         const downArrow = 40
+        const enter = 13
 
         const that = this;
         document.addEventListener('keyup', function (evt) {
+            // return if in viewing mode as that has diff shortcuts
+            if (that.viewEmail) return;
             switch (evt.keyCode) {
                 case leftArrow: return that.focusPrevBoard();
                 case rightArrow: return that.focusNextBoard();
                 case downArrow: return that.focusNextEmail();
                 case upArrow: return that.focusPreviousEmail();
+                case enter: return (that.focused.view = true);
                 default: return;
             }
         })

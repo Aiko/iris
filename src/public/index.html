@@ -637,7 +637,7 @@
                 <email-card :inbox="true" :key="email.uid"
                   v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription) && !email?.ai?.threaded"
                   v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
-                  :focused-index.camel="focused.index" :email="email">
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                 </email-card>
               </draggable>
 
@@ -704,7 +704,7 @@
                     <email-card :board="boardName"
                       v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
                       :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :focused-folder.camel="focused.folder"
-                      :focused-index.camel="focused.index" :email="email">
+                      :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                     </email-card>
                   </draggable>
                   <div class="empty" v-if="board?.emails?.length == 0">
@@ -751,7 +751,7 @@
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
                 <email-card :board="folderNames.done" v-if="email.folder == folderNames.done"
                   :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i" :focused-folder.camel="focused.folder"
-                  :focused-index.camel="focused.index" :email="email">
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                 </email-card>
               </draggable>
               <div class="empty" v-if="done?.emails?.length == 0">
