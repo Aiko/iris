@@ -7,6 +7,14 @@ Vue.component('view-email', {
         }
     },
     async created() {
+        //* bind escape to close
+        const that = this;
+        document.addEventListener('keyup', function (evt) {
+            if (evt.keyCode === 27) { //* escape
+                that.close();
+            }
+        })
+
         //* first fetch the selected email
         console.time("Fetching selected email.")
         const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, null, true))
