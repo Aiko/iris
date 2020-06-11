@@ -329,7 +329,11 @@ ipcMain.handle('please open a folder', async (_, q) => {
         if (!path) return { error:  'No folder path provided to "please open a folder"' }
     }
 
-    let info; try { info = await client.selectMailbox(path, options) } catch (e) { return { error: e } }
+    let info; try { info = await client.selectMailbox(path, options) } catch (e) {
+        console.error("Error selecting mailbox:")
+        console.log(e)
+        return { error: e }
+    }
     if (!info) return { error: 'Did not receive any mailbox info back when calling client.selectMailbox(' + path + ') in "please open a folder"' };
 
     /*
