@@ -219,6 +219,10 @@ const mailapi = {
         },
         // Utility methods
         folderWithSlug(slug) {
+            if (!slug) {
+                window.error(...MAILAPI_TAG, "Board slug is empty, defaulting to Uncategorized")
+                slug = 'Uncategorized'
+            }
             return `[Aiko Mail]/${slug}`
         },
         async newBoard(slug) {
@@ -516,7 +520,7 @@ const mailapi = {
 
             let MESSAGE_COUNT = 0
             const MAX_COUNT = 200
-            const INCREMENT = MAX_COUNT * 2 // GOTTA GO FAST
+            const INCREMENT = MAX_COUNT * 2 // GOTTA GO FAT
             const emails = []
             let uidMax = uidNext
             let uidMin = uidMax
