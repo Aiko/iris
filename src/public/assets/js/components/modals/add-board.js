@@ -5,6 +5,11 @@ Vue.component('add-board-modal', {
             step: 1
         }
     },
+    computed: {
+        validBoard() {
+            return !!(this.name)
+        }
+    },
     methods: {
         async addBoard() {
             // TODO: check to make sure name is valid

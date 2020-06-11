@@ -1023,7 +1023,7 @@
               <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap"
                 style="margin-top: -20px;">
               <br><br>
-              <div class="modal-bottom">
+              <div v-if="validBoard" class="modal-bottom">
                 <!-- TODO: change this to do step = 2 and then rig the board rules -->
                 <a @click="addBoard" class="blue">Next</a>
               </div>
