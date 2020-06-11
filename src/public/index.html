@@ -1020,7 +1020,7 @@
               <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
               <h1>Add a board</h1>
               <h2>Enter a name for your board</h2>
-              <input v-model="name" type="text" placeholder="Board name" maxlength="13" class="cap"
+              <input v-model="name" type="text" placeholder="Board name" minlength="1" maxlength="13" class="cap"
                 style="margin-top: -20px;">
               <br><br>
               <div v-if="validBoard" class="modal-bottom">

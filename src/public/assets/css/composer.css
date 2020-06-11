@@ -15,7 +15,9 @@
     pointer-events: none;
     position: absolute
 }
-
+.nav-tabs .nav-link{
+    border-radius: 0 !important;;
+}
 .ProseMirror-gapcursor:after {
     content: "";
     display: block;
