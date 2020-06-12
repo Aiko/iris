@@ -353,7 +353,7 @@
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    z-index: 20;
+    z-index: 100000000;
     background: #000;
     border-radius: 5px;
     padding: .3rem;
@@ -368,7 +368,8 @@
 
 .menububble.is-active {
     opacity: 1;
-    visibility: visible
+    visibility: visible;
+    z-index: 100000000;
 }
 
 .menububble__button {
@@ -378,10 +379,11 @@
     background: transparent;
     border: 0;
     color: #fff;
-    padding: .2rem .5rem;
     margin-right: .2rem;
     border-radius: 3px;
-    cursor: pointer
+    cursor: pointer;
+    padding: 0;
+    z-index: 1000000;
 }
 
 .menububble__button:last-child {

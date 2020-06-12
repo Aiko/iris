@@ -160,17 +160,20 @@ const app = new Vue({
             })
         },
         showLinkMenu(attrs) {
-            this.linkUrl = attrs.href
+            this.log("Showed link menu")
             this.linkMenuIsActive = true
+            this.linkUrl = attrs.href
             this.$nextTick(() => {
                 this.$refs.linkInput.focus()
             })
         },
         hideLinkMenu() {
+            this.log("Hid link menu")
             this.linkUrl = null
             this.linkMenuIsActive = false
         },
         setLinkUrl(command, url) {
+            this.log("Set link to", url)
             command({ href: url })
             this.hideLinkMenu()
         },
