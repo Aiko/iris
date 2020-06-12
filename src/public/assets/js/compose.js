@@ -1,7 +1,8 @@
 const {
     Editor,
     EditorContent,
-    EditorMenuBar
+    EditorMenuBar,
+    EditorMenuBubble,
 } = tiptapBuild.tiptap
 const {
     Blockquote,
@@ -36,7 +37,8 @@ const app = new Vue({
     ],
     components: {
         EditorContent,
-        EditorMenuBar
+        EditorMenuBar,
+        EditorMenuBubble,
     },
     data: {
         TAG: ["%c[COMPOSER MAIN]", "background-color: #dd00aa; color: #000;"],
@@ -44,6 +46,8 @@ const app = new Vue({
         bang: '',
         editor: null,
         html: '',
+        linkUrl: null,
+        linkMenuIsActive: false,
     },
     watch: {
         loading(isLoading, wasLoading) {
@@ -154,6 +158,21 @@ const app = new Vue({
                     this.html = getHTML()
                 }
             })
+        },
+        showLinkMenu(attrs) {
+            this.linkUrl = attrs.href
+            this.linkMenuIsActive = true
+            this.$nextTick(() => {
+                this.$refs.linkInput.focus()
+            })
+        },
+        hideLinkMenu() {
+            this.linkUrl = null
+            this.linkMenuIsActive = false
+        },
+        setLinkUrl(command, url) {
+            command({ href: url })
+            this.hideLinkMenu()
         },
     }
 })

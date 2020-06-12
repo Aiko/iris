@@ -58,25 +58,91 @@
 
                 <div class="compose-body">
                     <editor-content class="editor" :editor="editor"></editor-content>
+                    <editor-menu-bubble class="menububble" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
+                        <div class="menububble" :class="{'is-active': menu.isActive }"
+                            :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`">
+                            <form class="menububble__form" v-if="linkMenuIsActive" @submit.prevent="setLinkUrl(commands.link, linkUrl)">
+                                <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput" @keydown.esc="hideLinkMenu"/>
+                                <button class="menububble__button" @click="setLinkUrl(commands.link, null)" type="button">
+                                    <img src="assets/icons/link-3.svg">
+                                </button>
+                            </form>
+
+                            <div v-else class="comp-sep">
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.link()
+                                }" @click="showLinkMenu(getMarkAttrs('link'))",>
+                                    <img src="assets/icons/link-3.svg">
+                                </a>
+                            </div>
+                        </div>
+                    </editor-menu-bubble>
+
                     <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+
                         <div class="menubar">
                             <div class="comp-sep">
-                                <a class="comp-btn"><img src="assets/icons/bold.svg"></a>
-                                <a class="comp-btn"><img src="assets/icons/italic.svg"></a>
-                                <a class="comp-btn"><img src="assets/icons/underline.svg"></a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.bold()
+                                }" @click="commands.bold">
+                                    <img src="assets/icons/bold.svg">
+                                </a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.italic()
+                                }" @click="commands.italic">
+                                    <img src="assets/icons/italic.svg">
+                                </a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.underline()
+                                }" @click="commands.underline">
+                                    <img src="assets/icons/underline.svg">
+                                </a>
                             </div>
                             <div class="comp-sep">
-                                <a class="comp-btn"><img src="assets/icons/badges-attach.svg"></a>
-                                <a class="comp-btn"><img src="assets/icons/link-3.svg"></a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                }">
+                                    <!-- TODO: attach files -->
+                                    <img src="assets/icons/badges-attach.svg">
+                                </a>
                                 <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
                             </div>
                             <div class="comp-sep">
-                                <a class="comp-btn"><img src="assets/icons/t.svg"></a>
-                                <a class="comp-btn"><img src="assets/icons/align-left.svg"></a>
-                                <a class="comp-btn"><img src="assets/icons/list.svg"></a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.bold()
+                                }" @click="commands.bold">
+                                    <img src="assets/icons/t.svg">
+                                </a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.bold()
+                                }" @click="commands.bold">
+                                    <img src="assets/icons/align-left.svg">
+                                </a>
+                                <a :class="{
+                                    'comp-btn': true,
+                                    'composer-active': isActive.bold()
+                                }" @click="commands.bold">
+                                    <img src="assets/icons/list.svg">
+                                </a>
                             </div>
-                            <a class="comp-btn"><img src="assets/icons/code.svg"></a>
-                            <a class="comp-btn"><img src="assets/icons/q.svg"></a>
+                            <a :class="{
+                                'comp-btn': true,
+                                'composer-active': isActive.bold()
+                            }" @click="commands.bold">
+                            <img src="assets/icons/code.svg">
+                            </a>
+                            <a :class="{
+                                'comp-btn': true,
+                                'composer-active': isActive.bold()
+                            }" @click="commands.bold">
+                            <img src="assets/icons/q.svg">
+                            </a>
 
 
 
@@ -94,7 +160,6 @@
                                         format</a>
                                     <a class="dropdown-item disabled" href="#"><span class="quotes-c">| Hello</span>
                                         Quotation</a>
-
                                 </div>
                             </div>
 
