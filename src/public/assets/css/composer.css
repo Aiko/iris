@@ -187,7 +187,7 @@
 .menubar {
     height: 40px;
     margin-bottom: 10px;
-    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     background: var(--secondary-bg-color);
     -webkit-transition: visibility .2s .4s,
@@ -364,6 +364,7 @@
     margin-bottom: .5rem;
     visibility: hidden;
     opacity: 0;
+    box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
     -webkit-transition: opacity .2s,
         visibility .2s;
     transition: opacity .2s,
@@ -414,7 +415,8 @@
     font: inherit;
     border: none;
     background: transparent;
-    color: #fff
+    color: var(--dark-text);
+    padding-right: 5px;
 }
 
 .comp-sep {
