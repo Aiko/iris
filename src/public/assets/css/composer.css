@@ -357,16 +357,17 @@
     display: -ms-flexbox;
     display: flex;
     z-index: 100000000;
-    background: #000;
+    background: var(--secondary-bg-color);
+    margin-left: 5px;
     border-radius: 5px;
-    padding: .3rem;
+    padding: 5px 1px 0 5px !important;
     margin-bottom: .5rem;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
     visibility: hidden;
     opacity: 0;
-    -webkit-transition: opacity .2s, visibility .2s;
-    transition: opacity .2s, visibility .2s
+    -webkit-transition: opacity .2s,
+        visibility .2s;
+    transition: opacity .2s,
+        visibility .2s;
 }
 
 .menububble.is-active {
@@ -374,6 +375,8 @@
     visibility: visible;
     z-index: 100000000;
 }
+
+
 
 .menububble__button {
     display: -webkit-inline-box;
@@ -393,10 +396,6 @@
     margin-right: 0
 }
 
-.menububble__button:hover {
-    background-color: hsla(0, 0%, 100%, .1)
-}
-
 .menububble__button.is-active {
     background-color: hsla(0, 0%, 100%, .2)
 }
@@ -407,7 +406,8 @@
     display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
-    align-items: center
+    align-items: center;
+    margin-bottom: 4px;
 }
 
 .menububble__input {
