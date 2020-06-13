@@ -202,6 +202,7 @@
     overflow: visible;
 }
 
+
 .menubar button {
     background: transparent;
     border: none;
@@ -210,6 +211,10 @@
     height: 26px;
     outline: none;
     padding: 0 4px 10px 0;
+}
+
+.composer-active {
+    filter: brightness(.94);
 }
 
 .compose-body {

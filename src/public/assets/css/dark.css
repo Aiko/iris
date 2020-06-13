@@ -152,6 +152,11 @@ body {
   box-shadow: 8px 1px 10px #0000002e !important;
 }
 
+.composer-active {
+  filter: brightness(1.6);
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.46);
+}
+
 .bottom {
   border-top: 1px solid var(--secondary-bg-color) !important;
 }
