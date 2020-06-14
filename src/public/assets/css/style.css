@@ -246,10 +246,12 @@ input:active {
 	opacity: 0.7;
 	transition: 0.2s;
 }
-.addb{
-  text-transform: capitalize;
+
+.addb {
+	text-transform: capitalize;
 
 }
+
 .sidebar-collapse {
 	position: absolute;
 	right: 0;
@@ -1470,6 +1472,11 @@ hr {
 	background: #fff;
 }
 
+.sec-sec {
+	height: -webkit-fill-available;
+	overflow: scroll;
+}
+
 .main-email {
 	height: 100%;
 	background: #f7f7f7;
@@ -1490,6 +1497,7 @@ hr {
 	border-radius: 3px;
 	box-shadow: inset 6px 0 10px -4px #00000014;
 	padding: 107px 15px 25px 15px;
+	overflow: hidden;
 	transition: 0.2s;
 }
 
@@ -1499,7 +1507,6 @@ hr {
 
 .previous-threads {
 	overflow: scroll;
-	height: calc(100% - 5px);
 	width: calc(100% + 50px);
 	padding: 0 25px;
 	margin-left: -25px;
@@ -1659,7 +1666,7 @@ select.v1 {
 	margin-left: -15px;
 	top: 0;
 	width: 100%;
-	padding-top: 25px;
+	padding-top: 30px;
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -2196,6 +2203,70 @@ select.v1 {
 
 .zen .boards-container {
 	height: 100% !important;
+}
+
+.attachments {
+	overflow: scroll;
+	width: calc(100% + 50px);
+	padding: 0 25px;
+	margin-left: -25px;
+	max-height: 40%;
+	background: var(--secondary-bg-color);
+	padding-top: 10px;
+	margin-bottom: 10px;
+}
+
+.attachments .secondary-count {
+	background: var(--main-bg-color) !important;
+}
+
+.attachments a {
+	color: #486fff !important;
+	margin-left: 5px;
+}
+
+.attachment {
+	background: #486fff;
+	border-radius: 3px;
+	color: #fff;
+	font-weight: 500;
+	padding: 5px;
+	cursor: pointer;
+	display: inline-flex;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	margin-bottom: 10px;
+	box-shadow: 0 4px 6px #00000045;
+}
+
+.attachment img {
+	width: 20px;
+	padding: 1px 1px 2px 1px;
+}
+
+.attachment .name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 20px;
+	font-weight: 400;
+	letter-spacing: .4px;
+	margin-left: 4px;
+	width: calc(100% - 50px);
+}
+
+.attachment .size {
+	text-align: right;
+	float: right;
+	color: #fff;
+	opacity: .7;
+	padding: 3px 2px 1px 2px;
+	font-size: 12px;
+	position: absolute;
+	margin-right: 4px;
+	right: 0;
 }
 
 .zen .boards {

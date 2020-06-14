@@ -703,8 +703,9 @@
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
                     <email-card :board="boardName"
                       v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
-                      :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i" :focused-folder.camel="focused.folder"
-                      :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
+                      :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i"
+                      :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                      :view-focused.camel="focused.view" :email="email">
                     </email-card>
                   </draggable>
                   <div class="empty" v-if="board?.emails?.length == 0">
@@ -750,8 +751,9 @@
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
                 <email-card :board="folderNames.done" v-if="email.folder == folderNames.done"
-                  :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i" :focused-folder.camel="focused.folder"
-                  :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
+                  :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :email="email">
                 </email-card>
               </draggable>
               <div class="empty" v-if="done?.emails?.length == 0">
@@ -925,10 +927,34 @@
                 </div>
               </div>
 
+              <!-- TODO: SHOW THIS DIV ONLY WHEN THERE ARE ATTACHMENTS IN EMAIL-->
+              <div class="attachments">
+                <h3>Attachments
+                  <div class="secondary-count">12</div>
+                  <a>Download all</a>
+                </h3>
+
+                <div class="attachment"><img src="assets/icons/music.svg">
+                  <div class="name">grimeforprinis.mp3</div>
+                  <div class="size">13MB</div>
+                </div>
+
+                <div class="attachment"><img src="assets/icons/music.svg">
+                  <div class="name">grime.mp3</div>
+                  <div class="size">1MB</div>
+                </div>
+
+                <div class="attachment"><img src="assets/icons/music.svg">
+                  <div class="name">prinis.mp3</div>
+                  <div class="size">3MB</div>
+                </div>
+
+              </div>
+
               <h3>Previous threads with Ruben</h3>
-              <div class="previous-threads">
+              <div class="previous-threads sec-sec">
                 <div class="email thread">
-                  <div class="container pr" data-toggle="modal" data-target=".email1">
+                  <div class="container pr">
                     <div class="row" style="user-select: none;">
                       <div class="col-8 p0" style="display: inline-flex;">
                         <p class="subject">This is the subject</p>
@@ -942,6 +968,152 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="email thread">
+                  <div class="container pr">
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">This is the subject</p>
+                      </div>
+                      <div class="col-4 p0">
+                        <div class="time">6:18PM</div>
+                      </div>
+
+                      <p class="body">This is the main content of the email, it is suppose to be
+                        longer than the subject and a summary of the main content.</p>
+                    </div>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           </div>
