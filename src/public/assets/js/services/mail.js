@@ -875,7 +875,7 @@ const mailapi = {
             const doneDelta = await getChanges(
                 //this.inbox.modSeq,
                 this.folderNames.done,
-                this.done.emails.filter(e => e.folder == "INBOX").map(e => e.inboxUID || e.uid)
+                this.done.emails.filter(e => e.folder == "[Aiko Mail]/Done").map(e => e.inboxUID || e.uid)
             )
             info(...MAILAPI_TAG, "Computed Done delta.")
             // update the inbox
@@ -887,7 +887,7 @@ const mailapi = {
                         Object.assign(email.flags, flags)
                         email.ai.seen = flags.includes('\\Seen')
                         email.ai.deleted = flags.includes('\\Deleted')
-                    } else if (email.folder == 'INBOX') {
+                    } else if (email.folder == '[Aiko Mail]/Done') {
                         email.ai.deleted = true
                     }
                     return email
