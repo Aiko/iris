@@ -91,6 +91,8 @@ const app = new Vue({
 
         success(...(this.TAG), "Finished initialization.")
         console.timeEnd("APP STARTUP")
+        this.loading = false // let mail.js decide when to kill loader
+        this.switchMailServer() // load mailserver
     },
     methods: {
         log(...msg) {

@@ -97,7 +97,6 @@ const mailapi = {
                 await this.google_loadConfig()
                 await this.google_checkTokens()
             }
-            this.switchMailServer()
         },
         async saveIMAPConfig() {
             await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
@@ -354,7 +353,7 @@ const mailapi = {
         },
         async switchMailServer() {
             const controlsLoader = !(this.loading);
-            this.loading = true
+            if (controlsLoader) this.loading = true
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
             console.time("SWITCH MAILBOX")
@@ -503,8 +502,6 @@ const mailapi = {
                     }
                 }
             }
-
-            this.loading = false
 
             // update & check for new messages in background
             this.updateAndFetch()
