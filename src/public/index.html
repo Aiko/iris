@@ -634,8 +634,8 @@
               <draggable filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <email-card :inbox="true" :key="email.uid"
-                  v-if="email.folder == 'INBOX' && (!priority || !email?.ai?.subscription) && !email?.ai?.threaded"
+                <email-card :inbox="true" :key="email?.uid"
+                  v-if="!loading && email?.folder == 'INBOX' && (!priority || !email?.ai?.subscription) && !email?.ai?.threaded"
                   v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
                   :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                 </email-card>
@@ -773,7 +773,6 @@
         </div>
       </div>
     </div>
-
 
     <!-- INVITE MODAL --------------------------------------->
     <div class="aiko-modal" style="display: none;">

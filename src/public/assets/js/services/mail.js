@@ -353,6 +353,7 @@ const mailapi = {
         },
         async switchMailServer() {
             const controlsLoader = !(this.loading);
+            console.log("controls loader?", controlsLoader)
             if (controlsLoader) this.loading = true
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
@@ -425,7 +426,7 @@ const mailapi = {
             // load cache for done
             const doneCache = (
                 await BigStorage.load(this.imapConfig.email + '/done') ||
-                this.done)
+                this.done);
             doneCache.emails = await MailCleaner.peek(this.folderNames.done, doneCache.emails)
             this.done = doneCache
             // memory linking for done board
@@ -443,7 +444,6 @@ const mailapi = {
                     }
                 }
             }
-
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
 
