@@ -460,9 +460,12 @@ const mailapi = {
             if (controlsLoader) this.loading = false
 
             // sync boards and save their cache
+            console.time("SYNC BOARDS")
             await Promise.all(
-                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName, newest=false)))
-            await this.initialSyncDone(newest=false)
+                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName, newest=true)))
+            await this.initialSyncDone(newest=true)
+            await this.checkForUpdates()
+            console.timeEnd("SYNC BOARDS")
             info(...MAILAPI_TAG, "Saving boards cache")
             await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
             await BigStorage.store(this.imapConfig.email + '/done', this.done)
@@ -625,12 +628,19 @@ const mailapi = {
 
             const emails = await this.callIPC(
                 this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, false))
+            //    this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, !newest))
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.full(boardName, emails.reverse())
-            // TODO: ai should be stored in their headers automatically.
+            const processed_emails = await MailCleaner.full(boardName, emails.reverse());
+            /*
+            if (newest) processed_emails = await MailCleaner.full(boardName, emails.reverse())
+            else processed_emails = await MailCleaner.base(boardName, emails.reverse())
+            */
 
             if (newest) this.boards[boardName].emails.unshift(...processed_emails)
-            else this.boards[boardName].emails = processed_emails
+            else {
+                // update deleted, stars etc
+                this.boards[boardName].emails = processed_emails
+            }
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             await this.halfThreading()
