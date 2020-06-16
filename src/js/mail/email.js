@@ -394,7 +394,9 @@ ipcMain.handle('please get emails', async (_, q) => {
         msg.parsed = await simpleParser(msg['body[]'], {
             skipHtmlToText: true,
             skipTextToHtml: true,
-            maxHtmlLengthToParse: 1000 * 1000
+            maxHtmlLengthToParse: 1000 * 1000,
+            skipAttachments: !downloadAttachments,
+            keepCidLinks: !downloadAttachments
         })
         //console.timeEnd("Parse " + msg['body[]'].length)
         // console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
