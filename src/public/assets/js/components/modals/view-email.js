@@ -50,7 +50,7 @@ Vue.component('view-email', {
                 }
                 const sequence = ranges.join(',')
                 const fetched = await app.executeIPC(app.task_FetchEmails(
-                    folder, sequence, false, null, null, null, true
+                    folder, sequence, false, null, null, true, true
                 ))
                 console.timeEnd("Fetching emails from " + folder)
                 if (!fetched) {
