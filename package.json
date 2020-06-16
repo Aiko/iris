@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "name": "Priansh from Aiko 😜",
     "email": "priansh@helloaiko.com"
   },
-  "license": "MIT",
+  "license": "Proprietary, all rights reserved, no permissions granted.",
   "config": {
     "forge": {
       "packagerConfig": {
@@ -56,9 +56,8 @@
     "googleapis": "^44.0.0",
     "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
-    "mailparser": "^2.7.7",
+    "mailparser": "github:pshah123/mailparser",
     "node-email": "github:Aiko/node-email",
-    "node-summarizer": "^1.0.7",
     "nodemailer": "^6.3.1",
     "request": "^2.88.0",
     "ws": "^7.2.5"
