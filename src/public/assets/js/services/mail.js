@@ -501,6 +501,8 @@ const mailapi = {
                 }
             }
 
+            this.loading = false
+
             // update & check for new messages in background
             this.updateAndFetch()
         },

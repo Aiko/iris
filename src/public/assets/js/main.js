@@ -90,7 +90,6 @@ const app = new Vue({
         await this.initIMAP()
 
         success(...(this.TAG), "Finished initialization.")
-        this.loading = false
         console.timeEnd("APP STARTUP")
     },
     methods: {
