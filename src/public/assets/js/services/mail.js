@@ -705,7 +705,7 @@ const mailapi = {
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
             if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
-            if (this.inbox.uidLatest < 0 || uidNext - this.inbox.uidLatest > 50) {
+            if (this.inbox.uidLatest < 0 || uidNext - this.inbox.uidLatest > 200) {
                 info(...MAILAPI_TAG, "There are too many emails to update, need to sync.")
                 // TODO: probably show a modal since this is blocking
                 await this.initialSyncWithMailServer()
