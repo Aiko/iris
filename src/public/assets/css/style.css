@@ -2214,6 +2214,7 @@ select.v1 {
 	background: var(--secondary-bg-color);
 	padding-top: 10px;
 	margin-bottom: 10px;
+	padding-bottom: 5px;
 }
 
 .attachments .secondary-count {
@@ -2238,7 +2239,7 @@ select.v1 {
 	overflow: hidden;
 	position: relative;
 	width: 100%;
-	margin-bottom: 10px;
+	margin-bottom: 7px;
 	box-shadow: 0 4px 6px #00000045;
 }
 
