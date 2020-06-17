@@ -884,6 +884,9 @@ const mailapi = {
                 .map(email => {
                     email.parsed.html = ''
                     email.parsed.text = ''
+                    email.parsed.msgText = ''
+                    email.parsed.headers = {}
+                    email.parsed.headerLines = []
                     return email
                 })
             info(...MAILAPI_TAG, "Processed", processed_emails.length, "emails")
@@ -905,6 +908,7 @@ const mailapi = {
                 this.getOldMessages().then(() => {
                     that.seekingInbox = false
                     e.target.scrollTop = scrollTop
+                    e.target.clientHeight = clientHeight
                     that.onScroll(e)
                 })
             }
