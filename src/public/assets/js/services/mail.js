@@ -466,42 +466,8 @@ const mailapi = {
             await this.checkForUpdates()
             info(...MAILAPI_TAG, "Saving boards cache")
             */
-            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
-            await BigStorage.store(this.imapConfig.email + '/done', this.done)
-            // FIXME: must be better way to do this
-            for (let board of this.boardNames) {
-                // TODO: this could easily be refactored into a map or something
-                // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
-                    // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
-                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-                            // link them in memory
-                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-                            if (!(this.boards[board].emails[i].inboxUID)) {
-                                log("Changing uid to", wasUID)
-                                this.boards[board].emails[i].inboxUID = wasUID
-                            }
-                        }
-                    }
-                }
-            }
-            // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
-                // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
-                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-                        // link them in memory
-                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                        Vue.set(this.inbox.emails, j, this.done.emails[i])
-                        if (!(this.done.emails[i].inboxUID)) {
-                            log("changing uid to", wasUID)
-                            this.done.emails[i].inboxUID = wasUID
-                        }
-                    }
-                }
-            }
+
+            await this.memoryLinking()
 
             // update & check for new messages in background
             this.updateAndFetch()
@@ -641,6 +607,7 @@ const mailapi = {
             if (this.boards[boardName].emails.length > 0)
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             await this.halfThreading()
+            await this.memoryLinking()
             success(...MAILAPI_TAG, "Finished updating", boardName)
             this.syncing = false
         },
@@ -686,6 +653,65 @@ const mailapi = {
             // maybe this should be specifically for syncing the
             // sent, trash, drafts etc folders to the mailserver
         },
+        // board utils
+        async memoryLinking() {
+            for (let board of this.boardNames) {
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
+                        }
+                    }
+                }
+            }
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            this.done.emails[i].inboxUID = wasUID
+                        }
+                    }
+                }
+            }
+
+        },
+        async saveBoardCache() {
+            const boardsCache = {}
+            for (let board of this.boardNames) {
+                const b = this.boards[board]
+                boardsCache[board] = b
+                boardsCache[board].emails = b.emails
+                    .filter(e => e.folder == board)
+                    .filter(e => e?.ai?.threaded != board)
+                if (boardsCache[board].emails.length > 100) {
+                    console.warn(board + " has too many emails to cache and will be truncated.")
+                    boardsCache[board].emails = boardsCache.emails.slice(0, 100)
+                }
+            }
+            await BigStorage.store(this.imapConfig.email + '/boards', boardsCache)
+            const doneCache = this.done
+            doneCache.emails = this.done.emails
+                .filter(e => e.folder == this.folderNames.done)
+                .filter(e => e?.ai?.threaded != this.folderNames.done)
+            if (doneCache.emails.length > 100) {
+                console.warn("Done board has too many emails to cache and will be truncated.")
+                doneCache.emails = doneCache.emails.slice(0, 100)
+            }
+            await BigStorage.store(this.imapConfig.email + '/done', doneCache)
+        },
         // Basic message retrieval
         async updateAndFetch() {
             info(...MAILAPI_TAG, "Running update and fetch.")
@@ -706,41 +732,8 @@ const mailapi = {
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
             info(...MAILAPI_TAG, "Threading...")
             await this.halfThreading().catch(window.error)
-
-            for (let board of this.boardNames) {
-                // TODO: this could easily be refactored into a map or something
-                // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
-                    // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
-                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-                            // link them in memory
-                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-                            if (!(this.boards[board].emails[i].inboxUID)) {
-                                log("Changing uid to", wasUID)
-                                this.boards[board].emails[i].inboxUID = wasUID
-                            }
-                        }
-                    }
-                }
-            }
-            // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
-                // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
-                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-                        // link them in memory
-                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                        Vue.set(this.inbox.emails, j, this.done.emails[i])
-                        if (!(this.done.emails[i].inboxUID)) {
-                            log("changing uid to", wasUID)
-                            this.done.emails[i].inboxUID = wasUID
-                        }
-                    }
-                }
-            }
-
+            info(...MAILAPI_TAG, "Memory linking...")
+            await this.memoryLinking()
             this.syncing = false
         },
         async checkForNewMessages() {
@@ -902,8 +895,6 @@ const mailapi = {
                 ))).filter(_=>_)
                 info(...MAILAPI_TAG, "Synced", board, "messages with remote flags.")
             }
-            // cache boards
-            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
 
             // update done
             // check inbox
@@ -929,6 +920,8 @@ const mailapi = {
                 }
             ))
             info(...MAILAPI_TAG, "Synced done messages with remote flags.")
+
+            this.saveBoardCache()
         },
         async getOldMessages() {
             if (this.inbox.emails.length <= 0) {
@@ -1270,7 +1263,7 @@ const mailapi = {
             }
             this.done.emails = this.done.emails.map(_=>_)
             // save cache
-            await BigStorage.store(app.imapConfig.email + '/boards', app.boards)
+            this.saveBoardCache()
         },
         // Kanban
         checkMove({to, from, draggedContext}) {
@@ -1498,32 +1491,20 @@ const mailapi = {
                         if (app.boards[boardName].emails.length > 0)
                             app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
                     }
-                    info(...MAILAPI_TAG, "Saving boards cache")
-                    await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
                     info(...MAILAPI_TAG, "Saving inbox cache...")
                     await BigStorage.store(this.imapConfig.email + '/inbox', {
                         uidLatest: this.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
                         emails: this.inbox.emails.slice(0,200)
                     })
-                    info(...MAILAPI_TAG, "Saving done cache...")
-                    await BigStorage.store(this.imapConfig.email + '/done', {
-                        uidLatest: this.done.uidLatest,
-                        emails: this.done.emails.slice(0, 100)
-                    })
+                    this.saveBoardCache()
                     info(...MAILAPI_TAG, "Saved all caches.")
                 }
 
                 setTimeout(sync, SYNC_TIMEOUT)
             }
             // TODO: special for done? idk
-            info(...MAILAPI_TAG, "Saving boards cache")
-            await BigStorage.store(this.imapConfig.email + '/boards', this.boards)
-            info(...MAILAPI_TAG, "Saving done cache...")
-            await BigStorage.store(this.imapConfig.email + '/done', {
-                uidLatest: this.done.uidLatest,
-                emails: this.done.emails.slice(0, 100)
-            })
+            this.saveBoardCache()
         },
         async reorderBoards() {
             await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
