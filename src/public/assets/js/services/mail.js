@@ -1484,6 +1484,11 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
+    if (!app.connected) {
+        app.syncing = false // don't get stuck
+        app.reconnectToMailServer() // try a reconnect
+        return
+    }
     if (!app.dragging)
         await app.updateAndFetch()
 }, 30 * 1000)

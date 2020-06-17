@@ -451,7 +451,7 @@
       </div>
 
       <!-- TOAST IMAP Error -->
-      <div class="aiko-toast" style="display: none;">
+      <div class="aiko-toast" v-if="!connected">
         <p class="textinout" style="color: #dc3545 !important">We're having issues connecting to your mail provider
         </p>
         <div class="t-loader-red"><span></span></div>
