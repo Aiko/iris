@@ -41,7 +41,9 @@ const mailapi = {
         syncingInbox: false,
         seekingInbox: false, // seeking backwards into history
         cachingInbox: false,
-        dragging: false
+        dragging: false,
+        fullInbox: [],
+        priorityInbox: []
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -65,6 +67,15 @@ const mailapi = {
                 }
                 this.cachingInbox = false
             }, 3000)
+            this.fullInbox = this.inbox.emails.map((email, i) => {
+                email.index = i
+                return email
+            }).filter(email =>
+                email?.folder == "INBOX" && !(email?.syncFolder && email?.syncFolder != "INBOX") && !(email?.ai?.threaded)
+            )
+            this.priorityInbox = this.fullInbox.filter(email =>
+                !email?.ai?.subscription
+            )
         },
     },
     created() {
@@ -884,7 +895,8 @@ const mailapi = {
             await this.halfThreading()
             await this.memoryLinking()
         },
-        onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+        onScroll (e) {
+            const {target: { scrollTop, clientHeight, scrollHeight }} = e
             if (scrollTop + clientHeight >= scrollHeight - 600) {
                 if (this.seekingInbox) return;
                 info(...MAILAPI_TAG, "Fetching more messages")
@@ -892,6 +904,8 @@ const mailapi = {
                 const that = this
                 this.getOldMessages().then(() => {
                     that.seekingInbox = false
+                    that.e.target.scrollTop = scrollTop
+                    that.onScroll(e)
                 })
             }
         },
