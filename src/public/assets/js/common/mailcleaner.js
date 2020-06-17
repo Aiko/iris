@@ -137,6 +137,11 @@ const MailCleaner = (() => {
                 sentences: sentences.slice(0, 3),
                 text: sentences.slice(0, 3).join(' ')
             }
+        } else {
+            email.ai.summary = {
+                sentences: sentences.slice(0, 3),
+                text: sentences.slice(0, 3).join(' ')
+            }
         }
 
         //* if it's going to the priority box let's run the AI on it

@@ -28,7 +28,8 @@ const mailapi = {
         inbox: {
             uidLatest: -1,
             //modSeq: -1,
-            emails: []
+            emails: [],
+            uidOldest: -1,
         },
         boards: {},
         done: {
@@ -38,6 +39,7 @@ const mailapi = {
         syncing: false,
         syncingBoards: {},
         syncingInbox: false,
+        seekingInbox: false, // seeking backwards into history
         cachingInbox: false,
         dragging: false
     },
@@ -56,7 +58,8 @@ const mailapi = {
                     await BigStorage.store(app.imapConfig.email + '/inbox', {
                         uidLatest: app.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
-                        emails: app.inbox.emails.slice(0,100)
+                        emails: app.inbox.emails.slice(0,100),
+                        uidOldest: app.inbox.uidLatest
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
                 }
@@ -851,18 +854,46 @@ const mailapi = {
                 return false
             }
 
-            const uidOldest = this.inbox.emails.last()?.uid
+            const uidOldest = Math.min(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             if (!uidOldest) return window.error("Couldn't identify oldest UID.")
-            const uidMin = Math.max(0, uidOldest - 50)
+            console.log(uidOldest)
+            console,log(uidOldest - 1)
+            const uidMax = Math.max(0, Math.min(this.inbox.uidOldest, uidOldest-1))
+            console.log(uidMax)
+            const uidMin = Math.max(0, uidMax - 200)
+            console.log(uidMin)
 
-            info(...MAILAPI_TAG, `Seeking history - last 50 messages (${uidMin}:${uidOldest})`)
+            info(...MAILAPI_TAG, `Seeking history - last 200 messages (${uidMin}:${uidMax})`)
 
             const emails = await this.callIPC(
-                this.task_FetchEmails("INBOX", `${uidMin}:${uidOldest}`, false))
+                this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
+            info(...MAILAPI_TAG, "Seeked a history of", emails.length, "emails")
             if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
-            const processed_emails = await MailCleaner.base("INBOX", emails.reverse())
+            const processed_emails = (await MailCleaner.full("INBOX", emails.reverse(), ai=false))
+                .map(email => {
+                    email.parsed.html = ''
+                    email.parsed.text = ''
+                    return email
+                })
+            info(...MAILAPI_TAG, "Processed", processed_emails.length, "emails")
 
+            log(this.inbox.emails.length, "before")
             this.inbox.emails.push(...processed_emails)
+            log(this.inbox.emails.length, "after")
+            this.inbox.uidOldest = uidMin
+            await this.halfThreading()
+            await this.memoryLinking()
+        },
+        onScroll ({ target: { scrollTop, clientHeight, scrollHeight }}) {
+            if (scrollTop + clientHeight >= scrollHeight - 600) {
+                if (this.seekingInbox) return;
+                info(...MAILAPI_TAG, "Fetching more messages")
+                this.seekingInbox = true
+                const that = this
+                this.getOldMessages().then(() => {
+                    that.seekingInbox = false
+                })
+            }
         },
         // Hiding messages on the mailserver
         async uploadMessage(path, message, headerData, customData) {
