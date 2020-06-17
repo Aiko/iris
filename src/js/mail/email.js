@@ -191,6 +191,11 @@ ipcMain.handle('please make new client', async (_, q) => {
             console.log("  value:", value)
         }
     }
+    client.onerror = error => {
+        console.log("CLIENT ERROR:", error)
+        win.webContents.send("connection dropped")
+    }
+
 
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })
@@ -209,6 +214,10 @@ ipcMain.handle('please connect to server', async (_, q) => {
 
     try { await client.connect() } catch (e) { return { error: e } }
     connected = true
+    client.onerror = error => {
+        console.log("CLIENT ERROR:", error)
+        win.webContents.send("connection dropped")
+    }
 
     return { s: comms["👉"](client_secret, { success: true, payload: q }) }
 })

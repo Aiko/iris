@@ -1488,3 +1488,9 @@ window.setInterval(async () => {
         await app.updateAndFetch()
 }, 30 * 1000)
 Notification.requestPermission()
+
+ipcRenderer.on('connection dropped', () => {
+    console.error(...MAILAPI_TAG, "IMAP connection was terminated.")
+    app.connected = false
+    app.reconnectToMailServer()
+})
