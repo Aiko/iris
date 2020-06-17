@@ -60,7 +60,7 @@ const mailapi = {
                     await BigStorage.store(app.imapConfig.email + '/inbox', {
                         uidLatest: app.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
-                        emails: app.inbox.emails.slice(0,100),
+                        emails: app.inbox.emails.slice(0,200),
                         uidOldest: app.inbox.uidLatest
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
@@ -904,7 +904,7 @@ const mailapi = {
                 const that = this
                 this.getOldMessages().then(() => {
                     that.seekingInbox = false
-                    that.e.target.scrollTop = scrollTop
+                    e.target.scrollTop = scrollTop
                     that.onScroll(e)
                 })
             }

@@ -207,10 +207,11 @@ function insertElementAtCursor(el) {
         console.error("Error inserting element")
     }
 }
+const parser = new DOMParser()
 const HTML2Text = html => {
-    html = html.replace(/<style[^>]*>([^<]|\n|\r\n)*<\/style>/gi, '')
-    const parser = new DOMParser()
+    if (html.length < 5000) html = html.replace(/<style[^>]*>([^<]|\n|\r\n)*<\/style>/gi, '')
     const doc = parser.parseFromString(html, 'text/html')
+    doc.close()
     return doc.body.innerText.trim().replace(/( |\n)+/g, ' ')
 }
 const HTML2Element = html => {
