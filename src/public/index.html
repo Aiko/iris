@@ -750,7 +750,7 @@
                 :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
                 <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <email-card :board="folderNames.done" v-if="email.folder == folderNames.done"
+                <email-card :board="folderNames.done" v-if="email.folder == folderNames.done && !(email?.ai?.threaded == '[Aiko Mail]/Done')"
                   :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i"
                   :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
                   :view-focused.camel="focused.view" :email="email">
@@ -1471,7 +1471,7 @@
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 class="sender" @click="debug">
-              {{(email?.parsed?.thread?.senders?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
+              {{(email?.parsed?.thread?.senders?.reverse()?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
             </h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
