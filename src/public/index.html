@@ -627,6 +627,18 @@
                 </div>
               </div>
             </div>
+            <!-- START List loader ----------------------->
+            <div v-if="syncingInbox" class="cs-loader">
+              <div class="cs-loader-inner">
+                <label> ●</label>
+                <label> ●</label>
+                <label> ●</label>
+                <label> ●</label>
+                <label> ●</label>
+                <label> ●</label>
+              </div>
+            </div>
+            <!-- END List loader -------------------------->
             <div class="board-body">
 
               <!-- DON'T MODIFY BELOW -->
@@ -695,7 +707,20 @@
                     </div>
                   </div>
                 </div>
+                <!-- START List loader ----------------------->
+                <div v-if="syncingBoards[boardName]" class="cs-loader">
+                  <div class="cs-loader-inner">
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                    <label> ●</label>
+                  </div>
+                </div>
+                <!-- END List loader -------------------------->
                 <div class="board-body">
+
                   <!-- DON'T MODIFY BELOW -->
                   <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
                     :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"

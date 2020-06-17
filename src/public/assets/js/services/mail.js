@@ -36,6 +36,8 @@ const mailapi = {
             emails: []
         },
         syncing: false,
+        syncingBoards: {},
+        syncingInbox: false,
         cachingInbox: false,
         dragging: false
     },
@@ -517,6 +519,7 @@ const mailapi = {
                 // start over
                 return this.initialSyncBoard(boardName, newest)
             }
+            this.syncingBoards[boardName] = true
             let uidMin = 1
             const { uidLatest } = board
             if (newest && uidLatest > 0) uidMin = uidLatest + 1
@@ -554,6 +557,7 @@ const mailapi = {
             await this.memoryLinking()
             success(...MAILAPI_TAG, "Finished updating", boardName)
             this.syncing = false
+            this.syncingBoards[boardName] = false
         },
         async initialSyncDone(newest=false) {
             this.syncing = true
@@ -696,6 +700,7 @@ const mailapi = {
 
             this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             info(...MAILAPI_TAG, `Updating inbox - scanning ${this.inbox.uidLatest + 1}:${uidNext}`)
+            this.syncingInbox = true
 
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${this.inbox.uidLatest + 1}:${uidNext}`, false))
@@ -726,40 +731,8 @@ const mailapi = {
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
 
-            // memory linking
-            for (let board of this.boardNames) {
-                // TODO: this could easily be refactored into a map or something
-                // for every email in this board
-                for (let i = 0; i < this.boards[board]?.emails.length; i++) {
-                    // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
-                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-                            // link them in memory
-                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-                            if (!(this.boards[board].emails[i].inboxUID)) {
-                                log("Chanign guid to", wasUID)
-                                this.boards[board].emails[i].inboxUID = wasUID
-                            }
-                        }
-                    }
-                }
-            }
-            // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
-                // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
-                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-                        // link them in memory
-                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                        Vue.set(this.inbox.emails, j, this.done.emails[i])
-                        if (!(this.done.emails[i].inboxUID)) {
-                            log("changing uid to", wasUID)
-                            this.done.emails[i].inboxUID = wasUID
-                        }
-                    }
-                }
-            }
+            this.syncingInbox = false
+            this.memoryLinking()
         },
         async checkForUpdates() {
             info(...MAILAPI_TAG, "Checking for updates to existing emails.")
