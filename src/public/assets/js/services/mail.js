@@ -493,40 +493,7 @@ const mailapi = {
             if (this.inbox.emails.length > 0)
                 this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
 
-            // memory linking
-            for (let board of this.boardNames) {
-                // TODO: this could easily be refactored into a map or something
-                // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
-                    // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
-                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-                            // link them in memory
-                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-                            if (!(this.boards[board].emails[i].inboxUID)) {
-                                log("changing uid to", wasUID)
-                                this.boards[board].emails[i].inboxUID = wasUID
-                            }
-                        }
-                    }
-                }
-            }
-            // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
-                // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
-                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-                        // link them in memory
-                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                        Vue.set(this.inbox.emails, j, this.done.emails[i])
-                        if (!(this.done.emails[i].inboxUID)) {
-                            log("changing uid to", wasUID)
-                            this.done.emails[i].inboxUID = wasUID
-                        }
-                    }
-                }
-            }
+            await this.memoryLinking()
             if (controlsLoader) this.loading = false
             this.syncing = false
             console.timeEnd("Initial Sync")
