@@ -24,6 +24,7 @@ const {
     History,
     TrailingNode,
     Image,
+    Placeholder
 } = tiptapBuild.tiptapExtensions
 
 const app = new Vue({
@@ -152,7 +153,15 @@ const app = new Vue({
                         node: 'paragraph',
                         notAfter: ['paragraph'],
                     }),
+                    new Placeholder({
+                        emptyEditorClass: 'is-editor-empty',
+                        emptyNodeClass: 'is-empty',
+                        emptyNodeText: 'Write something …',
+                        showOnlyWhenEditable: true,
+                        showOnlyCurrent: true,
+                    }),
                     new Image(),
+                    new Align()
                 ],
                 onUpdate: ({getHTML}) => {
                     this.html = getHTML()

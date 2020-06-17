@@ -382,7 +382,14 @@
     z-index: 100000000;
 }
 
-
+.editor p.is-editor-empty:first-child::before {
+    content: attr(data-empty-text);
+    float: left;
+    color: #aaa;
+    pointer-events: none;
+    height: 0;
+    font-style: italic;
+}
 
 .menububble__button {
     display: -webkit-inline-box;

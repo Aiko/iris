@@ -88,7 +88,7 @@
                         </div>
                     </editor-menu-bubble>
 
-                    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
+                    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
 
                         <div class="menubar">
                             <div class="comp-sep">
@@ -121,35 +121,80 @@
                                 <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
                             </div>
                             <div class="comp-sep">
-                                <a :class="{
-                                    'comp-btn': true,
-                                    'composer-active': isActive.bold()
-                                }" @click="commands.bold">
-                                    <img src="assets/icons/t.svg">
-                                </a>
-                                <a :class="{
-                                    'comp-btn': true,
-                                    'composer-active': isActive.bold()
-                                }" @click="commands.bold">
-                                    <img src="assets/icons/align-left.svg">
-                                </a>
-                                <a :class="{
-                                    'comp-btn': true,
-                                    'composer-active': isActive.bold()
-                                }" @click="commands.bold">
-                                    <img src="assets/icons/list.svg">
-                                </a>
+                                <div class="btn-group dropup">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a href="#"><img src="assets/icons/t.svg" width="20"></a>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.heading({ level: 1 })
+                                        }" @click="commands.heading({level: 1})" href="#"><span>Heading 1</span></a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.heading({ level: 2 })
+                                        }" @click="commands.heading({level: 2})" href="#"><span>Heading 2</span></a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.heading({ level: 3 })
+                                        }" @click="commands.heading({level: 3})" href="#"><span>Heading 3</span></a>
+                                    </div>
+                                </div>
+                                <div class="btn-group dropup">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a href="#"><img src="assets/icons/align-left.svg" width="20"></a>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': getMarkAttrs('align').textAlign === 'left'
+                                        }" @click="commands.align({textAlign: 'left'})" href="#">
+                                            <img src="assets/icons/align-left.svg" width="20">
+                                        </a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': getMarkAttrs('align').textAlign === 'center'
+                                        }" @click="commands.align({textAlign: 'center'})" href="#">
+                                            <img src="assets/icons/align-left.svg" width="20">
+                                        </a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': getMarkAttrs('align').textAlign === 'right'
+                                        }" @click="commands.align({textAlign: 'right'})" href="#">
+                                            <img src="assets/icons/align-left.svg" width="20">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="btn-group dropup">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.bullet_list()
+                                        }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.ordered_list()
+                                        }" @click="commands.ordered_list" href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                        <a :class="{
+                                            'dropdown-item': true,
+                                            'composer-active': isActive.todo_list()
+                                        }" @click="commands.todo_list" href="#"><img src="assets/icons/check-square.svg" width="20"></a>
+                                    </div>
+                                </div>
                             </div>
                             <a :class="{
                                 'comp-btn': true,
-                                'composer-active': isActive.bold()
-                            }" @click="commands.bold">
+                                'composer-active': isActive.code()
+                            }" @click="commands.code">
                                 <img src="assets/icons/code.svg">
                             </a>
                             <a :class="{
                                 'comp-btn': true,
-                                'composer-active': isActive.bold()
-                            }" @click="commands.bold">
+                                'composer-active': isActive.blockquote()
+                            }" @click="commands.blockquote">
                                 <img src="assets/icons/q.svg">
                             </a>
 
@@ -355,6 +400,7 @@
     <script src="assets/js/services/window.js"></script>
     <script src="assets/js/services/goauth.js"></script>
     <script src="assets/js/services/composer.js"></script>
+    <script src="assets/js/services/composer-extensions.js"></script>
     <!-- templates -->
     <!-- TODO: components -->
     <!-- main/entrypoint -->
