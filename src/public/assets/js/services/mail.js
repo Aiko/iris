@@ -706,6 +706,41 @@ const mailapi = {
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
             info(...MAILAPI_TAG, "Threading...")
             await this.halfThreading().catch(window.error)
+
+            for (let board of this.boardNames) {
+                // TODO: this could easily be refactored into a map or something
+                // for every email in this board
+                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                    // check if email is in inbox
+                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
+                            // link them in memory
+                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
+                            if (!(this.boards[board].emails[i].inboxUID)) {
+                                log("Changing uid to", wasUID)
+                                this.boards[board].emails[i].inboxUID = wasUID
+                            }
+                        }
+                    }
+                }
+            }
+            // memory linking for done board
+            for (let i = 0; i < this.done.emails.length; i++) {
+                // check if email is in inbox
+                for (let j = 0; j < this.inbox.emails.length; j++) {
+                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
+                        // link them in memory
+                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
+                        Vue.set(this.inbox.emails, j, this.done.emails[i])
+                        if (!(this.done.emails[i].inboxUID)) {
+                            log("changing uid to", wasUID)
+                            this.done.emails[i].inboxUID = wasUID
+                        }
+                    }
+                }
+            }
+
             this.syncing = false
         },
         async checkForNewMessages() {
@@ -995,7 +1030,7 @@ const mailapi = {
                     const email = this.inbox.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
                         //log("Had email in inbox.")
-                        this.inbox.emails[i].ai.threaded = "INBOX"
+                        this.inbox.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
                         Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
@@ -1009,7 +1044,7 @@ const mailapi = {
                         const email = this.boards[board].emails[i]
                         if (email.envelope['message-id'] == reply_id) {
                             //log("Had email in a board.")
-                            this.boards[board].emails[i].ai.threaded = board
+                            this.boards[board].emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
                             if (email?.parsed?.thread?.messages)
                                 return [email, ...email?.parsed?.thread?.messages]
                             return [email]
@@ -1022,7 +1057,7 @@ const mailapi = {
                     const email = this.done.emails[i]
                     if (email.envelope['message-id'] == reply_id) {
                         //log("Had email in done.")
-                        this.done.emails[i].ai.threaded = "done"
+                        this.done.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
                         Vue.set(this.done.emails, i, this.done.emails[i])
                         if (email?.parsed?.thread?.messages)
                             return [email, ...email?.parsed?.thread?.messages]
@@ -1080,7 +1115,7 @@ const mailapi = {
             }
 
             await threading(email)
-            
+
             // now, we remove any duplicates from the thread
             const thread_ids = new Set()
             const final_thread = []
@@ -1133,6 +1168,7 @@ const mailapi = {
             // the message ids of messages that were replied to
             // i.e. are part of a thread
             const reply_ids = new Set()
+            const reply_id_in = {}
 
             // thread everything in the inbox
             for (let i = 0; i < this.inbox.emails.length; i++) {
@@ -1140,6 +1176,7 @@ const mailapi = {
                 const reply_id = email?.envelope?.['in-reply-to']
                 if (reply_id) {
                     reply_ids.add(reply_id)
+                    reply_id_in[reply_id] = "INBOX"
                     // note that it has a thread
                     this.inbox.emails[i].ai.thread = true
                     if (this.inbox.emails[i].parsed) {
@@ -1160,6 +1197,7 @@ const mailapi = {
                     const reply_id = email?.envelope?.['in-reply-to']
                     if (reply_id) {
                         reply_ids.add(reply_id)
+                        reply_id_in[reply_id] = board
                         // note that it has a thread
                         this.boards[board].emails[i].ai.thread = true
                         if (this.boards[board].emails[i].parsed) {
@@ -1180,6 +1218,7 @@ const mailapi = {
                 const reply_id = email?.envelope?.['in-reply-to']
                 if (reply_id) {
                     reply_ids.add(reply_id)
+                    reply_id_in[reply_id] = "[Aiko Mail]/Done"
                     // note that it has a thread
                     this.done.emails[i].ai.thread = true
                     if (this.done.emails[i].parsed) {
@@ -1200,7 +1239,7 @@ const mailapi = {
                 const email = this.inbox.emails[i]
                 const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
-                    this.inbox.emails[i].ai.threaded = "INBOX"
+                    this.inbox.emails[i].ai.threaded = reply_id_in[msgId] || 'NOT_FOUND'
                     Vue.set(this.inbox.emails, i, this.inbox.emails[i])
                 }
             }
@@ -1209,7 +1248,7 @@ const mailapi = {
                     const email = this.boards[boardName].emails[i]
                     const msgId = email?.envelope?.['message-id']
                     if (msgId && reply_ids.has(msgId)) {
-                        this.boards[boardName].emails[i].ai.threaded = boardName
+                        this.boards[boardName].emails[i].ai.threaded = reply_id_in[msgId] || 'NOT_FOUND'
                         Vue.set(this.boards[boardName].emails, i, this.boards[boardName].emails[i])
                     }
                 }
@@ -1218,7 +1257,7 @@ const mailapi = {
                 const email = this.done.emails[i]
                 const msgId = email?.envelope?.['message-id']
                 if (msgId && reply_ids.has(msgId)) {
-                    this.done.emails[i].ai.threaded = "done"
+                    this.done.emails[i].ai.threaded = reply_id_in[msgId] || 'NOT_FOUND'
                     Vue.set(this.done.emails, i, this.done.emails[i])
                 }
             }
