@@ -1121,10 +1121,10 @@ const mailapi = {
 
             // we add some metadata to our returned structure :)
             const getSender = email => {
-                return email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || ''
+                return email?.envelope?.from?.[0]?.name?.split(/, ?/)?.last() || email?.envelope?.from?.[0]?.address || ''
             }
 
-            return {messages: final_thread, senders: thread.map(getSender)}
+            return {messages: final_thread, senders: [...new Set(thread.map(getSender))]}
         },
         async halfThreading() {
             // does the very simple act of:
