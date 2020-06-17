@@ -454,6 +454,8 @@ const mailapi = {
 
             await this.memoryLinking()
 
+            document.title = `Inbox - ${this.currentMailbox}`
+
             // update & check for new messages in background
             this.updateAndFetch()
         },
