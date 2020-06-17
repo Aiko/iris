@@ -61,7 +61,7 @@ const MailCleaner = (() => {
         return email
     })
 
-    const full_clean = folder => (async email => {
+    const full_clean = (folder, ai=true) => (async email => {
         console.time("FULL CLEAN " + email.uid)
         email = await base_clean(folder)(email)
         email.syncing = false
@@ -124,22 +124,24 @@ const MailCleaner = (() => {
         const sentences = email.parsed.msgText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT').split(/AIKO-SPLIT/g)
 
         //* summarize email text
-        console.time("SUMMARIZING " + email.uid)
-        const summary = await AICore.summarize(email.parsed.text, 3)
-        console.timeEnd("SUMMARIZING " + email.uid)
-        if (summary) {
-            email.ai.summary = {
-                sentences: summary,
-                text: summary.join(' ')
+        if (ai) {
+            console.time("SUMMARIZING " + email.uid + " of " + email.folder)
+            const summary = await AICore.summarize(email.parsed.text, 3)
+            console.timeEnd("SUMMARIZING " + email.uid + " of " + email.folder)
+            if (summary) {
+                email.ai.summary = {
+                    sentences: summary,
+                    text: summary.join(' ')
+                }
+            } else email.ai.summary = {
+                sentences: sentences.slice(0, 3),
+                text: sentences.slice(0, 3).join(' ')
             }
-        } else email.ai.summary = {
-            sentences: sentences.slice(0, 3),
-            text: sentences.slice(0, 3).join(' ')
         }
 
         //* if it's going to the priority box let's run the AI on it
         // FIXME: this is disabled because the AI is offline!
-        if (false && !email.ai.subscription) {
+        if (false && ai && !email.ai.subscription) {
             let to_test = sentences
             if (to_test.length > 15) to_test = email.ai.summary.sentences
 
@@ -192,6 +194,6 @@ const MailCleaner = (() => {
     return {
         peek: async (folder, messages) => await Promise.all(messages.map(peek_clean(folder))),
         base: async (folder, messages) => await Promise.all(messages.map(base_clean(folder))),
-        full: async (folder, messages) => await Promise.all(messages.map(full_clean(folder))),
+        full: async (folder, messages, ai=true) => await Promise.all(messages.map(full_clean(folder, ai))),
     }
 })()
