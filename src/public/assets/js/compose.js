@@ -160,7 +160,7 @@ const app = new Vue({
                         showOnlyWhenEditable: true,
                         showOnlyCurrent: true,
                     }),
-                    new Image(),
+                    new PastableImage(),
                     new Align()
                 ],
                 onUpdate: ({getHTML}) => {
