@@ -1594,6 +1594,7 @@ hr {
 
 .short {
 	cursor: pointer;
+	overflow-y: hidden;
 }
 
 .short .email-head h3 {

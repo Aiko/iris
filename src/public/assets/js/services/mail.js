@@ -46,6 +46,7 @@ const mailapi = {
             // if you need to store an empty inbox do it manually!
             // you also should set the uidLatest every time it has changed
             if (this.cachingInbox) return;
+            info(...MAILAPI_TAG, "Will cache inbox.")
             this.cachingInbox = true;
             setTimeout(async () => {
                 if (updatedInbox.length > 0) {
@@ -53,7 +54,7 @@ const mailapi = {
                     await BigStorage.store(app.imapConfig.email + '/inbox', {
                         uidLatest: app.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
-                        emails: app.inbox.emails.slice(0,200)
+                        emails: app.inbox.emails.slice(0,100)
                     })
                     info(...MAILAPI_TAG, "Saved inbox cache.")
                 }
@@ -395,55 +396,23 @@ const mailapi = {
                 this.inbox)
             inboxCache.emails = await MailCleaner.peek("INBOX", inboxCache.emails)
             this.inbox = inboxCache
+            info(...MAILAPI_TAG, "Loaded Inbox Cache.")
             // load cache for the boards
             const boardCache = (
                 await BigStorage.load(this.imapConfig.email + '/boards') || this.boards)
             this.boards = boardCache
-            for (let board of this.boardNames) {
-                if (!this.boards[board]) Vue.set(this.boards, board, {
-                    uidLatest: -1,
-                    emails: [],
-                    //modSeq: -1,
-                })
-                this.boards[board].emails = await MailCleaner.peek(board, this.boards[board].emails)
-                // TODO: this could easily be refactored into a map or something
-                // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
-                    // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
-                        if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-                            // link them in memory
-                            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                            Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-                            if (!(this.boards[board].emails[i].inboxUID)) {
-                                log("changing uid to", wasUID)
-                                this.boards[board].emails[i].inboxUID = wasUID
-                            }
-                        }
-                    }
-                }
-            }
+            info(...MAILAPI_TAG, "Loaded Board Cache.")
             // load cache for done
             const doneCache = (
                 await BigStorage.load(this.imapConfig.email + '/done') ||
                 this.done);
             doneCache.emails = await MailCleaner.peek(this.folderNames.done, doneCache.emails)
             this.done = doneCache
-            // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
-                // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
-                    if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-                        // link them in memory
-                        const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-                        Vue.set(this.inbox.emails, j, this.done.emails[i])
-                        if (!(this.done.emails[i].inboxUID)) {
-                            log("changing uid to", wasUID)
-                            this.done.emails[i].inboxUID = wasUID
-                        }
-                    }
-                }
-            }
+            info(...MAILAPI_TAG, "Loaded Done Cache.")
+
+            await this.memoryLinking()
+            info(...MAILAPI_TAG, "Linked memory.")
+
             info(...MAILAPI_TAG, "Saving config...")
             await this.saveIMAPConfig()
 
@@ -572,7 +541,15 @@ const mailapi = {
             if (!newest) info(...MAILAPI_TAG, "FULLY syncing", boardName)
             // boardname should be the path!
             const board = this.boards[boardName]
-            if (!board) return console.warn("Tried to sync", boardName, "but the board is not yet created.")
+            if (!board) {
+                console.warn("Tried to sync", boardName, "but the board is not yet created.")
+                this.boards[boardName] = {
+                    uidLatest: -1,
+                    emails: []
+                }
+                // start over
+                return this.initialSyncBoard(boardName, newest)
+            }
             let uidMin = 1
             const { uidLatest } = board
             if (newest && uidLatest > 0) uidMin = uidLatest + 1
@@ -658,9 +635,9 @@ const mailapi = {
             for (let board of this.boardNames) {
                 // TODO: this could easily be refactored into a map or something
                 // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                for (let i = 0; i < this.boards[board]?.emails.length; i++) {
                     // check if email is in inbox
-                    for (let j = 0; j < this.inbox.emails.length; j++) {
+                    for (let j = 0; j < this.inbox?.emails.length; j++) {
                         if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
                             // link them in memory
                             const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
@@ -673,9 +650,9 @@ const mailapi = {
                 }
             }
             // memory linking for done board
-            for (let i = 0; i < this.done.emails.length; i++) {
+            for (let i = 0; i < this.done?.emails.length; i++) {
                 // check if email is in inbox
-                for (let j = 0; j < this.inbox.emails.length; j++) {
+                for (let j = 0; j < this.inbox?.emails.length; j++) {
                     if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
                         // link them in memory
                         const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
@@ -718,8 +695,6 @@ const mailapi = {
             // simply checkForUpdates and checkForNewMessages both
             if (this.syncing) return info(...MAILAPI_TAG, "Already syncing. Cancelling flow.")
             this.syncing = true
-            info(...MAILAPI_TAG, "Checking for updates...")
-            await this.checkForUpdates()
             info(...MAILAPI_TAG, "Checking for new messages...")
             await this.checkForNewMessages()
             // we can call initial sync board here
@@ -728,8 +703,11 @@ const mailapi = {
             // for something to be unsynced older than latest
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
-            info(...MAILAPI_TAG, "Syncing new boards...")
+            info(...MAILAPI_TAG, "Syncing boards...")
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
+            await this.initialSyncDone(newest=true)
+            info(...MAILAPI_TAG, "Checking for updates...")
+            await this.checkForUpdates()
             info(...MAILAPI_TAG, "Threading...")
             await this.halfThreading().catch(window.error)
             info(...MAILAPI_TAG, "Memory linking...")
@@ -785,7 +763,7 @@ const mailapi = {
             for (let board of this.boardNames) {
                 // TODO: this could easily be refactored into a map or something
                 // for every email in this board
-                for (let i = 0; i < this.boards[board].emails.length; i++) {
+                for (let i = 0; i < this.boards[board]?.emails.length; i++) {
                     // check if email is in inbox
                     for (let j = 0; j < this.inbox.emails.length; j++) {
                         if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
@@ -871,6 +849,10 @@ const mailapi = {
 
             // update boards
             for (let board of this.boardNames) {
+                if (!this.boards[board]) {
+                    console.error("Missing definition for", board)
+                    continue;
+                }
                 // check board
                 const boardDelta = await getChanges(
                     //this.boards[board].modSeq,

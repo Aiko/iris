@@ -1470,8 +1470,12 @@
       <div class="container pr" @click="viewMessage">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
+            <h2 v-if="email?.parsed?.thread?.senders.length" class="sender">
+              {{email?.parsed?.thread?.senders?.tail(3)?.reverse()?.join(', ')}}
+            </h2>
+
             <h2 class="sender" @click="debug">
-              {{(email?.parsed?.thread?.senders?.reverse()?.join(', ') || email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
+              {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
             </h2>
             <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
