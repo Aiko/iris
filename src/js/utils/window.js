@@ -13,89 +13,87 @@ const { ipcMain, shell } = require('electron')
     mainWindowManager.setWindow(mainWindow)
 */
 
-module.exports = ((win, prefix='please') => {
-    let isFullscreen = false
+module.exports = (win, prefix = 'please') => {
+  let isFullscreen = false
 
-    const addListeners = (win) => {
-        if (win) {
+  const addListeners = (win) => {
+    if (win) {
+      // Handlers
+      const updateFullscreenStatus = s => {
+        win.webContents.send(prefix + ' fullscreen status changed', s)
+        isFullscreen = s
+      }
+      const updateMaximizedStatus = s =>
+        win.webContents.send(prefix + ' maximized status changed', s)
 
-            // Handlers
-            const updateFullscreenStatus = s => {
-                win.webContents.send(prefix + ' fullscreen status changed', s)
-                isFullscreen = s
-            }
-            const updateMaximizedStatus = s =>
-                win.webContents.send(prefix + ' maximized status changed', s);
+      win.on('enter-full-screen', () => updateFullscreenStatus(true))
+      win.on('enter-html-full-screen', () => updateFullscreenStatus(true))
+      win.on('leave-full-screen', () => updateFullscreenStatus(false))
+      win.on('leave-html-full-screen', () => updateFullscreenStatus(false))
 
-            win.on('enter-full-screen', () => updateFullscreenStatus(true))
-            win.on('enter-html-full-screen', () => updateFullscreenStatus(true))
-            win.on('leave-full-screen', () => updateFullscreenStatus(false))
-            win.on('leave-html-full-screen', () => updateFullscreenStatus(false))
+      win.on('maximize', () => updateMaximizedStatus(true))
+      win.on('unmaximize', () => updateMaximizedStatus(false))
 
-            win.on('maximize', () => updateMaximizedStatus(true))
-            win.on('unmaximize', () => updateMaximizedStatus(false))
+      win.webContents.on('new-window', (e, url) => {
+        e.preventDefault()
+        shell.openExternal(url)
+      })
 
-            win.webContents.on('new-window', (e, url) => {
-                e.preventDefault()
-                shell.openExternal(url)
-            })
-
-            ipcMain.removeHandler(prefix + ' get fullscreen status')
-            ipcMain.handle(prefix + ' get fullscreen status', (_, __) => {
-                updateFullscreenStatus(isFullscreen)
-                return true
-            })
-
-        }
+      ipcMain.removeHandler(prefix + ' get fullscreen status')
+      ipcMain.handle(prefix + ' get fullscreen status', (_, __) => {
+        updateFullscreenStatus(isFullscreen)
+        return true
+      })
     }
+  }
 
-    ipcMain.handle(prefix + ' minimize window', (_, __) => {
-        try {
-            win.minimize()
-            return true
-        } catch (e) {
-            return { error: e }
-        }
-    })
-    ipcMain.handle(prefix + ' maximize window', (_, __) => {
-        try {
-            win.maximize()
-            return true
-        } catch (e) {
-            return { error: e }
-        }
-    })
-    ipcMain.handle(prefix + ' unmaximize window', (_, __) => {
-        try {
-            win.unmaximize()
-            return true
-        } catch (e) {
-            return { error: e }
-        }
-    })
-    ipcMain.handle(prefix + ' fullscreen window', (_, __) => {
-        try {
-            win.setFullScreen(true)
-            return true
-        } catch (e) {
-            return { error: e}
-        }
-    })
-    ipcMain.handle(prefix + ' close window', (_, __) => {
-        try {
-            win.close()
-            return true
-        } catch (e) {
-            return { error: e }
-        }
-    })
-
-    addListeners(win)
-    return {
-        setWindow: w => {
-            win = w
-            addListeners(win)
-        },
-        getWindow: () => win
+  ipcMain.handle(prefix + ' minimize window', (_, __) => {
+    try {
+      win.minimize()
+      return true
+    } catch (e) {
+      return { error: e }
     }
-})
+  })
+  ipcMain.handle(prefix + ' maximize window', (_, __) => {
+    try {
+      win.maximize()
+      return true
+    } catch (e) {
+      return { error: e }
+    }
+  })
+  ipcMain.handle(prefix + ' unmaximize window', (_, __) => {
+    try {
+      win.unmaximize()
+      return true
+    } catch (e) {
+      return { error: e }
+    }
+  })
+  ipcMain.handle(prefix + ' fullscreen window', (_, __) => {
+    try {
+      win.setFullScreen(true)
+      return true
+    } catch (e) {
+      return { error: e }
+    }
+  })
+  ipcMain.handle(prefix + ' close window', (_, __) => {
+    try {
+      win.close()
+      return true
+    } catch (e) {
+      return { error: e }
+    }
+  })
+
+  addListeners(win)
+  return {
+    setWindow: w => {
+      win = w
+      addListeners(win)
+    },
+    getWindow: () => win
+  }
+}
