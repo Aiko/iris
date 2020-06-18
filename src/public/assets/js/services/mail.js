@@ -458,6 +458,10 @@ const mailapi = {
 
             // update & check for new messages in background
             this.updateAndFetch()
+            // and also fetch older ones so we get more history
+            this.seekingInbox = true
+            await this.getOldMessages(n=600)
+            this.seekingInbox = false
         },
         async initialSyncWithMailServer() {
             info(...MAILAPI_TAG, "Performing initial sync with mailserver.")
@@ -827,7 +831,7 @@ const mailapi = {
             const doneDelta = await getChanges(
                 //this.inbox.modSeq,
                 this.folderNames.done,
-                this.done.emails.filter(e => e.folder == "[Aiko Mail]/Done").map(e => e.inboxUID || e.uid)
+                this.done.emails.filter(e => e.folder == "[Aiko Mail]/Done").map(e => e.uid)
             )
             // update the inbox
             //this.inbox.modSeq = inboxDelta.highestModseq
@@ -847,7 +851,7 @@ const mailapi = {
 
             this.saveBoardCache()
         },
-        async getOldMessages() {
+        async getOldMessages(n=400) {
             if (this.inbox.emails.length <= 0) {
                 warn(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
                 return false
@@ -856,9 +860,9 @@ const mailapi = {
             const uidOldest = Math.min(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             if (!uidOldest) return error(...MAILAPI_TAG, "Couldn't identify oldest UID.")
             const uidMax = Math.max(0, Math.min(this.inbox.uidOldest, uidOldest-1))
-            const uidMin = Math.max(0, uidMax - 400)
+            const uidMin = Math.max(0, uidMax - n)
 
-            info(...MAILAPI_TAG, `Seeking history - last 400 messages (${uidMin}:${uidMax})`)
+            info(...MAILAPI_TAG, `Seeking history - last ${n} messages (${uidMin}:${uidMax})`)
 
             const emails = await this.executeIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
