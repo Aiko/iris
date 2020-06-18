@@ -133,7 +133,7 @@ const goauth = {
                 success(...(GOAUTH_TAG), "Setting up Google configuration.")
                 this.googleConfig.access_token = access_token
                 this.googleConfig.id_token = id_token
-                this.googleConfig.expiry_date = this.googleConfig.expiry_date + (expires_in * 1000)
+                this.googleConfig.expiry_date = today.getTime() + (expires_in * 1000)
                 this.googleConfig.scope = scope
                 await this.google_saveConfig()
 
