@@ -24,7 +24,7 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Status
-      run: echo May the Baby Seal's blessings be with you.
+      run: echo May the Baby Seal\'s blessings be with you.
 
     - name: Audit with Snyk
       uses: snyk/actions@0.1.1
