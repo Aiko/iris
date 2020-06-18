@@ -904,7 +904,7 @@ const mailapi = {
     },
     onScroll (e) {
       const { target: { scrollTop, clientHeight, scrollHeight } } = e
-      if (scrollTop + clientHeight >= scrollHeight - 600) {
+      if (scrollTop + clientHeight >= scrollHeight - 1000) {
         if (this.seekingInbox) return
         /*
           TODO: need to figure out some way to handle the user loading over 2k emails
