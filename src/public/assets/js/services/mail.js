@@ -856,11 +856,11 @@ const mailapi = {
             const uidOldest = Math.min(...this.inbox.emails.map(email => email.inboxUID || email.uid))
             if (!uidOldest) return error(...MAILAPI_TAG, "Couldn't identify oldest UID.")
             const uidMax = Math.max(0, Math.min(this.inbox.uidOldest, uidOldest-1))
-            const uidMin = Math.max(0, uidMax - 200)
+            const uidMin = Math.max(0, uidMax - 400)
 
-            info(...MAILAPI_TAG, `Seeking history - last 200 messages (${uidMin}:${uidMax})`)
+            info(...MAILAPI_TAG, `Seeking history - last 400 messages (${uidMin}:${uidMax})`)
 
-            const emails = await this.callIPC(
+            const emails = await this.executeIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
             if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = (await MailCleaner.full("INBOX", emails.reverse(), ai=false))
