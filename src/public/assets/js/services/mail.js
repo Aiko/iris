@@ -372,7 +372,10 @@ const mailapi = {
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
             console.time("SWITCH MAILBOX")
-            if (!this.imapConfig?.email) return false; // wtf
+            if (!this.imapConfig?.email) {
+                if (controlsLoader) this.loading = false
+                return false; // wtf
+            }
             info(...MAILAPI_TAG, "Switching mailbox to " + this.imapConfig.email)
             if (!this.mailboxes.includes(this.imapConfig.email)) {
                 this.mailboxes.push(this.imapConfig.email)
@@ -387,6 +390,7 @@ const mailapi = {
                 await this.google_checkTokens()
             }
             if (!(await this.reconnectToMailServer())) {
+                if (controlsLoader) this.loading = false
                 return false
             }
 
