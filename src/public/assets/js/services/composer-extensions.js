@@ -281,7 +281,7 @@ class Mathematics extends Node {
 			}, ],
 			toDOM: node => ['img', {
 				'data-formula': node.attrs.formula || '?',
-				src: 'https://math.now.sh?from=' + node.attrs.formula
+				src: 'https://math.now.sh/?color=white&from=' + node.attrs.formula
 			}],
 		}
 	}
