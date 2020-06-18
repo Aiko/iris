@@ -1,5 +1,8 @@
 const MAILAPI_TAG = ["%c[MAIL API]", "background-color: #ffdddd; color: #000;"]
 
+const SECONDS = 1000
+let TIMEOUT = 30 * SECONDS
+
 const mailapi = {
     data: {
         connected: false,
@@ -43,7 +46,16 @@ const mailapi = {
         cachingInbox: false,
         dragging: false,
         fullInbox: [],
-        priorityInbox: []
+        priorityInbox: [],
+        lastSync: new Date(),
+        syncTimeout: TIMEOUT,
+    },
+    computed: {
+        timeToNextSync() {
+            const nextSync = new Date(this.lastSync.getTime() + this.syncTimeout)
+            const diff = nextSync.getTime() - (new Date()).getTime()
+            return Math.round(diff / 1000)
+        }
     },
     watch: {
         'inbox.emails': async function (updatedInbox) {
@@ -372,6 +384,7 @@ const mailapi = {
                 this.onIMAPConnectionError()
                 return (this.connected = false);
             }
+            TIMEOUT = 30 * SECONDS
             return (this.connected = true)
         },
         async switchMailServer() {
@@ -832,7 +845,7 @@ const mailapi = {
                             email.flags = flags
                             email.ai.seen = flags.includes('\\Seen')
                             email.ai.deleted = flags.includes('\\Deleted')
-                        } else if (email.folder == board) {
+                        } else if (email.folder == board && (!email.syncFolder || email.syncFolder == board)) {
                             return null
                         }
                         return email
@@ -1475,17 +1488,28 @@ const mailapi = {
 }
 
 window.setInterval(async () => {
+    app.syncTimeout--;
+}, 1000)
+
+window.setInterval(async () => {
+    app.lastSync = new Date()
     if (!app.connected) {
         app.syncing = false // don't get stuck
         app.reconnectToMailServer() // try a reconnect
+        if (TIMEOUT < (300 * 1000)) TIMEOUT *= 2;
+        app.syncTimeout = TIMEOUT;
         return
     }
+
+    TIMEOUT = 30 * SECONDS //* reset timeout if we made it the actual sync
+    app.syncTimeout = TIMEOUT;
     if (app.imapConfig.provider == 'google') {
         app.google_checkTokens()
     }
-    if (!app.dragging)
+    if (!app.dragging) {
         await app.updateAndFetch()
-}, 30 * 1000)
+    }
+}, TIMEOUT)
 Notification.requestPermission()
 
 ipcRenderer.on('connection dropped', () => {
