@@ -906,13 +906,16 @@ const mailapi = {
       const { target: { scrollTop, clientHeight, scrollHeight } } = e
       if (scrollTop + clientHeight >= scrollHeight - 600) {
         if (this.seekingInbox) return
+        /*
+          TODO: need to figure out some way to handle the user loading over 2k emails
+          FIXME: having 5k emails in the view is a good way to burn a GPU !
+        */
+        if (this.inbox.emails.length > 2000) return;
         info(...MAILAPI_TAG, 'Fetching more messages')
         this.seekingInbox = true
         const that = this
         this.getOldMessages().then(() => {
           that.seekingInbox = false
-          e.target.scrollTop = scrollTop
-          e.target.clientHeight = clientHeight
           that.onScroll(e)
         })
       }
