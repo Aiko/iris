@@ -452,7 +452,8 @@
 
       <!-- TOAST IMAP Error -->
       <div class="aiko-toast" v-if="!connected">
-        <p class="textinout" style="color: #dc3545 !important">We're having issues connecting to your mail provider
+        <p class="textinout" style="color: #dc3545 !important">
+          We're having issues connecting to your mail provider. Trying again in {{timeToNextSync}}s...
         </p>
         <div class="t-loader-red"><span></span></div>
       </div>
