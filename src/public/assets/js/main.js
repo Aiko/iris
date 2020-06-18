@@ -100,5 +100,3 @@ const app = new Vue({
         },
     }
 })
-
-window.error(atob("TUFLRSBTVVJFIFlPVSBERUxFVEUgVEhFIFNUQVJHQVpJTkcgVklERU8gQkVGT1JFIEdPSU5HIFRPIFBST0RVQ1RJT04hISE="))
