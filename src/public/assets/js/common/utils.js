@@ -36,9 +36,11 @@ const log = (...args) => {
     // please use info, success, or error for your pretty messages :)
     console.log("[App]", ...args)
 }
+const warn = console.warn
 const success = console.log
 const error = console.error
 window.info = console.info
+window.warn = console.warn
 window.log = log
 window.error = error
 
