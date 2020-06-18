@@ -97,9 +97,12 @@ const mailapi = {
             info(...MAILAPI_TAG, "Loading previously selected mailbox")
             let currentEmail = await SmallStorage.load('current-mailbox')
             if (!currentEmail) {
+                warn(...MAILAPI_TAG, "There is no current email.")
                 if (this.mailboxes.length > 0) {
+                    info(...MAILAPI_TAG, "Selected first mailbox as current email.")
                     currentEmail = this.mailboxes[0]
                 } else {
+                    error(...MAILAPI_TAG, "There are no mailboxes. Forcing a mailbox addition.")
                     this.forceAddMailbox = true
                     return
                 }
@@ -107,6 +110,11 @@ const mailapi = {
             this.currentMailbox = currentEmail
             info(...MAILAPI_TAG, "Loading IMAP config...")
             await this.loadIMAPConfig(currentEmail)
+            if (!this.imapConfig.email) {
+                error(...MAILAPI_TAG, "Was unable to load IMAP config. Must be some Time Machine issue.")
+                this.forceAddMailbox = true
+                return
+            }
             if (this.imapConfig.provider == 'google') {
                 info(...MAILAPI_TAG, "Loading Google config...")
                 await this.google_loadConfig()
@@ -373,6 +381,7 @@ const mailapi = {
             // CAUTION!!! this will switch the entire mailbox
             console.time("SWITCH MAILBOX")
             if (!this.imapConfig?.email) {
+                warn(...MAILAPI_TAG, "Tried switching server but no current email.")
                 if (controlsLoader) this.loading = false
                 return false; // wtf
             }
