@@ -1,8 +1,12 @@
 const {
 	updateMark,
 	markInputRule,
-	nodeInputRule
+	nodeInputRule,
+	replaceText
 } = tiptapBuild.tiptapCommands
+const {
+	Suggestions
+} = tiptapBuild.tiptapExtensions
 const {
 	Mark,
 	Node,
@@ -188,6 +192,66 @@ class PastableImage extends Node {
 						},
 					},
 				},
+			}),
+		]
+	}
+
+}
+
+const EMOJI_INPUT_REGEX = /(?:\:)([A-z0-9\-]+)(?:\:)/
+//* NOTE: requires Emoji JS (from cdn)
+const Moji = new EmojiConvertor()
+Moji.replace_mode = 'unified'
+Moji.allow_native = true
+
+class Emoji extends Node {
+	get name() {
+		return 'emoji'
+	}
+
+	get schema() {
+		return {
+			inline: true,
+			attrs: {
+				emoji: {
+					default: null,
+				},
+			},
+			group: 'inline',
+			parseDOM: [{
+				tag: 'span[data-emoji]',
+				getAttrs: dom => ({
+					emoji: dom.innerText,
+				}),
+			}, ],
+			toDOM: node => ['span', {
+				'data-emoji': node.attrs.emoji || '?'
+			}, Moji.replace_colons(':' + node.attrs.emoji + ':')],
+		}
+	}
+
+	commands({
+		type
+	}) {
+		return attrs => (state, dispatch) => {
+			const {
+				selection
+			} = state
+			const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos
+			const node = type.create(attrs)
+			const transaction = state.tr.insert(position, node)
+			dispatch(transaction)
+		}
+	}
+
+	inputRules({
+		type
+	}) {
+		return [
+			nodeInputRule(EMOJI_INPUT_REGEX, type, match => {
+				console.log(match)
+				const [, emoji] = match
+				return {emoji}
 			}),
 		]
 	}

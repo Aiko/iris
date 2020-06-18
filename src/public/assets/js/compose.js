@@ -161,7 +161,8 @@ const app = new Vue({
                         showOnlyCurrent: true,
                     }),
                     new PastableImage(),
-                    new Align()
+                    new Align(),
+                    new Emoji(),
                 ],
                 onUpdate: ({getHTML}) => {
                     this.html = getHTML()
