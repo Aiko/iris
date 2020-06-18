@@ -257,3 +257,59 @@ class Emoji extends Node {
 	}
 
 }
+
+const MATH_INPUT_REGEX = /(?:\${1,2})([^\$]+)(?:\${1,2})/
+class Mathematics extends Node {
+	get name() {
+		return 'math'
+	}
+
+	get schema() {
+		return {
+			inline: true,
+			attrs: {
+				formula: {
+					default: null,
+				},
+			},
+			group: 'inline',
+			parseDOM: [{
+				tag: 'img[data-formula]',
+				getAttrs: dom => ({
+					formula: dom.getAttribute('data-formula'),
+				}),
+			}, ],
+			toDOM: node => ['img', {
+				'data-formula': node.attrs.formula || '?',
+				src: 'https://math.now.sh?from=' + node.attrs.formula
+			}],
+		}
+	}
+
+	commands({
+		type
+	}) {
+		return attrs => (state, dispatch) => {
+			const {
+				selection
+			} = state
+			const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos
+			const node = type.create(attrs)
+			const transaction = state.tr.insert(position, node)
+			dispatch(transaction)
+		}
+	}
+
+	inputRules({
+		type
+	}) {
+		return [
+			nodeInputRule(MATH_INPUT_REGEX, type, match => {
+				console.log(match)
+				const [, formula] = match
+				return {formula}
+			}),
+		]
+	}
+
+}
