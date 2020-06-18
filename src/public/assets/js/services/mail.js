@@ -98,9 +98,9 @@ const mailapi = {
             let currentEmail = await SmallStorage.load('current-mailbox')
             if (!currentEmail) {
                 warn(...MAILAPI_TAG, "There is no current email.")
-                if (this.mailboxes.length > 0) {
+                if (this.mailboxes.filter(_ => _).length > 0) {
                     info(...MAILAPI_TAG, "Selected first mailbox as current email.")
-                    currentEmail = this.mailboxes[0]
+                    currentEmail = this.mailboxes.filter(_ => _)[0]
                 } else {
                     error(...MAILAPI_TAG, "There are no mailboxes. Forcing a mailbox addition.")
                     this.forceAddMailbox = true
