@@ -56,14 +56,12 @@ const mailapi = {
             this.cachingInbox = true;
             setTimeout(async () => {
                 if (updatedInbox.length > 0) {
-                    info(...MAILAPI_TAG, "Saving inbox cache...")
                     await BigStorage.store(app.imapConfig.email + '/inbox', {
                         uidLatest: app.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
                         emails: app.inbox.emails.slice(0,200),
                         uidOldest: app.inbox.uidLatest
                     })
-                    info(...MAILAPI_TAG, "Saved inbox cache.")
                 }
                 this.cachingInbox = false
             }, 3000)
@@ -236,14 +234,14 @@ const mailapi = {
         // Utility methods
         folderWithSlug(slug) {
             if (!slug) {
-                window.error(...MAILAPI_TAG, "Board slug is empty, defaulting to Uncategorized")
+                error(...MAILAPI_TAG, "Board slug is empty, defaulting to Uncategorized")
                 slug = 'Uncategorized'
             }
             return `[Aiko Mail]/${slug}`
         },
         async newBoard(slug) {
             const boardName = this.folderWithSlug(slug)
-            if (this.boards[boardName]) return window.error("Tried to create board that exists.");
+            if (this.boards[boardName]) return error("Tried to create board that exists.");
             await this.callIPC(this.task_NewFolder(boardName))
             Vue.set(this.boards, boardName, {
                 uidLatest: -1,
@@ -265,7 +263,7 @@ const mailapi = {
 
             // Fetch remote folders
             const folders = await this.callIPC(this.task_ListFolders())
-            if (!folders || !(typeof folders == "object")) return window.error(...MAILAPI_TAG, folders)
+            if (!folders || !(typeof folders == "object")) return error(...MAILAPI_TAG, folders)
 
             // Default folder names
             this.folderNames.inbox = "INBOX"
@@ -312,7 +310,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, "Making the Aiko Mail folder on MX as it does not exist otherwise.")
                 if (!(
                     await this.callIPC(this.task_NewFolder("[Aiko Mail]"))
-                )) return window.error(...MAILAPI_TAG, "Couldn't make Aiko Mail folder on MX!")
+                )) return error(...MAILAPI_TAG, "Couldn't make Aiko Mail folder on MX!")
             }
             // Collect remote boards
             const remoteBoards = Object.values(aikoFolder?.children || {}).map(_ => _.path)
@@ -326,9 +324,9 @@ const mailapi = {
             if (results.length != null) {
                 for (let result of results) {
                     if (!(result?.path))
-                        return window.error(...MAILAPI_TAG, result)
+                        return error(...MAILAPI_TAG, result)
                 }
-            } else if (!(results?.path)) return window.error(...MAILAPI_TAG, results)
+            } else if (!(results?.path)) return error(...MAILAPI_TAG, results)
             // if there is a board on MX that is not local, make it
             this.boardNames.push(...(
                 remoteBoards.filter(_ => !(localBoards.includes(_)))
@@ -339,7 +337,7 @@ const mailapi = {
                 const todoPath = this.folderWithSlug("To-Do")
                 const todoResult = await this.callIPC(this.task_NewFolder(todoPath))
                 if (!todoResult || todoResult.error)
-                    return window.error(...MAILAPI_TAG, "Couldn't make To-Do board:", todoResult?.error)
+                    return error(...MAILAPI_TAG, "Couldn't make To-Do board:", todoResult?.error)
                 this.boardNames.push(todoPath)
             }
 
@@ -370,7 +368,6 @@ const mailapi = {
         },
         async switchMailServer() {
             const controlsLoader = !(this.loading);
-            console.log("controls loader?", controlsLoader)
             if (controlsLoader) this.loading = true
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
@@ -385,6 +382,9 @@ const mailapi = {
 
             // Connect to mailserver
             info(...MAILAPI_TAG, "Connecting to MX...")
+            if (this.imapConfig.provider == 'google') {
+                await this.google_checkTokens()
+            }
             if (!(await this.reconnectToMailServer())) {
                 return false
             }
@@ -469,7 +469,7 @@ const mailapi = {
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
-            if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            if (!uidNext) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
             info(...MAILAPI_TAG, "Fetching latest 200 emails from inbox.")
 
@@ -485,7 +485,7 @@ const mailapi = {
                 const received = await this.callIPC(
                     this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false, null, MAX_COUNT - MESSAGE_COUNT))
                 info(...MAILAPI_TAG, `Parsing...`)
-                if (!(received?.reverse)) return window.error(...MAILAPI_TAG, received);
+                if (!(received?.reverse)) return error(...MAILAPI_TAG, received);
                 MESSAGE_COUNT += received.length
                 const processed_received = await MailCleaner.full("INBOX", received.reverse())
                 emails.push(...processed_received)
@@ -493,7 +493,7 @@ const mailapi = {
                 info(...MAILAPI_TAG, MAX_COUNT - MESSAGE_COUNT, "left to fetch...")
             }
 
-            if (!(emails?.reverse)) return window.error(...MAILAPI_TAG, emails)
+            if (!(emails?.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = emails // await MailCleaner.full(emails)
 
             // DANGER: this is scary and takes like 30s on main thread
@@ -503,7 +503,7 @@ const mailapi = {
             uidMin = Math.max(uidMax - 4000, 1)
             const thread_messages = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, true))
-            if (!(thread_messages?.reverse)) return window.error(...MAILAPI_TAG, thread_messages)
+            if (!(thread_messages?.reverse)) return error(...MAILAPI_TAG, thread_messages)
             const processed_old_emails = await MailCleaner.peek(thread_messages)
             */
 
@@ -527,7 +527,7 @@ const mailapi = {
             // boardname should be the path!
             const board = this.boards[boardName]
             if (!board) {
-                console.warn("Tried to sync", boardName, "but the board is not yet created.")
+                warn("Tried to sync", boardName, "but the board is not yet created. (will be created)")
                 this.boards[boardName] = {
                     uidLatest: -1,
                     emails: []
@@ -542,10 +542,10 @@ const mailapi = {
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder(boardName))
-            if (!uidNext || uidNext.error) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
             if (uidNext - uidMin > 100) {
-                info(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
+                warn(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
                 uidMin = uidNext - 100
             }
             uidMin = Math.max(1, uidMin)
@@ -555,7 +555,7 @@ const mailapi = {
             const emails = await this.callIPC(
                 this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, false))
             //    this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, !newest))
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full(boardName, emails.reverse());
             /*
             if (newest) processed_emails = await MailCleaner.full(boardName, emails.reverse())
@@ -571,7 +571,6 @@ const mailapi = {
                 this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid))
             await this.halfThreading()
             await this.memoryLinking()
-            success(...MAILAPI_TAG, "Finished updating", boardName)
             this.syncing = false
             this.syncingBoards[boardName] = false
         },
@@ -580,17 +579,17 @@ const mailapi = {
             if (!newest) info(...MAILAPI_TAG, "FULLY syncing", this.folderNames.done)
             // boardname should be the path!
             const board = this.done
-            if (!board) return console.warn("Tried to sync", this.folderNames.done, "but the board is not yet created.")
+            if (!board) return warn("Tried to sync", this.folderNames.done, "but the board is not yet created.")
             let uidMin = 1
             const { uidLatest } = board
             if (newest && uidLatest > 0) uidMin = uidLatest + 1
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder(this.folderNames.done))
-            if (!uidNext || uidNext.error) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
             if (uidNext - uidMin > 100) {
-                info(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
+                warn(...MAILAPI_TAG, "There are more than 100 emails in the board. There should be a limit of 100.")
                 uidMin = uidNext - 100
             }
             uidMin = Math.max(1, uidMin)
@@ -599,7 +598,7 @@ const mailapi = {
 
             const emails = await this.callIPC(
                 this.task_FetchEmails(this.folderNames.done, `${uidMin}:${uidNext}`, false))
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full(this.folderNames.done, emails.reverse())
             // TODO: ai should be stored in their headers automatically.
 
@@ -607,7 +606,6 @@ const mailapi = {
             else this.done.emails = processed_emails
             if (this.done.emails.length > 0)
                 this.done.uidLatest = Math.max(...this.done.emails.map(email => email.uid))
-            success(...MAILAPI_TAG, "Finished updating", this.folderNames.done)
             this.syncing = false
         },
         async syncWithMailServer() {
@@ -661,7 +659,7 @@ const mailapi = {
                     .filter(e => e.folder == board)
                     .filter(e => e?.ai?.threaded != board)
                 if (boardsCache[board].emails.length > 100) {
-                    console.warn(board + " has too many emails to cache and will be truncated.")
+                    warn(...MAILAPI_TAG, board + " has too many emails to cache and will be truncated.")
                     boardsCache[board].emails = boardsCache.emails.slice(0, 100)
                 }
             }
@@ -671,7 +669,7 @@ const mailapi = {
                 .filter(e => e.folder == this.folderNames.done)
                 .filter(e => e?.ai?.threaded != this.folderNames.done)
             if (doneCache.emails.length > 100) {
-                console.warn("Done board has too many emails to cache and will be truncated.")
+                warn(...MAILAPI_TAG, "Done board has too many emails to cache and will be truncated.")
                 doneCache.emails = doneCache.emails.slice(0, 100)
             }
             await BigStorage.store(this.imapConfig.email + '/done', doneCache)
@@ -682,7 +680,6 @@ const mailapi = {
             // simply checkForUpdates and checkForNewMessages both
             if (this.syncing) return info(...MAILAPI_TAG, "Already syncing. Cancelling flow.")
             this.syncing = true
-            info(...MAILAPI_TAG, "Checking for new messages...")
             await this.checkForNewMessages()
             // we can call initial sync board here
             // only because it only checks for new emails
@@ -690,14 +687,10 @@ const mailapi = {
             // for something to be unsynced older than latest
             // (unsynced here = not present, flags are synced
             //  separately through checkForUpdates for boards)
-            info(...MAILAPI_TAG, "Syncing boards...")
             await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest=true)))
             await this.initialSyncDone(newest=true)
-            info(...MAILAPI_TAG, "Checking for updates...")
             await this.checkForUpdates()
-            info(...MAILAPI_TAG, "Threading...")
-            await this.halfThreading().catch(window.error)
-            info(...MAILAPI_TAG, "Memory linking...")
+            await this.halfThreading().catch(error)
             await this.memoryLinking()
             this.syncing = false
         },
@@ -705,7 +698,7 @@ const mailapi = {
             const {
                 uidNext
             } = await this.callIPC(this.task_OpenFolder("INBOX"))
-            if (!uidNext) return window.error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+            if (!uidNext) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
             if (this.inbox.uidLatest < 0 || uidNext - this.inbox.uidLatest > 200) {
                 info(...MAILAPI_TAG, "There are too many emails to update, need to sync.")
@@ -720,7 +713,7 @@ const mailapi = {
 
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${this.inbox.uidLatest + 1}:${uidNext}`, false))
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = await MailCleaner.full("INBOX", emails.reverse())
 
             if (processed_emails.length > 3) {
@@ -751,7 +744,6 @@ const mailapi = {
             this.memoryLinking()
         },
         async checkForUpdates() {
-            info(...MAILAPI_TAG, "Checking for updates to existing emails.")
             //const getChanges = async (modseq, folder, uids) => {
             const getChanges = async (folder, uids) => {
                     const changes = {}
@@ -783,7 +775,6 @@ const mailapi = {
                 this.folderNames.inbox,
                 this.inbox.emails.filter(e => e.folder == "INBOX").map(e => e.inboxUID || e.uid)
             )
-            info(...MAILAPI_TAG, "Computed inbox delta.")
             // update the inbox
             //this.inbox.modSeq = inboxDelta.highestModseq
             this.inbox.emails = await Promise.all(this.inbox.emails.map(
@@ -801,7 +792,6 @@ const mailapi = {
                     return email
                 }
             ))
-            info(...MAILAPI_TAG, "Synced inbox messages with remote flags.")
 
             // update boards
             for (let board of this.boardNames) {
@@ -815,7 +805,6 @@ const mailapi = {
                     board,
                     this.boards[board].emails.filter(e => e.folder == board).map(e => e.uid)
                 )
-                info(...MAILAPI_TAG, "Computed", board, "delta")
                 // update the board
                 //this.boards[board].modSeq = boardDelta.highestModseq
                 this.boards[board].emails = (await Promise.all(this.boards[board].emails.map(
@@ -831,7 +820,6 @@ const mailapi = {
                         return email
                     }
                 ))).filter(_=>_)
-                info(...MAILAPI_TAG, "Synced", board, "messages with remote flags.")
             }
 
             // update done
@@ -841,7 +829,6 @@ const mailapi = {
                 this.folderNames.done,
                 this.done.emails.filter(e => e.folder == "[Aiko Mail]/Done").map(e => e.inboxUID || e.uid)
             )
-            info(...MAILAPI_TAG, "Computed Done delta.")
             // update the inbox
             //this.inbox.modSeq = inboxDelta.highestModseq
             this.done.emails = await Promise.all(this.done.emails.map(
@@ -857,31 +844,25 @@ const mailapi = {
                     return email
                 }
             ))
-            info(...MAILAPI_TAG, "Synced done messages with remote flags.")
 
             this.saveBoardCache()
         },
         async getOldMessages() {
             if (this.inbox.emails.length <= 0) {
-                info(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
+                warn(...MAILAPI_TAG, "There are no emails to begin with, you should call a full sync.")
                 return false
             }
 
             const uidOldest = Math.min(...this.inbox.emails.map(email => email.inboxUID || email.uid))
-            if (!uidOldest) return window.error("Couldn't identify oldest UID.")
-            console.log(uidOldest)
-            console,log(uidOldest - 1)
+            if (!uidOldest) return error(...MAILAPI_TAG, "Couldn't identify oldest UID.")
             const uidMax = Math.max(0, Math.min(this.inbox.uidOldest, uidOldest-1))
-            console.log(uidMax)
             const uidMin = Math.max(0, uidMax - 200)
-            console.log(uidMin)
 
             info(...MAILAPI_TAG, `Seeking history - last 200 messages (${uidMin}:${uidMax})`)
 
             const emails = await this.callIPC(
                 this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, false))
-            info(...MAILAPI_TAG, "Seeked a history of", emails.length, "emails")
-            if (!emails || !(emails.reverse)) return window.error(...MAILAPI_TAG, emails)
+            if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
             const processed_emails = (await MailCleaner.full("INBOX", emails.reverse(), ai=false))
                 .map(email => {
                     email.parsed.html = ''
@@ -891,11 +872,8 @@ const mailapi = {
                     email.parsed.headerLines = []
                     return email
                 })
-            info(...MAILAPI_TAG, "Processed", processed_emails.length, "emails")
 
-            log(this.inbox.emails.length, "before")
             this.inbox.emails.push(...processed_emails)
-            log(this.inbox.emails.length, "after")
             this.inbox.uidOldest = uidMin
             await this.halfThreading()
             await this.memoryLinking()
@@ -918,7 +896,7 @@ const mailapi = {
         // Hiding messages on the mailserver
         async uploadMessage(path, message, headerData, customData) {
             info(...MAILAPI_TAG, "Uploading a message to", path)
-            return window.error(...MAILAPI_TAG, "We disabled upload message because it duplicates messages when threading is activated.")
+            return error(...MAILAPI_TAG, "We disabled upload message because it duplicates messages when threading is activated.")
 
             if (path == "INBOX")
                 return window.error(...MAILAPI_TAG, "Don't upload messages to the inbox.")
@@ -1033,7 +1011,7 @@ const mailapi = {
 
                 // enforce max iterations so not to crash the app
                 if (iterations > MAX_ITER) {
-                    window.error("Reached max iteration count.")
+                    error(...MAILAPI_TAG, "Reached max iteration count while finding replies.")
                     return []
                 }
 
@@ -1057,7 +1035,7 @@ const mailapi = {
                         true
                     ))
                     if (email.length > 0) return email
-                    window.error("Couldn't fetch email after getting it from server!")
+                    error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
                 }
 
                 // otherwise we give up
@@ -1087,7 +1065,7 @@ const mailapi = {
             const final_thread = []
             //log("Cleaning thread")
             for (let email of thread) {
-                if (email.length) return window.error("Array is not fully flattened!")
+                if (email.length) return error(...MAILAPI_TAG, "Array is not fully flattened!")
                 // kill the parsed of the thread
                 // while searched emails are peeked,
                 // emails that we had locally aren't
@@ -1151,7 +1129,7 @@ const mailapi = {
                             this.inbox.emails[i].parsed.thread = await this.getThread(this.inbox.emails[i])
                         }
                     } else {
-                        window.error("Email does not have body:", this.inbox.emails[i])
+                        error(...MAILAPI_TAG, "Email does not have body:", this.inbox.emails[i])
                     }
                 }
             }
@@ -1172,7 +1150,7 @@ const mailapi = {
                                 this.boards[board].emails[i].parsed.thread = await this.getThread(this.boards[board].emails[i])
                             }
                         } else {
-                            window.error("Email does not have body:", this.boards[board].emails[i])
+                            error(...MAILAPI_TAG, "Email does not have body:", this.boards[board].emails[i])
                         }
                     }
                 }
@@ -1193,7 +1171,7 @@ const mailapi = {
                             this.done.emails[i].parsed.thread = await this.getThread(this.done.emails[i])
                         }
                     } else {
-                        window.error("Email does not have body:", this.done.emails[i])
+                        error(...MAILAPI_TAG, "Email does not have body:", this.done.emails[i])
                     }
                 }
             }
@@ -1228,7 +1206,6 @@ const mailapi = {
                 }
             }
 
-            info(...MAILAPI_TAG, "Finished threading")
             // trigger UI update
             this.inbox.emails = this.inbox.emails.map(_=>_)
             for (let boardName of this.boardNames) {
@@ -1279,7 +1256,7 @@ const mailapi = {
                 }
             }
             // TODO: check done
-            if (!email) return window.error("Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
+            if (!email) return error(...MAILAPI_TAG, "Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
             return (email.dragging = true)
         },
         cloneEmail({item, clone}) {
@@ -1314,7 +1291,7 @@ const mailapi = {
                         }
                     }
                 }
-                if (!email) return window.error("Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
+                if (!email) return error(...MAILAPI_TAG, "Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.")
                 email.dragging = false
                 return;
             }
@@ -1343,7 +1320,7 @@ const mailapi = {
                             break
                         }
                     }
-                    if (!email) return window.error("Couldn't find an email with that UID something is super wrong.")
+                    if (!email) return error(...MAILAPI_TAG, "Couldn't find an email with that UID something is super wrong.")
                 }
 
                 // if its mid sync use that folder, otherwise its normal folder
@@ -1387,7 +1364,7 @@ const mailapi = {
                         }
                     }
                 }
-                if (!email) return window.error(...MAILAPI_TAG, "Couldn't find an email with that UID in the board.")
+                if (!email) return error(...MAILAPI_TAG, "Couldn't find an email with that UID in the board.")
 
                 info(...MAILAPI_TAG, "Dragged", email.uid,
                     "of", (email.syncFolder || email.folder),
@@ -1413,27 +1390,22 @@ const mailapi = {
                     // if it's been picked up, let's wait a bit
                     if (email.dragging) {
                         window.setTimeout(sync, SYNC_TIMEOUT)
-                        return info(...MAILAPI_TAG, "Postponed move to", targetFolder, "because the email is currently being dragged.");
+                        return warn(...MAILAPI_TAG, "Postponed move to", targetFolder, "because the email is currently being dragged.");
                     }
                     // if it's already syncing, don't race
-                    if (email.syncing) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
+                    if (email.syncing) return error(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because it was syncing already.");
                     // if the email's folder has changed, don't race
-                    if (email.folder != targetFolder) return info(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because the target folder is", email.folder);
+                    if (email.folder != targetFolder) return error(...MAILAPI_TAG, "Cancelled move to", targetFolder, "because the target folder is", email.folder);
                     // if there's no sync folder, there's an issue
-                    if (!email.syncFolder) return window.error(...MAILAPI_TAG, "There's no sync folder", email)
+                    if (!email.syncFolder) return error(...MAILAPI_TAG, "There's no sync folder", email)
                     // lock email in UI
                     email.syncing = true // TODO: should add a class that exists in draggable filter
-                    info(...MAILAPI_TAG, "Moving email",
-                        email.uid, "from", email.syncFolder,
-                        "to", targetFolder
-                    )
                     // if it comes from inbox copy,
                     // otherwise move it (move it)
                     const syncStrategy = (
                         (email.syncFolder == "INBOX") ?
                             app.task_CopyEmails : app.task_MoveEmails
                     );
-                    info(...MAILAPI_TAG, "Using sync strategy", syncStrategy.name)
                     if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
                     // do the actual copy/move
                     const d = await app.callIPC(syncStrategy(
@@ -1442,7 +1414,7 @@ const mailapi = {
                     ))
                     let destSeqSet = d?.destSeqSet;
                     if (!destSeqSet && d?.copyuid) destSeqSet = d.copyuid.last()
-                    if (!destSeqSet) return window.error(...MAILAPI_TAG, "Couldn't get destination UID", d, email);
+                    if (!destSeqSet) return error(...MAILAPI_TAG, "Couldn't get destination UID", d, email);
                     // TODO: should probably move it back if we failed
                     info(...MAILAPI_TAG, "Moved email",
                         email.uid, "from", email.syncFolder,
@@ -1464,7 +1436,6 @@ const mailapi = {
                         if (app.boards[boardName].emails.length > 0)
                             app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid))
                     }
-                    info(...MAILAPI_TAG, "Saving inbox cache...")
                     await BigStorage.store(this.imapConfig.email + '/inbox', {
                         uidLatest: this.inbox.uidLatest,
                         //modSeq: this.inbox.modSeq,
@@ -1490,6 +1461,9 @@ window.setInterval(async () => {
         app.syncing = false // don't get stuck
         app.reconnectToMailServer() // try a reconnect
         return
+    }
+    if (app.imapConfig.provider == 'google') {
+        app.google_checkTokens()
     }
     if (!app.dragging)
         await app.updateAndFetch()
