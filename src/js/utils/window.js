@@ -35,7 +35,6 @@ module.exports = ((win, prefix='please') => {
             win.on('maximize', () => updateMaximizedStatus(true))
             win.on('unmaximize', () => updateMaximizedStatus(false))
 
-            win.webContents
             win.webContents.on('new-window', (e, url) => {
                 e.preventDefault()
                 shell.openExternal(url)
