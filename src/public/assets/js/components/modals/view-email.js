@@ -3,7 +3,8 @@ Vue.component('view-email', {
   data () {
     return {
       email: this.emailcard,
-      thread: []
+      thread: [],
+      avatar: 'assets/img/avatar.png'
     }
   },
   async created () {
@@ -74,6 +75,15 @@ Vue.component('view-email', {
     }
     info(...MODALS_TAG, 'Here is your view email:', this.email)
     this.email = JSON.parse(JSON.stringify(this.email))
+    this.avatar = await this.sender?.address?.getAvatar()
+  },
+  computed: {
+    sender () {
+      return this?.email?.envelope?.from?.[0] || this?.email?.envelope?.sender?.[0] || {
+        address: 'No Sender',
+        name: 'No Sender'
+      }
+    },
   },
   methods: {
     close () {

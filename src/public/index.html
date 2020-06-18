@@ -938,12 +938,12 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-3 p0">
-                      <img src="assets/img/avatar.png">
+                      <img :src="avatar">
                     </div>
                     <!-- TODO: Add options here? its a hover thingy-->
                     <div class="col-9 p0 spe hover-name">
-                      <h1>Ruben Touitou</h1>
-                      <h2>rubentouit@yahoo.fr</h2>
+                      <h1>{{sender.name}}</h1>
+                      <h2>{{sender.address}}</h2>
                       <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
                       <p>COPY</p> <!-- This is an option, could be anything we want really-->
                       <p>INVITE</p> <!-- This is an option, could be anything we want really-->
@@ -1663,6 +1663,7 @@
   <script src="assets/js/third-party/vue.min.js"></script>
   <script src="assets/js/third-party/vue-draggable.min.js"></script>
   <script src="assets/js/third-party/chrono.min.js"></script>
+  <script src="assets/js/third-party/crypto.js"></script>
 
   <!-- TODO: minify all sources into one js file -->
   <!-- common libraries -->
