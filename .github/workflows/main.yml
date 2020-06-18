@@ -26,9 +26,6 @@ jobs:
     - name: Status
       run: echo May the Baby Seal\'s blessings be with you.
 
-    - name: Audit with Snyk
-      uses: snyk/actions@0.1.1
-
     - name: Audit with NodeJS Scaan
       uses: ajinabraham/njsscan-action@v5
 
