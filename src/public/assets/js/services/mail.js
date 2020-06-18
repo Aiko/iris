@@ -372,6 +372,7 @@ const mailapi = {
             // PRECONDITION: assumes imapConfig is your new mailbox
             // CAUTION!!! this will switch the entire mailbox
             console.time("SWITCH MAILBOX")
+            if (!this.imapConfig?.email) return false; // wtf
             info(...MAILAPI_TAG, "Switching mailbox to " + this.imapConfig.email)
             if (!this.mailboxes.includes(this.imapConfig.email)) {
                 this.mailboxes.push(this.imapConfig.email)
