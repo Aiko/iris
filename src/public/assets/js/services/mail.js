@@ -971,6 +971,7 @@ const mailapi = {
 
       const uidOldest = Math.min(...this.inbox.emails.map(email => email.inboxUID || email.uid))
       if (!uidOldest) return error(...MAILAPI_TAG, "Couldn't identify oldest UID.")
+      if (this.inbox.uidOldest < 0) this.inbox.uidOldest = uidOldest
       const uidMax = Math.max(0, Math.min(this.inbox.uidOldest, uidOldest - 1))
       const uidMin = Math.max(0, uidMax - n)
 
