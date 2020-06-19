@@ -406,7 +406,7 @@ const mailapi = {
               e_senders.filter(_=>_).map(s => {
                 const key = s.address.toLowerCase()
                 newSenders[key] = {
-                  name: s.name || newSenders[key] || key,
+                  name: s.name || newSenders[key]?.name || key,
                   frequency: (newSenders[key]?.frequency || 0) + 1
                 }
               })
@@ -450,6 +450,22 @@ const mailapi = {
       this.contacts.inboxUID = uidNext
 
       await BigStorage.store(this.imapConfig.email + '/contacts', this.contacts)
+    },
+    async suggestContact(term, limit=10) {
+      const results = []
+      for (const contact of app.contacts.allContacts) {
+        const [address, name, frequency] = contact
+        if (term.length < 3) {
+          if (
+            (address && address.startsWith(term)) || (name && name.startsWith(term))
+          ) results.push([address, name, frequency])
+        } else {
+          if (
+            (address && address.indexOf(term) > -1) || (name && name.indexOf(term) > -1)
+          ) results.push([address, name, frequency])
+        }
+      }
+      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, 10)
     },
     // Manage mailservers
     async reconnectToMailServer () {
@@ -808,6 +824,7 @@ const mailapi = {
       await this.initialSyncDone(newest = true)
       await this.checkForUpdates()
       await this.halfThreading().catch(error)
+      this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
       this.boards = JSON.parse(JSON.stringify(this.boards))
       await this.memoryLinking()
       this.syncing = false
@@ -993,6 +1010,7 @@ const mailapi = {
 
       this.inbox.emails.push(...processed_emails)
       this.inbox.uidOldest = uidMin
+      this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
       await this.halfThreading()
       await this.memoryLinking()
     },
