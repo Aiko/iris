@@ -49,6 +49,7 @@ const mailapi = {
     fullInbox: [],
     priorityInbox: [],
     lastSync: new Date(),
+    lastSuccessfulSync: new Date(),
     syncTimeout: TIMEOUT,
     contacts: {
       allContacts: [],
@@ -1626,6 +1627,12 @@ window.setInterval(async () => {
 
 window.setInterval(async () => {
   app.lastSync = new Date()
+
+  if (app.lastSync - app.lastSuccessfulSync > TIMEOUT * 2) {
+    app.syncing = false
+    await app.initIPC()
+    app.reconnectToMailServer()
+  }
 
   if (app.imapConfig.provider == 'google') {
     app.google_checkTokens()
