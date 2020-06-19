@@ -48,7 +48,13 @@ const mailapi = {
     fullInbox: [],
     priorityInbox: [],
     lastSync: new Date(),
-    syncTimeout: TIMEOUT
+    syncTimeout: TIMEOUT,
+    contacts: {
+      allContacts: [],
+      inboxUID: 1,
+      // TODO: uids for other mailboxes
+      // TODO: connect to contacts providers for google and office365
+    }
   },
   computed: {
     timeToNextSync () {
@@ -362,6 +368,89 @@ const mailapi = {
       await SmallStorage.store(this.imapConfig.email + ':folder-names', this.folderNames)
       await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
     },
+    async fetchContacts() {
+      const contactCache = (
+        await BigStorage.load(this.imapConfig.email + '/contacts')
+        || this.contacts
+      )
+      Object.assign(this.contacts, contactCache)
+
+      const getSenders = email => {
+        const senders = []
+        if (email?.envelope?.from?.length > 0) senders.push(...email.envelope.from)
+        if (email?.envelope?.sender?.length > 0) senders.push(...email.envelope.sender)
+        if (email?.envelope?.to?.length > 0) senders.push(...email.envelope.to)
+        return senders
+      }
+
+      const newSenders = {}
+
+      const {
+        uidNext
+      } = await this.callIPC(this.task_OpenFolder('INBOX'))
+      if (!uidNext) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT when opening inbox for contact collection.")
+      if (uidNext > this.contacts.inboxUID) {
+        // collect all emails in batches of 500, peeked
+        const BATCH_SIZE = 2000
+        let CUR_UID = Math.max(this.contacts.inboxUID, uidNext - 40000) // 40k emails is a lot.
+        while (CUR_UID < uidNext) {
+          const uidMin = CUR_UID
+          const uidMax = Math.min(uidNext, uidMin + BATCH_SIZE)
+          info(...MAILAPI_TAG, "Collecting contacts from emails", uidMin, "to", uidMax)
+          const batch = await this.callIPC(this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, true))
+          if (!batch || (!batch?.length && batch?.length != 0)) {
+            console.warn("No batch returned while seeking inbox for contact collection:", batch)
+          } else {
+            batch.map(e => {
+              const e_senders = getSenders(e)
+              e_senders.filter(_=>_).map(s => {
+                const key = s.address.toLowerCase()
+                newSenders[key] = {
+                  name: s.name || newSenders[key] || key,
+                  frequency: (newSenders[key]?.frequency || 0) + 1
+                }
+              })
+            })
+          }
+          CUR_UID = uidMax + 1
+        }
+      }
+
+      /*
+        Contact structure:
+          [ address, name, frequency ]
+        Contact search:
+          address.indexOf(term) > -1 || name.indexOf(term) > -1
+          sort by frequency
+      */
+
+      // to add new senders, first we combine the tree with the existing contacts
+      const oldSenders = this.contacts.allContacts
+      for (const sender of oldSenders) {
+        const [address, name, frequency] = sender
+        if (newSenders[address]) {
+          newSenders[address].frequency += (frequency || 0)
+        } else {
+          newSenders[address] = {
+            name, frequency
+          }
+        }
+      }
+
+      // then we build the array formatted for contacts
+      const contacts = []
+      for (const address in newSenders) {
+        const { name, frequency } = newSenders[address]
+        contacts.push(
+          [address, name, frequency]
+        )
+      }
+
+      this.contacts.allContacts = contacts
+      this.contacts.inboxUID = uidNext
+
+      await BigStorage.store(this.imapConfig.email + '/contacts', this.contacts)
+    },
     // Manage mailservers
     async reconnectToMailServer () {
       let results
@@ -488,6 +577,7 @@ const mailapi = {
       await this.getOldMessages(n = 600)
       this.seekingInbox = false
     },
+    // Sync
     async initialSyncWithMailServer () {
       info(...MAILAPI_TAG, 'Performing initial sync with mailserver.')
       console.time('Initial Sync')
@@ -641,7 +731,7 @@ const mailapi = {
       // maybe this should be specifically for syncing the
       // sent, trash, drafts etc folders to the mailserver
     },
-    // board utils
+    // Linking & cache
     async memoryLinking () {
       for (const board of this.boardNames) {
         // TODO: this could easily be refactored into a map or something
@@ -901,24 +991,6 @@ const mailapi = {
       this.inbox.uidOldest = uidMin
       await this.halfThreading()
       await this.memoryLinking()
-    },
-    onScroll (e) {
-      const { target: { scrollTop, clientHeight, scrollHeight } } = e
-      if (scrollTop + clientHeight >= scrollHeight - 1000) {
-        if (this.seekingInbox) return
-        /*
-          TODO: need to figure out some way to handle the user loading over 2k emails
-          FIXME: having 5k emails in the view is a good way to burn a GPU !
-        */
-        if (this.inbox.emails.length > 2000) return;
-        info(...MAILAPI_TAG, 'Fetching more messages')
-        this.seekingInbox = true
-        const that = this
-        this.getOldMessages().then(() => {
-          that.seekingInbox = false
-          that.onScroll(e)
-        })
-      }
     },
     // Hiding messages on the mailserver
     async uploadMessage (path, message, headerData, customData) {
@@ -1238,7 +1310,7 @@ const mailapi = {
       // save cache
       this.saveBoardCache()
     },
-    // Kanban
+    // View management
     checkMove ({ to, from, draggedContext }) {
       // prevents moving from&to inbox
       // this is buggy because the vue.draggable lib is trash
@@ -1472,7 +1544,25 @@ const mailapi = {
     },
     async reorderBoards () {
       await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
-    }
+    },
+    onScroll (e) {
+      const { target: { scrollTop, clientHeight, scrollHeight } } = e
+      if (scrollTop + clientHeight >= scrollHeight - 1000) {
+        if (this.seekingInbox) return
+        /*
+          TODO: need to figure out some way to handle the user loading over 2k emails
+          FIXME: having 5k emails in the view is a good way to burn a GPU !
+        */
+        if (this.inbox.emails.length > 2000) return;
+        info(...MAILAPI_TAG, 'Fetching more messages')
+        this.seekingInbox = true
+        const that = this
+        this.getOldMessages().then(() => {
+          that.seekingInbox = false
+          that.onScroll(e)
+        })
+      }
+    },
   }
 }
 
