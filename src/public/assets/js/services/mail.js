@@ -808,6 +808,7 @@ const mailapi = {
       await this.initialSyncDone(newest = true)
       await this.checkForUpdates()
       await this.halfThreading().catch(error)
+      this.boards = JSON.parse(JSON.stringify(this.boards))
       await this.memoryLinking()
       this.syncing = false
     },
@@ -1236,17 +1237,17 @@ const mailapi = {
         if (reply_id) {
           reply_ids.add(reply_id)
           reply_id_in[reply_id] = 'INBOX'
-          // note that it has a thread
-          this.inbox.emails[i].ai.thread = true
-          if (this.inbox.emails[i].parsed) {
-            // if it isn't already threaded
-            if (!this.inbox.emails[i]?.ai?.threaded) {
-              this.inbox.emails[i].parsed.thread = await this.getThread(this.inbox.emails[i])
-            }
-          } else {
-            error(...MAILAPI_TAG, 'Email does not have body:', this.inbox.emails[i])
-          }
         }
+        if (this.inbox.emails[i].parsed) {
+          // if it isn't already threaded
+          if (!this.inbox.emails[i]?.ai?.threaded) {
+            this.inbox.emails[i].parsed.thread = await this.getThread(this.inbox.emails[i])
+          }
+        } else {
+          error(...MAILAPI_TAG, 'Email does not have body:', this.inbox.emails[i])
+        }
+        if (this.inbox.emails[i]?.parsed?.thread?.length > 0) this.inbox.emails[i].ai.thread = true
+        else this.inbox.emails[i].ai.thread = false
       }
 
       // thread everything in boards
@@ -1257,17 +1258,17 @@ const mailapi = {
           if (reply_id) {
             reply_ids.add(reply_id)
             reply_id_in[reply_id] = board
-            // note that it has a thread
-            this.boards[board].emails[i].ai.thread = true
-            if (this.boards[board].emails[i].parsed) {
-              // if it isn't already threaded
-              if (!this.boards[board].emails[i]?.ai?.threaded) {
-                this.boards[board].emails[i].parsed.thread = await this.getThread(this.boards[board].emails[i])
-              }
-            } else {
-              error(...MAILAPI_TAG, 'Email does not have body:', this.boards[board].emails[i])
-            }
           }
+          if (this.boards[board].emails[i].parsed) {
+            // if it isn't already threaded
+            if (!this.boards[board].emails[i]?.ai?.threaded) {
+              this.boards[board].emails[i].parsed.thread = await this.getThread(this.boards[board].emails[i])
+            }
+          } else {
+            error(...MAILAPI_TAG, 'Email does not have body:', this.boards[board].emails[i])
+          }
+          if (this.boards[board].emails[i]?.parsed?.thread?.length > 0) this.boards[board].emails[i].ai.thread = true
+          else this.boards[board].emails[i].ai.thread = false
         }
       }
 
@@ -1278,17 +1279,17 @@ const mailapi = {
         if (reply_id) {
           reply_ids.add(reply_id)
           reply_id_in[reply_id] = '[Aiko Mail]/Done'
-          // note that it has a thread
-          this.done.emails[i].ai.thread = true
-          if (this.done.emails[i].parsed) {
-            // if it isn't already threaded
-            if (!this.done.emails[i]?.ai?.threaded) {
-              this.done.emails[i].parsed.thread = await this.getThread(this.done.emails[i])
-            }
-          } else {
-            error(...MAILAPI_TAG, 'Email does not have body:', this.done.emails[i])
-          }
         }
+        if (this.done.emails[i].parsed) {
+          // if it isn't already threaded
+          if (!this.done.emails[i]?.ai?.threaded) {
+            this.done.emails[i].parsed.thread = await this.getThread(this.done.emails[i])
+          }
+        } else {
+          error(...MAILAPI_TAG, 'Email does not have body:', this.done.emails[i])
+        }
+        if (this.done.emails[i]?.parsed?.thread?.length > 0) this.done.emails[i].ai.thread = true
+        else this.done.emails[i].ai.thread = false
       }
 
       // if a message is part of a thread (was replied to by an email we have)
