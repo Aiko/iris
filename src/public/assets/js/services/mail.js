@@ -1584,6 +1584,18 @@ const mailapi = {
     async reorderBoards () {
       await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
     },
+    async sortEmails(newest=true) {
+      info(...MAILAPI_TAG, "Sorting all emails by", newest ? 'newest':'oldest')
+      const sorter = newest ?
+        ((e1, e2) => new Date(e2.envelope.date) - new Date(e1.envelope.date))
+        : ((e1, e2) => new Date(e1.envelope.date) - new Date(e2.envelope.date));
+      //this.inbox.emails = this.inbox.emails.sort(sorter)
+      for (const board of this.boardNames) {
+        this.boards[board].emails = this.boards[board].emails.sort(sorter)
+      }
+      this.done.emails = this.done.emails.sort(sorter)
+      await this.memoryLinking()
+    },
     onScroll (e) {
       const { target: { scrollTop, clientHeight, scrollHeight } } = e
       if (scrollTop + clientHeight >= scrollHeight - 1000) {

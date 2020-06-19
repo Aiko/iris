@@ -594,10 +594,8 @@
                       <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
-                        <a class="dropdown-item">Date (newest)</a>
-                        <a class="dropdown-item">Date (oldest)</a>
-                        <a class="dropdown-item">Size (largest)</a>
-                        <a class="dropdown-item">Size (smallest)</a>
+                        <a @click="sortEmails(true)" class="dropdown-item">Date (newest)</a>
+                        <a @click="sortEmails(false)" class="dropdown-item">Date (oldest)</a>
                         <h6 class="dropdown-header">Display only</h6>
                         <a class="dropdown-item">Unread</a>
                         <a class="dropdown-item">Read</a>
@@ -647,7 +645,7 @@
               <draggable filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <email-card :inbox="true" :key="email?.uid"
+                <email-card :inbox="true" :key="email?.uid" :sort="false"
                   v-if="!loading && email?.folder == 'INBOX' && (!priority || !email?.ai?.subscription || email?.ai?.starred) && !(email?.ai?.threaded)"
                   v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
                   :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
