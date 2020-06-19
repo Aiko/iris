@@ -379,6 +379,8 @@ const ext2icon = ext => {
       return 'fa-file-image'
     case 'webp':
       return 'fa-file-image'
+    case 'svg':
+      return 'fa-file-image'
 
     case 'mp4':
       return 'fa-file-movie'
