@@ -8,6 +8,7 @@ const MailCleaner = (() => {
     // that you want vue to watch here beforehand!!!
     if (!email.ai) {
       email.ai = {
+        cleanSubject: '',
         seen: false,
         starred: false,
         deleted: false,
@@ -39,6 +40,7 @@ const MailCleaner = (() => {
     }
     if (email.flags.includes('\\Seen')) email.ai.seen = true
     if (email.flags.includes('\\Flagged')) email.ai.starred = true
+    email.ai.cleanSubject = email?.envelope?.subject?.replace(/^((re|fw|fwd|aw|wg|undeliverable|undelivered):\s*)+/gim, '')
     return email
   }
 
