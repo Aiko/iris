@@ -1033,7 +1033,7 @@ const mailapi = {
       return JSON.parse(atob(enc + '='))
     },
     // Threading
-    async getThread (email) {
+    async getThread (email, force=false) {
       // returns thread array for email
       // NOTE: threads are peeked!
       // TODO: write a non-peeked version
@@ -1046,7 +1046,8 @@ const mailapi = {
       // and then to include the subject
 
       // if it already has been computed return its thread
-      if (email?.parsed?.thread) return email.parsed.thread
+      if (email?.parsed?.thread && !force) return email.parsed.thread
+      if (email?.parsed?.thread && email?.parsed?.thread.length > 0) return email.parsed.thread
 
       // thread will not include the current message.
       // this creates a circular structure. big no!
@@ -1065,8 +1066,6 @@ const mailapi = {
         const date = new Date(email?.envelope?.date)
         const mid = email.envelope['message-id']
 
-        // if it has no replies we are already done
-        if (!reply_id) return []
         // log("Looking for", reply_id)
 
         // check to make sure we didn't already get it
@@ -1127,6 +1126,10 @@ const mailapi = {
         }
 
         // TODO: check sent trash etc folders locally
+
+        // if it has no replies we are already done, as there is nothing to search server for
+        if (!reply_id) return replies
+
 
         // TODO: check references > check reply id
 
