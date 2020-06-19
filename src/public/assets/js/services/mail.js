@@ -454,6 +454,8 @@ const mailapi = {
     // Manage mailservers
     async reconnectToMailServer () {
       let results
+      if (!this.currentMailbox) return error(...MAILAPI_TAG, "There is no selected mailbox.")
+      await this.loadIMAPConfig(this.currentMailbox) //* reload config just in case !
       if (this.connected) {
         results = await this.callIPC(
           this.task_DisconnectFromServer(),
@@ -1572,6 +1574,11 @@ window.setInterval(async () => {
 
 window.setInterval(async () => {
   app.lastSync = new Date()
+
+  if (app.imapConfig.provider == 'google') {
+    app.google_checkTokens()
+  }
+
   if (!app.connected) {
     app.syncing = false // don't get stuck
     app.reconnectToMailServer() // try a reconnect
@@ -1582,9 +1589,6 @@ window.setInterval(async () => {
 
   TIMEOUT = 30 * SECONDS //* reset timeout if we made it the actual sync
   app.syncTimeout = TIMEOUT
-  if (app.imapConfig.provider == 'google') {
-    app.google_checkTokens()
-  }
   if (!app.dragging) {
     await app.updateAndFetch()
   }
