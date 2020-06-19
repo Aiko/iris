@@ -1058,9 +1058,12 @@ const mailapi = {
       let iterations = 0
       const MAX_ITER = 50
 
-      // takes an email and gives you array of replies to it
-      const find_replies = async email => {
+      // takes an email and gives you array of messages that it is replying to
+      const find_replies = async (email, bySubject=false) => {
         const reply_id = email.envelope?.['in-reply-to']
+        const subject = email?.ai?.cleanSubject
+        const date = new Date(email?.envelope?.date)
+        const mid = email.envelope['message-id']
 
         // if it has no replies we are already done
         if (!reply_id) return []
@@ -1069,15 +1072,26 @@ const mailapi = {
         // check to make sure we didn't already get it
         if (message_ids.has(reply_id)) return []
 
+        // enforce max iterations so not to crash the app
+        if (iterations > MAX_ITER) {
+          error(...MAILAPI_TAG, 'Reached max iteration count while finding replies.')
+          return []
+        }
+
+        const replies = []
+
         // search inbox
         for (let i = 0; i < this.inbox.emails.length; i++) {
           const email = this.inbox.emails[i]
-          if (email.envelope['message-id'] == reply_id) {
+          if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+            // emails in the future can't be valid historical messages
+            const threaded_date = new Date(email?.envelope?.date)
+            if (threaded_date > date) continue;
             // log("Had email in inbox.")
             this.inbox.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
             Vue.set(this.inbox.emails, i, this.inbox.emails[i])
-            if (email?.parsed?.thread?.messages) { return [email, ...email?.parsed?.thread?.messages] }
-            return [email]
+            if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
+            replies.push(email)
           }
         }
 
@@ -1085,11 +1099,14 @@ const mailapi = {
         for (const board of this.boardNames) {
           for (let i = 0; i < this.boards[board].emails.length; i++) {
             const email = this.boards[board].emails[i]
-            if (email.envelope['message-id'] == reply_id) {
+            if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+              // emails in the future can't be valid historical messages
+              const threaded_date = new Date(email?.envelope?.date)
+              if (threaded_date > date) continue;
               // log("Had email in a board.")
               this.boards[board].emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
-              if (email?.parsed?.thread?.messages) { return [email, ...email?.parsed?.thread?.messages] }
-              return [email]
+              if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
+              replies.push(email)
             }
           }
         }
@@ -1097,19 +1114,16 @@ const mailapi = {
         // search done
         for (let i = 0; i < this.done.emails.length; i++) {
           const email = this.done.emails[i]
-          if (email.envelope['message-id'] == reply_id) {
+          if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+            // emails in the future can't be valid historical messages
+            const threaded_date = new Date(email?.envelope?.date)
+            if (threaded_date > date) continue;
             // log("Had email in done.")
             this.done.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
             Vue.set(this.done.emails, i, this.done.emails[i])
-            if (email?.parsed?.thread?.messages) { return [email, ...email?.parsed?.thread?.messages] }
-            return [email]
+            if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
+            replies.push(email)
           }
-        }
-
-        // enforce max iterations so not to crash the app
-        if (iterations > MAX_ITER) {
-          error(...MAILAPI_TAG, 'Reached max iteration count while finding replies.')
-          return []
         }
 
         // TODO: check sent trash etc folders locally
@@ -1131,13 +1145,13 @@ const mailapi = {
             search_results[0],
             true
           ))
-          if (email.length > 0) return email
-          error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
+          if (email.length > 0) replies.push(...email)
+          else error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
         }
 
         // otherwise we give up
         // log("Couldn't find email", reply_id)
-        return []
+        return replies
       }
 
       // takes an email and puts its replies into the thread
@@ -1145,7 +1159,7 @@ const mailapi = {
       // is a command, not a query! does not return val!
       const threading = async email => {
         iterations++
-        const replies = await find_replies(email)
+        const replies = await find_replies(email, bySubject=true)
         thread.push(...replies)
         // we don't want to do this async
         // to avoid computing multiples
