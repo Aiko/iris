@@ -55,7 +55,7 @@ const MailCleaner = (() => {
         if (urls && urls.length > 0) {
           email.ai.subscription = true
           email.ai.links.subscribe = urls[0]
-        } else console.log('LIST-UNSUBSCRIBE', line)
+        } else ;//console.log('LIST-UNSUBSCRIBE', line)
       }
     })
     if (email.flags.includes('\\Seen')) email.ai.seen = true
@@ -63,7 +63,7 @@ const MailCleaner = (() => {
   }
 
   const full_clean = (folder, ai = true) => async email => {
-    console.time('FULL CLEAN ' + email.uid)
+    //console.time('FULL CLEAN ' + email.uid)
     email = await base_clean(folder)(email)
     email.syncing = false
     email.dragging = false
