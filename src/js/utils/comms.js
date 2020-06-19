@@ -16,6 +16,10 @@ ipcMain.handle('key exchange', async (_, q) => {
   return payload
 })
 
+ipcMain.handle('status', async (_,__) => {
+  return {success: true}
+})
+
 const DEFUALT_PORT = 41604
 
 const unused_port = async () => {

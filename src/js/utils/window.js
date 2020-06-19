@@ -1,4 +1,4 @@
-const { ipcMain, shell } = require('electron')
+const { ipcMain, shell, powerMonitor } = require('electron')
 
 // FIXME: window management should probably also use middleware
 
@@ -33,6 +33,8 @@ module.exports = (win, prefix = 'please') => {
 
       win.on('maximize', () => updateMaximizedStatus(true))
       win.on('unmaximize', () => updateMaximizedStatus(false))
+
+      powerMonitor.on('resume', () => win.reload())
 
       win.webContents.on('new-window', (e, url) => {
         e.preventDefault()

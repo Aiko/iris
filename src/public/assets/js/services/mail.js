@@ -1629,6 +1629,7 @@ window.setInterval(async () => {
   app.lastSync = new Date()
 
   if (app.lastSync - app.lastSuccessfulSync > TIMEOUT * 2) {
+    warn(...MAILAPI_TAG, "Artificial time skip (maybe OS sleep?), opening new IPC and IMAP sockets")
     app.syncing = false
     await app.initIPC()
     app.reconnectToMailServer()
@@ -1655,7 +1656,7 @@ window.setInterval(async () => {
 Notification.requestPermission()
 
 ipcRenderer.on('connection dropped', () => {
-  console.error(...MAILAPI_TAG, 'IMAP connection was terminated.')
+  error(...MAILAPI_TAG, 'IMAP connection was terminated.')
   app.connected = false
   app.reconnectToMailServer()
 })
