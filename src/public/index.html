@@ -1522,7 +1522,7 @@
               <a v-if="email?.ai?.intents?.main == 'schedule'" class="main-action ma2">
                 <img src="assets/icons/badges-event-blue.svg"> Schedule
               </a>
-              <a v-if="email?.ai?.intents?.main == 'verify'" class="main-action ma2">
+              <a @click.stop.prevent="openVerify" v-if="email?.ai?.intents?.main == 'verify'" class="main-action ma2">
                 <img src="assets/icons/link.svg"> Verify
               </a>
               <a v-if="email?.ai?.intents?.main == 'subscribe'" class="main-action ma2">

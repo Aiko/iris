@@ -130,6 +130,11 @@ Vue.component('email-card', {
     async viewMessage () {
       app.viewEmail = this.email
       this.email.ai.seen = true
-    }
+    },
+    async openVerify () {
+      if (this.email.ai?.links?.verify) {
+        remote.shell.openExternal(this.email.ai.links.verify)
+      }
+    },
   }
 })
