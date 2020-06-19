@@ -1246,7 +1246,7 @@ const mailapi = {
         } else {
           error(...MAILAPI_TAG, 'Email does not have body:', this.inbox.emails[i])
         }
-        if (this.inbox.emails[i]?.parsed?.thread?.length > 0) this.inbox.emails[i].ai.thread = true
+        if (this.inbox.emails[i]?.parsed?.thread?.messages?.length > 0) this.inbox.emails[i].ai.thread = true
         else this.inbox.emails[i].ai.thread = false
       }
 
@@ -1267,7 +1267,7 @@ const mailapi = {
           } else {
             error(...MAILAPI_TAG, 'Email does not have body:', this.boards[board].emails[i])
           }
-          if (this.boards[board].emails[i]?.parsed?.thread?.length > 0) this.boards[board].emails[i].ai.thread = true
+          if (this.boards[board].emails[i]?.parsed?.thread?.messages?.length > 0) this.boards[board].emails[i].ai.thread = true
           else this.boards[board].emails[i].ai.thread = false
         }
       }
@@ -1288,7 +1288,7 @@ const mailapi = {
         } else {
           error(...MAILAPI_TAG, 'Email does not have body:', this.done.emails[i])
         }
-        if (this.done.emails[i]?.parsed?.thread?.length > 0) this.done.emails[i].ai.thread = true
+        if (this.done.emails[i]?.parsed?.thread?.messages?.length > 0) this.done.emails[i].ai.thread = true
         else this.done.emails[i].ai.thread = false
       }
 
