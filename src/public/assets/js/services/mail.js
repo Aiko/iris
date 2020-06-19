@@ -41,6 +41,7 @@ const mailapi = {
     },
     syncing: false,
     syncingBoards: {},
+    syncingDone: false,
     syncingInbox: false,
     seekingInbox: false, // seeking backwards into history
     cachingInbox: false,
@@ -671,7 +672,7 @@ const mailapi = {
         // start over
         return this.initialSyncBoard(boardName, newest)
       }
-      this.syncingBoards[boardName] = true
+      Vue.set(this.syncingBoards, boardName, true)
       let uidMin = 1
       const { uidLatest } = board
       if (newest && uidLatest > 0) uidMin = uidLatest + 1
@@ -707,7 +708,7 @@ const mailapi = {
       await this.halfThreading()
       await this.memoryLinking()
       this.syncing = false
-      this.syncingBoards[boardName] = false
+      Vue.set(this.syncingBoards, boardName, false)
     },
     async initialSyncDone (newest = false) {
       this.syncing = true
@@ -715,6 +716,7 @@ const mailapi = {
       // boardname should be the path!
       const board = this.done
       if (!board) return warn('Tried to sync', this.folderNames.done, 'but the board is not yet created.')
+      this.syncingDone = true
       let uidMin = 1
       const { uidLatest } = board
       if (newest && uidLatest > 0) uidMin = uidLatest + 1
@@ -741,6 +743,7 @@ const mailapi = {
       else this.done.emails = processed_emails
       if (this.done.emails.length > 0) { this.done.uidLatest = Math.max(...this.done.emails.map(email => email.uid)) }
       this.syncing = false
+      this.syncingDone = false
     },
     async syncWithMailServer () {
       // TODO: sync messages that we have locally

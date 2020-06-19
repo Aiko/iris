@@ -574,7 +574,11 @@
         <!-- TODO: add 'no-action-bar' class  to 'boards' class to remove action b ar from all emails-->
         <div class="boards two-lines">
           <!-- INBOX BOARD -->
-          <div class="board inbox load-board">
+          <div :class="{
+            'board': true,
+            'inbox': true,
+            'load-board': syncingInbox
+          }">
             <div class="board-header">
               <div class="container p0">
                 <div class="row" style="display: -webkit-inline-box">
@@ -637,7 +641,10 @@
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
                 <email-card :inbox="true" :key="email?.uid" :sort="false"
-                  v-if="!loading && email?.folder == 'INBOX' && (!priority || !email?.ai?.subscription || email?.ai?.starred) && !(email?.ai?.threaded)"
+                  v-if="!loading && email?.folder == 'INBOX' && (
+                    (priority && (!email?.ai?.subscription || email?.ai?.starred)) ||
+                    (!priority && (email?.ai?.subscription && !email?.ai?.starred))
+                  ) && !(email?.ai?.threaded)"
                   v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
                   :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                 </email-card>
@@ -647,7 +654,7 @@
               <div class="inbox-more">
                 <p><img src="assets/icons/filter-inbox.svg"> <span>Click here to see </span><b>32</b> filtered
                   <span>emails</span></p>
-                <div class="load-bottom">
+                <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
               <!-- END List loader -------------------------->
@@ -664,9 +671,12 @@
           <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost"
             :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" draggable=".board"
             handle=".board-drag-handle">
-            <board v-for="boardName in boardNames" :board.sync="boards[boardName]" :board-name.camel="boardName"
+            <board v-for="boardName in boardNames" :syncing="!!syncingBoards[boardName]" :board.sync="boards[boardName]" :board-name.camel="boardName"
               inline-template>
-              <div :board-name="boardName" class="board">
+              <div :board-name="boardName" :class="{
+                'board': true,
+                'load-board': syncing
+              }">
                 <div class="board-header">
                   <div class="container p0">
                     <div class="row">
@@ -721,7 +731,10 @@
           </draggable>
 
           <!-- START Done Board Template ----------------------->
-          <div class="board">
+          <div :class="{
+            'board': true,
+            'load-board': syncingDone
+          }">
             <div class="board-header">
               <div class="container p0">
                 <div class="row">
@@ -741,9 +754,6 @@
                     <h1>Done</h1>
                     <div class="archive cll" tooltip="Trash entire board"><img
                         src="assets/icons/sidebar-trash.svg">Trash all</div>
-                  </div>
-                  <div class="col-2 text-right cll">
-                    <a tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                   </div>
                 </div>
               </div>
