@@ -394,6 +394,7 @@
     white-space: nowrap;
     margin-left: 5px;
     height: 30px;
+    margin-top: 5px;
 }
 
 .composer-tag-single.active {
@@ -410,6 +411,7 @@
     padding: 0 5px;
     height: 32px;
     flex-grow: 100;
+    margin-top: 5px;
 }
 
 .composer-tag-single.active>span {
@@ -425,7 +427,7 @@
     flex-wrap: wrap;
     width: 100%;
     font-size: 1rem;
-    padding: 5px 10px;
+    padding: 0px 10px 5px 10px;
     min-height: 40px;
     background: var(--main-bg-color);
     border-bottom: 1px solid var(--secondary-bg-color);
