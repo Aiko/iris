@@ -386,7 +386,7 @@
 .composer-tag-single {
     color: var(--main-text-color);
     background-color: var(--secondary-bg-color);
-    padding: 2px 6px 4px 6px;
+    padding: 0 6px 0 6px;
     border-radius: 3px;
     cursor: pointer;
     font-size: 15px;
@@ -395,6 +395,10 @@
     margin-left: 5px;
     height: 30px;
     margin-top: 5px;
+}
+
+.composer-tag-single span {
+    line-height: 27px;
 }
 
 .composer-tag-single.active {
