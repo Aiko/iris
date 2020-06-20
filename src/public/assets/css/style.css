@@ -2977,7 +2977,8 @@ unselectable {
 	color: var(--dark-text);
 	font-size: 15px;
 	margin-left: 5px;
-	width: 100%;
+	padding: 8px 0 8px 0;
+	flex-grow: 100;
 }
 
 .composer-tag-single {
@@ -2990,7 +2991,7 @@ unselectable {
 	white-space: nowrap;
 	margin-left: 5px;
 	height: fit-content;
-	margin-top: auto;
+	margin-top: 5px;
 	margin-bottom: auto;
 }
 
@@ -3008,10 +3009,11 @@ unselectable {
 }
 
 .composer-single-field {
-	display: inline-flex;
+	display: flex;
+	flex-wrap: wrap;
 	width: 100%;
 	font-size: 1rem;
-	height: 40px;
+	min-height: 40px;
 	background: var(--main-bg-color);
 	border-bottom: 1px solid #e2e2e2;
 }
