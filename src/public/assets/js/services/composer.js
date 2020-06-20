@@ -11,7 +11,8 @@ const composer = {
       xoauth2: '',
       secure: true,
       provider: 'other'
-    }
+    },
+    sendTo: [],
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')

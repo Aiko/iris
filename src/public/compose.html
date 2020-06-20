@@ -49,12 +49,31 @@
         <!-- START Compose View -->
         <div class="standalone">
             <div class="main-email">
-                <input type="text" name="composerField" value="hi" placeholder="To">
-                <input type="text" name="composerField" value="hello" placeholder="CC">
-                <input type="text" name="composerField" value="ruben@pri.com" placeholder="BCC">
+                <chip-input v-model="sendTo" inline-template>
+                    <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
+                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
+                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight" class="composer-single-field">
+                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }">
+                            <span>{{chip.value}}</span>
+                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
+                        </div>
+                        <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
+                            class="composer-single-field-input" placeholder="To" v-model="term" ref="termInput">
+                    </div>
+                </chip-input>
 
-                <div class="amsify-suggestags-input-area amsify-suggestags-input-area-default" style="padding: 5px;">
-                    <input type="text" class="amsify-suggestags-input" placeholder="Subject" autocomplete="off">
+                <div class="composer-single-field">
+                    <input type="text" class="composer-single-field-input" placeholder="CC">
+                </div>
+                <div class="composer-single-field">
+                    <input type="text" class="composer-single-field-input" placeholder="BCC">
+                </div>
+                <div class="composer-single-field">
+                    <input type="text" class="composer-single-field-input" placeholder="Subject">
                 </div>
 
                 <div class="compose-body">
@@ -123,7 +142,8 @@
                             </div>
                             <div class="comp-sep">
                                 <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <a href="#"><img src="assets/icons/t.svg" width="20"></a>
                                     </button>
                                     <div class="dropdown-menu">
@@ -142,7 +162,8 @@
                                     </div>
                                 </div>
                                 <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <a href="#"><img src="assets/icons/align-left.svg" width="20"></a>
                                     </button>
                                     <div class="dropdown-menu">
@@ -167,22 +188,26 @@
                                     </div>
                                 </div>
                                 <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <a href="#"><img src="assets/icons/list.svg" width="20"></a>
                                     </button>
                                     <div class="dropdown-menu">
                                         <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.bullet_list()
-                                        }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                        }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg"
+                                                width="20"></a>
                                         <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.ordered_list()
-                                        }" @click="commands.ordered_list" href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                        }" @click="commands.ordered_list" href="#"><img src="assets/icons/list.svg"
+                                                width="20"></a>
                                         <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.todo_list()
-                                        }" @click="commands.todo_list" href="#"><img src="assets/icons/check-square.svg" width="20"></a>
+                                        }" @click="commands.todo_list" href="#"><img
+                                                src="assets/icons/check-square.svg" width="20"></a>
                                     </div>
                                 </div>
                             </div>
@@ -379,7 +404,6 @@
 
     <!-- 3rd party libraries -->
     <script src="assets/js/third-party/popper.min.js"></script>
-    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
     <script src="assets/js/third-party/jwt-decode.min.js"></script>
     <script src="assets/js/third-party/jsrsasign.min.js"></script>
@@ -404,27 +428,9 @@
     <script src="assets/js/services/composer.js"></script>
     <script src="assets/js/services/composer-extensions.js"></script>
     <!-- templates -->
-    <!-- TODO: components -->
+    <script src="assets/js/components/chip-input.js"></script>
     <!-- main/entrypoint -->
     <script src="assets/js/compose.js"></script>
-
-    <!-- TODO: suggestions -->
-    <script type="text/javascript">
-        $('input[name="composerField"]').amsifySuggestags({
-            type: 'amsify',
-            suggestions: [{
-                    'tag': 'ruben@priansh.com',
-                    'value': 1
-                },
-
-                {
-                    'tag': 'rubtouit@yahoo.fr',
-                    'value': 2
-                },
-            ]
-        });
-    </script>
-
 
 </body>
 

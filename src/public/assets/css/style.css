@@ -2971,7 +2971,7 @@ unselectable {
 	}
 }
 
-.amsify-suggestags-input {
+.composer-single-field-input {
 	background: var(--main-bg-color);
 	border: none;
 	color: var(--dark-text);
@@ -2980,24 +2980,46 @@ unselectable {
 	width: 100%;
 }
 
-.amsify-select-tag {
+.composer-tag-single {
 	color: var(--main-text-color);
 	background-color: var(--secondary-bg-color);
-	padding: 2px 0 4px 6px;
+	padding: 4px 6px 4px 6px;
 	border-radius: 2px;
 	cursor: pointer;
 	font-size: 15px;
 	white-space: nowrap;
 	margin-left: 5px;
+	height: fit-content;
+	margin-top: auto;
+	margin-bottom: auto;
 }
 
-.amsify-suggestags-input-area {
+.composer-tag-single.active {
+	background-color: var(--main-color);
+	color: white;
+}
+
+.composer-tag-single.active > span {
+	color: white;
+}
+
+.composer-tag-single.active > img {
+	filter: brightness(2);
+}
+
+.composer-single-field {
 	display: inline-flex;
 	width: 100%;
 	font-size: 1rem;
 	height: 40px;
 	background: var(--main-bg-color);
-	border-bottom: 2px solid #e2e2e2;
+	border-bottom: 1px solid #e2e2e2;
+}
+
+.composer-tag-remove {
+	width: 12px;
+	margin-left: 5px;
+	padding-bottom: 4px;
 }
 
 .amsify-remove-tag {
