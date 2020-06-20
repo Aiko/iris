@@ -1632,7 +1632,7 @@ window.setInterval(async () => {
     warn(...MAILAPI_TAG, "Artificial time skip (maybe OS sleep?), opening new IPC and IMAP sockets")
     app.syncing = false
     await app.initIPC()
-    app.reconnectToMailServer()
+    await app.reconnectToMailServer()
   }
 
   if (app.imapConfig.provider == 'google') {
