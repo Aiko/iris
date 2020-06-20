@@ -1628,7 +1628,7 @@ window.setInterval(async () => {
 window.setInterval(async () => {
   app.lastSync = new Date()
 
-  if (app.lastSync - app.lastSuccessfulSync > TIMEOUT * 2) {
+  if (app.lastSync - app.lastSuccessfulSync > TIMEOUT * 4) {
     warn(...MAILAPI_TAG, "Artificial time skip (maybe OS sleep?), opening new IPC and IMAP sockets")
     app.syncing = false
     await app.initIPC()
@@ -1651,6 +1651,7 @@ window.setInterval(async () => {
   app.syncTimeout = TIMEOUT
   if (!app.dragging) {
     await app.updateAndFetch()
+    app.lastSuccessfulSync = new Date()
   }
 }, TIMEOUT)
 Notification.requestPermission()
