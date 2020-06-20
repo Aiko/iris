@@ -397,6 +397,20 @@
     margin-top: 5px;
 }
 
+blockquote {
+    margin: 0 0 1rem;
+    border-left: 1px solid #b0b0b0;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+blockquote p {
+    font-style: italic;
+    font-weight: 400;
+}
+
 .composer-tag-single span {
     line-height: 27px;
 }
