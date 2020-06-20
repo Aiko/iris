@@ -13,6 +13,8 @@ const composer = {
       provider: 'other'
     },
     sendTo: [],
+    sendCC: [],
+    sendBCC: []
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
