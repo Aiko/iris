@@ -186,7 +186,7 @@
 
 .menubar {
     height: 40px;
-    margin-bottom: 10px;
+    margin-top: 2px;
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     background: var(--secondary-bg-color);
@@ -222,7 +222,7 @@
     outline: none;
     color: var(--dark-text);
     height: -webkit-fill-available;
-    max-height: calc(100% - 226px);
+    max-height: calc(100% - 256px);
     overflow: visible;
     font-size: 16px;
     letter-spacing: .3px;
@@ -383,10 +383,64 @@
     z-index: 100000000;
 }
 
+.composer-tag-single {
+    color: var(--main-text-color);
+    background-color: var(--secondary-bg-color);
+    padding: 4px 6px 4px 6px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 15px;
+    border: 1px solid #b0b0b0;
+    white-space: nowrap;
+    margin-left: 5px;
+    height: fit-content;
+}
+
+.composer-tag-single.active {
+    background-color: var(--main-color);
+    color: white;
+    border: 1px solid var(--main-color);
+}
+
+.composer-single-field-input {
+    background: var(--main-bg-color);
+    border: none;
+    color: var(--dark-text);
+    font-size: 15px;
+    padding: 0 5px;
+    height: 32px;
+    flex-grow: 100;
+}
+
+.composer-tag-single.active>span {
+    color: white;
+}
+
+.composer-tag-single.active>img {
+    filter: brightness(2);
+}
+
+.composer-single-field {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    font-size: 1rem;
+    padding: 8px 10px;
+    min-height: 40px;
+    background: var(--main-bg-color);
+    border-bottom: 1px solid var(--secondary-bg-color);
+}
+
+.composer-tag-remove {
+    width: 12px;
+    margin-left: 5px;
+    padding-bottom: 4px;
+}
+
 .editor p.is-editor-empty:first-child::before {
     content: attr(data-empty-text);
     float: left;
-    color: #aaa;
+    color: #757575;
     pointer-events: none;
     height: 0;
     font-style: italic;
@@ -447,11 +501,10 @@
 
 .editor p {
     color: var(--dark-text);
-    letter-spacing: normal;
+    letter-spacing: .4px;
     font-size: 15px;
+    margin-bottom: 0;
 }
-
-
 
 .ProseMirror {
     height: 100%
