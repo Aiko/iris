@@ -1962,6 +1962,10 @@ select.v1 {
 	transition: 0.2s;
 }
 
+.load-board .email {
+	opacity: 0.7;
+}
+
 .options-qa {
 	position: absolute;
 	right: 0;

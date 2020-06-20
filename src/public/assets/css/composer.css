@@ -218,7 +218,7 @@
 }
 
 .compose-body {
-    padding: 10px 15px 55px 15px;
+    padding: 0 15px 55px 15px;
     outline: none;
     color: var(--dark-text);
     height: -webkit-fill-available;
@@ -496,7 +496,7 @@
 .editor {
     height: 100%;
     overflow: scroll;
-
+    padding-top: 10px;
 }
 
 .editor p {
