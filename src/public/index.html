@@ -1179,6 +1179,7 @@
               <input v-model="smtpConfig.port" type="number" name="" placeholder="SMTP Port">
               <br><br>
               <a v-if="!loading" @click="saveConfig" class="blue">Add mailbox</a>
+              <!-- TODO: CHANGE LOADER HERE RUBEN-->
               <div v-if="loading" class="cs-loader">
                 <div class="cs-loader-inner">
                   <label> ●</label>
@@ -1622,16 +1623,8 @@
         </div>
       </div>
       <div class="email-body">
-        <!-- TODO: MAKE LOADER DISAPPEAR WHEN IFRAME LOADED-->
-        <div class="email-cs" v-if="!(email?.parsed?.text || email?.parsed?.html)">
-          <div class="email-cs-inner">
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-          </div>
+        <div v-if="!(email?.parsed?.text || email?.parsed?.html)" class="load-bottom">
+          <p>Loading email</p>
         </div>
         <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
         https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->

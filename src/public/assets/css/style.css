@@ -1777,6 +1777,7 @@ select.v1 {
 	padding-top: 17px;
 	width: 100%;
 	margin-bottom: -4px;
+	position: relative;
 }
 
 .secondary-head {
@@ -2598,41 +2599,24 @@ unselectable {
 	}
 }
 
-.cs-loader-inner {
-	width: 100%;
-	color: #b0b0b0;
-	padding: 0 100px;
-	text-align: center;
-	margin-left: -15px;
-}
-
-.email-cs {
-	margin-top: 50px;
+.email-body .load-bottom {
 	position: absolute;
-	width: 100%;
-	z-index: 100;
+	top: 0;
+	z-index: 1;
+	left: 0;
+	margin-top: 90px;
 }
 
-.email-cs-inner {
-	width: 100%;
-	color: #b0b0b0;
-	padding: 0 100px;
+.email-body .load-bottom p {
+
+	position: absolute;
+	margin: auto;
 	text-align: center;
-	z-index: 100;
-	margin-left: -15px;
+	width: 100% !important;
+	margin-top: -25px;
+	white-space: nowrap;
 }
 
-.email-cs-inner label {
-	font-size: 6px !important;
-	opacity: 0;
-	display: inline-block;
-}
-
-.cs-loader-inner label {
-	font-size: 6px !important;
-	opacity: 0;
-	display: inline-block;
-}
 
 @keyframes lol {
 	0% {
@@ -2656,56 +2640,9 @@ unselectable {
 	}
 }
 
-.cs-loader-inner label:nth-child(6) {
-	animation: lol 3s infinite ease-in-out;
-}
 
 .textinout {
 	animation: textinout 2s infinite ease-in-out;
-}
-
-.cs-loader-inner label:nth-child(5) {
-	animation: lol 3s 100ms infinite ease-in-out;
-}
-
-.cs-loader-inner label:nth-child(4) {
-	animation: lol 3s 200ms infinite ease-in-out;
-}
-
-.cs-loader-inner label:nth-child(3) {
-	animation: lol 3s 300ms infinite ease-in-out;
-}
-
-.cs-loader-inner label:nth-child(2) {
-	animation: lol 3s 400ms infinite ease-in-out;
-}
-
-.cs-loader-inner label:nth-child(1) {
-	animation: lol 3s 500ms infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(6) {
-	animation: lol 3s infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(5) {
-	animation: lol 3s 100ms infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(4) {
-	animation: lol 3s 200ms infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(3) {
-	animation: lol 3s 300ms infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(2) {
-	animation: lol 3s 400ms infinite ease-in-out;
-}
-
-.email-cs-inner label:nth-child(1) {
-	animation: lol 3s 500ms infinite ease-in-out;
 }
 
 .savedraft {
@@ -3000,11 +2937,11 @@ unselectable {
 	color: white;
 }
 
-.composer-tag-single.active > span {
+.composer-tag-single.active>span {
 	color: white;
 }
 
-.composer-tag-single.active > img {
+.composer-tag-single.active>img {
 	filter: brightness(2);
 }
 
