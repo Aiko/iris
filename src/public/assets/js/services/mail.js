@@ -1094,6 +1094,7 @@ const mailapi = {
 
         // check to make sure we didn't already get it
         if (message_ids.has(reply_id)) return []
+        message_ids.add(reply_id)
 
         // enforce max iterations so not to crash the app
         if (iterations > MAX_ITER) {
