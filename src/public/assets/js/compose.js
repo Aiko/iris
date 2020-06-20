@@ -154,7 +154,7 @@ const app = new Vue({
           new Placeholder({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Write something …',
+            emptyNodeText: 'Message',
             showOnlyWhenEditable: true,
             showOnlyCurrent: true
           }),

@@ -31,6 +31,7 @@
     <!-- THEMES GO HERE -->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
     <!-- LOADER -->
+    <!-- TODO: MAKE INITIAL LOADER ONLY APPEAR AFTER INBOX IS ADDED SO THAT LOAD TEXT SHOWS ENTIRELY -->
     <div id="fixed" class="aiko-loader center-loader">
       <div class="hide-whole"></div>
       <img src="assets/img/logo.svg">
@@ -619,15 +620,16 @@
                     </a>
                   </div>
                   <div class="col-8 text-center exp nowrap">
-                    <div class="tabi" :class="{'active-tab': priority}" @click="priority = true">
-                      <h1>Priority</h1>
-                      <!-- TODO: Rig the unread count per board ----------->
-                      <div class="secondary-count" tooltip="Unread emails in your inbox">99+</div>
+
+
+                    <div class="inbox-switch left text-center">
+                      <h1 class="inbox active" @click="priority = true" inbox-direction="left">Priority<div
+                          class="secondary-count" tooltip="Unread emails in your inbox">99+</div>
+                      </h1>
+                      <h1 class="inbox" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
-                    <div class="tabi" @click="priority = false" style="margin-left: 5px;"
-                      :class="{'active-tab': !priority}">
-                      <h1>Others</h1>
-                    </div>
+
+
                   </div>
                 </div>
               </div>
@@ -640,13 +642,12 @@
               <draggable filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <email-card :inbox="true" :key="email?.uid" :sort="false"
-                  v-if="!loading && email?.folder == 'INBOX' && (
+                <email-card :inbox="true" :key="email?.uid" :sort="false" v-if="!loading && email?.folder == 'INBOX' && (
                     (priority && (!email?.ai?.subscription || email?.ai?.starred)) ||
                     (!priority && (email?.ai?.subscription && !email?.ai?.starred))
-                  ) && !(email?.ai?.threaded)"
-                  v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
-                  :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
+                  ) && !(email?.ai?.threaded)" v-for="(email, i) in inbox.emails" :index="i"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :email="email">
                 </email-card>
               </draggable>
 
@@ -671,8 +672,8 @@
           <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost"
             :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" draggable=".board"
             handle=".board-drag-handle">
-            <board v-for="boardName in boardNames" :syncing="!!syncingBoards[boardName]" :board.sync="boards[boardName]" :board-name.camel="boardName"
-              inline-template>
+            <board v-for="boardName in boardNames" :syncing="!!syncingBoards[boardName]" :board.sync="boards[boardName]"
+              :board-name.camel="boardName" inline-template>
               <div :board-name="boardName" :class="{
                 'board': true,
                 'load-board': syncing
@@ -883,7 +884,6 @@
         </div>
       </div>
     </div>
-    <!-- TODO: add this video to initial load -->
     <!-- TUTORIAL MODAL -->
     <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
@@ -911,8 +911,6 @@
           <div class="modal-content">
             <div class="main-email">
               <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
-              <!-- TODO: add 'short' class to 'single-email' if short threaded email -->
-
               <!-- Newest Message in Thread  -->
               <view-email-single :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
 
@@ -929,10 +927,11 @@
                     <div class="col-3 p0">
                       <img :src="avatar">
                     </div>
-                    <!-- TODO: Add options here? its a hover thingy-->
                     <div class="col-9 p0 spe hover-name">
                       <h1>{{sender.name}}</h1>
                       <h2>{{sender.address}}</h2>
+
+                      <!-- TODO: Prirpi add options here? its a hover thingy-->
                       <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
                       <p>COPY</p> <!-- This is an option, could be anything we want really-->
                       <p>INVITE</p> <!-- This is an option, could be anything we want really-->
@@ -941,7 +940,7 @@
                 </div>
               </div>
 
-              <!-- TODO: SHOW THIS DIV ONLY WHEN THERE ARE ATTACHMENTS IN EMAIL-->
+              <!-- ATTACHMENT ELEMENTS
               <div class="attachments">
                 <h3>Attachments
                   <div class="secondary-count">12</div>
@@ -964,8 +963,8 @@
                 </div>
 
               </div>
-
-              <h3>Previous threads with Ruben</h3>
+              -->
+              <h3>Previous threads with {{sender.name}}</h3>
               <div class="previous-threads sec-sec">
                 <div class="email thread">
                   <div class="container pr">
@@ -1179,6 +1178,7 @@
               <input v-model="smtpConfig.port" type="number" name="" placeholder="SMTP Port">
               <br><br>
               <a v-if="!loading" @click="saveConfig" class="blue">Add mailbox</a>
+              <!-- TODO: CHANGE LOADER HERE RUBEN-->
               <div v-if="loading" class="cs-loader">
                 <div class="cs-loader-inner">
                   <label> ●</label>
@@ -1470,10 +1470,8 @@
       </div>
     </div>
   </div>
-  <!-- TODO: Add 'focus' class to 'email' class when it is focused (keyboard shortcuts) -->
   <script type="text/x-template" id="email-card">
     <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
-    <!-- TODO: for ruben, fix ugly padding during drag........ -->
     <div :ref="email.folder + ':' + email.uid" :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.ai?.summary?.sentences?.length > 0),
@@ -1492,7 +1490,6 @@
             <h2 class="sender" @click="debug">
               {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
             </h2>
-            <!-- TODO: Rig badges, thread, bcc, event, tracker -->
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
             <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
@@ -1536,13 +1533,10 @@
               <a><img src="assets/icons/options-reply.png" width="18"></a>
               <a><img src="assets/icons/options-replya.png" width="18"></a>
               <a><img src="assets/icons/options-forward.png" width="15"></a>
-
-              <!-- TODO: Rig starred image + add 'starred' to 'email' class here -->
               <a @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
                   width="15"></a>
               <a @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
                   width="15"></a>
-
               <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
                   width="15"></a>
             </div>
@@ -1574,8 +1568,6 @@
               <select class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
                 <option v-if="board.folder == email.folder" v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
               </select>
-
-
               <!-- FUTURE DROP DOWN FOR BOARD CHANGE
               <select class="aiko-select">
                 <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
@@ -1586,6 +1578,11 @@
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
           </div>
+          <!-- TODO: SEE ABOUT SHOWING EMAIL FOR SECURITY REASONS
+          <div class="row">
+          <p style="margin: 0;margin-top: -2px;font-size: 12px;">notifications@github.com</p>
+         </div>
+         -->
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
           </div>
@@ -1622,16 +1619,8 @@
         </div>
       </div>
       <div class="email-body">
-        <!-- TODO: MAKE LOADER DISAPPEAR WHEN IFRAME LOADED-->
-        <div class="email-cs" v-if="!(email?.parsed?.text || email?.parsed?.html)">
-          <div class="email-cs-inner">
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-            <label> ●</label>
-          </div>
+        <div v-if="!(email?.parsed?.text || email?.parsed?.html)" class="load-bottom">
+          <p>Loading email</p>
         </div>
         <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
         https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Safely_inserting_external_content_into_a_page -->
@@ -1671,6 +1660,7 @@
   <script src="assets/js/services/composer.js"></script>
   <script src="assets/js/services/modals.js"></script>
   <script src="assets/js/services/shortcuts.js"></script>
+  <script src="assets/js/services/visual.js"></script>
   <!-- templates -->
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
@@ -1681,28 +1671,6 @@
   <script src="assets/js/components/board.js"></script>
   <!-- main/entrypoint -->
   <script src="assets/js/main.js"></script>
-
-  <script type="text/javascript">
-    /*
-      $('input[name="rulesField"]').amsifySuggestags({
-        type: 'amsify',
-        suggestions: [{
-            'tag': 'ruben@priansh.com',
-            'value': 1
-          },
-
-          {
-            'tag': 'rubtouit@yahoo.fr',
-            'value': 2
-          },
-        ]
-      });
-
-      $('input[name="rulesField2"]').amsifySuggestags({
-        type: 'amsify',
-      });
-      */
-  </script>
 
 </body>
 
