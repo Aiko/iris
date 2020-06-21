@@ -100,7 +100,6 @@ const mailapi = {
       this.recalculateHeight()
       if (this.focused.folder == 'INBOX') {
         if (this.priority) {
-          //* find the first priority email
           const nextIndex = this.inbox.emails.map((email, i) => {
             return {email, i}
           }).filter(({email}) =>
@@ -108,7 +107,7 @@ const mailapi = {
               !(email?.ai?.threaded) &&
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
-          )?.[0]?.index
+          )?.[0]?.i
           if (nextIndex) this.focused.index = nextIndex
         } else {
           const nextIndex = this.inbox.emails.map((email, i) => {
@@ -118,7 +117,7 @@ const mailapi = {
               !(email?.ai?.threaded) &&
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
-          )?.[0]?.index
+          )?.[0]?.i
           if (nextIndex) this.focused.index = nextIndex
         }
       }

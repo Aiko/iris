@@ -33,18 +33,28 @@ const shortcuts = {
       if (this.focused.folder == 'INBOX') {
         if (this.inbox.emails.length > (this.focused.index + 1)) {
           if (this.priority) {
-            //* find the next priority email
             const nextIndex = this.inbox.emails.map((email, i) => {
-              email.index = i
-              return email
-            }).filter(e =>
-              !(e?.ai?.subscription) &&
-                            !(e?.ai?.threaded) &&
-                            (e.index > this.focused.index) &&
-                            e.folder == 'INBOX'
-            )?.[0]?.index
+              return {email, i}
+            }).filter(({email}) =>
+                email?.ai?.priority &&
+                !(email?.ai?.threaded) &&
+                email.folder == 'INBOX' &&
+                email.index > this.focused.index &&
+                !(email?.ai?.deleted)
+            )?.[0]?.i
             if (nextIndex) this.focused.index = nextIndex
-          } else this.focused.index += 1
+          } else {
+            const nextIndex = this.inbox.emails.map((email, i) => {
+              return {email, i}
+            }).filter(({email}) =>
+                !email?.ai?.priority &&
+                !(email?.ai?.threaded) &&
+                email.folder == 'INBOX' &&
+                email.index > this.focused.index &&
+                !(email?.ai?.deleted)
+            )?.[0]?.i
+            if (nextIndex) this.focused.index = nextIndex
+          }
         }
       }
       //* for the boards, just increment
@@ -65,21 +75,28 @@ const shortcuts = {
       if (this.focused.folder == 'INBOX') {
         if (this.focused.index - 1 > -1) {
           if (this.priority) {
-            //* find the previous priority email
-            const validEmails = this.inbox.emails.map((email, i) => {
-              email.index = i
-              return email
-            }).filter(e =>
-              !(e?.ai?.subscription) &&
-                            !(e?.ai?.threaded) &&
-                            (e.index < this.focused.index) &&
-                            e.folder == 'INBOX'
-            )
-            if (validEmails.length > 0) {
-              const nextIndex = validEmails.last()?.index
-              if (nextIndex) this.focused.index = nextIndex
-            }
-          } else this.focused.index -= 1
+            const nextIndex = this.inbox.emails.map((email, i) => {
+              return {email, i}
+            }).filter(({email}) =>
+                email?.ai?.priority &&
+                !(email?.ai?.threaded) &&
+                email.folder == 'INBOX' &&
+                email.index < this.focused.index &&
+                !(email?.ai?.deleted)
+            )?.last()?.i
+            if (nextIndex) this.focused.index = nextIndex
+          } else {
+            const nextIndex = this.inbox.emails.map((email, i) => {
+              return {email, i}
+            }).filter(({email}) =>
+                !email?.ai?.priority &&
+                !(email?.ai?.threaded) &&
+                email.folder == 'INBOX' &&
+                email.index < this.focused.index &&
+                !(email?.ai?.deleted)
+            )?.last()?.i
+            if (nextIndex) this.focused.index = nextIndex
+          }
         }
       }
       //* for the boards, just decrement
@@ -141,7 +158,7 @@ const shortcuts = {
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
-            )?.[0]?.index
+            )?.[0]?.i
             if (nextIndex) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
@@ -151,7 +168,7 @@ const shortcuts = {
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
-            )?.[0]?.index
+            )?.[0]?.i
             if (nextIndex) this.focused.index = nextIndex
           }
         }
@@ -174,7 +191,7 @@ const shortcuts = {
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
-            )?.[0]?.index
+            )?.[0]?.i
             if (nextIndex) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
@@ -184,7 +201,7 @@ const shortcuts = {
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
-            )?.[0]?.index
+            )?.[0]?.i
             if (nextIndex) this.focused.index = nextIndex
           }
         }
@@ -200,7 +217,7 @@ const shortcuts = {
               !(email?.ai?.threaded) &&
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
-          )?.[0]?.index
+          )?.[0]?.i
           if (nextIndex) this.focused.index = nextIndex
         } else {
           const nextIndex = this.inbox.emails.map((email, i) => {
@@ -210,7 +227,7 @@ const shortcuts = {
               !(email?.ai?.threaded) &&
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
-          )?.[0]?.index
+          )?.[0]?.i
           if (nextIndex) this.focused.index = nextIndex
         }
       }
