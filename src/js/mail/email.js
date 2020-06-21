@@ -369,7 +369,7 @@ ipcMain.handle('please open a folder', async (_, q) => {
 
 // Get Emails
 ipcMain.handle('please get emails', async (_, q) => {
-  const { path, sequence, peek, token, modseq, limit, downloadAttachments, markAsSeen } = q
+  const { path, sequence, peek, token, modseq, limit, downloadAttachments, keepCidLinks, markAsSeen } = q
   const query = ['uid', 'flags', 'envelope']
   if (!peek && !markAsSeen) query.push('body.peek[]', 'bodystructure')
   else if (!peek && markAsSeen) query.push('body[]', 'bodystructure')
@@ -408,7 +408,7 @@ ipcMain.handle('please get emails', async (_, q) => {
         skipTextToHtml: true,
         maxHtmlLengthToParse: 1000 * 1000,
         skipAttachments: !downloadAttachments,
-        keepCidLinks: !downloadAttachments
+        keepCidLinks: keepCidLinks
       })
       // console.timeEnd("Parse " + msg['body[]'].length)
       // console.log(msg['body[]'].length, msg.parsed.html?.length, JSON.stringify(msg.parsed.attachments).length, JSON.stringify(msg.parsed).length)
