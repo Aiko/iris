@@ -202,7 +202,7 @@ const mailapi = {
         path
       })
     },
-    task_FetchEmails (path, sequence, peek, modseq, limit, downloadAttachments, markAsSeen, keepCidLinks=false) {
+    task_FetchEmails (path, sequence, peek, modseq, limit, downloadAttachments, markAsSeen, keepCidLinks=true) {
       return this.ipcTask('please get emails', {
         path,
         sequence,
