@@ -4,7 +4,7 @@ Vue.component('view-email', {
     return {
       email: this.emailcard,
       thread: [],
-      avatar: 'assets/img/avatar.png'
+      avatar: 'assets/img/avatar.png',
     }
   },
   async created () {
@@ -25,6 +25,7 @@ Vue.component('view-email', {
       this.close()
       return
     }
+    if (!this.email.parsed) this.email.parsed = {}
     this.email.parsed.text = s[0]?.parsed?.text
     this.email.parsed.html = s[0]?.parsed?.html
     this.email.parsed.attachments = s[0]?.parsed?.attachments

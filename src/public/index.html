@@ -1617,7 +1617,7 @@
         </div>
       </div>
       <div class="email-body">
-        <div v-if="!(email?.parsed?.text || email?.parsed?.html)" class="load-bottom">
+        <div v-if="!(email?.parsed)" class="load-bottom">
           <p>Loading email</p>
         </div>
         <!-- FIXME: using iframe right now, will be insecure until I safely inject HTML, see
