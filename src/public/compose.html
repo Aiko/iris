@@ -25,14 +25,16 @@
     <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
         <!-- THEMES GO HERE -->
         <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
-
-        <div id="fixed" class="loader-6 center-loader"></div>
+        <div id="fixed" class="load-page">
+            <div class="load-bottom"></div>
+        </div>
 
         <!-- CONTROL BAR -->
         <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
             <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
             <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
-            <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
+            <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>
+            <!-- Full Screen ------------------------>
 
             <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
             <!-- Minimize ---------->
@@ -300,9 +302,11 @@
                                         <div class="col-8 p0" style="display: inline-flex;">
                                             <p class="subject">Sales reply 1</p>
                                         </div>
-                                        <p class="body">Hi John, I'm aware you choose to do all development in-house,
+                                        <p class="body">Hi John, I'm aware you choose to do all development
+                                            in-house,
                                             however, I
-                                            am the head of a Ukrainian dev-shop, which is the best in the world i think.
+                                            am the head of a Ukrainian dev-shop, which is the best in the world i
+                                            think.
                                         </p>
                                     </div>
                                 </div>
@@ -376,7 +380,8 @@
                         <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200">
                         <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200">
                         <br><br>
-                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b> to be
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b>
+                            to be
                             notified when your recipient has opened your email.</p><br> <br>
                         <div class="modal-bottom">
                             <a class="blue">Get Started</a>
@@ -402,7 +407,8 @@
                         <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280">
                         <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280">
                         <br><br>
-                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to reply
+                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to
+                            reply
                             to future emails in just one click.</p><br> <br>
                         <div class="modal-bottom">
                             <a class="blue">Get Started</a>
