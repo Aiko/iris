@@ -1631,7 +1631,7 @@ const mailapi = {
       const TOLERANCE = 5 // # of items above/below rendered additionally
       /* END CONFIG */
 
-      const { scrollTop, clientHeight } = this.$refs.inboxBoard
+      const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard
 
       const scrollAmount = scrollTop
       const scrollViewHeight = clientHeight
@@ -1639,16 +1639,20 @@ const mailapi = {
         min: scrollAmount,
         max: scrollAmount + scrollViewHeight
       }
+      if (scrollView.max > scrollHeight - 500) {
+        scrollView.max += 500
+      }
 
       const itemHeight = EMAIL_HEIGHT + EMAIL_SPACING
-      const listHeight = this.fullInbox.length * itemHeight
+      const listSize = (this.priority ? this.priorityInbox.length : this.otherInbox.length)
+      const listHeight = listSize * itemHeight
 
       const emailsAbove = scrollView.min / itemHeight
       const emailsShown = scrollViewHeight / itemHeight
       const emailsBelow = (listHeight - scrollView.max) / itemHeight
 
       const indexMin = Math.floor(emailsAbove - TOLERANCE)
-      const indexMax = Math.ceil(emailsAbove + emailsShown + TOLERANCE)
+      const indexMax = Math.ceil((listSize - emailsBelow) + TOLERANCE)
 
       if (this.priority) {
         // adjust to priority indices
@@ -1661,7 +1665,7 @@ const mailapi = {
       } else {
         // adjust to other indices
         if (this.otherInbox.length > 0) {
-          const minEmail = this.otherInbox[indexMin]
+          const minEmail = this.otherInbox?.[indexMin] || this.otherInbox[0]
           const maxEmail = this.otherInbox?.[indexMax] || this.otherInbox.last()
           this.visibleMin = this.inbox.emails.indexOf(minEmail)
           this.visibleMax = this.inbox.emails.indexOf(maxEmail)
