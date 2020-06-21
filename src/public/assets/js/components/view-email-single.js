@@ -28,18 +28,18 @@ Vue.component('view-email-single', {
   watch: {
     emailsingle (_) {
       this.email = this.emailsingle
-      this.setContent(blank = 'No message')
+      this.setContent('No message')
     },
     validity (_) {
       this.email = this.emailsingle
-      this.setContent(blank = 'No message')
+      this.setContent('No message')
     }
   },
   created () {
-    this.setContent(blank = 'No message')
+    this.setContent('No message')
   },
   methods: {
-    async setContent (blank = 'Loading message...') {
+    async setContent (blank) {
       const iframeID = this.iframeId
       const el = document.getElementById(iframeID)
       if (el) el.style.height = '0px'
