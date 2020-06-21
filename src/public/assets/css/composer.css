@@ -312,6 +312,30 @@
     box-shadow: 0 0 11px 3px rgba(0, 0, 0, 0.17);
 }
 
+.ccspe {
+    padding: 0 45px 5px 10px !important;
+}
+
+.ccspe p {
+    position: absolute;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.hide-bcc {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    height: 0 !important;
+    display: none !important;
+}
+
+.ccspe p:hover {
+    opacity: .8;
+    transition: .2s;
+}
+
 .compose-body .dropdown-item {
     background: var(--secondary-bg-color) !important;
     text-align: center;
