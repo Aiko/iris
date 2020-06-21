@@ -1,8 +1,8 @@
 Vue.component('board', {
   props: ['boardName', 'board', 'syncing'],
-  data() {
-    return {
-      thin: false
+  watch: {
+    thin() {
+      app.boards[this.boardName].thin = this.thin
     }
   },
   computed: {

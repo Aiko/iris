@@ -672,7 +672,8 @@ const mailapi = {
         warn('Tried to sync', boardName, 'but the board is not yet created. (will be created)')
         this.boards[boardName] = {
           uidLatest: -1,
-          emails: []
+          emails: [],
+          thin: false,
         }
         // start over
         return this.initialSyncBoard(boardName, newest)
