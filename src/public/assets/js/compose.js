@@ -48,7 +48,8 @@ const app = new Vue({
     editor: null,
     html: '',
     linkUrl: null,
-    linkMenuIsActive: false
+    linkMenuIsActive: false,
+    showBCC: false
   },
   watch: {
     loading (isLoading, wasLoading) {

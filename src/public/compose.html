@@ -84,13 +84,30 @@
                         </div>
                         <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
                             class="composer-single-field-input" placeholder="CC" v-model="term" ref="termInput">
-                        <p id="bcc-btn">+BCC</p>
+                        <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
                     </div>
 
                 </chip-input>
-                <div class="composer-single-field hide-bcc" id="bcc">
-                    <input type="text" class="composer-single-field-input" placeholder="BCC">
-                </div>
+
+                <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
+                    <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
+                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
+                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                        class="composer-single-field ccspe">
+                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }">
+                            <span>{{chip.value}}</span>
+                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
+                        </div>
+                        <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
+                            class="composer-single-field-input" placeholder="BCC" v-model="term" ref="termInput">
+                    </div>
+
+                </chip-input>
+
                 <div class="composer-single-field">
                     <input type="text" class="composer-single-field-input" placeholder="Subject">
                 </div>
@@ -453,13 +470,6 @@
     <script src="assets/js/components/chip-input.js"></script>
     <!-- main/entrypoint -->
     <script src="assets/js/compose.js"></script>
-    <script>
-        $(function () {
-            $("#bcc-btn").click(function () {
-                $("#bcc").toggleClass("hide-bcc");
-            });
-        });
-    </script>
 
 </body>
 
