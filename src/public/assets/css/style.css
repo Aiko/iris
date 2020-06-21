@@ -1241,6 +1241,8 @@ hr {
 
 .focus {
 	border: 2px solid #007bff !important;
+	margin-bottom: 14px !important;
+	margin-top: -1px;
 }
 
 .sync-message img {
