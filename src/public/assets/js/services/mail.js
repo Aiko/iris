@@ -1098,7 +1098,7 @@ const mailapi = {
 
         // check to make sure we didn't already get it
         if (message_ids.has(reply_id)) return []
-        message_ids.add(reply_id)
+        //message_ids.add(reply_id)
 
         // enforce max iterations so not to crash the app
         if (iterations > MAX_ITER) {
@@ -1197,6 +1197,8 @@ const mailapi = {
         // to avoid computing multiples
         for (const reply of replies) {
           message_ids.add(reply.envelope['message-id'])
+        }
+        for (const reply of replies) {
           await threading(reply)
         }
       }
@@ -1628,7 +1630,7 @@ const mailapi = {
       /* CONFIG */
       const EMAIL_HEIGHT = 114 // height including padding
       const EMAIL_SPACING = 15 // margin between items
-      const TOLERANCE = 2 // # of items above/below rendered additionally
+      const TOLERANCE = 5 // # of items above/below rendered additionally
       /* END CONFIG */
 
       const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard
