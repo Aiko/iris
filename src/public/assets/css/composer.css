@@ -319,9 +319,10 @@
 .ccspe p {
     position: absolute;
     right: 0;
-    padding: 10px;
+    padding: 12px 10px;
     cursor: pointer;
     transition: .2s;
+    font-size: 12px;
 }
 
 .hide-bcc {
@@ -508,13 +509,15 @@ code {
     padding: 0px 10px 5px 10px;
     min-height: 40px;
     background: var(--main-bg-color);
-    border-bottom: 1px solid var(--secondary-bg-color);
+    border-bottom: var(--main-border);
 }
 
 .composer-tag-remove {
-    width: 15px;
-    margin-left: 1px;
+    width: 25px;
+    margin-right: -6px;
     padding-bottom: 2px;
+    padding: 6px;
+    margin-bottom: 2px;
 }
 
 .editor p.is-editor-empty:first-child::before {
@@ -523,7 +526,6 @@ code {
     color: #757575;
     pointer-events: none;
     height: 0;
-    font-style: italic;
 }
 
 .menububble__button {
