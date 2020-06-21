@@ -59,7 +59,7 @@ const mailapi = {
       // TODO: connect to contacts providers for google and office365
     },
     visibleMin: 0,
-    visibleMax: 100,
+    visibleMax: 500, // most things visible
   },
   computed: {
     timeToNextSync () {
@@ -83,7 +83,7 @@ const mailapi = {
           await BigStorage.store(app.imapConfig.email + '/inbox', {
             uidLatest: app.inbox.uidLatest,
             // modSeq: this.inbox.modSeq,
-            emails: app.inbox.emails.slice(0, 200),
+            emails: app.inbox.emails.slice(0,1000),
             uidOldest: app.inbox.uidLatest
           })
         }
@@ -1579,7 +1579,7 @@ const mailapi = {
           await BigStorage.store(this.imapConfig.email + '/inbox', {
             uidLatest: this.inbox.uidLatest,
             // modSeq: this.inbox.modSeq,
-            emails: this.inbox.emails.slice(0, 200)
+            emails: this.inbox.emails.slice(0,1000)
           })
           this.saveBoardCache()
           info(...MAILAPI_TAG, 'Saved all caches.')
