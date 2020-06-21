@@ -1,4 +1,4 @@
-const app = new Vue({
+top.app = new Vue({
   el: '#app',
   mixins: [
     ipc, // IPC communication
