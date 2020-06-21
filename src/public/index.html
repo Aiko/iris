@@ -679,7 +679,8 @@
               :board-name.camel="boardName" inline-template>
               <div :board-name="boardName" :class="{
                 'board': true,
-                'load-board': syncing
+                'load-board': syncing,
+                'thin': board?.thin
               }">
                 <div class="board-header">
                   <div class="container p0">
@@ -698,7 +699,7 @@
                         </div>
                       </div>
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1>{{prettyBoardName}}</h1>
+                        <h1 @click="thin = !thin">{{prettyBoardName}}</h1>
                         <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                       </div>
                       <div class="col-2 text-right cll">
