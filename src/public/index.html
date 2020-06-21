@@ -909,7 +909,7 @@
             <div class="main-email">
               <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
               <!-- Newest Message in Thread  -->
-              <view-email-single :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
+              <view-email-single :validity="email?.validity || 0" :key="email.uid" :expanded="true" :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
               <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"

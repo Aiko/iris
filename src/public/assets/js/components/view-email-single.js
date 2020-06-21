@@ -1,5 +1,5 @@
 Vue.component('view-email-single', {
-  props: ['emailsingle', 'expanded'],
+  props: ['emailsingle', 'expanded', 'validity'],
   template: '#view-email-single',
   data () {
     return {
@@ -27,6 +27,10 @@ Vue.component('view-email-single', {
   },
   watch: {
     emailsingle (_) {
+      this.email = this.emailsingle
+      this.setContent(blank = 'No message')
+    },
+    validity (_) {
       this.email = this.emailsingle
       this.setContent(blank = 'No message')
     }

@@ -31,6 +31,7 @@ Vue.component('view-email', {
     this.email.parsed.text = s[0]?.parsed?.text
     this.email.parsed.html = s[0]?.parsed?.html
     this.email.parsed.attachments = s[0]?.parsed?.attachments
+    this.email.validity = 1
     //* Update UI immediately
     this.email = JSON.parse(JSON.stringify(this.email))
     // this.email.parsed.attachments = s[0]?.parsed?.attachments || this.email.parsed?.attachments
