@@ -16,6 +16,8 @@ Vue.component('view-email', {
       }
     })
 
+    this.email = JSON.parse(JSON.stringify(this.email))
+
     //* first fetch the selected email
     console.time('Fetching selected email.')
     const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, false, true, true))
