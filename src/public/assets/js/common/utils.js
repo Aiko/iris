@@ -166,7 +166,7 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
     // if they are using mail provider,
     // look for gravatar else use default pic
     const hash = CryptoJS.MD5(email)
-    const s = fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
+    const s = await fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
     if (s.status == 404) {
       return 'assets/img/user.png'
     }
