@@ -623,8 +623,11 @@
 
 
                     <div class="inbox-switch left text-center">
-                      <h1 class="inbox active" @click="priority = true" inbox-direction="left">Priority<div
-                          class="secondary-count" tooltip="Unread emails in your inbox">99+</div>
+                      <h1 class="inbox active" @click="priority = true" inbox-direction="left">
+                        Priority
+                        <div class="secondary-count" tooltip="Unread emails in your inbox">
+                          {{priorityInbox.filter(e=>!e.ai.seen).length}}
+                        </div>
                       </h1>
                       <h1 class="inbox" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
@@ -635,25 +638,24 @@
               </div>
             </div>
             <!-- END List loader -------------------------->
-            <div @scroll="onScroll" class="board-body">
+            <div ref="inboxBoard" @scroll="onScroll" class="board-body">
 
               <!-- DON'T MODIFY BELOW -->
               <!-- Can use :move to prevent it from moving into this board -->
-              <draggable filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
+              <draggable v-if="!loading" filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <email-card :inbox="true" :key="email?.uid" :sort="false" v-if="!loading && email?.folder == 'INBOX' && (
-                    (priority && (!email?.ai?.subscription || email?.ai?.starred)) ||
-                    (!priority && (email?.ai?.subscription && !email?.ai?.starred))
-                  ) && !(email?.ai?.threaded)" v-for="(email, i) in inbox.emails" :index="i"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :email="email">
+                <email-card :inbox="true" :key="email?.uid" :sort="false" v-if="i >= visibleMin && visibleMax >= i &&
+                  email?.folder == 'INBOX' && priority == email?.ai?.priority && !(email?.ai?.threaded)"
+                  v-for="(email, i) in inbox.emails" :index="i" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view" :email="email">
                 </email-card>
               </draggable>
 
               <!-- START List loader ----------------------->
               <div class="inbox-more">
-                <p><img src="assets/icons/filter-inbox.svg"> <span>Click here to see </span><b>32</b> filtered
+                <p @click="priority = false"><img src="assets/icons/filter-inbox.svg"> <span>Click here to see
+                  </span><b>{{fullInbox.length}}</b> filtered
                   <span>emails</span></p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
@@ -1581,8 +1583,8 @@
           <!-- TODO: SEE ABOUT SHOWING EMAIL FOR SECURITY REASONS
           <div class="row">
           <p style="margin: 0;margin-top: -2px;font-size: 12px;">notifications@github.com</p>
-         </div>
-         -->
+          </div>
+          -->
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
           </div>

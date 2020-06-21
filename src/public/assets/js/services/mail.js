@@ -48,6 +48,7 @@ const mailapi = {
     dragging: false,
     fullInbox: [],
     priorityInbox: [],
+    otherInbox: [],
     lastSync: new Date(),
     lastSuccessfulSync: new Date(),
     syncTimeout: TIMEOUT,
@@ -56,7 +57,9 @@ const mailapi = {
       inboxUID: 1,
       // TODO: uids for other mailboxes
       // TODO: connect to contacts providers for google and office365
-    }
+    },
+    visibleMin: 0,
+    visibleMax: 100,
   },
   computed: {
     timeToNextSync () {
@@ -71,6 +74,7 @@ const mailapi = {
       // dont want to store empty inbox if it is reset
       // if you need to store an empty inbox do it manually!
       // you also should set the uidLatest every time it has changed
+      this.recalculateHeight()
       if (this.cachingInbox) return
       info(...MAILAPI_TAG, 'Will cache inbox.')
       this.cachingInbox = true
@@ -85,15 +89,15 @@ const mailapi = {
         }
         this.cachingInbox = false
       }, 3000)
-      this.fullInbox = this.inbox.emails.map((email, i) => {
-        email.index = i
-        return email
-      }).filter(email =>
-                email?.folder == 'INBOX' && !(email?.syncFolder && email?.syncFolder != 'INBOX') && !(email?.ai?.threaded)
+
+      this.fullInbox = this.inbox.emails.filter(email =>
+        email?.folder == 'INBOX' && !(email?.ai?.threaded)
       )
-      this.priorityInbox = this.fullInbox.filter(email =>
-        !email?.ai?.subscription
-      )
+      this.priorityInbox = this.fullInbox.filter(email => email.ai.priority)
+      this.otherInbox = this.fullInbox.filter(email => !email.ai.priority)
+    },
+    priority() {
+      this.recalculateHeight()
     }
   },
   created () {
@@ -1618,12 +1622,58 @@ const mailapi = {
           that.onScroll(e)
         })
       }
+      this.recalculateHeight()
+    },
+    recalculateHeight() {
+      /* CONFIG */
+      const EMAIL_HEIGHT = 114 // height including padding
+      const EMAIL_SPACING = 15 // margin between items
+      const TOLERANCE = 5 // # of items above/below rendered additionally
+      /* END CONFIG */
+
+      const { scrollTop, clientHeight } = this.$refs.inboxBoard
+
+      const scrollAmount = scrollTop
+      const scrollViewHeight = clientHeight
+      const scrollView = {
+        min: scrollAmount,
+        max: scrollAmount + scrollViewHeight
+      }
+
+      const itemHeight = EMAIL_HEIGHT + EMAIL_SPACING
+      const listHeight = this.fullInbox.length * itemHeight
+
+      const emailsAbove = scrollView.min / itemHeight
+      const emailsShown = scrollViewHeight / itemHeight
+      const emailsBelow = (listHeight - scrollView.max) / itemHeight
+
+      const indexMin = Math.floor(emailsAbove - TOLERANCE)
+      const indexMax = Math.ceil(emailsAbove + emailsShown + TOLERANCE)
+
+      if (this.priority) {
+        // adjust to priority indices
+        if (this.priorityInbox.length > 0) {
+          const minEmail = this.priorityInbox?.[indexMin] || this.priorityInbox[0]
+          const maxEmail = this.priorityInbox?.[indexMax] || this.priorityInbox.last()
+          this.visibleMin = this.inbox.emails.indexOf(minEmail)
+          this.visibleMax = this.inbox.emails.indexOf(maxEmail)
+        }
+      } else {
+        // adjust to other indices
+        if (this.otherInbox.length > 0) {
+          const minEmail = this.otherInbox[indexMin]
+          const maxEmail = this.otherInbox?.[indexMax] || this.otherInbox.last()
+          this.visibleMin = this.inbox.emails.indexOf(minEmail)
+          this.visibleMax = this.inbox.emails.indexOf(maxEmail)
+        }
+      }
     },
   }
 }
 
-window.setInterval(async () => {
+window.setInterval(() => {
   app.syncTimeout--
+  app.recalculateHeight()
 }, 1000)
 
 window.setInterval(async () => {
@@ -1656,6 +1706,8 @@ window.setInterval(async () => {
   }
 }, TIMEOUT)
 Notification.requestPermission()
+
+window.onresize = app.recalculateHeight
 
 ipcRenderer.on('connection dropped', () => {
   error(...MAILAPI_TAG, 'IMAP connection was terminated.')

@@ -10,6 +10,7 @@ const MailCleaner = (() => {
       email.ai = {
         cleanSubject: '',
         seen: false,
+        priority: true,
         starred: false,
         deleted: false,
         tracker: false,
@@ -61,6 +62,9 @@ const MailCleaner = (() => {
       }
     })
     if (email.flags.includes('\\Seen')) email.ai.seen = true
+    email.ai.priority = true
+    if (email.ai.subscription) email.ai.priority = false
+    if (email.ai.starred) email.ai.priority = true
     return email
   }
 
@@ -195,6 +199,10 @@ const MailCleaner = (() => {
     email.parsed.text = null
     email.parsed.html = null
     email.parsed.textAsHtml = null
+
+    email.ai.priority = true
+    if (email.ai.subscription) email.ai.priority = false
+    if (email.ai.starred) email.ai.priority = true
 
     // console.timeEnd("FULL CLEAN " + email.uid)
     return email
