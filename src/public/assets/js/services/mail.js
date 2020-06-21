@@ -1484,6 +1484,7 @@ const mailapi = {
         }
 
         email.uid = email.inboxUID || email.uid
+        this.recalculateHeight()
       }
       // to board
       else {
@@ -1591,6 +1592,7 @@ const mailapi = {
       }
       // TODO: special for done? idk
       this.saveBoardCache()
+      this.recalculateHeight()
     },
     async reorderBoards () {
       await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
@@ -1658,16 +1660,16 @@ const mailapi = {
         if (this.priorityInbox.length > 0) {
           const minEmail = this.priorityInbox?.[indexMin] || this.priorityInbox[0]
           const maxEmail = this.priorityInbox?.[indexMax] || this.priorityInbox.last()
-          this.visibleMin = this.inbox.emails.indexOf(minEmail)
-          this.visibleMax = this.inbox.emails.indexOf(maxEmail)
+          this.visibleMin = this.inbox.emails.indexOf(minEmail) - TOLERANCE
+          this.visibleMax = this.inbox.emails.indexOf(maxEmail) + TOLERANCE
         }
       } else {
         // adjust to other indices
         if (this.otherInbox.length > 0) {
           const minEmail = this.otherInbox?.[indexMin] || this.otherInbox[0]
           const maxEmail = this.otherInbox?.[indexMax] || this.otherInbox.last()
-          this.visibleMin = this.inbox.emails.indexOf(minEmail)
-          this.visibleMax = this.inbox.emails.indexOf(maxEmail)
+          this.visibleMin = this.inbox.emails.indexOf(minEmail) - TOLERANCE
+          this.visibleMax = this.inbox.emails.indexOf(maxEmail) + TOLERANCE
         }
       }
     },
