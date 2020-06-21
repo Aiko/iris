@@ -62,7 +62,7 @@ const composer = {
 
       await BigStorage.store('composer/' + identifier, config)
 
-      await this.callIPC(this.task_OpenComposer(identifier))
+      await this.executeIPC(this.task_OpenComposer(identifier))
     },
     async loadComposer () {
       const identifier = this.bang
