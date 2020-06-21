@@ -520,6 +520,15 @@ code {
     margin-bottom: 2px;
 }
 
+.editor p *,
+.editor h1,
+.editor h2,
+.editor h3,
+.editor span,
+.editor h4 {
+    color: var(--dark-text) !important;
+}
+
 .editor p.is-editor-empty:first-child::before {
     content: attr(data-empty-text);
     float: left;
