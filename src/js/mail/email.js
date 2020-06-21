@@ -145,6 +145,11 @@ ipcMain.handle('please make new client', async (_, q) => {
     if (!port) return { error: 'No port provided to "make new client"' }
   }
 
+  if (client) {
+    try {
+      client.close()
+    } catch { }
+  }
   client = null
   connected = false
 
