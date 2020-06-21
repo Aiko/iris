@@ -34,7 +34,10 @@ module.exports = (win, prefix = 'please') => {
       win.on('maximize', () => updateMaximizedStatus(true))
       win.on('unmaximize', () => updateMaximizedStatus(false))
 
-      powerMonitor.on('resume', () => win.reload())
+      powerMonitor.on('resume', () => {
+        try { win.reload() }
+        catch (e) { console.error(e) }
+      })
 
       win.webContents.on('new-window', (e, url) => {
         e.preventDefault()
