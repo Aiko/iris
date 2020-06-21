@@ -32,6 +32,7 @@ Vue.component('view-email-single', {
     }
   },
   created () {
+    this.setContent(blank = 'No message')
   },
   methods: {
     async setContent (blank = 'Loading message...') {
