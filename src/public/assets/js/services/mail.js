@@ -1628,7 +1628,7 @@ const mailapi = {
       /* CONFIG */
       const EMAIL_HEIGHT = 114 // height including padding
       const EMAIL_SPACING = 15 // margin between items
-      const TOLERANCE = 5 // # of items above/below rendered additionally
+      const TOLERANCE = 2 // # of items above/below rendered additionally
       /* END CONFIG */
 
       const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard
@@ -1638,9 +1638,6 @@ const mailapi = {
       const scrollView = {
         min: scrollAmount,
         max: scrollAmount + scrollViewHeight
-      }
-      if (scrollView.max > scrollHeight - 500) {
-        scrollView.max += 500
       }
 
       const itemHeight = EMAIL_HEIGHT + EMAIL_SPACING

@@ -645,14 +645,12 @@
               <draggable v-if="!loading" filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
                 :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <div v-if="!email?.ai?.deleted && email?.folder == 'INBOX' && priority == email?.ai?.priority && !(email?.ai?.threaded)"
-                  v-for="(email, i) in inbox.emails">
-                  <email-card :inbox="true" :key="email?.uid" :sort="false" v-if="i > visibleMin && visibleMax > i"
-                    :index="i" :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                    :view-focused.camel="focused.view" :email="email">
-                  </email-card>
-                  <div :uid="email?.uid" style="height: 114px; margin-bottom: 15px;" v-else></div>
-                </div>
+                <email-card :inbox="true" :key="email?.uid" :sort="false" v-for="(email, i) in inbox.emails"
+                  :render="i >= visibleMin && visibleMax >= i"
+                  v-if="!email?.ai?.deleted && email?.folder == 'INBOX' && priority == email?.ai?.priority && !(email?.ai?.threaded)"
+                  :index="i" :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :email="email">
+                </email-card>
               </draggable>
 
               <!-- START List loader ----------------------->
@@ -753,7 +751,8 @@
                   <div class="col-8 text-center p0 exp margin-auto nowrap">
                     <h1>Done</h1>
                     <div class="archive cll" tooltip="Trash entire board"><img
-                        src="assets/icons/sidebar-trash.svg">Trash all</div>
+                        src="assets/icons/sidebar-trash.svg">Trash
+                      all</div>
                   </div>
                 </div>
               </div>
@@ -1479,7 +1478,7 @@
         'starred': email?.ai?.starred,
         'focus': email?.folder == focusedFolder && index == focusedIndex
       }" v-if="!email?.ai?.deleted">
-      <div class="container pr" @click="viewMessage">
+      <div v-if="render !== false" class="container pr" @click="viewMessage">
         <div class="row" style="user-select: none;">
           <div class="col-8 p0 exp" style="display: inline-flex;">
             <h2 v-if="email?.parsed?.thread?.senders.length" class="sender">
@@ -1546,6 +1545,7 @@
           <a><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
       </div>
+      <div :uid="email?.uid" style="height: 106px;" v-else></div>
     </div>
   </script>
 
