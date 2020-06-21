@@ -40,7 +40,6 @@ Vue.component('view-email-single', {
   },
   methods: {
     async setContent (blank = 'Loading message...') {
-      if (!(this?.email?.parsed?.html || this?.email?.parsed?.text)) return
       const iframeID = this.iframeId
       const el = document.getElementById(iframeID)
       if (el) el.style.height = '0px'
@@ -51,7 +50,7 @@ Vue.component('view-email-single', {
       doc.clear()
       // TODO: there HAS to be some way to load http inside https safely
       //* maybe local proxy?
-      const textToWrite = (this.email.parsed.html || this.email.parsed.text)
+      const textToWrite = (this.email.parsed.html || this.email.parsed.text || blank)
       doc.write(textToWrite)
       doc.close()
       try {
