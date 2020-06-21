@@ -620,9 +620,9 @@ const mailapi = {
       // update & check for new messages in background
       this.updateAndFetch()
       // and also fetch older ones so we get more history
-      this.seekingInbox = true
-      await this.getOldMessages(n = 600)
-      this.seekingInbox = false
+      //this.seekingInbox = true
+      //await this.getOldMessages(n = 600)
+      //this.seekingInbox = false
     },
     // Sync
     async initialSyncWithMailServer () {
