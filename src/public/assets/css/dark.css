@@ -122,6 +122,10 @@ body {
   filter: brightness(0.8);
 }
 
+.comp-btn img {
+  background: var(--main-bg-color);
+}
+
 li[data-done=true]>.todo-checkbox {
   background-color: #fff !important;
 }

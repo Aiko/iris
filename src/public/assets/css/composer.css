@@ -220,6 +220,11 @@
     filter: brightness(.94);
 }
 
+.zoom {
+    width: 50px !important;
+    padding: 10px 5px !important;
+}
+
 .compose-body {
     padding: 0 15px 55px 15px;
     outline: none;
@@ -269,11 +274,16 @@
 .comp-btn img {
     width: 30px;
     padding: 5px;
-    background: var(--main-bg-color);
     border-radius: 4px;
     margin-right: 5px;
     cursor: pointer;
     transition: .2s;
+}
+
+.track-open-label {
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 500;
 }
 
 .nobg img {

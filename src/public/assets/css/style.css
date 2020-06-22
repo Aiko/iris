@@ -1235,6 +1235,10 @@ hr {
 	transition: 0.2s;
 }
 
+.overflow-h {
+	overflow: hidden !important;
+}
+
 .syncing .cll2 {
 	display: none !important;
 }

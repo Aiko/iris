@@ -51,7 +51,7 @@
 
         <!-- START Compose View -->
         <div class="standalone">
-            <div class="main-email">
+            <div class="main-email overflow-h">
                 <chip-input v-model="sendTo" inline-template>
                     <div @blur="unfocus" @keydown.stop.delete="pressDelete"
                         @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
@@ -247,22 +247,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <a :class="{
+                            <div class="comp-sep">
+                                <a :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.code()
                             }" @click="commands.code">
-                                <img src="assets/icons/code.svg">
-                            </a>
-                            <a :class="{
+                                    <img src="assets/icons/code.svg">
+                                </a>
+                                <a :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.blockquote()
                             }" @click="commands.blockquote">
-                                <img src="assets/icons/q.svg">
+                                    <img src="assets/icons/q.svg">
+                                </a>
+                            </div>
+
+                            <a class="comp-btn">
+                                <img src="assets/img/zoom.png" class="zoom">
                             </a>
-
-
-
-
                             <div class="btn-group dropup">
                                 <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <a><img src="assets/icons/info.svg" width="20"></a>
@@ -277,12 +279,6 @@
                                     <a class="dropdown-item disabled" href="#"><span class="quotes-c">Quote</span></a>
                                 </div>
                             </div>
-
-
-
-
-
-
                         </div>
                     </editor-menu-bar>
                 </div>
@@ -293,7 +289,7 @@
                         <input type="checkbox">
                         <span class="slider round eye"></span>
                     </label>
-                    <p class="inline ml5">Track email open</p>
+                    <p class="inline ml5 track-open-label">Track email open</p>
                 </div>
             </div>
             <div class="secondary-email" style="padding: 0">
