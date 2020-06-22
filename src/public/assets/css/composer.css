@@ -465,7 +465,7 @@ code {
         "Courier New",
         monospace;
     font-size: 87.5%;
-    color: #e83e8c;
+    color: #e83e8c !important;
     word-break: break-word;
     background: #1f1f1f;
     padding: 4px;
@@ -521,7 +521,7 @@ code {
     margin-left: -7px;
 }
 
-.editor p *,
+.editor p,
 .editor h1,
 .editor h2,
 .editor h3,
