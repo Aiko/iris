@@ -518,6 +518,7 @@ code {
     padding-bottom: 2px;
     padding: 6px;
     margin-bottom: 2px;
+    margin-left: -7px;
 }
 
 .editor p *,
