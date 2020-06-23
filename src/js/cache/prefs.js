@@ -53,6 +53,22 @@ module.exports = fp => {
     Prefs.save(Prefs.data)
     return Prefs.data
   })
+  ipcMain.handle('clear preferences', _ => {
+    /*
+        q = {
+            pref_key: value
+        }
+        */
+    Prefs.data = {
+      authenticated: false,
+      token: '',
+      email: '',
+      password: '',
+      firstTime: true
+    }
+    Prefs.save(Prefs.data)
+    return Prefs.data
+  })
   ipcMain.handle('get preferences', (_, q) => {
     /*
         q = [ pref_key, ... ]

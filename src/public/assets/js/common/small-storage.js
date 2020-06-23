@@ -18,5 +18,7 @@ const SmallStorage = (() => {
     return await smallStore.getItem(key)
   }
 
-  return { store, load }
+  const kill = smallStore.clear
+
+  return { store, load, kill }
 })()
