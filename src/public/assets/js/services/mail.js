@@ -1127,7 +1127,7 @@ const mailapi = {
 
         // enforce max iterations so not to crash the app
         if (iterations > MAX_ITER) {
-          error(...MAILAPI_TAG, 'Reached max iteration count while finding replies.')
+          warn(...MAILAPI_TAG, 'Reached max iteration count while finding replies.')
           return []
         }
 
@@ -1202,7 +1202,7 @@ const mailapi = {
             search_results[0],
             true
           ))
-          if (email.length > 0) replies.push(...email)
+          if (email.length > 0) replies.push(...await MailCleaner.peek(this.folderNames.archive, email))
           else error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
         }
 
