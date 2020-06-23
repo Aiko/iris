@@ -540,6 +540,7 @@ const mailapi = {
       }
       this.currentMailbox = this.imapConfig.email
       await SmallStorage.store('current-mailbox', this.imapConfig.email)
+      await this.saveIMAPConfig()
 
       // Connect to mailserver
       info(...MAILAPI_TAG, 'Connecting to MX...')

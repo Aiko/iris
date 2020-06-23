@@ -481,7 +481,7 @@
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig.email}}</span>
+                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
@@ -1258,7 +1258,7 @@
     </add-board-modal>
 
     <dev-controls v-if="showDev" :delete-cache.camel="deleteCache" inline-template>
-      <div class="aiko-modal" @click.self="close">
+      <div style="z-index: 9999" class="aiko-modal" @click.self="close">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
             <div class="modal-reg">
