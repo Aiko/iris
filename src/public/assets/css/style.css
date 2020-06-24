@@ -1229,6 +1229,21 @@ hr {
 	display: none !important;
 }
 
+.fromto-info {
+	font-size: 11px;
+	background: var(--main-bg-color);
+	padding: 2px 5px;
+	border-radius: 4px;
+	margin-bottom: 0;
+	margin-top: 5px;
+	margin-left: -3px;
+	line-height: 18px;
+}
+
+.fromto-info span {
+	color: var(--dark-text);
+}
+
 .syncing {
 	opacity: 0.7;
 	cursor: wait !important;
