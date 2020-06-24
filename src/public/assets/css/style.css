@@ -1756,6 +1756,10 @@ hr {
 	text-overflow: ellipsis;
 }
 
+.short .fromto-info {
+	display: none;
+}
+
 .short .email-head {
 	transition: 0.2s;
 }
