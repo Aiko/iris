@@ -84,5 +84,13 @@ module.exports = dir => {
       }
     }
   })
+  ipcMain.handle('kill cache', (_, q) => {
+    fs2.removeSync(dir) // FIXME: could be unsafe
+    return {
+      payload: {
+        success: true,
+      }
+    }
+  })
   return Cache
 }

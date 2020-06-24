@@ -42,5 +42,13 @@ const BigStorage = (() => {
     else return JSON.parse(JSON.parse(jsonString))
   }
 
-  return { store, load, pop }
+  const kill = async () => {
+    const { success } = await app.callIPC(
+      app.ipcTask('kill cache', {})
+    )
+    if (!success) return null
+    return true
+  }
+
+  return { store, load, pop, kill }
 })()

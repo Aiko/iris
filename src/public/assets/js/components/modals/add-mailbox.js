@@ -43,7 +43,7 @@ Vue.component('add-mailbox-modal', {
       this.imapConfig.host = 'outlook.office365.com'
       this.imapConfig.port = 993
       this.imapConfig.provider = 'microsoft'
-      this.smtpConfig.host = 'outlook.office365.com'
+      this.smtpConfig.host = 'smtp.office365.com'
       this.smtpConfig.port = 587
       this.smtpConfig.provider = 'microsoft'
       this.step = 2
@@ -97,8 +97,8 @@ Vue.component('add-mailbox-modal', {
         window.error(...MODALS_TAG, 'SMTP test failed.')
         return (this.loading = false)
       }
-      app.imapConfig = this.imapConfig
-      app.smtpConfig = this.smtpConfig
+      Object.assign(app.imapConfig, this.imapConfig)
+      Object.assign(app.smtpConfig, this.smtpConfig)
       this.success()
       this.closable = true
       this.close()

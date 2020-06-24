@@ -95,6 +95,13 @@ top.app = new Vue({
   methods: {
     log (...msg) {
       console.log(...msg)
+    },
+    async deleteCache(emails=false, prefs=false, chrome=false) {
+      if (emails) await BigStorage.kill()
+      if (prefs) await ipcRenderer.invoke('clear preferences')
+      if (chrome) await SmallStorage.kill()
+      if (!prefs) window.location.reload()
+      else await ipcRenderer.invoke('reentry')
     }
   }
 })

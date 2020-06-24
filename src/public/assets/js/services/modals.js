@@ -5,7 +5,8 @@ const modalmanager = {
     addMailbox: false,
     forceAddMailbox: false,
     addBoard: false,
-    viewEmail: null
+    viewEmail: null,
+    showDev: false
   },
   watch: {
     forceAddMailbox (f, _) {

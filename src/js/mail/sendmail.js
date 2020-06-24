@@ -11,29 +11,40 @@ ipcMain.handle('please send an email', async (_, q) => {
     xoauth2,
     secure,
     host,
-    port
+    port,
+    provider
   } = q
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
   if (!client_secret) return { error: "Couldn't decode client secret" }
 
-  // TODO: assertions
 
-  const transporter = pass ? nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    auth: {
-      user, pass
-    }
-  }) : nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      user,
-      accessToken: xoauth2
-    }
-  })
+  let transporter;
+
+  switch(provider) {
+    case "google": transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user,
+        accessToken: xoauth2
+      }
+    }); break;
+    case "microsoft": transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user, pass
+      }
+    }); break;
+    default: transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: {
+        user, pass
+      }
+    })
+  }
 
   const d = await new Promise((s, _) => {
     transporter.sendMail(mail, (error, info) => error ? s({ error }) : s(info))
@@ -46,7 +57,8 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
   const {
     token,
     user, pass, xoauth2,
-    secure, host, port
+    secure, host, port,
+    provider
   } = q
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
@@ -54,21 +66,32 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
 
   // TODO: assertions
 
-  const transporter = pass ? nodemailer.createTransport({
-    host,
-    port,
-    secure,
-    auth: {
-      user, pass
-    }
-  }) : nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      type: 'OAuth2',
-      user,
-      accessToken: xoauth2
-    }
-  })
+  let transporter;
+
+  switch(provider) {
+    case "google": transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user,
+        accessToken: xoauth2
+      }
+    }); break;
+    case "microsoft": transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        user, pass
+      }
+    }); break;
+    default: transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: {
+        user, pass
+      }
+    })
+  }
 
   const d = await new Promise((s, _) => {
     transporter.verify((error, success) => error ? s({ error }) : s({ valid: success }))

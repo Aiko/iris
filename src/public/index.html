@@ -372,7 +372,7 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5>{{hash}}</h5>
+      <h5 @click="showDev = true">{{hash.substring(0, 9)}}</h5>
 
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->
@@ -481,7 +481,7 @@
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig.email}}</span>
+                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
@@ -1257,6 +1257,53 @@
       </div>
     </add-board-modal>
 
+    <dev-controls v-if="showDev" :delete-cache.camel="deleteCache" inline-template>
+      <div style="z-index: 9999" class="aiko-modal" @click.self="close">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1>Developer Controls</h1>
+              <a>
+                <img style="max-width: 190px; margin: auto" src="assets/img/logo.svg">
+              </a>
+              <br>
+              <br>
+              <a @click="deleteCache(emails=true)" class="btn btn-warning">Clear Email Cache</a>
+              <br>
+              <br>
+              <a @click="deleteCache(prefs=true)" class="btn btn-warning">Clear Settings</a>
+              <br>
+              <br>
+              <a @click="deleteCache(chrome=true)" class="btn btn-warning">Clear Inbox Cache</a>
+              <br>
+              <br>
+              <a @click="deleteCache(emails=true, prefs=true, chrome=true)" class="btn btn-danger text-white">Clear ALL Cache</a>
+              <br>
+              <br>
+              <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
+              <img v-if="imapValid === true" style="filter: invert(1)" src="assets/icons/check.svg">
+              <img v-if="imapValid === false" src="assets/icons/x-white.svg">
+              <br>
+              <br>
+              <a @click="testSMTP" class="btn btn-dark text-white">Test SMTP Connection</a>
+              <img v-if="smtpValid === true" style="filter: invert(1)" src="assets/icons/check.svg">
+              <img v-if="smtpValid === false" src="assets/icons/x-white.svg">
+              <br>
+              <br>
+              <a @click="testConnection" class="btn btn-light">Test Mail Connection</a>
+              <br>
+              <br>
+              <br>
+            </div>
+            <div class="modal-bottom text-center">
+              <a @click="close">Close</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </dev-controls>
+
 
     <!-- BOARD RULES (Board already exists) --------------------------------------->
     <div class="aiko-modal" style="display: none;">
@@ -1664,6 +1711,7 @@
   <script src="assets/js/components/modals/add-mailbox.js"></script>
   <script src="assets/js/components/modals/view-email.js"></script>
   <script src="assets/js/components/modals/add-board.js"></script>
+  <script src="assets/js/components/modals/dev-controls.js"></script>
   <script src="assets/js/components/email-card.js"></script>
   <script src="assets/js/components/view-email-single.js"></script>
   <script src="assets/js/components/board.js"></script>

@@ -50,7 +50,7 @@ Vue.component('view-email-single', {
       doc.clear()
       // TODO: there HAS to be some way to load http inside https safely
       //* maybe local proxy?
-      const textToWrite = (this.email.parsed.html || this.email.parsed.text || blank)
+      const textToWrite = (this.email.parsed?.html || this.email.parsed?.text || blank)
       doc.write(textToWrite)
       doc.close()
       try {

@@ -19,9 +19,7 @@ Vue.component('view-email', {
     this.email = JSON.parse(JSON.stringify(this.email))
 
     //* first fetch the selected email
-    console.time('Fetching selected email.')
     const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, true, true, false))
-    console.timeEnd('Fetching selected email.')
     if (!s?.[0]) {
       error(...MODALS_TAG, "Couldn't fetch selected email.")
       this.close()
@@ -70,7 +68,7 @@ Vue.component('view-email', {
           console.timeEnd('Cleaning emails from ' + folder)
         }
       }
-      this.email.parsed.thread.messages = this.email.parsed.thread.messages.map(e => {
+      this.email.parsed.thread.messages = this.email.parsed.thread.messages?.map(e => {
         const matches = emails.filter(e2 => e2.folder == e.folder && e2.uid == e.uid)
         if (matches.length > 0) e.parsed = matches[0].parsed
         else window.error(...MODALS_TAG, "Message in thread doesn't have a match:", e)
