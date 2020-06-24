@@ -60,6 +60,32 @@
     display: block
 }
 
+.composer-suggestions {
+    background: var(--secondary-bg-color);
+    width: 100%;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 2;
+    max-height: 130px;
+    overflow: scroll;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+}
+
+.composer-suggestions p {
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 8px;
+    transition: .2s;
+    text-overflow: ellipsis;
+    width: 100%;
+    overflow: hidden;
+}
+
+.composer-suggestions p:hover {
+    opacity: .7;
+    transition: .2s;
+}
+
 .editor__content {
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -518,7 +544,7 @@ code {
     flex-wrap: wrap;
     width: 100%;
     font-size: 1rem;
-    padding: 0px 10px 5px 10px;
+    padding: 0 10px 5px 10px;
     min-height: 40px;
     background: var(--main-bg-color);
     border-bottom: var(--main-border);
