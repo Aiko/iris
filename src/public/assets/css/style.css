@@ -1761,16 +1761,13 @@ hr {
 }
 
 .short .email-head {
-	transition: 0.2s;
+	padding-bottom: 10px;
 }
 
 .short .email-body,
 .short .options,
 .short .options-qa {
-	visibility: hidden;
-	height: 0;
-	opacity: 0;
-	transition: 0.1s;
+	display: none;
 }
 
 .email-head .aiko-select {
