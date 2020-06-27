@@ -87,6 +87,9 @@ top.app = new Vue({
     info(...(this.TAG), 'Initializing IMAP')
     await this.initIMAP()
 
+    info(...(this.TAG), 'Initializing SMTP')
+    await this.initSMTP()
+
     success(...(this.TAG), 'Finished initialization.')
     console.timeEnd('APP STARTUP')
     this.loading = false // let mail.js decide when to kill loader

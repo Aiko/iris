@@ -34,7 +34,7 @@ const composer = {
           return
         }
       }
-      info(...COMPOSER_TAG, 'Loading SMTP config...')
+      info(...COMPOSER_TAG, 'Loading SMTP config for', currentEmail)
       await this.loadSMTPConfig(currentEmail)
       if (this.smtpConfig.provider == 'google') {
         info(...COMPOSER_TAG, 'Loading Google config...')
