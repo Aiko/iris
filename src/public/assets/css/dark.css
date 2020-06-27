@@ -33,13 +33,12 @@
   --placeholder-text-color: #5d5d5d !important;
   /* Global placeholder color */
 
-  --modal-backdrop: #21201db8 !important;
+  --modal-backdrop: #000000d4 !important;
   /* Global modal backdrop */
 }
 
 /*  Custom styling */
 .main-email {
-  background: #312f2e !important;
   box-shadow: 4px 0 5px rgba(0, 0, 0, 0.08);
 }
 
