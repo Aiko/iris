@@ -314,6 +314,12 @@
     transition: .2s;
 }
 
+.composer-active img {
+    background: #f9f9f9;
+    transition: .2s;
+    ;
+}
+
 .track-open-label {
     text-transform: uppercase;
     font-size: 10px;
