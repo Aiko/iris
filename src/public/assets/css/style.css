@@ -1893,6 +1893,7 @@ select.v1 {
 .secondary-head img {
 	border-radius: 50%;
 	width: 55px;
+	height: 55px;
 }
 
 .fade {
