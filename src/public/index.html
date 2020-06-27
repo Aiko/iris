@@ -680,7 +680,7 @@
                 'load-board': syncing,
                 'thin': board?.thin
               }">
-                <div class="board-header">
+                <div class="board-header board-drag-handle">
                   <div class="container p0">
                     <div class="row">
                       <div class="col-2 cll">
@@ -697,11 +697,12 @@
                         </div>
                       </div>
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1 @click="board.thin = !board.thin">{{prettyBoardName}}</h1>
+                        <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize board">
+                          {{prettyBoardName}}</h1>
                         <div class="secondary-count" tooltip="Unread emails in board">999+</div>
                       </div>
                       <div class="col-2 text-right cll">
-                        <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                        <!--  TESTING A UI WITHOUT THIS <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a> -->
                       </div>
                     </div>
                   </div>

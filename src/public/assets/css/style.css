@@ -303,7 +303,6 @@ input:active {
 
 .thin {
 	width: 150px !important;
-	transition: 0.2s;
 }
 
 .thin .email {
