@@ -905,10 +905,11 @@
     <!-- VIEW EMAIL -->
     <view-email tabindex="0" v-if="viewEmail" :emailcard="viewEmail" inline-template>
       <div tabindex="0" @click.self="close" class="aiko-modal">
+        <p>press ESC</p>
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="main-email">
-              <!-- TODO: Ruben, make sure user can see from email when click on sender name in email view-->
+              <!-- TODO: Ruben, make sure shadow light mode not bad-->
               <!-- Newest Message in Thread  -->
               <view-email-single :validity="email?.validity || 0" :key="email.uid" :expanded="true"
                 :emailsingle="email"></view-email-single>
