@@ -52,247 +52,257 @@
         <!-- START Compose View -->
         <div class="standalone">
             <div class="main-email overflow-h">
-                <chip-input v-model="sendTo" inline-template>
-                    <div @blur="unfocus" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight" class="composer-single-field">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
+                <div class="testt">
+                    <chip-input v-model="sendTo" inline-template>
+                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                            @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
+                            @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
+                            @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            class="composer-single-field">
+                            <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
                             'composer-tag-single': true,
                             'active': activeChip == i
                         }">
-                            <span>{{chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
-                            class="composer-single-field-input" placeholder="To" v-model="term" ref="termInput">
-                    </div>
-                </chip-input>
-
-                <div class="composer-suggestions">
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p class="active">rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                    <p>rubencharlestouitou@gmail.com</p>
-                </div>
-
-                <chip-input v-model="sendCC" inline-template>
-                    <div @blur="unfocus" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
-                        class="composer-single-field ccspe">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
-                            'composer-tag-single': true,
-                            'active': activeChip == i
-                        }">
-                            <span>{{chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
-                            class="composer-single-field-input" placeholder="CC" v-model="term" ref="termInput">
-                        <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
-                    </div>
-
-                </chip-input>
-
-                <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
-                    <div @blur="unfocus" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
-                        class="composer-single-field ccspe">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
-                            'composer-tag-single': true,
-                            'active': activeChip == i
-                        }">
-                            <span>{{chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
-                            class="composer-single-field-input" placeholder="BCC" v-model="term" ref="termInput">
-                    </div>
-
-                </chip-input>
-
-                <div class="composer-single-field">
-                    <input type="text" class="composer-single-field-input" placeholder="Subject">
-                </div>
-
-                <div class="compose-body">
-                    <editor-content class="editor" :editor="editor"></editor-content>
-                    <editor-menu-bubble class="menububble" :editor="editor"
-                        v-slot="{ commands, isActive, getMarkAttrs, menu }">
-                        <div class="menububble" :class="{'is-active': menu.isActive }"
-                            :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`">
-                            <div class="menububble__form" v-if="linkMenuIsActive">
-                                <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://"
-                                    ref="linkInput" @keydown.enter="setLinkUrl(commands.link, linkUrl)"
-                                    @keydown.esc="hideLinkMenu" />
-                                <button class="menububble__button comp-btn" @click="setLinkUrl(commands.link, linkUrl)"
-                                    type="button">
-                                    <img src="assets/icons/link-3.svg">
-                                </button>
-                                <button class="menububble__button comp-btn" @click="setLinkUrl(commands.link, null)"
-                                    type="button">
-                                    <img src="assets/icons/close-g.png" style="padding: 8px">
-                                </button>
+                                <span>{{chip.value}}</span>
+                                <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
                             </div>
+                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                                type="text" class="composer-single-field-input" placeholder="To" v-model="term"
+                                ref="termInput">
+                        </div>
+                    </chip-input>
 
-                            <div v-else>
-                                <button :class="{
+                    <div class="composer-suggestions">
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p class="active">rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                        <p>rubencharlestouitou@gmail.com</p>
+                    </div>
+
+                    <chip-input v-model="sendCC" inline-template>
+                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                            @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
+                            @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
+                            @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            class="composer-single-field ccspe">
+                            <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }">
+                                <span>{{chip.value}}</span>
+                                <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
+                            </div>
+                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                                type="text" class="composer-single-field-input" placeholder="CC" v-model="term"
+                                ref="termInput">
+                            <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
+                        </div>
+
+                    </chip-input>
+
+                    <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
+                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                            @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
+                            @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
+                            @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            class="composer-single-field ccspe">
+                            <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }">
+                                <span>{{chip.value}}</span>
+                                <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
+                            </div>
+                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                                type="text" class="composer-single-field-input" placeholder="BCC" v-model="term"
+                                ref="termInput">
+                        </div>
+
+                    </chip-input>
+
+                    <div class="composer-single-field">
+                        <input type="text" class="composer-single-field-input" placeholder="Subject">
+                    </div>
+
+                    <div class="compose-body">
+                        <editor-content class="editor" :editor="editor"></editor-content>
+                        <editor-menu-bubble class="menububble" :editor="editor"
+                            v-slot="{ commands, isActive, getMarkAttrs, menu }">
+                            <div class="menububble" :class="{'is-active': menu.isActive }"
+                                :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`">
+                                <div class="menububble__form" v-if="linkMenuIsActive">
+                                    <input class="menububble__input" type="text" v-model="linkUrl"
+                                        placeholder="https://" ref="linkInput"
+                                        @keydown.enter="setLinkUrl(commands.link, linkUrl)"
+                                        @keydown.esc="hideLinkMenu" />
+                                    <button class="menububble__button comp-btn"
+                                        @click="setLinkUrl(commands.link, linkUrl)" type="button">
+                                        <img src="assets/icons/link-3.svg">
+                                    </button>
+                                    <button class="menububble__button comp-btn" @click="setLinkUrl(commands.link, null)"
+                                        type="button">
+                                        <img src="assets/icons/close-g.png" style="padding: 8px">
+                                    </button>
+                                </div>
+
+                                <div v-else>
+                                    <button :class="{
                                     'menububble__button': true,
                                     'comp-btn': true,
                                     'composer-active': isActive.link()
                                 }" @click="showLinkMenu(getMarkAttrs('link'))">
-                                    <img src="assets/icons/link-3.svg">
-                                </button>
+                                        <img src="assets/icons/link-3.svg">
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </editor-menu-bubble>
+                        </editor-menu-bubble>
 
-                    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
+                        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
 
-                        <div class="menubar">
-                            <div class="comp-sep">
-                                <a :class="{
+                            <div class="menubar">
+                                <div class="comp-sep">
+                                    <a :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.bold()
                                 }" @click="commands.bold">
-                                    <img src="assets/icons/bold.svg">
-                                </a>
-                                <a :class="{
+                                        <img src="assets/icons/bold.svg">
+                                    </a>
+                                    <a :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.italic()
                                 }" @click="commands.italic">
-                                    <img src="assets/icons/italic.svg">
-                                </a>
-                                <a :class="{
+                                        <img src="assets/icons/italic.svg">
+                                    </a>
+                                    <a :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.underline()
                                 }" @click="commands.underline">
-                                    <img src="assets/icons/underline.svg">
-                                </a>
-                            </div>
-                            <div class="comp-sep">
-                                <a :class="{
+                                        <img src="assets/icons/underline.svg">
+                                    </a>
+                                </div>
+                                <div class="comp-sep">
+                                    <a :class="{
                                     'comp-btn': true,
                                 }">
-                                    <!-- TODO: attach files -->
-                                    <img src="assets/icons/badges-attach.svg">
-                                </a>
-                                <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
-                            </div>
-                            <div class="comp-sep">
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/t.svg" width="20"></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                        <!-- TODO: attach files -->
+                                        <img src="assets/icons/badges-attach.svg">
+                                    </a>
+                                    <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
+                                </div>
+                                <div class="comp-sep">
+                                    <div class="btn-group dropup">
+                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <a href="#"><img src="assets/icons/t.svg" width="20"></a>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 1 })
                                         }" @click="commands.heading({level: 1})" href="#"><span>Heading 1</span></a>
-                                        <a :class="{
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 2 })
                                         }" @click="commands.heading({level: 2})" href="#"><span>Heading 2</span></a>
-                                        <a :class="{
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 3 })
                                         }" @click="commands.heading({level: 3})" href="#"><span>Heading 3</span></a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/align-left.svg" width="20"></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                    <div class="btn-group dropup">
+                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <a href="#"><img src="assets/icons/align-left.svg" width="20"></a>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'left'
                                         }" @click="commands.align({textAlign: 'left'})" href="#">
-                                            <img src="assets/icons/align-left.svg" width="20">
-                                        </a>
-                                        <a :class="{
+                                                <img src="assets/icons/align-left.svg" width="20">
+                                            </a>
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'center'
                                         }" @click="commands.align({textAlign: 'center'})" href="#">
-                                            <img src="assets/icons/align-center.svg" width="20">
-                                        </a>
-                                        <a :class="{
+                                                <img src="assets/icons/align-center.svg" width="20">
+                                            </a>
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'right'
                                         }" @click="commands.align({textAlign: 'right'})" href="#">
-                                            <img src="assets/icons/align-right.svg" width="20">
-                                        </a>
+                                                <img src="assets/icons/align-right.svg" width="20">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/list.svg" width="20"></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                    <div class="btn-group dropup">
+                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            <a href="#"><img src="assets/icons/list.svg" width="20"></a>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.bullet_list()
                                         }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg"
-                                                width="20"></a>
-                                        <a :class="{
+                                                    width="20"></a>
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.ordered_list()
                                         }" @click="commands.ordered_list" href="#"><img src="assets/icons/list-num.svg"
-                                                width="20"></a>
-                                        <a :class="{
+                                                    width="20"></a>
+                                            <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.todo_list()
                                         }" @click="commands.todo_list" href="#"><img
-                                                src="assets/icons/check-square.svg" width="20"></a>
+                                                    src="assets/icons/check-square.svg" width="20"></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="comp-sep">
-                                <a :class="{
+                                <div class="comp-sep">
+                                    <a :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.code()
                             }" @click="commands.code">
-                                    <img src="assets/icons/code.svg">
-                                </a>
-                                <a :class="{
+                                        <img src="assets/icons/code.svg">
+                                    </a>
+                                    <a :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.blockquote()
                             }" @click="commands.blockquote">
-                                    <img src="assets/icons/q.svg">
-                                </a>
-                            </div>
+                                        <img src="assets/icons/q.svg">
+                                    </a>
+                                </div>
 
-                            <a class="comp-btn">
-                                <img src="assets/img/zoom.png" class="zoom">
-                            </a>
-                            <div class="btn-group dropup">
-                                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a><img src="assets/icons/info.svg" width="20"></a>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item disabled" href="#"><span>Markdown:
-                                        </span></a>
-                                    <a class="dropdown-item disabled" href="#"><span class="bold-c">*Bold*</span></a>
-                                    <a class="dropdown-item disabled" href="#"><span
-                                            class="italic-c">~Italic~</span></a>
-                                    <a class="dropdown-item disabled" href="#"><span class="code-c">Code</span></a>
-                                    <a class="dropdown-item disabled" href="#"><span class="quotes-c">Quote</span></a>
+                                <a class="comp-btn">
+                                    <img src="assets/img/zoom.png" class="zoom">
+                                </a>
+                                <div class="btn-group dropup">
+                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        <a><img src="assets/icons/info.svg" width="20"></a>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item disabled" href="#"><span>Markdown:
+                                            </span></a>
+                                        <a class="dropdown-item disabled" href="#"><span
+                                                class="bold-c">*Bold*</span></a>
+                                        <a class="dropdown-item disabled" href="#"><span
+                                                class="italic-c">~Italic~</span></a>
+                                        <a class="dropdown-item disabled" href="#"><span class="code-c">Code</span></a>
+                                        <a class="dropdown-item disabled" href="#"><span
+                                                class="quotes-c">Quote</span></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </editor-menu-bar>
+                        </editor-menu-bar>
+                    </div>
                 </div>
 
                 <div class="compose-bottom">
