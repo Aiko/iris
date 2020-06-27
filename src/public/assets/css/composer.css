@@ -18,7 +18,7 @@
 
 .nav-tabs .nav-link {
     border-radius: 0 !important;
-    ;
+    transition: .2s;
 }
 
 .ProseMirror-gapcursor:after {
@@ -298,6 +298,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     background: var(--main-color);
+    transition: .2s;
+}
+
+.nav-tabs .nav-link:hover {
+    filter: brightness(0.9);
     transition: .2s;
 }
 
