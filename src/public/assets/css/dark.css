@@ -42,6 +42,10 @@
   box-shadow: 4px 0 5px rgba(0, 0, 0, 0.08);
 }
 
+.inbox-switch .active .secondary-count {
+  filter: brightness(1.5) !important;
+}
+
 .main-email .action {
   background: #151515 !important;
 }
