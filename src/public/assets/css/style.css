@@ -334,6 +334,36 @@ input:active {
 	transition: .2s;
 }
 
+.inbox-switch {
+	border: 2px solid var(--secondary-bg-color);
+	padding: 3px;
+	border-radius: 4px;
+	margin-top: -5px;
+	margin-bottom: -3px;
+}
+
+.inbox-switch .inbox1 {
+	border-radius: 3px 0 0 3px;
+	box-shadow: inset 0 0 3px 1px #00000012;
+	margin-left: -20px;
+	padding: 5px 10px;
+}
+
+.inbox-switch .inbox2 {
+	border-radius: 0 3px 3px 0;
+	box-shadow: inset 0 0 3px 1px #00000012;
+	margin-right: -20px;
+	padding: 5px 10px;
+	transition: .2s;
+}
+
+.inbox-switch .active {
+	background: var(--secondary-bg-color);
+	color: var(--dark-text);
+	box-shadow: none !important;
+	transition: .2s;
+}
+
 .inbox-more:hover {
 	opacity: .8;
 	transition: .2s;
@@ -347,13 +377,6 @@ input:active {
 .inbox-more img {
 	width: 20px;
 	margin-bottom: 4px;
-}
-
-.tabi {
-	display: inline;
-	opacity: .7;
-	padding: 5px 5px 6px 5px;
-	transition: .2s;
 }
 
 .active-tab {
@@ -1398,7 +1421,7 @@ hr {
 .secondary-count {
 	color: var(--main-text-color);
 	background: var(--secondary-bg-color);
-	padding: 3px 6px 2px 6px;
+	padding: 3px 4px 2px 6px;
 	border-radius: 3px;
 	font-size: 12px;
 	margin-left: 5px;
