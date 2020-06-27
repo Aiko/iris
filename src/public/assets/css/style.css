@@ -22,7 +22,7 @@
 	--main-border: 1px solid #d6d6d6;
 	--placeholder-text-color: #bdbdbd;
 	/* Global placeholder color */
-	--modal-backdrop: #ffffffcc;
+	--modal-backdrop: #fffffff0;
 }
 
 /* Global modal backdrop */
@@ -1671,6 +1671,16 @@ hr {
 	border-radius: 3px;
 	overflow-y: scroll;
 	transition: 0.2s;
+}
+
+.esc-tip {
+	position: absolute;
+	right: 0;
+	top: 0;
+	margin-right: -65px;
+	margin-top: 13px;
+	font-size: 10px;
+	text-align: center;
 }
 
 .secondary-email {
