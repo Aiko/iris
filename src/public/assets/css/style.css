@@ -339,6 +339,7 @@ input:active {
 	padding: 3px;
 	border-radius: 4px;
 	margin-top: -5px;
+	font-size: 16px !important;
 	margin-bottom: -3px;
 }
 
@@ -639,6 +640,7 @@ input:active {
 
 .header {
 	padding: 9px 15px 9px 20px;
+	box-shadow: 6px -2px 9px #2121213b;
 	height: 47px;
 	background: var(--main-bg-color);
 	z-index: 3;
@@ -1194,6 +1196,7 @@ hr {
 	height: 100%;
 	margin-right: 20px;
 	position: relative;
+	box-shadow: 6px 3px 7px #2121213b;
 }
 
 .board-header h1 {
