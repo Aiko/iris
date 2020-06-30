@@ -15,6 +15,7 @@ const composer = {
     sendTo: [],
     sendCC: [],
     sendBCC: [],
+    subject: '',
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
