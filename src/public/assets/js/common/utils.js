@@ -155,24 +155,35 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
     'gmail.com',
     'office365.com',
     'live.com',
-    'yahoo.com',
     'hotmail.com',
     'outlook.com',
+    '@aol.com',
+    'yahoo.com',
     '@me.com',
     '@icloud.com',
-    '@aol.com'
   ]
-  if (mailProviders.filter(provider => email.endsWith(provider)).length > 0) {
+  const specialProviders = {
+    'gmail.com': 'assets/img/gmail.png',
+    'hotmail.com': 'assets/img/microsoft.png',
+    'outlook.com': 'assets/img/microsoft.png',
+    'live.com': 'assets/img/microsoft.png',
+    'office365.com': 'assets/img/microsoft.png',
+  }
+  const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
+  if (provider) {
     // if they are using mail provider,
     // look for gravatar else use default flow
     const hash = CryptoJS.MD5(email)
     const s = await fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
     if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash + '?d=404'
+    // if special provider, show provider logo
+    if (specialProviders[provider]) return specialProviders[provider]
   }
-  // if known domain, show domain logo
+  // try asking clearbit if they know
   const u = 'https://logo.clearbit.com/' + email.split('@')[1]
   const s = await fetch(u)
   if (s.status != 200) {
+    // worst case show default
     return defaultTo
   }
   return u
