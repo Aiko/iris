@@ -49,7 +49,8 @@ const app = new Vue({
     html: '',
     linkUrl: null,
     linkMenuIsActive: false,
-    showBCC: false
+    showBCC: false,
+    contacts: {},
   },
   watch: {
     loading (isLoading, wasLoading) {
@@ -117,6 +118,9 @@ const app = new Vue({
 
     info(...(this.TAG), 'Initializing editor (tiptap)')
     this.makeEditor()
+
+    info(...(this.TAG), 'Fetching contacts...')
+    await this.fetchContacts()
 
     success(...(this.TAG), 'Finished initialization.')
     this.loading = false
@@ -186,6 +190,29 @@ const app = new Vue({
       this.log('Set link to', url)
       command({ href: url })
       this.hideLinkMenu()
-    }
+    },
+    async fetchContacts() {
+      const contactCache = (
+        await BigStorage.load(this.smtpConfig.email + '/contacts')
+        || this.contacts
+      )
+      Object.assign(this.contacts, contactCache)
+    },
+    async suggestContact(term, limit=10) {
+      const results = []
+      for (const contact of app.contacts.allContacts) {
+        const [address, name, frequency] = contact
+        if (term.length < 3) {
+          if (
+            (address && address.startsWith(term)) || (name && name.startsWith(term))
+          ) results.push([address, name, frequency])
+        } else {
+          if (
+            (address && address.indexOf(term) > -1) || (name && name.indexOf(term) > -1)
+          ) results.push([address, name, frequency])
+        }
+      }
+      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, 10)
+    },
   }
 })
