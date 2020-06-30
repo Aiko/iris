@@ -622,13 +622,19 @@
                   <div class="col-8 text-center exp nowrap">
                     <div class="inbox-switch left text-center">
                       <!-- TODO: Add 'active' ti whichever is active, see below-->
-                      <h1 class="inbox1 active" @click="priority = true" inbox-direction="left">
+                      <h1 :class="{
+                        'inbox1': true,
+                        'active': priority
+                      }" @click="priority = true" inbox-direction="left">
                         Priority
                         <div class="secondary-count" tooltip="Unread emails in your inbox">
                           {{priorityInbox.filter(e=>!e.ai.seen).length}}
                         </div>
                       </h1>
-                      <h1 class="inbox2" @click="priority = false" inbox-direction="right">Others</h1>
+                      <h1 :class="{
+                        'inbox2': true,
+                        'active': !priority
+                      }" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
 
 
