@@ -211,6 +211,6 @@ const MailCleaner = (() => {
   return {
     peek: async (folder, messages) => await Promise.all(messages.map(peek_clean(folder))),
     base: async (folder, messages) => await Promise.all(messages.map(base_clean(folder))),
-    full: async (folder, messages, ai = true) => await Promise.all(messages.map(full_clean(folder, ai)))
+    full: async (folder, messages, ai = true) => await Promise.all(messages.map(full_clean(folder, ai))),
   }
 })()

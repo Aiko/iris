@@ -20,6 +20,7 @@ Vue.component('view-email', {
     if (!this.email.parsed) this.emails.parsed = {}
     this.email.parsed.text = withoutAttachments?.parsed?.text
     this.email.parsed.html = withoutAttachments?.parsed?.html
+    this.email.flags = withoutAttachments[0]?.flags
     this.email.validity = -1
     //* Update UI immediately
     this.email = JSON.parse(JSON.stringify(this.email))
@@ -31,6 +32,7 @@ Vue.component('view-email', {
       this.close()
       return
     }
+    this.email.flags = s[0]?.flags
     this.email.parsed.text = s[0]?.parsed?.text
     this.email.parsed.html = s[0]?.parsed?.html
     this.email.parsed.attachments = s[0]?.parsed?.attachments
@@ -75,7 +77,10 @@ Vue.component('view-email', {
       }
       this.email.parsed.thread.messages = this.email.parsed.thread.messages?.map(e => {
         const matches = emails.filter(e2 => e2.folder == e.folder && e2.uid == e.uid)
-        if (matches.length > 0) e.parsed = matches[0].parsed
+        if (matches.length > 0) {
+          e.parsed = matches[0].parsed
+          e.flags = matches[0].flags
+        }
         else window.error(...MODALS_TAG, "Message in thread doesn't have a match:", e)
         return e
       })

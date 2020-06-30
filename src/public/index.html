@@ -706,7 +706,7 @@
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
                           {{prettyBoardName}}</h1>
-                        <div class="secondary-count" tooltip="Unread emails in board">999+</div>
+                        <div v-if="unread > 0" class="secondary-count" tooltip="Unread emails in board">{{unread > 99 ? '99+' : unread}}</div>
                       </div>
                       <div class="col-2 text-right cll">
                         <!--  TESTING A UI WITHOUT THIS <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a> -->
@@ -1527,6 +1527,7 @@
       </div>
     </div>
   </div>
+
   <script type="text/x-template" id="email-card">
     <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
     <div :ref="email.folder + ':' + email.uid" :key="email.uid" :uid="email.uid" class="email" :class="{
@@ -1619,12 +1620,14 @@
             <div class="col-8 p0" style="display: inline-flex;height: 22px;">
               <h2 class="sender">
                 {{sender.name || sender.address}}</h2>
-              <img src="assets/icons/badges-attach.svg">
-              <img src="assets/icons/badges-tracker.svg">
-              <img src="assets/icons/badges-event.svg">
-              <img src="assets/icons/badges-bcc.svg">
+              <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
+              <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
+              <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
+              <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
               <select class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
+                <option v-if="email.folder == 'INBOX'" selected :value="-1">Inbox</option>
                 <option v-if="board.folder == email.folder" v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
+                <option v-if="email.folder == '[Aiko Mail]/Done'" selected :value="-2">Done</option>
               </select>
               <!-- FUTURE DROP DOWN FOR BOARD CHANGE
               <select class="aiko-select">
@@ -1639,7 +1642,7 @@
           <div class="row">
             <h2 class="fromto-info">
             <!-- TODO: Change 'to' to real 'to' address-->
-            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to.address}}</span></h2>
+            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to.address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b></h2>
           </div>
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
@@ -1670,8 +1673,12 @@
                 <a tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
                 <a tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
                 <a tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                <a tooltip="Star"><img src="assets/icons/options-star.svg" width="20"></a>
-                <a tooltip="Trash"><img src="assets/icons/options-trash.svg" width="20"></a>
+                <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
+                  width="20"></a>
+                <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
+                    width="20"></a>
+                <a tooltip="Trash" @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
+                    width="20"></a>
             </div>
           </div>
         </div>

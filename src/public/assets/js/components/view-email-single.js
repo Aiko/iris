@@ -46,7 +46,12 @@ Vue.component('view-email-single', {
     },
   },
   methods: {
+    async detectFlags () {
+      this.email.ai.starred = this.email.flags.includes('\\Flagged')
+      this.emailsingle.ai.starred = this.email.ai.starred
+    },
     async setContent (blank) {
+      this.detectFlags()
       const iframeID = this.iframeId
       const el = document.getElementById(iframeID)
       if (el) el.style.height = '0px'
@@ -85,6 +90,100 @@ Vue.component('view-email-single', {
       for (let i = 0; i < links.length; i++) {
         links[i].target = '_blank'
       }
-    }
-  }
+    },
+    async starMessage () {
+      if (!this.email.syncing) {
+        log('Starring', this.email.folder, ':', this.email.uid)
+        // update view model asap
+        this.email.ai.starred = true
+        this.emailsingle.ai.starred = true
+        // if it's already flagged but not starred idk?
+        // its a bug but fuck it, can ignore
+        if (this.email.flags.includes('\\Flagged')) return window.error('Was already starred!')
+        this.email.flags.push('\\Flagged')
+        await app.callIPC(
+          app.task_SetFlags(
+            this.email.folder,
+            this.email.uid,
+            {
+              set: this.email.flags
+            }
+          )
+        )
+        if (this.email.inboxUID) {
+          await app.callIPC(
+            app.task_SetFlags(
+              'INBOX',
+              this.email.inboxUID,
+              {
+                set: this.email.flags
+              }
+            )
+          )
+        }
+
+        // update view model
+        this.saveToCache()
+      }
+    },
+    async unstarMessage () {
+      if (!this.email.syncing) {
+        // update view model asap
+        this.email.ai.starred = false
+        this.emailsingle.ai.starred = false
+        // if it's already unflagged but not unstarred idk?
+        // its a bug but fuck it, can ignore
+        if (!(this.email.flags.includes('\\Flagged'))) return
+        this.email.flags = this.email.flags.filter(flag =>
+          flag != '\\Flagged'
+        )
+        await app.callIPC(
+          app.task_SetFlags(
+            this.email.folder,
+            this.email.uid,
+            {
+              set: this.email.flags
+            }
+          )
+        )
+        if (this.email.inboxUID) {
+          await app.callIPC(
+            app.task_SetFlags(
+              'INBOX',
+              this.email.inboxUID,
+              {
+                set: this.email.flags
+              }
+            )
+          )
+        }
+        this.saveToCache()
+      }
+    },
+    async deleteMessage () {
+      if (!this.email.syncing) {
+        this.email.ai.deleted = true
+        this.emailsingle.ai.deleted = true
+        await app.callIPC(
+          app.task_DeleteEmails(
+            this.email.folder,
+            this.email.uid
+          )
+        )
+        if (this.email.inboxUID) {
+          await app.callIPC(
+            app.task_DeleteEmails(
+              'INBOX',
+              this.email.inboxUID
+            )
+          )
+        }
+        this.saveToCache()
+      }
+    },
+    async saveToCache() {
+      // TODO: find email in normal arrays (inbox, boards, done etc) and change the starred/deleted status
+      return
+    },
+  },
 })

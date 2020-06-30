@@ -8,6 +8,9 @@ Vue.component('board', {
   computed: {
     prettyBoardName () {
       return this.boardName.replace('[Aiko Mail]/', '')
+    },
+    unread () {
+      return this.board.emails.filter(e => !e.ai.seen).length
     }
   }
 })
