@@ -1,0 +1,263 @@
+pre {
+    padding: .7rem 1rem;
+    border-radius: 5px;
+    background: #000;
+    color: #fff;
+    font-size: .8rem;
+    overflow-x: auto
+}
+
+pre code {
+    display: block
+}
+
+p code {
+    padding: .2rem .4rem;
+    border-radius: 5px;
+    font-size: .8rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, .1);
+    color: rgba(0, 0, 0, .8)
+}
+
+ol,
+ul {
+    padding-left: 1rem
+}
+
+li>ol,
+li>p,
+li>ul {
+    margin: 0
+}
+
+a {
+    color: inherit
+}
+
+blockquote {
+    border-left: 3px solid rgba(0, 0, 0, .1);
+    color: rgba(0, 0, 0, .8);
+    padding-left: .8rem;
+    font-style: italic
+}
+
+blockquote p {
+    margin: 0
+}
+
+img {
+    max-width: 100%;
+    border-radius: 3px
+}
+
+table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+    margin: 0;
+    overflow: hidden
+}
+
+table td,
+table th {
+    min-width: 1em;
+    border: 2px solid #ddd;
+    padding: 3px 5px;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative
+}
+
+table td>*,
+table th>* {
+    margin-bottom: 0
+}
+
+table th {
+    font-weight: 700;
+    text-align: left
+}
+
+table .selectedCell:after {
+    z-index: 2;
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(200, 200, 255, .4);
+    pointer-events: none
+}
+
+table .column-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    z-index: 20;
+    background-color: #adf;
+    pointer-events: none
+}
+
+.tableWrapper {
+    margin: 1em 0;
+    overflow-x: auto
+}
+
+.resize-cursor {
+    cursor: ew-resize;
+}
+
+.bol-c {
+    font-weight: 600;
+}
+
+.italic-c {
+    font-style: italic;
+}
+
+.quote-c {
+    font-style: italic;
+}
+
+
+blockquote {
+    margin: 0 0 1rem;
+    border-left: 1px solid #b0b0b0;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+blockquote p {
+    font-style: italic;
+    font-weight: 400;
+}
+
+code {
+    font-family: SFMono-Regular,
+        Menlo,
+        Monaco,
+        Consolas,
+        "Liberation Mono",
+        "Courier New",
+        monospace;
+    font-size: 87.5%;
+    color: #e83e8c !important;
+    word-break: break-word;
+    background: #1f1f1f;
+    padding: 4px;
+    border-radius: 3px;
+}
+
+p,
+h1,
+h2,
+h3,
+span,
+h4 {
+    color: var(--dark-text) !important;
+}
+
+p.is-editor-empty:first-child::before {
+    content: attr(data-empty-text);
+    float: left;
+    color: #757575;
+    pointer-events: none;
+    height: 0;
+}
+
+p {
+    color: var(--dark-text);
+    letter-spacing: .4px;
+    font-size: 15px;
+    margin-bottom: 0;
+}
+
+.ProseMirror {
+    height: 100%
+}
+
+ul[data-type=todo_list] {
+    padding-left: 0
+}
+
+li[data-type=todo_item] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row
+}
+
+.todo-checkbox {
+    border: 2px solid #000;
+    height: .9em;
+    width: .9em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 10px;
+    margin-top: .3rem;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    border-radius: .2em;
+    background-color: transparent;
+    -webkit-transition: background .4s;
+    transition: background .4s
+}
+
+.todo-content {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1
+}
+
+.todo-content>p:last-of-type {
+    margin-bottom: 0
+}
+
+.todo-content>ul[data-type=todo_list] {
+    margin: .5rem 0
+}
+
+li[data-done=true]>.todo-content>p {
+    text-decoration: line-through
+}
+
+li[data-done=true]>.todo-checkbox {
+    background-color: #000
+}
+
+li[data-done=false] {
+    text-decoration: none
+}
+
+.actions[data-v-2ca5c7eb],
+.export[data-v-2ca5c7eb] {
+    max-width: 30rem;
+    margin: 0 auto 2rem
+}
+
+.export pre[data-v-2ca5c7eb] {
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: .8rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, .05);
+    color: rgba(0, 0, 0, .8)
+}
+
+.export code[data-v-2ca5c7eb] {
+    display: block;
+    white-space: pre-wrap
+}
