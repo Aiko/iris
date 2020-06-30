@@ -10,7 +10,7 @@ Vue.component('board', {
       return this.boardName.replace('[Aiko Mail]/', '')
     },
     unread () {
-      return this.board.emails.filter(e => !e.ai.seen).length
+      return this.board?.emails?.filter(e => !e.ai.seen)?.length
     }
   }
 })
