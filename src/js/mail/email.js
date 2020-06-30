@@ -154,7 +154,7 @@ ipcMain.handle('please make new client', async (_, q) => {
   connected = false
 
   const options = {
-    logLevel: 0, // error
+    logLevel: 40, // error
     auth: {
       user: user,
       pass: pass,
