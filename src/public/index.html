@@ -483,10 +483,10 @@
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
-                <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>ruben@priansh.jo</span>
+                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email" class="account">
+                  <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
                 </div>
-                <div class="account">
+                <div @click="addMailbox = true" class="account">
                   <img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
                 </div>
               </div>

@@ -498,6 +498,13 @@ const mailapi = {
       }
       return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, 10)
     },
+    async switchMailbox(email) {
+      this.loading = true
+      await this.loadIMAPConfig(email)
+      if (this.loadSMTPConfig) await this.loadSMTPConfig(email)
+      this.loading = false
+      await this.switchMailServer()
+    },
     // Manage mailservers
     async reconnectToMailServer () {
       let results
@@ -526,6 +533,8 @@ const mailapi = {
     async switchMailServer () {
       const controlsLoader = !(this.loading)
       if (controlsLoader) this.loading = true
+      this.syncing = true
+      this.cachingInbox = true
       // PRECONDITION: assumes imapConfig is your new mailbox
       // CAUTION!!! this will switch the entire mailbox
       console.time('SWITCH MAILBOX')
@@ -590,6 +599,9 @@ const mailapi = {
       doneCache.emails = await MailCleaner.peek(this.folderNames.done, doneCache.emails)
       this.done = doneCache
       info(...MAILAPI_TAG, 'Loaded Done Cache.')
+
+      this.syncing = false
+      this.cachingInbox = false
 
       await this.memoryLinking()
       info(...MAILAPI_TAG, 'Linked memory.')
