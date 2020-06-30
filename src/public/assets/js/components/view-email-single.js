@@ -14,6 +14,15 @@ Vue.component('view-email-single', {
         name: 'No Sender'
       }
     },
+    to () {
+      return this?.email?.envelope?.to?.[0] || {
+        address: 'Hidden Recipients',
+        name: 'Hidden Recipients'
+      }
+    },
+    cc () {
+      return this?.email?.cc || []
+    },
     boards () {
       return app.boardNames.map(b => {
         return {
@@ -30,7 +39,11 @@ Vue.component('view-email-single', {
     validity (_) {
       this.email = this.emailsingle
       this.setContent()
-    }
+    },
+    emailsingle (_) {
+      this.email = this.emailsingle
+      this.setContent()
+    },
   },
   methods: {
     async setContent (blank) {

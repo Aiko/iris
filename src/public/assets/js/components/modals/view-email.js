@@ -82,6 +82,8 @@ Vue.component('view-email', {
     }
     info(...MODALS_TAG, 'Here is your view email:', this.email)
     this.email = JSON.parse(JSON.stringify(this.email))
+    this.email.validity = 9
+    if (this.email?.parsed?.thread?.messages) this.email.parsed.thread.messages.map(m => m.validity = 9)
     this.avatar = await this.sender?.address?.getAvatar()
   },
   computed: {

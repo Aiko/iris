@@ -1636,17 +1636,11 @@
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
           </div>
-          <!-- TODO: SEE ABOUT SHOWING EMAIL FOR SECURITY REASONS
           <div class="row">
-          <p style="margin: 0;margin-top: -2px;font-size: 12px;">notifications@github.com</p>
+            <h2 class="fromto-info">
+            <!-- TODO: Change 'to' to real 'to' address-->
+            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to.address}}</span></h2>
           </div>
-          -->
-          
-             <div class="row">
-              <h2 class="fromto-info">
-                <!-- TODO: Change 'to' to real 'to' address-->
-                <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{sender.address}}</span></h2>
-             </div>
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
           </div>
