@@ -729,9 +729,9 @@ const mailapi = {
       } = await this.callIPC(this.task_OpenFolder(boardName))
       if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
 
-      if (uidNext - uidMin > 100) {
-        warn(...MAILAPI_TAG, 'There are more than 100 emails in the board. There should be a limit of 100.')
-        uidMin = uidNext - 100
+      if (uidNext - uidMin > 300) {
+        warn(...MAILAPI_TAG, 'There are more than 300 emails in the board. There should be a limit of 200.')
+        uidMin = uidNext - 300
       }
       uidMin = Math.max(1, uidMin)
 
