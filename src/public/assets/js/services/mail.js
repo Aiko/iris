@@ -479,6 +479,7 @@ const mailapi = {
       this.contacts.allContacts = contacts
       this.contacts.inboxUID = uidNext
 
+      info(...MAILAPI_TAG, "Finished collecting all contacts.")
       await BigStorage.store(this.imapConfig.email + '/contacts', this.contacts)
     },
     async suggestContact(term, limit=10) {
@@ -619,6 +620,9 @@ const mailapi = {
       await this.memoryLinking()
 
       document.title = `Inbox - ${this.currentMailbox}`
+
+      // get contacts in background
+      this.fetchContacts()
 
       // update & check for new messages in background
       this.updateAndFetch()

@@ -14,7 +14,7 @@ const composer = {
     },
     sendTo: [],
     sendCC: [],
-    sendBCC: []
+    sendBCC: [],
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -70,6 +70,6 @@ const composer = {
       const config = await BigStorage.pop('composer/' + identifier)
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
-    }
+    },
   }
 }

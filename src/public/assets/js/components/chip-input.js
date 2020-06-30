@@ -23,14 +23,25 @@ Vue.component('chip-input', {
   props: [ 'autocomplete', 'value'],
   data() {
     return {
-      suggestions: [],
       term: '',
       activeChip: -1,
+      focused: true,
+      suggestions: [],
+      height: 0,
+      activeSuggestion: -1,
     }
   },
   watch: {
-    term(is, was) {
+    async term(is, was) {
       if (this.activeChip > -1) this.term = was
+      let suggestions = []
+      if (this.focused) {
+        if (is) suggestions = await this.$root.suggestContact(this.term)
+        else suggestions = []
+      } else suggestions = []
+      this.suggestions = JSON.parse(JSON.stringify(suggestions))
+      this.activeSuggestion = -1
+      this.height = $(this.$el).height() + this.$el.offsetTop
     }
   },
   methods: {
@@ -50,7 +61,14 @@ Vue.component('chip-input', {
     completeChipWithSuggest(e) {
       e?.preventDefault();
       if (this.activeChip > -1) return;
-      // TODO: check if highlighted suggestion, else do below
+      if (this.activeSuggestion > -1) {
+        this.value.push({
+          value: this.suggestions[this.activeSuggestion][0],
+          display: this.suggestions[this.activeSuggestion][1]
+        })
+        this.term = ''
+        return;
+      }
       this.completeChip()
     },
     pressDelete(e) {
@@ -98,8 +116,18 @@ Vue.component('chip-input', {
         this.activeChip++;
       }
     },
-    unfocus() {
+    pressDown(e) {
+      e.preventDefault();
+      if (this.suggestions?.length > 0 && this.activeSuggestion < this.suggestions.length - 1) this.activeSuggestion++;
+    },
+    pressUp(e) {
+      e.preventDefault();
+      if (this.suggestions?.length > 0 && this.activeSuggestion > -1) this.activeSuggestion--;
+    },
+    unfocus(all=false) {
       this.activeChip = -1
+      this.focused = !all
+      if (!this.focused) this.activeSuggestion = -1
     }
   },
 })

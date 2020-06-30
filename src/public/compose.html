@@ -54,38 +54,33 @@
             <div class="main-email overflow-h">
                 <div class="testt">
                     <chip-input v-model="sendTo" inline-template>
-                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            @keydown.stop.down="pressDown" @keydown.stop.up="pressUp"
                             class="composer-single-field">
                             <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
                             'composer-tag-single': true,
                             'active': activeChip == i
                         }">
-                                <span>{{chip.value}}</span>
+                                <span>{{chip.display || chip.value}}</span>
                                 <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
                             </div>
-                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                            <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
                                 type="text" class="composer-single-field-input" placeholder="To" v-model="term"
                                 ref="termInput">
+                            <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
+                                class="composer-suggestions">
+                                <p :class="{
+                                    'active': i == activeSuggestion
+                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;</p>
+                            </div>
                         </div>
                     </chip-input>
 
-                    <div class="composer-suggestions">
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p class="active">rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                        <p>rubencharlestouitou@gmail.com</p>
-                    </div>
-
                     <chip-input v-model="sendCC" inline-template>
-                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
@@ -97,16 +92,21 @@
                                 <span>{{chip.value}}</span>
                                 <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
                             </div>
-                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                            <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
                                 type="text" class="composer-single-field-input" placeholder="CC" v-model="term"
                                 ref="termInput">
                             <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
+                            <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
+                                class="composer-suggestions">
+                                <p class="active">rubencharlestouitou@gmail.com</p>
+                                <p v-for="suggestion in suggestions">hi</p>
+                            </div>
                         </div>
 
                     </chip-input>
 
                     <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
-                        <div @blur="unfocus" @keydown.stop.delete="pressDelete"
+                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
@@ -118,9 +118,15 @@
                                 <span>{{chip.value}}</span>
                                 <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
                             </div>
-                            <input @click="unfocus" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                            <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
                                 type="text" class="composer-single-field-input" placeholder="BCC" v-model="term"
                                 ref="termInput">
+                            <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
+                                class="composer-suggestions">
+                                <p class="active">{{suggestions.length}}</p>
+                                <p v-for="suggestion in suggestions">hi</p>
+                            </div>
+
                         </div>
 
                     </chip-input>
