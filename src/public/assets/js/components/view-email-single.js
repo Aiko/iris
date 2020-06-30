@@ -15,10 +15,10 @@ Vue.component('view-email-single', {
       }
     },
     to () {
-      return this?.email?.envelope?.to?.[0] || {
+      return this?.email?.envelope?.to || [{
         address: 'Hidden Recipients',
         name: 'Hidden Recipients'
-      }
+      }]
     },
     cc () {
       return this?.email?.cc || []
