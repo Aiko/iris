@@ -45,6 +45,9 @@
 .inbox-switch .active .secondary-count {
   filter: brightness(1.5) !important;
 }
+.inbox-switch .active {
+  background: var(--secondary-bg-color) !important;
+}
 
 .main-email .action {
   background: #151515 !important;
@@ -75,7 +78,7 @@ body {
 .dropdown-menu,
 .dropdown-menu a {
   background-color: var(--main-bg-color) !important;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .add-board {
@@ -93,7 +96,7 @@ body {
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: var(--secondary-bg-color) !important;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .sender {
@@ -106,12 +109,12 @@ body {
 
 .search-drop a {
   color: #fff !important;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .search-drop a:hover {
   color: var(--main-text-color) !important;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .load-board::before {
@@ -130,7 +133,7 @@ body {
   background: var(--main-bg-color);
 }
 
-li[data-done=true]>.todo-checkbox {
+li[data-done="true"] > .todo-checkbox {
   background-color: #fff !important;
 }
 
@@ -148,8 +151,8 @@ li[data-done=true]>.todo-checkbox {
 }
 
 .email:hover {
-  transition: .2s;
-  filter: brightness(.9);
+  transition: 0.2s;
+  filter: brightness(0.9);
 }
 
 .email-footer img {
@@ -157,11 +160,11 @@ li[data-done=true]>.todo-checkbox {
 }
 
 .email-footer img:hover {
-  opacity: .8 !important;
+  opacity: 0.8 !important;
 }
 
 .options {
-  background: #151515 !important
+  background: #151515 !important;
 }
 
 .add-board {

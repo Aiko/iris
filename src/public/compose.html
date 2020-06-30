@@ -1,20 +1,23 @@
 <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="author" content="Aiko AI">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="author" content="Aiko AI" />
     <title>Compose</title>
-    <link rel="icon" href="assets/img/favicon.png" type="image/png">
-    <link rel="stylesheet" href="assets/css/katex.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/composer.css">
+    <link rel="icon" href="assets/img/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="assets/css/katex.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/composer.css" />
+    
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
-        window.jQuery = window.$ = require('jquery');
+      window.jQuery = window.$ = require("jquery");
     </script>
 </head>
 
@@ -160,314 +163,518 @@
                                     </button>
                                 </div>
 
-                                <div v-else>
-                                    <button :class="{
+            <div class="compose-body">
+              <editor-content class="editor" :editor="editor"></editor-content>
+              <editor-menu-bubble
+                class="menububble"
+                :editor="editor"
+                v-slot="{ commands, isActive, getMarkAttrs, menu }"
+              >
+                <div
+                  class="menububble"
+                  :class="{'is-active': menu.isActive }"
+                  :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+                >
+                  <div class="menububble__form" v-if="linkMenuIsActive">
+                    <input
+                      class="menububble__input"
+                      type="text"
+                      v-model="linkUrl"
+                      placeholder="https://"
+                      ref="linkInput"
+                      @keydown.enter="setLinkUrl(commands.link, linkUrl)"
+                      @keydown.esc="hideLinkMenu"
+                    />
+                    <button
+                      class="menububble__button comp-btn"
+                      @click="setLinkUrl(commands.link, linkUrl)"
+                      type="button"
+                    >
+                      <img src="assets/icons/link-3.svg" />
+                    </button>
+                    <button
+                      class="menububble__button comp-btn"
+                      @click="setLinkUrl(commands.link, null)"
+                      type="button"
+                    >
+                      <img
+                        src="assets/icons/close-g.png"
+                        style="padding: 8px;"
+                      />
+                    </button>
+                  </div>
+
+                  <div v-else>
+                    <button
+                      :class="{
                                     'menububble__button': true,
                                     'comp-btn': true,
                                     'composer-active': isActive.link()
-                                }" @click="showLinkMenu(getMarkAttrs('link'))">
-                                        <img src="assets/icons/link-3.svg">
-                                    </button>
-                                </div>
-                            </div>
-                        </editor-menu-bubble>
+                                }"
+                      @click="showLinkMenu(getMarkAttrs('link'))"
+                    >
+                      <img src="assets/icons/link-3.svg" />
+                    </button>
+                  </div>
+                </div>
+              </editor-menu-bubble>
 
-                        <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
-
-                            <div class="menubar">
-                                <div class="comp-sep">
-                                    <a :class="{
+              <editor-menu-bar
+                :editor="editor"
+                v-slot="{ commands, isActive, getMarkAttrs }"
+              >
+                <div class="menubar">
+                  <div class="comp-sep">
+                    <a
+                      :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.bold()
-                                }" @click="commands.bold">
-                                        <img src="assets/icons/bold.svg">
-                                    </a>
-                                    <a :class="{
+                                }"
+                      @click="commands.bold"
+                    >
+                      <img src="assets/icons/bold.svg" />
+                    </a>
+                    <a
+                      :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.italic()
-                                }" @click="commands.italic">
-                                        <img src="assets/icons/italic.svg">
-                                    </a>
-                                    <a :class="{
+                                }"
+                      @click="commands.italic"
+                    >
+                      <img src="assets/icons/italic.svg" />
+                    </a>
+                    <a
+                      :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.underline()
-                                }" @click="commands.underline">
-                                        <img src="assets/icons/underline.svg">
-                                    </a>
-                                </div>
-                                <div class="comp-sep">
-                                    <a :class="{
+                                }"
+                      @click="commands.underline"
+                    >
+                      <img src="assets/icons/underline.svg" />
+                    </a>
+                  </div>
+                  <div class="comp-sep">
+                    <a
+                      :class="{
                                     'comp-btn': true,
-                                }">
-                                        <!-- TODO: attach files -->
-                                        <img src="assets/icons/badges-attach.svg">
-                                    </a>
-                                    <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
-                                </div>
-                                <div class="comp-sep">
-                                    <div class="btn-group dropup">
-                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <a href="#"><img src="assets/icons/t.svg" width="20"></a>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a :class="{
+                                }"
+                    >
+                      <!-- TODO: attach files -->
+                      <img src="assets/icons/badges-attach.svg" />
+                    </a>
+                    <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
+                  </div>
+                  <div class="comp-sep">
+                    <div class="btn-group dropup">
+                      <button
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <a href="#"
+                          ><img src="assets/icons/t.svg" width="20"
+                        /></a>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 1 })
-                                        }" @click="commands.heading({level: 1})" href="#"><span>Heading 1</span></a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.heading({level: 1})"
+                          href="#"
+                          ><span>Heading 1</span></a
+                        >
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 2 })
-                                        }" @click="commands.heading({level: 2})" href="#"><span>Heading 2</span></a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.heading({level: 2})"
+                          href="#"
+                          ><span>Heading 2</span></a
+                        >
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 3 })
-                                        }" @click="commands.heading({level: 3})" href="#"><span>Heading 3</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group dropup">
-                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <a href="#"><img src="assets/icons/align-left.svg" width="20"></a>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a :class="{
+                                        }"
+                          @click="commands.heading({level: 3})"
+                          href="#"
+                          ><span>Heading 3</span></a
+                        >
+                      </div>
+                    </div>
+                    <div class="btn-group dropup">
+                      <button
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <a href="#"
+                          ><img src="assets/icons/align-left.svg" width="20"
+                        /></a>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'left'
-                                        }" @click="commands.align({textAlign: 'left'})" href="#">
-                                                <img src="assets/icons/align-left.svg" width="20">
-                                            </a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.align({textAlign: 'left'})"
+                          href="#"
+                        >
+                          <img src="assets/icons/align-left.svg" width="20" />
+                        </a>
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'center'
-                                        }" @click="commands.align({textAlign: 'center'})" href="#">
-                                                <img src="assets/icons/align-center.svg" width="20">
-                                            </a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.align({textAlign: 'center'})"
+                          href="#"
+                        >
+                          <img src="assets/icons/align-center.svg" width="20" />
+                        </a>
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'right'
-                                        }" @click="commands.align({textAlign: 'right'})" href="#">
-                                                <img src="assets/icons/align-right.svg" width="20">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="btn-group dropup">
-                                        <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                            <a href="#"><img src="assets/icons/list.svg" width="20"></a>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a :class="{
+                                        }"
+                          @click="commands.align({textAlign: 'right'})"
+                          href="#"
+                        >
+                          <img src="assets/icons/align-right.svg" width="20" />
+                        </a>
+                      </div>
+                    </div>
+                    <div class="btn-group dropup">
+                      <button
+                        type="button"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        <a href="#"
+                          ><img src="assets/icons/list.svg" width="20"
+                        /></a>
+                      </button>
+                      <div class="dropdown-menu">
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.bullet_list()
-                                        }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg"
-                                                    width="20"></a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.bullet_list"
+                          href="#"
+                          ><img src="assets/icons/list.svg" width="20"
+                        /></a>
+
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.ordered_list()
-                                        }" @click="commands.ordered_list" href="#"><img src="assets/icons/list-num.svg"
-                                                    width="20"></a>
-                                            <a :class="{
+                                        }"
+                          @click="commands.ordered_list"
+                          href="#"
+                          ><img src="assets/icons/list-num.svg" width="20"
+                        /></a>
+
+                        <a
+                          :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.todo_list()
-                                        }" @click="commands.todo_list" href="#"><img
-                                                    src="assets/icons/check-square.svg" width="20"></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comp-sep">
-                                    <a :class="{
+                                        }"
+                          @click="commands.todo_list"
+                          href="#"
+                          ><img src="assets/icons/check-square.svg" width="20"
+                        /></a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comp-sep">
+                    <a
+                      :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.code()
-                            }" @click="commands.code">
-                                        <img src="assets/icons/code.svg">
-                                    </a>
-                                    <a :class="{
+                            }"
+                      @click="commands.code"
+                    >
+                      <img src="assets/icons/code.svg" />
+                    </a>
+                    <a
+                      :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.blockquote()
-                            }" @click="commands.blockquote">
-                                        <img src="assets/icons/q.svg">
-                                    </a>
-                                </div>
+                            }"
+                      @click="commands.blockquote"
+                    >
+                      <img src="assets/icons/q.svg" />
+                    </a>
+                  </div>
 
-                                <a class="comp-btn">
-                                    <img src="assets/img/zoom.png" class="zoom">
-                                </a>
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a><img src="assets/icons/info.svg" width="20"></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item disabled" href="#"><span>Markdown:
-                                            </span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="bold-c">*Bold*</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="italic-c">~Italic~</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span class="code-c">Code</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="quotes-c">Quote</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </editor-menu-bar>
+                  <a class="comp-btn">
+                    <img src="assets/img/zoom.png" class="zoom" />
+                  </a>
+                  <div class="btn-group dropup">
+                    <button
+                      type="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <a><img src="assets/icons/info.svg" width="20" /></a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item disabled" href="#"
+                        ><span>Markdown: </span></a
+                      >
+                      <a class="dropdown-item disabled" href="#"
+                        ><span class="bold-c">*Bold*</span></a
+                      >
+                      <a class="dropdown-item disabled" href="#"
+                        ><span class="italic-c">~Italic~</span></a
+                      >
+                      <a class="dropdown-item disabled" href="#"
+                        ><span class="code-c">Code</span></a
+                      >
+                      <a class="dropdown-item disabled" href="#"
+                        ><span class="quotes-c">Quote</span></a
+                      >
                     </div>
+                  </div>
                 </div>
-
-                <div class="compose-bottom">
-                    <a><img src="assets/icons/compose-send.svg" width="20"><span> Send</span></a>
-                    <label class="switch ml20">
-                        <input type="checkbox">
-                        <span class="slider round eye"></span>
-                    </label>
-                    <p class="inline ml5 track-open-label">Track email open</p>
-                </div>
+              </editor-menu-bar>
             </div>
-            <div class="secondary-email" style="padding: 0">
+          </div>
 
-
-
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active nav1" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                            role="tab" aria-controls="nav-home" aria-selected="true">Templates</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                            role="tab" aria-controls="nav-profile" aria-selected="false">Calendar</a>
+          <div class="compose-bottom">
+            <a
+              ><img src="assets/icons/compose-send.svg" width="20" /><span>
+                Send</span
+              ></a
+            >
+            <label class="switch ml20">
+              <input type="checkbox" />
+              <span class="slider round eye"></span>
+            </label>
+            <p class="inline ml5 track-open-label">Track email open</p>
+          </div>
+        </div>
+        <div class="secondary-email" style="padding: 0;">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a
+                class="nav-item nav-link active nav1"
+                id="nav-home-tab"
+                data-toggle="tab"
+                href="#nav-home"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
+                >Templates</a
+              >
+              <a
+                class="nav-item nav-link"
+                id="nav-profile-tab"
+                data-toggle="tab"
+                href="#nav-profile"
+                role="tab"
+                aria-controls="nav-profile"
+                aria-selected="false"
+                >Calendar</a
+              >
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="nav-home"
+              role="tabpanel"
+              aria-labelledby="nav-home-tab"
+            >
+              <h3>Reply with a template</h3>
+              <div class="previous-threads">
+                <!-- TODO: This is the template for sidebar templates teehee-->
+                <div class="email tempside" style="display: none;">
+                  <div
+                    class="container pr"
+                    data-toggle="modal"
+                    data-target=".email1"
+                  >
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">Sales reply 1</p>
+                      </div>
+                      <p class="body">
+                        Hi John, I'm aware you choose to do all development
+                        in-house, however, I am the head of a Ukrainian
+                        dev-shop, which is the best in the world i think.
+                      </p>
                     </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <h3>Reply with a template</h3>
-                        <div class="previous-threads">
-                            <!-- TODO: This is the template for sidebar templates teehee-->
-                            <div class="email tempside" style="display: none;">
-                                <div class="container pr" data-toggle="modal" data-target=".email1">
-                                    <div class="row" style="user-select: none;">
-                                        <div class="col-8 p0" style="display: inline-flex;">
-                                            <p class="subject">Sales reply 1</p>
-                                        </div>
-                                        <p class="body">Hi John, I'm aware you choose to do all development
-                                            in-house,
-                                            however, I
-                                            am the head of a Ukrainian dev-shop, which is the best in the world i
-                                            think.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
-                            <a style="margin-top: 25vh;display: block;" target="_blank"><img
-                                    src="assets/icons/settings-templates.svg" width="18" style="margin-top: -1px;">
-                                <p class="inline"><b>New template</b></p>
-
-                                <p>Add email templates in settings to reply to future emails in one click.</p>
-                            </a>
-
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <div class="previous-threads">
-                            <!-- TODO: This is the calendar area-->
-                            <h3>View my calendar</h3>
-                            <a style="margin-top: 25vh;display: block;" target="_blank"><img
-                                    src="assets/icons/badges-event.svg" width="18" style="margin-top: -1px;">
-                                <p class="inline"><b>Connect Calendar</b></p>
-
-                                <p>Connect your calendar to Aiko Mail to seamlessly schedule meetings.</p>
-                            </a>
-
-                        </div>
-                    </div>
+                  </div>
                 </div>
 
+                <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
+                <a style="margin-top: 25vh; display: block;" target="_blank"
+                  ><img
+                    src="assets/icons/settings-templates.svg"
+                    width="18"
+                    style="margin-top: -1px;"
+                  />
+                  <p class="inline"><b>New template</b></p>
 
-
-
-
-
+                  <p>
+                    Add email templates in settings to reply to future emails in
+                    one click.
+                  </p>
+                </a>
+              </div>
             </div>
-        </div>
-        <!-- END Compose View --------------------------------------->
+            <div
+              class="tab-pane fade"
+              id="nav-profile"
+              role="tabpanel"
+              aria-labelledby="nav-profile-tab"
+            >
+              <div class="previous-threads">
+                <!-- TODO: This is the calendar area-->
+                <h3>View my calendar</h3>
+                <a style="margin-top: 25vh; display: block;" target="_blank"
+                  ><img
+                    src="assets/icons/badges-event.svg"
+                    width="18"
+                    style="margin-top: -1px;"
+                  />
+                  <p class="inline"><b>Connect Calendar</b></p>
 
-        <!-- START Toast -->
-        <!-- Connection Lost Toast -->
-        <div class="aiko-toast" style="background-color: red;display: none;">
-            <h1>We're having trouble connecting to the internet.</h1>
-        </div>
-        <!-- END Connection Lost Toast-->
-
-        <!-- IMAP Error Toast -->
-        <div class="aiko-toast" style="background-color: red;display: none;">
-            <h1>We're having issues connecting to your mail provider.</h1>
-        </div>
-        <!-- END IMAP Error Toast-->
-
-        <!-- Send Email Error Toast -->
-        <div class="aiko-toast" style="background-color: red;display: none;">
-            <h1>We were unable to send your message due to network issues.</h1>
-        </div>
-        <!-- END Send Email Error Toast-->
-        <!-- END Toast --------------------------------------->
-
-        <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
-        <div class="aiko-modal" style="display: none;">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" class="x-email">
-                    <div class="modal-reg">
-                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                            style="margin-bottom: 15px;margin-top:10px">
-                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-                            style="margin-bottom: 15px;margin-top:10px">
-                        <h1>You found a premium feature.</h1>
-                        <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200">
-                        <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200">
-                        <br><br>
-                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Enable <b>email trackers</b>
-                            to be
-                            notified when your recipient has opened your email.</p><br> <br>
-                        <div class="modal-bottom">
-                            <a class="blue">Get Started</a>
-                        </div>
-                        <p class="ns30"></p>
-                        <br>
-                    </div>
-                </div>
+                  <p>
+                    Connect your calendar to Aiko Mail to seamlessly schedule
+                    meetings.
+                  </p>
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+      <!-- END Compose View --------------------------------------->
 
-        <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
-        <div class="aiko-modal" style="display: none;">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" class="x-email">
-                    <div class="modal-reg">
-                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                            style="margin-bottom: 15px;margin-top:10px">
-                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-                            style="margin-bottom: 15px;margin-top:10px">
-                        <h1>You found a premium feature.</h1>
-                        <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280">
-                        <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280">
-                        <br><br>
-                        <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Prepare email templates to
-                            reply
-                            to future emails in just one click.</p><br> <br>
-                        <div class="modal-bottom">
-                            <a class="blue">Get Started</a>
-                        </div>
-                        <p class="ns30"></p>
-                        <br>
-                    </div>
-                </div>
+      <!-- START Toast -->
+      <!-- Connection Lost Toast -->
+      <div class="aiko-toast" style="background-color: red; display: none;">
+        <h1>We're having trouble connecting to the internet.</h1>
+      </div>
+      <!-- END Connection Lost Toast-->
+
+      <!-- IMAP Error Toast -->
+      <div class="aiko-toast" style="background-color: red; display: none;">
+        <h1>We're having issues connecting to your mail provider.</h1>
+      </div>
+      <!-- END IMAP Error Toast-->
+
+      <!-- Send Email Error Toast -->
+      <div class="aiko-toast" style="background-color: red; display: none;">
+        <h1>We were unable to send your message due to network issues.</h1>
+      </div>
+      <!-- END Send Email Error Toast-->
+      <!-- END Toast --------------------------------------->
+
+      <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+      <div class="aiko-modal" style="display: none;">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email" />
+            <div class="modal-reg">
+              <img
+                v-if="isDarkMode"
+                src="assets/img/logo-white.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/logo.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <h1>You found a premium feature.</h1>
+              <img
+                v-if="isDarkMode"
+                src="assets/img/u-track-black.png"
+                width="200"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/u-track-white.png"
+                width="200"
+              />
+              <br /><br />
+              <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+                Enable <b>email trackers</b> to be notified when your recipient
+                has opened your email.
+              </p>
+              <br />
+              <br />
+              <div class="modal-bottom">
+                <a class="blue">Get Started</a>
+              </div>
+              <p class="ns30"></p>
+              <br />
             </div>
+          </div>
         </div>
+      </div>
 
+      <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+      <div class="aiko-modal" style="display: none;">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img src="assets/icons/grey-x.svg" class="x-email" />
+            <div class="modal-reg">
+              <img
+                v-if="isDarkMode"
+                src="assets/img/logo-white.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/logo.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <h1>You found a premium feature.</h1>
+              <img
+                v-if="isDarkMode"
+                src="assets/img/u-template-black.png"
+                width="280"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/u-template-white.png"
+                width="280"
+              />
+              <br /><br />
+              <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+                Prepare email templates to reply to future emails in just one
+                click.
+              </p>
+              <br />
+              <br />
+              <div class="modal-bottom">
+                <a class="blue">Get Started</a>
+              </div>
+              <p class="ns30"></p>
+              <br />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- END id="app" -------------------------------------------------->
-
 
     <!-- 3rd party libraries -->
     <script src="assets/js/third-party/popper.min.js"></script>
@@ -498,7 +705,5 @@
     <script src="assets/js/components/chip-input.js"></script>
     <!-- main/entrypoint -->
     <script src="assets/js/compose.js"></script>
-
-</body>
-
+  </body>
 </html>
