@@ -84,6 +84,7 @@
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            @keydown.stop.down="pressDown" @keydown.stop.up="pressUp"
                             class="composer-single-field ccspe">
                             <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
                             'composer-tag-single': true,
@@ -98,8 +99,9 @@
                             <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
                             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
                                 class="composer-suggestions">
-                                <p class="active">rubencharlestouitou@gmail.com</p>
-                                <p v-for="suggestion in suggestions">hi</p>
+                                <p :class="{
+                                    'active': i == activeSuggestion
+                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;</p>
                             </div>
                         </div>
 
@@ -110,6 +112,7 @@
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
+                            @keydown.stop.down="pressDown" @keydown.stop.up="pressUp"
                             class="composer-single-field ccspe">
                             <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
                             'composer-tag-single': true,
@@ -123,8 +126,9 @@
                                 ref="termInput">
                             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
                                 class="composer-suggestions">
-                                <p class="active">{{suggestions.length}}</p>
-                                <p v-for="suggestion in suggestions">hi</p>
+                                <p :class="{
+                                    'active': i == activeSuggestion
+                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;</p>
                             </div>
 
                         </div>
