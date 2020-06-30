@@ -15,17 +15,22 @@ Vue.component('view-email', {
         that.close()
       }
     })
-
+    //* first fetch the selected email without attachments
+    const withoutAttachments = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, false, true, true))
+    if (!this.email.parsed) this.emails.parsed = {}
+    this.email.parsed.text = withoutAttachments?.parsed?.text
+    this.email.parsed.html = withoutAttachments?.parsed?.html
+    this.email.validity = -1
+    //* Update UI immediately
     this.email = JSON.parse(JSON.stringify(this.email))
 
-    //* first fetch the selected email
+    //* then fetch the selected email with attachments
     const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, true, true, false))
     if (!s?.[0]) {
       error(...MODALS_TAG, "Couldn't fetch selected email.")
       this.close()
       return
     }
-    if (!this.email.parsed) this.email.parsed = {}
     this.email.parsed.text = s[0]?.parsed?.text
     this.email.parsed.html = s[0]?.parsed?.html
     this.email.parsed.attachments = s[0]?.parsed?.attachments
