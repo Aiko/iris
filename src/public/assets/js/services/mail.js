@@ -1206,21 +1206,36 @@ const mailapi = {
         // TODO: check references > check reply id
 
         // search server
-        const search_results = await this.callIPC(
+        const search_results = (await this.callIPC(
           this.task_SearchEmails(app.folderNames.archive, {
             header: [
               'Message-ID', reply_id
             ]
           })
-        )
+        )).map(uid => {return {uid, folder: app.folderNames.archive}})
+        if (this.imapConfig.provider != 'google') {
+          search_results.push(...(await this.callIPC(
+            this.task_SearchEmails(app.folderNames.sent, {
+              header: [
+                'Message-ID', reply_id
+              ]
+            })
+          )).map(uid => {return {uid, folder: app.folderNames.sent}}))
+          search_results.push(...(await this.callIPC(
+            this.task_SearchEmails(app.folderNames.inbox, {
+              header: [
+                'Message-ID', reply_id
+              ]
+            })
+          )).map(uid => {return {uid, folder: app.folderNames.inbox}}))
+        }
         if (search_results.length > 0) {
           // log("Found email on server.")
+          const { uid, folder } = search_results[0]
           const email = await this.callIPC(this.task_FetchEmails(
-            this.folderNames.archive,
-            search_results[0],
-            true
+            folder, uid, true
           ))
-          if (email.length > 0) replies.push(...await MailCleaner.peek(this.folderNames.archive, email))
+          if (email.length > 0) replies.push(...await MailCleaner.peek(folder, email))
           else error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
         }
 
