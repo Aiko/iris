@@ -1150,7 +1150,7 @@
         <!-- STEP ONE --->
         <div class="modal-dialog modal-md" v-if="step == 1">
           <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
+            <img @click="close" v-if="closable" src="assets/icons/grey-x.svg" class="x-email">
             <div class="modal-reg">
               <h1>Add a mailbox</h1>
               <h2>Pick an email provider</h2>
@@ -1164,7 +1164,6 @@
             </div>
             <div class="modal-bottom">
               <a @click="addOther">Other</a>
-              <a @click="close" v-if="closable">Back</a>
             </div>
           </div>
         </div>
