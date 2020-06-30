@@ -164,22 +164,18 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
   ]
   if (mailProviders.filter(provider => email.endsWith(provider)).length > 0) {
     // if they are using mail provider,
-    // look for gravatar else use default pic
+    // look for gravatar else use default flow
     const hash = CryptoJS.MD5(email)
     const s = await fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
-    if (s.status == 404) {
-      return 'assets/img/user.png'
-    }
-    return 'https://www.gravatar.com/avatar/' + hash + '?d=404'
-  } else {
-    // if custom domain, show domain logo
-    const u = 'https://logo.clearbit.com/' + email.split('@')[1]
-    const s = await fetch(u)
-    if (s.status != 200) {
-      return defaultTo
-    }
-    return u
+    if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash + '?d=404'
   }
+  // if known domain, show domain logo
+  const u = 'https://logo.clearbit.com/' + email.split('@')[1]
+  const s = await fetch(u)
+  if (s.status != 200) {
+    return defaultTo
+  }
+  return u
 }
 
 Number.prototype.secondsToTimestring = function () {
