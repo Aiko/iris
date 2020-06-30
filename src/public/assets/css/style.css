@@ -1569,7 +1569,7 @@ hr {
 }
 
 .load-bottom {
-  background-color: #486fff;
+  background-color: #b0b0b0;
   content: "";
   animation: loadBottom 3s infinite ease-in-out;
   width: 0;
