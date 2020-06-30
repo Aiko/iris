@@ -27,10 +27,13 @@ const shortcuts = {
       }
     })
 
-    hotkeys('ctrl+tab', function (evt, data){
+    hotkeys('ctrl+tab,esc', function (evt, data){
       switch (data.key) {
         case 'ctrl+tab':
           app.priority = !app.priority;
+          break;
+        case 'esc':
+          app.focused.index = -1;
           break;
         default: log(data);
       }

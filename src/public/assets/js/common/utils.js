@@ -150,7 +150,13 @@ String.prototype.getDomain = function () {
 }
 
 String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') {
-  const email = this
+  const email = this.toString()
+
+  // look for gravatar first
+  const hash = CryptoJS.MD5(email)
+  const s = await fetch('https://www.gravatar.com/avatar/' + hash.toString() + '?d=404')
+  if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash.toString() + '?d=404'
+
   const mailProviders = [
     'gmail.com',
     'office365.com',
@@ -171,18 +177,13 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
   }
   const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
   if (provider) {
-    // if they are using mail provider,
-    // look for gravatar else use default flow
-    const hash = CryptoJS.MD5(email)
-    const s = await fetch('https://www.gravatar.com/avatar/' + hash + '?d=404')
-    if (s.status != 404) return 'https://www.gravatar.com/avatar/' + hash + '?d=404'
     // if special provider, show provider logo
     if (specialProviders[provider]) return specialProviders[provider]
   }
   // try asking clearbit if they know
   const u = 'https://logo.clearbit.com/' + email.split('@')[1]
-  const s = await fetch(u)
-  if (s.status != 200) {
+  const s2 = await fetch(u)
+  if (s2.status != 200) {
     // worst case show default
     return defaultTo
   }
