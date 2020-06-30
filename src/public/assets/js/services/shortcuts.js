@@ -20,40 +20,51 @@ const shortcuts = {
       switch (evt.keyCode) {
         case leftArrow: return that.focusPrevBoard()
         case rightArrow: return that.focusNextBoard()
-        case downArrow: return that.focusNextEmail()
-        case upArrow: return that.focusPreviousEmail()
+        case downArrow: return that.focusNextEmail(evt)
+        case upArrow: return that.focusPreviousEmail(evt)
         case enter: return (that.focused.view = true)
         default:
       }
     })
+
+    hotkeys('ctrl+tab', function (evt, data){
+      switch (data.key) {
+        case 'ctrl+tab':
+          app.priority = !app.priority;
+          break;
+        default: log(data);
+      }
+    })
   },
   methods: {
-    async focusNextEmail () {
+    async focusNextEmail (e) {
+      e?.preventDefault()
+      e?.stopPropagation()
       //* for the inbox, adjust for priority
       if (this.focused.folder == 'INBOX') {
         if (this.inbox.emails.length > (this.focused.index + 1)) {
           if (this.priority) {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
-            }).filter(({email}) =>
+            }).filter(({email, i}) =>
                 email?.ai?.priority &&
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
-                email.index > this.focused.index &&
+                i > this.focused.index &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
-            }).filter(({email}) =>
+            }).filter(({email, i}) =>
                 !email?.ai?.priority &&
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
-                email.index > this.focused.index &&
+                i > this.focused.index &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           }
         }
       }
@@ -70,32 +81,34 @@ const shortcuts = {
         }
       }
     },
-    async focusPreviousEmail () {
+    async focusPreviousEmail (e) {
+      e?.preventDefault()
+      e?.stopPropagation()
       //* for the inbox, adjust for priority
       if (this.focused.folder == 'INBOX') {
         if (this.focused.index - 1 > -1) {
           if (this.priority) {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
-            }).filter(({email}) =>
+            }).filter(({email, i}) =>
                 email?.ai?.priority &&
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
-                email.index < this.focused.index &&
+                i < this.focused.index &&
                 !(email?.ai?.deleted)
             )?.last()?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
-            }).filter(({email}) =>
+            }).filter(({email, i}) =>
                 !email?.ai?.priority &&
                 !(email?.ai?.threaded) &&
                 email.folder == 'INBOX' &&
-                email.index < this.focused.index &&
+                i < this.focused.index &&
                 !(email?.ai?.deleted)
             )?.last()?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           }
         }
       }
@@ -159,7 +172,7 @@ const shortcuts = {
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
@@ -169,7 +182,7 @@ const shortcuts = {
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           }
         }
       } else if (this.boardNames.includes(this.focused.folder)) {
@@ -192,7 +205,7 @@ const shortcuts = {
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           } else {
             const nextIndex = this.inbox.emails.map((email, i) => {
               return {email, i}
@@ -202,7 +215,7 @@ const shortcuts = {
                 email.folder == 'INBOX' &&
                 !(email?.ai?.deleted)
             )?.[0]?.i
-            if (nextIndex) this.focused.index = nextIndex
+            if (nextIndex != undefined) this.focused.index = nextIndex
           }
         }
       }
@@ -218,7 +231,7 @@ const shortcuts = {
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
           )?.[0]?.i
-          if (nextIndex) this.focused.index = nextIndex
+          if (nextIndex != undefined) this.focused.index = nextIndex
         } else {
           const nextIndex = this.inbox.emails.map((email, i) => {
             return {email, i}
@@ -228,7 +241,7 @@ const shortcuts = {
               email.folder == 'INBOX' &&
               !(email?.ai?.deleted)
           )?.[0]?.i
-          if (nextIndex) this.focused.index = nextIndex
+          if (nextIndex != undefined) this.focused.index = nextIndex
         }
       }
     }
