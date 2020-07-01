@@ -74,8 +74,9 @@
                                 class="composer-suggestions">
                                 <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
-                                    {{suggestion[0]}}</p>
+                                }" v-for="(suggestion, i) in suggestions">
+                                <span>{{suggestion[1]}} </span> {{suggestion[0]}}
+                                </p>
                             </div>
                         </div>
                     </chip-input>
