@@ -1690,7 +1690,7 @@ const mailapi = {
       /* CONFIG */
       const EMAIL_HEIGHT = 114 // height including padding
       const EMAIL_SPACING = 15 // margin between items
-      const TOLERANCE = 5 // # of items above/below rendered additionally
+      const TOLERANCE = 10 // # of items above/below rendered additionally
       /* END CONFIG */
 
       const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard
