@@ -2,6 +2,7 @@ const { ipcMain } = require('electron')
 const comms = require('../utils/comms.js')
 const nodemailer = require('nodemailer')
 const inlineBase64 = require('nodemailer-plugin-inline-base64')
+const inlineCss = require('nodemailer-juice')
 
 ipcMain.handle('please send an email', async (_, q) => {
   const {
@@ -48,6 +49,9 @@ ipcMain.handle('please send an email', async (_, q) => {
   }
 
   transporter.use('compile', inlineBase64())
+  nodemailerTransport.use('compile', inLineCss({
+    inlinePseudoElements: true,
+  }))
 
   const d = await new Promise((s, _) => {
     transporter.sendMail(mail, (error, info) => error ? s({ error }) : s(info))
