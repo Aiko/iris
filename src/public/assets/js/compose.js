@@ -166,7 +166,8 @@ const app = new Vue({
           new PastableImage(),
           new Align(),
           new Emoji(),
-          new Mathematics()
+          new Mathematics(),
+          new ParagraphDiv()
         ],
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()

@@ -13,6 +13,30 @@ const {
   Plugin
 } = tiptapBuild.tiptap
 
+
+class ParagraphDiv extends Node {
+  get name() {
+    return 'paragraph_div';
+  }
+
+  get schema() {
+    return {
+      content: '(paragraph|paragraph_div)+',
+      draggable: false,
+      group: 'block',
+      parseDOM: [{
+        tag: 'div',
+      }],
+      toDOM() {
+        return ['div', {
+            style: 'display: block;'
+          }, 0
+        ];
+      },
+    };
+  }
+}
+
 class Align extends Mark {
   get name () {
     return 'align'
@@ -79,7 +103,7 @@ class PastableImage extends Node {
           default: null
         }
       },
-      group: 'inline',
+      group: 'inline*',
       draggable: true,
       parseDOM: [{
         tag: 'img[src]',

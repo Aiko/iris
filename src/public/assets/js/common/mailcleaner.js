@@ -77,7 +77,7 @@ const MailCleaner = (() => {
     if (!email.parsed) throw 'Only handles parsed emails.'
 
     //* make sure there's always HTML and text
-    if (!email.parsed.html) email.parsed.html = email.parsed.text || ''
+    if (!email.parsed.html) email.parsed.html = email.parsed.text?.replace(/\\n/gim, '<br><br>') || ''
     if (!email.parsed.text) email.parsed.text = HTML2Text(email.parsed.html) || ''
 
     //* check for subscriptions
