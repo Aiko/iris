@@ -1582,7 +1582,7 @@
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="email?.ai?.intents?.main == null"
                 class="main-action ma1">
-                <img src="assets/icons/zap.svg"> Quick Reply <span class="all">All</span>
+                <img src="assets/icons/zap.svg"> Quick Reply <span @click="quickReplyAll = true" class="all">All</span>
               </a>
             </div>
             <div class="col-5 sync-message">

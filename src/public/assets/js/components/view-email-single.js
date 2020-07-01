@@ -203,7 +203,7 @@ Vue.component('view-email-single', {
       const ogCC = (email.envelope.cc || []).map(
         ({name, address}) => {return {value: address, display: name}}
       );
-      const ogTo = email.envelope.to.length > 1 ? (email.envelope.to || []).filter(
+      const ogTo = (email.envelope.to.length > 1 && (email.envelope.bcc || []).length == 0) ? (email.envelope.to || []).filter(
         r => r.address != app.currentMailbox
       ).map(
         ({name, address}) => {return {value: address, display: name}}
