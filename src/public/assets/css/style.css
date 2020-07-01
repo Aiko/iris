@@ -1322,6 +1322,23 @@ hr {
 	border-radius: 0 0 0 4px !important;
 }
 
+.avatar-wrap {
+	border-radius: 50%;
+	width: 55px;
+	height: 55px;
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+}
+
+.avatar-wrap img {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 100%;
+}
+
 .focus.email {
 	padding: 6px 11px 0 8px !important;
 }
@@ -1962,11 +1979,6 @@ select.v1 {
 	background-color: var(--main-bg-color);
 }
 
-.secondary-head img {
-	border-radius: 50%;
-	width: 55px;
-	height: 55px;
-}
 
 .fade {
 	transition: opacity 0.01s linear;
