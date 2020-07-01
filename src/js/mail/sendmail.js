@@ -47,7 +47,7 @@ ipcMain.handle('please send an email', async (_, q) => {
     })
   }
 
-  transporter.use('compile', inlineBase64(options))
+  transporter.use('compile', inlineBase64())
 
   const d = await new Promise((s, _) => {
     transporter.sendMail(mail, (error, info) => error ? s({ error }) : s(info))
