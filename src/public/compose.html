@@ -67,7 +67,7 @@
                                 <span>{{chip.display || chip.value}}</span>
                                 <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
                             </div>
-                            <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                            <input @blur="unfocus(true)" @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
                                 type="text" class="composer-single-field-input" placeholder="To" v-model="term"
                                 ref="termInput">
                             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
