@@ -685,6 +685,10 @@ input:active {
 	display: block !important;
 }
 
+.z1 {
+	z-index: 1;
+}
+
 .main-action {
 	font-size: 11px;
 	font-weight: 500;
@@ -692,6 +696,22 @@ input:active {
 	line-height: 28px;
 	white-space: nowrap;
 	text-transform: uppercase;
+}
+
+.main-action:hover .all {
+	display: unset !important;
+	transform: .2s;
+}
+
+.all {
+	padding: 6px;
+	display: none;
+	transition: .2s;
+}
+
+.all:hover {
+	color: var(--dark-text) !important;
+	transition: .2s;
 }
 
 .ma1 {
@@ -1300,6 +1320,10 @@ hr {
 	border-left: none !important;
 	border-bottom: none !important;
 	border-radius: 0 0 0 4px !important;
+}
+
+.focus.email {
+	padding: 6px 11px 0 8px !important;
 }
 
 .sync-message img {

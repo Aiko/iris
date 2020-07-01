@@ -54,6 +54,7 @@
     }
 }
 
+
 .ProseMirror-hideselection ::selection {
     background: transparent;
 }
@@ -73,7 +74,7 @@
 .composer-suggestions {
     background: var(--secondary-bg-color);
     width: 100%;
-    padding: 6px 10px;
+    padding: 6px 6px 6px 10px;
     position: absolute;
     z-index: 2;
     max-height: 179px;
