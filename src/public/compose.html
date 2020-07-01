@@ -74,8 +74,8 @@
                                 class="composer-suggestions">
                                 <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;
-                                </p>
+                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
+                                    {{suggestion[0]}}</p>
                             </div>
                         </div>
                     </chip-input>
@@ -97,13 +97,13 @@
                             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
                                 type="text" class="composer-single-field-input" placeholder="CC" v-model="term"
                                 ref="termInput">
-                            <p id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</p>
+                            <a id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</a>
                             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
                                 class="composer-suggestions">
                                 <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;
-                                </p>
+                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
+                                    {{suggestion[0]}}</p>
                             </div>
                         </div>
 
@@ -130,7 +130,8 @@
                                 class="composer-suggestions">
                                 <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;
+                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
+                                    {{suggestion[0]}}
                                 </p>
                             </div>
 
