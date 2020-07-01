@@ -19,7 +19,7 @@ Vue.component('email-card', {
     },
     quickFocused () {
       if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex) {
-        this.showQuickReply = !this.showQuickReply
+        this.showQuickReply = this.quickFocused
       }
     },
     showQuickReply () {

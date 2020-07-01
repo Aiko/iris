@@ -26,7 +26,7 @@ const shortcuts = {
         case downArrow: return that.focusNextEmail(evt)
         case upArrow: return that.focusPreviousEmail(evt)
         case enter: return (that.focused.view = true)
-        case shift: return (that.focused.quickReply = true)
+        case shift: return (that.focused.quickReply = !that.focused.quickReply)
         default:
       }
     })
