@@ -45,6 +45,7 @@ const shortcuts = {
   },
   methods: {
     async focusNextEmail (e) {
+      this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
       //* for the inbox, adjust for priority
@@ -89,6 +90,7 @@ const shortcuts = {
       }
     },
     async focusPreviousEmail (e) {
+      this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
       //* for the inbox, adjust for priority
@@ -133,6 +135,7 @@ const shortcuts = {
       }
     },
     async focusNextBoard (e) {
+      this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
       if (this.focused.folder == 'INBOX') {
@@ -162,6 +165,7 @@ const shortcuts = {
       //* if we're in the done board do nothing
     },
     async focusPrevBoard (e) {
+      this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
       if (this.focused.folder == '[Aiko Mail]/Done') {
