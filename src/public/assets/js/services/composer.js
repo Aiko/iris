@@ -110,7 +110,7 @@ const composer = {
 
       const myName = (await this.suggestContact(this.smtpConfig.email))?.[0];
       if (myName) mail.from = `${myName[1]} <${this.smtpConfig.email}>`
-      else mail.from = this.currentMailbox
+      else mail.from = this.currentMailbox || this.imapConfig?.email || this.smtpConfig?.email
 
       mail.to = this.sendTo.map(recipient => recipient.value)
       mail.cc = this.sendCC.map(recipient => recipient.value)

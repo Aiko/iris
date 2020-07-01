@@ -299,10 +299,16 @@ class Mathematics extends Node {
           formula: dom.getAttribute('data-formula')
         })
       }],
-      toDOM: node => ['img', {
-        'data-formula': node.attrs.formula || '?',
-        src: 'https://math.now.sh/?color=red&from=' + node.attrs.formula
-      }]
+      toDOM: node => {
+        const id = String.random(12)
+        downloadAndFillImage(('https://math.now.sh/?color=red&from=' + node.attrs.formula), id)
+        // TODO: initial src should be set to a loading indicator
+        return ['img', {
+          'data-formula': node.attrs.formula || '?',
+          src: ('https://math.now.sh/?color=red&from=' + node.attrs.formula),
+          id,
+        }]
+      }
     }
   }
 
