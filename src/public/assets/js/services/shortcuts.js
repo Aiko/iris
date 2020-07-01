@@ -17,6 +17,14 @@ const shortcuts = {
     const shift = 16
 
     const that = this
+    document.addEventListener('keyup', function (evt) {
+      if (that.viewEmail) return
+      switch (evt.keyCode) {
+        case shift: return (that.focused.quickReply = true)
+        default:
+      }
+    })
+
     document.addEventListener('keydown', function (evt) {
       // return if in viewing mode as that has diff shortcuts
       if (that.viewEmail) return
@@ -26,7 +34,6 @@ const shortcuts = {
         case downArrow: return that.focusNextEmail(evt)
         case upArrow: return that.focusPreviousEmail(evt)
         case enter: return (that.focused.view = true)
-        case shift: return (that.focused.quickReply = !that.focused.quickReply)
         default:
       }
     })
