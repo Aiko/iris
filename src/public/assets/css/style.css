@@ -1816,7 +1816,7 @@ hr {
 .short .options,
 .short .options-qa {
 	visibility: hidden;
-	height: ;
+	height: 0;
 }
 
 .email-head .aiko-select {
