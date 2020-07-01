@@ -16,6 +16,15 @@ Vue.component('email-card', {
       if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex && this.viewFocused) {
         this.viewMessage()
       }
+    },
+    showQuickReply () {
+      if (this.showQuickReply) this.focus()
+    }
+  },
+  data() {
+    return {
+      showQuickReply: false,
+      replyText: '',
     }
   },
   methods: {
@@ -180,6 +189,41 @@ Vue.component('email-card', {
         withQuoted='',
         withMessageId=email.parsed.messageId
       )
+    },
+    async sendQuickReply() {
+      let html;
+      const cached = await BigStorage.load(app.smtpConfig.email + '/emails/' + this.email.messageId)
+      if (cached) {
+        const quoted = cached?.parsed?.html || (cached?.parsed?.text || cached?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+        html = `<p>${this.replyText}</p><br><blockquote>${quoted}</blockquote>`
+      } else {
+        html = `<p>${this.replyText}</p>`
+      }
+
+      const email = this.email
+
+      const ogCC = (email.envelope.cc || []).map(
+        ({name, address}) => {return {value: address, display: name}}
+      );
+      const ogTo = email.envelope.to.length > 1 ? (email.envelope.to || []).filter(
+        r => r.address != app.currentMailbox
+      ).map(
+        ({name, address}) => {return {value: address, display: name}}
+      ) : [];
+
+      app.sendTo = (this.email.envelope.from || this.email.envelope.sender || []).map(
+        ({name, address}) => {return {value: address, display: name}}
+      );
+      app.sendCC = [...ogCC, ...ogTo]
+      app.sendBCC = []
+      app.subject = 'Re: ' + email.envelope.subject
+
+      this.showQuickReply = false
+      app.sendEmail(html)
+    },
+    async focus() {
+      await Vue.nextTick()
+      this.$refs.quickreply.focus()
     },
   }
 })
