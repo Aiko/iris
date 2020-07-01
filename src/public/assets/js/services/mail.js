@@ -496,7 +496,7 @@ const mailapi = {
           ) results.push([address, name, frequency])
         }
       }
-      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, 10)
+      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, limit)
     },
     async switchMailbox(email) {
       this.loading = true

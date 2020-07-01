@@ -198,7 +198,7 @@ const app = new Vue({
       )
       Object.assign(this.contacts, contactCache)
     },
-    async suggestContact(term, limit=10) {
+    async suggestContact(term, limit=5) {
       const results = []
       for (const contact of app.contacts.allContacts) {
         const [address, name, frequency] = contact
@@ -212,7 +212,7 @@ const app = new Vue({
           ) results.push([address, name, frequency])
         }
       }
-      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, 10)
+      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, limit)
     },
   }
 })
