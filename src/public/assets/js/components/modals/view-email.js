@@ -20,14 +20,18 @@ Vue.component('view-email', {
     if (this.email.parsed?.messageId) {
       const cached = await BigStorage.load(app.imapConfig.email + '/emails/' + this.email.parsed.messageId)
       if (cached) {
+        info(...MODALS_TAG, "Loading from cache.")
         this.email.parsed.text = cached.parsed.text
         this.email.parsed.html = cached.parsed.html
+        this.email.validity = -2 // AYOOOOOOOO
+        this.email = JSON.parse(JSON.stringify(this.email))
         this.email.validity = 1 // AYOOOOOOOO
         this.email = JSON.parse(JSON.stringify(this.email))
-      }3
+      }
     }
 
     //* first fetch the selected email without attachments
+    info(...MODALS_TAG, "Loading from server")
     const withoutAttachments = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, false, true, true))
     this.email.parsed.text = withoutAttachments?.parsed?.text
     this.email.parsed.html = withoutAttachments?.parsed?.html
@@ -40,7 +44,6 @@ Vue.component('view-email', {
     const s = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, true, true, false))
     if (!s?.[0]) {
       error(...MODALS_TAG, "Couldn't fetch selected email.")
-      this.close()
       return
     }
     this.email.flags = s[0]?.flags

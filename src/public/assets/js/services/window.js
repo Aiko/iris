@@ -34,6 +34,9 @@ const windowManager = {
     async fullscreen () {
       await ipcRenderer.invoke(this.windowPrefix + ' fullscreen window')
     },
+    async hide () {
+      await ipcRenderer.invoke(this.windowPrefix + ' hide window')
+    },
     async close () {
       try {
         await ipcRenderer.invoke(this.windowPrefix + ' close window')

@@ -92,6 +92,14 @@ module.exports = (win, prefix = 'please') => {
       return { error: e }
     }
   })
+  ipcMain.handle(prefix + ' hide window', (_, __) => {
+    try {
+      win.hide()
+      return true
+    } catch (e) {
+      return { error: e }
+    }
+  })
 
   addListeners(win)
   return {
