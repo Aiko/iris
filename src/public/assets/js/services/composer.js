@@ -16,6 +16,7 @@ const composer = {
     sendCC: [],
     sendBCC: [],
     subject: '',
+    quoted: ''
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -52,10 +53,21 @@ const composer = {
     task_OpenComposer (bang) {
       return this.ipcTask('please open the composer', { bang })
     },
-    async openComposer () {
+    async openComposer (
+      withTo=[],
+      withCC=[],
+      withBCC=[],
+      withSubject='',
+      withQuoted='',
+    ) {
       // TODO: somehow make settings
       const config = {
-        smtp: this.smtpConfig
+        smtp: this.smtpConfig,
+        to: withTo,
+        cc: withCC,
+        bcc: withBCC,
+        subject: withSubject,
+        quoted: withQuoted
       }
 
       // cache with randomized identifier
@@ -71,6 +83,11 @@ const composer = {
       const config = await BigStorage.pop('composer/' + identifier)
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
+      this.sendTo = config.to || []
+      this.sendCC = config.cc || []
+      this.sendBCC = config.bcc || []
+      this.subject = config.subject || ''
+      this.quoted = config.quoted || ''
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {

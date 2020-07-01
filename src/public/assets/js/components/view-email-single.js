@@ -185,5 +185,45 @@ Vue.component('view-email-single', {
       // TODO: find email in normal arrays (inbox, boards, done etc) and change the starred/deleted status
       return
     },
+    async reply() {
+      const email = this.email
+      app.openComposer(
+        withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
+          ({name, address}) => {return {value: address, display: name}}
+        ),
+        withCC=[],
+        withBCC=[],
+        withSubject="Re: " + email.envelope.subject,
+        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+      )
+    },
+    async replyAll() {
+      const email = this.email
+      app.openComposer(
+        withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
+          ({name, address}) => {return {value: address, display: name}}
+        ),
+        withCC=(email.envelope.cc || []).map(
+          ({name, address}) => {return {value: address, display: name}}
+        ).push(...((email.envelope.to.length > 1 && email.envelope.to) || []).filter(
+          r => r.address != app.currentMailbox
+        ).map(
+          ({name, address}) => {return {value: address, display: name}}
+        )),
+        withBCC=[],
+        withSubject="Re: " + email.envelope.subject,
+        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+      )
+    },
+    async forward() {
+      const email = this.email
+      app.openComposer(
+        withTo=[],
+        withCC=[],
+        withBCC=[],
+        withSubject="Fwd: " + email.envelope.subject,
+        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+      )
+    },
   },
 })

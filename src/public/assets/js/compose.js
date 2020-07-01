@@ -170,7 +170,8 @@ const app = new Vue({
         ],
         onUpdate: ({ getHTML }) => {
           this.html = getHTML()
-        }
+        },
+        content: this.quoted ? `<p></p><br><blockquote>${this.quoted}</blockquote>` : ''
       })
     },
     showLinkMenu (attrs) {
