@@ -103,7 +103,7 @@ class PastableImage extends Node {
           default: null
         }
       },
-      group: 'inline*',
+      group: 'inline',
       draggable: true,
       parseDOM: [{
         tag: 'img[src]',
