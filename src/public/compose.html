@@ -72,7 +72,7 @@
                                 ref="termInput">
                             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
                                 class="composer-suggestions">
-                                <p :class="{
+                                <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
                                 }" v-for="(suggestion, i) in suggestions">{{suggestion[1]}} &lt;{{suggestion[0]}}&gt;
                                 </p>
