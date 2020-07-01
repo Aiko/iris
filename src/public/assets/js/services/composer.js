@@ -16,7 +16,8 @@ const composer = {
     sendCC: [],
     sendBCC: [],
     subject: '',
-    quoted: ''
+    quoted: '',
+    messageId: '',
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -59,6 +60,7 @@ const composer = {
       withBCC=[],
       withSubject='',
       withQuoted='',
+      withMessageId='',
     ) {
       // TODO: somehow make settings
       const config = {
@@ -67,7 +69,8 @@ const composer = {
         cc: withCC,
         bcc: withBCC,
         subject: withSubject,
-        quoted: withQuoted
+        quoted: withQuoted,
+        msgId: withMessageId
       }
 
       // cache with randomized identifier
@@ -88,6 +91,13 @@ const composer = {
       this.sendBCC = config.bcc || []
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
+      this.messageId = config.msgId || ''
+      if (this.messageId && !this.quoted) {
+        const cached = await BigStorage.load(this.smtpConfig.email + '/emails/' + this.messageId)
+        if (cached) {
+          this.quoted = cached?.parsed?.html || (cached?.parsed?.text || cached?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+        }
+      }
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {

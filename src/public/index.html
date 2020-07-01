@@ -1587,9 +1587,9 @@
               </a>
             </div>
             <div class="col-7 extra-actions cll2">
-              <a><img src="assets/icons/options-reply.png" width="18"></a>
-              <a><img src="assets/icons/options-replya.png" width="18"></a>
-              <a><img src="assets/icons/options-forward.png" width="15"></a>
+              <a @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
+              <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
+              <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
               <a @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
                   width="15"></a>
               <a @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
