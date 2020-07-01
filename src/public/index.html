@@ -1550,7 +1550,7 @@
             </h2>
 
             <h2 v-else class="sender" @click="debug">
-              {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
+              {{(email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || 'No Sender')}}
             </h2>
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
