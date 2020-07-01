@@ -83,7 +83,7 @@ Vue.component('view-email', {
         }
         else window.error(...MODALS_TAG, "Message in thread doesn't have a match:", e)
         return e
-      })
+      })?.sort((e1, e2) => new Date(e2.envelope.date) - new Date(e1.envelope.date))
     }
     info(...MODALS_TAG, 'Here is your view email:', this.email)
     this.email = JSON.parse(JSON.stringify(this.email))
