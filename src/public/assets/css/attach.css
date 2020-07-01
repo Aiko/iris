@@ -7,7 +7,7 @@
 pre {
     padding: 0.7rem 1rem !important;
     border-radius: 5px !important;
-    background: #000 !important;
+    background: #1f1f1f !important;
     color: #fff !important;
     font-size: 0.8rem !important;
     overflow-x: auto !important;
@@ -173,8 +173,6 @@ li[data-type="todo_item"] {
     width: 0.9em !important;
     -webkit-box-sizing: border-box !important;
     box-sizing: border-box !important;
-    margin-right: 10px !important;
-    margin-top: 0.3rem !important;
     -moz-user-select: none !important;
     -ms-user-select: none !important;
     user-select: none !important;
@@ -184,12 +182,16 @@ li[data-type="todo_item"] {
     background-color: transparent !important;
     -webkit-transition: background 0.4s !important;
     transition: background 0.4s !important;
+    display: table-cell !important;
+}
+
+li[data-done="true"]>.todo-content>p {
+    margin-top: 0 !important;
 }
 
 .todo-content {
-    -webkit-box-flex: 1 !important;
-    -ms-flex: 1 !important;
-    flex: 1 !important;
+    display: table-cell !important;
+    padding-left: 7px !important;
 }
 
 .todo-content>p:last-of-type {
