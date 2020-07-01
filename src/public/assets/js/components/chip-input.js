@@ -71,7 +71,7 @@ Vue.component('chip-input', {
     },
     completeChipWithSuggest(e) {
       if (this.activeChip > -1) return;
-      if (!this.term) return;
+      if (!this.term && this.activeSuggestion < 0) return;
       e?.preventDefault();
       if (this.activeSuggestion < 0 && this.suggestions.length > 0 && e?.keyCode == 9) this.activeSuggestion = 0
       if (this.activeSuggestion > -1) {
