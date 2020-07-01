@@ -18,8 +18,8 @@ const shortcuts = {
       // return if in viewing mode as that has diff shortcuts
       if (that.viewEmail) return
       switch (evt.keyCode) {
-        case leftArrow: return that.focusPrevBoard()
-        case rightArrow: return that.focusNextBoard()
+        case leftArrow: return that.focusPrevBoard(evt)
+        case rightArrow: return that.focusNextBoard(evt)
         case downArrow: return that.focusNextEmail(evt)
         case upArrow: return that.focusPreviousEmail(evt)
         case enter: return (that.focused.view = true)
@@ -128,7 +128,9 @@ const shortcuts = {
         }
       }
     },
-    async focusNextBoard () {
+    async focusNextBoard (e) {
+      e?.preventDefault()
+      e?.stopPropagation()
       if (this.focused.folder == 'INBOX') {
         //* if we're in the inbox focus the first board if it exists
         if (this.boardNames.length > 0) {
@@ -155,7 +157,9 @@ const shortcuts = {
       }
       //* if we're in the done board do nothing
     },
-    async focusPrevBoard () {
+    async focusPrevBoard (e) {
+      e?.preventDefault()
+      e?.stopPropagation()
       if (this.focused.folder == '[Aiko Mail]/Done') {
         //* if we're in the done folder focus the last board if it exists
         if (this.boardNames.length > 0) {
