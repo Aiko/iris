@@ -98,7 +98,7 @@ const mailapi = {
     },
     priority() {
       this.recalculateHeight()
-      if (this.focused.folder == 'INBOX') {
+      if (this.focused.folder == 'INBOX' && this.focused.index > -1) {
         if (this.priority) {
           const nextIndex = this.inbox.emails.map((email, i) => {
             return {email, i}
@@ -563,10 +563,10 @@ const mailapi = {
         return false
       }
 
-      this.inbox.emails = []
       this.inbox.uidLatest = -1
-      this.done.emails = []
+      this.inbox.emails = []
       this.done.uidLatest = -1
+      this.done.emails = []
       this.boardNames = []
       this.folderNames = {
         inbox: 'INBOX',

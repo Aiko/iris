@@ -42,6 +42,17 @@ Vue.component('chip-input', {
       this.suggestions = JSON.parse(JSON.stringify(suggestions))
       this.activeSuggestion = -1
       this.height = $(this.$el).height() + this.$el.offsetTop
+    },
+    async focused() {
+      let suggestions = []
+      if (this.term) suggestions = await this.$root.suggestContact(this.term)
+      else suggestions = []
+      this.suggestions = JSON.parse(JSON.stringify(suggestions))
+      this.activeSuggestion = -1
+      this.height = $(this.$el).height() + this.$el.offsetTop
+    },
+    async activeChip() {
+      if (this.activeChip < 0) this.focused = true
     }
   },
   methods: {
@@ -87,6 +98,8 @@ Vue.component('chip-input', {
           // and there is nothing typed and there are existing chips
           // delete the previous chip
           this.deleteChip(this.value.length - 1)
+          // decrements activechip so its still a chip (or nothing if there are no more chips)
+          if(!this.value?.[this.activeChip]) this.activeChip--;
         }
       }
     },
@@ -128,6 +141,7 @@ Vue.component('chip-input', {
     unfocus(all=false) {
       this.activeChip = -1
       this.focused = !all
+      this.suggestions = []
       if (!this.focused) this.activeSuggestion = -1
     }
   },
