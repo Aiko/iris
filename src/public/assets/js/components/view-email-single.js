@@ -199,17 +199,19 @@ Vue.component('view-email-single', {
     },
     async replyAll() {
       const email = this.email
+      const ogCC = (email.envelope.cc || []).map(
+        ({name, address}) => {return {value: address, display: name}}
+      );
+      const ogTo = email.envelope.to.length > 1 ? (email.envelope.to || []).filter(
+        r => r.address != app.currentMailbox
+      ).map(
+        ({name, address}) => {return {value: address, display: name}}
+      ) : [];
       app.openComposer(
         withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
           ({name, address}) => {return {value: address, display: name}}
         ),
-        withCC=(email.envelope.cc || []).map(
-          ({name, address}) => {return {value: address, display: name}}
-        ).push(...((email.envelope.to.length > 1 && email.envelope.to) || []).filter(
-          r => r.address != app.currentMailbox
-        ).map(
-          ({name, address}) => {return {value: address, display: name}}
-        )),
+        withCC=[...ogCC, ...ogTo],
         withBCC=[],
         withSubject="Re: " + email.envelope.subject,
         withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')

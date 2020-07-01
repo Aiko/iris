@@ -1674,9 +1674,9 @@
         <div class="options">
           <div class="container">
             <div class="row">
-                <a @click="reply" tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
-                <a @click="replyAll" tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
-                <a @click="forward" tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
+                <a @click.stop="reply" tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+                <a @click.stop="replyAll" tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+                <a @click.stop="forward" tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
                 <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
                   width="20"></a>
                 <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
