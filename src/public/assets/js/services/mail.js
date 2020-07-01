@@ -436,7 +436,7 @@ const mailapi = {
               e_senders.filter(_=>_).map(s => {
                 const key = s.address.toLowerCase()
                 newSenders[key] = {
-                  name: s.name || newSenders[key]?.name || key,
+                  name: newSenders[key]?.name || s.name || '',
                   frequency: (newSenders[key]?.frequency || 0) + 1
                 }
               })
