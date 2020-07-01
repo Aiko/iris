@@ -30,6 +30,7 @@ Vue.component('email-card', {
     return {
       showQuickReply: false,
       replyText: '',
+      quickReplyAll: false,
     }
   },
   methods: {
@@ -168,7 +169,7 @@ Vue.component('email-card', {
       const ogCC = (email.envelope.cc || []).map(
         ({name, address}) => {return {value: address, display: name}}
       );
-      const ogTo = email.envelope.to.length > 1 ? (email.envelope.to || []).filter(
+      const ogTo = (email.envelope.to.length > 1 && (email.envelope.bcc || []).length == 0) ? (email.envelope.to || []).filter(
         r => r.address != app.currentMailbox
       ).map(
         ({name, address}) => {return {value: address, display: name}}
@@ -207,19 +208,23 @@ Vue.component('email-card', {
 
       const email = this.email
 
-      const ogCC = (email.envelope.cc || []).map(
-        ({name, address}) => {return {value: address, display: name}}
-      );
-      const ogTo = email.envelope.to.length > 1 ? (email.envelope.to || []).filter(
-        r => r.address != app.currentMailbox
-      ).map(
-        ({name, address}) => {return {value: address, display: name}}
-      ) : [];
+      if (this.quickReplyAll) {
+        const ogCC = (email.envelope.cc || []).map(
+          ({name, address}) => {return {value: address, display: name}}
+        );
+        const ogTo = (email.envelope.to.length > 1 && (email.envelope.bcc || []).length == 0) ? (email.envelope.to || []).filter(
+          r => r.address != app.currentMailbox
+        ).map(
+          ({name, address}) => {return {value: address, display: name}}
+        ) : [];
+        app.sendCC = [...ogCC, ...ogTo]
+      } else {
+        app.sendCC = []
+      }
 
       app.sendTo = (this.email.envelope.from || this.email.envelope.sender || []).map(
         ({name, address}) => {return {value: address, display: name}}
       );
-      app.sendCC = [...ogCC, ...ogTo]
       app.sendBCC = []
       app.subject = 'Re: ' + email.envelope.subject
 
