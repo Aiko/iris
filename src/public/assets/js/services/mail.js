@@ -482,7 +482,7 @@ const mailapi = {
       info(...MAILAPI_TAG, "Finished collecting all contacts.")
       await BigStorage.store(this.imapConfig.email + '/contacts', this.contacts)
     },
-    async suggestContact(term, limit=10) {
+    async suggestContact(term, limit=5) {
       const results = []
       for (const contact of app.contacts.allContacts) {
         const [address, name, frequency] = contact
