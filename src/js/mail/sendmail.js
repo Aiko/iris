@@ -49,7 +49,7 @@ ipcMain.handle('please send an email', async (_, q) => {
   }
 
   transporter.use('compile', inlineBase64())
-  transporter.use('compile', inLineCss({
+  transporter.use('compile', inlineCss({
     inlinePseudoElements: true,
   }))
 
