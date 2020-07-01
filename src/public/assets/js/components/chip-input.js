@@ -143,7 +143,6 @@ Vue.component('chip-input', {
       await Vue.nextTick()
       this.activeChip = -1
       this.focused = !all
-      this.suggestions = []
       if (!this.focused) this.activeSuggestion = -1
     }
   },

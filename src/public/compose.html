@@ -55,7 +55,7 @@
             <div class="main-email overflow-h">
                 <div class="testt">
                     <chip-input v-model="sendTo" inline-template>
-                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
+                        <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
@@ -82,7 +82,7 @@
                     </chip-input>
 
                     <chip-input v-model="sendCC" inline-template>
-                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
+                        <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
@@ -111,7 +111,7 @@
                     </chip-input>
 
                     <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
-                        <div @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
+                        <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                             @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
                             @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
                             @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight"
@@ -484,6 +484,7 @@
     <script src="assets/js/third-party/tiptap.min.js"></script>
     <script src="assets/js/third-party/emoji.min.js"></script>
     <script src="assets/js/third-party/katex.min.js"></script>
+    <script src="assets/js/third-party/vue-clickaway.min.js"></script>
     <!-- TODO: minify all sources into one js file -->
     <!-- common libraries -->
     <script src="assets/js/common/utils.js"></script>

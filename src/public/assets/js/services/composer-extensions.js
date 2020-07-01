@@ -13,7 +13,6 @@ const {
   Plugin
 } = tiptapBuild.tiptap
 
-
 class ParagraphDiv extends Node {
   get name() {
     return 'paragraph_div';

@@ -34,7 +34,8 @@ const app = new Vue({
     aikoapi, // Aiko API
     windowManager, // window controls
     composer, // SMTP API
-    goauth // Google OAuth
+    goauth, // Google OAuth
+    VueClickaway.mixin, // Clickaway
   ],
   components: {
     EditorContent,
