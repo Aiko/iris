@@ -483,7 +483,8 @@
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
-                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email" class="account">
+                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email"
+                  class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
                 </div>
                 <div @click="addMailbox = true" class="account">
@@ -706,7 +707,8 @@
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
                           {{prettyBoardName}}</h1>
-                        <div v-if="unread > 0" class="secondary-count" tooltip="Unread emails in board">{{unread > 99 ? '99+' : unread}}</div>
+                        <div v-if="unread > 0" class="secondary-count" tooltip="Unread emails in board">
+                          {{unread > 99 ? '99+' : unread}}</div>
                       </div>
                       <div class="col-2 text-right cll">
                         <!--  TESTING A UI WITHOUT THIS <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a> -->
@@ -924,8 +926,9 @@
                 :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :validity="9999" :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"
-                :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
+              <view-email-single :validity="9999" :key="e.uid" :expanded="false"
+                v-if="email.parsed.thread?.messages?.length > 0" :emailsingle="e"
+                v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>
             <div class="secondary-email">
@@ -1577,7 +1580,8 @@
               <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action ma2">
                 <img src="assets/icons/sign.svg"> Sign
               </a>
-              <a @click.stop.prevent="showQuickReply = true" v-if="email?.ai?.intents?.main == null" class="main-action ma1">
+              <a @click.stop.prevent="showQuickReply = true" v-if="email?.ai?.intents?.main == null"
+                class="main-action ma1">
                 <img src="assets/icons/zap.svg"> Quick Reply
               </a>
             </div>
@@ -1604,7 +1608,8 @@
           'hide': !showQuickReply,
           'dont-drag-this': true
         }">
-          <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus" v-model="replyText" placeholder="Type a reply..." autofocus>
+          <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
+            v-model="replyText" placeholder="Type a reply..." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
       </div>
