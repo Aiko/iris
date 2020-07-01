@@ -6,7 +6,7 @@ const BigStorage = (() => {
 
   const store = async (k, obj) => {
     const key = makeKey(k)
-    const { success } = await app.callIPC(
+    const { success } = await app.executeIPC(
       app.ipcTask('save cache', {
         key,
         data: JSON.stringify(obj)
@@ -18,7 +18,7 @@ const BigStorage = (() => {
 
   const load = async k => {
     const key = makeKey(k)
-    const { success, data } = await app.callIPC(
+    const { success, data } = await app.executeIPC(
       app.ipcTask('get cache', {
         key
       })
@@ -31,7 +31,7 @@ const BigStorage = (() => {
 
   const pop = async k => {
     const key = makeKey(k)
-    const { success, data } = await app.callIPC(
+    const { success, data } = await app.executeIPC(
       app.ipcTask('pop cache', {
         key
       })
