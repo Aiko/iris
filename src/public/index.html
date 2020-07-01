@@ -1624,9 +1624,9 @@
               <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
               <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
               <select v-if="email.folder != $root.folderNames.archive" class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
-                <option v-if="email.folder == 'INBOX'" selected :value="-1">Inbox</option>
                 <option v-if="board.folder == email.folder" v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
-                <option v-if="email.folder == '[Aiko Mail]/Done'" selected :value="-2">Done</option>
+                <option v-else-if="email.folder == '[Aiko Mail]/Done'" selected :value="-2">Done</option>
+                <option v-else selected :value="-1">{{email.folder}}</option>
               </select>
               <!-- FUTURE DROP DOWN FOR BOARD CHANGE
               <select class="aiko-select">
