@@ -190,6 +190,39 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
   return u
 }
 
+const downloadAndFillImage = (url, imgId, tries=10) => {
+  const el = document.getElementById(imgId)
+  if (!el && tries > 0) return setTimeout(() => downloadAndFillImage(url, imgId, tries-1), 500)
+
+  function toDataURL(src, callback, outputFormat) {
+    var img = document.createElement('img');
+    img.crossOrigin = 'Anonymous';
+    img.onload = function() {
+      var canvas = document.createElement('CANVAS');
+      var ctx = canvas.getContext('2d');
+      var dataURL;
+      canvas.height = this.naturalHeight;
+      canvas.width = this.naturalWidth;
+      ctx.drawImage(this, 0, 0);
+      dataURL = canvas.toDataURL(outputFormat);
+      callback(dataURL);
+    };
+    img.src = src;
+    if (img.complete || img.complete === undefined) {
+      img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      img.src = src;
+    }
+  }
+
+  return new Promise(async (s, _) => {
+    await Vue.nextTick()
+    toDataURL(url, base64 => {
+      el.src = base64
+      s()
+    }, 'image/png')
+  })
+}
+
 Number.prototype.secondsToTimestring = function () {
   return new Date(this * 1000).toISOString().substr(11, 8)
 }
@@ -276,6 +309,7 @@ const rgbIsDark = (r, g, b) => {
   const hsp = Math.sqrt(0.299 * (r ** 2) + 0.587 * (g ** 2) + 0.114 * (b ** 2))
   return hsp < 150
 }
+
 const Image2Color = imurl => new Promise((s, _) => {
   const thief = new ColorThief()
   const image = new Image()
