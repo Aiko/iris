@@ -1618,7 +1618,7 @@
           <div class="row sender-top">
             <div class="col-8 p0" style="display: inline-flex;height: 22px;">
               <h2 class="sender">
-                {{sender.name || sender.address}}</h2>
+                {{(sender.address == $root.currentMailbox && "Me") || sender.name || sender.address}}</h2>
               <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
               <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
               <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
