@@ -3,7 +3,8 @@ const shortcuts = {
     focused: {
       index: -1,
       folder: 'INBOX',
-      view: false
+      view: false,
+      quickReply: false
     }
   },
   async created () {
@@ -12,6 +13,8 @@ const shortcuts = {
     const rightArrow = 39
     const downArrow = 40
     const enter = 13
+    const backslash = 220
+    const shift = 16
 
     const that = this
     document.addEventListener('keydown', function (evt) {
@@ -23,6 +26,7 @@ const shortcuts = {
         case downArrow: return that.focusNextEmail(evt)
         case upArrow: return that.focusPreviousEmail(evt)
         case enter: return (that.focused.view = true)
+        case shift: return (that.focused.quickReply = true)
         default:
       }
     })

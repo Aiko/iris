@@ -1,6 +1,6 @@
 Vue.component('email-card', {
   template: '#email-card',
-  props: ['email', 'board', 'inbox', 'index', 'focusedFolder', 'focusedIndex', 'viewFocused', 'render'],
+  props: ['email', 'board', 'inbox', 'index', 'focusedFolder', 'focusedIndex', 'viewFocused', 'render', 'quickFocused'],
   watch: {
     focusedFolder () {
       if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex) {
@@ -15,6 +15,11 @@ Vue.component('email-card', {
     viewFocused () {
       if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex && this.viewFocused) {
         this.viewMessage()
+      }
+    },
+    quickFocused () {
+      if (this.email.folder == this.focusedFolder && this.index == this.focusedIndex) {
+        this.showQuickReply = !this.showQuickReply
       }
     },
     showQuickReply () {
@@ -225,5 +230,9 @@ Vue.component('email-card', {
       await Vue.nextTick()
       this.$refs.quickreply.focus()
     },
+    async unfocus() {
+      if (app.focused.quickReply) app.focused.quickReply = false
+      else this.showQuickReply = false
+    }
   }
 })

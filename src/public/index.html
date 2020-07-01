@@ -654,7 +654,7 @@
                   :render="i >= visibleMin && visibleMax >= i"
                   v-if="!email?.ai?.deleted && email?.folder == 'INBOX' && priority == email?.ai?.priority && !(email?.ai?.threaded)"
                   :index="i" :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :email="email">
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
                 </email-card>
               </draggable>
 
@@ -724,7 +724,7 @@
                       v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
                       :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i"
                       :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                      :view-focused.camel="focused.view" :email="email">
+                      :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
                     </email-card>
                   </draggable>
                   <div class="empty" v-if="board?.emails?.length == 0">
@@ -774,7 +774,7 @@
                   v-if="email.folder == folderNames.done && !(email?.ai?.threaded == '[Aiko Mail]/Done')"
                   :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i"
                   :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :email="email">
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
                 </email-card>
               </draggable>
               <div class="empty" v-if="done?.emails?.length == 0">
@@ -1529,7 +1529,7 @@
 
   <script type="text/x-template" id="email-card">
     <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
-    <div @blur="showQuickReply = false" :ref="email.folder + ':' + email.uid" :key="email.uid" :uid="email.uid" class="email" :class="{
+    <div @blur="unfocus" :ref="email.folder + ':' + email.uid" :key="email.uid" :uid="email.uid" class="email" :class="{
         'unread': !(email?.ai?.seen),
         'zero': !(email?.ai?.summary?.sentences?.length > 0),
         'syncing': email?.syncing,
@@ -1604,7 +1604,7 @@
           'hide': !showQuickReply,
           'dont-drag-this': true
         }">
-          <input @click.stop="focus" ref="quickreply" @blur="showQuickReply = false" v-model="replyText" placeholder="Type a reply..." autofocus>
+          <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus" v-model="replyText" placeholder="Type a reply..." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
       </div>
