@@ -1547,7 +1547,7 @@
               {{email?.parsed?.thread?.senders?.tail(3)?.reverse()?.join(', ')}}
             </h2>
 
-            <h2 class="sender" @click="debug">
+            <h2 v-else class="sender" @click="debug">
               {{(email?.envelope?.from[0]?.name || email?.envelope?.from[0]?.address)}}
             </h2>
             <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
