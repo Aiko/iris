@@ -668,7 +668,7 @@ const mailapi = {
         uidMin = Math.max(uidMax - INCREMENT, 1)
         info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
         const received = await this.callIPC(
-          this.task_FetchEmails('INBOX', `${uidMin}:${uidMax}`, false, null, MAX_COUNT - MESSAGE_COUNT))
+          this.task_FetchEmails('INBOX', `${uidMin}:${uidMax}`, false, null, MAX_COUNT - MESSAGE_COUNT, false, false, false))
         info(...MAILAPI_TAG, 'Parsing...')
         if (!(received?.reverse)) return error(...MAILAPI_TAG, received)
         MESSAGE_COUNT += received.length

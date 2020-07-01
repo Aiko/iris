@@ -924,7 +924,7 @@
                 :emailsingle="email"></view-email-single>
 
               <!-- Message in Thread -->
-              <view-email-single :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"
+              <view-email-single :validity="9999" :key="e.uid" :expanded="false" v-if="email.parsed.thread?.messages?.length > 0"
                 :emailsingle="e" v-for="e in email?.parsed?.thread?.messages">
               </view-email-single>
             </div>

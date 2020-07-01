@@ -196,13 +196,15 @@ const MailCleaner = (() => {
             email.parsed.html.indexOf('track/open') > -1
     ) email.ai.tracker = true
 
-    email.parsed.text = null
-    email.parsed.html = null
-    email.parsed.textAsHtml = null
-
     email.ai.priority = true
     if (email.ai.subscription) email.ai.priority = false
     if (email.ai.starred) email.ai.priority = true
+
+    if (email.parsed.messageId) await BigStorage.store(app.imapConfig.email + '/emails/' + email.parsed.messageId, email)
+
+    email.parsed.text = null
+    email.parsed.html = null
+    email.parsed.textAsHtml = null
 
     // console.timeEnd("FULL CLEAN " + email.uid)
     return email

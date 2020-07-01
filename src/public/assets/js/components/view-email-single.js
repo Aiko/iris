@@ -36,13 +36,14 @@ Vue.component('view-email-single', {
     }
   },
   watch: {
-    validity (_) {
+    validity (is, was) {
+      if (is < was) return;
       this.email = this.emailsingle
-      this.setContent()
+      if (is > was) this.setContent()
     },
     emailsingle (_) {
       this.email = this.emailsingle
-      this.setContent()
+      if (this.validity > 100) this.setContent()
     },
   },
   methods: {

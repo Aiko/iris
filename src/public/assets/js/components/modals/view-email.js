@@ -15,9 +15,20 @@ Vue.component('view-email', {
         that.close()
       }
     })
+
+    //* before anything let's try to load from cache :)
+    if (this.email.parsed?.messageId) {
+      const cached = await BigStorage.load(app.imapConfig.email + '/emails/' + this.email.parsed.messageId)
+      if (cached) {
+        this.email.parsed.text = cached.parsed.text
+        this.email.parsed.html = cached.parsed.html
+        this.email.validity = 1 // AYOOOOOOOO
+        this.email = JSON.parse(JSON.stringify(this.email))
+      }3
+    }
+
     //* first fetch the selected email without attachments
     const withoutAttachments = await app.executeIPC(app.task_FetchEmails(this.email.syncFolder || this.email.folder, this.email.uid, false, null, null, false, true, true))
-    if (!this.email.parsed) this.emails.parsed = {}
     this.email.parsed.text = withoutAttachments?.parsed?.text
     this.email.parsed.html = withoutAttachments?.parsed?.html
     this.email.flags = withoutAttachments[0]?.flags
