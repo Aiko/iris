@@ -866,7 +866,7 @@ const mailapi = {
 
       //* Update the board
       this.boards[boardName].emails.unshift(...processed_emails)
-      this.boards[boardName].uidLatest = Math.max(1, ...this.boards[boardName].emails.map(email => email.uid))
+      this.boards[boardName].uidLatest = Math.max(0, ...this.boards[boardName].emails.map(email => email.uid))
 
       //* Maintain memory linking, and turn off syncing
       await this.memoryLinking()
