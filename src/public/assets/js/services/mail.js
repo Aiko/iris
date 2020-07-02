@@ -624,6 +624,7 @@ const mailapi = {
 
       document.title = `Inbox - ${this.currentMailbox}`
 
+      this.syncing = false
       // update & check for new messages, then fetch contacts, all in background
       this.updateAndFetch().then(this.fetchContacts)
     },
@@ -753,7 +754,7 @@ const mailapi = {
     async updateAndFetch () {
       info(...MAILAPI_TAG, 'Running update and fetch.')
       // simply checkForUpdates and checkForNewMessages both
-      if (this.syncing) return info(...MAILAPI_TAG, 'Already syncing. Cancelling flow.')
+      if (this.syncing) return warn(...MAILAPI_TAG, 'Already syncing. Cancelling flow.')
       this.syncing = true
       await this.checkForNewMessages()
       await this.checkForUpdates()
