@@ -769,7 +769,9 @@ const mailapi = {
       if (this.syncing) return warn(...MAILAPI_TAG, 'Already syncing. Cancelling flow.')
       this.syncing = true
       await this.checkForNewMessages()
+      console.time("Threading")
       await this.checkForUpdates()
+      console.timeEnd("Threading")
       this.syncing = false
       await this.halfThreading().catch(error)
       this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
@@ -955,7 +957,7 @@ const mailapi = {
         // this.inbox.modSeq,
         this.folderNames.inbox,
         this.inbox.emails.filter(e => e.folder == 'INBOX').map(e => e.inboxUID || e.uid),
-        all=true
+        all=false
       )
       // update the inbox
       // this.inbox.modSeq = inboxDelta.highestModseq
