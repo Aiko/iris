@@ -750,6 +750,18 @@ const mailapi = {
       }
       await BigStorage.store(this.imapConfig.email + '/done', doneCache)
     },
+    async cleanup () {
+      for (const board of this.boardNames) {
+        const mids = new Set()
+        for (let i = 0; i < this.boards[board].emails.length; i++) {
+          const mid = this.boards[board].emails[i].envelope['message-id']
+          if (mids.has(mid)) {
+            this.boards[board].emails.splice(i, 1)
+            i--
+          } else mids.add(mid)
+        }
+      }
+    },
     // Utility for big sync
     async updateAndFetch () {
       info(...MAILAPI_TAG, 'Running update and fetch.')
@@ -762,6 +774,7 @@ const mailapi = {
       this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
       this.boards = JSON.parse(JSON.stringify(this.boards))
       await this.memoryLinking()
+      await this.cleanup()
       this.syncing = false
     },
     // New message retrieval
