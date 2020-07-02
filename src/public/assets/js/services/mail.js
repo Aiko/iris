@@ -848,7 +848,16 @@ const mailapi = {
           thin: false,
         })
         // start over
-        return this.checkBoardForNewMessages(boardName)
+        return await this.checkBoardForNewMessages(boardName)
+      }
+
+      if (board.emails.filter(e => e.syncing).length > 0) {
+        warn('Postponing sync of', boardName, 'until all emails inside of it are synced.')
+        return await new Promise((s, _) => {
+          setTimeout(async () => {
+            s(await app.checkBoardForNewMessages(boardName))
+          }, 300)
+        })
       }
 
       //* Indicate that this board is syncing
@@ -937,6 +946,19 @@ const mailapi = {
         // calc min/max, dont reuse bc sanity check
         const uidMax = Math.max(...uids, 1)
         const uidMin = all ? 1 : Math.min(...uids, uidMax)
+
+        if (app.boards[folder]) {
+          const board = app.boards[folder]
+          if (board.emails.filter(e => e.syncing).length > 0) {
+            warn('Postponing getting changes for', boardName, 'until all emails inside of it are synced.')
+            return await new Promise((s, _) => {
+              setTimeout(async () => {
+                s(await getChanges(folder, uids, all))
+              }, 300)
+            })
+          }
+        }
+
         // get changes, only need peek
         const changedEmails = await this.callIPC(
           this.task_FetchEmails(folder,
