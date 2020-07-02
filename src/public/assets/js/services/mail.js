@@ -1021,6 +1021,9 @@ const mailapi = {
             } else if (email.folder == board && (!email.syncFolder || email.syncFolder == board)) {
               return null
             }
+
+            // TODO: if the email exists in the delta but doesn't exist locally, then we should fetch it
+
             return email
           }
         ))).filter(_ => _)
