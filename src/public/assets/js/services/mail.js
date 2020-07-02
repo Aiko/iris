@@ -769,15 +769,13 @@ const mailapi = {
       if (this.syncing) return warn(...MAILAPI_TAG, 'Already syncing. Cancelling flow.')
       this.syncing = true
       await this.checkForNewMessages()
-      console.time("Threading")
       await this.checkForUpdates()
-      console.timeEnd("Threading")
-      this.syncing = false
       await this.halfThreading().catch(error)
       this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
       this.boards = JSON.parse(JSON.stringify(this.boards))
       await this.memoryLinking()
       await this.cleanup()
+      this.syncing = false
     },
     // New message retrieval
     async checkForNewMessages () {
