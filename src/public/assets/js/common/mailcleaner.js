@@ -133,9 +133,9 @@ const MailCleaner = (() => {
     //* summarize email text
     if (ai) {
       // console.time("SUMMARIZING " + email.uid + " of " + email.folder)
-      const summary = await AICore.summarize(email.parsed.text, 3)
+      const summary = await AICore.summarize(email.parsed.text, 3).catch(_ => false)
       // console.timeEnd("SUMMARIZING " + email.uid + " of " + email.folder)
-      if (summary) {
+      if (summary?.[0]) {
         email.ai.summary = {
           sentences: summary,
           text: summary.join(' ')
