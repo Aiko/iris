@@ -290,13 +290,17 @@ class Mathematics extends Node {
       attrs: {
         formula: {
           default: null
-        }
+        },
+        src: {
+          default: '',
+        },
       },
       group: 'inline',
       parseDOM: [{
         tag: 'img[data-formula]',
         getAttrs: dom => ({
-          formula: dom.getAttribute('data-formula')
+          formula: dom.getAttribute('data-formula'),
+          src: dom.getAttribute('src'),
         })
       }],
       toDOM: node => {
@@ -305,8 +309,10 @@ class Mathematics extends Node {
         // TODO: initial src should be set to a loading indicator
         return ['img', {
           'data-formula': node.attrs.formula || '?',
-          src: ('https://math.now.sh/?color=red&from=' + node.attrs.formula),
+          src: node?.attrs?.src || ('https://math.now.sh/?color=red&from=' + node.attrs.formula),
           id,
+          title: node.attrs.formula,
+          alt: node.attrs.formula
         }]
       }
     }

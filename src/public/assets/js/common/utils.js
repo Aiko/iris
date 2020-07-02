@@ -218,6 +218,10 @@ const downloadAndFillImage = (url, imgId, tries=10) => {
     await Vue.nextTick()
     toDataURL(url, base64 => {
       el.src = base64
+      el.removeAttribute('id')
+      el.removeAttribute('data-formula')
+      app.html = document.getElementsByClassName('editor')[0].children[0].innerHTML
+      app.editor.setContent(document.getElementsByClassName('editor')[0].children[0].innerHTML)
       s()
     }, 'image/png')
   })
