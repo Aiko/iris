@@ -620,28 +620,12 @@ const mailapi = {
       console.timeEnd('SWITCH MAILBOX')
       if (controlsLoader) this.loading = false
 
-      // sync boards and save their cache
-      /*
-            await Promise.all(
-                this.boardNames.map(async boardName => await this.initialSyncBoard(boardName, newest=true)))
-            await this.initialSyncDone(newest=true)
-            await this.checkForUpdates()
-            info(...MAILAPI_TAG, "Saving boards cache")
-            */
-
       await this.memoryLinking()
 
       document.title = `Inbox - ${this.currentMailbox}`
 
-      // get contacts in background
-      this.fetchContacts()
-
-      // update & check for new messages in background
-      this.updateAndFetch()
-      // and also fetch older ones so we get more history
-      //this.seekingInbox = true
-      //await this.getOldMessages(n = 600)
-      //this.seekingInbox = false
+      // update & check for new messages, then fetch contacts, all in background
+      this.updateAndFetch().then(this.fetchContacts)
     },
     // Sync
     async initialSyncWithMailServer () {
@@ -699,99 +683,6 @@ const mailapi = {
       if (controlsLoader) this.loading = false
       this.syncing = false
       console.timeEnd('Initial Sync')
-    },
-    async initialSyncBoard (boardName, newest = false) {
-      /* FIXME:
-             * this should only check for updates in a peeked way for all emails
-             * and should only fetch all for latest.
-             * most likely there needs to be something to check for updates with peek
-            */
-      this.syncing = true
-      if (!newest) info(...MAILAPI_TAG, 'FULLY syncing', boardName)
-      // boardname should be the path!
-      const board = this.boards[boardName]
-      if (!board) {
-        warn('Tried to sync', boardName, 'but the board is not yet created. (will be created)')
-        this.boards[boardName] = {
-          uidLatest: -1,
-          emails: [],
-          thin: false,
-        }
-        // start over
-        return this.initialSyncBoard(boardName, newest)
-      }
-      Vue.set(this.syncingBoards, boardName, true)
-      let uidMin = 1
-      const { uidLatest } = board
-      if (newest && uidLatest > 0) uidMin = uidLatest + 1
-      const {
-        uidNext
-      } = await this.callIPC(this.task_OpenFolder(boardName))
-      if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
-
-      if (uidNext - uidMin > 300) {
-        warn(...MAILAPI_TAG, 'There are more than 300 emails in the board. There should be a limit of 200.')
-        uidMin = uidNext - 300
-      }
-      uidMin = Math.max(1, uidMin)
-
-      info(...MAILAPI_TAG, `Updating ${boardName} - scanning ${uidMin}:${uidNext}`)
-
-      const emails = await this.callIPC(
-        this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, false))
-      //    this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, !newest))
-      if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
-      const processed_emails = await MailCleaner.full(boardName, emails.reverse())
-      /*
-            if (newest) processed_emails = await MailCleaner.full(boardName, emails.reverse())
-            else processed_emails = await MailCleaner.base(boardName, emails.reverse())
-            */
-
-      if (newest) this.boards[boardName].emails.unshift(...processed_emails)
-      else {
-        // update deleted, stars etc
-        this.boards[boardName].emails = processed_emails
-      }
-      if (this.boards[boardName].emails.length > 0) { this.boards[boardName].uidLatest = Math.max(...this.boards[boardName].emails.map(email => email.uid)) }
-      await this.halfThreading()
-      await this.memoryLinking()
-      this.syncing = false
-      Vue.set(this.syncingBoards, boardName, false)
-    },
-    async initialSyncDone (newest = false) {
-      this.syncing = true
-      if (!newest) info(...MAILAPI_TAG, 'FULLY syncing', this.folderNames.done)
-      // boardname should be the path!
-      const board = this.done
-      if (!board) return warn('Tried to sync', this.folderNames.done, 'but the board is not yet created.')
-      this.syncingDone = true
-      let uidMin = 1
-      const { uidLatest } = board
-      if (newest && uidLatest > 0) uidMin = uidLatest + 1
-      const {
-        uidNext
-      } = await this.callIPC(this.task_OpenFolder(this.folderNames.done))
-      if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
-
-      if (uidNext - uidMin > 100) {
-        warn(...MAILAPI_TAG, 'There are more than 100 emails in the board. There should be a limit of 100.')
-        uidMin = uidNext - 100
-      }
-      uidMin = Math.max(1, uidMin)
-
-      info(...MAILAPI_TAG, `Updating ${this.folderNames.done} - scanning ${uidMin}:${uidNext}`)
-
-      const emails = await this.callIPC(
-        this.task_FetchEmails(this.folderNames.done, `${uidMin}:${uidNext}`, false))
-      if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
-      const processed_emails = await MailCleaner.full(this.folderNames.done, emails.reverse())
-      // TODO: ai should be stored in their headers automatically.
-
-      if (newest) this.done.emails.unshift(...processed_emails)
-      else this.done.emails = processed_emails
-      if (this.done.emails.length > 0) { this.done.uidLatest = Math.max(...this.done.emails.map(email => email.uid)) }
-      this.syncing = false
-      this.syncingDone = false
     },
     async syncWithMailServer () {
       // TODO: sync messages that we have locally
@@ -858,21 +749,13 @@ const mailapi = {
       }
       await BigStorage.store(this.imapConfig.email + '/done', doneCache)
     },
-    // Basic message retrieval
+    // Utility for big sync
     async updateAndFetch () {
       info(...MAILAPI_TAG, 'Running update and fetch.')
       // simply checkForUpdates and checkForNewMessages both
       if (this.syncing) return info(...MAILAPI_TAG, 'Already syncing. Cancelling flow.')
       this.syncing = true
       await this.checkForNewMessages()
-      // we can call initial sync board here
-      // only because it only checks for new emails
-      // uids are consecutive, i.e. its unlikely/impossible
-      // for something to be unsynced older than latest
-      // (unsynced here = not present, flags are synced
-      //  separately through checkForUpdates for boards)
-      await Promise.all(this.boardNames.map(n => this.initialSyncBoard(n, newest = true)))
-      await this.initialSyncDone(newest = true)
       await this.checkForUpdates()
       await this.halfThreading().catch(error)
       this.inbox.emails = this.inbox.emails.sort((e1, e2) => e2.envelope.date - e1.envelope.date)
@@ -880,6 +763,7 @@ const mailapi = {
       await this.memoryLinking()
       this.syncing = false
     },
+    // New message retrieval
     async checkForNewMessages () {
       const {
         uidNext
@@ -927,10 +811,108 @@ const mailapi = {
 
       this.syncingInbox = false
       this.memoryLinking()
+
+      await Promise.all(this.boardNames.map(boardName => this.checkBoardForNewMessages(boardName)))
+      await this.checkDoneForNewMessages()
     },
+    async checkBoardForNewMessages (boardName) {
+      /* FIXME:
+        * this should only check for updates in a peeked way for all emails
+        * and should only fetch all for latest.
+        * most likely there needs to be something to check for updates with peek
+      */
+      info(...MAILAPI_TAG, 'Checking', boardName, 'for new messages')
+
+      //* Fetch board
+      // boardname should be the path!
+      const board = this.boards[boardName]
+      if (!board) {
+        warn('Tried to sync', boardName, 'but the board is not yet created. (will be created)')
+        Vue.set(this.boards, boardName, {
+          uidLatest: -1,
+          emails: [],
+          thin: false,
+        })
+        // start over
+        return this.checkBoardForNewMessages(boardName)
+      }
+
+      //* Indicate that this board is syncing
+      Vue.set(this.syncingBoards, boardName, true)
+
+      //* Calculate uidMin
+      let uidMin = 1
+      const { uidLatest } = board
+      if (uidLatest > 0) uidMin = uidLatest + 1
+      const {
+        uidNext
+      } = await this.callIPC(this.task_OpenFolder(boardName))
+      if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+      if (uidNext - uidMin > 300) {
+        warn(...MAILAPI_TAG, 'There are more than 300 new emails in the board. There should be a limit of 200.')
+        uidMin = uidNext - 300
+      }
+      uidMin = Math.max(1, uidMin)
+
+      info(...MAILAPI_TAG, `Updating ${boardName} - scanning ${uidMin}:${uidNext}`)
+
+      //* Fetch the new emails
+      const emails = await this.callIPC(
+        this.task_FetchEmails(boardName, `${uidMin}:${uidNext}`, peek=false, modseq=null, limit=null,
+        downloadAttachments=false, markAsSeen=false, keepCidLinks=false))
+      if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
+      const processed_emails = await MailCleaner.full(boardName, emails.reverse())
+
+      //* Update the board
+      this.boards[boardName].emails.unshift(...processed_emails)
+      this.boards[boardName].uidLatest = Math.max(1, ...this.boards[boardName].emails.map(email => email.uid))
+
+      //* Maintain memory linking, and turn off syncing
+      await this.memoryLinking()
+      Vue.set(this.syncingBoards, boardName, false)
+    },
+    async checkDoneForNewMessages () {
+      info(...MAILAPI_TAG, 'Checking done for new messages')
+
+      //* Indicate that this board is syncing
+      const board = this.done
+      this.syncingDone = true
+
+      //* Calculate uidMin
+      let uidMin = 1
+      const { uidLatest } = board
+      if (uidLatest > 0) uidMin = uidLatest + 1
+      const {
+        uidNext
+      } = await this.callIPC(this.task_OpenFolder(this.folderNames.done))
+      if (!uidNext || uidNext.error) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
+      if (uidNext - uidMin > 300) {
+        warn(...MAILAPI_TAG, 'There are more than 300 new emails in the done board. There should be a limit of 200.')
+        uidMin = uidNext - 300
+      }
+      uidMin = Math.max(1, uidMin)
+
+      info(...MAILAPI_TAG, `Updating DONE - scanning ${uidMin}:${uidNext}`)
+
+      //* Fetch the new emails
+      const emails = await this.callIPC(
+        this.task_FetchEmails(this.folderNames.done, `${uidMin}:${uidNext}`, peek=false, modseq=null, limit=null,
+        downloadAttachments=false, markAsSeen=false, keepCidLinks=false))
+      if (!emails || !(emails.reverse)) return error(...MAILAPI_TAG, emails)
+      const processed_emails = await MailCleaner.full(this.folderNames.done, emails.reverse())
+
+      //* Update the board
+      this.done.emails.unshift(...processed_emails)
+      this.done.uidLatest = Math.max(1, ...this.done.emails.map(email => email.uid))
+
+      //* Maintain memory linking, and turn off syncing
+      await this.memoryLinking()
+      this.syncingDone = false
+    },
+    // Update existing messages
     async checkForUpdates () {
       // const getChanges = async (modseq, folder, uids) => {
-      const getChanges = async (folder, uids) => {
+      const getChanges = async (folder, uids, all=true) => {
         const changes = {}
         // FIXME: disabled modseq as gmail doesnt support condstore anymore
         // check folder modseq
@@ -940,7 +922,7 @@ const mailapi = {
         // if (modseq != highestModseq) {
         // calc min/max, dont reuse bc sanity check
         const uidMax = Math.max(...uids, 1)
-        const uidMin = Math.min(...uids, uidMax)
+        const uidMin = all ? 1 : Math.min(...uids, uidMax)
         // get changes, only need peek
         const changedEmails = await this.callIPC(
           this.task_FetchEmails(folder,
@@ -958,7 +940,8 @@ const mailapi = {
       const inboxDelta = await getChanges(
         // this.inbox.modSeq,
         this.folderNames.inbox,
-        this.inbox.emails.filter(e => e.folder == 'INBOX').map(e => e.inboxUID || e.uid)
+        this.inbox.emails.filter(e => e.folder == 'INBOX').map(e => e.inboxUID || e.uid),
+        all=true
       )
       // update the inbox
       // this.inbox.modSeq = inboxDelta.highestModseq
@@ -988,7 +971,7 @@ const mailapi = {
         const boardDelta = await getChanges(
           // this.boards[board].modSeq,
           board,
-          this.boards[board].emails.filter(e => e.folder == board).map(e => e.uid)
+          this.boards[board].emails.filter(e => !(e.syncFolder && e.syncFolder != board) && e.folder == board).map(e => e.uid)
         )
         // update the board
         // this.boards[board].modSeq = boardDelta.highestModseq
@@ -1012,7 +995,8 @@ const mailapi = {
       const doneDelta = await getChanges(
         // this.inbox.modSeq,
         this.folderNames.done,
-        this.done.emails.filter(e => e.folder == '[Aiko Mail]/Done').map(e => e.uid)
+        this.done.emails.filter(e => !(e.syncFolder && e.syncFolder != '[Aiko Mail]/Done') && e.folder == '[Aiko Mail]/Done').map(e => e.uid),
+        all=false
       )
       // update the inbox
       // this.inbox.modSeq = inboxDelta.highestModseq
@@ -1023,7 +1007,7 @@ const mailapi = {
             Object.assign(email.flags, flags)
             email.ai.seen = flags.includes('\\Seen')
             email.ai.deleted = flags.includes('\\Deleted')
-          } else if (email.folder == '[Aiko Mail]/Done') {
+          } else if (email.folder == '[Aiko Mail]/Done' && (!email.syncFolder || email.syncFolder == '[Aiko Mail]/Done')) {
             email.ai.deleted = true
           }
           return email
@@ -1032,6 +1016,7 @@ const mailapi = {
 
       this.saveBoardCache()
     },
+    // Old message retrieval
     async getOldMessages (n = 400) {
       if (this.inbox.emails.length <= 0) {
         warn(...MAILAPI_TAG, 'There are no emails to begin with, you should call a full sync.')
@@ -1154,7 +1139,7 @@ const mailapi = {
         // search inbox
         for (let i = 0; i < this.inbox.emails.length; i++) {
           const email = this.inbox.emails[i]
-          if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+          if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
             if (threaded_date > date) continue;
@@ -1170,7 +1155,7 @@ const mailapi = {
         for (const board of this.boardNames) {
           for (let i = 0; i < this.boards[board].emails.length; i++) {
             const email = this.boards[board].emails[i]
-            if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+            if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
               // emails in the future can't be valid historical messages
               const threaded_date = new Date(email?.envelope?.date)
               if (threaded_date > date) continue;
@@ -1185,7 +1170,7 @@ const mailapi = {
         // search done
         for (let i = 0; i < this.done.emails.length; i++) {
           const email = this.done.emails[i]
-          if (email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+          if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
             if (threaded_date > date) continue;
@@ -1587,7 +1572,7 @@ const mailapi = {
         // Sync
         // TODO: make hash to signify this sync and store in email
         const targetFolder = email.folder
-        const SYNC_TIMEOUT = 3000
+        const SYNC_TIMEOUT = 1500
 
         const sync = async () => {
           // if it's been picked up, let's wait a bit
@@ -1611,7 +1596,7 @@ const mailapi = {
           )
           if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
           // do the actual copy/move
-          const d = await app.callIPC(syncStrategy(
+          const d = await app.executeIPC(syncStrategy(
             email.syncFolder, email.folder,
             email.syncFolder == 'INBOX' ? email.inboxUID : email.uid
           ))
