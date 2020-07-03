@@ -256,6 +256,65 @@ pre code {
   margin-bottom: 80px;
 }
 
+.message-bar {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+  background: var(--secondary-bg-color);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin-top: 70px;
+  width: 100%;
+  max-width: 500px;
+  padding: 30px 15px 20px 10px;
+  border-radius: 4px;
+  box-shadow: 0 5px 20px 1px rgba(0, 0, 0, 0.19);
+}
+
+.message-bar .naked {
+  background: transparent !important;
+  padding-left: 0;
+}
+
+.message-bar .naked:hover {
+  background: transparent !important;
+  opacity: .8;
+  padding-left: 0;
+}
+
+.message-bar .naked span {
+  color: var(--dark-text) !important;
+}
+
+.message-bar a {
+  height: 40px;
+  position: relative;
+  padding: 7px 11px 8px 7px;
+  border-radius: 3px;
+  font-weight: 500;
+  font-size: 14px;
+  margin-top: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--main-color);
+  transition: 0.2s;
+}
+
+.message-bar a:hover {
+  background: var(--main-color-hover) !important;
+  transition: 0.2s;
+}
+
+.message-bar a span {
+  color: #fff;
+}
+
+.message-bar h3 {
+  color: var(--dark-text);
+  font-size: 16px;
+}
+
 .menubar button {
   background: transparent;
   border: none;
