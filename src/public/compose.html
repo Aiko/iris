@@ -75,7 +75,7 @@
                                 <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
                                 }" v-for="(suggestion, i) in suggestions">
-                                <span>{{suggestion[1]}} </span> {{suggestion[0]}}
+                                    <span>{{suggestion[1]}} </span> {{suggestion[0]}}
                                 </p>
                             </div>
                         </div>
@@ -218,15 +218,21 @@
                                             <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 1 })
-                                        }" @click="commands.heading({level: 1})" href="#"><span>Heading 1</span></a>
+                                        }" @click="commands.heading({level: 1})" href="#"
+                                                style="padding: 4px 8px !important;margin:auto;"><span
+                                                    style="font-size: 20px;">Heading 1</span></a>
                                             <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 2 })
-                                        }" @click="commands.heading({level: 2})" href="#"><span>Heading 2</span></a>
+                                        }" @click="commands.heading({level: 2})" href="#"
+                                                style="padding: 4px 8px !important;margin:auto;"><span
+                                                    style="font-size: 18px;">Heading 2</span></a>
                                             <a :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 3 })
-                                        }" @click="commands.heading({level: 3})" href="#"><span>Heading 3</span></a>
+                                        }" @click="commands.heading({level: 3})" href="#"
+                                                style="padding: 4px 8px !important;margin:auto;"><span
+                                                    style="font-size: 16px;">Heading 3</span></a>
                                         </div>
                                     </div>
                                     <div class="btn-group dropup">
