@@ -9,14 +9,9 @@
     <title>Compose</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png" />
     <link rel="stylesheet" href="assets/css/katex.min.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/composer.css" />
 
-    <script src="assets/js/third-party/jquery.min.js"></script>
-    <script>
-        window.jQuery = window.$ = require("jquery");
-    </script>
 </head>
 
 <!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft?"-->
@@ -131,7 +126,6 @@
                                     {{suggestion[0]}}</p>
                             </div>
                         </div>
-
                     </chip-input>
 
                     <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
@@ -460,7 +454,6 @@
                             has opened your email.
                         </p>
                         <br />
-                        <br />
                         <div class="modal-bottom">
                             <a class="blue">Get Started</a>
                         </div>
@@ -490,7 +483,7 @@
                             click.
                         </p>
                         <br />
-                        <br />
+
                         <div class="modal-bottom">
                             <a class="blue">Get Started</a>
                         </div>
@@ -504,6 +497,10 @@
     <!-- END id="app" -------------------------------------------------->
 
     <!-- 3rd party libraries -->
+    <script src="assets/js/third-party/jquery.min.js"></script>
+    <script>
+        window.jQuery = window.$ = require("jquery");
+    </script>
     <script src="assets/js/third-party/popper.min.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
     <script src="assets/js/third-party/jwt-decode.min.js"></script>
@@ -533,6 +530,7 @@
     <script src="assets/js/components/chip-input.js"></script>
     <!-- main/entrypoint -->
     <script src="assets/js/compose.js"></script>
+
 </body>
 
 </html>
