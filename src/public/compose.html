@@ -324,20 +324,9 @@
                                     <img src="assets/img/zoom.png" class="zoom" />
                                 </a>
                                 <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
+                                    <button type="button" data-toggle="modal" data-target="#infoModal">
                                         <a><img src="assets/icons/info.svg" width="20" /></a>
                                     </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item disabled" href="#"><span>Markdown: </span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="bold-c">*Bold*</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="italic-c">~Italic~</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span class="code-c">Code</span></a>
-                                        <a class="dropdown-item disabled" href="#"><span
-                                                class="quotes-c">Quote</span></a>
-                                    </div>
                                 </div>
                             </div>
                         </editor-menu-bar>
@@ -442,7 +431,7 @@
         <div class="aiko-modal" style="display: none;">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" class="x-email" />
+                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
                     <div class="modal-reg">
                         <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
                             style="margin-bottom: 15px; margin-top: 10px;" />
@@ -471,7 +460,7 @@
         <div class="aiko-modal" style="display: none;">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" class="x-email" />
+                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
                     <div class="modal-reg">
                         <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
                             style="margin-bottom: 15px; margin-top: 10px;" />
@@ -490,6 +479,45 @@
                         <div class="modal-bottom">
                             <a class="blue">Get Started</a>
                         </div>
+                        <p class="ns30"></p>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO: Add info to Info modal -->
+        <div class="aiko-modal" style="display: none;" id="infoModal">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
+                    <div class="modal-reg">
+                        <h1>The most advanced composer ever has a lot to offer.</h1>
+                        <br />
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>Markdown: </span>
+                                    <span class="bold-c">*Bold*</span>
+                                    <span class="italic-c">~Italic~</span>
+                                    <span class="code-c">Code</span>
+                                    <span class="quotes-c">Quote</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>Code: </span>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <span>Advanced Maths: </span>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br />
                         <p class="ns30"></p>
                         <br />
                     </div>
