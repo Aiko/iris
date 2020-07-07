@@ -1323,8 +1323,8 @@ hr {
 
 .avatar-wrap {
 	border-radius: 50%;
-	width: 55px;
-	height: 55px;
+	width: 54px;
+	height: 54px;
 	position: relative;
 	overflow: hidden;
 	border: 3px solid var(--secondary-bg-color);
@@ -2741,7 +2741,7 @@ unselectable {
 	top: 0;
 	z-index: 1;
 	left: 0;
-	margin-top: 90px;
+	margin-top: 80px;
 }
 
 .email-body .load-bottom p {
