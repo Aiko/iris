@@ -1699,6 +1699,17 @@
         </div>
       </div>
       <div class="email-body">
+        <div class="scheduler">
+                <p tooltip="Click to change date and time">Tomorrow at 10:30AM</p>
+                <a><img src="assets/icons/event-white.svg" width="20" /><span>
+                    Schedule</span></a>
+                    <div class="scheduler2">
+                      <!-- TODO: Add calendar view here 
+                      + design it-->
+                    </div>
+                    <!-- TODO: Not sure what to use this text for yet-->
+                    <span class="sc-info">This will open the composer</span>
+        </div>
         <div v-if="!(email?.parsed) || loading" class="load-bottom">
           <p>Loading email</p>
         </div>

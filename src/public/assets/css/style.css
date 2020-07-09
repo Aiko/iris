@@ -3268,3 +3268,72 @@ input:checked+.slider:before {
 	-o-animation: rotating 2s linear infinite;
 	animation: rotating 2s linear infinite;
 }
+
+.scheduler {
+	z-index: 1;
+	position: absolute;
+	background: var(--main-bg-color);
+	border-radius: 3px;
+	box-shadow: 0 1px 20px 3px #0000002b;
+	left: 100px;
+	top: 100px;
+	width: 100%;
+	max-width: 252px;
+	height: 37px;
+	padding: 5px 6px 5px 8px;
+	display: -webkit-inline-box;
+}
+
+.scheduler a {
+	height: 40px;
+	position: relative;
+	padding: 5px 7px 7px 5px;
+	border-radius: 3px;
+	font-weight: 500;
+	font-size: 14px;
+	margin-top: 5px;
+	white-space: nowrap;
+	background: var(--main-color);
+	transition: 0.2s;
+}
+
+.scheduler p {
+	width: 154px;
+	margin-top: 2px;
+	white-space: nowrap;
+	color: var(--dark-text);
+	font-weight: 500;
+	cursor: pointer;
+}
+
+.scheduler a:hover {
+	background: var(--main-color-hover) !important;
+	transition: 0.2s;
+}
+
+.scheduler a span {
+	color: #fff !important;
+	font-size: 12px;
+}
+
+.scheduler img {
+	width: 17px;
+}
+
+.scheduler [tooltip]:not([tflow]):hover::after,
+.scheduler [tooltip]:not([tflow]):hover::before {
+	margin-bottom: 5px;
+}
+
+.sc-info {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-bottom: -23px;
+	font-size: 10px;
+	margin-left: 0px;
+	color: var(--dark-text);
+	background: var(--main-bg-color);
+	padding: 2px 5px;
+	border-radius: 4px;
+}
