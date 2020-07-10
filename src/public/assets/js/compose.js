@@ -215,11 +215,11 @@ const app = new Vue({
         const [address, name, frequency] = contact
         if (term.length < 3) {
           if (
-            (address && address.startsWith(term)) || (name && name.startsWith(term))
+            (address && address.startsWith(term)) || (name && name.toLowerCase().startsWith(term))
           ) results.push([address, name, frequency])
         } else {
           if (
-            (address && address.indexOf(term) > -1) || (name && name.indexOf(term) > -1)
+            (address && address.indexOf(term) > -1) || (name && name.toLowerCase().indexOf(term) > -1)
           ) results.push([address, name, frequency])
         }
       }
