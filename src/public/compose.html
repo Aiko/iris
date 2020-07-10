@@ -46,7 +46,7 @@
         </div>
 
         <!-- TODO: Rig Message BAR  + would be nice if we can click out of it too like a suggestion box-->
-        <div class="message-bar">
+        <div class="message-bar" v-if="false">
             <div class="container" style="user-select: none;">
                 <div class="row">
                     <div class="col-12">
@@ -160,7 +160,7 @@
                     <input v-model="subject" type="text" class="composer-single-field-input" placeholder="Subject">
                 </div>
                 <!-- TODO: this compose-body div needs to be 100% MINUS the height of all above elements combined, so it is never taller than full height -->
-                <div class="compose-body">
+                <div class="compose-body" ref="editor">
                     <editor-content class="editor" :editor="editor"></editor-content>
                     <editor-menu-bubble class="menububble" :editor="editor"
                         v-slot="{ commands, isActive, getMarkAttrs, menu }">

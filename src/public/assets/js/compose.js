@@ -65,7 +65,8 @@ const app = new Vue({
       if (!wasLoading && isLoading) {
         document.getElementById('fixed').style.display = ''
       }
-    }
+    },
+    showBCC () { this.calculateComposerHeight() },
   },
   async created () {
     document.getElementById('app').style.opacity = 1
@@ -123,6 +124,7 @@ const app = new Vue({
     info(...(this.TAG), 'Fetching contacts...')
     await this.fetchContacts()
 
+    this.calculateComposerHeight()
     success(...(this.TAG), 'Finished initialization.')
     this.loading = false
     console.timeEnd('APP STARTUP')
@@ -130,6 +132,12 @@ const app = new Vue({
   methods: {
     log (...msg) {
       console.log(...msg)
+    },
+    async calculateComposerHeight() {
+      await app.$nextTick()
+      const composer = this.$refs['editor']
+      const offset = composer.offsetTop + 66
+      composer.style.maxHeight = `calc(100% - ${offset}px)`
     },
     makeEditor () {
       this.editor = new Editor({
