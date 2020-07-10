@@ -1160,6 +1160,7 @@ const mailapi = {
         const subject = email?.ai?.cleanSubject
         const date = new Date(email?.envelope?.date)
         const mid = email.envelope['message-id']
+        if (reply_id == mid) return []
 
         // log("Looking for", reply_id)
 
@@ -1182,6 +1183,7 @@ const mailapi = {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
             if (threaded_date > date) continue;
+            if (mid == email.envelope['message-id']) continue;
             // log("Had email in inbox.")
             this.inbox.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
             Vue.set(this.inbox.emails, i, this.inbox.emails[i])
@@ -1198,6 +1200,7 @@ const mailapi = {
               // emails in the future can't be valid historical messages
               const threaded_date = new Date(email?.envelope?.date)
               if (threaded_date > date) continue;
+              if (mid == email.envelope['message-id']) continue;
               // log("Had email in a board.")
               this.boards[board].emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
               if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
@@ -1213,6 +1216,7 @@ const mailapi = {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
             if (threaded_date > date) continue;
+            if (mid == email.envelope['message-id']) continue;
             // log("Had email in done.")
             this.done.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
             Vue.set(this.done.emails, i, this.done.emails[i])
@@ -1755,6 +1759,20 @@ const mailapi = {
         }
       }
     },
+    searchByUID(uid) {
+      const results = []
+      const check = email => {
+        if (email.uid == uid) results.push(email)
+        if (email.parsed?.thread?.messages?.length > 0) {
+          email.parsed.thread.messages.map(check)
+        }
+      }
+      // check inbox
+      this.inbox.emails.map(check)
+      for (const board of this.boardNames)
+        this.boards[board].emails.map(check)
+      this.done.emails.map(check)
+    }
   }
 }
 
