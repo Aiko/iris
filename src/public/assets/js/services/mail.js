@@ -1349,7 +1349,7 @@ const mailapi = {
       for (let i = 0; i < this.inbox.emails.length; i++) {
         const email = this.inbox.emails[i]
         const reply_id = email?.envelope?.['in-reply-to']
-        if (reply_id) {
+        if (reply_id && reply_id != email.envelope['message-id']) {
           reply_ids.add(reply_id)
           reply_id_in[reply_id] = 'INBOX'
         }
@@ -1370,7 +1370,7 @@ const mailapi = {
         for (let i = 0; i < this.boards[board].emails.length; i++) {
           const email = this.boards[board].emails[i]
           const reply_id = email?.envelope?.['in-reply-to']
-          if (reply_id) {
+          if (reply_id && reply_id != email.envelope['message-id']) {
             reply_ids.add(reply_id)
             reply_id_in[reply_id] = board
           }
@@ -1391,7 +1391,7 @@ const mailapi = {
       for (let i = 0; i < this.done.emails.length; i++) {
         const email = this.done.emails[i]
         const reply_id = email?.envelope?.['in-reply-to']
-        if (reply_id) {
+        if (reply_id && reply_id != email.envelope['message-id']) {
           reply_ids.add(reply_id)
           reply_id_in[reply_id] = '[Aiko Mail]/Done'
         }
