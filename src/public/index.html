@@ -937,9 +937,16 @@
                 <div class="container">
                   <div class="row">
                     <div class="col-3 p0">
-                      <div class="avatar-wrap">
-                        <img :src="avatar">
-                      </div>
+
+                      <img :src="avatar" style="	border-radius: 50%;
+	width: 54px;
+	height: 54px;
+	position: relative;
+	overflow: hidden;
+	border: 3px solid var(--secondary-bg-color);
+  background: var(--secondary-bg-color);
+  ">
+
                     </div>
                     <div class="col-9 p0 spe hover-name">
                       <h1>{{sender.name}}</h1>
