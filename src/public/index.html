@@ -1652,13 +1652,24 @@
           <div v-if="to.length == 1" class="row">
             <h2 class="fromto-info">
             <!-- TODO: Change 'to' to real 'to' address-->
-            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b></h2>
+            <!-- TODO: remove 'hide' when needed-->
+            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b>
+            <div class="more-fromto hide">
+              <b>CC </b> <span>rubentouitou@teehee.teehee</span>
+            <br><b>BCC </b> <span>rubentouitou@teehee.teehee</span>
+          </div>
+        </h2>
           </div>
           <div v-else class="row">
             <h2 class="fromto-info">
             <!-- TODO: Change 'to' to real 'to' address-->
-            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b></h2>
+            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b>
+            <div class="more-fromto hide">
+              <b>CC </b> <span>rubentouitou@teehee.teehee</span>
+              <br><b>BCC </b> <span>rubentouitou@teehee.teehee</span>
+            </div>
           </div>
+          </h2>
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
           </div>
