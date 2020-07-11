@@ -1775,6 +1775,7 @@ const mailapi = {
       for (const board of this.boardNames)
         this.boards[board].emails.map(check)
       this.done.emails.map(check)
+      return results
     }
   }
 }
