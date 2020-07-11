@@ -36,7 +36,8 @@ const MailCleaner = (() => {
         },
         classification: [],
         thread: false,
-        threaded: false
+        threaded: false,
+        threadedBy: null,
       }
     }
     if (email.flags.includes('\\Seen')) email.ai.seen = true

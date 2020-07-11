@@ -1179,13 +1179,17 @@ const mailapi = {
         // search inbox
         for (let i = 0; i < this.inbox.emails.length; i++) {
           const email = this.inbox.emails[i]
-          if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
+          if (
+            (!message_ids.has(email.envelope['message-id'])
+            && email.envelope['message-id'] == reply_id)
+            || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
-            if (threaded_date > date) continue;
+            if (threaded_date >= date) continue;
             if (mid == email.envelope['message-id']) continue;
             // log("Had email in inbox.")
             this.inbox.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
+            this.inbox.emails[i].ai.threadedBy = mid
             Vue.set(this.inbox.emails, i, this.inbox.emails[i])
             if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
             replies.push(email)
@@ -1199,10 +1203,11 @@ const mailapi = {
             if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
               // emails in the future can't be valid historical messages
               const threaded_date = new Date(email?.envelope?.date)
-              if (threaded_date > date) continue;
+              if (threaded_date >= date) continue;
               if (mid == email.envelope['message-id']) continue;
               // log("Had email in a board.")
               this.boards[board].emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
+              this.boards[board].emails[i].ai.threadedBy = mid
               if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
               replies.push(email)
             }
@@ -1215,10 +1220,11 @@ const mailapi = {
           if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
             // emails in the future can't be valid historical messages
             const threaded_date = new Date(email?.envelope?.date)
-            if (threaded_date > date) continue;
+            if (threaded_date >= date) continue;
             if (mid == email.envelope['message-id']) continue;
             // log("Had email in done.")
             this.done.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
+            this.done.emails[i].ai.threadedBy = mid
             Vue.set(this.done.emails, i, this.done.emails[i])
             if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
             replies.push(email)
