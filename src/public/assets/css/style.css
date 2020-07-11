@@ -1321,23 +1321,6 @@ hr {
 	border-radius: 0 0 0 4px !important;
 }
 
-.avatar-wrap {
-	border-radius: 50%;
-	width: 54px;
-	height: 54px;
-	position: relative;
-	overflow: hidden;
-	border: 3px solid var(--secondary-bg-color);
-	background: var(--secondary-bg-color);
-}
-
-.avatar-wrap img {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 100%;
-}
 
 .focus.email {
 	padding: 6px 11px 0 8px !important;
