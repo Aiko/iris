@@ -1559,7 +1559,7 @@
             <h2 v-else class="sender" @click="debug">
               {{(email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || 'No Sender')}}
             </h2>
-            <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
+            <img v-if="email?.ai?.thread" src="assets/icons/th.svg">
             <span class="thread-count" v-if="email?.parsed?.thread?.messages?.length > 0">{{email.parsed?.thread?.messages?.length}}</span>
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
             <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
