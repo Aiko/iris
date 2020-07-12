@@ -58,6 +58,7 @@ Vue.component('chip-input', {
   methods: {
     deleteChip(i) {
       this.value.splice(i, 1)
+      app?.calculateComposerHeight()
     },
     checkEmail() {
       return /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/gim.test(this.term)
@@ -72,6 +73,7 @@ Vue.component('chip-input', {
         })
         this.term = ''
       }
+      app?.calculateComposerHeight()
     },
     completeChipWithSuggest(e) {
       if (this.activeChip > -1) return;
@@ -84,6 +86,7 @@ Vue.component('chip-input', {
           display: this.suggestions[this.activeSuggestion][1]
         })
         this.term = ''
+        app?.calculateComposerHeight()
         return;
       }
       this.completeChip()
@@ -107,6 +110,7 @@ Vue.component('chip-input', {
           if(!this.value?.[this.activeChip]) this.activeChip--;
         }
       }
+      app?.calculateComposerHeight()
     },
     pressLeft(e) {
       // only works if there is no cursor or it is at the beginning of the term
@@ -121,6 +125,7 @@ Vue.component('chip-input', {
         // then select the previous chip (will be left of the cursor)
         this.activeChip--;
       }
+      app?.calculateComposerHeight()
     },
     pressRight(e) {
       if (this.activeChip == this.value.length - 1) {
@@ -134,20 +139,24 @@ Vue.component('chip-input', {
         // then select the next chip (will be right of the cursor)
         this.activeChip++;
       }
+      app?.calculateComposerHeight()
     },
     pressDown(e) {
       e.preventDefault();
       if (this.suggestions?.length > 0 && this.activeSuggestion < this.suggestions.length - 1) this.activeSuggestion++;
+      app?.calculateComposerHeight()
     },
     pressUp(e) {
       e.preventDefault();
       if (this.suggestions?.length > 0 && this.activeSuggestion > -1) this.activeSuggestion--;
+      app?.calculateComposerHeight()
     },
     async unfocus(all=false) {
       await Vue.nextTick()
       this.activeChip = -1
       this.focused = !all
       if (!this.focused) this.activeSuggestion = -1
+      app?.calculateComposerHeight()
     }
   },
 })
