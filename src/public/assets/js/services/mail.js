@@ -1130,204 +1130,387 @@ const mailapi = {
     // Threading
     async getThread (email, force=false) {
       // returns thread array for email
-      // NOTE: threads are peeked!
-      // TODO: write a non-peeked version
-      // maybe to at least get references :)
       // FIXME: this doesn't completely work
-      // for example it breaks with concurrent replies
+      // FIXME: this might be the single most inefficient routine in the history of computer science
       // and if someone replies to a message that wasn't sent to you
-      // then it breaks as well.
-      // would help to match subjects as well,
-      // and then to include the subject
+      // then it breaks
 
-      // if it already has been computed return its thread
-      if (email?.parsed?.thread && !force) return email.parsed.thread
-      if (email?.parsed?.thread && email?.parsed?.thread.length > 0) return email.parsed.thread
+      //* if it already has been computed return its thread
+      if (email?.parsed?.thread?.messages && !force) return email.parsed.thread
 
-      // thread will not include the current message.
-      // this creates a circular structure. big no!
+      // NOTE: thread will not include the current message.
       const thread = []
-      // message ids is just the id of every message we've already
-      // put into thread
-      const message_ids = new Set()
 
+      //* threaded ids is just the id of every message we've already
+      const threaded_mids = new Set()
+
+      //* enforce max iterations in case we hit a recursive step
       let iterations = 0
       const MAX_ITER = 50
 
-      // takes an email and gives you array of messages that it is replying to
-      const find_replies = async (email, bySubject=false) => {
-        const reply_id = email.envelope?.['in-reply-to']
-        const subject = email?.ai?.cleanSubject
-        const date = new Date(email?.envelope?.date)
-        const mid = email.envelope['message-id']
-        if (reply_id == mid) return []
+      //* keep a set of searched subject lines to prevent repetition
+      const searched_subjects = new Set()
 
-        // log("Looking for", reply_id)
+      //* finds the (partial) thread for a single email
+      const get_subthread = async (email, bySubject=false) => {
 
-        // check to make sure we didn't already get it
-        if (message_ids.has(reply_id)) return []
-        //message_ids.add(reply_id)
+        //* Target MIDs is a set containing all message ID's we are looking for here
+        const target_mids = new Set()
+        const inReplyTo = email.envelope?.['in-reply-to']
+        if (inReplyTo && !target_mids.has(inReplyTo)) target_mids.add(inReplyTo)
+        if (email.parsed?.references?.[0]) {
+          //* if references is a string then parse out MIDs
+          if (typeof email.parsed.references == "string") {
+            email.parsed.references = email.parsed.references.split(/[, \t\r\n]+/gim)
+          }
+          //* add references to target MIDs
+          email.parsed.references.map(reference => target_mids.add(reference))
+        }
 
-        // enforce max iterations so not to crash the app
+        //* if we can't find replies via reply ID or reference, we default to subject threading
+        const mySubject = email?.ai?.cleanSubject
+        const myDate = new Date(email?.envelope?.date)
+        const myFolder = email.folder
+
+        //* avoid threading the message into itself
+        const myMID = email.envelope['message-id']
+        target_mids.delete(myMID)
+
+        //* enforce max iterations so not to crash the app
         if (iterations > MAX_ITER) {
-          warn(...MAILAPI_TAG, 'Reached max iteration count while finding replies.')
+          // we return UID here because it's easier to search by UID than message ID visually (in the DOM)
+          warn(...MAILAPI_TAG, 'Reached max iteration count while finding replies for email with UID', email.uid, 'and message ID', myMID)
           return []
         }
 
-        const replies = []
+        const subthread = [] //* this will contain the subthread of this email
+        const subthreaded_ids = new Set() //* keeping track of the current subthread
 
-        // search inbox
+        //* First, we find replies we have locally in the inbox
         for (let i = 0; i < this.inbox.emails.length; i++) {
           const email = this.inbox.emails[i]
-          if (
-            (!message_ids.has(email.envelope['message-id'])
-            && email.envelope['message-id'] == reply_id)
-            || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
-            // emails in the future can't be valid historical messages
-            const threaded_date = new Date(email?.envelope?.date)
-            if (threaded_date >= date) continue;
-            if (mid == email.envelope['message-id']) continue;
-            // log("Had email in inbox.")
-            this.inbox.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
-            this.inbox.emails[i].ai.threadedBy = mid
+          const mid = email.envelope['message-id']
+          const subject = email?.ai?.cleanSubject
+          const date = new Date(email?.envelope?.date)
+
+          //* if it is a member of the larger thread already, ignore it
+          if (threaded_mids.has(mid)) continue;
+          //* if it is a member of the subthread already, ignore it
+          if (subthreaded_ids.has(mid)) continue;
+          //* if it is the current message, ignore it
+          if (myMID == mid) continue;
+          //* if it newer than the current message, ignore it
+          if (date >= myDate) continue;
+
+          //* if the MID is a target MID, then thread it in
+          //* also, if it has the same subject, then thread it in
+          if (target_mids.has(mid) || (bySubject && mySubject == subject)) {
+            //* set properties indicating who the parent thread is + where the parent is located
+            this.inbox.emails[i].ai.threadedBy = myMID
+            this.inbox.emails[i].ai.threaded = myFolder || 'NOT_LOCAL'
+            //* update the view model
             Vue.set(this.inbox.emails, i, this.inbox.emails[i])
-            if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
-            replies.push(email)
+            //* prospectively add it to our subthread
+            const add_to_subthread = []
+            add_to_subthread.push(email)
+            //* if it has its own subthread we will add that to the subthread as well
+            if(email.parsed?.thread?.messages?.[0]) add_to_subthread.push(...email.parsed.thread.messages)
+            //* commit our additions to the subthread, and keep track of the added MIDs
+            add_to_subthread.map(addition => {
+              //* we check the subthreaded IDs again here, for two reasons:
+              //* 1) if we are running this in parallel we could have a race
+              //* 2) it's possible we have dupes b/w our subthread & the email's subthread
+              const additionMID = addition.envelope['message-id']
+              if (subthreaded_ids.has(additionMID)) return;
+              subthreaded_ids.add(additionMID)
+              subthread.push(addition)
+            })
           }
         }
 
-        // search board
+        //* We're going to repeat the above for each board
         for (const board of this.boardNames) {
           for (let i = 0; i < this.boards[board].emails.length; i++) {
             const email = this.boards[board].emails[i]
-            if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
-              // emails in the future can't be valid historical messages
-              const threaded_date = new Date(email?.envelope?.date)
-              if (threaded_date >= date) continue;
-              if (mid == email.envelope['message-id']) continue;
-              // log("Had email in a board.")
-              this.boards[board].emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
-              this.boards[board].emails[i].ai.threadedBy = mid
-              if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
-              replies.push(email)
+            const mid = email.envelope['message-id']
+            const subject = email?.ai?.cleanSubject
+            const date = new Date(email?.envelope?.date)
+
+            //* if it is a member of the larger thread already, ignore it
+            if (threaded_mids.has(mid)) continue;
+            //* if it is a member of the subthread already, ignore it
+            if (subthreaded_ids.has(mid)) continue;
+            //* if it is the current message, ignore it
+            if (myMID == mid) continue;
+            //* if it newer than the current message, ignore it
+            if (date >= myDate) continue;
+
+            //* if the MID is a target MID, then thread it in
+            //* also, if it has the same subject, then thread it in
+            if (target_mids.has(mid) || (bySubject && mySubject == subject)) {
+              //* set properties indicating who the parent thread is + where the parent is located
+              this.boards[board].emails[i].ai.threadedBy = myMID
+              this.boards[board].emails[i].ai.threaded = myFolder || 'NOT_LOCAL'
+              //* update the view model
+              Vue.set(this.boards[board].emails, i, this.boards[board].emails[i])
+              //* prospectively add it to our subthread
+              const add_to_subthread = []
+              add_to_subthread.push(email)
+              //* if it has its own subthread we will add that to the subthread as well
+              if(email.parsed?.thread?.messages?.[0]) add_to_subthread.push(...email.parsed.thread.messages)
+              //* commit our additions to the subthread, and keep track of the added MIDs
+              add_to_subthread.map(addition => {
+                //* we check the subthreaded IDs again here, for two reasons:
+                //* 1) if we are running this in parallel we could have a race
+                //* 2) it's possible we have dupes b/w our subthread & the email's subthread
+                const additionMID = addition.envelope['message-id']
+                if (subthreaded_ids.has(additionMID)) return;
+                subthreaded_ids.add(additionMID)
+                subthread.push(addition)
+              })
             }
           }
         }
 
-        // search done
+        //* Repeat for the done board
         for (let i = 0; i < this.done.emails.length; i++) {
           const email = this.done.emails[i]
-          if (!message_ids.has(email.envelope['message-id']) && email.envelope['message-id'] == reply_id || (bySubject && email?.ai?.cleanSubject == subject && mid != email.envelope['message-id'])) {
-            // emails in the future can't be valid historical messages
-            const threaded_date = new Date(email?.envelope?.date)
-            if (threaded_date >= date) continue;
-            if (mid == email.envelope['message-id']) continue;
-            // log("Had email in done.")
-            this.done.emails[i].ai.threaded = email.folder || 'NOT_LOCAL'
-            this.done.emails[i].ai.threadedBy = mid
+          const mid = email.envelope['message-id']
+          const subject = email?.ai?.cleanSubject
+          const date = new Date(email?.envelope?.date)
+
+          //* if it is a member of the larger thread already, ignore it
+          if (threaded_mids.has(mid)) continue;
+          //* if it is a member of the subthread already, ignore it
+          if (subthreaded_ids.has(mid)) continue;
+          //* if it is the current message, ignore it
+          if (myMID == mid) continue;
+          //* if it newer than the current message, ignore it
+          if (date >= myDate) continue;
+
+          //* if the MID is a target MID, then thread it in
+          //* also, if it has the same subject, then thread it in
+          if (target_mids.has(mid) || (bySubject && mySubject == subject)) {
+            //* set properties indicating who the parent thread is + where the parent is located
+            this.done.emails[i].ai.threadedBy = myMID
+            this.done.emails[i].ai.threaded = myFolder || 'NOT_LOCAL'
+            //* update the view model
             Vue.set(this.done.emails, i, this.done.emails[i])
-            if (email?.parsed?.thread?.messages) { replies.push(...[email, ...email?.parsed?.thread?.messages]) }
-            replies.push(email)
+            //* prospectively add it to our subthread
+            const add_to_subthread = []
+            add_to_subthread.push(email)
+            //* if it has its own subthread we will add that to the subthread as well
+            if(email.parsed?.thread?.messages?.[0]) add_to_subthread.push(...email.parsed.thread.messages)
+            //* commit our additions to the subthread, and keep track of the added MIDs
+            add_to_subthread.map(addition => {
+              //* we check the subthreaded IDs again here, for two reasons:
+              //* 1) if we are running this in parallel we could have a race
+              //* 2) it's possible we have dupes b/w our subthread & the email's subthread
+              const additionMID = addition.envelope['message-id']
+              if (subthreaded_ids.has(additionMID)) return;
+              subthreaded_ids.add(additionMID)
+              subthread.push(addition)
+            })
           }
         }
 
-        // TODO: check sent trash etc folders locally
+        // TODO: repeat for sent/trash/etc
 
-        // if it has no replies we are already done, as there is nothing to search server for
-        if (!reply_id) return replies
+        //* next we're going to try searching the server
+        //* first, let's figure out what MID's we still don't have.
+        for (const mid of subthreaded_ids) target_mids.delete(mid)
+        //* if there's nothing left we are already done
+        if (target_mids.size == 0) return subthread;
 
-
-        // TODO: check references > check reply id
-
-        // search server
-        const search_results = (await this.callIPC(
-          this.task_SearchEmails(app.folderNames.archive, {
-            header: [
-              'Message-ID', reply_id
-            ]
-          })
-        )).map(uid => {return {uid, folder: app.folderNames.archive}})
-        if (this.imapConfig.provider != 'google') {
-          search_results.push(...(await this.callIPC(
-            this.task_SearchEmails(app.folderNames.sent, {
-              header: [
-                'Message-ID', reply_id
-              ]
-            })
-          )).map(uid => {return {uid, folder: app.folderNames.sent}}))
-          search_results.push(...(await this.callIPC(
-            this.task_SearchEmails(app.folderNames.inbox, {
-              header: [
-                'Message-ID', reply_id
-              ]
-            })
-          )).map(uid => {return {uid, folder: app.folderNames.inbox}}))
+        //* search by subject
+        const subject_matches = []
+        if (this.imapConfig.provider == 'google') {
+          if (!searched_subjects.has(email.envelope.subject)) {
+            searched_subjects.add(email.envelope.subject)
+            subject_matches.push(...(
+              (await this.callIPC(
+                this.task_SearchEmails(this.folderNames.archive, { header: [ 'subject', email.envelope.subject ] })
+              )).map(uid => { return { uid, folder: this.folderNames.archive } })
+            ))
+          }
+          if (mySubject && !searched_subjects.has(mySubject)) {
+            searched_subjects.add(mySubject)
+            subject_matches.push(...(
+              (await this.callIPC(
+                this.task_SearchEmails(this.folderNames.archive, { header: [ 'subject', mySubject ] })
+              )).map(uid => { return { uid, folder: this.folderNames.archive } })
+            ))
+          }
+        } else {
+          if (!searched_subjects.has(email.envelope.subject)) {
+            searched_subjects.add(email.envelope.subject)
+            subject_matches.push(...(
+              (await this.callIPC(
+                this.task_SearchEmails(this.folderNames.inbox, { header: [ 'subject', email.envelope.subject ] })
+              )).map(uid => { return { uid, folder: this.folderNames.inbox } })
+            ))
+          }
+          if (mySubject && !searched_subjects.has(mySubject)) {
+            searched_subjects.add(mySubject)
+            subject_matches.push(...(
+              (await this.callIPC(
+                this.task_SearchEmails(this.folderNames.inbox, { header: [ 'subject', mySubject ] })
+              )).map(uid => { return { uid, folder: this.folderNames.inbox } })
+            ))
+          }
         }
-        if (search_results.length > 0) {
-          // log("Found email on server.")
-          const { uid, folder } = search_results[0]
-          const email = await this.callIPC(this.task_FetchEmails(
-            folder, uid, true
-          ))
-          if (email.length > 0) replies.push(...await MailCleaner.peek(folder, email))
-          else error(...MAILAPI_TAG, "Couldn't fetch email after getting it from server!")
+        //* keep track of fetched matches in case we have dupe results
+        const fetched_matches = {}
+        for (const result of subject_matches) {
+          const { uid, folder } = result
+          if (!fetched_matches[folder]) fetched_matches[folder] = new Set()
+          if (fetched_matches[folder].has(uid)) continue;
+          fetched_matches[folder].add(uid)
+          //* go ahead and fetch our result
+          const email = (await this.callIPC(this.task_FetchEmails(folder, uid, true)))?.[0]
+          if (email) {
+            const date = new Date(email.envelope.date)
+            if (date >= myDate) continue;
+            //* Sanity Check: if the gap is > 4 months it's a new email.
+            const WEEK = (() => {
+              const MS2S = 1000
+              const S2MIN = 60
+              const MIN2HOUR = 60
+              const HOUR2DAY = 24
+              const DAY2WEEK = 7
+              return MS2S * S2MIN * MIN2HOUR * HOUR2DAY * DAY2WEEK
+            })()
+            if (Math.abs(date - myDate) > 16*WEEK) continue;
+            const mid = email.envelope['message-id']
+            if (subthreaded_ids.has(mid)) continue;
+            subthreaded_ids.add(mid)
+            subthread.push((await MailCleaner.peek(folder, [email]))?.[0])
+          } else error(...MAILAPI_TAG,
+            "Found the subthread message on the server, but could not fetch it.",
+            "\nMessage-ID:", target_mid,
+            "\nUID:", uid,
+            "\nFolder:", folder
+          )
         }
 
-        // otherwise we give up
-        // log("Couldn't find email", reply_id)
-        return replies
+        //* again, let's figure out what MID's we still don't have.
+        for (const mid of subthreaded_ids) target_mids.delete(mid)
+        //* if there's nothing left we are already done
+        if (target_mids.size == 0) return subthread;
+
+        //* search for each target MID on the mailserver
+        //* there is unfortunately no way to search en masse :/
+        //* we check each folder it could be in, and augment with folder name
+        const _this = this // js trixx
+        const augmented_search = async (folder, target_mid) =>
+          (await _this.callIPC(
+            _this.task_SearchEmails(
+              folder, { header: [ 'Message-ID', target_mid ] }
+            )
+        )).map(uid => { return { uid, folder } });
+
+        //* search for remaining target MIDs
+        for (const target_mid of target_mids) {
+
+          //* search the archive
+          const search_results = await augmented_search(this.folderNames.archive, target_mid)
+
+          //* if the provider is google we don't need to check other folders
+          //* also if we have already found it we don't need to check further
+          const found = () => search_results.length > 0
+          if (this.imapConfig.provider != 'google' && !found()) {
+            //* check sent
+            search_results.push(...await augmented_search(this.folderNames.sent, target_mid))
+            //* no dice? check the remote inbox
+            if (!found()) search_results.push(...await augmented_search(this.folderNames.inbox, target_mid))
+          }
+
+          if (found()) {
+            const { uid, folder } = search_results[0]
+            //* go ahead and fetch our result
+            const email = (await this.callIPC(this.task_FetchEmails(folder, uid, true)))?.[0]
+            if (email) {
+              const mid = email.envelope['message-id']
+              if (subthreaded_ids.has(mid)) continue;
+              subthreaded_ids.add(mid)
+              subthread.push((await MailCleaner.peek(folder, [email]))?.[0])
+            } else error(...MAILAPI_TAG,
+              "Found the subthread message on the server, but could not fetch it.",
+              "\nMessage-ID:", target_mid,
+              "\nUID:", uid,
+              "\nFolder:", folder
+            )
+          } else warn(...MAILAPI_TAG, //* warning because this happens pretty often, e.g. add-and-replies
+            "Could not find subthreaded message on the server.",
+            "\nMessage-ID:", target_mid,
+            "\nSubject:", mySubject,
+            "\nEmail:", email,
+          )
+
+        }
+
+        // TODO: do something with the missing MIDs
+
+        return subthread
       }
 
-      // takes an email and puts its replies into the thread
-      // recursively calls itself to exhaust the thread
-      // is a command, not a query! does not return val!
+      //* takes an email and puts its subthread into the thread
+      //* recursively calls itself to exhaust the thread
+      // NOTE: is a command, not a query!
       const threading = async email => {
+        //* increment the iterations
         iterations++
-        const replies = await find_replies(email, bySubject=true)
-        thread.push(...replies)
-        // we don't want to do this async
-        // to avoid computing multiples
-        for (const reply of replies) {
-          message_ids.add(reply.envelope['message-id'])
-        }
-        for (const reply of replies) {
-          await threading(reply)
-        }
+        const subthread = await get_subthread(email, bySubject=true)
+        const addition = []
+        subthread.map(message => {
+          //* if we already have the subthreaded message in our larger thread, ignore it
+          const mid = message.envelope['message-id']
+          if (threaded_mids.has(mid)) return;
+          threaded_mids.add(mid)
+          thread.push(message)
+          addition.push(message)
+        })
+        //* NOTE: we do a second loop because if you do it in the first loop,
+        //* you may end up searching replies for something already in the subthread
+        //* that was simply not added to threaded_ids yet
+        //* NOTE: we do this synchronously to avoid the above as well
+        for (const message of addition) await threading(message)
       }
 
       await threading(email)
 
-      // now, we remove any duplicates from the thread
-      const thread_ids = new Set()
+      //* now, we remove any duplicates from the thread
+      const thread_mids = new Set()
       const final_thread = []
-      // log("Cleaning thread")
       for (const email of thread) {
         if (email.length) return error(...MAILAPI_TAG, 'Array is not fully flattened!')
-        // kill the parsed of the thread
-        // while searched emails are peeked,
-        // emails that we had locally aren't
-        // we need to make sure they get peeked :)
-        if (!(thread_ids.has(email.envelope['message-id']))) {
-          // log("Peeking email.")
-          const peeked_email = Object.assign({}, email)
-          // we don't need a deep clone because parsed is
-          // a 1st level property
-          // so we treat it like its a shallow property :)
-          peeked_email.parsed = null
-          // and now we can afford a deep clone
-          // as parsed is finally gone
-          // log("Cloning email.")
-          const cleaned_email = JSON.parse(JSON.stringify(peeked_email))
-          // and finally, push it onto the main thread
-          final_thread.push(cleaned_email)
-        }
-        thread_ids.add(email.envelope['message-id'])
+        //* if we have the MID already it's a dupe
+        if (thread_mids.has(email.envelope['message-id'])) continue;
+        thread_mids.add(email.envelope['message-id'])
+        //* build a minimal version of threaded emails to save space
+        const minimal_email = Object.assign({}, email)
+        minimal_email.parsed = null
+        //* cleanse any deeply nested properties before adding to final thread
+        //* we don't do this earlier as there may be a circular structure
+        final_thread.push(
+          JSON.parse(JSON.stringify(minimal_email))
+        )
       }
-      // TODO: sort thread by date
 
-      // we add some metadata to our returned structure :)
+      //* sort thread by date (descending)
+      final_thread.sort((e1, e2) => new Date(e2.envelope.date) - new Date(e1.envelope.date))
+
+      //* we add some metadata to our returned structure :)
       const getSender = email => {
-        return email?.envelope?.from?.[0]?.name?.split(/, ?/)?.last() || email?.envelope?.from?.[0]?.address || ''
+        const name = email?.envelope?.from?.[0]?.name
+        if (name) {
+          //* if it's comma format, first name is last
+          if (name.includes(',')) return name.split(/[, ]+/).last()
+          //* otherwise first name is first
+          return name.split(/ +/)[0]
+        }
+        //* if no name, return the email address or just blank for no sender name
+        return email?.envelope?.from?.[0]?.address || ''
       }
 
       return { messages: final_thread, senders: [...new Set(thread.map(getSender))] }
