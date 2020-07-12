@@ -432,6 +432,7 @@ const mailapi = {
             console.warn("No batch returned while seeking inbox for contact collection:", batch)
           } else {
             batch.map(e => {
+              // TODO: this is a good place to try caching peeked emails...
               const e_senders = getSenders(e)
               e_senders.filter(_=>_).map(s => {
                 const key = s.address.toLowerCase()
