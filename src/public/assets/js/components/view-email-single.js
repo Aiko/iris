@@ -5,6 +5,7 @@ Vue.component('view-email-single', {
     return {
       email: this.emailsingle,
       loading: true,
+      showSenderInfo: false,
     }
   },
   computed: {
@@ -21,7 +22,10 @@ Vue.component('view-email-single', {
       }]
     },
     cc () {
-      return this?.email?.cc || []
+      return this?.email?.envelope?.cc || []
+    },
+    bcc () {
+      return this?.email?.envelope?.bcc || []
     },
     boards () {
       return app.boardNames.map(b => {

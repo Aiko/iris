@@ -1559,8 +1559,9 @@
             <h2 v-else class="sender" @click="debug">
               {{(email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || 'No Sender')}}
             </h2>
-            <img v-if="email?.ai?.thread" src="assets/icons/th.svg">
-            <span class="thread-count" v-if="email?.parsed?.thread?.messages?.length > 0">{{email.parsed?.thread?.messages?.length}}</span>
+            <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
+            <span class="thread-count"
+              v-if="email?.parsed?.thread?.messages?.length > 0">{{email.parsed?.thread?.messages?.length}}</span>
             <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
             <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
             <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
@@ -1657,26 +1658,39 @@
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
           </div>
-          <div v-if="to.length == 1" class="row">
+          <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-if="to.length == 1" class="row">
             <h2 class="fromto-info">
             <!-- TODO: Change 'to' to real 'to' address-->
             <!-- TODO: remove 'hide' when needed-->
-            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b>
-            <div class="more-fromto hide">
-              <b>CC </b> <span>rubentouitou@teehee.teehee</span>
-            <br><b>BCC </b> <span>rubentouitou@teehee.teehee</span>
-          </div>
-        </h2>
-          </div>
-          <div v-else class="row">
-            <h2 class="fromto-info">
-            <!-- TODO: Change 'to' to real 'to' address-->
-            <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b>
-            <div class="more-fromto hide">
-              <b>CC </b> <span>rubentouitou@teehee.teehee</span>
-              <br><b>BCC </b> <span>rubentouitou@teehee.teehee</span>
+            <div v-if="!showSenderInfo">
+              <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b>
             </div>
-          </div>
+            <div v-if="showSenderInfo" class="more-fromto">
+              <b>From </b> <span>{{sender.name}} {{sender.address}}</span>
+              <br>
+              <b>To </b> <span v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+              <br v-if="cc.length > 0">
+              <b v-if="cc.length > 0">CC </b> <span v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+              <br v-if="bcc.length > 0">
+              <b v-if="bcc.length > 0">BCC </b> <span v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+            </div>
+          </h2>
+        </div>
+        <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-else class="row">
+          <h2 class="fromto-info">
+            <!-- TODO: Change 'to' to real 'to' address-->
+            <div v-if="!showSenderInfo">
+              <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b>
+            </div>
+            <div v-if="showSenderInfo" class="more-fromto">
+              <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
+              <br>
+              <b>To </b> <span v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+              <br v-if="cc.length > 0">
+              <b v-if="cc.length > 0">CC </b> <span v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+              <br v-if="bcc.length > 0">
+              <b v-if="bcc.length > 0">BCC </b> <span v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;</span>
+            </div>
           </h2>
           <div class="row">
             <h3>{{email?.envelope?.subject}}</h3>
