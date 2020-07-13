@@ -1673,13 +1673,13 @@
                 <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
                 <br>
                 <b>To </b> <span
-                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
                 <br v-if="cc.length > 0">
                 <b v-if="cc.length > 0">CC </b> <span
-                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
                 <br v-if="bcc.length > 0">
                 <b v-if="bcc.length > 0">BCC </b> <span
-                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
               </div>
             </h2>
           </div>
@@ -1695,13 +1695,13 @@
                 <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
                 <br>
                 <b>To </b> <span
-                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
                 <br v-if="cc.length > 0">
                 <b v-if="cc.length > 0">CC </b> <span
-                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
                 <br v-if="bcc.length > 0">
                 <b v-if="bcc.length > 0">BCC </b> <span
-                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}{{recipient.address}},&nbsp;</span>
               </div>
             </h2>
           </div>
