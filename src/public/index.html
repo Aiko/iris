@@ -1633,117 +1633,128 @@
       'single-email': true,
       'short': !expanded
     }">
-    <div class="email-head" @click="expanded = !expanded">
-      <div class="container">
-        <div class="row sender-top">
-          <div class="col-8 p0" style="display: inline-flex;height: 22px;">
-            <h2 class="sender">
-              {{(sender.address == $root.currentMailbox && "Me") || sender.name || sender.address}}
-            </h2>
-            <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-            <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
-            <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
-            <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
-            <select v-if="email.folder != $root.folderNames.archive" class="aiko-select v1" onmousedown="(function(e){ e.preventDefault(); })(event, this)">
-              <option v-if="board.folder == email.folder" v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
-              <option v-else-if="email.folder == '[Aiko Mail]/Done'" selected :value="-2">Done</option>
-              <option v-else selected :value="-1">{{email.folder}}</option>
-            </select>
-            <!-- FUTURE DROP DOWN FOR BOARD CHANGE
+      <div class="email-head" @click="expanded = !expanded">
+        <div class="container">
+          <div class="row sender-top">
+            <div class="col-8 p0" style="display: inline-flex;height: 22px;">
+              <h2 class="sender">
+                {{(sender.address == $root.currentMailbox && "Me") || sender.name || sender.address}}
+              </h2>
+              <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
+              <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
+              <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
+              <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
+              <select v-if="email.folder != $root.folderNames.archive" class="aiko-select v1"
+                onmousedown="(function(e){ e.preventDefault(); })(event, this)">
+                <option v-if="board.folder == email.folder" v-for="(board, i) in boards"
+                  :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
+                <option v-else-if="email.folder == '[Aiko Mail]/Done'" selected :value="-2">Done</option>
+                <option v-else selected :value="-1">{{email.folder}}</option>
+              </select>
+              <!-- FUTURE DROP DOWN FOR BOARD CHANGE
             <select class="aiko-select">
               <option v-for="(board, i) in boards" :selected="board.folder == email.folder" :value="i">{{board.name}}</option>
             </select>
             -->
+            </div>
+            <div class="col-4 p0">
+              <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
+            </div>
           </div>
-          <div class="col-4 p0">
-            <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
+          <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-if="to.length == 1" class="row">
+            <h2 class="fromto-info">
+              <!-- TODO: Change 'to' to real 'to' address-->
+              <!-- TODO: remove 'hide' when needed-->
+              <div v-if="!showSenderInfo">
+                <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b
+                  v-if="cc.length > 0">and {{cc.length}} others</b>
+              </div>
+              <div v-if="showSenderInfo" class="more-fromto">
+                <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
+                <br>
+                <b>To </b> <span
+                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                <br v-if="cc.length > 0">
+                <b v-if="cc.length > 0">CC </b> <span
+                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                <br v-if="bcc.length > 0">
+                <b v-if="bcc.length > 0">BCC </b> <span
+                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+              </div>
+            </h2>
           </div>
-        </div>
-        <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-if="to.length == 1" class="row">
-          <h2 class="fromto-info">
-          <!-- TODO: Change 'to' to real 'to' address-->
-          <!-- TODO: remove 'hide' when needed-->
-            <div v-if="!showSenderInfo">
-              <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span>{{to[0].address}}</span> <b v-if="cc.length > 0">and {{cc.length}} others</b>
-            </div>
-            <div v-if="showSenderInfo" class="more-fromto">
-              <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
-              <br>
-              <b>To </b> <span v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-              <br v-if="cc.length > 0">
-              <b v-if="cc.length > 0">CC </b> <span v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-              <br v-if="bcc.length > 0">
-              <b v-if="bcc.length > 0">BCC </b> <span v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-            </div>
-          </h2>
-        </div>
-        <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-else class="row">
-          <h2 class="fromto-info">
-            <!-- TODO: Change 'to' to real 'to' address-->
-            <div v-if="!showSenderInfo">
-              <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b>
-            </div>
-            <div v-if="showSenderInfo" class="more-fromto">
-              <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
-              <br>
-              <b>To </b> <span v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-              <br v-if="cc.length > 0">
-              <b v-if="cc.length > 0">CC </b> <span v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-              <br v-if="bcc.length > 0">
-              <b v-if="bcc.length > 0">BCC </b> <span v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
-            </div>
-          </h2>
-        </div>
-        <div class="row">
-          <h3>{{email?.envelope?.subject}}</h3>
-        </div>
+          <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-else class="row">
+            <h2 class="fromto-info">
+              <!-- TODO: Change 'to' to real 'to' address-->
+              <div v-if="!showSenderInfo">
+                <b>From</b> <span>{{sender.address}}</span> <b>to</b> <span
+                  v-for="recipient in to.slice(0, 2)">{{recipient.address}}, </span> <b
+                  v-if="to.length > 2 || cc.length > 0">and {{Math.max(to.length - 2, 0) + cc.length}} others</b>
+              </div>
+              <div v-if="showSenderInfo" class="more-fromto">
+                <b>From </b> <span>{{sender.name ? '"' + sender.name + '" ' : ''}} {{sender.address}}</span>
+                <br>
+                <b>To </b> <span
+                  v-for="recipient in to">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                <br v-if="cc.length > 0">
+                <b v-if="cc.length > 0">CC </b> <span
+                  v-for="recipient in cc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+                <br v-if="bcc.length > 0">
+                <b v-if="bcc.length > 0">BCC </b> <span
+                  v-for="recipient in bcc">{{recipient.name ? '"' + recipient.name + '" ' : ''}}&lt;{{recipient.address}}&gt;,&nbsp;</span>
+              </div>
+            </h2>
+          </div>
+          <div class="row">
+            <h3>{{email?.envelope?.subject}}</h3>
+          </div>
 
-        <div class="options-qa">
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'schedule'">
-            <h2 class="action ma2"><img src="assets/icons/email-schedule.svg">Schedule</h2>
-          </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'verify'">
-            <h2 class="action ma2"><img src="assets/icons/link.svg">Verify</h2>
-          </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'subscribe'">
-            <h2 class="action ma2"><img src="assets/icons/link.svg">Subscribe</h2>
-          </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'">
-            <h2 class="action  ma3"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
-          </a>
-          <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'">
-            <h2 class="action ma2"><img src="assets/icons/link.svg">Sign</h2>
-          </a>
-        </div>
+          <div class="options-qa">
+            <a target="_blank" v-if="email?.ai?.intents?.main == 'schedule'">
+              <h2 class="action ma2"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+            </a>
+            <a target="_blank" v-if="email?.ai?.intents?.main == 'verify'">
+              <h2 class="action ma2"><img src="assets/icons/link.svg">Verify</h2>
+            </a>
+            <a target="_blank" v-if="email?.ai?.intents?.main == 'subscribe'">
+              <h2 class="action ma2"><img src="assets/icons/link.svg">Subscribe</h2>
+            </a>
+            <a target="_blank" v-if="email?.ai?.intents?.main == 'unsubscribe'">
+              <h2 class="action  ma3"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
+            </a>
+            <a target="_blank" v-if="email?.ai?.intents?.main == 'sign'">
+              <h2 class="action ma2"><img src="assets/icons/link.svg">Sign</h2>
+            </a>
+          </div>
 
-        <div class="options">
-          <div class="container">
-            <div class="row">
+          <div class="options">
+            <div class="container">
+              <div class="row">
                 <a @click.stop="reply" tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
                 <a @click.stop="replyAll" tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
                 <a @click.stop="forward" tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
-                  width="20"></a>
-                <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
-                    width="20"></a>
-                <a tooltip="Trash" @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
-                    width="20"></a>
+                <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img
+                    src="assets/icons/options-star.svg" width="20"></a>
+                <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img
+                    src="assets/icons/badges-star.svg" width="20"></a>
+                <a tooltip="Trash" @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg"
+                    class="red" width="20"></a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="email-body">
-      <div v-if="false" class="scheduler">
-              <p tooltip="Click to change date and time">Tomorrow at 10:30AM</p>
-              <a><img src="assets/icons/event-white.svg" width="20" /><span>
-                  Schedule</span></a>
-                    <div class="scheduler2">
-                      <!-- TODO: Add calendar view here 
+      <div class="email-body">
+        <div v-if="false" class="scheduler">
+          <p tooltip="Click to change date and time">Tomorrow at 10:30AM</p>
+          <a><img src="assets/icons/event-white.svg" width="20" /><span>
+              Schedule</span></a>
+          <div class="scheduler2">
+            <!-- TODO: Add calendar view here 
                       + design it-->
-                    </div>
-                    <!-- TODO: Not sure what to use this text for yet-->
-                    <span class="sc-info">This will open the composer</span>
+          </div>
+          <!-- TODO: Not sure what to use this text for yet-->
+          <span class="sc-info">This will open the composer</span>
         </div>
         <div v-if="!(email?.parsed) || loading" class="load-bottom">
           <p>Loading email</p>
