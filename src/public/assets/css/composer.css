@@ -922,7 +922,7 @@ pre code {
 }
 
 .compose-body {
-  padding: 0 15px 55px 15px;
+  padding: 0 15px 60px 15px;
   outline: none;
   color: var(--dark-text);
   height: -webkit-fill-available;
@@ -938,6 +938,7 @@ pre code {
   bottom: 0;
   width: 100%;
   left: 0;
+  background: var(--main-bg-color);
   padding: 20px 0 12px 20px;
   box-shadow: inset 0 54px 10px -54px rgba(0, 0, 0, 0.15);
 }
