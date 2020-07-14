@@ -210,6 +210,7 @@ const app = new Vue({
       Object.assign(this.contacts, contactCache)
     },
     async suggestContact(term, limit=5) {
+      term = term.toLowerCase()
       const results = []
       for (const contact of app.contacts.allContacts) {
         const [address, name, frequency] = contact
