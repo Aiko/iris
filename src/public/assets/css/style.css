@@ -1503,6 +1503,7 @@ hr {
 .email-footer img {
 	margin-top: 1px;
 	transition: 0.2s;
+	margin-left: 5px;
 	opacity: 0.6;
 }
 
@@ -1734,6 +1735,20 @@ hr {
 	width: calc(100% + 50px);
 	padding: 0 25px;
 	margin-left: -25px;
+}
+
+.thread-count {
+	background: var(--secondary-bg-color);
+	height: 11px;
+	border-radius: 2px;
+	margin-top: 3px;
+	width: fit-content;
+	color: var(--main-text-color);
+	margin-left: -8px;
+	font-size: 10px;
+	padding: 0 3px 6px 1px;
+	FONT-WEIGHT: 600;
+	line-height: 10px;
 }
 
 .secondary-email h3 {
