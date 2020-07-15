@@ -1286,7 +1286,6 @@ hr {
 	margin-top: 7px;
 	margin-left: -3px;
 	line-height: 18px;
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13);
 }
 
 .fromto-info span {
@@ -1697,7 +1696,7 @@ hr {
 	height: 100%;
 	background: var(--secondary-bg-color);
 	width: calc(100% - 300px);
-	box-shadow: 1px 0 5px rgba(0, 0, 0, 0.04);
+	box-shadow: 20px 0px 10px -20px rgba(0, 0, 0, 0.15);
 	z-index: 1;
 	position: relative;
 	border-radius: 3px;
@@ -1883,7 +1882,7 @@ hr {
 select.v1 {
 	background: var(--main-color) !important;
 	color: #fff !important;
-	padding: 0px 4px;
+	padding: 0 4px;
 	height: 18px;
 	text-transform: capitalize;
 	line-height: 12px;
@@ -1893,13 +1892,14 @@ select.v1 {
 	font-weight: 600;
 	letter-spacing: 0.4px;
 	width: unset !important;
+	border-radius: 3px;
 }
 
 .email-body {
 	overflow-y: hidden;
 	width: 100%;
 	margin-bottom: -4px;
-	border-top: 3px solid var(--secondary-bg-color);
+	border-top: 2px solid var(--secondary-bg-color);
 	position: relative;
 }
 
