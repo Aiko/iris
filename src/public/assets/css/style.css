@@ -1945,6 +1945,12 @@ select.v1 {
 	margin-right: 2px;
 	letter-spacing: 0.3px;
 	display: inline;
+	transition: .2s;
+}
+
+.secondary-head p:hover {
+	color: var(--dark-text);
+	transition: .2s;
 }
 
 .secondary-head h2:hover {
