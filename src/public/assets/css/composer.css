@@ -21,7 +21,7 @@
   --main-border: 1px solid #d6d6d6;
   --placeholder-text-color: #bdbdbd;
   /* Global placeholder color */
-  --modal-backdrop: #fffffff0;
+  --modal-backdrop: #ffffff5e;
 }
 
 /* Global modal backdrop */
@@ -600,7 +600,7 @@ pre code {
 .menubar {
   height: 40px;
   margin-top: 2px;
-  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.14);
   border-radius: 4px;
   background: var(--secondary-bg-color);
   -webkit-transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
@@ -912,8 +912,8 @@ pre code {
   padding: 0 4px 10px 0;
 }
 
-.composer-active {
-  filter: brightness(0.94);
+.composer-active img {
+  background: var(--main-bg-color);
 }
 
 .zoom {

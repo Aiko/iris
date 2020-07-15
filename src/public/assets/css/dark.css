@@ -48,6 +48,10 @@
   background: var(--secondary-bg-color) !important;
 }
 
+.menubar {
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1) !important;
+}
+
 .main-email .action {
   background: #151515 !important;
 }
@@ -199,6 +203,10 @@ li[data-done="true"]>.todo-checkbox {
 .composer-active {
   filter: brightness(1.6);
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.46);
+}
+
+.composer-active img {
+  background: unset !important;
 }
 
 .bottom {
