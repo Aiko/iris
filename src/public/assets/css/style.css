@@ -22,7 +22,7 @@
 	--main-border: 1px solid #d6d6d6;
 	--placeholder-text-color: #bdbdbd;
 	/* Global placeholder color */
-	--modal-backdrop: #fffffff0;
+	--modal-backdrop: #ffffffd1;
 }
 
 /* Global modal backdrop */
@@ -247,7 +247,7 @@ input:active {
 	transition: 0.2s;
 }
 
-.addb {
+.addb input {
 	text-transform: capitalize;
 }
 
@@ -1378,7 +1378,7 @@ hr {
 
 .email img {
 	height: 15px;
-	margin-left: 5px;
+	margin-left: 3px;
 	margin-top: 3px;
 }
 
@@ -1869,10 +1869,10 @@ hr {
 select.v1 {
 	background: var(--main-color) !important;
 	color: #fff !important;
-	padding: 3px 4px;
+	padding: 0px 4px;
 	height: 18px;
-	text-transform: uppercase;
-	line-height: 11px;
+	text-transform: capitalize;
+	line-height: 12px;
 	margin-top: 2px;
 	font-size: 12px !important;
 	-webkit-appearance: none;
@@ -1969,14 +1969,13 @@ select.v1 {
 .options {
 	background: var(--secondary-bg-color);
 	width: 180px;
-	position: relative;
-	float: right;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 	padding: 0 5px 3px 5px;
 	border-radius: 4px 0 0 0;
 	opacity: 1;
-	margin-bottom: -17px;
 	text-align: center;
-	margin-right: -25px;
 	transition: 0.1s;
 }
 
