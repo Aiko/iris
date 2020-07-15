@@ -965,7 +965,7 @@ pre code {
 }
 
 .nav-tabs .nav-link:hover {
-  filter: brightness(0.9);
+  filter: brightness(0.97);
   transition: 0.2s;
 }
 

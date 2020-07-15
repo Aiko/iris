@@ -200,13 +200,8 @@ li[data-done="true"]>.todo-checkbox {
   box-shadow: 8px 1px 10px #0000002e !important;
 }
 
-.composer-active {
-  filter: brightness(1.6);
-  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.46);
-}
-
 .composer-active img {
-  background: unset !important;
+  filter: brightness(1.5);
 }
 
 .bottom {
