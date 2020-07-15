@@ -1782,13 +1782,13 @@ hr {
 }
 
 .main-email .action {
-	position: relative;
-	float: right;
-	border: 0;
+	border: none;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 	border-radius: 4px 4px 0 0;
-	margin-bottom: -25px;
 	font-size: 14px !important;
-	padding: 7px 11px 9px 8px;
+	padding: 10px 11px 7px 8px;
 }
 
 .settings-sidebar a {
@@ -2045,7 +2045,6 @@ select.v1 {
 	margin-right: 190px;
 	border-radius: 40px;
 	padding: 5px 6px 7px 6px;
-	margin-bottom: -16px;
 }
 
 .spe {
