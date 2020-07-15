@@ -1661,8 +1661,8 @@
               <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
             </div>
           </div>
-          <div @click.stop.prevent="showSenderInfo = !showSenderInfo" v-if="to.length == 1" class="row">
-            <h2 class="fromto-info">
+          <div  v-if="to.length == 1" class="row">
+            <h2 class="fromto-info" @click.stop.prevent="showSenderInfo = !showSenderInfo">
               <!-- TODO: Change 'to' to real 'to' address-->
               <!-- TODO: remove 'hide' when needed-->
               <div v-if="!showSenderInfo">

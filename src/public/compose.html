@@ -72,7 +72,7 @@
         <!-- START Compose View -->
         <div class="standalone">
             <div class="main-email overflow-h">
-
+                <!-- TODO: Somehow autofocus the 'To' field when composer opens -->
                 <chip-input v-model="sendTo" inline-template>
                     <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
                         @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"

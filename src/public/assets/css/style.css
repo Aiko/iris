@@ -349,7 +349,7 @@ input:active {
 
 .inbox-switch .inbox1 {
 	border-radius: 3px 0 0 3px;
-	box-shadow: inset 0 0 3px 1px #00000012;
+	box-shadow: inset 0 0 0 1px #00000012;
 	margin-left: -20px;
 	padding: 5px 12px 7px 16px;
 	font-size: 16px !important;
