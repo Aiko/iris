@@ -1620,6 +1620,7 @@
           'hide': !showQuickReply,
           'dont-drag-this': true
         }">
+          <!-- TODO: make it so that when press enter in quick reply it sends rather than open email -->
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
             v-model="replyText" placeholder="Type a reply..." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>

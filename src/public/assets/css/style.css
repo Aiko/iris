@@ -1115,6 +1115,10 @@ a.main-action:hover {
 	color: var(--main-color) !important;
 }
 
+.blue:hover {
+	color: var(--main-color-hover) !important;
+}
+
 .sidebar p {
 	margin-left: 5px;
 	color: var(--main-text-color);
@@ -1286,6 +1290,12 @@ hr {
 	margin-top: 7px;
 	margin-left: -3px;
 	line-height: 18px;
+	transition: .2s;
+}
+
+.more-fromto {
+	font-size: 13px;
+	transition: .2s;
 }
 
 .fromto-info span {
