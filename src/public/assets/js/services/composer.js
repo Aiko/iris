@@ -96,6 +96,10 @@ const composer = {
         const cached = await BigStorage.load(this.smtpConfig.email + '/emails/' + this.messageId)
         if (cached) {
           this.quoted = cached?.parsed?.html || (cached?.parsed?.text || cached?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+          const sender = cached.envelope.from?.[0] || cached.envelope.sender?.[0] || {address: '<hidden>', name: 'Hidden Sender'}
+          this.quoted =
+            'On ' + (new Date(cached.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+            ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + this.quoted
         }
       }
     },

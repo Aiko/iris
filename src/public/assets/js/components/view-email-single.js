@@ -192,6 +192,13 @@ Vue.component('view-email-single', {
     },
     async reply() {
       const email = this.email
+
+      let quoted = email?.parsed?.html || (email?.parsed?.text || email?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+      const sender = email.envelope.from?.[0] || email.envelope.sender?.[0] || {address: '<hidden>', name: 'Hidden Sender'}
+      quoted =
+        'On ' + (new Date(email.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+        ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + quoted
+
       app.openComposer(
         withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
           ({name, address}) => {return {value: address, display: name}}
@@ -199,7 +206,7 @@ Vue.component('view-email-single', {
         withCC=[],
         withBCC=[],
         withSubject="Re: " + email.envelope.subject,
-        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+        withQuoted=quoted
       )
     },
     async replyAll() {
@@ -212,6 +219,13 @@ Vue.component('view-email-single', {
       ).map(
         ({name, address}) => {return {value: address, display: name}}
       ) : [];
+
+      let quoted = email?.parsed?.html || (email?.parsed?.text || email?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+      const sender = email.envelope.from?.[0] || email.envelope.sender?.[0] || {address: '<hidden>', name: 'Hidden Sender'}
+      quoted =
+        'On ' + (new Date(email.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+        ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + quoted
+
       app.openComposer(
         withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
           ({name, address}) => {return {value: address, display: name}}
@@ -219,17 +233,24 @@ Vue.component('view-email-single', {
         withCC=[...ogCC, ...ogTo],
         withBCC=[],
         withSubject="Re: " + email.envelope.subject,
-        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+        withQuoted=quoted
       )
     },
     async forward() {
       const email = this.email
+
+      let quoted = email?.parsed?.html || (email?.parsed?.text || email?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
+      const sender = email.envelope.from?.[0] || email.envelope.sender?.[0] || {address: '<hidden>', name: 'Hidden Sender'}
+      quoted =
+        'On ' + (new Date(email.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+        ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + quoted
+
       app.openComposer(
         withTo=[],
         withCC=[],
         withBCC=[],
         withSubject="Fwd: " + email.envelope.subject,
-        withQuoted=email.parsed.html || (email.parsed.text || email.parsed.msgText)?.replace(/\n/gim, '<br><br>')
+        withQuoted=quoted
       )
     },
   },

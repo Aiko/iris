@@ -1843,7 +1843,7 @@ const mailapi = {
             email.syncing = false
             sync(tries+1)
           }
-          else if (!destSeqSet || true) {
+          else if (!destSeqSet) {
             error(...MAILAPI_TAG, "Was not able to move the email, moving it back locally.", d, email)
             const fromBoard = from.id.substring('aikomail--'.length)
             email.folder = fromBoard
@@ -1858,6 +1858,7 @@ const mailapi = {
               return error(...MAILAPI_TAG, "For some reason the email is not currently in the board that it was moved to?")
             }
             app.boards[fromBoard].emails.unshift(app.boards[boardName].emails.splice(currentIndex, 1))
+            return
           }
           info(...MAILAPI_TAG, 'Moved email',
             email.uid, 'from', email.syncFolder,
@@ -1886,7 +1887,7 @@ const mailapi = {
           info(...MAILAPI_TAG, 'Saved all caches.')
         }
 
-        setTimeout(sync, SYNC_TIMEOUT)
+        setTimeout(() => sync(0), SYNC_TIMEOUT)
       }
       // TODO: special for done? idk
       this.saveBoardCache()
