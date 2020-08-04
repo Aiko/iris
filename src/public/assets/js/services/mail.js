@@ -1843,7 +1843,7 @@ const mailapi = {
             email.syncing = false
             sync(tries+1)
           }
-          else if (!destSeqSet) {
+          else if (!destSeqSet || true) {
             error(...MAILAPI_TAG, "Was not able to move the email, moving it back locally.", d, email)
             const fromBoard = from.id.substring('aikomail--'.length)
             email.folder = fromBoard
@@ -1857,7 +1857,7 @@ const mailapi = {
             if (currentIndex < 0) {
               return error(...MAILAPI_TAG, "For some reason the email is not currently in the board that it was moved to?")
             }
-            app.boards[fromBoard].unshift(app.boards[boardName].emails.splice(currentIndex, 1))
+            app.boards[fromBoard].emails.unshift(app.boards[boardName].emails.splice(currentIndex, 1))
           }
           info(...MAILAPI_TAG, 'Moved email',
             email.uid, 'from', email.syncFolder,
