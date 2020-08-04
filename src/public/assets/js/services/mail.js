@@ -1807,7 +1807,7 @@ const mailapi = {
         const targetFolder = email.folder
         const SYNC_TIMEOUT = 1500
 
-        const sync = async () => {
+        const sync = async (tries=0) => {
           // if it's been picked up, let's wait a bit
           if (email.dragging) {
             window.setTimeout(sync, SYNC_TIMEOUT)
@@ -1838,8 +1838,27 @@ const mailapi = {
           if (!destSeqSet && d?.copyuid) destSeqSet = d.copyuid.last()
           if (!destSeqSet && d?.payload?.OK?.[0]?.copyuid?.[2]) destSeqSet = d?.payload?.OK?.[0]?.copyuid?.[2]
 
-          if (!destSeqSet) return error(...MAILAPI_TAG, "Couldn't get destination UID", d, email)
-          // TODO: should probably move it back if we failed
+          if (!destSeqSet && tries < 3) {
+            warn(...MAILAPI_TAG, "Couldn't get destination UID, trying again", d, email)
+            email.syncing = false
+            sync(tries+1)
+          }
+          else {
+            error(...MAILAPI_TAG, "Was not able to move the email, moving it back locally.", d, email)
+            const fromBoard = from.id.substring('aikomail--'.length)
+            email.folder = fromBoard
+            let currentIndex = -1
+            for (let i = 0; i < app.boards[boardName].emails.length; i++) {
+              if (app.boards[boardName].emails[i]?.envelope?.['message-id'] == email?.envelope?.['message-id']) {
+                currentIndex = i
+                break
+              }
+            }
+            if (currentIndex < 0) {
+              return error(...MAILAPI_TAG, "For some reason the email is not currently in the board that it was moved to?")
+            }
+            app.boards[fromBoard].unshift(app.boards[boardName].emails.splice(currentIndex, 1))
+          }
           info(...MAILAPI_TAG, 'Moved email',
             email.uid, 'from', email.syncFolder,
             'to', targetFolder, 'with new uid',
