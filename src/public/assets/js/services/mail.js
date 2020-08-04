@@ -1843,7 +1843,7 @@ const mailapi = {
             email.syncing = false
             sync(tries+1)
           }
-          else {
+          else if (!destSeqSet) {
             error(...MAILAPI_TAG, "Was not able to move the email, moving it back locally.", d, email)
             const fromBoard = from.id.substring('aikomail--'.length)
             email.folder = fromBoard
