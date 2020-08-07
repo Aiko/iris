@@ -27,6 +27,28 @@ head th {
   margin: 0 auto;
 }
 
+.fc-timeGridDay-button,
+.fc-timeGridWeek-button,
+.fc-timeGridMonth-button {
+  height: 36px;
+  padding: 0 10px;
+  background: var(--secondary-bg-color);
+  border-color: var(--secondary-bg-color);
+}
+
+.fc-timeGridDay-button:hover,
+.fc-timeGridWeek-button:hover,
+.fc-timeGridMonth-button:hover {
+  height: 36px;
+  padding: 0 10px;
+  background: var(--main-bg-color);
+  border-color: var(--secondary-bg-color);
+}
+
+.fc-button-active {
+  background: var(--main-bg-color);
+}
+
 .fc-left {
   position: absolute;
   top: 0;
