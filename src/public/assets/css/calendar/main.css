@@ -23,6 +23,10 @@ head th {
   margin-bottom: 55px;
 }
 
+.fc-center {
+  margin: 0 auto;
+}
+
 .fc-left {
   position: absolute;
   top: 0;
