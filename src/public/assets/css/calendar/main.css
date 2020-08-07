@@ -23,12 +23,20 @@ head th {
   margin-bottom: 55px;
 }
 
-.fc-left h2 {
+.fc-left {
   position: absolute;
   top: 0;
   left: 0;
   margin-top: 55px;
   margin-left: 10px;
+}
+
+.fc-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 55px;
+  margin-right: 10px;
 }
 
 .calendar .main {
