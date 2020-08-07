@@ -48,13 +48,29 @@ head th {
   padding: 5px 10px;
 }
 
+.fc-button .fc-icon {
+  font-size: 17px;
+  margin-top: -2px;
+}
+
 .fc-next-button,
 .fc-prev-button {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   background: var(--main-bg-color);
   border-color: var(--secondary-bg-color);
+}
+
+.fc-today-button {
+  padding: 0 7px;
+  font-size: 14px;
+  height: 26px;
+  text-transform: capitalize;
+  background: var(--main-bg-color) !important;
+  border-color: var(--secondary-bg-color) !important;
+}
+
 }
 
 .fc-button .fc-icon {
