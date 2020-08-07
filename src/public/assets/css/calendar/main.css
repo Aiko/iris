@@ -19,6 +19,10 @@ head th {
   border-left: 0 !important;
 }
 
+.fc-toolbar.fc-header-toolbar {
+  margin-bottom: 50px;
+}
+
 .fc-left h2 {
   position: absolute;
   top: 0;
