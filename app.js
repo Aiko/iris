@@ -108,6 +108,7 @@ const WindowManager = require('./src/js/utils/window')(win)
 
 // Components and side windows of our app
 const Composer = require('./src/js/components/composer')
+const Calendar = require('./src/js/components/calendar')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 

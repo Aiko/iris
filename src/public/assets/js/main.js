@@ -8,7 +8,8 @@ top.app = new Vue({
     composer, // SMTP API
     goauth, // Google OAuth
     modalmanager, // Modals
-    shortcuts // Shortcuts
+    shortcuts, // Shortcuts
+    calendar, // Calendar API
   ],
   data: {
     TAG: ['%c[MAIN]', 'background-color: #dd00aa; color: #000;'],

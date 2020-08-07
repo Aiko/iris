@@ -516,7 +516,7 @@
               </div>
             </div>
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <a target="_blank" href="calendar.html" class="inline"><img src="assets/icons/header-calendar.svg"></a>
+              <a @click="openCalendar" class="inline"><img src="assets/icons/header-calendar.svg"></a>
               <div class="dropdown inline">
                 <a data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
@@ -1798,6 +1798,7 @@
   <script src="assets/js/services/goauth.js"></script>
   <script src="assets/js/services/mail.js"></script>
   <script src="assets/js/services/composer.js"></script>
+  <script src="assets/js/services/calendar.js"></script>
   <script src="assets/js/services/modals.js"></script>
   <script src="assets/js/services/shortcuts.js"></script>
   <script src="assets/js/services/visual.js"></script>

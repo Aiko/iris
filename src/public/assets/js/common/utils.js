@@ -70,7 +70,7 @@ Date.prototype.toNiceDateTime = function () {
   const now = new Date()
   const diff = this - now
   const days = diff / (1000 * 60 * 60 * 24)
-  if (Math.abs(days) < 1) {
+  if (Math.abs(days) < 1 && this.getDate() == now.getDate()) {
     return this.toLocaleTimeString('en-us', {
       hour: 'numeric',
       minute: '2-digit'

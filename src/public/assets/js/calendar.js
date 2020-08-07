@@ -7,6 +7,7 @@ const app = new Vue({
     aikoapi, // Aiko API
     windowManager, // window controls
     goauth, // Google OAuth
+    calendar, // Calendar API
   ],
   data: {
     TAG: ['%c[CALENDAR MAIN]', 'background-color: #dd00aa; color: #000;'],
