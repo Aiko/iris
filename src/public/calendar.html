@@ -146,9 +146,9 @@
 
       <div class="boards-container">
         <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar" :plugins="plugins" :events="events" :header="{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+              left: 'title',
+              center: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+              right: 'prev,next today'
           }" :weekends="true" :editable="true" :selectable="true">
         </full-calendar>
       </div>
