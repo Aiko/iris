@@ -19,6 +19,10 @@ head th {
   border-left: 0 !important;
 }
 
+.fc-other-month {
+  background: #31302c;
+}
+
 .fc-bg td {
   border-color: #4e4e4e;
   cursor: pointer;
