@@ -19,6 +19,25 @@ head th {
   border-left: 0 !important;
 }
 
-.fc-unthemed td {
+.fc-bg td {
   border-color: #4e4e4e;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.fc-bg td:hover {
+  background: #31302c;
+  transition: .2s;
+}
+
+.fc-unthemed td.fc-today {
+  background: #151515;
+}
+
+.calendar .compose {
+  padding-top: 3px !important;
+}
+
+.calendar .compose img {
+  margin-top: -2px !important;
 }
