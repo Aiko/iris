@@ -39,6 +39,10 @@ head th {
   margin-right: 10px;
 }
 
+.calendar .control-bar {
+  background: var(--main-bg-color) !important;
+}
+
 .calendar .main {
   width: 100% !important;
 }
