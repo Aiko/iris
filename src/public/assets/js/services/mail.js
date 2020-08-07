@@ -1857,7 +1857,7 @@ const mailapi = {
             if (currentIndex < 0) {
               return error(...MAILAPI_TAG, "For some reason the email is not currently in the board that it was moved to?")
             }
-            app.boards[fromBoard].emails.unshift(app.boards[boardName].emails.splice(currentIndex, 1))
+            app.boards[fromBoard].emails.unshift(...app.boards[boardName].emails.splice(currentIndex, 1))
             return
           }
           info(...MAILAPI_TAG, 'Moved email',

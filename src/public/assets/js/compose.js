@@ -74,7 +74,7 @@ const app = new Vue({
     info(...(this.TAG), 'Initializing application')
     this.loading = true
 
-    this.bang = window.location.hash.substr(1)
+    this.bang = 'composer-' + window.location.hash.substr(1)
 
     info(...(this.TAG), 'Initializing cache')
     await SmallStorage.load('random')

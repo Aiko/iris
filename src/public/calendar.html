@@ -8,9 +8,16 @@
   <meta name="author" content="Aiko AI">
   <title>Calendar</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+  <!-- FullCalendar CSS -->
+  <link href='https://unpkg.com/@fullcalendar/core@4.1.0/main.css' rel='stylesheet' />
+  <link href='https://unpkg.com/@fullcalendar/daygrid@4.1.0/main.css' rel='stylesheet' />
+  <link href='https://unpkg.com/@fullcalendar/timegrid@4.1.0/main.css' rel='stylesheet' />
+
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
+
   <script src="assets/js/third-party/jquery.min.js"></script>
   <script>
     window.jQuery = window.$ = require('jquery');
@@ -37,7 +44,7 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5 @click="showDev = true">{{hash.substring(0, 9)}}</h5>
+      <h5 @click="showDev = true">BETA</h5>
 
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->
@@ -92,14 +99,6 @@
         <div class="t-loader-red"><span></span></div>
       </div>
 
-      <!-- TOAST IMAP Error -->
-      <div class="aiko-toast" v-if="!connected">
-        <p class="textinout" style="color: #dc3545 !important">
-          We're having issues connecting to your mail provider. Trying again in {{timeToNextSync}}s...
-        </p>
-        <div class="t-loader-red"><span></span></div>
-      </div>
-
       <!-- TOAST Send Email Error -->
       <div class="aiko-toast" style="display: none;">
         <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to network
@@ -120,13 +119,12 @@
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
+                  <img src="assets/icons/header-user.svg"> <span>calendar 1</span>
                 </div>
-                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email"
-                  class="account">
-                  <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
+                <div class="account">
+                  <img src="assets/icons/header-user.svg"> <span>calendar 2</span>
                 </div>
-                <div @click="addMailbox = true" class="account">
+                <div class="account">
                   <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
                 </div>
               </div>
@@ -139,7 +137,7 @@
 
             </div>
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <a href="index.html" class="inline">
+              <a class="inline">
                 <p class="inline">Close calendar </p> <img src="assets/icons/grey-x.svg" class="cal-x">
               </a>
             </div>
@@ -149,19 +147,14 @@
       <!-- END Header -------------------------------------------->
 
       <div class="boards-container">
-        <!-- TODO: FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
-        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar"
+          :plugins="plugins" :events="events" :header="{
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+          }" :weekends="true" :editable="true" :selectable="true"
+        >
+        </full-calendar>
       </div>
     </div>
 
@@ -198,12 +191,16 @@
     <script src="assets/js/third-party/jwt-decode.min.js"></script>
     <script src="assets/js/third-party/jsrsasign.min.js"></script>
     <script src="assets/js/third-party/localforage.min.js"></script>
-    <script src="assets/js/third-party/sortable.min.js"></script>
     <script src="assets/js/third-party/vue.min.js"></script>
     <script src="assets/js/third-party/vue-draggable.min.js"></script>
     <script src="assets/js/third-party/chrono.min.js"></script>
     <script src="assets/js/third-party/crypto.js"></script>
     <script src="assets/js/third-party/hotkeys.min.js"></script>
+    <script src='https://unpkg.com/@fullcalendar/core@4.4.2/main.js'></script>
+    <script src='https://unpkg.com/@fullcalendar/daygrid@4.4.2/main.js'></script>
+    <script src='https://unpkg.com/@fullcalendar/timegrid@4.4.2/main.js'></script>
+    <script src='https://unpkg.com/@fullcalendar/interaction@4.4.2/main.js'></script>
+    <script src="https://unpkg.com/@fullcalendar/vue@4.4.2/main.umd.js"></script>
 
     <!-- TODO: minify all sources into one js file -->
     <!-- common libraries -->
@@ -212,28 +209,20 @@
     <script src="assets/js/common/big-storage.js"></script>
     <script src="assets/js/common/only-electron.js"></script>
     <script src="assets/js/common/ai-core.js"></script>
-    <script src="assets/js/common/mailcleaner.js"></script>
     <!-- services -->
     <script src="assets/js/services/ipc.js"></script>
     <script src="assets/js/services/aiko.js"></script>
     <script src="assets/js/services/window.js"></script>
     <script src="assets/js/services/goauth.js"></script>
-    <script src="assets/js/services/mail.js"></script>
     <script src="assets/js/services/composer.js"></script>
     <script src="assets/js/services/modals.js"></script>
     <script src="assets/js/services/shortcuts.js"></script>
-    <script src="assets/js/services/visual.js"></script>
+    <script src="assets/js/services/visual.js"></script> <!-- ??? wtf is this boobzy  -->
     <!-- templates -->
     <script src="assets/js/components/modals/tutorial.js"></script>
-    <script src="assets/js/components/modals/add-mailbox.js"></script>
-    <script src="assets/js/components/modals/view-email.js"></script>
-    <script src="assets/js/components/modals/add-board.js"></script>
     <script src="assets/js/components/modals/dev-controls.js"></script>
-    <script src="assets/js/components/email-card.js"></script>
-    <script src="assets/js/components/view-email-single.js"></script>
-    <script src="assets/js/components/board.js"></script>
     <!-- main/entrypoint -->
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/calendar.js"></script>
 
 </body>
 

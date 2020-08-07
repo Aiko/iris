@@ -18,7 +18,7 @@ const openComposer = bang => {
     height: 600,
     icon: process.platform == 'darwin' ? './src/public/assets/img/icon.png' : './src/public/assets/img/app-icon/square-icon-shadow.png'
   })
-  const manager = WindowManager(win, bang + ':please')
+  const manager = WindowManager(win, 'composer-' + bang + ':please')
   manager.setWindow(win)
   win.show()
   win.focus()
