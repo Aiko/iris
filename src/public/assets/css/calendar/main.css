@@ -5,3 +5,11 @@ Importing all calendar css files here
 @import "daygrid.css";
 @import "timegrid.css";
 @import "core.css";
+
+head th {
+  border: none;
+}
+
+.fc-widget-header {
+  border: none !important;
+}
