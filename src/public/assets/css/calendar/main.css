@@ -53,7 +53,7 @@ head th {
   width: 20px;
   height: 20px;
   padding: 0;
-  background: var(--secondary-bg-color);
+  background: var(--main-bg-color);
   border-color: var(--secondary-bg-color);
 }
 
