@@ -19,8 +19,34 @@ head th {
   border-left: 0 !important;
 }
 
+.fc-left h2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 50px;
+}
+
 .calendar .main {
   width: 100% !important;
+}
+
+.fc-toolbar {
+  background: var(--main-bg-color);
+  padding: 5px 10px;
+}
+
+.fc-next-button,
+.fc-prev-button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: var(--secondary-bg-color);
+  border-color: var(--secondary-bg-color);
+}
+
+.fc-button .fc-icon {
+  font-size: 1em;
+  margin-top: -10px;
 }
 
 .fc-other-month {

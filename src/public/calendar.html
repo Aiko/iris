@@ -84,34 +84,30 @@
         <div class="t-loader"><span></span></div>
       </div>
 
-      <!-- Header ------------------------------------------------>
-      <div class="header">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="picker">
-                <div class="account">
-                  <img src="assets/icons/header-calendar.svg"> <span>calendar 1</span>
-                </div>
-                <div class="account">
-                  <img src="assets/icons/header-calendar.svg"> <span>calendar 2</span>
-                </div>
-                <div class="account">
-                  <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
-                </div>
-              </div>
-            </div>
+      <div class="boards-container">
+
+
+
+        <!-- IDK WHERE TO PUT PICKER 
+        <div class="picker">
+          <div class="account">
+            <img src="assets/icons/header-calendar.svg"> <span>calendar 1</span>
+          </div>
+          <div class="account">
+            <img src="assets/icons/header-calendar.svg"> <span>calendar 2</span>
+          </div>
+          <div class="account">
+            <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
           </div>
         </div>
-      </div>
-      <!-- END Header -------------------------------------------->
+         IDK WHERE TO PUT PICKER -->
 
-      <div class="boards-container">
         <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar" :plugins="plugins" :events="events" :header="{
               left: 'title',
               center: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
               right: 'prev,next today'
           }" :weekends="true" :editable="true" :selectable="true">
+
         </full-calendar>
       </div>
     </div>
