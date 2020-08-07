@@ -13,3 +13,12 @@ head th {
 .fc-widget-header {
   border: none !important;
 }
+
+.fc-widget-content {
+
+  border-left: 0 !important;
+}
+
+.fc-unthemed td {
+  border-color: #4e4e4e;
+}
