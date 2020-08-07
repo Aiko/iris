@@ -29,8 +29,7 @@
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
   <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
   <div id="app" :class="{
-    'inline-flex': true,
-    'collapsed': collapseSidebar
+    'inline-flex': true
   }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
@@ -54,32 +53,7 @@
       <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
       <!-- Close ---------------->
     </div>
-    <!-- Sidebar --------------------------------------------------->
-    <div class="sidebar">
-      <div class="container">
-        <div class="row">
-          <a class="compose" @click="openComposer()"><img src="assets/icons/eplus.svg"
-              style="margin-right: 6px;width:13px"><span>New Event</span></a>
 
-        </div>
-        <div class="row">
-
-        </div>
-        <div class="row bottom">
-          <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
-            class="sidebar-collapse no-mobile">
-            <img src="assets/icons/sidebar-collapse.svg">
-          </div>
-          <br>
-          <div class="set">
-            <a><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
-                width="30"></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END Sidebar ----------------------------------------------->
 
     <!-- MAIN INBOX -->
     <div class="main">
@@ -114,7 +88,7 @@
       <div class="header">
         <div class="container">
           <div class="row">
-            <div class="col-lg-3 col-md-4 col-2">
+            <div class="col-lg-12">
               <div class="picker">
                 <div class="account">
                   <img src="assets/icons/header-calendar.svg"> <span>calendar 1</span>
@@ -126,18 +100,6 @@
                   <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-5 col-md-6 col-6 p0m">
-              <div class="cal-scope">
-                <!-- This is coded its just an ugly visual test p tag---------------------->
-                <p style="margin-top: 3px !important;">Day Week Month Year</p>
-              </div>
-
-            </div>
-            <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <a class="inline">
-                <p class="inline">Close calendar </p> <img src="assets/icons/grey-x.svg" class="cal-x">
-              </a>
             </div>
           </div>
         </div>
