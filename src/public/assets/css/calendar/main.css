@@ -27,7 +27,8 @@ head th {
   position: absolute;
   top: 0;
   left: 0;
-  margin-top: 50px;
+  margin-top: 55px;
+  margin-left: 10px;
 }
 
 .calendar .main {
