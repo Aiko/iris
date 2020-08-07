@@ -9,10 +9,8 @@
   <title>Calendar</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
-  <!-- FullCalendar CSS -->
-  <link href='https://unpkg.com/@fullcalendar/core@4.1.0/main.css' rel='stylesheet' />
-  <link href='https://unpkg.com/@fullcalendar/daygrid@4.1.0/main.css' rel='stylesheet' />
-  <link href='https://unpkg.com/@fullcalendar/timegrid@4.1.0/main.css' rel='stylesheet' />
+  <!-- Calendar CSS -->
+  <link href='assets/css/calendar/main.css' rel='stylesheet' />
 
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -119,10 +117,10 @@
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>calendar 1</span>
+                  <img src="assets/icons/header-calendar.svg"> <span>calendar 1</span>
                 </div>
                 <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>calendar 2</span>
+                  <img src="assets/icons/header-calendar.svg"> <span>calendar 2</span>
                 </div>
                 <div class="account">
                   <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
@@ -147,13 +145,11 @@
       <!-- END Header -------------------------------------------->
 
       <div class="boards-container">
-        <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar"
-          :plugins="plugins" :events="events" :header="{
+        <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar" :plugins="plugins" :events="events" :header="{
               left: 'prev,next today',
               center: 'title',
               right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-          }" :weekends="true" :editable="true" :selectable="true"
-        >
+          }" :weekends="true" :editable="true" :selectable="true">
         </full-calendar>
       </div>
     </div>

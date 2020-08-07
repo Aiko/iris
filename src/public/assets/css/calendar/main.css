@@ -1,0 +1,7 @@
+/*!
+Main Calendar CSS File
+Importing all calendar css files here
+*/
+@import "daygrid.css";
+@import "timegrid.css";
+@import "core.css";
