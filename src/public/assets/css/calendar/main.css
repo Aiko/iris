@@ -39,12 +39,16 @@ head th {
   margin-right: 10px;
 }
 
-.calendar .control-bar {
+.control-bar {
   background: var(--main-bg-color) !important;
 }
 
-.calendar .main {
+.main {
   width: 100% !important;
+}
+
+.boards-container {
+  height: 100%;
 }
 
 .fc-toolbar {
@@ -116,10 +120,10 @@ head th {
   background: #151515;
 }
 
-.calendar .compose {
+.compose {
   padding-top: 3px !important;
 }
 
-.calendar .compose img {
+.compose img {
   margin-top: -2px !important;
 }
