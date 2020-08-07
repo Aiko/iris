@@ -530,6 +530,14 @@ input:active {
 	border-top: 1px solid var(--main-bg-color);
 }
 
+.calendar .compose {
+	padding-top: 3px !important;
+}
+
+.calendar .compose img {
+	margin-top: -2px !important;
+}
+
 .control-bar h1 {
 	width: 25px;
 	border-radius: 1px;
@@ -544,6 +552,22 @@ input:active {
 	padding-left: 7px;
 	opacity: 0.4;
 	transition: 0.2s;
+}
+
+.cal-scope {
+	color: var(--main-text-color);
+	padding: 0 5px 5px 9px;
+	background: var(--secondary-bg-color);
+	border: var(--main-border);
+	border-radius: 3px;
+	cursor: pointer;
+	height: 30px;
+	max-width: 250px;
+}
+
+.cal-x {
+	margin-top: 0 !important;
+	width: 20px !important;
 }
 
 .control-bar h1:hover {

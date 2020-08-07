@@ -1,0 +1,240 @@
+<!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Aiko AI">
+  <title>Calendar</title>
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/loader.css">
+  <script src="assets/js/third-party/jquery.min.js"></script>
+  <script>
+    window.jQuery = window.$ = require('jquery');
+  </script>
+  <!-- Using unsafe eval for Vue -->
+  <!--<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
+</head>
+
+<body class="bg calendar" style="background-image: url('./assets/img/1.jpg')">
+  <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
+  <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
+  <div id="app" :class="{
+    'inline-flex': true,
+    'collapsed': collapseSidebar
+  }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
+    <!-- THEMES GO HERE -->
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+
+
+    <!-- CONTROL BAR -->
+    <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
+      <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
+      <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
+      <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
+
+      <h5 @click="showDev = true">{{hash.substring(0, 9)}}</h5>
+
+      <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
+      <!-- Minimize ---------->
+      <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10">
+      </h1>
+      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png" width="10">
+      </h1>
+      <!-- Maximize -->
+      <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
+      <!-- Close ---------------->
+    </div>
+    <!-- Sidebar --------------------------------------------------->
+    <div class="sidebar">
+      <div class="container">
+        <div class="row">
+          <a class="compose" @click="openComposer()"><img src="assets/icons/eplus.svg"
+              style="margin-right: 6px;width:13px"><span>New Event</span></a>
+
+        </div>
+        <div class="row">
+
+        </div>
+        <div class="row bottom">
+          <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
+            class="sidebar-collapse no-mobile">
+            <img src="assets/icons/sidebar-collapse.svg">
+          </div>
+          <br>
+          <div class="set">
+            <a><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
+                width="30"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END Sidebar ----------------------------------------------->
+
+    <!-- MAIN INBOX -->
+    <div class="main">
+
+      <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
+      <!-- TOAST Invite Sent -->
+      <div class="aiko-toast" style="display: none">
+        <p class="textinout">Sending invite</p><a>Undo</a>
+        <div class="t-loader"><span></span></div>
+      </div>
+
+      <!-- TOAST Connection Lost -->
+      <div class="aiko-toast" style="display: none">
+        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- TOAST IMAP Error -->
+      <div class="aiko-toast" v-if="!connected">
+        <p class="textinout" style="color: #dc3545 !important">
+          We're having issues connecting to your mail provider. Trying again in {{timeToNextSync}}s...
+        </p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- TOAST Send Email Error -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to network
+          issues</p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- TOAST Sending Email -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout">Sending email</p><a>Undo</a>
+        <div class="t-loader"><span></span></div>
+      </div>
+
+      <!-- Header ------------------------------------------------>
+      <div class="header">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-2">
+              <div class="picker">
+                <div class="account">
+                  <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
+                </div>
+                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email"
+                  class="account">
+                  <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
+                </div>
+                <div @click="addMailbox = true" class="account">
+                  <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-5 col-md-6 col-6 p0m">
+              <div class="cal-scope">
+                <!-- This is coded its just an ugly visual test p tag---------------------->
+                <p style="margin-top: 3px !important;">Day Week Month Year</p>
+              </div>
+
+            </div>
+            <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
+              <a href="index.html" class="inline">
+                <p class="inline">Close calendar </p> <img src="assets/icons/grey-x.svg" class="cal-x">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END Header -------------------------------------------->
+
+      <div class="boards-container">
+        <!-- TODO: FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+        <!--       FULL CALENDAR GOES HERE  -------------------------------------------->
+      </div>
+    </div>
+
+    <!-- TODO: Rig UPGRADE MODAL - MAILBOX SWITCHER -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email">
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px;margin-top:10px">
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140" style="margin-bottom: 15px;margin-top:10px">
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-mailbox-black.png" width="250">
+            <img v-if="!isDarkMode" src="assets/img/u-mailbox-white.png" width="250">
+            <br> <br>
+            <p style="max-width: 300px;margin: auto;margin-bottom: 10px;">Add multiple calendars blabla</p><br><br>
+            <div class="modal-bottom">
+              <a class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- 3rd party libraries -->
+    <script src="assets/js/third-party/popper.min.js"></script>
+    <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
+    <script src="assets/js/third-party/bootstrap.min.js"></script>
+    <script src="assets/js/third-party/jwt-decode.min.js"></script>
+    <script src="assets/js/third-party/jsrsasign.min.js"></script>
+    <script src="assets/js/third-party/localforage.min.js"></script>
+    <script src="assets/js/third-party/sortable.min.js"></script>
+    <script src="assets/js/third-party/vue.min.js"></script>
+    <script src="assets/js/third-party/vue-draggable.min.js"></script>
+    <script src="assets/js/third-party/chrono.min.js"></script>
+    <script src="assets/js/third-party/crypto.js"></script>
+    <script src="assets/js/third-party/hotkeys.min.js"></script>
+
+    <!-- TODO: minify all sources into one js file -->
+    <!-- common libraries -->
+    <script src="assets/js/common/utils.js"></script>
+    <script src="assets/js/common/small-storage.js"></script>
+    <script src="assets/js/common/big-storage.js"></script>
+    <script src="assets/js/common/only-electron.js"></script>
+    <script src="assets/js/common/ai-core.js"></script>
+    <script src="assets/js/common/mailcleaner.js"></script>
+    <!-- services -->
+    <script src="assets/js/services/ipc.js"></script>
+    <script src="assets/js/services/aiko.js"></script>
+    <script src="assets/js/services/window.js"></script>
+    <script src="assets/js/services/goauth.js"></script>
+    <script src="assets/js/services/mail.js"></script>
+    <script src="assets/js/services/composer.js"></script>
+    <script src="assets/js/services/modals.js"></script>
+    <script src="assets/js/services/shortcuts.js"></script>
+    <script src="assets/js/services/visual.js"></script>
+    <!-- templates -->
+    <script src="assets/js/components/modals/tutorial.js"></script>
+    <script src="assets/js/components/modals/add-mailbox.js"></script>
+    <script src="assets/js/components/modals/view-email.js"></script>
+    <script src="assets/js/components/modals/add-board.js"></script>
+    <script src="assets/js/components/modals/dev-controls.js"></script>
+    <script src="assets/js/components/email-card.js"></script>
+    <script src="assets/js/components/view-email-single.js"></script>
+    <script src="assets/js/components/board.js"></script>
+    <!-- main/entrypoint -->
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
