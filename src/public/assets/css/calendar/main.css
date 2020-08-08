@@ -88,8 +88,8 @@ head th {
   margin-top: -2px;
 }
 
-.fc-button-primary:hover {
-  background-color: var(--secondary-bg-color);
+.fc-button-primary .fc-button-primary:hover {
+  background-color: var(--secondary-bg-color) !important;
   outline: none;
 
   transition: .2s;
@@ -121,12 +121,29 @@ head th {
   border-color: var(--secondary-bg-color) !important;
 }
 
+.fc-today span {
+  color: #ddd;
+  background: #dc3545;
+  border-radius: 100px;
+  height: 20px;
+  width: 25px;
+  text-align: center;
+  padding: 0 0 5px 0 !important;
+  margin: 5px;
 }
 
 .fc-button .fc-icon {
   font-size: 1em;
-  margin-top: -10px;
+  margin-top: -5px;
 }
+
+.fc-button-primary:not(:disabled):active,
+.fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--main-bg-color);
+  border-color: var(--secondary-bg-color);
+  padding: 4PX 0.65em;
+}
+
 
 .fc-other-month {
   background: #31302c;
