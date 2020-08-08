@@ -88,8 +88,9 @@ head th {
   margin-top: -2px;
 }
 
+.fc-button-primary,
 .fc-button-primary .fc-button-primary:hover {
-  background-color: var(--secondary-bg-color) !important;
+  background-color: var(--secondary-bg-color);
   outline: none;
 
   transition: .2s;
