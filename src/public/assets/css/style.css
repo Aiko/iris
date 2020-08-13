@@ -1724,7 +1724,7 @@ hr {
 	height: 100%;
 	background: var(--secondary-bg-color);
 	width: calc(100% - 300px);
-	box-shadow: 20px 0px 10px -20px rgba(0, 0, 0, 0.15);
+	box-shadow: 20px 0 10px -20px rgba(0, 0, 0, 0.15);
 	z-index: 1;
 	position: relative;
 	border-radius: 3px;
@@ -3360,7 +3360,7 @@ input:checked+.slider:before {
 	left: 0;
 	margin-bottom: -23px;
 	font-size: 10px;
-	margin-left: 0px;
+	margin-left: 0;
 	color: var(--dark-text);
 	background: var(--main-bg-color);
 	padding: 2px 5px;
