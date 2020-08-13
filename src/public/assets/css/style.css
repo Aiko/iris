@@ -170,7 +170,7 @@ input:active {
 /* END DRAGGABLE CLASSES */
 
 .version {
-	padding: 10px 7px;
+	padding: 6px 5px;
 	margin-top: 5vh;
 	background: var(--secondary-bg-color);
 	border-radius: 3px;
