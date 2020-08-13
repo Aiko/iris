@@ -9,10 +9,8 @@
   <title>Calendar</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
-  <!-- FullCalendar CSS -->
-  <link href='https://unpkg.com/@fullcalendar/core@4.1.0/main.css' rel='stylesheet' />
-  <link href='https://unpkg.com/@fullcalendar/daygrid@4.1.0/main.css' rel='stylesheet' />
-  <link href='https://unpkg.com/@fullcalendar/timegrid@4.1.0/main.css' rel='stylesheet' />
+  <!-- Calendar CSS -->
+  <link href='assets/css/calendar/main.css' rel='stylesheet' />
 
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -27,12 +25,11 @@
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
 </head>
 
-<body class="bg calendar" style="background-image: url('./assets/img/1.jpg')">
+<body class="bg">
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
   <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
   <div id="app" :class="{
-    'inline-flex': true,
-    'collapsed': collapseSidebar
+    'inline-flex': true
   }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
     <!-- THEMES GO HERE -->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
@@ -56,32 +53,7 @@
       <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
       <!-- Close ---------------->
     </div>
-    <!-- Sidebar --------------------------------------------------->
-    <div class="sidebar">
-      <div class="container">
-        <div class="row">
-          <a class="compose" @click="openComposer()"><img src="assets/icons/eplus.svg"
-              style="margin-right: 6px;width:13px"><span>New Event</span></a>
 
-        </div>
-        <div class="row">
-
-        </div>
-        <div class="row bottom">
-          <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
-            class="sidebar-collapse no-mobile">
-            <img src="assets/icons/sidebar-collapse.svg">
-          </div>
-          <br>
-          <div class="set">
-            <a><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
-                width="30"></a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END Sidebar ----------------------------------------------->
 
     <!-- MAIN INBOX -->
     <div class="main">
@@ -112,48 +84,30 @@
         <div class="t-loader"><span></span></div>
       </div>
 
-      <!-- Header ------------------------------------------------>
-      <div class="header">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-3 col-md-4 col-2">
-              <div class="picker">
-                <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>calendar 1</span>
-                </div>
-                <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>calendar 2</span>
-                </div>
-                <div class="account">
-                  <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-5 col-md-6 col-6 p0m">
-              <div class="cal-scope">
-                <!-- This is coded its just an ugly visual test p tag---------------------->
-                <p style="margin-top: 3px !important;">Day Week Month Year</p>
-              </div>
+      <div class="boards-container">
 
-            </div>
-            <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <a class="inline">
-                <p class="inline">Close calendar </p> <img src="assets/icons/grey-x.svg" class="cal-x">
-              </a>
-            </div>
+
+
+        <!-- IDK WHERE TO PUT PICKER 
+        <div class="picker">
+          <div class="account">
+            <img src="assets/icons/header-calendar.svg"> <span>calendar 1</span>
+          </div>
+          <div class="account">
+            <img src="assets/icons/header-calendar.svg"> <span>calendar 2</span>
+          </div>
+          <div class="account">
+            <img src="assets/icons/header-plus.svg"> <span>Add a calendar</span>
           </div>
         </div>
-      </div>
-      <!-- END Header -------------------------------------------->
+         IDK WHERE TO PUT PICKER -->
 
-      <div class="boards-container">
-        <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar"
-          :plugins="plugins" :events="events" :header="{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-          }" :weekends="true" :editable="true" :selectable="true"
-        >
+        <full-calendar default-view.camel="dayGridMonth" ref="fullCalendar" :plugins="plugins" :events="events" :header="{
+              left: 'title',
+              center: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+              right: 'prev,next today'
+          }" :weekends="true" :editable="true" :selectable="true">
+
         </full-calendar>
       </div>
     </div>

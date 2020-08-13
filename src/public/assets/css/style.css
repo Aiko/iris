@@ -530,13 +530,7 @@ input:active {
 	border-top: 1px solid var(--main-bg-color);
 }
 
-.calendar .compose {
-	padding-top: 3px !important;
-}
 
-.calendar .compose img {
-	margin-top: -2px !important;
-}
 
 .control-bar h1 {
 	width: 25px;
