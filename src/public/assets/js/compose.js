@@ -54,7 +54,7 @@ const app = new Vue({
     contacts: {},
   },
   watch: {
-    loading (isLoading, wasLoading) {
+    loading(isLoading, wasLoading) {
       if (wasLoading && isLoading) return
       if (wasLoading && !isLoading) {
         setTimeout(() => {
@@ -66,9 +66,11 @@ const app = new Vue({
         document.getElementById('fixed').style.display = ''
       }
     },
-    showBCC () { this.calculateComposerHeight() },
+    showBCC() {
+      this.calculateComposerHeight()
+    },
   },
-  async created () {
+  async created() {
     document.getElementById('app').style.opacity = 1
     console.time('APP STARTUP')
     info(...(this.TAG), 'Initializing application')
@@ -130,7 +132,7 @@ const app = new Vue({
     console.timeEnd('APP STARTUP')
   },
   methods: {
-    log (...msg) {
+    log(...msg) {
       console.log(...msg)
     },
     async calculateComposerHeight() {
@@ -139,7 +141,7 @@ const app = new Vue({
       const offset = composer.offsetTop + 66
       composer.style.maxHeight = `calc(100% - ${offset}px)`
     },
-    makeEditor () {
+    makeEditor() {
       this.editor = new Editor({
         extensions: [
           new Blockquote(),
@@ -178,13 +180,15 @@ const app = new Vue({
           new Mathematics(),
           new ParagraphDiv()
         ],
-        onUpdate: ({ getHTML }) => {
+        onUpdate: ({
+          getHTML
+        }) => {
           this.html = getHTML()
         },
-        content: '<p></p><br><p></p><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>' + (this.quoted ? `<br><blockquote>${this.quoted}</blockquote>` : '')
+        content: '<p></p><br><p></p><br><a href="https://helloaiko.com/mail">Sent with Aiko Mail</a>' + (this.quoted ? `<br><blockquote>${this.quoted}</blockquote>` : '')
       })
     },
-    showLinkMenu (attrs) {
+    showLinkMenu(attrs) {
       this.log('Showed link menu')
       this.linkMenuIsActive = true
       this.linkUrl = attrs.href
@@ -192,24 +196,26 @@ const app = new Vue({
         this.$refs.linkInput.focus()
       })
     },
-    hideLinkMenu () {
+    hideLinkMenu() {
       this.log('Hid link menu')
       this.linkUrl = null
       this.linkMenuIsActive = false
     },
-    setLinkUrl (command, url) {
+    setLinkUrl(command, url) {
       this.log('Set link to', url)
-      command({ href: url })
+      command({
+        href: url
+      })
       this.hideLinkMenu()
     },
     async fetchContacts() {
       const contactCache = (
-        await BigStorage.load(this.smtpConfig.email + '/contacts')
-        || this.contacts
+        await BigStorage.load(this.smtpConfig.email + '/contacts') ||
+        this.contacts
       )
       Object.assign(this.contacts, contactCache)
     },
-    async suggestContact(term, limit=5) {
+    async suggestContact(term, limit = 5) {
       term = term.toLowerCase()
       const results = []
       for (const contact of app.contacts.allContacts) {
