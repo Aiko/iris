@@ -338,7 +338,6 @@ input:active {
 }
 
 .inbox-switch {
-	border: 2px solid var(--secondary-bg-color);
 	margin-top: -4px;
 	margin-right: -15px;
 	border-radius: 4px;
@@ -2328,41 +2327,31 @@ select.v1 {
 }
 
 .attachments {
-	overflow: scroll;
-	width: calc(100% + 50px);
-	padding: 0 25px;
-	margin-left: -25px;
-	max-height: 40%;
-	background: var(--secondary-bg-color);
-	padding-top: 10px;
-	margin-bottom: 10px;
-	padding-bottom: 5px;
-}
-
-.attachments .secondary-count {
-	background: var(--main-bg-color) !important;
-}
-
-.attachments a {
-	color: #486fff !important;
-	margin-left: 5px;
+    overflow: scroll;
+    width: 100%;
+    padding: 10px 10px;
+    margin-top: -10px;
+    background: #fff;
 }
 
 .attachment {
-	background: #486fff;
-	border-radius: 3px;
-	color: #fff;
-	font-weight: 500;
-	padding: 5px;
-	cursor: pointer;
-	display: inline-flex;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	margin-bottom: 7px;
+background: var(--main-color);
+    border-radius: 3px;
+    color: #fff;
+    font-weight: 500;
+    padding: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    white-space: nowrap;
+    position: relative;
+    width: fit-content;
+    margin-bottom: 7px;
 	box-shadow: 0 4px 6px #00000045;
+	transition: .2s;
+}
+.attachment:hover {
+background: var(--main-color-hover);
+	transition: .2s;
 }
 
 .attachment img {
@@ -2371,13 +2360,12 @@ select.v1 {
 }
 
 .attachment .name {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 20px;
-	font-weight: 400;
-	letter-spacing: 0.4px;
-	margin-left: 4px;
-	width: calc(100% - 50px);
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: 0.4px;
+    margin-left: 4px;
+    width: fit-content;
+    padding-right: 50px;
 }
 
 .attachment .size {

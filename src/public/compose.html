@@ -1,531 +1,875 @@
 <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <meta name="author" content="Aiko AI" />
     <title>Compose</title>
     <link rel="icon" href="assets/img/favicon.png" type="image/png" />
     <link rel="stylesheet" href="assets/css/katex.min.css" />
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/css/composer.css" />
+  </head>
 
-</head>
+  <!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft?", same with send with no subject, same with no content-->
+  <!-- TODO: add info on replies before quote like 'on 11/02/2020 rubencharles said:' -->
 
-<!-- TODO: Make it so that when they close this window, but typed something, system asks "Save as draft?", same with send with no subject, same with no content-->
-<!-- TODO: add info on replies before quote like 'on 11/02/2020 rubencharles said:' -->
+  <body class="bg">
+    <div
+      id="app"
+      class="inline-flex"
+      :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'"
+    >
+      <!-- THEMES GO HERE -->
+      <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css" />
+      <div id="fixed" class="load-page">
+        <div class="load-bottom"></div>
+      </div>
 
-<body class="bg">
-    <div id="app" class="inline-flex" :style="'padding-top: ' + (isFullScreen ? '0' : '20') + 'px;'">
-        <!-- THEMES GO HERE -->
-        <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
-        <div id="fixed" class="load-page">
-            <div class="load-bottom"></div>
+      <!-- CONTROL BAR -->
+      <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
+        <p v-if="isLinux" title="Close" @click="close"></p>
+        <!-- Close ------------------------>
+        <p v-if="isLinux" title="Minimize" @click="minimize"></p>
+        <!-- Minimize ------------------------>
+        <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>
+        <!-- Full Screen ------------------------>
+
+        <h1 title="Minimize" @click="minimize">
+          <img src="assets/icons/top-minimize.png" width="10" />
+        </h1>
+        <!-- Minimize ---------->
+        <h1 v-if="!isMaximized" title="Maximize" @click="maximize">
+          <img src="assets/icons/top-expand.png" width="10" />
+        </h1>
+        <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize">
+          <img src="assets/icons/top-expand.png" width="10" />
+        </h1>
+        <!-- Maximize -->
+        <h1 title="Close" @click="close">
+          <img src="assets/icons/top-close.png" width="10" />
+        </h1>
+        <!-- Close ---------------->
+      </div>
+
+      <!-- TODO: Rig Message BAR  + would be nice if we can click out of it too like a suggestion box-->
+      <div class="message-bar" v-if="false">
+        <div class="container" style="user-select: none;">
+          <div class="row">
+            <div class="col-12">
+              <h3>This message has no subject.</h3>
+              <p>Are you sure you want to send it?</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <a class="naked"><span> Go back and edit</span></a>
+            </div>
+            <div class="col-sm-6" style="text-align: right; padding: 0;">
+              <a
+                ><img src="assets/icons/compose-send.svg" width="20" /><span>
+                  Send anyway</span
+                ></a
+              >
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- CONTROL BAR -->
-        <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
-            <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
-            <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
-            <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>
-            <!-- Full Screen ------------------------>
+      <!-- START Compose View -->
+      <div class="standalone">
+        <div class="main-email overflow-h">
+          <!-- TODO: Somehow autofocus the 'To' field when composer opens -->
+          <chip-input v-model="sendTo" inline-template>
+            <div
+              tabindex="-1"
+              @blur="unfocus(true)"
+              @keydown.stop.delete="pressDelete"
+              @keydown.stop.enter="completeChipWithSuggest"
+              @keydown.stop.tab="completeChipWithSuggest"
+              @keydown.stop.space="completeChip"
+              @keydown.stop.comma="completeChip"
+              @keydown.stop.left="pressLeft"
+              @keydown.stop.right="pressRight"
+              @keydown.stop.down="pressDown"
+              @keydown.stop.up="pressUp"
+              class="composer-single-field"
+            >
+              <div
+                @click="activeChip = i"
+                v-for="(chip, i) in value"
+                :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }"
+              >
+                <span>{{chip.display || chip.value}}</span>
+                <img
+                  @click="deleteChip(i)"
+                  src="assets/icons/grey-x.svg"
+                  class="composer-tag-remove"
+                />
+              </div>
+              <input
+                @click="unfocus(false)"
+                :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                type="text"
+                class="composer-single-field-input"
+                placeholder="To"
+                v-model="term"
+                ref="termInput"
+              />
+              <div
+                :style="'left: 0; top: ' + height + 'px'"
+                v-if="focused && term"
+                class="composer-suggestions"
+              >
+                <p
+                  @click="activeSuggestion = i; completeChipWithSuggest()"
+                  :class="{
+                                    'active': i == activeSuggestion
+                                }"
+                  v-for="(suggestion, i) in suggestions"
+                >
+                  <span>{{suggestion[1]}} </span> {{suggestion[0]}}
+                </p>
+              </div>
+            </div>
+          </chip-input>
 
-            <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-            <!-- Minimize ---------->
-            <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png"
-                    width="10">
-            </h1>
-            <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png"
-                    width="10">
-            </h1>
-            <!-- Maximize -->
-            <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
-            <!-- Close ---------------->
-        </div>
+          <chip-input v-model="sendCC" inline-template>
+            <div
+              tabindex="-1"
+              @blur="unfocus(true)"
+              @keydown.stop.delete="pressDelete"
+              @keydown.stop.enter="completeChipWithSuggest"
+              @keydown.stop.tab="completeChipWithSuggest"
+              @keydown.stop.space="completeChip"
+              @keydown.stop.comma="completeChip"
+              @keydown.stop.left="pressLeft"
+              @keydown.stop.right="pressRight"
+              @keydown.stop.down="pressDown"
+              @keydown.stop.up="pressUp"
+              class="composer-single-field ccspe"
+            >
+              <div
+                @click="activeChip = i"
+                v-for="(chip, i) in value"
+                :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }"
+              >
+                <span>{{chip.value}}</span>
+                <img
+                  @click="deleteChip(i)"
+                  src="assets/icons/grey-x.svg"
+                  class="composer-tag-remove"
+                />
+              </div>
+              <input
+                @click="unfocus(false)"
+                :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                type="text"
+                class="composer-single-field-input"
+                placeholder="CC"
+                v-model="term"
+                ref="termInput"
+              />
+              <a id="bcc-btn" @click="showBCC = !showBCC"
+                >{{showBCC ? '-' : '+'}}BCC</a
+              >
+              <div
+                :style="'left: 0; top: ' + height + 'px'"
+                v-if="focused && term"
+                class="composer-suggestions"
+              >
+                <p
+                  @click="activeSuggestion = i; completeChipWithSuggest()"
+                  :class="{
+                                    'active': i == activeSuggestion
+                                }"
+                  v-for="(suggestion, i) in suggestions"
+                >
+                  <span>{{suggestion[1]}} </span> {{suggestion[0]}}
+                </p>
+              </div>
+            </div>
+          </chip-input>
 
-        <!-- TODO: Rig Message BAR  + would be nice if we can click out of it too like a suggestion box-->
-        <div class="message-bar" v-if="false">
-            <div class="container" style="user-select: none;">
-                <div class="row">
-                    <div class="col-12">
-                        <h3>This message has no subject.</h3>
-                        <p>Are you sure you want to send it?</p>
+          <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
+            <div
+              tabindex="-1"
+              @blur="unfocus(true)"
+              @keydown.stop.delete="pressDelete"
+              @keydown.stop.enter="completeChipWithSuggest"
+              @keydown.stop.tab="completeChipWithSuggest"
+              @keydown.stop.space="completeChip"
+              @keydown.stop.comma="completeChip"
+              @keydown.stop.left="pressLeft"
+              @keydown.stop.right="pressRight"
+              @keydown.stop.down="pressDown"
+              @keydown.stop.up="pressUp"
+              class="composer-single-field ccspe"
+            >
+              <div
+                @click="activeChip = i"
+                v-for="(chip, i) in value"
+                :class="{
+                            'composer-tag-single': true,
+                            'active': activeChip == i
+                        }"
+              >
+                <span>{{chip.value}}</span>
+                <img
+                  @click="deleteChip(i)"
+                  src="assets/icons/grey-x.svg"
+                  class="composer-tag-remove"
+                />
+              </div>
+              <input
+                @click="unfocus(false)"
+                :style="activeChip > -1 ? 'caret-color: transparent' : ''"
+                type="text"
+                class="composer-single-field-input"
+                placeholder="BCC"
+                v-model="term"
+                ref="termInput"
+              />
+              <div
+                :style="'left: 0; top: ' + height + 'px'"
+                v-if="focused && term"
+                class="composer-suggestions"
+              >
+                <p
+                  @click="activeSuggestion = i; completeChipWithSuggest()"
+                  :class="{
+                                    'active': i == activeSuggestion
+                                }"
+                  v-for="(suggestion, i) in suggestions"
+                >
+                  <span>{{suggestion[1]}} </span>
+                  {{suggestion[0]}}
+                </p>
+              </div>
+            </div>
+          </chip-input>
+
+          <div class="composer-single-field">
+            <input
+              v-model="subject"
+              type="text"
+              class="composer-single-field-input"
+              placeholder="Subject"
+            />
+          </div>
+          <!-- TODO: this compose-body div needs to be 100% MINUS the height of all above elements combined, so it is never taller than full height -->
+          <div class="compose-body" ref="editor">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <div
+                      class="input-group date"
+                      id="datetimepicker1"
+                      data-target-input="nearest"
+                    >
+                      <input
+                        type="text"
+                        class="form-control datetimepicker-input"
+                        data-target="#datetimepicker1"
+                      />
+                      <div
+                        class="input-group-append"
+                        data-target="#datetimepicker1"
+                        data-toggle="datetimepicker"
+                      >
+                        <div class="input-group-text">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        <a class="naked"><span>
-                                Go back and edit</span></a>
+                <script type="text/javascript">
+                  $(function () {
+                    $("#datetimepicker1").datetimepicker();
+                  });
+                </script>
+              </div>
+
+              <div style="overflow: hidden;">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div id="datetimepicker13"></div>
                     </div>
-                    <div class="col-sm-6" style="text-align: right;padding: 0">
-                        <a><img src="assets/icons/compose-send.svg" width="20" /><span>
-                                Send anyway</span></a>
-                    </div>
+                  </div>
                 </div>
+                <script type="text/javascript">
+                  $(function () {
+                    $("#datetimepicker13").datetimepicker({
+                      inline: true,
+                      sideBySide: true,
+                    });
+                  });
+                </script>
+              </div>
             </div>
 
-
-        </div>
-
-        <!-- START Compose View -->
-        <div class="standalone">
-            <div class="main-email overflow-h">
-                <!-- TODO: Somehow autofocus the 'To' field when composer opens -->
-                <chip-input v-model="sendTo" inline-template>
-                    <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight" @keydown.stop.down="pressDown"
-                        @keydown.stop.up="pressUp" class="composer-single-field">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
-                            'composer-tag-single': true,
-                            'active': activeChip == i
-                        }">
-                            <span>{{chip.display || chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
-                            type="text" class="composer-single-field-input" placeholder="To" v-model="term"
-                            ref="termInput">
-                        <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
-                            class="composer-suggestions">
-                            <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
-                                    'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions">
-                                <span>{{suggestion[1]}} </span> {{suggestion[0]}}
-                            </p>
-                        </div>
-                    </div>
-                </chip-input>
-
-                <chip-input v-model="sendCC" inline-template>
-                    <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight" @keydown.stop.down="pressDown"
-                        @keydown.stop.up="pressUp" class="composer-single-field ccspe">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
-                            'composer-tag-single': true,
-                            'active': activeChip == i
-                        }">
-                            <span>{{chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
-                            type="text" class="composer-single-field-input" placeholder="CC" v-model="term"
-                            ref="termInput">
-                        <a id="bcc-btn" @click="showBCC = !showBCC">{{showBCC ? '-' : '+'}}BCC</a>
-                        <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
-                            class="composer-suggestions">
-                            <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
-                                    'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
-                                {{suggestion[0]}}</p>
-                        </div>
-                    </div>
-                </chip-input>
-
-                <chip-input v-if="showBCC" v-model="sendBCC" inline-template>
-                    <div tabindex="-1" @blur="unfocus(true)" @keydown.stop.delete="pressDelete"
-                        @keydown.stop.enter="completeChipWithSuggest" @keydown.stop.tab="completeChipWithSuggest"
-                        @keydown.stop.space="completeChip" @keydown.stop.comma="completeChip"
-                        @keydown.stop.left="pressLeft" @keydown.stop.right="pressRight" @keydown.stop.down="pressDown"
-                        @keydown.stop.up="pressUp" class="composer-single-field ccspe">
-                        <div @click="activeChip = i" v-for="(chip, i) in value" :class="{
-                            'composer-tag-single': true,
-                            'active': activeChip == i
-                        }">
-                            <span>{{chip.value}}</span>
-                            <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove">
-                        </div>
-                        <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''"
-                            type="text" class="composer-single-field-input" placeholder="BCC" v-model="term"
-                            ref="termInput">
-                        <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term"
-                            class="composer-suggestions">
-                            <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
-                                    'active': i == activeSuggestion
-                                }" v-for="(suggestion, i) in suggestions"><span>{{suggestion[1]}} </span>
-                                {{suggestion[0]}}
-                            </p>
-                        </div>
-
-                    </div>
-
-                </chip-input>
-
-                <div class="composer-single-field">
-                    <input v-model="subject" type="text" class="composer-single-field-input" placeholder="Subject">
+            <editor-content class="editor" :editor="editor"></editor-content>
+            <editor-menu-bubble
+              class="menububble"
+              :editor="editor"
+              v-slot="{ commands, isActive, getMarkAttrs, menu }"
+            >
+              <div
+                class="menububble"
+                :class="{'is-active': menu.isActive }"
+                :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`"
+              >
+                <div class="menububble__form" v-if="linkMenuIsActive">
+                  <input
+                    class="menububble__input"
+                    type="text"
+                    v-model="linkUrl"
+                    placeholder="https://"
+                    ref="linkInput"
+                    @keydown.enter="setLinkUrl(commands.link, linkUrl)"
+                    @keydown.esc="hideLinkMenu"
+                  />
+                  <button
+                    class="menububble__button comp-btn"
+                    @click="setLinkUrl(commands.link, linkUrl)"
+                    type="button"
+                  >
+                    <img src="assets/icons/link-3.svg" />
+                  </button>
+                  <button
+                    class="menububble__button comp-btn"
+                    @click="setLinkUrl(commands.link, null)"
+                    type="button"
+                  >
+                    <img src="assets/icons/close-g.png" style="padding: 8px;" />
+                  </button>
                 </div>
-                <!-- TODO: this compose-body div needs to be 100% MINUS the height of all above elements combined, so it is never taller than full height -->
-                <div class="compose-body" ref="editor">
-                    <editor-content class="editor" :editor="editor"></editor-content>
-                    <editor-menu-bubble class="menububble" :editor="editor"
-                        v-slot="{ commands, isActive, getMarkAttrs, menu }">
-                        <div class="menububble" :class="{'is-active': menu.isActive }"
-                            :style="`left: ${menu.left}px; bottom: ${menu.bottom}px;`">
-                            <div class="menububble__form" v-if="linkMenuIsActive">
-                                <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://"
-                                    ref="linkInput" @keydown.enter="setLinkUrl(commands.link, linkUrl)"
-                                    @keydown.esc="hideLinkMenu" />
-                                <button class="menububble__button comp-btn" @click="setLinkUrl(commands.link, linkUrl)"
-                                    type="button">
-                                    <img src="assets/icons/link-3.svg" />
-                                </button>
-                                <button class="menububble__button comp-btn" @click="setLinkUrl(commands.link, null)"
-                                    type="button">
-                                    <img src="assets/icons/close-g.png" style="padding: 8px;" />
-                                </button>
-                            </div>
 
-                            <div v-else>
-                                <button :class="{
+                <div v-else>
+                  <button
+                    :class="{
                                     'menububble__button': true,
                                     'comp-btn': true,
                                     'composer-active': isActive.link()
-                                }" @click="showLinkMenu(getMarkAttrs('link'))">
-                                    <img src="assets/icons/link-3.svg" />
-                                </button>
-                            </div>
-                        </div>
-                    </editor-menu-bubble>
+                                }"
+                    @click="showLinkMenu(getMarkAttrs('link'))"
+                  >
+                    <img src="assets/icons/link-3.svg" />
+                  </button>
+                </div>
+              </div>
+            </editor-menu-bubble>
 
-                    <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, getMarkAttrs }">
-                        <div class="menubar">
-                            <div class="comp-sep">
-                                <a :class="{
+            <editor-menu-bar
+              :editor="editor"
+              v-slot="{ commands, isActive, getMarkAttrs }"
+            >
+              <div class="menubar">
+                <div class="comp-sep">
+                  <a
+                    :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.bold()
-                                }" @click="commands.bold">
-                                    <img src="assets/icons/bold.svg" />
-                                </a>
-                                <a :class="{
+                                }"
+                    @click="commands.bold"
+                  >
+                    <img src="assets/icons/bold.svg" />
+                  </a>
+                  <a
+                    :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.italic()
-                                }" @click="commands.italic">
-                                    <img src="assets/icons/italic.svg" />
-                                </a>
-                                <a :class="{
+                                }"
+                    @click="commands.italic"
+                  >
+                    <img src="assets/icons/italic.svg" />
+                  </a>
+                  <a
+                    :class="{
                                     'comp-btn': true,
                                     'composer-active': isActive.underline()
-                                }" @click="commands.underline">
-                                    <img src="assets/icons/underline.svg" />
-                                </a>
-                            </div>
-                            <div class="comp-sep">
-                                <a :class="{
+                                }"
+                    @click="commands.underline"
+                  >
+                    <img src="assets/icons/underline.svg" />
+                  </a>
+                </div>
+                <div class="comp-sep">
+                  <a
+                    :class="{
                                     'comp-btn': true,
-                                }">
-                                    <!-- TODO: attach files -->
-                                    <img src="assets/icons/badges-attach.svg" />
-                                </a>
-                                <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
-                            </div>
-                            <div class="comp-sep">
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/t.svg" width="20" /></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                }"
+                  >
+                    <!-- TODO: attach files -->
+                    <img src="assets/icons/badges-attach.svg" />
+                  </a>
+                  <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
+                </div>
+                <div class="comp-sep">
+                  <div class="btn-group dropup">
+                    <button
+                      type="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <a href="#"
+                        ><img src="assets/icons/t.svg" width="20"
+                      /></a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 1 })
-                                        }" @click="commands.heading({level: 1})" href="#"
-                                            style="padding: 4px 8px !important;margin:auto;"><span
-                                                style="font-size: 20px;">Heading 1</span></a>
-                                        <a :class="{
+                                        }"
+                        @click="commands.heading({level: 1})"
+                        href="#"
+                        style="padding: 4px 8px !important; margin: auto;"
+                        ><span style="font-size: 20px;">Heading 1</span></a
+                      >
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 2 })
-                                        }" @click="commands.heading({level: 2})" href="#"
-                                            style="padding: 4px 8px !important;margin:auto;"><span
-                                                style="font-size: 18px;">Heading 2</span></a>
-                                        <a :class="{
+                                        }"
+                        @click="commands.heading({level: 2})"
+                        href="#"
+                        style="padding: 4px 8px !important; margin: auto;"
+                        ><span style="font-size: 18px;">Heading 2</span></a
+                      >
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.heading({ level: 3 })
-                                        }" @click="commands.heading({level: 3})" href="#"
-                                            style="padding: 4px 8px !important;margin:auto;"><span
-                                                style="font-size: 16px;">Heading 3</span></a>
-                                    </div>
-                                </div>
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/align-left.svg" width="20" /></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                        }"
+                        @click="commands.heading({level: 3})"
+                        href="#"
+                        style="padding: 4px 8px !important; margin: auto;"
+                        ><span style="font-size: 16px;">Heading 3</span></a
+                      >
+                    </div>
+                  </div>
+                  <div class="btn-group dropup">
+                    <button
+                      type="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <a href="#"
+                        ><img src="assets/icons/align-left.svg" width="20"
+                      /></a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'left'
-                                        }" @click="commands.align({textAlign: 'left'})" href="#">
-                                            <img src="assets/icons/align-left.svg" width="20" />
-                                        </a>
-                                        <a :class="{
+                                        }"
+                        @click="commands.align({textAlign: 'left'})"
+                        href="#"
+                      >
+                        <img src="assets/icons/align-left.svg" width="20" />
+                      </a>
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'center'
-                                        }" @click="commands.align({textAlign: 'center'})" href="#">
-                                            <img src="assets/icons/align-center.svg" width="20" />
-                                        </a>
-                                        <a :class="{
+                                        }"
+                        @click="commands.align({textAlign: 'center'})"
+                        href="#"
+                      >
+                        <img src="assets/icons/align-center.svg" width="20" />
+                      </a>
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': getMarkAttrs('align').textAlign === 'right'
-                                        }" @click="commands.align({textAlign: 'right'})" href="#">
-                                            <img src="assets/icons/align-right.svg" width="20" />
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="btn-group dropup">
-                                    <button type="button" data-toggle="dropdown" aria-haspopup="true"
-                                        aria-expanded="false">
-                                        <a href="#"><img src="assets/icons/list.svg" width="20" /></a>
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a :class="{
+                                        }"
+                        @click="commands.align({textAlign: 'right'})"
+                        href="#"
+                      >
+                        <img src="assets/icons/align-right.svg" width="20" />
+                      </a>
+                    </div>
+                  </div>
+                  <div class="btn-group dropup">
+                    <button
+                      type="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <a href="#"
+                        ><img src="assets/icons/list.svg" width="20"
+                      /></a>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.bullet_list()
-                                        }" @click="commands.bullet_list" href="#"><img src="assets/icons/list.svg"
-                                                width="20" /></a>
+                                        }"
+                        @click="commands.bullet_list"
+                        href="#"
+                        ><img src="assets/icons/list.svg" width="20"
+                      /></a>
 
-                                        <a :class="{
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.ordered_list()
-                                        }" @click="commands.ordered_list" href="#"><img src="assets/icons/list-num.svg"
-                                                width="20" /></a>
+                                        }"
+                        @click="commands.ordered_list"
+                        href="#"
+                        ><img src="assets/icons/list-num.svg" width="20"
+                      /></a>
 
-                                        <a :class="{
+                      <a
+                        :class="{
                                             'dropdown-item': true,
                                             'composer-active': isActive.todo_list()
-                                        }" @click="commands.todo_list" href="#"><img
-                                                src="assets/icons/check-square.svg" width="20" /></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comp-sep">
-                                <a :class="{
+                                        }"
+                        @click="commands.todo_list"
+                        href="#"
+                        ><img src="assets/icons/check-square.svg" width="20"
+                      /></a>
+                    </div>
+                  </div>
+                </div>
+                <div class="comp-sep">
+                  <a
+                    :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.code()
-                            }" @click="commands.code">
-                                    <img src="assets/icons/code.svg" />
-                                </a>
-                                <a :class="{
+                            }"
+                    @click="commands.code"
+                  >
+                    <img src="assets/icons/code.svg" />
+                  </a>
+                  <a
+                    :class="{
                                 'comp-btn': true,
                                 'composer-active': isActive.blockquote()
-                            }" @click="commands.blockquote">
-                                    <img src="assets/icons/q.svg" />
-                                </a>
-                            </div>
-
-                            <a class="comp-btn">
-                                <img src="assets/img/zoom.png" class="zoom" />
-                            </a>
-                            <div class="btn-group dropup">
-                                <button type="button" data-toggle="modal" data-target="#infoModal">
-                                    <a><img src="assets/icons/info.svg" width="20" /></a>
-                                </button>
-                            </div>
-                        </div>
-                    </editor-menu-bar>
+                            }"
+                    @click="commands.blockquote"
+                  >
+                    <img src="assets/icons/q.svg" />
+                  </a>
                 </div>
 
-
-                <div class="compose-bottom">
-                    <a @click="sendEmail(html)"><img src="assets/icons/compose-send.svg" width="20" /><span>
-                            Send</span></a>
-                    <label class="switch ml20">
-                        <input type="checkbox" />
-                        <span class="slider round eye"></span>
-                    </label>
-                    <p class="inline ml5 track-open-label">Track email open</p>
+                <a class="comp-btn">
+                  <img src="assets/img/zoom.png" class="zoom" />
+                </a>
+                <div class="btn-group dropup">
+                  <button
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#infoModal"
+                  >
+                    <a><img src="assets/icons/info.svg" width="20" /></a>
+                  </button>
                 </div>
+              </div>
+            </editor-menu-bar>
+          </div>
+
+          <div class="compose-bottom">
+            <a @click="sendEmail(html)"
+              ><img src="assets/icons/compose-send.svg" width="20" /><span>
+                Send</span
+              ></a
+            >
+            <label class="switch ml20">
+              <input type="checkbox" />
+              <span class="slider round eye"></span>
+            </label>
+            <p class="inline ml5 track-open-label">Track email open</p>
+          </div>
+        </div>
+        <div class="secondary-email" style="padding: 0;">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a
+                class="nav-item nav-link active nav1"
+                id="nav-home-tab"
+                data-toggle="tab"
+                href="#nav-home"
+                role="tab"
+                aria-controls="nav-home"
+                aria-selected="true"
+                >Templates</a
+              >
+              <a
+                class="nav-item nav-link"
+                id="nav-profile-tab"
+                data-toggle="tab"
+                href="#nav-profile"
+                role="tab"
+                aria-controls="nav-profile"
+                aria-selected="false"
+                >Attachments</a
+              >
             </div>
-            <div class="secondary-email" style="padding: 0;">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active nav1" id="nav-home-tab" data-toggle="tab" href="#nav-home"
-                            role="tab" aria-controls="nav-home" aria-selected="true">Templates</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile"
-                            role="tab" aria-controls="nav-profile" aria-selected="false">Attachments</a>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div
+              class="tab-pane fade show active"
+              id="nav-home"
+              role="tabpanel"
+              aria-labelledby="nav-home-tab"
+            >
+              <h3>Reply with a template</h3>
+              <div class="previous-threads">
+                <!-- TODO: This is the template for sidebar templates teehee-->
+                <div class="email tempside" style="display: none;">
+                  <div
+                    class="container pr"
+                    data-toggle="modal"
+                    data-target=".email1"
+                  >
+                    <div class="row" style="user-select: none;">
+                      <div class="col-8 p0" style="display: inline-flex;">
+                        <p class="subject">Sales reply 1</p>
+                      </div>
+                      <p class="body">
+                        Hi John, I'm aware you choose to do all development
+                        in-house, however, I am the head of a Ukrainian
+                        dev-shop, which is the best in the world i think.
+                      </p>
                     </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <h3>Reply with a template</h3>
-                        <div class="previous-threads">
-                            <!-- TODO: This is the template for sidebar templates teehee-->
-                            <div class="email tempside" style="display: none;">
-                                <div class="container pr" data-toggle="modal" data-target=".email1">
-                                    <div class="row" style="user-select: none;">
-                                        <div class="col-8 p0" style="display: inline-flex;">
-                                            <p class="subject">Sales reply 1</p>
-                                        </div>
-                                        <p class="body">
-                                            Hi John, I'm aware you choose to do all development
-                                            in-house, however, I am the head of a Ukrainian
-                                            dev-shop, which is the best in the world i think.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
-                            <a style="margin-top: 25vh; display: block;" target="_blank"><img
-                                    src="assets/icons/settings-templates.svg" width="18" style="margin-top: -1px;" />
-                                <p class="inline"><b>New template</b></p>
-
-                                <p>
-                                    Add email templates in settings to reply to future emails in
-                                    one click.
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                        <div class="previous-threads">
-                            <!-- TODO: This is the attachment area-->
-                            <h3>Include recent attachment</h3>
-                            <a style="margin-top: 25vh; display: block;" target="_blank"><img
-                                    src="assets/icons/compose-attach.svg" width="18" style="margin-top: -1px;" />
-                                <p class="inline"><b>Browse</b></p>
-                                <p>
-                                    Recent attachments will appear here.
-                                </p>
-                            </a>
-                        </div>
-                    </div>
+                  </div>
                 </div>
+
+                <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
+                <a style="margin-top: 25vh; display: block;" target="_blank"
+                  ><img
+                    src="assets/icons/settings-templates.svg"
+                    width="18"
+                    style="margin-top: -1px;"
+                  />
+                  <p class="inline"><b>New template</b></p>
+
+                  <p>
+                    Add email templates in settings to reply to future emails in
+                    one click.
+                  </p>
+                </a>
+              </div>
             </div>
+            <div
+              class="tab-pane fade"
+              id="nav-profile"
+              role="tabpanel"
+              aria-labelledby="nav-profile-tab"
+            >
+              <div class="previous-threads">
+                <!-- TODO: This is the attachment area-->
+                <h3>Include recent attachment</h3>
+                <a style="margin-top: 25vh; display: block;" target="_blank"
+                  ><img
+                    src="assets/icons/compose-attach.svg"
+                    width="18"
+                    style="margin-top: -1px;"
+                  />
+                  <p class="inline"><b>Browse</b></p>
+                  <p>
+                    Recent attachments will appear here.
+                  </p>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- END Compose View --------------------------------------->
+      </div>
+      <!-- END Compose View --------------------------------------->
 
-        <!-- START Toast -->
-        <!-- Connection Lost Toast -->
-        <div class="aiko-toast" style="display: none;">
-            <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet.</p>
-            <div class="t-loader-red"><span></span></div>
+      <!-- START Toast -->
+      <!-- Connection Lost Toast -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important;">
+          We're having trouble connecting to the internet.
+        </p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- IMAP Error Toast -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important;">
+          We're having issues connecting to your mail provider.
+        </p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+
+      <!-- Send Email Error Toast -->
+      <div class="aiko-toast" style="display: none;">
+        <p class="textinout" style="color: #dc3545 !important;">
+          We were unable to send your message due to network issues.
+        </p>
+        <div class="t-loader-red"><span></span></div>
+      </div>
+      <!-- END Toast --------------------------------------->
+
+      <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+      <div class="aiko-modal" style="display: none;">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img
+              src="assets/icons/grey-x.svg"
+              data-dismiss="modal"
+              class="x-email"
+            />
+            <div class="modal-reg">
+              <img
+                v-if="isDarkMode"
+                src="assets/img/logo-white.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/logo.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <h1>You found a premium feature.</h1>
+              <img
+                v-if="isDarkMode"
+                src="assets/img/u-track-black.png"
+                width="200"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/u-track-white.png"
+                width="200"
+              />
+              <br /><br />
+              <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+                Enable <b>email trackers</b> to be notified when your recipient
+                has opened your email.
+              </p>
+              <br />
+              <div class="modal-bottom">
+                <a class="blue">Get Started</a>
+              </div>
+              <p class="ns30"></p>
+              <br />
+            </div>
+          </div>
         </div>
+      </div>
 
+      <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+      <div class="aiko-modal" style="display: none;">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img
+              src="assets/icons/grey-x.svg"
+              data-dismiss="modal"
+              class="x-email"
+            />
+            <div class="modal-reg">
+              <img
+                v-if="isDarkMode"
+                src="assets/img/logo-white.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/logo.svg"
+                width="140"
+                style="margin-bottom: 15px; margin-top: 10px;"
+              />
+              <h1>You found a premium feature.</h1>
+              <img
+                v-if="isDarkMode"
+                src="assets/img/u-template-black.png"
+                width="280"
+              />
+              <img
+                v-if="!isDarkMode"
+                src="assets/img/u-template-white.png"
+                width="280"
+              />
+              <br /><br />
+              <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+                Prepare email templates to reply to future emails in just one
+                click.
+              </p>
+              <br />
 
-        <!-- IMAP Error Toast -->
-        <div class="aiko-toast" style="display: none;">
-            <p class="textinout" style="color: #dc3545 !important">We're having issues connecting to your mail
-                provider.</p>
-            <div class="t-loader-red"><span></span></div>
+              <div class="modal-bottom">
+                <a class="blue">Get Started</a>
+              </div>
+              <p class="ns30"></p>
+              <br />
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Send Email Error Toast -->
-        <div class="aiko-toast" style="display: none;">
-            <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to
-                network issues.</p>
-            <div class="t-loader-red"><span></span></div>
-        </div>
-        <!-- END Toast --------------------------------------->
-
-        <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
-        <div class="aiko-modal" style="display: none;">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
-                    <div class="modal-reg">
-                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                            style="margin-bottom: 15px; margin-top: 10px;" />
-                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-                            style="margin-bottom: 15px; margin-top: 10px;" />
-                        <h1>You found a premium feature.</h1>
-                        <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200" />
-                        <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200" />
-                        <br /><br />
-                        <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-                            Enable <b>email trackers</b> to be notified when your recipient
-                            has opened your email.
-                        </p>
-                        <br />
-                        <div class="modal-bottom">
-                            <a class="blue">Get Started</a>
-                        </div>
-                        <p class="ns30"></p>
-                        <br />
-                    </div>
+      <!-- TODO: Add info to Info modal -->
+      <div class="aiko-modal" style="display: none;" id="infoModal">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <img
+              src="assets/icons/grey-x.svg"
+              data-dismiss="modal"
+              class="x-email"
+            />
+            <div class="modal-reg">
+              <h1>The most advanced composer ever has a lot to offer.</h1>
+              <br />
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <span>Markdown: </span>
+                    <span class="bold-c">*Bold*</span>
+                    <span class="italic-c">~Italic~</span>
+                    <span class="code-c">Code</span>
+                    <span class="quotes-c">Quote</span>
+                  </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
-        <div class="aiko-modal" style="display: none;">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
-                    <div class="modal-reg">
-                        <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-                            style="margin-bottom: 15px; margin-top: 10px;" />
-                        <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-                            style="margin-bottom: 15px; margin-top: 10px;" />
-                        <h1>You found a premium feature.</h1>
-                        <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280" />
-                        <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280" />
-                        <br /><br />
-                        <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-                            Prepare email templates to reply to future emails in just one
-                            click.
-                        </p>
-                        <br />
-
-                        <div class="modal-bottom">
-                            <a class="blue">Get Started</a>
-                        </div>
-                        <p class="ns30"></p>
-                        <br />
-                    </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <span>Code: </span>
+                  </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- TODO: Add info to Info modal -->
-        <div class="aiko-modal" style="display: none;" id="infoModal">
-            <div class="modal-dialog modal-md">
-                <div class="modal-content">
-                    <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
-                    <div class="modal-reg">
-                        <h1>The most advanced composer ever has a lot to offer.</h1>
-                        <br />
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <span>Markdown: </span>
-                                    <span class="bold-c">*Bold*</span>
-                                    <span class="italic-c">~Italic~</span>
-                                    <span class="code-c">Code</span>
-                                    <span class="quotes-c">Quote</span>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <span>Code: </span>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <span>Advanced Maths: </span>
-
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <p class="ns30"></p>
-                        <br />
-                    </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <span>Advanced Maths: </span>
+                  </div>
                 </div>
+              </div>
+              <br />
+              <p class="ns30"></p>
+              <br />
             </div>
+          </div>
         </div>
+      </div>
     </div>
     <!-- END id="app" -------------------------------------------------->
 
     <!-- 3rd party libraries -->
     <script src="assets/js/third-party/jquery.min.js"></script>
     <script>
-        window.jQuery = window.$ = require("jquery");
+      window.jQuery = window.$ = require("jquery");
     </script>
     <script src="assets/js/third-party/popper.min.js"></script>
     <script src="assets/js/third-party/bootstrap.min.js"></script>
@@ -557,6 +901,21 @@
     <!-- main/entrypoint -->
     <script src="assets/js/compose.js"></script>
 
-</body>
-
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css"
+    />
+  </body>
 </html>

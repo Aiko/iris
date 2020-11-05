@@ -84,6 +84,10 @@ body {
   transition: 0.2s;
 }
 
+.inbox-switch {
+  border: 2px solid var(--secondary-bg-color);
+}
+
 .add-board {
   box-shadow: none !important;
 }
