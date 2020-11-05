@@ -917,13 +917,41 @@
 
     <!-- VIEW EMAIL -->
     <view-email tabindex="0" v-if="viewEmail" :emailcard="viewEmail" inline-template>
+      
       <div tabindex="0" @click.self="close" class="aiko-modal">
 
         <div class="modal-dialog modal-lg">
           <p class="esc-tip">press <b>ESC</b></p>
           <div class="modal-content">
-
             <div class="main-email">
+
+
+
+      <div class="modal-dialog modal-md datepick">
+        <div class="modal-content">
+          <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email">
+          <div class="modal-reg">
+             <h1 class="mt-2">Please change or confirm suggested time.</h1>
+             <h2  class="mt-3 mb-2"><b>"Tomorrow after work"</b></h2>
+            <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+            <br>
+            <label class="switch mr-1 mt-2">
+              <input type="checkbox" />
+              <span class="slider round cal"></span>
+            </label>
+            <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p><br><br><br>
+            <div class="modal-bottom">
+              <a class="blue">Compose</a>
+            </div>
+            <p class="ns30"></p>
+            <br>
+          </div>
+        </div>
+      </div>
+
+
+
+
               <!-- TODO: Ruben, make sure shadow light mode not bad-->
               <!-- Newest Message in Thread  -->
               <view-email-single :validity="email?.validity || 0" :key="email.uid" :expanded="true"

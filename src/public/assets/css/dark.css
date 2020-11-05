@@ -83,7 +83,10 @@ body {
   background-color: var(--main-bg-color) !important;
   transition: 0.2s;
 }
-
+.slider:before {
+	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.27);
+	transition: 0.4s;
+}
 .inbox-switch {
   border: 2px solid var(--secondary-bg-color);
 }
@@ -91,7 +94,9 @@ body {
 .add-board {
   box-shadow: none !important;
 }
-
+.modal-bottom {
+	box-shadow: inset 0 40px 14px -44px rgba(0, 0, 0, 0.58);
+}
 .add-board img {
   filter: none !important;
 }
