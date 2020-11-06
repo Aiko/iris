@@ -3209,7 +3209,10 @@ unselectable {
 	width: 100%;
 	max-width: unset;
 }
-
+p.wv{
+	margin-top: -50px;
+    white-space: nowrap;
+} 
 .slider {
 	position: absolute;
 	cursor: pointer;

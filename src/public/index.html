@@ -348,9 +348,12 @@
       <div id="load-text4">This will only happen once</div>
       <div id="load-text5">Just a moment</div>
       <!-- Button trigger modal -->
+      <div>
       <button type="button" class="btn btn-primary wv" data-toggle="modal" data-target="#initVideo">
-        Watch a demo video while you wait
+        Watch a demo
       </button>
+      <p class="wv">Get familiar with Aiko Mail while you wait.</p>
+      </div>
       <!-- Modal -->
       <div class="modal fade" id="initVideo" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -412,7 +415,7 @@
             <a class="user" v-for="user in profile.team.team">
               <div class="active-user"></div>
               <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: can we fetch and download people's gmail profile pic? -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
               <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
               <div class="no-mobile sc">{{user.member.name}}</div>
             </a>
