@@ -43,7 +43,18 @@
 .inbox-switch .active .secondary-count {
   filter: brightness(1.5) !important;
 }
-
+.settings-main .row{
+  box-shadow: 0 6px 13px -10px #0d1016;
+}
+.sidebar .active{
+  border-left: 2px solid #a0a0a0;
+}
+.inbox-switch .inbox2{
+  box-shadow: none;
+}
+.inbox-switch .inbox1{
+  box-shadow: none;
+}
 .inbox-switch .active {
   background: var(--secondary-bg-color) !important;
 }
@@ -55,7 +66,9 @@
 .main-email .action {
   background: #151515 !important;
 }
-
+.main-email{
+  box-shadow: 3px 0px 5px 0px rgba(0, 0, 0, 0.15);
+}
 .bg {
   background: var(--secondary-bg-color) !important;
 }
@@ -83,6 +96,13 @@ body {
   background-color: var(--main-bg-color) !important;
   transition: 0.2s;
 }
+.picker:hover {
+	box-shadow: 0 0 5px 2px #00000012;
+	transition: 0.2s;
+}
+.notif {
+	box-shadow: 0 0 10px #0000003b;
+}
 .slider:before {
 	box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.27);
 	transition: 0.4s;
@@ -100,9 +120,8 @@ body {
 .add-board img {
   filter: none !important;
 }
-
-.archive {
-  background: var(--secondary-bg-color) !important;
+.composer-tag-single {
+  border: 1px solid #b0b0b0 !important;
 }
 
 .dropdown-item:focus,
@@ -199,10 +218,6 @@ li[data-done="true"]>.todo-checkbox {
 
 .add-board {
   background: var(--main-bg-color) !important;
-}
-
-.secondary-count {
-  background: var(--secondary-bg-color) !important;
 }
 
 .header {

@@ -1,33 +1,46 @@
 /* Color Declarations */
 :root {
-  --main-color: #486fff;
-  /* Main Aiko accent */
-  --main-color-hover: #4366e8;
-  --main-bg-color: #fff;
-  /* Sidebar and Header */
-  --secondary-bg-color: #efefef;
-  /* Control bar and picker and search, etc*/
-  --secondary-bg-color-hover: #efefef;
-  /* Control bar and picker and search, etc*/
-  --main-text-color: #969696;
-  /* Sidebar, body preview, board title */
-  --main-text-color-hover: #b3b3b3;
-  --dark-text: #3e3e3e;
-  /* Dropdown titles */
-  --sidebar-item-bg-color: #efefef;
-  /* Active and hover in sidebar */
-  --sender-text-color: #363636;
-  --subject-text-color: #000;
-  --main-border: 1px solid #d6d6d6;
-  --placeholder-text-color: #bdbdbd;
-  /* Global placeholder color */
-  --modal-backdrop: #ffffff5e;
+	--main-color: #486fff;
+	/* Main Aiko accent */
+	--main-color-hover: #4366e8;
+	--main-bg-color: #fff;
+	/* Sidebar and Header */
+	--secondary-bg-color: #f1f3f9;
+	/* Control bar and picker and search, etc*/
+	--secondary-bg-color-hover: #efefef;
+	/* Control bar and picker and search, etc*/
+	--main-text-color: #6e80a5;
+	/* Sidebar, body preview, board title */
+	--main-text-color-hover: #536282;
+	--dark-text: #536282;
+	/* Dropdown titles */
+	--sidebar-item-bg-color: #f1f3f9;
+	/* Active and hover in sidebar */
+	--sender-text-color: #536282;
+	--subject-text-color: #333d50;
+	--main-border: 1px solid #f1f3f9;
+	--placeholder-text-color: #6e80a5;
+	/* Global placeholder color */
+	--modal-backdrop: #f1f3f9bd;
 }
 
 /* Global modal backdrop */
 .modal-dialog {
   top: 45%;
   transform: translateY(-50%);
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--placeholder-text-color);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: var(--placeholder-text-color);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: var(--placeholder-text-color);
 }
 
 .modal-content {
@@ -259,7 +272,7 @@ input:active {
   bottom: 1px;
   background-color: var(--secondary-bg-color);
   border: 1px solid var(--main-color);
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.27);
+	box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.27);
   transition: 0.4s;
 }
 
@@ -600,7 +613,7 @@ pre code {
 .menubar {
   height: 40px;
   margin-top: 2px;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 6px 12px -10px #999fb0;
   border-radius: 4px;
   background: var(--secondary-bg-color);
   -webkit-transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
@@ -620,7 +633,7 @@ pre code {
   height: 100%;
   background: var(--secondary-bg-color);
   width: calc(100% - 300px);
-  box-shadow: 20px 0 10px -20px rgba(0, 0, 0, 0.15);
+  box-shadow: 14px -2px 10px -20px rgba(0, 0, 0, 0.15);
   z-index: 1;
   position: relative;
   border-radius: 3px;
@@ -680,7 +693,7 @@ pre code {
   text-align: center;
   font-weight: 500;
   font-size: 15px;
-  background: var(--secondary-bg-color) !important;
+  background: var(--main-bg-color) !important;
   border: none !important;
   color: var(--main-text-color) !important;
 }
@@ -696,7 +709,7 @@ pre code {
 
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
-  background: var(--main-bg-color) !important;
+  background: var(--secondary-bg-color) !important;
   color: var(--dark-text) !important;
 }
 
@@ -806,7 +819,7 @@ pre code {
 .secondary-email {
   height: 100%;
   width: 300px;
-  background: var(--main-bg-color);
+  background: var(--secondary-bg-color);
   position: relative;
   border-radius: 3px;
   padding: 107px 15px 25px 15px;
@@ -833,7 +846,7 @@ pre code {
 
 .standalone .secondary-email h1 {
   font-size: 16px;
-  color: var(--main-text-color);
+  color: var(--secondary-text-color);
   text-align: center;
   margin-top: 20vh;
 }
@@ -980,6 +993,7 @@ pre code {
   margin-right: 5px;
   cursor: pointer;
   transition: 0.2s;
+  background: #e6e9f2;
 }
 
 .composer-active img {
@@ -1150,7 +1164,7 @@ pre code {
   border-radius: 3px;
   cursor: pointer;
   font-size: 15px;
-  border: 1px solid #b0b0b0;
+  border: 1px solid var(--main-text-color);
   white-space: nowrap;
   margin-left: 5px;
   height: 30px;
@@ -1289,7 +1303,7 @@ code {
 }
 
 .comp-sep {
-  border-right: solid 1px #b0b0b052;
+  border-right: solid 1px #999fb0;
   display: inline-block;
   margin-right: 5px;
   padding-right: 5px;
