@@ -77,6 +77,7 @@ MSAuth(
 /// //////////////////////////////////////////////////////
 Log.log('Setting up email IPC')
 // TODO: add Mouseion
+const Mouseion = require('./Mouseion/client')
 Log.log('Setting up SMTP...')
 const Mailman = require('./src/js/mail/sendmail')
 /// //////////////////////////////////////////////////////
@@ -143,7 +144,8 @@ ipcMain.handle('reentry', (_, __) => entry())
 // Define launch scripts
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-const init = () => {
+let engine
+const init = async () => {
   win = new BrowserWindow({
     show: false,
     frame: process.platform == 'darwin',
@@ -177,6 +179,10 @@ const init = () => {
   win.maximize()
   win.show()
   win.focus()
+
+  engine = Mouseion()
+  await engine.init()
+  await engine.sync.start()
 
   entry()
 
