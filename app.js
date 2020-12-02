@@ -31,6 +31,7 @@ Sentry.init({ dsn: 'https://a5c7cbba227443c09affd9b2aee59dea@sentry.io/1886420' 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 // Logger :)
+// TODO: upgrade to Aiko Lumberjack
 const Log = require('./src/js/utils/logger')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ const Log = require('./src/js/utils/logger')
 /// //////////////////////////////////////////////////////
 Log.log('Starting up')
 const { app, BrowserWindow, ipcMain } = require('electron')
-Log.log('Checking Electron Squirrel Startup')
+//? checks to make sure we're not in the midst of installation
 if (require('electron-squirrel-startup')) app.quit()
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -50,7 +51,7 @@ if (require('electron-squirrel-startup')) app.quit()
 // Set up OAuth clients
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-// gmail uses self signed certs -_-
+//! gmail uses self signed certs :(
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 const GOAuth = require('./src/js/oauth/goauth')
 const MSAuth = require('./src/js/oauth/msoauth')
@@ -75,10 +76,9 @@ MSAuth(
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 Log.log('Setting up email IPC')
-Log.log('Setting up IMAP...')
-const CarrierPigeon = require('./src/js/mail/email')
+// TODO: add Mouseion
 Log.log('Setting up SMTP...')
-const Mailman = require('./src/js/mail/sendmail') // TODO: ipc
+const Mailman = require('./src/js/mail/sendmail')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -174,7 +174,6 @@ const init = () => {
     icon: process.platform == 'darwin' ? './src/public/assets/img/icon.png' : './src/public/assets/img/app-icon/square-icon-shadow.png'
   })
   WindowManager.setWindow(win)
-  CarrierPigeon(win)
   win.maximize()
   win.show()
   win.focus()
@@ -198,7 +197,7 @@ app.allowRendererProcessReuse = false
 app.on('ready', init)
 
 app.on('window-all-closed', () => {
-  // TODO: live on in the tray? would have to move email stuff to backend
+  // TODO: live on in the tray
   if (process.platform !== 'darwin') app.quit()
 })
 

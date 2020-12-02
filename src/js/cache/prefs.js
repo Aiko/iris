@@ -5,8 +5,6 @@ const {
   ipcMain
 } = require('electron')
 
-// FIXME: prefs should probably have middleware
-
 module.exports = fp => {
   switch (process.platform) {
     case 'darwin':
