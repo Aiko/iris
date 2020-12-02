@@ -10,7 +10,7 @@ const crypto = require('crypto')
 const { fork } = require('child_process')
 
 //! creates a fresh Mouseion process
-const EngineProxy = Lumberjack => {
+const EngineProxy = () => {
   const Log = Lumberjack('Engine Proxy')
   const API = fork(path.join(__dirname, 'server.js'), [], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
