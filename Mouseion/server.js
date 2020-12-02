@@ -1,4 +1,4 @@
-const Forest = require('../../utils/logger')
+const Forest = require('./utils/logger')
 const Lumberjack = Forest()
 
 //* Mailbox
@@ -7,7 +7,7 @@ const Mailbox = require('./src/mailbox')
 const Engine = () => {
   const Log = Lumberjack('Engine')
 
-  let mailbox;
+  let mailbox = {}
 
   const init = async () => {
     Log.log("Setting up engine")
@@ -30,7 +30,7 @@ const Engine = () => {
   return {
     init,
     sync: {
-      start: mailbox.sync
+      start: async () => await mailbox.sync()
     }
   }
 }
