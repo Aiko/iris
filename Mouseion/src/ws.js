@@ -17,62 +17,72 @@ const unused_port = async () => {
 }
 
 /*
-    Usage: (until this is turned into a shim)
-
-    get a tag:
-        const tag = ipcStream.tag()
-
-    send data:
-        await ipcStream.send(tag, myData)
-
-    Respond via normal IPC with {stream: tag}
+Target should be something with method bindings and should be fully immutable
 */
+const SockPuppet = async Target => {
+  const stratify = (obj, prefix = '') =>
+    Object.keys(obj).reduce((res, el) => {
+      if (Array.isArray(obj[el])) return res
 
-const SockPuppet = async () => {
+      if (typeof obj[el] === 'object' && obj[el] !== null )
+        return {...res, ...stratify(obj[el], prefix + el + '.')}
 
-  const resolvers = {}
-  const Tag = () => {
-    const id = crypto.randomBytes(32).toString('hex')
-    if (resolvers[id]) return tag()
-    resolvers[id] = true
-    return id
-  }
+      const key = prefix + el
+      const tmp = {}
+      tmp[key] = obj[el]
+      return {...res, ...tmp}
+    }, []);
+  const API = stratify(Target)
 
   const port = await unused_port()
   const wss = new WebSocket.Server({port})
-  wss.on('connection', ws => {
-    ws.on('message', m => {
-      const { tag,  } = JSON.parse(m)
 
+  wss.on('connection', ws => {
+    const sksucc = id => payload => ws.send(JSON.stringify({
+      success: true,
+      payload, id
+    }))
+    const skerr = id => msg => ws.send(JSON.stringify({
+      error: msg + '\n' + (new Error),
+      id
+    }))
+
+    ws.on('message', async m => {
+      /*
+      * m should be 'please ' + JSON stringified message
+      * object should have the following structure:
+      * {
+      *   id: String, // some random string to make ws easier
+      *   action: String,
+      *   args: [...] // must ALWAYS be set. for no args just do []
+      * }
+      */
+
+      try {
+        // TODO: eventually some security or so here beyond `please`...
+        const { id, action, args } = JSON.parse(m.substr('please '.length))
+
+        const success = sksucc(id)
+        const error = skerr(id)
+
+        const attempt = async method => {
+          try {
+            const result = await method(...args)
+            return success(result)
+          } catch (e) {
+            return error(e)
+          }
+        }
+
+        const method = API[action]
+        if (!method) return error('You fucked up cunty!')
+
+        return await attempt(method)
+      } catch (e) {
+        return ws.send(JSON.stringify({
+          error: e + '\n' + (new Error)
+        }))
+      }
     })
   })
-
-  return {
-    port, send,
-    Tag,
-  }
 }
-ipcMain.handle('start websocket server', async (_, q) => {
-  if (ipcStream.port) return ipcStream.port
-
-  const port = await unused_port()
-  ipcStream.port = port
-  const wss = new WebSocket.Server({
-    port
-    // TODO: custom config for compression, etc
-  })
-
-  wss.on('connection', ws => {
-    const outgoing = {}
-    ws.on('message', m => {
-      const { stream } = JSON.parse(m)
-      if (outgoing[stream]) outgoing[stream]()
-    })
-    ipcStream.send = (tag, data) => new Promise((s, j) => {
-      outgoing[tag] = s
-      ws.send(JSON.stringify({ tag, data }))
-    })
-  })
-
-  return port
-})
