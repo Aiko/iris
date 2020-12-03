@@ -1,5 +1,6 @@
 const Forest = require('./utils/logger')
 const Lumberjack = Forest()
+const SockPuppet = require('./utils/ws')
 
 //* Mailbox
 const Mailbox = require('./src/mailbox')
@@ -36,6 +37,14 @@ const Engine = () => {
 }
 
 const engine = Engine()
+
+;;(async () => {
+  const { port } = await SockPuppet(engine)
+  process.send(JSON.stringify({
+    wsport: port
+  }))
+})()
+
 
 const psucc = id => payload => process.send(JSON.stringify({
   success: true,
