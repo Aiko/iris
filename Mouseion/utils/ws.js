@@ -1,3 +1,5 @@
+const WebSocket = require('ws')
+const net = require('net')
 
 const DEFUALT_PORT = 41605
 
