@@ -66,8 +66,15 @@ const EngineProxy = () => {
     }
   }
 
+  let WSPort = null
+
   API.on('message', m => {
     const s = JSON.parse(m)
+    if (s.wsport) {
+      WSPort = s.wsport
+      Log.success("SockPuppet server running on", WSPort)
+      return;
+    }
     if (!(s.id)) return Log.error("No ID in received message.")
     const cb = waiters[s.id]
     if (!cb) return Log.error("No waiter set.")
@@ -77,6 +84,7 @@ const EngineProxy = () => {
   })
 
   return {
+    port: WSPort,
     init: proxy_it('init'),
     sync: {
       start: proxy_it('sync.start')
