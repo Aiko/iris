@@ -87,6 +87,8 @@ const SockPuppet = async Target => {
       }
     })
   })
+
+  return { port, }
 }
 
 module.exports = SockPuppet
