@@ -17,14 +17,10 @@ const Engine = () => {
 
   let mailbox = {}
 
-  const init = async () => {
+  const init = async config => {
     Log.log("Setting up engine")
 
-    mailbox = await Mailbox(Lumberjack, {
-      host: "imap.1and1.com", port: 993,
-      user: "ruben@priansh.com", pass: "blythe123$",
-      secure: true
-    }, {
+    mailbox = await Mailbox(Lumberjack, config, {
       SYNC_TIMEOUT: 30 * 1000,
     })
 
