@@ -2,6 +2,13 @@ const Forest = require('./utils/logger')
 const Lumberjack = Forest()
 const SockPuppet = require('./utils/ws')
 
+/*
+  ? This server is unique.
+  ? That's because this actually starts two servers;
+  ? 1 - Child Process with normal proxy
+  ? 2 - WebSocket with SockPuppet proxy
+*/
+
 //* Mailbox
 const Mailbox = require('./src/mailbox')
 
