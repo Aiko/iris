@@ -10,7 +10,7 @@ const crypto = require('crypto')
 const { fork } = require('child_process')
 
 //! creates a fresh Mouseion process
-const EngineProxy = () => {
+const EngineProxy = () => new Promise((scb, _) => {
   const Log = Lumberjack('Engine Proxy')
   const API = fork(path.join(__dirname, 'server.js'), [], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
@@ -70,9 +70,16 @@ const EngineProxy = () => {
 
   API.on('message', m => {
     const s = JSON.parse(m)
-    if (s.wsport) {
+    if (s.wsport && !WSPort) {
       WSPort = s.wsport
       Log.success("SockPuppet server running on", WSPort)
+      scb({
+        port: WSPort,
+        init: proxy_it('init'),
+        sync: {
+          start: proxy_it('sync.start')
+        },
+      })
       return;
     }
     if (!(s.id)) return Log.error("No ID in received message.")
@@ -82,14 +89,6 @@ const EngineProxy = () => {
     if (cb2) cb2()
     return cb(s)
   })
-
-  return {
-    port: WSPort,
-    init: proxy_it('init'),
-    sync: {
-      start: proxy_it('sync.start')
-    },
-  }
-}
+})
 
 module.exports = EngineProxy
