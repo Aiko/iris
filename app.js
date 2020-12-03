@@ -75,9 +75,8 @@ MSAuth(
 // Require mailing tools
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-Log.log('Setting up email IPC')
-// TODO: add Mouseion
-const Mouseion = require('./Mouseion/client')
+Log.log('Setting up email engine IPC')
+const CarrierPigeon = require('./src/js/mail/email')
 Log.log('Setting up SMTP...')
 const Mailman = require('./src/js/mail/sendmail')
 /// //////////////////////////////////////////////////////
@@ -144,7 +143,6 @@ ipcMain.handle('reentry', (_, __) => entry())
 // Define launch scripts
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-let engine
 const init = async () => {
   win = new BrowserWindow({
     show: false,
@@ -179,10 +177,6 @@ const init = async () => {
   win.maximize()
   win.show()
   win.focus()
-
-  engine = Mouseion()
-  await engine.init()
-  await engine.sync.start()
 
   entry()
 
