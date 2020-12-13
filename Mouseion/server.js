@@ -57,6 +57,13 @@ const perr = id => msg => process.send(JSON.stringify({
   error: msg + '\n' + (new Error),
   id
 }))
+
+/**
+ * ! THE BELOW API IS DEPRECATED
+ * ! DO NOT USE IT
+ * ! IT SHOULD ONLY EVER BE TOUCHED IF YOU, FOR SOME REASON,
+ * ! NEED TO KILL THE PROCESS MANUALLY FROM THE MAIN PROCESS
+*/
 process.on('message', async m => {
   /*
   * m should be 'please ' + JSON stringified message
