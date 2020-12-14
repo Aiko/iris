@@ -8,7 +8,7 @@ const request = require('request')
 const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
 const comms = require('../utils/comms.js')
 
-module.exports = clientId => {
+module.exports = (clientId, tenant) => {
   ipcMain.handle('please get microsoft oauth token', async (_, q) => {
     return await new Promise(async (s, _) => {
       const { token, login_hint } = q
@@ -17,7 +17,7 @@ module.exports = clientId => {
       try { client_secret = await comms['👈'](token) } catch (e) { return s({ error: e }) }
       if (!client_secret) return s({ error: "Couldn't decode client secret" })
 
-      let url = 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize'
+      let url = `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize?`
       url += `client_id=${clientId}`
       url += '&response_type=code'
       url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
