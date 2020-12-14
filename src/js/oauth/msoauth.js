@@ -17,7 +17,7 @@ module.exports = (clientId, tenant) => {
       try { client_secret = await comms['👈'](token) } catch (e) { return s({ error: e }) }
       if (!client_secret) return s({ error: "Couldn't decode client secret" })
 
-      let url = `https://login.microsoftonline.com/${tenant}/oauth2/v2.0/authorize?`
+      let url = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?`
       url += `client_id=${clientId}`
       url += '&response_type=code'
       url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
@@ -80,6 +80,8 @@ module.exports = (clientId, tenant) => {
         request(opts, (e, res, b) => {
           if (e) return s({ error: e })
           const d = JSON.parse(b)
+          win.removeAllListeners('close')
+          win.close()
           s({
             s: comms['👉'](client_secret, {
               success: true,
