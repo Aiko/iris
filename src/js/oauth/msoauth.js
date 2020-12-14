@@ -23,7 +23,7 @@ module.exports = (clientId, tenant) => {
       url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
       url += '&response_mode=query'
       url += (login_hint ? `&login_hint=${login_hint}` : '')
-      url += '&scope=offline_access%20openid%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All'
+      url += '&scope=offline_access%20openid%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All%20https%3A%2F%2Foutlook.office.com%2FSMTP.Send'
       url += '&state=aikomail'
 
       const win = new BW({
