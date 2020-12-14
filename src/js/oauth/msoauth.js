@@ -23,7 +23,7 @@ module.exports = (clientId, tenant) => {
       url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
       url += '&response_mode=query'
       url += (login_hint ? `&login_hint=${login_hint}` : '')
-      url += '&scope=offline_access%20openid%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All%20https%3A%2F%2Foutlook.office.com%2FSMTP.Send'
+      url += '&scope=offline_access%20User.Read%20https%3A%2F%2Foutlook.office.com%2FUser.Read%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All%20https%3A%2F%2Foutlook.office.com%2FSMTP.Send'
       url += '&state=aikomail'
 
       const win = new BW({
@@ -61,34 +61,74 @@ module.exports = (clientId, tenant) => {
         }
       })
 
-      const finish = code => {
-        const opts = {
-          method: 'POST',
-          url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded'
-          },
-          form: {
-            client_id: clientId,
-            scope: 'openid email EAS.AccessAsUser.All offline_access https://graph.microsoft.com/user.read',
-            code: code,
-            redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
-            grant_type: 'authorization_code'
-          }
-        }
+      let emailCode = null
 
-        request(opts, (e, res, b) => {
-          if (e) return s({ error: e })
-          const d = JSON.parse(b)
-          win.removeAllListeners('close')
-          win.close()
-          s({
-            s: comms['👉'](client_secret, {
-              success: true,
-              payload: d
-            })
+      const finish = code => {
+        // TODO: you need to request basic user profile token as well
+        // ! but SEPARATELY!!!!! it will break imap if you do it in one token call
+        // ! this is because the M in Microsoft stands for monke
+        if (!emailCode) {
+          const opts = {
+            method: 'POST',
+            url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            form: {
+              client_id: clientId,
+              scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send',
+              code: code,
+              redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
+              grant_type: 'authorization_code'
+            }
+          }
+
+          request(opts, (e, res, b) => {
+            if (e) return s({ error: e })
+            const d = JSON.parse(b)
+            emailCode = d
+            url = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?`
+            url += `client_id=${clientId}`
+            url += '&response_type=code'
+            url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
+            url += '&response_mode=query'
+            url += (login_hint ? `&login_hint=${login_hint}` : '')
+            url += '&scope=offline_access%20User.Read%20https%3A%2F%2Foutlook.office.com%2FUser.Read%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All%20https%3A%2F%2Foutlook.office.com%2FSMTP.Send'
+            url += '&state=aikomail'
+            win.loadURL(url)
           })
-        })
+        }
+        else {
+          const opts2 = {
+            method: 'POST',
+            url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            form: {
+              client_id: clientId,
+              scope: 'user.read',
+              code: code,
+              redirect_uri: 'https://login.microsoftonline.com/common/oauth2/nativeclient',
+              grant_type: 'authorization_code'
+            }
+          }
+          request(opts2, (e, res, b2) => {
+            if (e) return s({ error: e })
+            const d2 = JSON.parse(b2)
+            s({
+              s: comms['👉'](client_secret, {
+                success: true,
+                payload: {
+                  profile: d2,
+                  email: emailCode
+                }
+              })
+            })
+            win.removeAllListeners('close')
+            win.close()
+          })
+        }
       }
     })
   })
