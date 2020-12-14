@@ -9,7 +9,7 @@ const Client = require('emailjs-imap-client').default
 *? Then use SockPuppeteer as you would the normal engine API object, it will proxy req's to SockPuppet
 */
 
-ipcMain.handle('please start up a new engine', async (q, __) => {
+ipcMain.handle('please start up a new engine', async (_, q) => {
   const { token } = q
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
