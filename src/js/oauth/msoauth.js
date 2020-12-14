@@ -17,13 +17,13 @@ module.exports = clientId => {
       try { client_secret = await comms['👈'](token) } catch (e) { return s({ error: e }) }
       if (!client_secret) return s({ error: "Couldn't decode client secret" })
 
-      let url = 'https://login.live.com/oauth20_authorize.srf'
+      let url = 'https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize'
       url += `client_id=${clientId}`
       url += '&response_type=code'
       url += '&redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fcommon%2Foauth2%2Fnativeclient'
       url += '&response_mode=query'
       url += (login_hint ? `&login_hint=${login_hint}` : '')
-      url += '&scope=wl.basic%20wl.offline_access%20'
+      url += '&scope=offline_access%20openid%20https%3A%2F%2Foutlook.office.com%2FIMAP.AccessAsUser.All'
       url += '&state=aikomail'
 
       const win = new BW({
