@@ -70,11 +70,18 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 
 const platform = os.platform() + '_' + os.arch()
 const version = app.getVersion()
+
 // TODO: remove before deployment
 if (!dev) commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
-autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
-Log.log('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version)
-if (!dev) autoUpdater.checkForUpdates()
+
+const updateFeed = (() => {
+  const server = "https://aiko-mail-update-service.vercel.app"
+  return `${server}/update/${process.platform}/${version}`
+})()
+Log.log("Fetches updates from", updateFeed)
+autoUpdater.setFeedURL(updateFeed)
+
+if (!dev) setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
 
 
 /// //////////////////////////////////////////////////////
