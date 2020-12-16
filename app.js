@@ -44,7 +44,8 @@ const Log = require('./src/js/utils/logger')
 /// //////////////////////////////////////////////////////
 Log.log('Starting up')
 const os = require('os')
-const { app, BrowserWindow, ipcMain, autoUpdater, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { autoUpdater } = require("electron-updater")
 //? checks to make sure we're not in the midst of installation
 if (require('electron-squirrel-startup')) app.quit()
 //? check for updates
@@ -71,10 +72,11 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 const platform = os.platform() + '_' + os.arch()
 const version = app.getVersion()
 // TODO: remove before deployment
-commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
+if (!dev) commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
 autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
 Log.log('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version)
 if (!dev) autoUpdater.checkForUpdates()
+
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////

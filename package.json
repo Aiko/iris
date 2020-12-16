@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
@@ -65,6 +65,7 @@
     "cheerio": "^1.0.0-rc.3",
     "colors": "^1.4.0",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-updater": "^4.3.5",
     "emailjs-imap-client": "github:pshah123/emailjs-imap-client",
     "fs-extra": "^9.0.1",
     "google-auth-library": "^5.5.1",

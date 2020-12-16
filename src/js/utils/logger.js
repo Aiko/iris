@@ -1,6 +1,7 @@
 const colors = require('colors')
-const fs2 = require('fs2')
+const fs2 = require('fs-extra')
 const fs = require('fs')
+const path = require('path')
 
 let dir = 'am-log.json'
 switch (process.platform) {
@@ -17,7 +18,7 @@ const betterLog = (...s) => {
 }
 
 module.exports = {
-  log: (...s) => console.log('[AIKO]'.magenta.bgBlack, '[LOG]'.white.bgBlack, ...s),
-  error: (...s) => console.log('[AIKO]'.magenta.bgBlack, '[ERROR]'.white.bgRed, ...s),
-  success: (...s) => console.log('[AIKO]'.magenta.bgBlack, '[SUCCESS]'.white.bgGreen, ...s)
+  log: (...s) => betterLog('[AIKO]'.magenta.bgBlack, '[LOG]'.white.bgBlack, ...s),
+  error: (...s) => betterLog('[AIKO]'.magenta.bgBlack, '[ERROR]'.white.bgRed, ...s),
+  success: (...s) => betterLog('[AIKO]'.magenta.bgBlack, '[SUCCESS]'.white.bgGreen, ...s)
 }
