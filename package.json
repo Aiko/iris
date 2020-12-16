@@ -26,22 +26,31 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "aiko_mail"
+            "name": "aiko_mail",
+            "iconUrl": "./src/public/assets/img/icon.ico",
+            "setupIcon": "./src/public/assets/img/icon.ico",
+            "loadingGif": "./src/public/assets/img/loading.gif"
           }
         },
         {
           "name": "@electron-forge/maker-dmg",
           "config": {
-            "format": "ULFO"
+            "format": "ULFO",
+            "icon": "./src/public/assets/img/icon.icns",
+            "name": "Aiko Mail"
           }
-        },
+        }
+      ],
+      "publishers": [
         {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "Aiko",
+              "name": "aiko-mail-desktop"
+            },
+            "prerelease": false
+          }
         }
       ]
     }
