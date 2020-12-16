@@ -5,12 +5,15 @@
 /// //////////////////////////////////////////////////////
 // versioning for debugging
 let commit_hash
+let dev = false
 try {
   commit_hash = require('child_process')
     .execSync('git rev-parse HEAD')
     .toString().trim()
+  dev = true
 } catch (e) {
   commit_hash = 'NOT FOR RELEASE'
+  dev = false
 }
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -68,7 +71,8 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 const platform = os.platform() + '_' + os.arch()
 const version = app.getVersion()
 autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
-autoUpdater.checkForUpdates()
+
+if (!dev) autoUpdater.checkForUpdates()
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
