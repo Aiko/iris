@@ -10,7 +10,7 @@ const {
 module.exports = dir => {
   switch (process.platform) {
     case 'darwin': dir = path.join(process.env.HOME, 'Library', 'Application Support', 'Aiko Mail', dir); break
-    case 'win31': dir = path.join(process.env.APPDATA, 'Aiko Mail', dir); break
+    case 'win32': dir = path.join(process.env.APPDATA, 'Aiko Mail', dir); break
     case 'linux': dir = path.join(process.env.HOME, '.Aiko Mail', dir); break
   }
 

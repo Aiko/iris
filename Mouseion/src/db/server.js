@@ -23,7 +23,7 @@ const Cache = dir => {
   Initialize dir like so:
   switch (process.platform) {
     case 'darwin': dir = path.join(process.env.HOME, 'Library', 'Application Support', 'Aiko Mail', 'Mouseion', dir); break
-    case 'win31': dir = path.join(process.env.APPDATA, 'Aiko Mail', 'Mouseion', dir); break
+    case 'win32': dir = path.join(process.env.APPDATA, 'Aiko Mail', 'Mouseion', dir); break
     case 'linux': dir = path.join(process.env.HOME, '.Aiko Mail', 'Mouseion', dir); break
   }
   */

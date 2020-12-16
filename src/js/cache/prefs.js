@@ -10,7 +10,7 @@ module.exports = fp => {
     case 'darwin':
       fp = path.join(process.env.HOME, 'Library', 'Application Support', 'Aiko Mail', fp)
       break
-    case 'win31':
+    case 'win32':
       fp = path.join(process.env.APPDATA, 'Aiko Mail', fp)
       break
     case 'linux':
