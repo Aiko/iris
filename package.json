@@ -9,6 +9,10 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
+    "start-windows": "%APPDATA%\\npm\\electron-forge start",
+    "package-windows": "%APPDATA%\\npm\\electron-forge package",
+    "make-windows": "%APPDATA%\\npm\\electron-forge make",
+    "publish-windows": "%APPDATA%\\npm\\electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
@@ -27,7 +31,6 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "aiko_mail",
-            "iconUrl": "./src/public/assets/img/icon.ico",
             "setupIcon": "./src/public/assets/img/icon.ico",
             "loadingGif": "./src/public/assets/img/loading.gif"
           }
