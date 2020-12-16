@@ -23,11 +23,10 @@ try {
 // Utilities
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-const Sentry = require('@sentry/node')
-// TODO: use sentry electron and do the config for that
+const Sentry = require('@sentry/electron')
 // TODO: should also track environment
 // TODO: bug reports, managed updates, etc. for electron
-Sentry.init({ dsn: 'https://a5c7cbba227443c09affd9b2aee59dea@sentry.io/1886420' })
+Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
