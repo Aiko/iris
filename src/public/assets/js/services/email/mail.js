@@ -2,6 +2,7 @@ const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 
 const mailapi = {
   data: {
+    engine: null,
     connected: false,
     imapConfig: {
       email: '',
@@ -132,7 +133,7 @@ const mailapi = {
     //? IPC task to create a new Mouseion engine
     task_NewEngine () {
       return this.ipcTask('please start up a new engine', {})
-    },
+    },    
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
     ////////////////////////////////////////////!
@@ -185,6 +186,41 @@ const mailapi = {
       this.imapConfig = await SmallStorage.load(email + '/imap-config')
     },
     ////////////////////////////////////////////!
+    //! Engine Control
+    ////////////////////////////////////////////!
+    //? If an engine exists, shuts it down
+    //? Then creates a new engine, and initializes it with the config
+    //! This will restart your engine
+    /*
+      TODO: this should actually use an Engine Manager
+      * more info: we should be creating an engine for each mailbox
+      * and then, we assign the engine data object to this based on the engine for the mailbox
+      * the engines in the background will still send notifications which is great!
+    */
+    async getEngine() {
+      //? if the engine exists, shut it down
+      if (this.engine) {
+        this.engine.close()
+        info(...MAILAPI_TAG, 'Shut down existing engine.')
+        this.engine = null
+      }
+
+      //? start new Mouseion instance, get port
+      const port = await this.callIPC(task_newEngine())
+      info(...MAILAPI_TAG, 'Started a new engine on port', port)
+
+      //? set engine and initialize it
+      this.engine = new Engine(port)
+      {
+        host, port, user, pass, oauth, secure, //* config
+        provider="other" //? defaults to other but accepts google, microsoft, etc
+      }
+      await this.engine.init({
+        ...(this.imapConfig),
+        oauth: this.imapConfig.xoauth2
+      })
+    },
+    ////////////////////////////////////////////!
     //! Handlers & Sinks
     ////////////////////////////////////////////!
     //? A sink method to receive IMAP connection error calls
@@ -192,6 +228,103 @@ const mailapi = {
     async onIMAPConnectionError () {
       // NOTE: this is less of a listener and something this module calls
       // app.toastIMAPError()
+    },
+    ////////////////////////////////////////////!
+    //! Mailserver Connection
+    ////////////////////////////////////////////!
+    //? Switches the current loaded mailbox to a new mailbox via email address
+    //? Loads the IMAP configuration and, if available, the SMTP configuration
+    //? Also loads OAuth tokens if using that strategy
+    //? Ends by calling switchMailServer automatically
+    //! Controls the loader
+    async switchMailbox(email) {
+      this.loading = true
+      await this.loadIMAPConfig(email)
+      if (this.loadSMTPConfig) await this.loadSMTPConfig(email)
+      await this.loadOAuthConfig()
+      this.loading = false
+      await this.switchMailServer()
+    },
+    //? Switches to a new mailserver, controlled by the imapConfig
+    //? Gets the engine for the current mailserver
+    //* PRECONDITION: assumes imapConfig is your new mailbox
+    //! CAUTION: this will switch the entire mailbox, UI-wise.
+    async switchMailServer () {
+      //? grab the lock on loader
+      const controlsLoader = !(this.loading)
+      if (controlsLoader) this.loading = true
+      console.time('Switch Mailservers')
+      
+      //? Sanity check to make sure there is a current mailbox configuration
+      if (!this.imapConfig?.email) {
+        warn(...MAILAPI_TAG, 'Tried switching server but no current email.')
+        if (controlsLoader) this.loading = false
+        return false //! it's super bad if this happens
+      }
+      
+      info(...MAILAPI_TAG, 'Switching mailbox to ' + this.imapConfig.email)
+
+      //? add it to mailboxes if it's not already there
+      if (!this.mailboxes.includes(this.imapConfig.email)) {
+        this.mailboxes.push(this.imapConfig.email)
+        await SmallStorage.store('mailboxes', this.mailboxes)
+      }
+
+      //? set it as the current mailbox
+      this.currentMailbox = this.imapConfig.email
+      await SmallStorage.store('current-mailbox', this.imapConfig.email)
+
+      //? save IMAP/SMTP configurations as an extra measure
+      //? in case this is being called on a new mailserver
+      await this.saveIMAPConfig()
+      if (this.saveSMTPConfig) await this.saveSMTPConfig()
+
+      //? check OAuth tokens
+      await this.checkOAuthTokens()
+
+      //? (re)start the engine
+      await this.getEngine()
+
+      //? reset the UI
+      this.inbox.emails = []
+      this.done.emails = []
+      this.boardNames = []
+
+      //? fetch folders
+      // TODO: update method
+      await this.findFolderNames()
+
+      // TODO: fetch mails here
+
+      this.syncing = false
+      this.cachingInbox = false
+
+      // TODO: check if we still need this (probably no)
+      await this.memoryLinking()
+      info(...MAILAPI_TAG, 'Linked memory.')
+
+      
+      info(...MAILAPI_TAG, 'Saving config...')
+      await this.saveIMAPConfig()
+
+      // if there is no cache do a full sync
+      info(...MAILAPI_TAG, 'Checking for need to do a sync...')
+      if (this.inbox.emails.length == 0) {
+        await this.initialSyncWithMailServer()
+      } else {
+        this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
+      }
+
+      console.timeEnd('SWITCH MAILBOX')
+      if (controlsLoader) this.loading = false
+
+      await this.memoryLinking()
+
+      document.title = `Inbox - ${this.currentMailbox}`
+
+      this.syncing = false
+      // update & check for new messages, then fetch contacts, all in background
+      this.updateAndFetch().then(this.fetchContacts)
     },
     ////////////////////////////////////////////!
     //! Board Methods
@@ -410,136 +543,6 @@ const mailapi = {
         }
       }
       return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, limit)
-    },
-    async switchMailbox(email) {
-      this.loading = true
-      await this.loadIMAPConfig(email)
-      if (this.loadSMTPConfig) await this.loadSMTPConfig(email)
-      this.loading = false
-      await this.switchMailServer()
-    },
-    // Manage mailservers
-    async reconnectToMailServer () {
-      let results
-      if (!this.currentMailbox) return error(...MAILAPI_TAG, "There is no selected mailbox.")
-      await this.loadIMAPConfig(this.currentMailbox) //* reload config just in case !
-      if (this.connected) {
-        results = await this.callIPC(
-          this.task_DisconnectFromServer(),
-          this.task_MakeNewClient(this.imapConfig),
-          this.task_ConnectToServer()
-        )
-      } else {
-        results = await this.callIPC(
-          this.task_MakeNewClient(this.imapConfig),
-          this.task_ConnectToServer()
-        )
-      }
-      if (results.error) {
-        this.connected = false
-        this.onIMAPConnectionError()
-        return (this.connected = false)
-      }
-      TIMEOUT = 30 * SECONDS
-      return (this.connected = true)
-    },
-    async switchMailServer () {
-      const controlsLoader = !(this.loading)
-      if (controlsLoader) this.loading = true
-      this.syncing = true
-      this.cachingInbox = true
-      // PRECONDITION: assumes imapConfig is your new mailbox
-      // CAUTION!!! this will switch the entire mailbox
-      console.time('SWITCH MAILBOX')
-      if (!this.imapConfig?.email) {
-        warn(...MAILAPI_TAG, 'Tried switching server but no current email.')
-        if (controlsLoader) this.loading = false
-        return false // wtf
-      }
-      info(...MAILAPI_TAG, 'Switching mailbox to ' + this.imapConfig.email)
-      if (!this.mailboxes.includes(this.imapConfig.email)) {
-        this.mailboxes.push(this.imapConfig.email)
-        await SmallStorage.store('mailboxes', this.mailboxes)
-      }
-      this.currentMailbox = this.imapConfig.email
-      await SmallStorage.store('current-mailbox', this.imapConfig.email)
-      await this.saveIMAPConfig()
-      if (this.saveSMTPConfig) await this.saveSMTPConfig()
-
-      // Connect to mailserver
-      info(...MAILAPI_TAG, 'Connecting to MX...')
-      if (this.imapConfig.provider == 'google') {
-        await this.google_checkTokens()
-      }
-      if (!(await this.reconnectToMailServer())) {
-        if (controlsLoader) this.loading = false
-        return false
-      }
-
-      this.inbox.uidLatest = -1
-      this.inbox.emails = []
-      this.done.uidLatest = -1
-      this.done.emails = []
-      this.boardNames = []
-      this.folderNames = {
-        inbox: 'INBOX',
-        sent: '',
-        starred: '',
-        spam: '',
-        drafts: '',
-        archive: '',
-        trash: ''
-      }
-      await this.findFolderNames()
-
-      info(...MAILAPI_TAG, 'Loading cache...')
-      // load cache for the inbox
-      const inboxCache = (
-        await BigStorage.load(this.imapConfig.email + '/inbox') ||
-                this.inbox)
-      inboxCache.emails = await MailCleaner.peek('INBOX', inboxCache.emails)
-      this.inbox = inboxCache
-      info(...MAILAPI_TAG, 'Loaded Inbox Cache.')
-      // load cache for the boards
-      const boardCache = (
-        await BigStorage.load(this.imapConfig.email + '/boards') || this.boards)
-      this.boards = boardCache
-      info(...MAILAPI_TAG, 'Loaded Board Cache.')
-      // load cache for done
-      const doneCache = (
-        await BigStorage.load(this.imapConfig.email + '/done') ||
-                this.done)
-      doneCache.emails = await MailCleaner.peek(this.folderNames.done, doneCache.emails)
-      this.done = doneCache
-      info(...MAILAPI_TAG, 'Loaded Done Cache.')
-
-      this.syncing = false
-      this.cachingInbox = false
-
-      await this.memoryLinking()
-      info(...MAILAPI_TAG, 'Linked memory.')
-
-      info(...MAILAPI_TAG, 'Saving config...')
-      await this.saveIMAPConfig()
-
-      // if there is no cache do a full sync
-      info(...MAILAPI_TAG, 'Checking for need to do a sync...')
-      if (this.inbox.emails.length == 0) {
-        await this.initialSyncWithMailServer()
-      } else {
-        this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
-      }
-
-      console.timeEnd('SWITCH MAILBOX')
-      if (controlsLoader) this.loading = false
-
-      await this.memoryLinking()
-
-      document.title = `Inbox - ${this.currentMailbox}`
-
-      this.syncing = false
-      // update & check for new messages, then fetch contacts, all in background
-      this.updateAndFetch().then(this.fetchContacts)
     },
     // Sync
     async initialSyncWithMailServer () {
