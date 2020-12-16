@@ -12,7 +12,7 @@ try {
     .toString().trim()
   dev = true
 } catch (e) {
-  commit_hash = 'NOT FOR RELEASE'
+  commit_hash = null
   dev = false
 }
 /// //////////////////////////////////////////////////////
@@ -70,6 +70,8 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 
 const platform = os.platform() + '_' + os.arch()
 const version = app.getVersion()
+// TODO: remove before deployment
+commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
 autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
 
 if (!dev) autoUpdater.checkForUpdates()
