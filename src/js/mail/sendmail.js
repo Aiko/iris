@@ -84,6 +84,12 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
         accessToken: xoauth2
       }
     }); break;
+    case "outlook": transporter = nodemailer.createTransport({
+      service: 'hotmail',
+      auth: {
+        type: 'OAuth2', user, accessToken: xoauth2
+      }
+    }); break;
     case "microsoft": transporter = nodemailer.createTransport({
       service: 'hotmail',
       auth: {
