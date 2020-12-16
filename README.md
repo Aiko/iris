@@ -19,3 +19,7 @@ To publish, set GitHub token:
 ```
 set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1
 ```
+or on Mac/Linux:
+```
+export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1
+```
