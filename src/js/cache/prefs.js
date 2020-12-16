@@ -16,6 +16,8 @@ module.exports = fp => {
     case 'linux':
       fp = path.join(process.env.HOME, '.Aiko Mail', fp)
       break
+    default:
+      console.log("There is no case for prefs on", process.platform)
   }
 
   const Prefs = {
