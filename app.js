@@ -151,6 +151,7 @@ const init = async () => {
     titleBarStyle: 'hidden',
     backgroundColor: '#312f2e',
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true
       // FIXME: while this is enabled we have to be 1000% sure that
       // we are in no way shape or form loading scripts from any
