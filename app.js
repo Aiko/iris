@@ -73,7 +73,7 @@ const version = app.getVersion()
 // TODO: remove before deployment
 commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
 autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
-
+Log.log('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version)
 if (!dev) autoUpdater.checkForUpdates()
 
 /// //////////////////////////////////////////////////////

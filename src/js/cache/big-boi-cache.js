@@ -92,7 +92,7 @@ module.exports = dir => {
       }
     }
   })
-  ipcMain.handle('clear all cache', (_, q) => {
+  ipcMain.handle('clear all cache', async (_, q) => {
     await session.defaultSession.clearCache()
     return { 
       payload: {
