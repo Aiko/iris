@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const fs2 = require('fs-extra')
 const {
-  ipcMain
+  ipcMain, session
 } = require('electron')
 
 // NOTE: dont give this middleware or itll break
@@ -89,6 +89,14 @@ module.exports = dir => {
     return {
       payload: {
         success: true,
+      }
+    }
+  })
+  ipcMain.handle('clear all cache', (_, q) => {
+    await session.defaultSession.clearCache()
+    return { 
+      payload: {
+        success: true
       }
     }
   })

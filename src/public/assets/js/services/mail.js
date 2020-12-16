@@ -162,11 +162,8 @@ const mailapi = {
         this.forceAddMailbox = true
         return
       }
-      if (this.imapConfig.provider == 'google') {
-        info(...MAILAPI_TAG, 'Loading Google config...')
-        await this.google_loadConfig()
-        await this.google_checkTokens()
-      }
+      await this.loadOAuthConfig()
+      await this.checkOAuthTokens()
     },
     async saveIMAPConfig () {
       await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
@@ -2005,9 +2002,7 @@ window.setInterval(async () => {
     await app.reconnectToMailServer()
   }
 
-  if (app.imapConfig.provider == 'google') {
-    app.google_checkTokens()
-  }
+  if (app.checkOAuthTokens) await app.checkOAuthTokens()
 
   if (!app.connected) {
     app.syncing = false // don't get stuck
