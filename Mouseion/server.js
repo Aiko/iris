@@ -41,6 +41,12 @@ const Engine = () => {
       add: async path => await mailbox.FolderManager.add(path),
       remove: async path => await mailbox.FolderManager.remove(path),
       fetch: async () => await mailbox.FolderManager.fetch()
+    },
+    close: async () => {
+      Log.log("Closing out the engine and all connections...")
+      await mailbox.close()
+      Log.success("Safe to exit. Killing engine process.")
+      process.exit()
     }
   }
 }
