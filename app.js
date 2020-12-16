@@ -40,9 +40,36 @@ const Log = require('./src/js/utils/logger')
 // Startup
 /// //////////////////////////////////////////////////////
 Log.log('Starting up')
-const { app, BrowserWindow, ipcMain } = require('electron')
+const os = require('os')
+const { app, BrowserWindow, ipcMain, autoUpdater, dialog } = require('electron')
 //? checks to make sure we're not in the midst of installation
 if (require('electron-squirrel-startup')) app.quit()
+//? check for updates
+autoUpdater.on('error', Log.error)
+autoUpdater.on('checking-for-update', () => Log.log('Checking for updates...'))
+autoUpdater.on('update-available', () => Log.log('Update is available, downloading...'))
+autoUpdater.on('update-not-available', () => Log.success('App is up to date.'))
+autoUpdater.on('update-downloaded', () => Log.success('Downloaded update.'))
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  dialog.showMessageBox(window, {
+    type: 'question',
+    buttons: ['Update', 'Later'],
+    defaultId: 0,
+    message: `An update to Aiko Mail is available. Updates contain important security updates, vital bug fixes and new features.`,
+    title: 'Update Available'
+  }, response => {
+    if (response === 0) {
+      autoUpdater.quitAndInstall()
+    }
+  })
+})
+
+const platform = os.platform() + '_' + os.arch()
+const version = app.getVersion()
+autoUpdater.setFeedURL('https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version);
+autoUpdater.checkForUpdates()
+
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
