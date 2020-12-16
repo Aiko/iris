@@ -83,7 +83,10 @@ autoUpdater.setFeedURL({
   url: updateFeed
 })
 
-if (!dev) setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
+if (!dev) {
+  autoUpdater.checkForUpdates()
+  setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
+}
 
 
 /// //////////////////////////////////////////////////////
