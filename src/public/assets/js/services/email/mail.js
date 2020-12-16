@@ -126,6 +126,16 @@ const mailapi = {
     info(...MAILAPI_TAG, 'Mounted IMAP processor. Please ensure this only ever happens once.')
   },
   methods: {
+    ////////////////////////////////////////////!
+    //! IPC Tasks
+    ////////////////////////////////////////////!
+    //? IPC task to create a new Mouseion engine
+    task_NewEngine () {
+      return this.ipcTask('please start up a new engine', {})
+    },
+    ////////////////////////////////////////////!
+    //! IMAP Configuration & Initialization
+    ////////////////////////////////////////////!
     //? Selects the last opened mailbox (or forces an addition)
     //? Loads IMAP configuration
     //? Loads OAuth configuration & checks tokens
@@ -166,22 +176,26 @@ const mailapi = {
       await this.loadOAuthConfig()
       await this.checkOAuthTokens()
     },
+    //? Saves the IMAP configuration to persistent cache
     async saveIMAPConfig () {
       await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
     },
+    //? Loads the IMAP configuration for an email from persistent cache
     async loadIMAPConfig (email) {
       this.imapConfig = await SmallStorage.load(email + '/imap-config')
     },
-    // Wrapper methods to create corresponding IPC tasks
-    task_MakeNewClient (config) {
-      return this.ipcTask('please make new client', config)
-    },
-    // Listener methods
+    ////////////////////////////////////////////!
+    //! Handlers & Sinks
+    ////////////////////////////////////////////!
+    //? A sink method to receive IMAP connection error calls
+    // TODO: should do something on error
     async onIMAPConnectionError () {
       // NOTE: this is less of a listener and something this module calls
       // app.toastIMAPError()
-      // TODO: uncomment once the toast manager has been configured
     },
+    ////////////////////////////////////////////!
+    //! Board Methods
+    ////////////////////////////////////////////!
     // Utility methods
     folderWithSlug (slug) {
       if (!slug) {
@@ -189,6 +203,9 @@ const mailapi = {
         slug = 'Uncategorized'
       }
       return `[Aiko Mail]/${slug}`
+    },
+    async boardCreate (slug) {
+      
     },
     async newBoard (slug) {
       const boardName = this.folderWithSlug(slug)
