@@ -10,3 +10,5 @@ export npm_config_platform=win32
 npm install electron
 unset npm_config_platform
 ```
+
+For running `electron-forge` commands via CMD, you'll want to use the scripts in `package.json` that have `-windows` appended to them. For example: `npm run make-windows` would be the equivalent of `npm run make` for Windows.
