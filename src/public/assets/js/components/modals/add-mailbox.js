@@ -1,6 +1,7 @@
 Vue.component('add-mailbox-modal', {
   props: [
     'googlestrategy',
+    'msftstrategy',
     'success', // NOTE: success should be async
     'closable'
   ],
@@ -34,6 +35,13 @@ Vue.component('add-mailbox-modal', {
   methods: {
     async addGoogle () {
       if (await this.googlestrategy()) {
+        this.success()
+        this.closable = true
+        this.close()
+      }
+    },
+    async addOutlook () {
+      if (await this.msftstrategy()) {
         this.success()
         this.closable = true
         this.close()

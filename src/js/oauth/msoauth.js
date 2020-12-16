@@ -135,7 +135,7 @@ module.exports = (clientId, tenant) => {
 
   ipcMain.handle('please refresh microsoft oauth token', async (_, q) => {
     return await new Promise(async (s, _) => {
-      const { token, r_token } = q
+      const { token, r_token_email, r_token_profile } = q
 
       let client_secret
       try { client_secret = await comms['👈'](token) } catch (e) { return s({ error: e }) }
@@ -149,8 +149,8 @@ module.exports = (clientId, tenant) => {
         },
         form: {
           client_id: clientId,
-          scope: 'openid EAS.AccessAsUser.All email offline_access https://graph.microsoft.com/user.read',
-          refresh_token: r_token,
+          scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send',
+          refresh_token: r_token_email,
           grant_type: 'refresh_token'
         }
       }
@@ -158,10 +158,31 @@ module.exports = (clientId, tenant) => {
       request(opts, (e, res, b) => {
         if (e) return s({ error: e })
         const d = JSON.parse(b)
-        s({
-          s: comms['👉'](client_secret, {
-            success: true,
-            payload: d
+        const opts2 = {
+          method: 'POST',
+          url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          form: {
+            client_id: clientId,
+            scope: 'user.read',
+            refresh_token: r_token_profile,
+            grant_type: 'refresh_token'
+          }
+        }
+
+        request(opts2, (e, res, b2) => {
+          if (e) return s({ error: e })
+          const d2 = JSON.parse(b2)
+          s({
+            s: comms['👉'](client_secret, {
+              success: true,
+              payload: {
+                profile: d2,
+                email: d
+              }
+            })
           })
         })
       })

@@ -1167,7 +1167,9 @@
     </view-email>
 
     <!-- NEW MAILBOX MODAL --------------------------------------->
-    <add-mailbox-modal :googlestrategy="google_addMailbox" v-if="addMailbox" :success="switchMailServer"
+    <add-mailbox-modal v-if="addMailbox" :success="switchMailServer"
+      :googlestrategy="google_addMailbox"
+      :msftstrategy="msft_addMailbox"
       :closable="!forceAddMailbox" inline-template>
       <div class="aiko-modal add-mailbox">
         <!-- STEP ONE --->
@@ -1178,11 +1180,11 @@
               <h1>Add a mailbox</h1>
               <h2>Pick an email provider</h2>
               <!-- <a><img src="assets/img/icloud.png"></a> -->
-              <a><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
+              <a><img @click="addOutlook" src="assets/img/outlook.png"></a>
               <a><img @click="addGoogle" src="assets/img/google.png"></a>
               <!-- <a><img src="assets/img/yahoo.png"></a> -->
               <!-- <a><img src="assets/img/aol.png"></a> -->
-              <a><img @click="addMicrosoft" src="assets/img/outlook.png"></a>
+              <a><img @click="addMicrosoft" src="assets/img/exchange.png"></a>
               <br>
             </div>
             <div class="modal-bottom">
@@ -1796,7 +1798,7 @@
     </div>
   </script>
 
-  <!-- 3rd party libraries -->
+  <!--! 3rd party libraries -->
   <script src="assets/js/third-party/popper.min.js"></script>
   <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>
   <script src="assets/js/third-party/bootstrap.min.js"></script>
@@ -1811,18 +1813,22 @@
   <script src="assets/js/third-party/hotkeys.min.js"></script>
 
   <!-- TODO: minify all sources into one js file -->
-  <!-- common libraries -->
+  <!--! common libraries -->
   <script src="assets/js/common/utils.js"></script>
   <script src="assets/js/common/small-storage.js"></script>
   <script src="assets/js/common/big-storage.js"></script>
   <script src="assets/js/common/only-electron.js"></script>
   <script src="assets/js/common/ai-core.js"></script>
   <script src="assets/js/common/mailcleaner.js"></script>
-  <!-- services -->
+  <!--! services -->
   <script src="assets/js/services/ipc.js"></script>
   <script src="assets/js/services/aiko.js"></script>
   <script src="assets/js/services/window.js"></script>
-  <script src="assets/js/services/goauth.js"></script>
+  <!--? OAuth -->
+  <script src="assets/js/services/oauth/oauth.js"></script>
+  <script src="assets/js/services/oauth/goauth.js"></script>
+  <script src="assets/js/services/oauth/msoauth.js"></script>
+  <!--? Mail-related -->
   <script src="assets/js/services/mail.js"></script>
   <script src="assets/js/services/composer.js"></script>
   <script src="assets/js/services/calendar.js"></script>

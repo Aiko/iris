@@ -7,6 +7,8 @@ top.app = new Vue({
     mailapi, // IMAP API
     composer, // SMTP API
     goauth, // Google OAuth
+    msoauth, // Microsoft OAuth
+    oauth, // OAuth Provider
     modalmanager, // Modals
     shortcuts, // Shortcuts
     calendar, // Calendar API
@@ -86,15 +88,15 @@ top.app = new Vue({
 
     // setup IMAP listeners
     info(...(this.TAG), 'Initializing IMAP')
-    // await this.initIMAP()
+    await this.initIMAP()
 
     info(...(this.TAG), 'Initializing SMTP')
-    // await this.initSMTP()
+    await this.initSMTP()
 
     success(...(this.TAG), 'Finished initialization.')
     console.timeEnd('APP STARTUP')
     this.loading = false // let mail.js decide when to kill loader
-    // this.switchMailServer() // load mailserver
+    this.switchMailServer() // load mailserver
   },
   methods: {
     log (...msg) {
