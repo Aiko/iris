@@ -43,10 +43,11 @@ const Log = require('./src/js/utils/logger')
 /// //////////////////////////////////////////////////////
 Log.log('Starting up')
 const os = require('os')
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
-const { autoUpdater } = require("electron-updater")
+const { app, BrowserWindow, ipcMain, dialog, autoUpdater } = require('electron')
+
 //? checks to make sure we're not in the midst of installation
 if (require('electron-squirrel-startup')) app.quit()
+
 //? check for updates
 autoUpdater.on('error', Log.error)
 autoUpdater.on('checking-for-update', () => Log.log('Checking for updates...'))
@@ -68,18 +69,19 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
   })
 })
 
-const platform = os.platform() + '_' + os.arch()
+const platform = os.platform() // + '_' + os.arch()
 const version = app.getVersion()
 
 // TODO: remove before deployment
 if (!dev) commit_hash = platform + '-' + version + ': NOT FOR RELEASE!'
 
 const updateFeed = (() => {
-  const server = "https://aiko-mail-update-service.vercel.app"
-  return `${server}/update/${process.platform}/${version}`
+  return 'https://aiko-mail-update-service.herokuapp.com/update/'+platform+'/'+version;
 })()
 Log.log("Fetches updates from", updateFeed)
-autoUpdater.setFeedURL(updateFeed)
+autoUpdater.setFeedURL({
+  url: updateFeed
+})
 
 if (!dev) setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
 
