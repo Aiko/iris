@@ -35,6 +35,12 @@ const Engine = () => {
     init,
     sync: {
       start: async () => await mailbox.sync()
+    },
+    folders: {
+      get: async () => await mailbox.FolderManager.get(),
+      add: async path => await mailbox.FolderManager.add(path),
+      remove: async path => await mailbox.FolderManager.remove(path),
+      fetch: async () => await mailbox.FolderManager.fetch()
     }
   }
 }

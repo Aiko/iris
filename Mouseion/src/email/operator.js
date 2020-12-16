@@ -16,7 +16,7 @@ module.exports = (
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
         Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-          folder == Folders.inbox || folder.startsWith("[Aiko]")
+          folder == Folders.get().inbox || folder.startsWith("[Aiko]")
         ))
       }
       const Cleaner = Cleaners[folder]
@@ -118,7 +118,7 @@ module.exports = (
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
         Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-          folder == Folders.inbox || folder.startsWith("[Aiko]")
+          folder == Folders.get().inbox || folder.startsWith("[Aiko]")
         ))
       }
       const Cleaner = Cleaners[folder]
@@ -170,7 +170,7 @@ module.exports = (
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
         Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-          folder == Folders.inbox || folder.startsWith("[Aiko]")
+          folder == Folders.get().inbox || folder.startsWith("[Aiko]")
         ))
       }
       const Cleaner = Cleaners[folder]
@@ -220,7 +220,7 @@ module.exports = (
     if (!Cleaners[src]) {
       Log.warn("Cleaner for", folder, "did not exist, generating it")
       Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-        src == Folders.inbox || src.startsWith("[Aiko]")
+        src == Folders.get().inbox || src.startsWith("[Aiko]")
       ))
     }
     const Cleaner = Cleaners[src]
@@ -270,7 +270,7 @@ module.exports = (
     if (!Cleaners[src]) {
       Log.warn("Cleaner for", folder, "did not exist, generating it")
       Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-        src == Folders.inbox || src.startsWith("[Aiko]")
+        src == Folders.get().inbox || src.startsWith("[Aiko]")
       ))
     }
     const Cleaner = Cleaners[src]
@@ -325,7 +325,7 @@ module.exports = (
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
         Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-          folder == Folders.inbox || folder.startsWith("[Aiko]")
+          folder == Folders.get().inbox || folder.startsWith("[Aiko]")
         ))
       }
       const Cleaner = Cleaners[src]
@@ -337,7 +337,7 @@ module.exports = (
       await courier.messages.deleteMessages(folder, uid)
 
       if (msg) {
-        if (folder == Folders.inbox) await cache.remove.message(msg.mid)
+        if (folder == Folders.get().inbox) await cache.remove.message(msg.mid)
         else await cache.remove.location(folder, uid)
       }
 

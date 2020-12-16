@@ -7,7 +7,7 @@ const Storage = require('../utils/storage')
 const Cache = require('./db/client')
 const PostOffice = require('./imap/client')
 
-const GetFolders = require('./email/folders')
+const FolderEngine = require('./email/folders')
 const ContactEngine = require('./email/contacts')()
 const BoardRuleEngine = require('./email/board-rules')()
 const SyncEngine = require('./email/sync')()
@@ -69,19 +69,19 @@ const Mailbox = (async (Lumberjack, {
   const Cleaners = {}
 
   //* Named Folders
-  const Folders = await GetFolders(provider, courier, Log)
+  const FolderManager = await FolderEngine(provider, courier, Log)
   Log.success("Fetched folders")
 
   //* Contact sync
-  const Contacts = ContactEngine(user, cache, Folders, Log)
+  const Contacts = ContactEngine(user, cache, FolderManager, Log)
 
   //* Board rules
   const Cypher = Operator(provider,
-    Folders,
+    FolderManager,
     cache, courier,
     Contacts, null,
     Cleaners, Log, Lumberjack) //? Cypher is a stripped down operator (no board rules)
-  const BoardRules = BoardRuleEngine(configs, cache, Folders, Cypher)
+  const BoardRules = BoardRuleEngine(configs, cache, FolderManager, Cypher)
 
   //* Single Folder Sync
   const MailSync = SyncEngine(
@@ -89,11 +89,11 @@ const Mailbox = (async (Lumberjack, {
     Contacts, BoardRules,
     cache, courier,
     Cleaners, Log,
-    Lumberjack, Folders,
+    Lumberjack, FolderManager,
     AI_BATCH_SIZE)
 
   const Link = Operator(provider,
-    Folders,
+    FolderManager,
     cache, courier,
     Contacts, BoardRules,
     Cleaners, Log, Lumberjack)
@@ -120,7 +120,6 @@ const Mailbox = (async (Lumberjack, {
     !@awake priansh, here is my plan for api:
     - app opens, figures out which mailboxes are open
     - then, launches the engine for each mailbox (with config file or something)
-      - maybe here we add some hmac or such security
     - then, the app asks for the newest X emails in each folder it has shown
       - for inbox, this should automatically exclude threads that are in other boards
       - it will be returned as a list of threads (tid and messages populated from mids)
@@ -154,7 +153,7 @@ const Mailbox = (async (Lumberjack, {
   return {
     syncFolders,
     sync: syncAll,
-    Folders,
+    FolderManager,
     close: async () => {
       await courier.network.close()
       return true

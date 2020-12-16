@@ -68,7 +68,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
       const in_folders = thread_message.locations.map(({ folder }) => folder)
 
       //? we don't care if not in inbox
-      if (!in_folders.includes(Folders.inbox)) continue;
+      if (!in_folders.includes(Folders.get().inbox)) continue;
 
       const in_boards = in_folders.filter(folder.startsWith('[Aiko]'))
 
@@ -80,7 +80,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
           if (folder.startsWith('[Aiko]')) {
             await Operator.delete(folder, uid)
           }
-          if (folder == Folders.inbox) {
+          if (folder == Folders.get().inbox) {
             await Operator.copy(folder, uid, main_board)
           }
         }
@@ -96,7 +96,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     const msg = await cache.lookup.mid(email.M.envelope.mid)
     if (!msg) return; // doesn't work on messages not cached
 
-    const inbox_loc = msg.locations.filter(({ folder }) => folder == Folders.inbox)?.[0]
+    const inbox_loc = msg.locations.filter(({ folder }) => folder == Folders.get().inbox)?.[0]
     const in_folders = msg.locations.map(({ folder }) => folder)
 
     // actions can only take place once, and should be in order:

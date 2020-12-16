@@ -79,14 +79,14 @@ const threading = async (email, provider,
         }
 
         let found = false
-        if (Folders.archive) found = await look_for_reference(Folders.archive)
+        if (Folders.get().archive) found = await look_for_reference(Folders.get().archive)
 
         //* if the provider isn't google and we haven't found it,
         //* we need to keep searching
         if (provider != 'google' && !found) {
-          found = await look_for_reference(Folders.sent)
-          if (!found) found = await look_for_reference(Folders.inbox)
-          if (!found) found = await look_for_reference(Folders.trash)
+          found = await look_for_reference(Folders.get().sent)
+          if (!found) found = await look_for_reference(Folders.get().inbox)
+          if (!found) found = await look_for_reference(Folders.get().trash)
         }
 
         //* if we have found it, call ourselves again (don't make assumptions)
@@ -237,7 +237,7 @@ const threading = async (email, provider,
   }
 
   if (Contacts) Contacts.queue(email)
-  if (email.folder == Folders.inbox || Object.values(Folders.aiko).includes(email.folder)) {
+  if (email.folder == Folders.get().inbox || Object.values(Folders.get().aiko).includes(email.folder)) {
     if (BoardRules && email.parsed) { // only queue parsed emails for board rules
       BoardRules.queue(email)
     }

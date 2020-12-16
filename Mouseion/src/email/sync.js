@@ -18,7 +18,7 @@ module.exports = () => (
   if (!Cleaners[folder]) {
     Log.warn("Cleaner for", folder, "did not exist, generating it")
     Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-      folder == Folders.inbox || folder.startsWith("[Aiko]")
+      folder == Folders.get().inbox || folder.startsWith("[Aiko]")
     ))
   }
   const Cleaner = Cleaners[folder]
@@ -72,7 +72,7 @@ module.exports = () => (
   //* then, get the envelopes of (up to X) new emails on remote
   //? we set X = 1000 for inbox
   //? X = 200 for everything else
-  const X = (folder == Folders.inbox) ? 1000 : 200;
+  const X = (folder == Folders.get().inbox) ? 1000 : 200;
   const uidLatest = (localUIDs.length < 1) ? 0 : localUIDs[localUIDs.length - 1]
   const uidMin = Math.max(uidLatest + 1, uidNext - X + 1)
   if (uidLatest + 1 < uidNext - X) {
@@ -81,7 +81,7 @@ module.exports = () => (
     //? Y = 5000 for inbox
     //? Y = 200 for everything else
     //? add X because it's a cursor from the Xth newest email
-    const Y = X + (folder == Folders.inbox) ? 5000 : 200;
+    const Y = X + (folder == Folders.get().inbox) ? 5000 : 200;
 
     const uidMinEnv = Math.max(uidLatest + 1, uidNext - Y)
     Log.time(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")

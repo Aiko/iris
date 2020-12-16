@@ -8,7 +8,7 @@ module.exports = () => (user, cache, Folders, Log) => {
     }
 
     //? lastly, we update the contact db
-    if (email.folder == Folders.sent || email.M.envelope.from.address == MY_EMAIL) {
+    if (email.folder == Folders.get().sent || email.M.envelope.from.address == MY_EMAIL) {
       //* if you sent the email, then update sent
       await cache.update.contact.sent(MY_EMAIL, email.M.envelope.from.name)
       //! we need a loop here because you risk a race condition otherwise
