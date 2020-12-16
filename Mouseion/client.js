@@ -74,11 +74,7 @@ const EngineProxy = () => new Promise((scb, _) => {
       WSPort = s.wsport
       Log.success("SockPuppet server running on", WSPort)
       scb({
-        port: WSPort,
-        init: proxy_it('init'),
-        sync: {
-          start: proxy_it('sync.start')
-        },
+        port: WSPort
       })
       return;
     }
