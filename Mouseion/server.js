@@ -1,3 +1,5 @@
+//? Server bindings for engine & SockPuppet
+
 const Forest = require('./utils/logger')
 const Lumberjack = Forest()
 const SockPuppet = require('./utils/ws')
@@ -24,7 +26,7 @@ const Engine = () => {
       SYNC_TIMEOUT: 30 * 1000,
     })
 
-    mailbox.syncFolders(
+    mailbox.syncSet.add(
       mailbox.Folders.inbox,
       mailbox.Folders.sent,
       ...Object.values(mailbox.Folders.aiko),
