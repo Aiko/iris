@@ -3,6 +3,7 @@ const path = require('path')
 
 const batchMap = require('../utils/do-in-batch')
 const Storage = require('../utils/storage')
+const Lock = require('../utils/promise-lock')
 
 const Cache = require('./db/client')
 const PostOffice = require('./imap/client')
@@ -66,6 +67,10 @@ const Mailbox = (async (Lumberjack, {
     folders.filter(_ => _).map(f => syncedFolders.add(f))
     Log.success("Now syncing:", syncedFolders)
   }
+  const unsyncFolders = (...folders) => {
+    folders.filter(_ => _).map(f => syncedFolders.delete(f))
+    Log.success("Now syncing:", syncedFolders)
+  }
   const Cleaners = {}
 
   //* Named Folders
@@ -98,21 +103,42 @@ const Mailbox = (async (Lumberjack, {
     Contacts, BoardRules,
     Cleaners, Log, Lumberjack)
 
-  //* sync lifecycle
-  const syncAll = async () => {
-    try {
-      await courier.network.checkConnect()
-      await batchMap(syncedFolders, SYNC_BATCH_SIZE, MailSync, async () => {
-      })
-      await Contacts.sync()
-      await BoardRules.apply()
-      Log.success("Finished sync!")
-      onSync()
-    } catch (e) {
-      Log.error(e)
-    }
-    setTimeout(syncAll, SYNC_TIMEOUT)
+  //* Sync Lifecycle
+
+  const beforeSync = async () => {
+    await courier.network.checkConnect()
   }
+
+  const afterSync = async () => {
+    await Contacts.sync()
+    await BoardRules.apply()
+    Log.success("Finished sync.")
+    onSync()
+  }
+
+  //? helper tools for sync
+  let nextSync = null
+  const SyncLock = Lock()
+  //? Calling this will clear any timeouts, do an immediate sync,
+  //? and then sync every 30s after that
+  //? This uses a lock so only one sync op can run at once
+  //? You can await the lock to know when it is finished running
+  const syncAll = () =>
+    SyncLock.acquire(async () => {
+      if (nextSync) {
+        clearTimeout(nextSync)
+        nextSync = null
+      }
+      try {
+        await beforeSync()
+        await batchMap(syncedFolders, SYNC_BATCH_SIZE, MailSync)
+        await afterSync()
+      } catch (e) {
+        Log.error(e)
+      }
+      nextSync = setTimeout(syncAll, SYNC_TIMEOUT)
+    })
+  ;;
 
   //! TODO: API
   /* here are some features I think are worth adding to the API:
@@ -151,7 +177,9 @@ const Mailbox = (async (Lumberjack, {
   //! API should have a `register(channel: String, handler: Function)` method
 
   return {
-    syncFolders,
+    syncSet: {
+      add: syncFolders, remove: unsyncFolders
+    },
     sync: syncAll,
     FolderManager,
     close: async () => {
