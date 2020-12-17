@@ -1,3 +1,5 @@
+//? Client-side engine SockPuppeteer
+
 const Engine = port => {
   const socket = new WebSocket('ws://localhost:' + port)
   socket.binaryType = 'arraybuffer'
@@ -10,7 +12,7 @@ const Engine = port => {
     waiters[id] = (..._)=>_
     return id
   }
-  
+
   socket.onmessage = m => {
     const { success, error, payload, id } = JSON.parse(m)
     if (!id) return console.error("Received untagged websocket response:", m)

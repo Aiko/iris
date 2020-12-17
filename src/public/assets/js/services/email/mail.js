@@ -254,14 +254,14 @@ const mailapi = {
       const controlsLoader = !(this.loading)
       if (controlsLoader) this.loading = true
       console.time('Switch Mailservers')
-      
+
       //? Sanity check to make sure there is a current mailbox configuration
       if (!this.imapConfig?.email) {
         warn(...MAILAPI_TAG, 'Tried switching server but no current email.')
         if (controlsLoader) this.loading = false
         return false //! it's super bad if this happens
       }
-      
+
       info(...MAILAPI_TAG, 'Switching mailbox to ' + this.imapConfig.email)
 
       //? add it to mailboxes if it's not already there
@@ -294,7 +294,7 @@ const mailapi = {
       // TODO: update method
       await this.findFolderNames()
 
-      // TODO: fetch mails here
+      // TODO: fetch emails here
 
       this.syncing = false
       this.cachingInbox = false
@@ -303,7 +303,7 @@ const mailapi = {
       await this.memoryLinking()
       info(...MAILAPI_TAG, 'Linked memory.')
 
-      
+      //? save IMAP configuration again as an extra measure (in case the OAuth tokens updated)
       info(...MAILAPI_TAG, 'Saving config...')
       await this.saveIMAPConfig()
 
@@ -311,10 +311,7 @@ const mailapi = {
       info(...MAILAPI_TAG, 'Checking for need to do a sync...')
       if (this.inbox.emails.length == 0) {
         await this.initialSyncWithMailServer()
-      } else {
-        this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid))
       }
-
       console.timeEnd('SWITCH MAILBOX')
       if (controlsLoader) this.loading = false
 

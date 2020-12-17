@@ -56,6 +56,7 @@ autoUpdater.on('update-not-available', () => Log.success('App is up to date.'))
 autoUpdater.on('update-downloaded', () => Log.success('Downloaded update.'))
 
 autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  // TODO: replace w/ modal
   dialog.showMessageBox(window, {
     type: 'question',
     buttons: ['Update', 'Later'],
