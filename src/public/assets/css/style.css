@@ -170,24 +170,27 @@ input:active {
 
 /* END DRAGGABLE CLASSES */
 
-.version {
+.announce {
 	padding: 6px 5px;
-	margin-top: 5vh;
+	margin-top: 4vh;
 	background: var(--secondary-bg-color);
 	border-radius: 3px;
 	letter-spacing: 0 !important;
 }
 
-.version h1 {
+.announce h1 {
 	font-size: 13px;
 	letter-spacing: 0 !important;
 }
 
-.version span {
+.announce span {
 	letter-spacing: 0 !important;
+	    line-height: 17px;
 }
-
-.version p {
+.mb-9{
+	    margin-bottom: -9px;
+}
+.announce p {
 	font-size: 12px;
 	margin-bottom: 5px !important;
 	margin-top: -4px !important;
@@ -195,18 +198,19 @@ input:active {
 	letter-spacing: 0 !important;
 }
 
-.version a {
-	background: var(--main-color);
-	color: #fff !important;
-	padding: 4px 6px !important;
+.announce a {
+	color:var(--main-color);
 	font-size: 13px !important;
 	letter-spacing: 0 !important;
-}
-
-.version a:hover {
-	background: var(--main-color-hover) !important;
-	color: #fff !important;
-	font-size: 13px !important;
+	display: block;
+    height: 24px !important;
+	padding-top: 2px !important;
+    line-height: 19px;
+		padding-left: 0 !important;
+    padding-right: 0 !important;
+		text-align: center;
+		margin-bottom: 0 !important;
+		margin-top: 5px !important;
 }
 
 .bottom {
@@ -284,9 +288,11 @@ input:active {
 	background: var(--main-bg-color);
 	position: relative;
 	padding: 9px 6px;
+	height: calc(100% - 20px);
+	margin-top: 20px;
 	overflow-x: hidden;
 	z-index: 2;
-	box-shadow: 9px 0px 15px -10px #d5dbed;
+	box-shadow: 9px 0 15px -10px #d5dbed;
 	transition: 0.2s;
 }
 
@@ -456,13 +462,18 @@ input:active {
 }
 
 .main {
-	width: calc(100% - 122px);
-	position: relative;
+width: calc(100% - 122px);
+		margin-top: -20px;
+		    background: var(--secondary-bg-color);
+    position: relative;
+    z-index: 100001;
+    height: calc(100% + 20px);
 }
 
 #app {
 	width: 100%;
 	overflow: hidden;
+	background: var(--main-bg-color);
 }
 
 .control-bar {
@@ -470,7 +481,7 @@ input:active {
 	top: 0;
 	left: 0;
 	width: 100%;
-	background: var(--secondary-bg-color);
+	background: var(--main-bg-color);
 	z-index: 100000;
 	margin-bottom: 10px;
 	display: inline-flex;
@@ -663,12 +674,15 @@ input:active {
 }
 
 .header {
-	padding: 9px 15px 9px 20px;
-	box-shadow: 0px 7px 15px -10px #d5dbed;
+	padding: 9px 15px 9px 0;
+	box-shadow: 0  7px 15px -10px #d5dbed;
 	height: 47px;
 	background: var(--main-bg-color);
 	z-index: 3;
 	position: relative;
+}
+.collapsed .header{
+		padding: 9px 15px 9px 30px !important;
 }
 
 .sidebar .row {
@@ -771,7 +785,7 @@ a.main-action:hover {
 	white-space: nowrap;
 	overflow: hidden;
 	height: 30px;
-	margin-bottom: 5px !important;
+	margin-bottom: 5px;
 	letter-spacing: 0.3px;
 	transition: 0.2s;
 }
@@ -806,17 +820,22 @@ a.main-action:hover {
 	margin-right: 3px;
 }
 
-.sidebar .compose {
+.sbtn-sec{
+    background: var(--main-bg-color) !important;
+    color: var(--dark-text) !important;
+}
+.sidebar .sbtn {
 	background: var(--main-color);
+	color: #fff !important;
 	margin-top: 0;
 	transition: 0.2s;
 }
 
-.sidebar .compose span {
+.sidebar .sbtn span {
 	color: #fff !important;
 }
 
-.sidebar .compose:hover {
+.sidebar .sbtn:hover {
 	background: var(--main-color-hover) !important;
 	color: #fff;
 	transition: 0.2s;
@@ -3072,7 +3091,7 @@ unselectable {
 	width: 100%;
 	padding-top: 1px;
 	text-align: center;
-	box-shadow: -4px 3px 6px 0 #0000002e;
+	box-shadow: 5px 2px 6px 0 #0000002e;
 	z-index: 1;
 }
 

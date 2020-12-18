@@ -394,7 +394,7 @@
     <div class="sidebar">
       <div class="container">
         <div class="row">
-          <a class="compose" @click="openComposer()"><img src="assets/icons/sidebar-edit.svg"
+          <a class="sbtn" @click="openComposer()"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
           <a class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
                 class="main-count">3</span></span></a>
@@ -422,11 +422,34 @@
           </div>
           <a class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
               class="blue sc">Invite</span></a>
-          <div class="version sc no-mobile">
+          
+          
+
+          <!-- Sidebar Announcements (One at a time with priority to update when present) -->
+          <div class="announce sc no-mobile">
             <h1>Version: <span class="blue fw700">ALPHA</span></h1>
             <p>Request features and report issues</p>
-            <a target="_blank">Give feedback</a>
+            <a target="_blank" class="sbtn">Give feedback</a>
           </div>
+
+          <div class="announce sc no-mobile">
+
+
+        <div class="container mb-9">
+          <div class="row">
+            <div class="col-7 p0">
+              <h1><span class="blue fw700">Update Available</span></h1>
+            </div>
+            <div class="col-5">
+              <img class="rotating" src="assets/icons/update.svg" width="17">
+            </div>
+          </div>
+        </div>
+            <a target="_blank" class="sbtn">Update now</a>
+<a target="_blank" class="sbtn-sec">Later</a>
+</div>
+
+
         </div>
         <div class="row bottom">
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
