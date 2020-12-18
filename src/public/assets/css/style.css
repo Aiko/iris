@@ -288,8 +288,6 @@ input:active {
 	background: var(--main-bg-color);
 	position: relative;
 	padding: 9px 6px;
-	height: calc(100% - 20px);
-	margin-top: 20px;
 	overflow-x: hidden;
 	z-index: 2;
 	box-shadow: 9px 0 15px -10px #d5dbed;
@@ -462,18 +460,13 @@ input:active {
 }
 
 .main {
-width: calc(100% - 122px);
-		margin-top: -20px;
-		    background: var(--secondary-bg-color);
-    position: relative;
-    z-index: 100001;
-    height: calc(100% + 20px);
+		position: relative;
+    width: calc(100% - 122px);
 }
 
 #app {
 	width: 100%;
 	overflow: hidden;
-	background: var(--main-bg-color);
 }
 
 .control-bar {
@@ -481,11 +474,11 @@ width: calc(100% - 122px);
 	top: 0;
 	left: 0;
 	width: 100%;
-	background: var(--main-bg-color);
+	background: var(--secondary-bg-color);
 	z-index: 100000;
 	margin-bottom: 10px;
 	display: inline-flex;
-	height: 20px;
+	height: 25px;
 	cursor: pointer !important;
 	user-select: none;
 	-webkit-app-region: drag;
@@ -674,15 +667,12 @@ width: calc(100% - 122px);
 }
 
 .header {
-	padding: 9px 15px 9px 0;
+	padding: 9px 15px 9px 20px;
 	box-shadow: 0  7px 15px -10px #d5dbed;
 	height: 47px;
 	background: var(--main-bg-color);
 	z-index: 3;
 	position: relative;
-}
-.collapsed .header{
-		padding: 9px 15px 9px 30px !important;
 }
 
 .sidebar .row {
