@@ -421,24 +421,71 @@
               <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
               <div class="no-mobile sc">{{user.member.name}}</div>
             </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            <a class="user" v-for="user in profile.team.team">
+              <div class="active-user"></div>
+              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+              <div class="no-mobile sc">{{user.member.name}}</div>
+            </a>
+            
           </div>
           <a class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
               class="blue sc">Invite</span></a>
           
-          
-
-          <!-- Sidebar Announcements (One at a time with priority to update when present) -->
-          <div class="announce sc no-mobile">
-            <h1>Version: <span class="blue fw700">ALPHA</span></h1>
-            <p>Request features and report issues</p>
-            <a target="_blank" class="sbtn">Give feedback</a>
           </div>
 
+          <!-- Sidebar Announcements (One at a time with priority to update when present) -->
+          <div class="announce sc no-mobile" style="display: none;">
+              <h1><span class="blue fw700">Send an invite</span></h1>
+        <p>You have 3 VIP invites remaining</p>
+            <a target="_blank" class="sbtn">Invite now</a>
+          <a target="_blank" class="sbtn-sec">Later</a>
+          </div>
 
-
-
-
-        <div class="announce sc no-mobile">
+        <div class="announce sc no-mobile" style="display: none;">
         <div class="container mb-9">
           <div class="row">
             <div class="col-7 p0">
@@ -454,21 +501,13 @@
           </div>
 
 
-
-          <div class="announce sc no-mobile">
-              <h1><span class="blue fw700">Send an invite</span></h1>
-        <p>You have 3 VIP invites remaining</p>
-            <a target="_blank" class="sbtn">Invite now</a>
-          <a target="_blank" class="sbtn-sec">Later</a>
+                  <div class="announce sc no-mobile">
+            <h1>Version: <span class="blue fw700">ALPHA</span></h1>
+            <p>Request features and report issues</p>
+            <a target="_blank" class="sbtn">Give feedback</a>
           </div>
 
 
-
-
-
-
-
-        </div>
         <div class="row bottom">
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
             class="sidebar-collapse no-mobile">

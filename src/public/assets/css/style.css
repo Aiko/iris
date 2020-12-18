@@ -172,10 +172,12 @@ input:active {
 
 .announce {
 	padding: 6px 5px;
-	margin-top: 4vh;
 	background: var(--secondary-bg-color);
 	border-radius: 3px;
 	letter-spacing: 0 !important;
+	position: absolute;
+    bottom: 0;
+    margin-bottom: 70px;
 }
 
 .announce h1 {
@@ -839,8 +841,6 @@ a.main-action:hover {
 
 .sidebar .container .row:nth-child(2) {
 	margin-top: 5vh;
-	overflow-y: scroll;
-	height: calc(100% - 370px);
 	display: block;
 }
 
@@ -2119,6 +2119,12 @@ select.v1 {
 	.spe {
 		margin-left: 0;
 		padding-left: 10px !important;
+	}
+}
+
+@media all and (max-height: 730px) {
+	.sidebar .container .row:nth-child(2){
+		display: none;
 	}
 }
 
