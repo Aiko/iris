@@ -377,9 +377,6 @@
       <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
-
-      <h5 @click="showDev = true">{{hash.substring(0, 9)}}</h5>
-
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
       <!-- Minimize ---------->
       <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png" width="10">
@@ -390,6 +387,7 @@
       <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
       <!-- Close ---------------->
     </div>
+    <p @click="showDev = true" style="margin-top: 3px;margin-left: 5px;position:absolute">{{hash.substring(0, 9)}}</p>
     <!-- Sidebar --------------------------------------------------->
     <div class="sidebar">
       <div class="container">
