@@ -45,7 +45,7 @@ const Forest = (dir='logs') => {
     } else {
       console.log(identifier, ...msg)
     }
-    storage.append(forest, `${identifier} ${msg.map(m => JSON.stringify(m)).join(' ')}\n`)
+    storage.append(forest, `${identifier.stripColors} ${msg.map(m => JSON.stringify(m).stripColors).join(' ')}\n`)
   }
 
   const Lumberjack = label => {

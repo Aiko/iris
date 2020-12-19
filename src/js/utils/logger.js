@@ -1,4 +1,4 @@
-const colors = require('colors')
+require('colors')
 const fs2 = require('fs-extra')
 const fs = require('fs')
 const path = require('path')
@@ -10,9 +10,17 @@ switch (process.platform) {
   case 'linux': dir = path.join(process.env.HOME, '.Aiko Mail', dir); break
 }
 
+const Timestamp = () => {
+  const now = new Date()
+  const date = now.toLocaleDateString()
+  const time = now.toTimeString().substr(0, 'HH:MM:SS'.length)
+  return `[${date.gray} ${time.cyan}]`.bgBlack
+}
+
 const betterLog = (...s) => {
+  s.unshift(Timestamp())
   fs2.ensureFileSync(dir)
-  fs.appendFileSync(dir, s.join(' ') + '\n')
+  fs.appendFileSync(dir, s.map(t => t.stripColors).join(' ') + '\n')
 
   console.log(...s)
 }
