@@ -122,7 +122,7 @@ const Mailbox = (async (Lumberjack, {
   //? Calling this will clear any timeouts, do an immediate sync,
   //? and then sync every 30s after that
   //? This uses a lock so only one sync op can run at once
-  //? You can await the lock to know when it is finished running
+  //? You can await the result to know when it is finished running
   const syncAll = () =>
     SyncLock.acquire(async () => {
       if (nextSync) {
@@ -180,7 +180,10 @@ const Mailbox = (async (Lumberjack, {
     syncSet: {
       add: syncFolders, remove: unsyncFolders
     },
-    sync: syncAll,
+    sync: {
+      immediate: syncAll,
+      
+    },
     FolderManager,
     close: async () => {
       await courier.network.close()
