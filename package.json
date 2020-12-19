@@ -13,6 +13,8 @@
     "package-windows": "%APPDATA%\\npm\\electron-forge package",
     "make-windows": "%APPDATA%\\npm\\electron-forge make",
     "publish-windows": "%APPDATA%\\npm\\electron-forge publish",
+    "enable-github": "export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
+    "enable-github-windows": "set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
     "lint": "echo \"No linting configured\""
   },
   "keywords": [],
