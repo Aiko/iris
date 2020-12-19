@@ -70,18 +70,18 @@ module.exports = () => (
   }
 
   //* then, get the envelopes of (up to X) new emails on remote
-  //? we set X = 1000 for inbox
-  //? X = 200 for everything else
-  const X = (folder == Folders.get().inbox) ? 1000 : 200;
+  //? we set X = 2000 for inbox
+  //? X = 400 for everything else
+  const X = (folder == Folders.get().inbox) ? 2000 : 400;
   const uidLatest = (localUIDs.length < 1) ? 0 : localUIDs[localUIDs.length - 1]
   const uidMin = Math.max(uidLatest + 1, uidNext - X + 1)
   if (uidLatest + 1 < uidNext - X) {
     Log.warn(folder, "is behind by > 1000 messages, has", uidLatest, "but remote is on", uidNext)
     //* fetch envelopes for uidLatest + 1 to uidNext - 1000
-    //? Y = 5000 for inbox
-    //? Y = 200 for everything else
+    //? Y = 10000 for inbox
+    //? Y = 1000 for everything else
     //? add X because it's a cursor from the Xth newest email
-    const Y = X + (folder == Folders.get().inbox) ? 5000 : 200;
+    const Y = X + (folder == Folders.get().inbox) ? 10000 : 1000;
 
     const uidMinEnv = Math.max(uidLatest + 1, uidNext - Y)
     Log.time(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
