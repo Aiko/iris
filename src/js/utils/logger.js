@@ -3,7 +3,7 @@ const fs2 = require('fs-extra')
 const fs = require('fs')
 const path = require('path')
 
-let dir = 'am-log.json'
+let dir = 'main-process.log'
 switch (process.platform) {
   case 'darwin': dir = path.join(process.env.HOME, 'Library', 'Application Support', 'Aiko Mail', dir); break
   case 'win32': dir = path.join(process.env.APPDATA, 'Aiko Mail', dir); break
