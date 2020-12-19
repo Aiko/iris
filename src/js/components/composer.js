@@ -16,14 +16,14 @@ const openComposer = bang => {
     },
     width: 800,
     height: 600,
-    icon: process.platform == 'darwin' ? './src/public/assets/img/icon.png' : './src/public/assets/img/app-icon/square-icon-shadow.png'
+    icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png'
   })
   const manager = WindowManager(win, 'composer-' + bang + ':please')
   manager.setWindow(win)
   win.show()
   win.focus()
 
-  win.loadURL(`file://${__dirname}/../../../src/public/compose.html#${bang}`, {
+  win.loadURL(`file://${__dirname}/../../../public/compose.html#${bang}`, {
     // have to pretend to be Chrome to pass OAuth
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0'
   })
