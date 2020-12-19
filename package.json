@@ -45,9 +45,7 @@
         }
       ],
       "plugins": [
-        {
-          "name": "@electron-forge/plugin-auto-unpack-natives"
-        }
+        ["@electron-forge/plugin-auto-unpack-natives"]
       ],
       "publishers": [
         {
