@@ -117,6 +117,6 @@ module.exports = async (provider, courier, Log) => {
   const get = () => Folders
 
   return {
-    get, add, remove
+    get, add, remove, fetch
   }
 }
