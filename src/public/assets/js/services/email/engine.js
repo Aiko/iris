@@ -38,7 +38,7 @@ const Engine = port => {
   return {
     init: async config => await proxy('init')(config).catch(console.error),
     sync: {
-      start: async () => await proxy('sync.start')().catch(console.error)
+      immediate: async () => await proxy('sync.immediate')().catch(console.error)
     },
     folders: {
       get: async () => await proxy('folders.get')().catch(console.error),
