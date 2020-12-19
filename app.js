@@ -50,7 +50,10 @@ const os = require('os')
 const { app, BrowserWindow, ipcMain, dialog, autoUpdater } = require('electron')
 
 //? checks to make sure we're not in the midst of installation
-if (require('electron-squirrel-startup')) app.quit()
+if (require('electron-squirrel-startup')) {
+  app.quit()
+  process.exit(0)
+}
 
 Log.log("Setting up automatic updates")
 //? check for updates
