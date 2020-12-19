@@ -61,22 +61,7 @@ autoUpdater.on('error', Log.error)
 autoUpdater.on('checking-for-update', () => Log.log('Checking for updates...'))
 autoUpdater.on('update-available', () => Log.log('Update is available, downloading...'))
 autoUpdater.on('update-not-available', () => Log.success('App is up to date.'))
-autoUpdater.on('update-downloaded', () => Log.success('Downloaded update.'))
-
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-  // TODO: replace w/ modal
-  dialog.showMessageBox(window, {
-    type: 'question',
-    buttons: ['Update', 'Later'],
-    defaultId: 0,
-    message: `An update to Aiko Mail is available. Updates contain important security updates, vital bug fixes and new features.`,
-    title: 'Update Available'
-  }, response => {
-    if (response === 0) {
-      autoUpdater.quitAndInstall()
-    }
-  })
-})
+autoUpdater.on('update-downloaded', () => Log.success('Downloaded update'))
 
 const platform = os.platform() // + '_' + os.arch()
 const version = app.getVersion()
@@ -267,6 +252,21 @@ app.on('activate', () => {
 module.exports = {
   platform: process.platform
 }
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  // TODO: replace w/ modal
+  dialog.showMessageBox(win, {
+    type: 'question',
+    buttons: ['Update', 'Later'],
+    defaultId: 0,
+    message: `An update to Aiko Mail is available. Updates contain important security updates, vital bug fixes and new features.`,
+    title: 'Update Available'
+  }, response => {
+    if (response === 0) {
+      autoUpdater.quitAndInstall()
+    }
+  })
+})
 
 if (!dev) {
   autoUpdater.checkForUpdates()
