@@ -307,21 +307,14 @@ const mailapi = {
       info(...MAILAPI_TAG, 'Saving config...')
       await this.saveIMAPConfig()
 
-      // if there is no cache do a full sync
-      info(...MAILAPI_TAG, 'Checking for need to do a sync...')
-      if (this.inbox.emails.length == 0) {
-        await this.initialSyncWithMailServer()
-      }
+      // TODO: fetch full inbox from backend
+      //? then, if its empty i.e. a new mailbox, show loader and await a sync
+
       console.timeEnd('SWITCH MAILBOX')
+
       if (controlsLoader) this.loading = false
-
-      await this.memoryLinking()
-
       document.title = `Inbox - ${this.currentMailbox}`
-
       this.syncing = false
-      // update & check for new messages, then fetch contacts, all in background
-      this.updateAndFetch().then(this.fetchContacts)
     },
     ////////////////////////////////////////////!
     //! Board Methods
