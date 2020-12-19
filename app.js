@@ -264,7 +264,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
   }, response => {
     if (response === 0) {
       autoUpdater.quitAndInstall()
-    }
+    } else console.log(response)
   })
 })
 
