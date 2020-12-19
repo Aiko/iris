@@ -24,7 +24,8 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./public/assets/img/icon.icns"
+        "icon": "./public/assets/img/icon.icns",
+        "asar": true
       },
       "makers": [
         {
