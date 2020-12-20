@@ -169,12 +169,9 @@ const Mailbox = (async (Lumberjack, {
         the engine will find out its gone from the old folder and that its in the new one
   */
 
-  //! TODO: rather than exposing anything, handle internally and instead expose a method to
-  //! bind to some interface. so for example...
-  //  const Mailbox = require('./mailbox')
-  //  const API = ...
-  //  Mailbox.bindTo(API)
-  //! API should have a `register(channel: String, handler: Function)` method
+  //! suggestion: maybe create a modseq locally for the mailbox to better manage changes
+  //! maybe some global modseq = X which is incremented across all sessions
+  //! every time the app pulls from backend it pulls any thread with higher modseq (fresh open, app.modseq = 0)
 
   return {
     syncSet: {

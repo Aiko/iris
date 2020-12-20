@@ -133,7 +133,7 @@ const mailapi = {
     //? IPC task to create a new Mouseion engine
     task_NewEngine () {
       return this.ipcTask('please start up a new engine', {})
-    },    
+    },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
     ////////////////////////////////////////////!
@@ -330,6 +330,7 @@ const mailapi = {
     async boardCreate (slug) {
       
     },
+    // TODO: move this into boardCreate
     async newBoard (slug) {
       const boardName = this.folderWithSlug(slug)
       if (this.boards[boardName]) return error('Tried to create board that exists.')
@@ -341,6 +342,7 @@ const mailapi = {
       })
       this.boardNames.push(boardName)
     },
+    // TODO: can prob delete this
     async findFolderNames () {
       // load cache for folderNames and boardNames
       this.folderNames = (
@@ -518,6 +520,7 @@ const mailapi = {
       info(...MAILAPI_TAG, "Finished collecting all contacts.")
       await BigStorage.store(this.imapConfig.email + '/contacts', this.contacts)
     },
+    // TODO: can probably create an API binding for this & move it to backend
     async suggestContact(term, limit=5) {
       const results = []
       for (const contact of app.contacts.allContacts) {
@@ -534,7 +537,7 @@ const mailapi = {
       }
       return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, limit)
     },
-    // Sync
+    // TODO: probably don't need this, when there are no emails you can just show loader and await sync.immediate
     async initialSyncWithMailServer () {
       info(...MAILAPI_TAG, 'Performing initial sync with mailserver.')
       console.time('Initial Sync')
@@ -591,13 +594,7 @@ const mailapi = {
       this.syncing = false
       console.timeEnd('Initial Sync')
     },
-    async syncWithMailServer () {
-      // TODO: sync messages that we have locally
-      // doesn't use modseq
-      // i don't think we will need this so it's unwritten
-      // maybe this should be specifically for syncing the
-      // sent, trash, drafts etc folders to the mailserver
-    },
+    // TODO: probably don't need this
     // Linking & cache
     async memoryLinking () {
       for (const board of this.boardNames) {
@@ -632,6 +629,7 @@ const mailapi = {
         }
       }
     },
+    // TODO: probably don't need this
     async saveBoardCache () {
       const boardsCache = {}
       for (const board of this.boardNames) {
@@ -656,6 +654,7 @@ const mailapi = {
       }
       await BigStorage.store(this.imapConfig.email + '/done', doneCache)
     },
+    // TODO: probably don't need this
     async cleanup () {
       for (const board of this.boardNames) {
         const mids = new Set()
@@ -668,7 +667,9 @@ const mailapi = {
         }
       }
     },
-    // Utility for big sync
+    // TODO: probably don't need this
+    //? instead, how about a listener for events from the engine?
+    //? maybe a sync started hook for ui update and sync ended hook to tell us to pull changes
     async updateAndFetch () {
       info(...MAILAPI_TAG, 'Running update and fetch.')
       // simply checkForUpdates and checkForNewMessages both
@@ -683,7 +684,7 @@ const mailapi = {
       await this.cleanup()
       this.syncing = false
     },
-    // New message retrieval
+    // TODO: probably don't need this
     async checkForNewMessages () {
       const {
         uidNext
@@ -735,6 +736,7 @@ const mailapi = {
       await Promise.all(this.boardNames.map(boardName => this.checkBoardForNewMessages(boardName)))
       await this.checkDoneForNewMessages()
     },
+    // TODO: probably don't need this
     async checkBoardForNewMessages (boardName) {
       /* FIXME:
         * this should only check for updates in a peeked way for all emails
@@ -800,6 +802,7 @@ const mailapi = {
       await this.memoryLinking()
       Vue.set(this.syncingBoards, boardName, false)
     },
+    // TODO: probably don't need this
     async checkDoneForNewMessages () {
       info(...MAILAPI_TAG, 'Checking done for new messages')
 
@@ -838,7 +841,7 @@ const mailapi = {
       await this.memoryLinking()
       this.syncingDone = false
     },
-    // Update existing messages
+    // TODO: probably don't need this
     async checkForUpdates () {
       // const getChanges = async (modseq, folder, uids) => {
       const getChanges = async (folder, uids, all=true) => {
@@ -961,7 +964,7 @@ const mailapi = {
 
       this.saveBoardCache()
     },
-    // Old message retrieval
+    // TODO: probably don't need this
     async getOldMessages (n = 400) {
       if (this.inbox.emails.length <= 0) {
         warn(...MAILAPI_TAG, 'There are no emails to begin with, you should call a full sync.')
@@ -995,7 +998,7 @@ const mailapi = {
       await this.halfThreading()
       await this.memoryLinking()
     },
-    // Hiding messages on the mailserver
+    // TODO: probably don't need this
     async uploadMessage (path, message, headerData, customData) {
       info(...MAILAPI_TAG, 'Uploading a message to', path)
       return error(...MAILAPI_TAG, 'We disabled upload message because it duplicates messages when threading is activated.')
@@ -1033,7 +1036,7 @@ const mailapi = {
       const enc = new TextDecoder('utf-8').decode(att_content)
       return JSON.parse(atob(enc + '='))
     },
-    // Threading
+    // TODO: probably don't need this
     async getThread (email, force=false) {
       // returns thread array for email
       // FIXME: this doesn't completely work
@@ -1421,6 +1424,7 @@ const mailapi = {
 
       return { messages: final_thread, senders: [...new Set(thread.map(getSender))] }
     },
+    // TODO: probably don't need this
     async halfThreading () {
       // does the very simple act of:
       // email.ai.isInThread = true
@@ -1825,6 +1829,7 @@ const mailapi = {
         info(...MAILAPI_TAG, 'Fetching more messages')
         this.seekingInbox = true
         const that = this
+        // TODO: this doesnt exist anymore
         this.getOldMessages().then(() => {
           that.seekingInbox = false
           that.onScroll(e)
