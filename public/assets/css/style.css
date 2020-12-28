@@ -3169,7 +3169,9 @@ unselectable {
 	overflow-y: scroll;
 	max-height: 50vh;
 }
-
+.container-rules div:first-child{
+margin-top: 20px !important;
+}
 .backbtn {
 	color: var(--main-text-color) !important;
 }
