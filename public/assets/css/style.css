@@ -491,7 +491,16 @@ padding: 5px 10px 6px 15px;
 	user-select: none;
 	-webkit-app-region: drag;
 }
-
+.int{
+	background-color: transparent !important;
+}
+.int h1{
+		position: absolute;
+    right: 0;
+    padding: 5px;
+    width: 30px !important;
+    height: 30px !important;
+}
 .control-bar p {
 	width: 12px;
 	border-radius: 50%;
