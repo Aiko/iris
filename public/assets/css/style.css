@@ -314,7 +314,9 @@ input:active {
 .thin {
 	width: 150px !important;
 }
-
+#collapseOne input{
+	margin-bottom: 0 !important;
+}
 .thin .email {
 	padding: 7px 8px 0 8px;
 }
@@ -499,7 +501,9 @@ padding: 5px 10px 6px 15px;
 	cursor: pointer;
 	-webkit-app-region: no-drag;
 }
-
+.b0{
+	border: none !important;
+}
 .control-bar h1 {
 	display: none;
 	cursor: pointer !important;

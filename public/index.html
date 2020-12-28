@@ -1461,8 +1461,8 @@
       </div>
     </div>
 
-    <!-- STEP ONE - INBOX Board rules --------------------------------------->
-    <div class="aiko-modal" style="display: none;">
+    <!-- INBOX Board rules --------------------------------------->
+    <div class="aiko-modal">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
           <img src="assets/icons/grey-x.svg" class="x-email">
@@ -1544,89 +1544,44 @@
               </div>
             </div>
             <br>
-            <a class="blue">Add new rule</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP TWO - INBOX BOARD ADD RULE --------------------------------------->
-      <div class="modal-dialog modal-md mw600" style="display: none;">
-        <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
-            <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1>Add rule</h1>
             <div class="accordion" id="accordionExample">
-              <div class="card">
-                <div class="card-header" id="headingOne">
+              <div class="card b0">
+                <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
                   <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                       aria-expanded="true" aria-controls="collapseOne">
-                      Add email address filter ("if email is from...")
+                      Add new rule
                     </button>
                   </h2>
                 </div>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-4 text-right">
-                          <p>Move email to: </p>
-                        </div>
-                        <div class="col-4 text-center">
-                          <select class="aiko-select">
+                  <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <select class="aiko-select">
+                            <option value="1" selected="selected">If from: </option>
+                            <option value="2">If contains: </option>
+                          </select>
+                </div>
+                <div class="col-3">
+                  <input type="text" name="rulesField" placeholder="Email">
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <select class="aiko-select">
                             <option value="1" selected="selected">To-Do</option>
                             <option value="2">Done</option>
                           </select>
-                        </div>
-                        <div class="col-4 text-left">
-                          <p>if it's from:</p>
-                        </div>
-                      </div>
-                      <br>
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
-                  </div>
+                </div>
+                <div class="col-2">
+                  <a class="blue margin-auto text-right">Add</a>
                 </div>
               </div>
-              <div class="card">
-                <div class="card-header" id="headingOne">
-                  <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo"
-                      aria-expanded="true" aria-controls="collapseOne">
-                      Add subject keyword filter ("if subject contains...")
-                    </button>
-                  </h2>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-4 text-right">
-                          <p>Move email to: </p>
-                        </div>
-                        <div class="col-4 text-center">
-                          <select class="aiko-select">
-                            <option value="1" selected="selected">To-Do</option>
-                            <option value="2">Done</option>
-                          </select>
-                        </div>
-                        <div class="col-4 text-left">
-                          <p>if subject contains:</p>
-                        </div>
-                      </div>
-                      <br>
-                      <input type="text" name="rulesField2" placeholder="Word">
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
-            <p style="margin-top: 20px;margin-bottom: 0">Check individual board rules to see dragging actions.</p>
-            <br><br>
-            <div class="modal-bottom">
-              <a class="backbtn float-left">Back</a><a class="blue float-right">Save rule</a>
-            </div>
+            <p style="margin-top: 20px;margin-bottom: 0">You may add additional rules to other boards separately as well.</p>
           </div>
         </div>
       </div>
