@@ -314,8 +314,10 @@ input:active {
 .thin {
 	width: 150px !important;
 }
+
 #collapseOne input{
 	margin-bottom: 0 !important;
+	background: var(--main-bg-color);
 }
 .thin .email {
 	padding: 7px 8px 0 8px;
@@ -3169,9 +3171,7 @@ unselectable {
 	overflow-y: scroll;
 	max-height: 50vh;
 }
-.container-rules div:first-child{
-margin-top: 20px !important;
-}
+
 .backbtn {
 	color: var(--main-text-color) !important;
 }
