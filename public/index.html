@@ -1331,45 +1331,12 @@
               <br><br>
               <div v-if="validBoard" class="modal-bottom">
                 <!-- TODO: change this to do step = 2 and then rig the board rules -->
-                <a @click="addBoard" class="blue">Next</a>
+                <a @click="addBoard" class="blue">Add</a>
               </div>
               <br>
             </div>
           </div>
         </div>
-        <!-- STEP 2 - BOARD RULES (New Board only)--->
-        <div v-if="step == 2" class="modal-dialog modal-md">
-          <div class="modal-content">
-            <img src="assets/icons/grey-x.svg" class="x-email">
-            <div class="modal-reg">
-              <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-              <h1>Board rules (optional)</h1>
-              <br>
-              <div class="accordion" id="accordionExample">
-                <div class="card">
-                  <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Add automatic forwarding
-                      </button>
-                    </h2>
-                  </div>
-                  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body">
-                      <p style="margin-bottom: 12px;">Dragging an email to this board will forward it to:</p>
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p style="margin-top: 20px;margin-bottom: -15px">You can add or change rules later.</p>
-              <br><br><br>
-              <div class="modal-bottom">
-                <a class="blue">Add board</a>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </add-board-modal>
@@ -1423,46 +1390,108 @@
     </dev-controls>
 
 
-    <!-- BOARD RULES (Board already exists) --------------------------------------->
+    <!-- BOARD RULES (other than inbox) --------------------------------------->
     <div class="aiko-modal" style="display: none;">
-      <div class="modal-dialog modal-md">
+      <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" class="x-email">
-          <div class="modal-reg">
+         <div class="modal-reg">
             <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
-            <h1><b>{BOARD NAME}</b> board rules</h1>
+            <h1><b>[BOARDNAME]</b> board rules</h1>
+            <br>
+            <div class="container-rules">
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">if from: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">ruben@pri.com</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">To-Do</p>
+                </div>
+                <div class="col-2">
+                  <a class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+             
+
+              <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <p class="margin-auto text-left">if from: </p>
+                </div>
+                <div class="col-3">
+                  <p class="margin-auto blue text-left">ruben@pri.com</p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <p class="margin-auto blue">To-Do</p>
+                </div>
+                <div class="col-2">
+                  <a class="red margin-auto text-right">Delete</a>
+                </div>
+              </div>
+            </div>
             <br>
             <div class="accordion" id="accordionExample">
-              <div class="card">
-                <div class="card-header" id="headingOne">
+              <div class="card b0">
+                <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
                   <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                       aria-expanded="true" aria-controls="collapseOne">
-                      Automatic forwarding
+                      Add new rule
                     </button>
                   </h2>
                 </div>
                 <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                  <div class="card-body">
-                    <p style="margin-bottom: 12px;">Dragging an email to this board forwards it to:</p>
-                    <input type="text" name="rulesField" placeholder="Email">
-                  </div>
+                  <div class="row margin-auto existing-rules">
+                <div class="col-3">
+                  <select class="aiko-select">
+                            <option value="1" selected="selected">If from: </option>
+                            <option value="2">If contains: </option>
+                            <option value="2">If date: </option>
+                            <option value="2">If flagged: </option>
+                            <option value="2">If attcht: </option>
+                            <option value="2">If contains: </option>
+                            <option value="2">If contains: </option>
+
+                          </select>
+                </div>
+
+                <!-- Inside this one will be dynamic depending on previous selection
+                  (text/email/date etc)   --------------------------------------->
+                <div class="col-3">
+                  <input type="text" name="rulesField" placeholder="Email">
+                </div>
+
+                <div class="col-2">
+                  <p class="margin-auto text-left">move to: </p>
+                </div>
+                <div class="col-2">
+                  <select class="aiko-select">
+                            <option value="1" selected="selected">To-Do</option>
+                            <option value="2">Done</option>
+                          </select>
+                </div>
+                <div class="col-2">
+                  <a class="blue margin-auto text-right">Add</a>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
-            <p style="margin-top: 20px;margin-bottom: -15px">Check your <a class="blue fw600">Inbox board
-                rules</a> to see if emails are being automatically added to this board.</p>
-            <br><br><br>
-            <div class="modal-bottom">
-              <a class="blue">Save</a>
-            </div>
+            <p style="margin-top: 25px;margin-bottom: 0">Check <a class="blue">Inbox rules</a> to see if emails ae being automatically added to this board.</p>
           </div>
         </div>
       </div>
     </div>
 
     <!-- INBOX Board rules --------------------------------------->
-    <div class="aiko-modal">
+    <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
 
