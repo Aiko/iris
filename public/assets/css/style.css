@@ -360,7 +360,7 @@ input:active {
 
 .inbox-switch .inbox1 {
 	border-radius: 3px 0 0 3px;
-	box-shadow: inset 0px 0px 40px -10px #c2c8da78;
+	box-shadow: inset 0 0 40px -10px #c2c8da78;
 	opacity: .7;
 	margin-left: -20px;
 padding: 5px 10px 6px 15px;
@@ -370,7 +370,7 @@ padding: 5px 10px 6px 15px;
 
 .inbox-switch .inbox2 {
 	border-radius: 0 3px 3px 0;
-	box-shadow: inset 0px 0px 40px -10px #c2c8da78;
+	box-shadow: inset 0 0 40px -10px #c2c8da78;
 	margin-right: -17px;
 	padding: 5px 17px 7px 10px;
 	opacity: .7;
@@ -897,7 +897,7 @@ a.main-action:hover {
 .picker:hover {
 	height: fit-content;
 	border-radius: 3px;
-	box-shadow: 0 6px 13px 0px #cccfdd;
+	box-shadow: 0 6px 13px 0 #cccfdd;
 	transition: 0.2s;
 }
 
@@ -962,7 +962,7 @@ a.main-action:hover {
 	transform: translate3d(-269px, 18px, 0);
 	min-width: 310px !important;
 	top: 0;
-	box-shadow: 0 6px 13px 0px #cccfdd;
+	box-shadow: 0 6px 13px 0 #cccfdd;
 	padding-left: 5px !important;
 	left: 0;
 	will-change: transform;
@@ -1192,7 +1192,7 @@ a.main-action:hover {
 	border-radius: 3px;
 	text-align: center;
 	padding-top: 45px;
-	box-shadow: inset 0px 0px 2px 1px #d5dbed;
+	box-shadow: inset 0 0 2px 1px #d5dbed;
 	position: absolute;
 	width: calc(100% - 20px);
 	top: 0;
@@ -1394,7 +1394,7 @@ border: 2px solid #486fff !important;
 	margin-bottom: 15px;
 	padding: 8px 13px 0 10px;
 	overflow: hidden;
-	box-shadow: 0px 1px 9px 0px #d5dbed;
+	box-shadow: 0 1px 9px 0 #d5dbed;
 }
 
 .chip {
@@ -1724,7 +1724,7 @@ border: 2px solid #486fff !important;
 }
 
 .sortable-drag {
-	box-shadow: 0px 1px 20px 0px #d5dbed;
+	box-shadow: 0 1px 20px 0 #d5dbed;
 	opacity: 1 !important;
 }
 
@@ -3265,7 +3265,7 @@ p.wv{
 	bottom: 1px;
 	background-color: var(--secondary-bg-color);
 	border: 1px solid var(--main-color);
-	box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.27);
+	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.27);
 	transition: 0.4s;
 }
 
