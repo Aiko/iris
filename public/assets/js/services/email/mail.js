@@ -287,6 +287,7 @@ const mailapi = {
 
       //? reset the UI
       this.inbox.emails = []
+      // TODO: can probably treat done as just another board and have a special case for the UI of it
       this.done.emails = []
       this.boardNames = []
 
