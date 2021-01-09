@@ -171,7 +171,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     if (actions[BoardRuleActions.Move]) {
       //* check to see if its already moved
       if (!(in_folders.includes(actions[BoardRuleActions.Move]))) {
-        const strategy = inbox_loc ? Operator.copy : Operator.move;
+        const strategy = (email.folder == Folders.inbox) ? Operator.copy : Operator.move;
         await strategy(email.folder, email.M.envelope.uid, actions[BoardRuleActions.Move])
         // FIXME: there may be lag in uniting threads until the next sync
       }
