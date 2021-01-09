@@ -296,6 +296,8 @@ const mailapi = {
       await this.findFolderNames()
 
       // TODO: fetch emails here
+      info(...MAILAPI_TAG, "Starting engine sync.")
+      await this.engine.sync.immediate()
 
       this.syncing = false
       this.cachingInbox = false
@@ -323,13 +325,29 @@ const mailapi = {
     // Utility methods
     folderWithSlug (slug) {
       if (!slug) {
-        error(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
+        warn(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
         slug = 'Uncategorized'
       }
       return `[Aiko Mail]/${slug}`
     },
     async boardCreate (slug) {
-      
+      if (!slug) {
+        warn(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
+        slug = 'Uncategorized'
+      }
+      const path = this.folderWithSlug(slug)
+      //? check if it already exists
+      const folders = this.engine.folders.get()
+      if (folders.aiko?.[slug]) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but it already exists!")
+      await this.engine.folders.add(path)
+      //? confirm it was added
+      const updatedFolders = this.engine.folders.get()
+      if (!(updatedFolders.aiko?.[slug])) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
+      await this.engine.sync.add(path)
+      Vue.set(this.boards, boardName, {
+        emails: []
+      })
+      this.boardNames.push(boardName)
     },
     // TODO: move this into boardCreate
     async newBoard (slug) {
