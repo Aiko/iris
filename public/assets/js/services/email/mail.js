@@ -297,15 +297,11 @@ const mailapi = {
       this.syncing = false
       this.cachingInbox = false
 
-      // TODO: check if we still need this (probably no)
-      await this.memoryLinking()
-      info(...MAILAPI_TAG, 'Linked memory.')
-
       //? save IMAP configuration again as an extra measure (in case the OAuth tokens updated)
       info(...MAILAPI_TAG, 'Saving config...')
       await this.saveIMAPConfig()
 
-      // TODO: fetch full inbox from backend
+      // TODO: get the email data for full inbox from backend
       //? then, if its empty i.e. a new mailbox, show loader and await a sync
 
       console.timeEnd('SWITCH MAILBOX')
@@ -347,41 +343,6 @@ const mailapi = {
     async suggestContact(term, limit=5) {
       const results = await this.engine.contacts.lookup(term)
       return results.slice(0, limit)
-    },
-    // TODO: probably don't need this
-    // Linking & cache
-    async memoryLinking () {
-      for (const board of this.boardNames) {
-        // TODO: this could easily be refactored into a map or something
-        // for every email in this board
-        for (let i = 0; i < this.boards[board]?.emails.length; i++) {
-          // check if email is in inbox
-          for (let j = 0; j < this.inbox?.emails.length; j++) {
-            if (this.inbox.emails[j]?.envelope?.['message-id'] == this.boards[board].emails[i]?.envelope?.['message-id']) {
-              // link them in memory
-              const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-              Vue.set(this.inbox.emails, j, this.boards[board].emails[i])
-              if (!(this.boards[board].emails[i].inboxUID)) {
-                this.boards[board].emails[i].inboxUID = wasUID
-              }
-            }
-          }
-        }
-      }
-      // memory linking for done board
-      for (let i = 0; i < this.done?.emails.length; i++) {
-        // check if email is in inbox
-        for (let j = 0; j < this.inbox?.emails.length; j++) {
-          if (this.inbox.emails[j]?.envelope?.['message-id'] == this.done.emails[i]?.envelope?.['message-id']) {
-            // link them in memory
-            const wasUID = this.inbox.emails[j].inboxUID || this.inbox.emails[j].uid
-            Vue.set(this.inbox.emails, j, this.done.emails[i])
-            if (!(this.done.emails[i].inboxUID)) {
-              this.done.emails[i].inboxUID = wasUID
-            }
-          }
-        }
-      }
     },
     // TODO: probably don't need this
     async saveBoardCache () {
