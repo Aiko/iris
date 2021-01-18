@@ -46,6 +46,9 @@ const Engine = () => {
       remove: async path => await mailbox.FolderManager.remove(path),
       fetch: async () => await mailbox.FolderManager.fetch()
     },
+    contacts: {
+      lookup: async partial => await mailbox.contacts.lookup(partial)
+    },
     close: async () => {
       Log.log("Closing out the engine and all connections...")
       await mailbox.close()

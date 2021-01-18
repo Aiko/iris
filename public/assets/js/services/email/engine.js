@@ -48,6 +48,9 @@ const Engine = port => {
       remove: async path => await proxy('folders.remove')(path).catch(console.error),
       fetch: async () => await proxy('folders.fetch')().catch(console.error)
     },
+    contacts: {
+      lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)
+    },
     close: async () => await proxy('close')().catch(console.error)
   }
 

@@ -179,7 +179,9 @@ const Mailbox = (async (Lumberjack, {
     },
     sync: {
       immediate: syncAll,
-      
+    },
+    contacts: {
+      lookup: Contacts.lookup,
     },
     FolderManager,
     close: async () => {
