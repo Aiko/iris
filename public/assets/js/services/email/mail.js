@@ -291,11 +291,6 @@ const mailapi = {
       this.done.emails = []
       this.boardNames = []
 
-      //? fetch folders
-      // TODO: update method
-      await this.findFolderNames()
-
-      // TODO: fetch emails here
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
 
@@ -352,63 +347,6 @@ const mailapi = {
     async suggestContact(term, limit=5) {
       const results = await this.engine.contacts.lookup(term)
       return results.slice(0, limit)
-    },
-    // TODO: probably don't need this, when there are no emails you can just show loader and await sync.immediate
-    async initialSyncWithMailServer () {
-      info(...MAILAPI_TAG, 'Performing initial sync with mailserver.')
-      console.time('Initial Sync')
-      const controlsLoader = !(this.loading)
-      this.loading = true // its so big it blocks I/O
-      this.syncing = true
-
-      const {
-        uidNext
-      } = await this.callIPC(this.task_OpenFolder('INBOX'))
-      if (!uidNext) return error(...(MAILAPI_TAG), "Didn't get UIDNEXT.")
-
-      info(...MAILAPI_TAG, 'Fetching latest 200 emails from inbox.')
-
-      let MESSAGE_COUNT = 0
-      const MAX_COUNT = 200
-      const INCREMENT = MAX_COUNT * 2 // GOTTA GO FAT
-      const emails = []
-      let uidMax = uidNext
-      let uidMin = uidMax
-      while (MESSAGE_COUNT < MAX_COUNT && uidMin > 1) {
-        uidMin = Math.max(uidMax - INCREMENT, 1)
-        info(...MAILAPI_TAG, `Fetching ${uidMin}:${uidMax}...`)
-        const received = await this.callIPC(
-          this.task_FetchEmails('INBOX', `${uidMin}:${uidMax}`, false, null, MAX_COUNT - MESSAGE_COUNT, false, false, false))
-        info(...MAILAPI_TAG, 'Parsing...')
-        if (!(received?.reverse)) return error(...MAILAPI_TAG, received)
-        MESSAGE_COUNT += received.length
-        const processed_received = await MailCleaner.full('INBOX', received.reverse())
-        emails.push(...processed_received)
-        uidMax = uidMin - 1
-        info(...MAILAPI_TAG, MAX_COUNT - MESSAGE_COUNT, 'left to fetch...')
-      }
-
-      if (!(emails?.reverse)) return error(...MAILAPI_TAG, emails)
-      const processed_emails = emails // await MailCleaner.full(emails)
-
-      // DANGER: this is scary and takes like 30s on main thread
-      // super super dangerous, avengers level threat
-      /*
-            info(...MAILAPI_TAG, "Peeking 4000 additional messages for threading.")
-            uidMin = Math.max(uidMax - 4000, 1)
-            const thread_messages = await this.callIPC(
-                this.task_FetchEmails("INBOX", `${uidMin}:${uidMax}`, true))
-            if (!(thread_messages?.reverse)) return error(...MAILAPI_TAG, thread_messages)
-            const processed_old_emails = await MailCleaner.peek(thread_messages)
-            */
-
-      this.inbox.emails = processed_emails
-      if (this.inbox.emails.length > 0) { this.inbox.uidLatest = Math.max(...this.inbox.emails.map(email => email.inboxUID || email.uid)) }
-
-      await this.memoryLinking()
-      if (controlsLoader) this.loading = false
-      this.syncing = false
-      console.timeEnd('Initial Sync')
     },
     // TODO: probably don't need this
     // Linking & cache
