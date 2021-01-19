@@ -2,7 +2,7 @@ const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 
 /*
 ? * TODO: this is what i have left:
-* - get emails and display them
+* - get emails and display them (both initially and on sync hooks)
 * - the movement methods for emails
 * - refactoring the view email modal and etc
 * - fixing any artifacts in composer
