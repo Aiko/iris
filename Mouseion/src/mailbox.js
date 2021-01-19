@@ -107,13 +107,14 @@ const Mailbox = (async (Lumberjack, {
 
   const beforeSync = async () => {
     await courier.network.checkConnect()
+    // TODO: send hook to frontend
   }
 
   const afterSync = async () => {
     await Contacts.sync()
     await BoardRules.apply()
     Log.success("Finished sync.")
-    onSync()
+    onSync() // TODO: probably just post hook
   }
 
   //? helper tools for sync
