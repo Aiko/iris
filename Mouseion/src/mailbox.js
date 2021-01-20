@@ -44,14 +44,14 @@ const Mailbox = (async (Lumberjack, {
 
   Log.log("Mailbox initialized in", dir)
 
-  //* L1, L2, L3 caches & message DB
-  const cache = await Cache(Lumberjack, dir)
-  Log.log("Instantiated cache provider")
-
   //* Config cache
   const configs = Storage(path.join(dir, '/configs'))
   Log.log("Instantiated configuration cache")
   if (!configs.load("cursor")) configs.store('cursor', 0)
+
+  //* L1, L2, L3 caches & message DB
+  const cache = await Cache(Lumberjack, dir)
+  Log.log("Instantiated cache provider")
 
   //* IMAP bindings
   // TODO: you can make a pool of IMAP workers and use that to sync multiple folders at once
@@ -84,6 +84,7 @@ const Mailbox = (async (Lumberjack, {
   //* Board rules
   const Cypher = Operator(provider,
     FolderManager,
+    configs,
     cache, courier,
     Contacts, null,
     Cleaners, Log, Lumberjack) //? Cypher is a stripped down operator (no board rules)
@@ -99,11 +100,13 @@ const Mailbox = (async (Lumberjack, {
     Lumberjack, FolderManager,
     AI_BATCH_SIZE)
 
+  //* Client Operator
   const Link = Operator(provider,
     FolderManager,
+    configs,
     cache, courier,
     Contacts, BoardRules,
-    Cleaners, Log, Lumberjack)
+    Cleaners, Log, Lumberjack, auto_increment_cursor=true)
 
   //* Sync Lifecycle
 
