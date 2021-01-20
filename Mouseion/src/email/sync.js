@@ -3,6 +3,7 @@ const batchMap = require('../../utils/do-in-batch')
 const threading = require('./threading')
 const Sequence = require('./sequence')
 
+//TODO: put the cursor in correctly
 
 //* syncs a folder, one time
 //? built to spec of RFC 4549
@@ -11,9 +12,12 @@ module.exports = () => (
   Contacts, BoardRules,
   cache, courier,
   Cleaners, Log,
+  configs,
   Lumberjack, Folders,
   AI_BATCH_SIZE, THREAD_BATCH_SIZE) => async folder => {
   Log.time("Synced", folder)
+
+  const cursor = configs.load('cursor') + 1
 
   if (!Cleaners[folder]) {
     Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -155,6 +159,7 @@ module.exports = () => (
     await cache.L1.cache(email.M.envelope.mid, email)
   })
 
+  configs.store('cursor', cursor + 1)
   Log.timeEnd("Synced", folder)
   return true
 }

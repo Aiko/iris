@@ -51,6 +51,7 @@ const Mailbox = (async (Lumberjack, {
   //* Config cache
   const configs = Storage(path.join(dir, '/configs'))
   Log.log("Instantiated configuration cache")
+  if (!configs.load("cursor")) configs.store('cursor', 0)
 
   //* IMAP bindings
   // TODO: you can make a pool of IMAP workers and use that to sync multiple folders at once
@@ -94,6 +95,7 @@ const Mailbox = (async (Lumberjack, {
     Contacts, BoardRules,
     cache, courier,
     Cleaners, Log,
+    configs,
     Lumberjack, FolderManager,
     AI_BATCH_SIZE)
 
