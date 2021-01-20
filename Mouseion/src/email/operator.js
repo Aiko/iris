@@ -1,17 +1,23 @@
 const threading = require('./threading')
 const retry = require('../../utils/retry')
 
+//! Take note that this doesn't inc cursor by default. It is auto-incremented by the sync engine and nothing else.
 module.exports = (
   provider,
   Folders,
+  configs,
   cache, courier,
   Contacts, BoardRules,
-  Cleaners, Log, Lumberjack
+  Cleaners, Log, Lumberjack,
+  auto_increment_cursor=false
 ) => {
-  const thread = email => threading(email, provider, Folders, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack)
+  const thread = (email, cursor) => threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack)
 
   const star = async (folder, uid) => {
     try {
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
       //? create cleaner if doesn't exist
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -38,7 +44,7 @@ module.exports = (
         if (!envelope) return false; //! the mailserver refused to hand it over >:(
         const cleaned_envelope = await Cleaner.headers(envelope)
         if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-        await thread(cleaned_envelope)
+        await thread(cleaned_envelope, cursor)
         await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
         return await star(folder, uid)
       }
@@ -48,12 +54,12 @@ module.exports = (
         add: "\\Flagged"
       })
 
-      await cache.update.message(msg.mid, {
+      await cache.update.message(msg.mid, cursor, {
         starred: true
       })
 
       Log.success("Starred", `${folder}:${uid}`)
-
+      configs.store('cursor', cursor)
       return true
     } catch (e) {
       Log.error(e)
@@ -63,6 +69,9 @@ module.exports = (
 
   const unstar = async (folder, uid) => {
     try {
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
       //? create cleaner if doesn't exist
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -89,7 +98,7 @@ module.exports = (
         if (!envelope) return false; //! the mailserver refused to hand it over >:(
         const cleaned_envelope = await Cleaner.headers(envelope)
         if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-        await thread(cleaned_envelope)
+        await thread(cleaned_envelope, cursor)
         await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
         return await unstar(folder, uid)
       }
@@ -99,12 +108,12 @@ module.exports = (
         remove: "\\Flagged"
       })
 
-      await cache.update.message(msg.mid, {
+      await cache.update.message(msg.mid, cursor, {
         starred: false
       })
 
       Log.success("Unstarred", `${folder}:${uid}`)
-
+      configs.store('cursor', cursor)
       return true
     } catch (e) {
       Log.error(e)
@@ -114,6 +123,9 @@ module.exports = (
 
   const markSeen = async (folder, uid) => {
     try {
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
       //? create cleaner if doesn't exist
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -140,7 +152,7 @@ module.exports = (
         if (!envelope) return false; //! the mailserver refused to hand it over >:(
         const cleaned_envelope = await Cleaner.headers(envelope)
         if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-        await thread(cleaned_envelope)
+        await thread(cleaned_envelope, cursor)
         await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
         return await markSeen(folder, uid)
       }
@@ -150,12 +162,12 @@ module.exports = (
         add: "\\Seen"
       })
 
-      await cache.update.message(msg.mid, {
+      await cache.update.message(msg.mid, cursor, {
         seen: true
       })
 
       Log.success("Marked as seen", `${folder}:${uid}`)
-
+      configs.store('cursor', cursor)
       return true
     } catch (e) {
       Log.error(e)
@@ -166,6 +178,9 @@ module.exports = (
 
   const markUnseen = async (folder, uid) => {
     try {
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
       //? create cleaner if doesn't exist
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -192,7 +207,7 @@ module.exports = (
         if (!envelope) return false; //! the mailserver refused to hand it over >:(
         const cleaned_envelope = await Cleaner.headers(envelope)
         if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-        await thread(cleaned_envelope)
+        await thread(cleaned_envelope, cursor)
         await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
         return await markUnseen(folder, uid)
       }
@@ -202,12 +217,12 @@ module.exports = (
         remove: "\\Seen"
       })
 
-      await cache.update.message(msg.mid, {
+      await cache.update.message(msg.mid, cursor, {
         seen: false
       })
 
       Log.success("Marked as unseen", `${folder}:${uid}`)
-
+      configs.store('cursor', cursor)
       return true
     } catch (e) {
       Log.error(e)
@@ -216,6 +231,9 @@ module.exports = (
   }
 
   const copy = async (src, srcUID, dest) => {
+    //? get a new cursor
+    const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
     //? create cleaner if doesn't exist
     if (!Cleaners[src]) {
       Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -242,7 +260,7 @@ module.exports = (
       if (!envelope) return false; //! the mailserver refused to hand it over >:(
       const cleaned_envelope = await Cleaner.headers(envelope)
       if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-      await thread(cleaned_envelope)
+      await thread(cleaned_envelope, cursor)
       await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
       return await copy(src, srcUID, dest)
     }
@@ -259,13 +277,16 @@ module.exports = (
     if (!destUID) return false;
 
     // give it the new location in our db
-    await cache.add.message(msg.mid, dest, destUID)
+    await cache.add.message(msg.mid, dest, destUID, cursor)
     Log.success("Added", `${dest}:${destUID}`)
-
+    configs.store('cursor', cursor)
     return destUID
   }
 
   const move = async (src, srcUID, dest) => {
+    //? get a new cursor
+    const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
     //? create cleaner if doesn't exist
     if (!Cleaners[src]) {
       Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -291,7 +312,7 @@ module.exports = (
       if (!envelope) return false; //! the mailserver refused to hand it over >:(
       const cleaned_envelope = await Cleaner.headers(envelope)
       if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-      await thread(cleaned_envelope)
+      await thread(cleaned_envelope, cursor)
       await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
       return await move(src, srcUID, dest)
     }
@@ -310,10 +331,10 @@ module.exports = (
     // give it the new location in our db
     //? we add first because if it only exists in one location,
     //? removing the location will kill the db model :(
-    await cache.add.message(msg.mid, dest, destUID)
-    await cache.remove.location(src, srcUID)
+    await cache.add.message(msg.mid, dest, destUID, cursor)
+    await cache.remove.location(src, srcUID, cursor)
     Log.success("Moved to", `${dest}:${destUID}`)
-
+    configs.store('cursor', cursor)
     return destUID
   }
 
@@ -321,6 +342,9 @@ module.exports = (
   //! deleting from any other location will just remove it from the location!
   const remove = async (folder, uid) => {
     try {
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+
       //? create cleaner if doesn't exist
       if (!Cleaners[folder]) {
         Log.warn("Cleaner for", folder, "did not exist, generating it")
@@ -337,12 +361,12 @@ module.exports = (
       await courier.messages.deleteMessages(folder, uid)
 
       if (msg) {
-        if (folder == Folders.get().inbox) await cache.remove.message(msg.mid)
-        else await cache.remove.location(folder, uid)
+        if (folder == Folders.get().inbox) await cache.remove.message(msg.mid, cursor)
+        else await cache.remove.location(folder, uid, cursor)
       }
 
       Log.success("Deleted", `${folder}:${uid}`)
-
+      configs.store('cursor', cursor)
       return true
     } catch (e) {
       Log.error(e)

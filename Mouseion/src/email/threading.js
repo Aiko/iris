@@ -2,9 +2,11 @@ const Janitor = require('../cleaner')
 
 const threading = async (email, provider,
   Folders,
+  cursor,
   cache, courier,
   Contacts, BoardRules,
   Cleaners, Log, Lumberjack, actually_thread=true) => {
+
   if (!email.M.references) {
     Log.error("Cannot call threading on an uncleaned email. Requires header-level parsing.")
     return null
@@ -14,7 +16,7 @@ const threading = async (email, provider,
   const exists = await cache.lookup.mid(email.M.envelope.mid)
 
   if (exists) {
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid)
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor)
     return exists.tid
   }
 
@@ -33,11 +35,11 @@ const threading = async (email, provider,
         //* if they are in the same thread, ignore
         if (thread_id == tid) return true
         //* if the email has already been threaded into something, we have to do a thread merge
-        await cache.merge(tid, thread_id) //? merges the old thread into the new one
+        await cache.merge(tid, thread_id, cursor) //? merges the old thread into the new one
         return true
       } else {
         //* otherwise, just append it to the existing thread
-        await cache.add.message(email.M.envelope.mid, email.folder, email.uid, {
+        await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
           seen: email.M.flags.seen,
           starred: email.M.flags.starred,
           tid,
@@ -68,6 +70,7 @@ const threading = async (email, provider,
                 //? I believe we can just thread the remote ref directly
                 //? might run into issues if not date sorted
                 await threading(remote_ref, Folders,
+                  cursor,
                   cache, courier,
                   Contacts, BoardRules,
                   Cleaners, Log)
@@ -224,7 +227,7 @@ const threading = async (email, provider,
 
   //? if we don't have a thread id it's time to commit email to cache by itself
   if (!thread_id) {
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, {
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
       seen: email.M.flags.seen,
       starred: email.M.flags.starred,
       //* we omit tid because the caching mechanism will create one by itself :)
@@ -233,7 +236,7 @@ const threading = async (email, provider,
     thread_id = tid
   } else {
     //* otherwise, just possibly add new location
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid)
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor)
   }
 
   if (Contacts) Contacts.queue(email)

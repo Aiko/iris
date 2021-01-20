@@ -59,15 +59,15 @@ module.exports = () => (
       //? that have the deleted flag b/c of IMAP inconsistencies
       if (!remoteMessage) {
         //* email has been removed from location, remove location from cache
-        await cache.remove.location(folder, localMessage.uid)
+        await cache.remove.location(folder, localMessage.uid, cursor)
       } else if (remoteMessage.flags.includes('\\Deleted')) {
         //* email has been directly deleted, purge away!
-        await cache.remove.message(localMessage.mid)
+        await cache.remove.message(localMessage.mid, cursor)
       } else {
         //* otherwise sync flags
         const seen = remoteMessage.flags.includes('\\Seen')
         const starred = remoteMessage.flags.includes('\\Starred')
-        await cache.update(localMessage.mid, { seen, starred })
+        await cache.update(localMessage.mid, cursor, { seen, starred })
       }
     }))
     Log.success(folder, "| Checked", localUIDs.length, "message flags/existence")
@@ -111,7 +111,7 @@ module.exports = () => (
         * otherwise you need to recursively apply references for that email
         * that check should be done in threading method :)
       */
-      await threading(email, provider, Folders, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
+      await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
       await cache.L1.cache(email.M.envelope.mid, email)
     })
     Log.timeEnd(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
@@ -146,7 +146,7 @@ module.exports = () => (
 
   await batchMap(cleaned_emails, THREAD_BATCH_SIZE, async email => {
     if (!email.M.envelope.mid) return Log.error("Message is missing MID")
-    await threading(email, provider, Folders, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack) //* already puts it into the DB
+    await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack) //* already puts it into the DB
     email = JSON.parse(JSON.stringify(email))
     //* cache the whole thing in L3
     // this is commented out because we currently dont download attachments or resolve CID links at fetch time
