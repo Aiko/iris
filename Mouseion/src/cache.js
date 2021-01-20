@@ -50,6 +50,8 @@ const Cache = (dir => {
       starred: { type: Boolean },
       timestamp: Date,
     }
+    //! the schema also includes locations which is an array of { uid, folder } objects
+    //! don't incl. that in the schema unless u want ur shit to ✨ c r a s h ✨
     const options = { }
     fs2.ensureDirSync(path.join(db_dir, 'Message.db'))
     return new LinvoDB(modelName, schema, options)
@@ -62,6 +64,9 @@ const Cache = (dir => {
     const modelName = "Thread"
     const schema = {
       mids: [],
+      date: { type: Date },
+      cursor: { type: Number }, //? the modseq 👑
+      aikoFolder: { type: String }, //? this should be the main folder we consider it to be in (either inbox or one of the boards)
       tid: { type: String, unique: true }
     }
     const options = { }
@@ -105,6 +110,15 @@ const Cache = (dir => {
     }
   }
 
+  const cleanThread = ({
+    mids, tid, date, aikoFolder, cursor
+  }) => {
+    return {
+      aikoFolder, date, tid, cursor,
+      mids: mids.map(mid => mid)
+    }
+  }
+
   const lookup = {
     mid: mid => new Promise((s, _) => {
       Message.findOne({ mid }, (err, doc) => {
@@ -118,6 +132,13 @@ const Cache = (dir => {
         s(docs.map(clean))
       })
     }),
+    //? threads version of folder
+    aikoFolder: (folder, limit=5000) => new Promise((s, _) => {
+      Thread.find({ aikoFolder: folder }).limit(limit).exec((err, docs) => {
+        if (err || !docs) return s(null)
+        s(docs.map(cleanThread))
+      })
+    }),
     uid: (folder, uid) => new Promise((s, _) => {
       Message.findOne({ locations: { folder, uid } }, (err, doc) => {
         if (err || !doc) return s(null)
@@ -128,10 +149,16 @@ const Cache = (dir => {
       Thread.findOne({tid: tid}, (err, doc) => {
         if (err || !doc) return s(null)
         // manual specification so we don't pass the document
-        s({
-          mids: doc.mids,
-          tid: doc.tid
-        })
+        s(cleanThread(doc))
+      })
+    }),
+    /// FIXME:
+    //! skip is dangerous. you can't paginate unless you're sure an email wasn't added so basically unless your client is synced
+    //! but since it happens very rarely and it's 3:23AM... I'm just not going to fix it right now
+    latest: (folder, limit=5000, skip=0) => new Promise((s, _) => {
+      Thread.find({ aikoFolder: folder }).sort({ date: -1 }).limit(limit).exec((err, docs) => {
+        if (err || !docs) return s(null)
+        s(docs.map(cleanThread))
       })
     }),
     contact: partial => new Promise((s, _) => { //? performs typeahead
