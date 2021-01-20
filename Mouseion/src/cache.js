@@ -144,11 +144,18 @@ const Cache = (dir => {
         main_board = in_boards.reduceRight(_ => _)
         break;
       }
+      if (in_folders.includes("INBOX")) {
+        main_board = "INBOX"
+        break;
+      }
+      //? disabling the below because if you move a thread out of a board this is what should happen
+      /*
       if (!fallback) {
         if (in_folders.includes("INBOX")) fallback = "INBOX"
         //? we disable the below because, frankly, I don't care if it's not in the inbox.
         // else fallback = in_folders.reduceRight(_ => _)
       }
+      */
     }
 
     if (!main_board) main_board = fallback;
