@@ -119,6 +119,47 @@ const Cache = (dir => {
     }
   }
 
+  const uniteThread = async thread => {
+    //? loop through the entire thread, returning a common board
+    //? by default, uses the latest board as the main board
+    //? by default, only copies messages that are in the inbox to the board
+    if (!thread) return; // for the sake of making things easy with nulls
+
+    let main_board = null
+    let fallback = null
+    const thread_messages = await Promise.all(thread.mids.map(mid => new Promise((s, _) => {
+      Message.findOne({mid}, (err, candidate) => {
+        if (err || !candidate) return s(null)
+        s(candidate)
+      })
+    })))
+    if (thread_messages.length == 0) return null;
+    //? sort ascending date
+    thread_messages.sort((m1, m2) => (new Date(m1.timestamp)) - (new Date(m2.timestamp)))
+    //? find main board (working backwards because only latest matters)
+    for (let i = thread_messages.length - 1; i > -1; i--) {
+      const in_folders = thread_messages[i].locations.map(({ folder }) => folder)
+      const in_boards = in_folders.filter(folder => folder.startsWith('[Aiko]'));
+      if (in_boards.length > 0) {
+        main_board = in_boards.reduceRight(_ => _)
+        break;
+      }
+      if (!fallback) {
+        if (in_folders.includes("INBOX")) fallback = "INBOX"
+        //? we disable the below because, frankly, I don't care if it's not in the inbox.
+        // else fallback = in_folders.reduceRight(_ => _)
+      }
+    }
+
+    if (!main_board) main_board = fallback;
+
+    //! we don't move/copy everything to that.
+    //? this is because, if you delete a message/location, then the rest should be invariantly in the location anyways
+    //? and if you add a new message/location, the location will be updated using the board rules!
+
+    return main_board
+  }
+
   const lookup = {
     mid: mid => new Promise((s, _) => {
       Message.findOne({ mid }, (err, doc) => {
@@ -180,7 +221,7 @@ const Cache = (dir => {
   const add = {
     //! be careful when using overwrite
     //! you have to provide EVERY PARAMETER when using overwite
-    //! also keep in mind this doesn't handle changing the thread's core location. do that yourself
+    //! also keep in mind this will change the thread's core location (aikoFolder)
     message: (mid, folder, uid, cursor, {
       overwrite=false,
       seen=false,
@@ -235,12 +276,13 @@ const Cache = (dir => {
 
           doc.save(err => {
             if (err) s(false)
-            Thread.findOne({tid,}, (err, doc) => {
+            Thread.findOne({tid,}, async (err, doc) => {
               if (err || !doc) s(false)
               if (!doc.mids.includes(mid)) {
                 doc.mids.push(mid)
                 if (timestamp && doc.date < timetamp) doc.date = timestamp
                 doc.cursor = cursor
+                doc.aikoFolder = await uniteThread(doc)
                 doc.save(err => s(!err))
               }
               else s(true)
@@ -254,11 +296,12 @@ const Cache = (dir => {
           message.locations.push({folder, uid})
           message.save(err => {
             if (err) s(false)
-            Thread.findOne({tid: tid}, (err, doc) => {
+            Thread.findOne({tid: tid}, async (err, doc) => {
               if (err || !doc) s(false)
               doc.mids.push(mid)
               if (timestamp && doc.date < timetamp) doc.date = timestamp
               doc.cursor = cursor
+              doc.aikoFolder = await uniteThread(doc)
               doc.save(err => s(!err))
             })
           })
@@ -291,7 +334,7 @@ const Cache = (dir => {
         //* if we have to change thread
         if (tid && msg.tid != tid) {
           //* remove it from its existing thread
-          Thread.findOne({tid: msg.tid}, (err, thr1) => {
+          Thread.findOne({tid: msg.tid}, async (err, thr1) => {
             if (err || !thr1) s(false)
             thr1.mids = thr1.mids.filter(m => m != mid)
             //? this little bit of code computes the timestamp of a thread
@@ -301,11 +344,12 @@ const Cache = (dir => {
                 s(candidate.timestamp)
               })
             })))).sort((a, b) => b - a)?.[0]
+            thr1.aikoFolder = await uniteThread(thr1)
             const strategy = (thr1.mids.length == 0) ? thr1.remove : thr1.save;
             strategy((err) => {
               if (err) s(false)
               //* add it to the new thread
-              Thread.findOne({tid: tid}, (err, thr2) => {
+              Thread.findOne({tid: tid}, async (err, thr2) => {
                 if (err || !thr2) s(false)
                 thr2.mids.push(mid)
                 thr2.timestamp = (await Promise.all(thr2.mids.map(mid => new Promise((s, _) => {
@@ -315,6 +359,7 @@ const Cache = (dir => {
                   })
                 })))).sort((a, b) => b - a)?.[0]
                 thr2.cursor = cursor
+                thr2.aikoFolder = await uniteThread(thr2)
                 thr2.save(err => {
                   if (err) s(false)
                   //* save the changes to the message
@@ -435,6 +480,7 @@ const Cache = (dir => {
               })
             })))).sort((a, b) => b - a)?.[0]
             thread2.cursor = cursor
+            thread2.aikoFolder = await uniteThread(thread2)
 
             thread2.save(err => {
               if (err) s(false)
@@ -484,6 +530,7 @@ const Cache = (dir => {
               })
             })))).sort((a, b) => b - a)?.[0]
             doc.cursor = cursor
+            doc.aikoFolder = await uniteThread(doc)
 
             if (doc.mids.length == 0) doc.remove((err, _) => s(!err))
             else doc.save(err => s(!err))
@@ -494,13 +541,21 @@ const Cache = (dir => {
     //? removes a message from a location
     //? only removes root message if no locations left
     //! to remove the root message directly, lookup using folder & uid, get mid, remove with mid
-    //! this doesn't modify the thread location.
-    location: (folder, uid) => new Promise(async (s, _) => {
+    //! FIXME: possibly we might trigger a removal if no locations left, affecting the thread date
+    location: (folder, uid, cursor) => new Promise(async (s, _) => {
       Message.findOne({locations: {folder, uid}}, (err, doc) => {
         if (err || !doc) return s(false)
         doc.locations = doc.locations.filter(l => !(l.folder == folder && l.uid == uid))
-        const strategy = (doc.locations.length > 0) ? doc.save : doc.remove
-        strategy(err => s(!err))
+        Thread.findOne({tid: doc.tid}, async (err, thread) => {
+          if (!err && thread) {
+            thread.cursor = cursor
+            thread.aikoFolder = await uniteThread(thread)
+          }
+          thread.save(_ => {
+            const strategy = (doc.locations.length > 0) ? doc.save : doc.remove
+            strategy(err => s(!err))
+          })
+        })
       })
     }),
     //! you should never manually remove a thread
