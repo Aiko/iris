@@ -12,7 +12,9 @@ const FolderEngine = require('./email/folders')
 const ContactEngine = require('./email/contacts')()
 const BoardRuleEngine = require('./email/board-rules')()
 const SyncEngine = require('./email/sync')()
+
 const Operator = require('./email/operator')
+const API = require('./email-api')
 
 //* probably need to store emails in a separate database
 //* would need to track inbox UID, current folder/UID, etc everything that is in aiko mail
@@ -145,6 +147,9 @@ const Mailbox = (async (Lumberjack, {
       nextSync = setTimeout(syncAll, SYNC_TIMEOUT)
     })
   ;;
+
+  const api = API(cache, courier, FolderManager, Cleaners, AI_BATCH_SIZE)
+
   return {
     syncSet: {
       add: syncFolders, remove: unsyncFolders
@@ -155,6 +160,7 @@ const Mailbox = (async (Lumberjack, {
     contacts: {
       lookup: Contacts.lookup,
     },
+    api,
     FolderManager,
     close: async () => {
       await courier.network.close()
