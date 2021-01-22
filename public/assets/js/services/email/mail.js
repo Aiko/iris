@@ -406,6 +406,9 @@ const mailapi = {
           }
           return false
         })()
+        //? compute seen and starred as the status of the latest message
+        thread.seen = thread.emails?.[0]?.M?.flags?.seen
+        thread.starred = thread.emails?.[0]?.M?.flags?.starred
       }
       //? next, update the threads global object so any UI updates can resolve
       Vue.set(this.threads, thread.tid, thread)
