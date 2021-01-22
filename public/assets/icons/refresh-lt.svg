@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="20px" viewBox="0 0 22 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>refresh</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="refresh" transform="translate(1.000000, 1.000000)" stroke="#6E80A5" stroke-width="2">
+            <polyline id="Shape" points="20 1 20 7 14 7"></polyline>
+            <path d="M17.49,12 C16.1546218,15.7797845 12.4803151,18.2207055 8.4784162,17.9865893 C4.47651725,17.752473 1.11189474,14.8997654 0.226361989,10.9900548 C-0.659170766,7.08034411 1.14789059,3.05627226 4.6583505,1.1206388 C8.1688104,-0.814994661 12.5362874,-0.195503228 15.37,2.64 L20,7" id="Shape"></path>
+        </g>
+    </g>
+</svg>

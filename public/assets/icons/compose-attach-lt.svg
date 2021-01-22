@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="23px" viewBox="0 0 22 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>compose-attach</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="compose-attach" transform="translate(1.000000, 1.000000)" stroke="#6E80A5" stroke-width="2">
+            <path d="M19.44,10.05 L10.25,19.24 C7.90555124,21.5844488 4.10444876,21.5844488 1.76,19.24 C-0.584448763,16.8955512 -0.584448763,13.0944488 1.76,10.75 L10.95,1.56 C12.5129658,-0.00296580226 15.0470341,-0.00296578338 16.61,1.56000004 C18.1729658,3.12296587 18.1729658,5.65703415 16.61,7.22 L7.41,16.41 C6.62851708,17.1914829 5.36148292,17.1914829 4.58,16.41 C3.79851708,15.6285171 3.79851708,14.3614829 4.58,13.58 L13.07,5.1" id="Shape"></path>
+        </g>
+    </g>
+</svg>
