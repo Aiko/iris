@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="20px" viewBox="0 0 24 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>admin</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="admin" transform="translate(1.000000, 1.000000)" stroke="#6E80A5" stroke-width="2">
+            <path d="M15,18 L15,16 C15,13.790861 13.209139,12 11,12 L4,12 C1.790861,12 2.22044605e-16,13.790861 0,16 L0,18" id="Shape"></path>
+            <circle id="Oval" cx="7.5" cy="4" r="4"></circle>
+            <polyline id="Shape" points="16 8 18 10 22 6"></polyline>
+        </g>
+    </g>
+</svg>
