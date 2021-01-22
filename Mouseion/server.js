@@ -72,14 +72,16 @@ const Engine = () => {
       await mailbox.close()
       Log.success("Safe to exit. Killing engine process.")
       process.exit()
-    }
+    },
+    registerTrigger: trigger => mailbox.registerTrigger(trigger)
   }
 }
 
 const engine = Engine()
 
 ;;(async () => {
-  const { port } = await SockPuppet(engine)
+  const { port, trigger } = await SockPuppet(engine)
+  engine.registerTrigger(trigger)
   process.send(JSON.stringify({
     wsport: port
   }))

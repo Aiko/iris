@@ -35,6 +35,7 @@ const Mailbox = (async (Lumberjack, {
   AI_BATCH_SIZE=500,
 } ={}, onSync=() => true) => {
   const Log = Lumberjack('Mailbox')
+  let trigger = _ => _
 
   //* storage directory
   let dir = user.replace(/[^A-z\.0-9]/gim, '')
@@ -114,14 +115,15 @@ const Mailbox = (async (Lumberjack, {
 
   const beforeSync = async () => {
     await courier.network.checkConnect()
-    // TODO: send hook to frontend
+    trigger('sync-started')
   }
 
   const afterSync = async () => {
     await Contacts.sync()
     await BoardRules.apply()
     Log.success("Finished sync.")
-    onSync() // TODO: probably just post hook
+    trigger('sync-finished')
+    onSync()
   }
 
   //? helper tools for sync
@@ -166,6 +168,7 @@ const Mailbox = (async (Lumberjack, {
       await courier.network.close()
       return true
     },
+    registerTrigger: t => (trigger = t)
   }
 })
 
