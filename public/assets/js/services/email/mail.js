@@ -9,10 +9,11 @@ const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 * - the remaining features (search, templates, ai autocomplete)
 */
 
-
 const mailapi = {
   data: {
+    //? the engine model
     engine: null,
+    //? metadata and configurations for the IMAP client
     connected: false,
     imapConfig: {
       email: '',
@@ -24,90 +25,44 @@ const mailapi = {
       secure: true,
       provider: 'other'
     },
-    //? Manages mailboxes loaded into Aiko Mail
+    //? manages mailboxes loaded into Aiko Mail
     mailboxes: [],
     currentMailbox: '',
-    /********************* */
-    folderNames: {
-      inbox: 'INBOX',
-      sent: '',
-      starred: '',
-      spam: '',
-      drafts: '',
-      archive: '',
-      trash: ''
-    },
-    boardNames: [],
-    inbox: {
-      uidLatest: -1,
-      // modSeq: -1,
-      emails: [],
-      uidOldest: -1
-    },
-    boards: {},
-    done: {
-      uidLatest: -1,
-      emails: []
-    },
-    syncing: false,
-    syncingBoards: {},
-    syncingDone: false,
-    syncingInbox: false,
-    seekingInbox: false, // seeking backwards into history
-    cachingInbox: false,
+    //? synced folders object
+    folders: {},
+    //? internal representation of threads
+    threads: {}, //* tids[tid] = thread
+    inbox: [], //* [tid]
+    boardOrder: [], //* [slug]
+    boards: [], //* { ...board metadata, tids: [tid] }
+    //? some state/ui management
+    syncing: false, // TODO: replace syncing and dragging with promise locks
     dragging: false,
-    fullInbox: [],
+    visibleMin: 0,
+    visibleMax: 20, // most things visible
+    //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
-    lastSync: new Date(),
-    lastSuccessfulSync: new Date(),
-    syncTimeout: TIMEOUT,
-    contacts: {
-      allContacts: [],
-      inboxUID: 1,
-      // TODO: uids for other mailboxes
-      // TODO: connect to contacts providers for google and office365
-    },
-    visibleMin: 0,
-    visibleMax: 500, // most things visible
-  },
-  computed: {
-    timeToNextSync () {
-      const nextSync = new Date(this.lastSync.getTime() + this.syncTimeout)
-      const diff = nextSync.getTime() - (new Date()).getTime()
-      return Math.round(diff / 1000)
-    }
   },
   watch: {
-    'inbox.emails': async function (updatedInbox) {
-      // NOTE: important to check length
-      // dont want to store empty inbox if it is reset
-      // if you need to store an empty inbox do it manually!
-      // you also should set the uidLatest every time it has changed
-      this.recalculateHeight()
-      if (this.cachingInbox) return
-      info(...MAILAPI_TAG, 'Will cache inbox.')
-      this.cachingInbox = true
-      setTimeout(async () => {
-        if (updatedInbox.length > 0) {
-          await BigStorage.store(app.imapConfig.email + '/inbox', {
-            uidLatest: app.inbox.uidLatest,
-            // modSeq: this.inbox.modSeq,
-            emails: app.inbox.emails.slice(0,1000),
-            uidOldest: app.inbox.uidLatest
-          })
-        }
-        this.cachingInbox = false
-      }, 3000)
+    'inbox': async function (_) {
+      const priorityInbox = []
+      const otherInbox = []
 
-      this.fullInbox = this.inbox.emails.filter(email =>
-        email?.folder == 'INBOX' && !(email?.ai?.threaded)
-      )
-      this.priorityInbox = this.fullInbox.filter(email => email.ai.priority)
-      this.otherInbox = this.fullInbox.filter(email => !email.ai.priority)
+      this.resolveThreads(this.inbox).map(({ tid, priority }) => {
+        if (priority) priorityInbox.push(tid)
+        else otherInbox.push(tid)
+      })
+
+      this.priorityInbox = priorityInbox
+      this.otherInbox = otherInbox
+
+      this.recalculateHeight()
     },
     priority() {
       this.recalculateHeight()
+      //! TODO: fix this
+      /*
       if (this.focused.folder == 'INBOX' && this.focused.index > -1) {
         if (this.priority) {
           const nextIndex = this.inbox.emails.map((email, i) => {
@@ -131,6 +86,7 @@ const mailapi = {
           if (nextIndex) this.focused.index = nextIndex
         }
       }
+      */
     }
   },
   created () {
@@ -210,7 +166,7 @@ const mailapi = {
     async getEngine() {
       //? if the engine exists, shut it down
       if (this.engine) {
-        this.engine.close()
+        await this.engine.close()
         info(...MAILAPI_TAG, 'Shut down existing engine.')
         this.engine = null
       }
@@ -296,34 +252,53 @@ const mailapi = {
       await this.getEngine()
 
       //? reset the UI
-      this.inbox.emails = []
-      // TODO: can probably treat done as just another board and have a special case for the UI of it
-      this.done.emails = []
-      this.boardNames = []
+      this.inbox = []
+      this.boards = []
 
+      //? create local boards
+      this.folders = await this.engine.folders.get()
+      Object.keys(this.folders.aiko).map(slug => {
+        const path = this.folders.aiko[slug]
+        this.boards.push({
+          name: slug,
+          path,
+          tids: []
+        })
+      })
+
+      //? sort the local boards
+      this.boardOrder = await SmallStorage.load(this.imapConfig.email + ':board-order') || []
+      const tmp_boards = JSON.parse(JSON.stringify(this.boards))
+      const tmp2_boards = []
+      this.boardOrder.map(slug => {
+        const board = tmp_boards.filter(({ name }) => name == slug)?.[0]
+        if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
+        const i = tmp_boards.indexOf(board)
+        tmp2_boards.push(tmp_boards.splice(i, 1))
+      })
+      tmp2_boards.push(...tmp_boards)
+      this.boards = tmp2_boards
+      this.boardOrder = this.boards.map(({ name }) => name)
+      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+
+      //? start syncing
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
-
-      this.syncing = false
-      this.cachingInbox = false
 
       //? save IMAP configuration again as an extra measure (in case the OAuth tokens updated)
       info(...MAILAPI_TAG, 'Saving config...')
       await this.saveIMAPConfig()
 
-      // TODO: get the email data for full inbox from backend
-      //? then, if its empty i.e. a new mailbox, show loader and await a sync
+      //? set the new title
+      document.title = `Inbox - ${this.currentMailbox}`
 
       console.timeEnd('SWITCH MAILBOX')
-
       if (controlsLoader) this.loading = false
-      document.title = `Inbox - ${this.currentMailbox}`
-      this.syncing = false
     },
     ////////////////////////////////////////////!
-    //! Board Methods
+    //! Utility Methods
     ////////////////////////////////////////////!
-    // Utility methods
+    //? turn a slug into a folder path
     folderWithSlug (slug) {
       if (!slug) {
         warn(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
@@ -331,306 +306,308 @@ const mailapi = {
       }
       return `[Aiko Mail]/${slug}`
     },
+    //? resolve a tid to a thread
+    resolveThread (tid) {
+      return this.threads[tid]
+    },
+    //? resolve many tids to many threads
+    resolveThreads (tids) {
+      return tids.map(this.resolveThread)
+    },
+    //? process a thread and save it locally with added UI variables
+    saveThread (thread, reset=true) {
+      thread.date = new Date(thread.date)
+      if (reset) {
+        thread.dragging = false
+        thread.syncing = false
+        thread.originFolder = thread.aikoFolder
+        //? compute priority
+        thread.priority = (() => {
+          for (const email of thread.emails) {
+            if (email.M.priority) return true
+          }
+          return false
+        })()
+      }
+      //? next, update the threads global object so any UI updates can resolve
+      Vue.set(this.threads, thread.tid, thread)
+      return thread
+    },
+    //? find the representative location of a thread (location of newest email of thread in its originFolder)
+    locThread ({ emails, originFolder }) {
+      for (const email of emails) {
+        const { locations } = email
+        const afLoc = locations.filter(({ folder }) => folder == originFolder)?.[0]
+        if (afLoc) return afLoc
+      }
+      return null
+    },
+    ////////////////////////////////////////////!
+    //! Board Methods
+    ////////////////////////////////////////////!
     async boardCreate (slug) {
       if (!slug) {
         warn(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
         slug = 'Uncategorized'
       }
       const path = this.folderWithSlug(slug)
-      //? check if it already exists
-      const folders = this.engine.folders.get()
+      //? check if it already exists, we get the folder via WS to be 100% up to date
+      const folders = await this.engine.folders.get()
       if (folders.aiko?.[slug]) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but it already exists!")
       await this.engine.folders.add(path)
       //? confirm it was added
-      const updatedFolders = this.engine.folders.get()
+      const updatedFolders = await this.engine.folders.get()
       if (!(updatedFolders.aiko?.[slug])) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
+      //? add that to the sync set
       await this.engine.sync.add(path)
-      Vue.set(this.boards, boardName, {
-        emails: []
+      //? create a UI element for it
+      boards.push({
+        name: slug,
+        path,
+        tids: []
       })
-      this.boardNames.push(boardName)
+
+      this.boardOrder = this.boards.map(({ name }) => name)
+      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
+    ////////////////////////////////////////////!
+    //! Syncing with Backend
+    ////////////////////////////////////////////!
+    async syncOp () {
+      this.syncing = true
+      //? update folders
+      this.folders = await this.engine.folders.get()
+      //? if a board no longer exists, delete it
+      for (let i = 0; i < this.boards.length;) {
+        const { name } = this.boards[i]
+        if (!(this.folders.aiko?.[name])) {
+          this.boards.splice(i, 1)
+        } else i++;
+      }
+      //? locally adds new boards
+      Object.keys(this.folders.aiko).map(slug => {
+        const local_board = this.boards.filter(({ name }) => name == slug)?.[0]
+        if (local_board) return;
+        //? if it doesn't exist locally we need to create the UI element for it
+        this.boards.push({
+          name: slug,
+          path: this.folders.aiko[slug],
+          tids: []
+        })
+
+        this.boardOrder = this.boards.map(({ name }) => name)
+        await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+
+      })
+      //? compute local cursor
+      const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
+      const cursor = Math.max(...cursors, -1)
+      //? fetch updates to inbox
+      const max_inbox_updates = Math.max(5000, this.inbox.length)
+      const inbox_updates = await this.engine.api.get.latest(this.folders.inbox, cursor, limit=max_inbox_updates)
+      //? apply updates to inbox
+      inbox_updates.map(({ exists, threads }) => {
+        //? first, anything that is no longer in exists can be dumped
+        const existsTIDs = exists.map(({ tid }) => tid)
+        this.inbox = this.inbox.filter(tid => existsTIDs.includes(tid))
+        //? next, process the threads
+        threads.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.inbox.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.inbox.unshift(tid) //* unshift because it is in ascending date order
+        })
+      })
+      //? sort the inbox to maintain date invariant
+      this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      //? fetch updates to boards
+      this.boards.map(({ path, tids }, i) => {
+        const max_board_updates = Math.max(1000, tids.length)
+        const board_updates = await this.engine.api.get.latest(path, cursor, limit=max_board_updates)
+        //? apply updates to inbox
+        board_updates.map(({ exists, threads }) => {
+          //? first, anything that is no longer in exists can be dumped
+          const existsTIDs = exists.map(({ tid }) => tid)
+          this.boards[i].tids = this.boards[i].tids.filter(tid => existsTIDs.includes(tid))
+          //? next, process the threads
+          threads.map(thread => {
+            thread = this.saveThread(thread)
+            //? first, determine if we have it locally
+            const local = tids.includes(thread.tid)
+            //? since we resolve directly, this should update existing emails without us having to
+            //! if you want to force a UI change, can do a stringify-parse set on the tids
+            //? if we don't have it, we need to add it
+            if (!local) this.boards[i].tids.unshift(tid) //* unshift because it is in ascending date order
+          })
+        })
+        this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      })
+      this.syncing = false
+    },
+    ////////////////////////////////////////////!
+    //! Contact Methods
+    ////////////////////////////////////////////!
     async suggestContact(term, limit=5) {
       const results = await this.engine.contacts.lookup(term)
       return results.slice(0, limit)
     },
-    // View management
+    ////////////////////////////////////////////!
+    //! View Management
+    ////////////////////////////////////////////!
+    //? check whether movements are allowed
     checkMove ({ to, from, draggedContext }) {
-      // prevents moving from&to inbox
-      // this is buggy because the vue.draggable lib is trash
-      // so we dont use it anymore :/
+      //? prevents moving from&to inbox
+      //! this is buggy so we dont use it anymore :/
       /*
-            if (to.id == from.id && to.id == "aikomail--inbox") {
-                info(...MAILAPI_TAG, "Cancelled move; to id:", to.id, "from id:", from.id)
-                return false
-            }
-            */
+      if (to.id == from.id && to.id == "aikomail--inbox") {
+          info(...MAILAPI_TAG, "Cancelled move; to id:", to.id, "from id:", from.id)
+          return false
+      }
+      */
       return true
     },
+    //? properly adjust the UI to reflect that the thread is being dragged
     startMove ({ from, item }) {
+      //? reflect that something is being dragged
       this.dragging = true
-      const uid = item.getAttribute('uid')
-      let email
-      if (from.id == 'aikomail--inbox') {
-        for (let i = 0; i < app.inbox.emails.length; i++) {
-          if (app.inbox.emails[i].uid == uid) {
-            email = app.inbox.emails[i]
-            break
-          }
-        }
-      } else if (from.id == 'aikomail--done') {
-        for (let i = 0; i < app.done.emails.length; i++) {
-          if (app.done.emails[i].uid == uid) {
-            email = app.done.emails[i]
-            break
-          }
-        }
-      } else {
-        const boardName = from.id.substring('aikomail--'.length)
-        for (let i = 0; i < app.boards[boardName].emails.length; i++) {
-          if (app.boards[boardName].emails[i].uid == uid) {
-            email = app.boards[boardName].emails[i]
-            break
-          }
-        }
-      }
-      // TODO: check done
-      if (!email) return error(...MAILAPI_TAG, 'Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.')
-      return (email.dragging = true)
+
+      //? verify the thread exists
+      const tid = item.getAttribute('tid')
+      const thread = this.resolveThread(tid)
+      if (!thread) return error(...MAILAPI_TAG, "The thread that is being dragged has a TID that is not locally present.")
+
+      //? reflect that it is being dragged
+      thread.dragging = true
+      this.saveThread(thread, reset=false)
+
+      return true
     },
-    cloneEmail ({ item, clone }) {
+    //? adjust the UI to reflect the clone is... well, cloned
+    cloneThread ({ item, clone }) {
       // you can do mail management on the "original"
       // which is the HTML element for email in `item`
       // and also clone which is the cloned email's
       // corresponding HTML element
       clone.classList.toggle('cloned', true)
     },
-    async moveEmail ({ to, from, item, oldIndex, newIndex }) {
+    //? after a drag is finished, reflect in the UI and prepare to communicate that to backend
+    async moveThread ({ to, from, item, oldIndex, newIndex }) {
+      //? reflect in the UI that dragging has stopped
       this.dragging = false
-      // TODO: calculating index should use message id
-      const uid = item.getAttribute('uid')
 
-      // ignore from-to same board
+      //? identify the thread and its location
+      const tid = item.getAttribute(tid)
+      const thread = this.resolveThread(tid)
+      if (!thread) return error(...MAILAPI_TAG, "The thread that was moved has a TID that cannot be resolved.")
+      const threadLoc = this.locThread(thread)
+      if (!threadLoc) return error(...MAILAPI_TAG, "Cannot find the locator for the thread.")
+
+      //? ignore from-to same board
       if (from.id == to.id) {
         item.classList.toggle('cloned', false)
-        let email
-        if (from.id == 'aikomail--inbox') {
-          for (let i = 0; i < app.inbox.emails.length; i++) {
-            if (app.inbox.emails[i].uid == uid) {
-              email = app.inbox.emails[i]
-              break
-            }
-          }
-        } else {
-          const boardName = from.id.substring('aikomail--'.length)
-          for (let i = 0; i < app.boards[boardName].emails.length; i++) {
-            if (app.boards[boardName].emails[i].uid == uid) {
-              email = app.boards[boardName].emails[i]
-              break
-            }
-          }
-        }
-        if (!email) return error(...MAILAPI_TAG, 'Started dragging an email but we have no way of tracing it? UID lookup failed within local boards, something must be wrong.')
-        email.dragging = false
-        return
+        return true
       }
 
-      // 2 types of events, to inbox, to board
-      // to inbox
+      //? if we are dragging something back to the inbox, do everything right away
       if (to.id == 'aikomail--inbox') {
-        let email, index
-        for (let i = 0; i < app.inbox.emails.length; i++) {
-          if (app.inbox.emails[i].uid == uid) {
-            email = app.inbox.emails[i]
-            index = i
-            break
-          }
+        //? remove any clones
+        //! TODO: we probably don't need this anymore. the inbox doesnt need ghost clones
+        // if (this.inbox.includes(tid)) this.inbox.splice(this.inbox.indexOf(tid), 1)
+
+        //? immediately sync this, deleting it from its representative location
+        if (thread.aikoFolder != this.folders.inbox) {
+          info(...MAILAPI_TAG, "Deleting thread", tid, "from", thread.aikoFolder, "via email with UID", threadLoc.uid)
+          await this.engine.api.manage.delete(threadLoc.folder, threadLoc.uid)
         }
-
-        // remove to prevent clones
-        if (email) {
-          app.inbox.emails.splice(index, 1)
-        } else {
-          const fromBoard = from.id.substring('aikomail--'.length)
-          for (let i = 0; i < app.boards[fromBoard].emails.length; i++) {
-            if (app.boards[fromBoard].emails[i].uid == uid) {
-              email = app.boards[fromBoard].emails[i]
-              index = i
-              break
-            }
-          }
-          if (!email) return error(...MAILAPI_TAG, "Couldn't find an email with that UID something is super wrong.")
-        }
-
-        // if its mid sync use that folder, otherwise its normal folder
-        const folder = email.syncFolder || email.folder
-        // update UI right away
-        email.folder = 'INBOX'
-        email.dragging = false
-
-        // if mid sync from inbox, can ignore
-        // otherwise just delete the email from its board
-        if (folder != 'INBOX') {
-          info(...MAILAPI_TAG, 'Deleting email', email.uid, 'from', folder)
-          await app.callIPC(app.task_DeleteEmails(
-            folder, email.uid
-          ))
-        }
-
-        email.uid = email.inboxUID || email.uid
-        this.recalculateHeight()
       }
-      // to board
+
+      //? if we are dragging something to a board, defer the actual sync by Xs
       else {
-        // add to board ids
-        // get board name
-        const boardName = to.id.substring('aikomail--'.length)
-        // could also use:
-        // to.parentElement.parentElement.getAttribute('board-name')
-        // get email, calculate index ourselves
-        let email
-        if (boardName == 'done') {
-          for (let i = 0; i < app.done.emails.length; i++) {
-            if (app.done.emails[i].uid == uid) {
-              email = app.done.emails[i]
-              break
-            }
-          }
-        } else {
-          for (let i = 0; i < app.boards[boardName].emails.length; i++) {
-            if (app.boards[boardName].emails[i].uid == uid) {
-              email = app.boards[boardName].emails[i]
-              break
-            }
-          }
-        }
-        if (!email) return error(...MAILAPI_TAG, "Couldn't find an email with that UID in the board.")
+        //? identify the board it is moving to
+        const toSlug = to.id.substring('aikomail--'.length)
+        const toPath = this.folders.aiko[toSlug]
+        if (!toPath) return error(...MAILAPI_TAG, "Dragged thread to", toSlug, "but could not find that folder in the folder manager.")
+        info(...MAILAPI_TAG, "Dragged thread", tid, "from", thread.aikoFolder, "to", toPath)
 
-        info(...MAILAPI_TAG, 'Dragged', email.uid,
-          'of', (email.syncFolder || email.folder),
-          'from', from.id, 'to', to.id
-        )
+        //? update the UI right away!
+        thread.dragging = false
+        thread.aikoFolder = toPath
+        this.saveThread(thread, reset=false)
 
-        // if this is the first movement of the email
-        // since it was last synced to mailserver,
-        // set the folder it originated from
-        if (!email.syncFolder) email.syncFolder = email.folder
-        // update UI right away though!
-        if (boardName == 'done') email.folder = this.folderNames.done
-        else email.folder = boardName
-        email.dragging = false
-
-        // Sync
-        // TODO: make hash to signify this sync and store in email
-        const targetFolder = email.folder
+        //? defer the sync
         const SYNC_TIMEOUT = 1500
 
-        const sync = async (tries=0) => {
-          // if it's been picked up, let's wait a bit
-          if (email.dragging) {
+        const _this = this
+        const sync = async () => {
+          //? re-identify the thread and its location
+          const thread = _this.resolveThread(tid)
+          if (!thread) return error(...MAILAPI_TAG, "The thread that was moved has a TID that cannot be resolved.")
+          const threadLoc = _this.locThread(thread)
+          if (!threadLoc) return error(...MAILAPI_TAG, "Cannot find the locator for the thread.")
+
+          //? if it's been picked up again, we wait a bit.
+          if (thread.dragging) {
             window.setTimeout(sync, SYNC_TIMEOUT)
-            return warn(...MAILAPI_TAG, 'Postponed move to', targetFolder, 'because the email is currently being dragged.')
+            return warn(...MAILAPI_TAG, "Postponed moving thread", tid, "to", toSlug, "because it is being dragged")
           }
-          // if it's already syncing, don't race
-          if (email.syncing) return error(...MAILAPI_TAG, 'Cancelled move to', targetFolder, 'because it was syncing already.')
-          // if the email's folder has changed, don't race
-          if (email.folder != targetFolder) return error(...MAILAPI_TAG, 'Cancelled move to', targetFolder, 'because the target folder is', email.folder)
-          // if there's no sync folder, there's an issue
-          if (!email.syncFolder) return error(...MAILAPI_TAG, "There's no sync folder", email)
-          // lock email in UI
-          email.syncing = true // TODO: should add a class that exists in draggable filter
-          // if it comes from inbox copy,
-          // otherwise move it (move it)
-          const syncStrategy = (
-            (email.syncFolder == 'INBOX')
-              ? app.task_CopyEmails : app.task_MoveEmails
-          )
-          if (email.syncFolder == 'INBOX') email.inboxUID = email.inboxUID || email.uid
-          // do the actual copy/move
-          const d = await app.executeIPC(syncStrategy(
-            email.syncFolder, email.folder,
-            email.syncFolder == 'INBOX' ? email.inboxUID : email.uid
-          ))
 
-          let destSeqSet = d?.destSeqSet
-          if (!destSeqSet && d?.copyuid) destSeqSet = d.copyuid.last()
-          if (!destSeqSet && d?.payload?.OK?.[0]?.copyuid?.[2]) destSeqSet = d?.payload?.OK?.[0]?.copyuid?.[2]
+          //? if it's already syncing, prevent a race
+          if (thread.syncing) return warn(...MAILAPI_TAG, 'Cancelled moving thread', tid, 'to', toSlug, 'because it is already being synced')
 
-          if (!destSeqSet && tries < 3) {
-            warn(...MAILAPI_TAG, "Couldn't get destination UID, trying again", d, email)
-            email.syncing = false
-            sync(tries+1)
-          }
-          else if (!destSeqSet) {
-            error(...MAILAPI_TAG, "Was not able to move the email, moving it back locally.", d, email)
-            const fromBoard = from.id.substring('aikomail--'.length)
-            email.folder = fromBoard
-            let currentIndex = -1
-            for (let i = 0; i < app.boards[boardName].emails.length; i++) {
-              if (app.boards[boardName].emails[i]?.envelope?.['message-id'] == email?.envelope?.['message-id']) {
-                currentIndex = i
-                break
-              }
-            }
-            if (currentIndex < 0) {
-              return error(...MAILAPI_TAG, "For some reason the email is not currently in the board that it was moved to?")
-            }
-            app.boards[fromBoard].emails.unshift(...app.boards[boardName].emails.splice(currentIndex, 1))
-            return
-          }
-          info(...MAILAPI_TAG, 'Moved email',
-            email.uid, 'from', email.syncFolder,
-            'to', targetFolder, 'with new uid',
-            destSeqSet
-          )
+          //? if the destination folder has changed, prevent race
+          if (thread.aikoFolder != toPath) return warn(...MAILAPI_TAG, 'Cancelled moving thread', tid, 'to', toSlug, 'because it was dragged elsewhere')
 
-          // make sure we set the current folder/uid pair
-          // and this eval is why we check integrity of IPC :)
-          email.uid = eval(destSeqSet)
-          email.folder = targetFolder
-          // clean up post-sync
-          email.syncing = false
-          email.syncFolder = null
-          if (boardName == 'done') {
-            if (app.done.emails.length > 0) { app.done.uidLatest = Math.max(...app.done.emails.map(email => email.uid)) }
-          } else {
-            if (app.boards[boardName].emails.length > 0) { app.boards[boardName].uidLatest = Math.max(...app.boards[boardName].emails.map(email => email.uid)) }
-          }
-          await BigStorage.store(this.imapConfig.email + '/inbox', {
-            uidLatest: this.inbox.uidLatest,
-            // modSeq: this.inbox.modSeq,
-            emails: this.inbox.emails.slice(0,1000)
-          })
-          info(...MAILAPI_TAG, 'Saved all caches.')
+          //? lock the thread from concurrent syncs
+          thread.syncing = true
+          _this.saveThread(thread, reset=false)
+
+          //? when deciding a sync strategy, we copy from the inbox and move from boards
+          const strategy = (thread.originFolder == this.folders.inbox) ? this.engine.api.manage.copy : this.engine.api.manage.move;
+
+          //? perform the movement
+          await strategy(threadLoc.folder, threadLoc.uid, thread.aikoFolder)
+
+          //? we don't need the result UID and we don't manage failures
+          //? if it failed it will reflect in next backend sync
+          //? otherwise the thread will simply be updated in the next backend sync
+
+          info(...MAILAPI_TAG, "Moved thread", tid, "from", thread.originFolder, "to", thread.aikoFolder)
+
+          //? reset the thread state
+          _this.saveThread(thread, reset=true)
         }
 
-        setTimeout(() => sync(0), SYNC_TIMEOUT)
+        window.setTimeout(sync, SYNC_TIMEOUT)
       }
-      // TODO: special for done? idk
+
       this.recalculateHeight()
     },
+    //? call this method after reordering boards to save the order
     async reorderBoards () {
-      await SmallStorage.store(this.imapConfig.email + ':board-names', this.boardNames)
+      this.boardOrder = this.boards.map(({ name }) => name)
+      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
-    async sortEmails(newest=true) {
-      info(...MAILAPI_TAG, "Sorting all emails by", newest ? 'newest':'oldest')
+    //? sorts all threads across inbox and boards in ascending/descending order
+    async sortThreads(newest=true) {
+      info(...MAILAPI_TAG, "Sorting all threads by", newest ? 'newest':'oldest')
       const sorter = newest ?
-        ((e1, e2) => new Date(e2.envelope.date) - new Date(e1.envelope.date))
-        : ((e1, e2) => new Date(e1.envelope.date) - new Date(e2.envelope.date));
-      //this.inbox.emails = this.inbox.emails.sort(sorter)
-      for (const board of this.boardNames) {
-        this.boards[board].emails = this.boards[board].emails.sort(sorter)
-      }
-      this.done.emails = this.done.emails.sort(sorter)
+        ((t1, t2) => this.resolveThread(t2).date - this.resolveThread(t1).date)
+        : ((t1, t2) => this.resolveThread(t1).date - this.resolveThread(t2).date)
+      ;;
+
+      for (let i = 0; i < this.boards.length; i++)
+        this.boards[i].tids.sort(sorter)
     },
+    //? handles scrolling down to fetch more
     onScroll (e) {
       const { target: { scrollTop, clientHeight, scrollHeight } } = e
+      //! TODO: reenable this at some point
+      /*
       if (scrollTop + clientHeight >= scrollHeight - 1000) {
         if (this.seekingInbox) return
-        /*
-          TODO: need to figure out some way to handle the user loading over 2k emails
-          FIXME: having 5k emails in the view is a good way to burn a GPU !
-        */
         if (this.inbox.emails.length > 2000) return;
         info(...MAILAPI_TAG, 'Fetching more messages')
         this.seekingInbox = true
@@ -641,12 +618,13 @@ const mailapi = {
           that.onScroll(e)
         })
       }
+      */
       this.recalculateHeight()
     },
     recalculateHeight() {
       /* CONFIG */
-      const EMAIL_HEIGHT = 114 // height including padding
-      const EMAIL_SPACING = 15 // margin between items
+      const THREAD_HEIGHT = 114 // height including padding
+      const THREAD_SPACING = 15 // margin between items
       const TOLERANCE = 10 // # of items above/below rendered additionally
       /* END CONFIG */
 
@@ -659,93 +637,41 @@ const mailapi = {
         max: scrollAmount + scrollViewHeight
       }
 
-      const itemHeight = EMAIL_HEIGHT + EMAIL_SPACING
+      const itemHeight = THREAD_HEIGHT + THREAD_SPACING
       const listSize = (this.priority ? this.priorityInbox.length : this.otherInbox.length)
       const listHeight = listSize * itemHeight
 
-      const emailsAbove = scrollView.min / itemHeight
-      const emailsShown = scrollViewHeight / itemHeight
-      const emailsBelow = (listHeight - scrollView.max) / itemHeight
+      const threadsAbove = scrollView.min / itemHeight
+      const threadsShown = scrollViewHeight / itemHeight
+      const threadsBelow = (listHeight - scrollView.max) / itemHeight
 
-      const indexMin = Math.floor(emailsAbove - TOLERANCE)
-      const indexMax = Math.ceil((listSize - emailsBelow) + TOLERANCE)
+      const indexMin = Math.floor(threadsAbove - TOLERANCE)
+      const indexMax = Math.ceil((listSize - threadsBelow) + TOLERANCE)
 
       if (this.priority) {
         // adjust to priority indices
         if (this.priorityInbox.length > 0) {
-          const minEmail = this.priorityInbox?.[indexMin] || this.priorityInbox[0]
-          const maxEmail = this.priorityInbox?.[indexMax] || this.priorityInbox.last()
-          this.visibleMin = this.inbox.emails.indexOf(minEmail) - TOLERANCE
-          this.visibleMax = this.inbox.emails.indexOf(maxEmail) + TOLERANCE
+          const minTID = this.priorityInbox?.[indexMin] || this.priorityInbox[0]
+          const maxTID = this.priorityInbox?.[indexMax] || this.priorityInbox.last()
+          this.visibleMin = this.inbox.indexOf(minTID) - TOLERANCE
+          this.visibleMax = this.inbox.emails.indexOf(maxTID) + TOLERANCE
         }
       } else {
         // adjust to other indices
         if (this.otherInbox.length > 0) {
-          const minEmail = this.otherInbox?.[indexMin] || this.otherInbox[0]
-          const maxEmail = this.otherInbox?.[indexMax] || this.otherInbox.last()
-          this.visibleMin = this.inbox.emails.indexOf(minEmail) - TOLERANCE
-          this.visibleMax = this.inbox.emails.indexOf(maxEmail) + TOLERANCE
+          const minTID = this.otherInbox?.[indexMin] || this.otherInbox[0]
+          const maxTID = this.otherInbox?.[indexMax] || this.otherInbox.last()
+          this.visibleMin = this.inbox.emails.indexOf(minTID) - TOLERANCE
+          this.visibleMax = this.inbox.emails.indexOf(maxTID) + TOLERANCE
         }
       }
-    },
-    searchByUID(uid) {
-      const results = []
-      const check = email => {
-        if (email.uid == uid) results.push(email)
-        if (email.parsed?.thread?.messages?.length > 0) {
-          email.parsed.thread.messages.map(check)
-        }
-      }
-      // check inbox
-      this.inbox.emails.map(check)
-      for (const board of this.boardNames)
-        this.boards[board].emails.map(check)
-      this.done.emails.map(check)
-      return results
     }
   }
 }
 
 window.setInterval(() => {
-  app.syncTimeout--
   app.recalculateHeight()
 }, 1000)
-
-window.setInterval(async () => {
-  app.lastSync = new Date()
-
-  if (app.lastSync - app.lastSuccessfulSync > TIMEOUT * 4) {
-    warn(...MAILAPI_TAG, "Artificial time skip (maybe OS sleep?), opening new IPC and IMAP sockets")
-    app.syncing = false
-    await app.initIPC()
-    await app.reconnectToMailServer()
-  }
-
-  if (app.imapConfig.provider == 'google') {
-    app.google_checkTokens()
-  }
-
-  if (!app.connected) {
-    app.syncing = false // don't get stuck
-    app.reconnectToMailServer() // try a reconnect
-    if (TIMEOUT < (300 * 1000)) TIMEOUT *= 2
-    app.syncTimeout = TIMEOUT
-    return
-  }
-
-  TIMEOUT = 30 * SECONDS //* reset timeout if we made it the actual sync
-  app.syncTimeout = TIMEOUT
-  if (!app.dragging) {
-    await app.updateAndFetch()
-    app.lastSuccessfulSync = new Date()
-  }
-}, TIMEOUT)
-Notification.requestPermission()
-
 window.onresize = app.recalculateHeight
 
-ipcRenderer.on('connection dropped', () => {
-  error(...MAILAPI_TAG, 'IMAP connection was terminated.')
-  app.connected = false
-  app.reconnectToMailServer()
-})
+Notification.requestPermission()
