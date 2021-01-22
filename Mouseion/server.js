@@ -46,6 +46,24 @@ const Engine = () => {
       remove: async path => await mailbox.FolderManager.remove(path),
       fetch: async () => await mailbox.FolderManager.fetch()
     },
+    api: {
+      get: {
+        single: async mid => await mailbox.api.get.single(mid),
+        thread: async tid => await mailbox.api.get.thread(tid),
+        latest: async (folder, clientCursor, limit=5000, skip=0) => await mailbox.api.get.latest(folder, clientCursor, limit, skip),
+      },
+      headers: {
+        star: async (folder, uid) => await mailbox.api.headers.star(folder, uid),
+        unstar: async (folder, uid) => await mailbox.api.headers.unstar(folder, uid),
+        read: async (folder, uid) => await mailbox.api.headers.read(folder, uid),
+        unread: async (folder, uid) => await mailbox.api.headers.unread(folder, uid)
+      },
+      manage: {
+        copy: async (src, srcUID, dest) => await mailbox.api.manage.copy(src, srcUID, dest),
+        move: async (src, srcUID, dest) => await mailbox.api.manage.move(src, srcUID, dest),
+        delete: async (folder, uid) => await mailbox.api.manage.delete(folder, uid)
+      }
+    },
     contacts: {
       lookup: async partial => await mailbox.contacts.lookup(partial)
     },
