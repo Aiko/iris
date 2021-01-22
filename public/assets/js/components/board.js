@@ -2,16 +2,16 @@ Vue.component('board', {
   props: ['board', 'syncing'],
   watch: {
     thin() {
-      const board = app.boards.filter(({ name }) => name == this.board.name)?.[0]
+      const board = this.$root.boards.filter(({ name }) => name == this.board.name)?.[0]
       if (!app) return;
-      const i = app.boards.indexOf(board)
-      app.boards[i].thin = this.thin
+      const i = this.$root.boards.indexOf(board)
+      this.$root.boards[i].thin = this.thin
       if (this.thin) {
-        app.boardThiccness.push(board.name)
+        this.$root.boardThiccness.push(board.name)
       } else {
-        app.boardThiccness = app.boardThiccness.filter(n => n != board.name)
+        this.$root.boardThiccness = this.$root.boardThiccness.filter(n => n != board.name)
       }
-      await SmallStorage.store(app.imapConfig.email + ':board-thiccness', app.boardThiccness)
+      await SmallStorage.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
     }
   },
   computed: {
@@ -19,7 +19,7 @@ Vue.component('board', {
       return this.board.name.replace('[Aiko Mail]/', '')
     },
     unread () {
-      return app.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
+      return this.$root.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
     }
   }
 })
