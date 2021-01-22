@@ -812,6 +812,42 @@ a.main-action:hover {
 .user {
 	display: -webkit-inline-box;
 	background: transparent !important;
+	transition: .2s;
+}
+.user-in{
+	display: inherit;
+overflow: visible;
+		width: 220px;
+		
+	transition: .2s;
+}
+.user-in span{
+	margin-left: 10px;
+	    font-size: 13px;
+    font-weight: 400;
+    line-height: 22px;
+}
+.user-in .no-mobile{
+    width: 85px !important;
+}
+.user:hover > .user-in{
+			margin-left: -110px;
+			transition: .2s;
+}
+
+.user:hover > .user-in > .active-user{
+	margin-left: -110px;
+			transition: .2s;
+}
+
+.collapsed .user:hover > .user-in >.active-user{
+			margin-left: 4px !important;
+			transition: .2s;
+}
+
+.collapsed .user:hover > .user-in{
+			margin-left: 0 !important;
+			transition: .2s;
 }
 
 #u3 {
