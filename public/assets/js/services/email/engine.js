@@ -5,6 +5,7 @@ const Engine = port => {
   socket.binaryType = 'arraybuffer'
 
   const waiters = {}
+  const listeners = {}
 
   const ID = () => {
     const id = String.random(12)
@@ -14,7 +15,11 @@ const Engine = port => {
   }
 
   socket.onmessage = m => {
-    const { success, error, payload, id } = JSON.parse(m)
+    const { success, error, payload, id, event } = JSON.parse(m)
+    if (event) {
+      if (listeners[event]) listeners[event]()
+      return;
+    }
     if (!id) return console.error("Received untagged websocket response:", m)
     const s = waiters[id]
     if (!s) return console.error("No resolver pair for websocket pairing:", m)
@@ -36,6 +41,7 @@ const Engine = port => {
   })
 
   return {
+    on: (event, cb) => (listeners[event] = cb),
     init: async config => await proxy('init')(config).catch(console.error),
     sync: {
       immediate: async () => await proxy('sync.immediate')().catch(console.error),
