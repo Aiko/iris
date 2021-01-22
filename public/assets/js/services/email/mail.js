@@ -1,3 +1,5 @@
+const { app } = require("electron")
+
 const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 
 /*
@@ -8,6 +10,63 @@ const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 * - fixing any artifacts in composer
 * - the remaining features (search, templates, ai autocomplete)
 */
+
+const SyncLock = (() => {
+  let _lock = {
+    holder: null,
+    lock: (async () => null)()
+  }
+
+  //? generate a unique ID
+  //? puts it into waiting if the lock is owned
+  //? otherwise, own the lock
+  const waiting = []
+  const ID = () => {
+    const id = String.random(12).toString('hex')
+    if (waiting.includes(id)) return ID()
+    if (_lock.holder) waiting.push(id)
+    else _lock.holder = id
+    return id
+  }
+
+  const syncOK = () => new Promise((s, _) => {
+    const helper = () => {
+      if (app.movers.size > 0 || app.syncing) {
+        setTimeout(helper, 50) //? wait 50ms, then try again
+      }
+      else {
+        s()
+      }
+    }
+    helper()
+  })
+
+  return {
+    //? use this to lock sync on shared resources
+    //? it'll wait for anything currently holding it before grabbing the lock
+    acquire: () => new Promise(async (s, _) => {
+      const id = ID()
+      while (_lock.holder != id) await _lock.lock;
+      _lock.lock = new Promise(async (s2, _) => {
+        //? wait for sync to be OK
+        await syncOK()
+        //? then, give the acquirer the lock
+        const release = () => {
+          //? then, get a new holder
+          if (waiting.length > 0) _lock.holder = waiting.shift()
+          //? if nothing is waiting just empty the lock
+          else _lock.holder = null
+          //? release the lock
+          s2()
+        }
+        s(release)
+      })
+      await _lock.lock;
+    }),
+    peek: () => _lock.holder,
+    length: () => waiting.length
+  }
+})
 
 const mailapi = {
   data: {
@@ -36,10 +95,13 @@ const mailapi = {
     boardOrder: [], //* [slug]
     boards: [], //* { ...board metadata, tids: [tid] }
     //? some state/ui management
-    syncing: false, // TODO: replace syncing and dragging with promise locks
+    syncLock: SyncLock(),
+    backendSyncing: false,
+    syncing: false,
+    movers: new Set(),
     dragging: false,
     visibleMin: 0,
-    visibleMax: 20, // most things visible
+    visibleMax: 500,
     //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
@@ -251,6 +313,12 @@ const mailapi = {
       //? (re)start the engine
       await this.getEngine()
 
+      //? bind engine listeners
+      this.engine.on('sync-started', () => {
+        app.backendSyncing = true
+      })
+      this.engine.on('sync-finished', this.syncOp)
+
       //? reset the UI
       this.inbox = []
       this.boards = []
@@ -374,6 +442,8 @@ const mailapi = {
     //! Syncing with Backend
     ////////////////////////////////////////////!
     async syncOp () {
+      const release = await this.syncLock.acquire()
+      this.backendSyncing = false
       this.syncing = true
       //? update folders
       this.folders = await this.engine.folders.get()
@@ -446,6 +516,12 @@ const mailapi = {
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       })
       this.syncing = false
+      release()
+    },
+    async forceSync () {
+      if (this.backendSyncing) return false
+      this.backendSyncing = true
+      await this.engine.sync.immediate()
     },
     ////////////////////////////////////////////!
     //! Contact Methods
@@ -521,6 +597,9 @@ const mailapi = {
         if (thread.aikoFolder != this.folders.inbox) {
           info(...MAILAPI_TAG, "Deleting thread", tid, "from", thread.aikoFolder, "via email with UID", threadLoc.uid)
           await this.engine.api.manage.delete(threadLoc.folder, threadLoc.uid)
+          thread.aikoFolder = this.folders.inbox
+          this.saveThread(thread)
+          this.movers.remove(tid)
         }
       }
 
@@ -533,6 +612,7 @@ const mailapi = {
         info(...MAILAPI_TAG, "Dragged thread", tid, "from", thread.aikoFolder, "to", toPath)
 
         //? update the UI right away!
+        this.movers.add(tid)
         thread.dragging = false
         thread.aikoFolder = toPath
         this.saveThread(thread, reset=false)
@@ -578,6 +658,7 @@ const mailapi = {
 
           //? reset the thread state
           _this.saveThread(thread, reset=true)
+          this.movers.remove(tid)
         }
 
         window.setTimeout(sync, SYNC_TIMEOUT)
@@ -665,7 +746,7 @@ const mailapi = {
           this.visibleMax = this.inbox.emails.indexOf(maxTID) + TOLERANCE
         }
       }
-    }
+    },
   }
 }
 
