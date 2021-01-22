@@ -148,33 +148,38 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const { locations } = message
           //? first try fetching it from aiko folder
           const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
-          if (afLoc) return fetch_plan[aikoFolder].push(afLoc.uid)
+          if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, locations })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push(shortcut.uid)
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, locations })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
             if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
-            return fetch_plan["INBOX"].push(inboxLoc.uid)
+            return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, locations })
           }
           //? next look for sent
           const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
           if (sentLoc) {
             if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
-            return fetch_plan[Folders.get().sent].push(sentLoc.uid)
+            return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, locations })
           }
           //? if all else fails just add random folder
           const loc = locations?.[0]
           if (loc) {
             const { folder, uid } = loc
             if (!(fetch_plan[folder])) fetch_plan[folder] = []
-            return fetch_plan[folder].push(uid)
+            return fetch_plan[folder].push({ uid, locations })
           }
         })
         //? perform fetch
         await Promise.all(Object.keys(fetch_plan).map(async folder => {
-          const uids = fetch_plan[folder]
+          const metadata = {}
+          const uids = fetch_plan[folder].map(meta => {
+            const { uid } = meta
+            metadata[uid] = meta
+            return uid
+          })
           if (uids.length == 0) return;
           if (!Cleaners[folder]) {
             Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
@@ -196,6 +201,10 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
+            const meta = metadata[email.M.envelope.uid]
+            if (!meta) return; //! something went super wrong
+            const { locations } = meta
+            email.locations = locations
             //? put the fetched email into our fetched results array
             fetched.push(email)
             email = JSON.parse(JSON.stringify(email))
@@ -233,33 +242,38 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const { locations } = message
           //? first try fetching it from aiko folder
           const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
-          if (afLoc) return fetch_plan[aikoFolder].push(afLoc.uid)
+          if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, locations })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push(shortcut.uid)
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, locations })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
             if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
-            return fetch_plan["INBOX"].push(inboxLoc.uid)
+            return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, locations })
           }
           //? next look for sent
           const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
           if (sentLoc) {
             if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
-            return fetch_plan[Folders.get().sent].push(sentLoc.uid)
+            return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, locations })
           }
           //? if all else fails just add random folder
           const loc = locations?.[0]
           if (loc) {
             const { folder, uid } = loc
             if (!(fetch_plan[folder])) fetch_plan[folder] = []
-            return fetch_plan[folder].push(uid)
+            return fetch_plan[folder].push({ uid, locations })
           }
         })
         //? perform fetch
         await Promise.all(Object.keys(fetch_plan).map(async folder => {
-          const uids = fetch_plan[folder]
+          const metadata = {}
+          const uids = fetch_plan[folder].map(meta => {
+            const { uid } = meta
+            metadata[uid] = meta
+            return uid
+          })
           if (uids.length == 0) return;
           if (!Cleaners[folder]) {
             Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
@@ -281,6 +295,10 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
+            const meta = metadata[email.M.envelope.uid]
+            if (!meta) return; //! something went super wrong
+            const { locations } = meta
+            email.locations = locations
             //? put the fetched email into our fetched results array
             fetched.push(email)
             email = JSON.parse(JSON.stringify(email))
@@ -332,37 +350,38 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             const { locations } = message
             //? first try fetching it from aiko folder
             const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
-            if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid })
+            if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations })
             //? next look for an existing folder to optimize our fetch
             const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-            if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid })
+            if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations })
             //? next look for inbox
             const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
             if (inboxLoc) {
               if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
-              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid })
+              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations })
             }
             //? next look for sent
             const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
             if (sentLoc) {
               if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
-              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid })
+              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations })
             }
             //? if all else fails just add random folder
             const loc = locations?.[0]
             if (loc) {
               const { folder, uid } = loc
               if (!(fetch_plan[folder])) fetch_plan[folder] = []
-              return fetch_plan[folder].push({ uid, tid })
+              return fetch_plan[folder].push({ uid, tid, locations })
             }
           })
         })
 
         //? perform fetch && put into fetched
         await Promise.all(Object.keys(fetch_plan).map(async folder => {
-          const uid2tid = {}
-          const uids = fetch_plan[folder].map(({ uid, tid }) => {
-            uid2tid[uid] = tid
+          const metadata = {}
+          const uids = fetch_plan[folder].map(meta => {
+            const { uid } = meta
+            metadata[uid] = meta
             return uid
           })
           if (uids.length == 0) return;
@@ -386,9 +405,11 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
+            const meta = metadata[email.M.envelope.uid]
+            if (!meta) return; //! something went super wrong
+            const { tid, locations } = meta
+            email.locations = locations
             //? put the fetched email into our fetched results array
-            const tid = uid2tid[email.M.envelope.uid]
-            if (!tid) return; //! something went super wrong
             fetched[tid].push(email)
             email = JSON.parse(JSON.stringify(email))
             //* cache the whole thing in L3
