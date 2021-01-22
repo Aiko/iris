@@ -39,6 +39,8 @@ const SockPuppet = async Target => {
   const port = await unused_port()
   const wss = new WebSocket.Server({port})
 
+  const sockets = []
+
   wss.on('connection', ws => {
     const sksucc = id => payload => ws.send(JSON.stringify({
       success: true,
@@ -48,7 +50,7 @@ const SockPuppet = async Target => {
       error: msg + '\n' + (new Error),
       id
     }))
-
+    sockets.add(ws)
     ws.on('message', async m => {
       /*
       * m should be 'please ' + JSON stringified message
@@ -88,7 +90,14 @@ const SockPuppet = async Target => {
     })
   })
 
-  return { port, }
+  return {
+    port,
+    trigger: event => {
+      sockets.map(ws => {
+        ws.send(JSON.stringify({ event, }))
+      })
+    }
+  }
 }
 
 module.exports = SockPuppet

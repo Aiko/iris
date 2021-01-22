@@ -1,16 +1,25 @@
 Vue.component('board', {
-  props: ['boardName', 'board', 'syncing'],
+  props: ['board', 'syncing'],
   watch: {
     thin() {
-      app.boards[this.boardName].thin = this.thin
+      const board = this.$root.boards.filter(({ name }) => name == this.board.name)?.[0]
+      if (!app) return;
+      const i = this.$root.boards.indexOf(board)
+      this.$root.boards[i].thin = this.thin
+      if (this.thin) {
+        this.$root.boardThiccness.push(board.name)
+      } else {
+        this.$root.boardThiccness = this.$root.boardThiccness.filter(n => n != board.name)
+      }
+      await SmallStorage.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
     }
   },
   computed: {
     prettyBoardName () {
-      return this.boardName.replace('[Aiko Mail]/', '')
+      return this.board.name.replace('[Aiko Mail]/', '')
     },
     unread () {
-      return this.board?.emails?.filter(e => !e.ai.seen)?.length
+      return this.$root.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
     }
   }
 })

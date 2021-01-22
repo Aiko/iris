@@ -5,6 +5,7 @@ const Engine = port => {
   socket.binaryType = 'arraybuffer'
 
   const waiters = {}
+  const listeners = {}
 
   const ID = () => {
     const id = String.random(12)
@@ -14,7 +15,11 @@ const Engine = port => {
   }
 
   socket.onmessage = m => {
-    const { success, error, payload, id } = JSON.parse(m)
+    const { success, error, payload, id, event } = JSON.parse(m)
+    if (event) {
+      if (listeners[event]) listeners[event]()
+      return;
+    }
     if (!id) return console.error("Received untagged websocket response:", m)
     const s = waiters[id]
     if (!s) return console.error("No resolver pair for websocket pairing:", m)
@@ -36,6 +41,7 @@ const Engine = port => {
   })
 
   return {
+    on: (event, cb) => (listeners[event] = cb),
     init: async config => await proxy('init')(config).catch(console.error),
     sync: {
       immediate: async () => await proxy('sync.immediate')().catch(console.error),
@@ -47,6 +53,24 @@ const Engine = port => {
       add: async path => await proxy('folders.add')(path).catch(console.error),
       remove: async path => await proxy('folders.remove')(path).catch(console.error),
       fetch: async () => await proxy('folders.fetch')().catch(console.error)
+    },
+    api: {
+      get: {
+        single: async mid => await proxy('api.get.single')(mid).catch(console.error),
+        thread: async tid => await proxy('api.get.thread')(tid).catch(console.error),
+        latest: async (folder, cursor, limit=5000, skip=0) => await proxy('api.get.latest')(folder, cursor, limit, skip).catch(console.error)
+      },
+      headers: {
+        star: async (folder, uid) => await proxy('api.headers.star')(folder, uid).catch(console.error),
+        unstar: async (folder, uid) => await proxy('api.headers.unstar')(folder, uid).catch(console.error),
+        read: async (folder, uid) => await proxy('api.headers.read')(folder, uid).catch(console.error),
+        unread: async (folder, uid) => await proxy('api.headers.unread')(folder, uid).catch(console.error),
+      },
+      manage: {
+        star: async (src, srcUID, dest) => await proxy('api.manage.copy')(src, srcUID, dest).catch(console.error),
+        star: async (src, srcUID, dest) => await proxy('api.manage.move')(src, srcUID, dest).catch(console.error),
+        delete: async (folder, uid) => await proxy('api.manage.delete')(folder, uid).catch(console.error)
+      }
     },
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)

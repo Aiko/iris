@@ -44,6 +44,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     //? loop through the entire thread, making sure everything is only in one board
     //? by default, uses the latest board as the main board
     //? by default, only copies messages that are in the inbox to the board
+    // TODO: we might need to check trash as well here for unity...
     const thread = await cache.lookup.tid(tid)
     if (!thread) return; // doesn't work on messages not threaded
     let main_board = null
