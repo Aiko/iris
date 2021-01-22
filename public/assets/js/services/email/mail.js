@@ -5,7 +5,6 @@ const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 /*
 ? * TODO: this is what i have left:
 * - get emails and display them (both initially and on sync hooks)
-* - the movement methods for emails
 * - refactoring the view email modal and etc
 * - fixing any artifacts in composer
 * - the remaining features (search, templates, ai autocomplete)
@@ -93,6 +92,7 @@ const mailapi = {
     threads: {}, //* tids[tid] = thread
     inbox: [], //* [tid]
     boardOrder: [], //* [slug]
+    boardThiccness: [], //* [slug]
     boards: [], //* { ...board metadata, tids: [tid] }
     //? some state/ui management
     syncLock: SyncLock(),
@@ -329,9 +329,19 @@ const mailapi = {
         const path = this.folders.aiko[slug]
         this.boards.push({
           name: slug,
+          thin: false,
           path,
           tids: []
         })
+      })
+
+      //? restore thinness to boards
+      this.boardThiccness = await SmallStorage.load(this.imapConfig.email + ':board-thiccness') || []
+      this.boardThiccness.map(slug => {
+        const board = this.boards.filter(({ name }) => name == slug)?.[0]
+        if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
+        const i = this.boards.indexOf(board)
+        this.boards[i].thin = true
       })
 
       //? sort the local boards
@@ -431,6 +441,7 @@ const mailapi = {
       //? create a UI element for it
       boards.push({
         name: slug,
+        thin: false,
         path,
         tids: []
       })
@@ -461,6 +472,7 @@ const mailapi = {
         //? if it doesn't exist locally we need to create the UI element for it
         this.boards.push({
           name: slug,
+          thin: false,
           path: this.folders.aiko[slug],
           tids: []
         })
