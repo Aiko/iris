@@ -145,40 +145,6 @@ const Mailbox = (async (Lumberjack, {
       nextSync = setTimeout(syncAll, SYNC_TIMEOUT)
     })
   ;;
-
-  //! TODO: API
-  /* here are some features I think are worth adding to the API:
-
-    !@awake priansh, here is my plan for api:
-    - app opens, figures out which mailboxes are open
-    - then, launches the engine for each mailbox (with config file or something)
-    - then, the app asks for the newest X emails in each folder it has shown
-      - for inbox, this should automatically exclude threads that are in other boards
-      - it will be returned as a list of threads (tid and messages populated from mids)
-      - it's the app's responsibility to ask for the unpeeked latest message
-      - this is done on purpose to optimize!
-    - the app should request updates on everything it has onsync (maybe pubsub this)
-      - it should first ask for threads of everything
-      - any thread that no lnoger exists can be spliced out
-      - then anything that has changed (new tid, changed # of messages) should trigger update
-        - this update should fetch the latest unpeeked message, and update the thread relevantly
-    - the app needs to maintain a dictionary for what is currently syncing,
-      and sets containing which UIDs it has in each folder
-    - moving and copying needs a method written at this level
-      - the app should make the move/copy in UI before its syncing (just use what we have now)
-      - and then ask engine to sync, itll do that and everything will be ok
-      - in the engine copy/move, it should cache the new location immediately
-        and this should not trigger a new email websocket to the app!
-        instead it should just tell the app that the move/copy op has been completed
-      - if it fails, no big deal, move it back in the app
-      - the reason its not a huge deal, is because if it DID work, then in next update
-        the engine will find out its gone from the old folder and that its in the new one
-  */
-
-  //! suggestion: maybe create a modseq locally for the mailbox to better manage changes
-  //! maybe some global modseq = X which is incremented across all sessions
-  //! every time the app pulls from backend it pulls any thread with higher modseq (fresh open, app.modseq = 0)
-
   return {
     syncSet: {
       add: syncFolders, remove: unsyncFolders
