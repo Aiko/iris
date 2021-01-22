@@ -48,6 +48,24 @@ const Engine = port => {
       remove: async path => await proxy('folders.remove')(path).catch(console.error),
       fetch: async () => await proxy('folders.fetch')().catch(console.error)
     },
+    api: {
+      get: {
+        single: async mid => await proxy('api.get.single')(mid).catch(console.error),
+        thread: async tid => await proxy('api.get.thread')(tid).catch(console.error),
+        latest: async (folder, cursor, limit=5000, skip=0) => await proxy('api.get.latest')(folder, cursor, limit, skip).catch(console.error)
+      },
+      headers: {
+        star: async (folder, uid) => await proxy('api.headers.star')(folder, uid).catch(console.error),
+        unstar: async (folder, uid) => await proxy('api.headers.unstar')(folder, uid).catch(console.error),
+        read: async (folder, uid) => await proxy('api.headers.read')(folder, uid).catch(console.error),
+        unread: async (folder, uid) => await proxy('api.headers.unread')(folder, uid).catch(console.error),
+      },
+      manage: {
+        star: async (src, srcUID, dest) => await proxy('api.manage.copy')(src, srcUID, dest).catch(console.error),
+        star: async (src, srcUID, dest) => await proxy('api.manage.move')(src, srcUID, dest).catch(console.error),
+        delete: async (folder, uid) => await proxy('api.manage.delete')(folder, uid).catch(console.error)
+      }
+    },
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)
     },
