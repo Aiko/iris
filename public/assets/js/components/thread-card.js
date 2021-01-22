@@ -75,26 +75,41 @@ Vue.component('thread-card', {
       this.thread.emails[0].M.flags.seen = true
       this.$root.saveThread(this.thread, reset=false)
 
-      this.$root.engine.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+      await this.$root.engine.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
     async openVerify () {
-      email.M.quick_actions.context = verify_links[0]
-      email.M.quick_actions.classification = 'verify'
       if (this.thread.emails[0].M.quick_actions.context) {
         remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)
       }
     },
     async reply() {
-      const email = this.email
+      /*
+        ! this didn't make sense.
+        //? the email replied to is the latest message not in sent
+        //? unless all messages are in sent, then it is the latest message
+        const email = ((thread, sentFolder) => {
+          for (const email of thread.emails) {
+            const sentLoc = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+            if (!sentLoc) return email
+          }
+          return thread.emails?.[0]
+        })(this.thread, this.$root.folders.sent)
+      */
+      const email = this.thread.emails[0]
+      //? if it is an email you sent, then we use the same recipient list
+      const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
       this.$root.openComposer(
-        withTo=(this.thread.emails[0].envelope.from || this.thread.emails[0].envelope.sender || []).map(
-          ({name, address}) => {return {value: address, display: name}}
-        ),
+        withTo=(is_sent ? email.M.envelope.to.map(({ name, address }) => {
+          return { display: name, value: address }
+        }) : [{
+          display: email.M.envelope.from.name,
+          value: email.M.envelope.from.address
+        }]),
         withCC=[],
         withBCC=[],
-        withSubject="Re: " + email.envelope.subject,
+        withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.parsed.messageId
+        withMessageId=email.M.envelope.mid
       )
     },
     async replyAll() {
