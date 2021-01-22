@@ -3265,7 +3265,7 @@ unselectable {
 
 .modal-bottom a {
 	font-weight: 600 !important;
-	color: var(--dark-text);
+	color: var(--dark-text) !important;
 }
 
 .accordion input {
