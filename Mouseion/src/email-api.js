@@ -410,7 +410,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           if (!thread) return null
           thread.emails = emails.sort((a, b) => b.envelope.date - a.envelope.date)
           return thread
-        }).filter(_ => _)
+        }).filter(_ => _).sort((a, b) => (new Date(a.date)) - (new Date(b.date)))
       }
     }
   }
