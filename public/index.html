@@ -401,6 +401,7 @@
               style="margin-right: 6px;"><span>Compose</span></a>
           <a class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
                 class="main-count">3</span></span></a>
+          <!-- TODO: Outbox only shows when there is actually an email being sent for more than 5 seconds -->
           <a><img src="assets/icons/out.svg"> <span class="blue">Outbox</span></a>
           <a><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
           <a><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
@@ -486,23 +487,19 @@
           <a target="_blank" class="sbtn-sec">Later</a>
         </div>
 
-        <div class="announce sc no-mobile" style="display: none;">
-          <div class="container mb-9">
-            <div class="row">
-              <div class="col-7 p0">
-                <h1><span class="blue fw700">Update Available</span></h1>
-              </div>
-              <div class="col-5">
-                <img class="rotating" src="assets/icons/update.svg" width="17">
-              </div>
-            </div>
-          </div>
-          <a target="_blank" class="sbtn">Update now</a>
-          <a target="_blank" class="sbtn-sec">Later</a>
+        <div class="announce sc no-mobile load-sidebar" style="display: none;">
+          <h1><span class="blue fw700">Downloading Update</span></h1>
+          <p>Do not quit the app during the download.</p>
+        </div>
+
+        <div class="announce sc no-mobile load-sidebar">
+          <h1><span class="blue fw700">Update Ready</span></h1>
+          <p>Restart to install.</p>
+          <a target="_blank" class="sbtn">Restart Now</a>
         </div>
 
 
-        <div class="announce sc no-mobile">
+        <div class="announce sc no-mobile" style="display: none;">
           <h1>Version: <span class="blue fw700">ALPHA</span></h1>
           <p>Request features and report issues</p>
           <a target="_blank" class="sbtn">Give feedback</a>
@@ -516,7 +513,7 @@
           </div>
           <br>
           <div class="set">
-            <a><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a href="settings.html"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
             <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
                 width="30"></a>
           </div>
@@ -571,6 +568,11 @@
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
+                <div class="account">
+                  <img src="assets/icons/header-user.svg"> <span>rubencharlestouitou@gmail.com</span>
+                  <span class="sec-notif"></span>
+                </div>
+
                 <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email"
                   class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>

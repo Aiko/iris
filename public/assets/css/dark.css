@@ -46,6 +46,9 @@
 .settings-main .row{
   box-shadow: 0 6px 13px -10px #0d1016;
 }
+.plan{
+  box-shadow: 0 6px 13px -10px #0d1016;
+}
 .sidebar .active{
   border-left: 2px solid #a0a0a0;
 }
@@ -149,6 +152,9 @@ body {
 }
 
 .load-board::before {
+  background: #b0b0b0 !important;
+}
+.load-sidebar::before {
   background: #b0b0b0 !important;
 }
 

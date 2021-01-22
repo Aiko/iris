@@ -17,7 +17,7 @@
 </head>
 
 <body class="bg">
-	<div id="app" class="inline-flex" style="padding-top: 20px;">
+	<div id="app" class="inline-flex" style="padding-top: 25px;">
 		<!-- THEMES GO HERE -->
 		<link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
 
@@ -48,7 +48,8 @@
 					<a href="#"><img src="assets/icons/image.svg"> <span> Appearance</span></a>
 					<a href="#"><img src="assets/icons/settings-team.svg"> <span> Team</span></a>
 					<a href="#"><img src="assets/icons/settings-templates.svg"> <span> Templates</span></a>
-					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing</span>
+					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing <span
+								class="new-pill ml0">New</span></span>
 					</a>
 					<a href="#"><img src="assets/icons/integrations.svg"> <span> Integrations</span></a>
 					<a href="#"><img src="assets/icons/settings-customize.svg"> <span> Settings</span></a>
@@ -67,7 +68,7 @@
 		</div>
 		<!-- END Sidebar ----------------------------------------------->
 
-		<div class="main">
+		<div class="main s-main">
 
 			<!-- TOAST Connection Lost -->
 			<div class="aiko-toast settings-toast" style="display: none;">
@@ -89,7 +90,7 @@
 
 
 			<div class="settings-main">
-				<div class="container" id="account">
+				<div class="container" id="account" style="display: none;">
 					<h1>Account</h1>
 					<br>
 					<h2>Personal Information</h2>
@@ -142,7 +143,7 @@
 					</div>
 				</div>
 
-				<div class="container" id="appearance">
+				<div class="container" id="appearance" style="display: none;">
 					<h1>Appearance</h1>
 					<br>
 					<h2>General</h2>
@@ -263,19 +264,70 @@
 					<br>
 
 				</div>
-				<div class="container" id="Billing" style="display: none;">
+				<div class="container" id="Billing">
 					<h1>Billing</h1>
 					<br>
-					<h2>Plan</h2>
-					<div class="row">
-						<div class="col-8">
-							<img src="assets/img/logo.svg" width="80" style="margin-bottom: 4px">
-							<p><b>Pro</b>&nbsp;$19/Month</p><br>
+					<h2>Plans <Span style="font-size: 12px;">Cancel anytime, no commitment.</Span></h2>
+
+
+					<div class="plans">
+
+						<div class="plan active-p">
+							<h1><img src="assets/img/logo.svg" width="100" style="margin-bottom: 4px"> Free</h1>
+							<h2>$0/month</h2>
+							<p>Kanban emails (Boards)</p>
+							<p>Simple phrase completion</p>
+							<p>Full privacy</p>
+							<p>AI priority filter<span class="new-pill">New</span></p>
+							<p>Undo Send</p>
+							<p>HTML/Markdown composer</p>
+							<p>Enhanced Search</p>
+							<p>Thread history</p>
 						</div>
-						<div class="col-4 text-right">
-							<p class="act">See plans</p>
+
+						<div class="plan">
+							<h1><img src="assets/img/logo.svg" width="100" style="margin-bottom: 4px"> Pro</h1>
+							<h2>$12/month</h2>
+							<p class="blue ml0">Everything in Free +</p>
+							<p>Board rules</p>
+							<p>Custom boards</p>
+							<p>Quick Reply</p>
+							<p>Integrations<span class="new-pill">New</span></p>
+							<p>Team management</p>
+							<p>AI Highlighter</p>
+
+							<a class="sbtn">Pick this plan</a>
 						</div>
+
+						<div class="plan">
+							<h1><img src="assets/img/logo.svg" width="100" style="margin-bottom: 4px"> Premium</h1>
+							<h2>$19/month</h2>
+							<p class="blue ml0">Everything in Pro +</p>
+							<p>Block email trackers</p>
+							<p>Track Email opens</p>
+							<p>Email templates</p>
+							<p>AI Writing<span class="new-pill">Coming soon</span></p>
+							<p>BCC Detection</p>
+							<a class="sbtn">Pick this plan</a>
+						</div>
+
+						<div class="plan">
+							<h1><img src="assets/img/logo.svg" width="100" style="margin-bottom: 4px"> Enterprise</h1>
+							<h2>Per-seat contracts</h2>
+							<p class="blue ml0">Everything in Premium +</p>
+							<p>Custom Quick Actions</p>
+							<p>On-Site Training<span class="new-pill">New</span></p>
+							<p>Self-Hosting option</p>
+							<a class="sbtn">Contact us</a>
+						</div>
+
 					</div>
+
+					<p class="mw-300">Some legal jargon about plans here, i need to look this up, but if you sign up for a plan it
+						will
+						auto-renew until it is canc...</p>
+
+
 					<br><br>
 					<h2>Billing information</h2>
 					<div class="row">
