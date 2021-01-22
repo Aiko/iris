@@ -1,7 +1,7 @@
 const Sequence = require('./email/sequence')
 const batchMap = require('../utils/do-in-batch')
 
-module.exports = (cache, courier, Folders, Cleaners, AI_BATCH_SIZE, ) => {
+module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
   //! every time the app pulls from backend it pulls any thread with higher modseq (fresh open, app.modseq = 0)
 
   // TODO: need to add `emails` to resolve
@@ -35,7 +35,7 @@ module.exports = (cache, courier, Folders, Cleaners, AI_BATCH_SIZE, ) => {
           email = email?.[0]
           if (!email) return null;
           email = await Cleaner.full(email)
-          cache.L3.cache(mid, email)
+          await cache.L3.cache(mid, email)
           email = JSON.parse(JSON.stringify(email))
           email.parsed.html = null
           email.parsed.text = null
@@ -127,7 +127,7 @@ module.exports = (cache, courier, Folders, Cleaners, AI_BATCH_SIZE, ) => {
       }
     },
     thread: {
-      // TODO: full, headers are skipped for now
+      // TODO: headers is skipped for now
       partial: async ({ mids, aikoFolder }) => {
         const messages = await Promise.all(mids.map(cache.lookup.mid))
         const to_fetch = []
@@ -202,6 +202,90 @@ module.exports = (cache, courier, Folders, Cleaners, AI_BATCH_SIZE, ) => {
             //* cache the whole thing in L3
             // this is commented out because we currently dont download attachments or resolve CID links at fetch time
             // await cache.L3.cache(email.M.envelope.mid, email)
+            //* strip parsed components and cache in L2
+            email.parsed.html = null
+            email.parsed.text = null
+            await cache.L2.cache(email.M.envelope.mid, email)
+            //* drop as-is into L1 (doesn't affect us that there is MORE info)
+            await cache.L1.cache(email.M.envelope.mid, email)
+          }))
+        }))
+
+        return fetched
+      },
+      full: async ({ mids, aikoFolder }) => {
+        const messages = await Promise.all(mids.map(cache.lookup.mid))
+        const to_fetch = []
+        const fetched = []
+        messages.map(message => {
+          const { mid, locations, seen, starred } = message
+          email = cache.L3.check(mid)
+          if (!email) return to_fetch.push(message)
+          email.M.flags.seen = seen
+          email.M.flags.starred = starred
+          email.locations = locations
+          fetched.push(email)
+        })
+        const fetch_plan = {}
+        fetch_plan[aikoFolder] = []
+        //? build the fetch plan
+        to_fetch.map(message => {
+          const { locations } = message
+          //? first try fetching it from aiko folder
+          const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
+          if (afLoc) return fetch_plan[aikoFolder].push(afLoc.uid)
+          //? next look for an existing folder to optimize our fetch
+          const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
+          if (shortcut) return fetch_plan[shortcut.folder].push(shortcut.uid)
+          //? next look for inbox
+          const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
+          if (inboxLoc) {
+            if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
+            return fetch_plan["INBOX"].push(inboxLoc.uid)
+          }
+          //? next look for sent
+          const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
+          if (sentLoc) {
+            if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
+            return fetch_plan[Folders.get().sent].push(sentLoc.uid)
+          }
+          //? if all else fails just add random folder
+          const loc = locations?.[0]
+          if (loc) {
+            const { folder, uid } = loc
+            if (!(fetch_plan[folder])) fetch_plan[folder] = []
+            return fetch_plan[folder].push(uid)
+          }
+        })
+        //? perform fetch
+        await Promise.all(Object.keys(fetch_plan).map(async folder => {
+          const uids = fetch_plan[folder]
+          if (uids.length == 0) return;
+          if (!Cleaners[folder]) {
+            Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
+              folder == Folders.get().inbox || folder.startsWith("[Aiko]")
+            ))
+          }
+          const Cleaner = Cleaners[folder]
+
+          const emails = await courier.messages.listMessages(
+            folder, Sequence(uids), {
+              peek: false,
+              markAsSeen: false,
+              limit: uids.length,
+              parse: true,
+              downloadAttachments: true,
+              keepCidLinks: false
+            }
+          )
+
+          const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
+          await Promise.all(cleaned_emails.map(async email => {
+            //? put the fetched email into our fetched results array
+            fetched.push(email)
+            email = JSON.parse(JSON.stringify(email))
+            //* cache the whole thing in L3
+            await cache.L3.cache(email.M.envelope.mid, email)
             //* strip parsed components and cache in L2
             email.parsed.html = null
             email.parsed.text = null
@@ -332,11 +416,39 @@ module.exports = (cache, courier, Folders, Cleaners, AI_BATCH_SIZE, ) => {
   }
 
   return {
-    latest: async (folder, clientCursor, limit=5000, skip=0) => {
-      const threads = await cache.lookup.latest(folder, limit, skip)
-      const updated = threads.filter(({ cursor }) => cursor > clientCursor)
-      const resolved = await resolve.threads.partial(updated)
-      return resolved
+    get: {
+      single: async mid => {
+        const message = await cache.lookup.mid(mid)
+        if (!message) return null;
+        const resolved = await resolve.email.full(message)
+        return resolved
+      },
+      thread: async tid => {
+        const thread = await cache.lookup.tid(tid)
+        if (!thread) return null;
+        const resolved = await resolve.thread.full(thread)
+        return thread
+      },
+      latest: async (folder, clientCursor, limit=5000, skip=0) => {
+        const threads = await cache.lookup.latest(folder, limit, skip)
+        const updated = threads.filter(({ cursor }) => cursor > clientCursor)
+        const resolved = await resolve.threads.partial(updated)
+        return {
+          exists: threads, //? we need the full list so we can process deletes
+          threads: resolved
+        }
+      },
+    },
+    headers: {
+      star: Link.flags.star,
+      unstar: Link.flags.unstar,
+      read: Link.flags.read,
+      unread: Link.flags.unread
+    },
+    manage: {
+      copy: Link.copy,
+      move: Link.move,
+      delete: Link.delete
     }
   }
 }
