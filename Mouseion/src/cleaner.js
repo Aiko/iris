@@ -50,7 +50,8 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
       subject: email.envelope.subject || 'No Subject',
       cleanSubject: email.envelope.subject?.replace(/^((re|fw|fwd|aw|wg|undeliverable|undelivered):\s*)+/gim, ''),
       from: email.envelope.from?.[0] || email.envelope.sender?.[0] || { name: 'No sender', address: 'hidden@hidden'  },
-      to: email.envelope.to || []
+      to: email.envelope.to || [],
+      cc: email.envelope.cc || [],
     }
     //? the base email is what should be used for auto board-rule creation
     email.M.envelope.from.base = email.M.envelope.from.address?.replace(/\+.*(?=@)/gim, '')
