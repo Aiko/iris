@@ -416,61 +416,27 @@
           </div>
           <div style="height: 30px"></div>
           <div class="user-list">
+
+
             <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
+              <div class="user-in">
+                <div class="active-user"></div>
+                <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+                <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+                <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+                <div class="no-mobile sc">{{user.member.name}}</div>
+                <span><img src="assets/icons/sidebar-edit.svg"> New email</span>
+              </div>
             </a>
+
             <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
-            </a>
-            <a class="user" v-for="user in profile.team.team">
-              <div class="active-user"></div>
-              <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-              <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-              <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-              <div class="no-mobile sc">{{user.member.name}}</div>
+              <div class="user-in">
+                <!-- TODO: on server change user.pictureURI to be from assets/ default -->
+                <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
+                <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
+                <div class="no-mobile sc">{{user.member.name}}</div>
+                <span><img src="assets/icons/sidebar-edit.svg"> New email</span>
+              </div>
             </a>
 
           </div>
@@ -1041,7 +1007,8 @@
               <!-- TODO: Ruben, make sure shadow light mode not bad-->
               <!-- Newest Message in Thread  -->
               <view-email-single :validity="email?.validity || 0" :key="email.uid" :expanded="true"
-                :emailsingle="email"></view-email-single>
+                :emailsingle="email">
+              </view-email-single>
 
               <!-- Message in Thread -->
               <view-email-single :validity="9999" :key="e.uid" :expanded="false"
