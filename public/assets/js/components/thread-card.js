@@ -34,9 +34,18 @@ Vue.component('thread-card', {
     }
   },
   methods: {
-    async debug () {
+    //? utility methods
+    debug () {
       console.log(this.thread)
     },
+    normalizeAddresses(addresses) {
+      return addresses.map(({ name, address}) => {
+        return {
+          display: name, value: address
+        }
+      })
+    },
+    //? management button methods
     async deleteMessage () {
       if (!this.thread.syncing) {
         const { folder, uid } = this.$root.locThread(this.thread)
@@ -69,6 +78,7 @@ Vue.component('thread-card', {
         this.$root.engine.headers.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
+    //? core logic for viewing message
     async viewMessage () {
       this.$root.viewThread = this.thread
       this.thread.seen = true
@@ -77,11 +87,13 @@ Vue.component('thread-card', {
 
       await this.$root.engine.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
+    //? quick action interactions
     async openVerify () {
       if (this.thread.emails[0].M.quick_actions.context) {
         remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)
       }
     },
+    //? interaction button methods
     async reply() {
       /*
         ! this didn't make sense.
@@ -99,12 +111,10 @@ Vue.component('thread-card', {
       //? if it is an email you sent, then we use the same recipient list
       const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
       this.$root.openComposer(
-        withTo=(is_sent ? email.M.envelope.to.map(({ name, address }) => {
-          return { display: name, value: address }
-        }) : [{
-          display: email.M.envelope.from.name,
-          value: email.M.envelope.from.address
-        }]),
+        withTo=(is_sent ?
+          this.normalizeAddresses(email.M.envelope.to)
+          : this.normalizeAddresses([email.M.envelope.from])
+        ),
         withCC=[],
         withBCC=[],
         withSubject="Re: " + email.M.envelope.subject,
@@ -113,68 +123,57 @@ Vue.component('thread-card', {
       )
     },
     async replyAll() {
-      const email = this.email
-      const ogCC = (email.envelope.cc || []).map(
-        ({name, address}) => {return {value: address, display: name}}
-      );
-      const ogTo = (email.envelope.to.length > 1 && (email.envelope.bcc || []).length == 0) ? (email.envelope.to || []).filter(
-        r => r.address != this.$root.currentMailbox
-      ).map(
-        ({name, address}) => {return {value: address, display: name}}
-      ) : [];
+      const email = this.thread.emails[0]
+      const cc =  this.normalizeAddresses(email.M.envelope.cc)
+      const to = this.normalizeAddresses(
+        [email.M.envelope.from, ...email.M.envelope.to] //? don't need to check if it's one you sent bc of below
+          .filter(({ address }) => address != this.$root.currentMailbox) //? don't reply to yourself lol
+      )
+      const bcc = this.normalizeAddresses(email.M.envelope.bcc)
+      if (bcc.length > 0 && to.length > 1) {
+        // TODO: should show a warning that you were BCC'ed but are reply-all'ing
+      }
       this.$root.openComposer(
-        withTo=(this.email.envelope.from || this.email.envelope.sender || []).map(
-          ({name, address}) => {return {value: address, display: name}}
-        ),
-        withCC=[...ogCC, ...ogTo],
+        withTo=to,
+        withCC=cc,
         withBCC=[],
-        withSubject="Re: " + email.envelope.subject,
+        withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.parsed.messageId
+        withMessageId=email.m.envelope.mid
       )
     },
     async forward() {
-      const email = this.email
+      const email = this.thread.emails[0]
       this.$root.openComposer(
         withTo=[],
         withCC=[],
         withBCC=[],
-        withSubject="Fwd: " + email.envelope.subject,
+        withSubject="Fwd: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.parsed.messageId
+        withMessageId=email.M.envelope.mid
       )
     },
     async sendQuickReply() {
-      let html;
-      const cached = await BigStorage.load(this.$root.smtpConfig.email + '/emails/' + this.email.messageId)
-      if (cached) {
-        const quoted = cached?.parsed?.html || (cached?.parsed?.text || cached?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
-        html = `<p>${this.replyText}</p><br><blockquote>${quoted}</blockquote>`
-      } else {
-        html = `<p>${this.replyText}</p>`
-      }
+      const email = this.thread.emails[0]
+      const msg = await this.$root.engine.api.get.single(email.M.envelope.mid)
+      const quoted = msg.parsed.html
+      const html = `<p>${this.replyText}</p><br><blockquote>${quoted}</blockquote>`
 
-      const email = this.email
+      const cc =  this.normalizeAddresses(email.M.envelope.cc)
+      const bcc = this.normalizeAddresses(email.M.envelope.bcc)
+      const toAll = this.normalizeAddresses(
+        [email.M.envelope.from, ...email.M.envelope.to] //? don't need to check if it's one you sent bc of below
+          .filter(({ address }) => address != this.$root.currentMailbox) //? don't reply to yourself lol
+      )
+      const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+      const to = is_sent ? this.normalizeAddresses(email.M.envelope.to)
+          : this.normalizeAddresses([email.M.envelope.from]);
 
-      if (this.quickReplyAll) {
-        const ogCC = (email.envelope.cc || []).map(
-          ({name, address}) => {return {value: address, display: name}}
-        );
-        const ogTo = (email.envelope.to.length > 1 && (email.envelope.bcc || []).length == 0) ? (email.envelope.to || []).filter(
-          r => r.address != this.$root.currentMailbox
-        ).map(
-          ({name, address}) => {return {value: address, display: name}}
-        ) : [];
-        this.$root.sendCC = [...ogCC, ...ogTo]
-      } else {
-        this.$root.sendCC = []
-      }
 
-      this.$root.sendTo = (this.email.envelope.from || this.email.envelope.sender || []).map(
-        ({name, address}) => {return {value: address, display: name}}
-      );
+      this.$root.sendTo = this.quickReplyAll ? toAll : to;
+      this.$root.sendCC = this.quickReplyAll ? cc : [];
       this.$root.sendBCC = []
-      this.$root.subject = 'Re: ' + email.envelope.subject
+      this.$root.subject = 'Re: ' + email.M.envelope.subject
 
       this.showQuickReply = false
       this.$root.sendEmail(html)
