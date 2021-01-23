@@ -152,6 +152,11 @@ const Mailbox = (async (Lumberjack, {
 
   const api = API(cache, courier, FolderManager, Cleaners, AI_BATCH_SIZE)
 
+  //! TODO: need a way to update the OAuth tokens while the engine is running. Like some way to safely
+  //! update the courier -- maybe a quick close-connect pairing called from the checkOAuthTokens thing in client
+  //! should test that extensively: set the expiry date behind, call checkOAuthTokens mid-engine-sync and see!
+  //! but the app has a backendSyncing var, you can use that to wait to update tokens
+
   return {
     syncSet: {
       add: syncFolders, remove: unsyncFolders
