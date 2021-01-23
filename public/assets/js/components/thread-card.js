@@ -53,7 +53,7 @@ Vue.component('thread-card', {
         const board = this.$root.boards.filter(({ name }) => name == slug)?.[0]
         if (!board) return window.error("Tried to delete a message from a board that does not exist")
         const i = this.$root.boards.indexOf(board)
-        this.$root.boards[i].splice(this.index, 1)
+        this.$root.boards[i].tids.splice(this.index, 1)
       }
     },
     async starMessage () {
