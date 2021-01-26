@@ -7,19 +7,22 @@
 <html>
 
 <head>
+  <!-- ? Meta -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="author" content="Aiko AI">
   <title>Inbox</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <!-- ? Base CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
+  <!-- ? jQuery -->
   <script src="assets/js/third-party/jquery.min.js"></script>
   <script>
-    window.jQuery = window.$ = require('jquery');
+    window.jQuery = window.$ = require('jquery') // the things I do for Ruben
   </script>
-  <!-- Using unsafe eval for Vue -->
+  <!--? Using unsafe eval for Vue but if there comes a day when we aren't you are welcome to the below CSP -->
   <!--<meta http-equiv="Content-Security-Policy"
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
 </head>
@@ -27,15 +30,27 @@
 <body class="bg">
   <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
   <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
+
   <div id="app" :class="{
     'inline-flex': true,
     'collapsed': collapseSidebar
   }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '25') + 'px;'">
-    <!-- THEMES GO HERE -->
+
+    <!--!------------------------------------------------------------->
+    <!--? Prestyled themes -->
+    <!--!------------------------------------------------------------->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
+
+    <!--!------------------------------------------------------------->
+    <!--? User styles -->
+    <!--!------------------------------------------------------------->
     <link rel="stylesheet" href="assets/css/custom.css">
-    <!-- LOADER -->
+
+    <!--!------------------------------------------------------------->
+    <!--? Loader -->
+    <!--!------------------------------------------------------------->
     <!-- TODO: MAKE INITIAL LOADER ONLY APPEAR AFTER INBOX IS ADDED SO THAT LOAD TEXT SHOWS ENTIRELY -->
+    <!--* Update: I think this behaviour occurs now, needs testing for verification  -->
     <div id="fixed" class="aiko-loader center-loader">
       <div class="hide-whole"></div>
       <img src="assets/img/logo.svg">
@@ -373,7 +388,9 @@
       </div>
     </div>
 
-    <!-- CONTROL BAR -->
+    <!--!------------------------------------------------------------->
+    <!-- ? Control Bar -->
+    <!--!------------------------------------------------------------->
     <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
       <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
@@ -393,42 +410,68 @@
       <!-- Close ---------------->
     </div>
 
-    <!-- Sidebar --------------------------------------------------->
+    <!--!------------------------------------------------------------->
+    <!-- ? Sidebar -->
+    <!--!------------------------------------------------------------->
     <div class="sidebar">
       <div class="container">
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Mail Menu -->
+        <!--!------------------------------------------------------------->
         <div class="row">
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Open Composer Button -->
+          <!--!------------------------------------------------------------->
           <a class="sbtn" @click="openComposer()"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
-          <a class="active"><img src="assets/icons/sidebar-home.svg"> <span>Home <span
-                class="main-count">3</span></span></a>
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Email Folders -->
+          <!--!------------------------------------------------------------->
+          <a class="active">
+            <img src="assets/icons/sidebar-home.svg">
+            <span>Home <span class="main-count">{{smartUnread}}</span></span>
+          </a>
           <!-- TODO: Outbox only shows when there is actually an email being sent for more than 5 seconds -->
-          <a><img src="assets/icons/out.svg"> <span class="blue">Outbox</span></a>
-          <a><img src="assets/icons/sidebar-send.svg" class="sent-fix"> <span>Sent</span></a>
-          <a><img src="assets/icons/sidebar-star.svg" class="off-star"><span> Starred</span></a>
-          <a><img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;"><span>
-              Spam</span></a>
-          <a><img src="assets/icons/sidebar-drafts.svg"> <span>Drafts</span></a>
-          <a><img src="assets/icons/sidebar-trash.svg"> <span>Trash</span></a>
+          <a><img src="assets/icons/out.svg">
+            <span class="blue">Outbox</span>
+          </a>
+          <a>
+            <img src="assets/icons/sidebar-send.svg" class="sent-fix">
+            <span>Sent</span>
+          </a>
+          <a>
+            <img src="assets/icons/sidebar-star.svg" class="off-star">
+            <span> Starred</span>
+          </a>
+          <a>
+            <img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;">
+            <span>Spam</span>
+          </a>
+          <a>
+            <img src="assets/icons/sidebar-drafts.svg">
+            <span>Drafts</span>
+          </a>
+          <a>
+            <img src="assets/icons/sidebar-trash.svg">
+            <span>Trash</span>
+          </a>
         </div>
+
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Team Menu -->
+        <!--!------------------------------------------------------------->
         <div class="row">
           <div class="search no-mobile sc">
-            <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search Team">
+            <img src="assets/icons/header-search.svg">
+            <input type="" name="" placeholder="Search Team">
           </div>
           <div style="height: 30px"></div>
           <div class="user-list">
 
-
-            <a class="user" v-for="user in profile.team.team">
-              <div class="user-in">
-                <div class="active-user"></div>
-                <!-- TODO: on server change user.pictureURI to be from assets/ default -->
-                <!-- TODO: if @gmail can we fetch and download people's gmail profile pic -->
-                <img :src="'assets/' + (user.member.pictureURI || 'img/avatar.png')">
-                <div class="no-mobile sc">{{user.member.name}}</div>
-                <span><img src="assets/icons/sidebar-edit.svg"> New email</span>
-              </div>
-            </a>
-
             <a class="user" v-for="user in profile.team.team">
               <div class="user-in">
                 <!-- TODO: on server change user.pictureURI to be from assets/ default -->
@@ -440,12 +483,18 @@
             </a>
 
           </div>
-          <a class="invite-icon" tflow="down"><img src="assets/icons/sidebar-invite.svg"> <span
-              class="blue sc">Invite</span></a>
+          <a class="invite-icon" tflow="down">
+            <img src="assets/icons/sidebar-invite.svg">
+            <span class="blue sc">Invite</span>
+          </a>
 
         </div>
 
-        <!-- Sidebar Announcements (One at a time with priority to update when present) -->
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Sidebar Announcements -->
+        <!-- ! Only display one at a time! -->
+        <!--!------------------------------------------------------------->
         <div class="announce sc no-mobile" style="display: none;">
           <h1><span class="blue fw700">Send an invite</span></h1>
           <p>You have 3 VIP invites remaining</p>
@@ -458,12 +507,11 @@
           <p>Do not quit the app during the download.</p>
         </div>
 
-        <div class="announce sc no-mobile load-sidebar">
+        <div class="announce sc no-mobile load-sidebar" style="display: none">
           <h1><span class="blue fw700">Update Ready</span></h1>
           <p>Restart to install.</p>
           <a target="_blank" class="sbtn">Restart Now</a>
         </div>
-
 
         <div class="announce sc no-mobile" style="display: none;">
           <h1>Version: <span class="blue fw700">ALPHA</span></h1>
@@ -472,6 +520,9 @@
         </div>
 
 
+        <!--!------------------------------------------------------------->
+        <!-- ? Sidebar Footer -->
+        <!--!------------------------------------------------------------->
         <div class="row bottom">
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
             class="sidebar-collapse no-mobile">
@@ -486,12 +537,16 @@
         </div>
       </div>
     </div>
-    <!-- END Sidebar ----------------------------------------------->
 
-    <!-- MAIN INBOX -->
+    <!--!------------------------------------------------------------->
+    <!-- ? Main View -->
+    <!--!------------------------------------------------------------->
     <div class="main">
 
-      <!-- TOASTS (MAKE TOASTS DISAPPEAR AFTER 10 SECONDS) -->
+      <!--!------------------------------------------------------------->
+      <!-- ? Toasts -->
+      <!-- TODO: these should disappear after 10s -->
+      <!--!------------------------------------------------------------->
       <!-- TOAST Invite Sent -->
       <div class="aiko-toast" style="display: none">
         <p class="textinout">Sending invite</p><a>Undo</a>
@@ -505,9 +560,9 @@
       </div>
 
       <!-- TOAST IMAP Error -->
-      <div class="aiko-toast" v-if="!connected">
+      <div class="aiko-toast" style="display: none;">
         <p class="textinout" style="color: #dc3545 !important">
-          We're having issues connecting to your mail provider. Trying again in {{timeToNextSync}}s...
+          We're having issues connecting to your mail provider, but will keep trying.
         </p>
         <div class="t-loader-red"><span></span></div>
       </div>
@@ -525,29 +580,41 @@
         <div class="t-loader"><span></span></div>
       </div>
 
-      <!-- Header ------------------------------------------------>
+      <!--!------------------------------------------------------------->
+      <!-- ? Top Bar -->
+      <!--!------------------------------------------------------------->
       <div class="header">
         <div class="container">
           <div class="row">
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Mailbox Picker -->
+            <!--!------------------------------------------------------------->
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
+
+                <!-- Currently loaded mailbox -->
                 <div class="account">
                   <img src="assets/icons/header-user.svg"> <span>{{imapConfig?.email}}</span>
                 </div>
-                <div class="account">
-                  <img src="assets/icons/header-user.svg"> <span>rubencharlestouitou@gmail.com</span>
+
+                <!-- Other mailboxes -->
+                <div class="account"
+                  @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email">
+                  <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
                   <span class="sec-notif"></span>
                 </div>
 
-                <div @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email"
-                  class="account">
-                  <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
-                </div>
                 <div @click="addMailbox = true" class="account">
                   <img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
                 </div>
               </div>
             </div>
+
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Search -->
+            <!--!------------------------------------------------------------->
             <div class="col-lg-5 col-md-6 col-6 p0m">
               <div class="search">
                 <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
@@ -570,12 +637,29 @@
                 </a>
               </div>
             </div>
+
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Header Menu -->
+            <!--!------------------------------------------------------------->
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-              <a @click="openCalendar" class="inline"><img src="assets/icons/header-calendar.svg"></a>
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Open Calendar -->
+              <!--!------------------------------------------------------------->
+              <a @click="openCalendar" class="inline">
+                <img src="assets/icons/header-calendar.svg">
+              </a>
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Notifications -->
+              <!--!------------------------------------------------------------->
               <div class="dropdown inline">
-                <a data-toggle="dropdown"><img src="assets/icons/header-bell.svg">
+                <a data-toggle="dropdown">
+                  <img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
-                  <span class="notif-count">3</span></a>
+                  <span class="notif-count">3</span>
+                </a>
                 <div class="dropdown-menu notif" style="margin-top: 10px">
                   <div class="container">
                     <a>
@@ -624,8 +708,9 @@
           </div>
         </div>
       </div>
-      <!-- END Header -------------------------------------------->
 
+      <!--!------------------------------------------------------------->
+      
       <div class="boards-container">
         <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
         <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
