@@ -29,6 +29,7 @@ Vue.component('chip-input', {
       suggestions: [],
       height: 0,
       activeSuggestion: -1,
+      engine: this.$root.engine || this.$root.composerEngine
     }
   },
   watch: {
@@ -36,7 +37,7 @@ Vue.component('chip-input', {
       if (this.activeChip > -1) this.term = was
       let suggestions = []
       if (this.focused) {
-        if (is) suggestions = await this.$root.suggestContact(this.term)
+        if (is) suggestions = await this.engine.contacts.lookup(this.term)
         else suggestions = []
       } else suggestions = []
       this.suggestions = JSON.parse(JSON.stringify(suggestions))
@@ -45,7 +46,7 @@ Vue.component('chip-input', {
     },
     async focused() {
       let suggestions = []
-      if (this.term) suggestions = await this.$root.suggestContact(this.term)
+      if (this.term) suggestions = await this.engine.contacts.lookup(this.term)
       else suggestions = []
       this.suggestions = JSON.parse(JSON.stringify(suggestions))
       this.activeSuggestion = -1
@@ -82,8 +83,8 @@ Vue.component('chip-input', {
       if (this.activeSuggestion < 0 && this.suggestions.length > 0 && e?.keyCode == 9) this.activeSuggestion = 0
       if (this.activeSuggestion > -1) {
         this.value.push({
-          value: this.suggestions[this.activeSuggestion][0],
-          display: this.suggestions[this.activeSuggestion][1]
+          value: this.suggestions[this.activeSuggestion].email,
+          display: this.suggestions[this.activeSuggestion].name
         })
         this.term = ''
         app?.calculateComposerHeight()
