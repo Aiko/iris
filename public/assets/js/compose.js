@@ -123,9 +123,6 @@ const app = new Vue({
     info(...(this.TAG), 'Initializing editor (tiptap)')
     this.makeEditor()
 
-    info(...(this.TAG), 'Fetching contacts...')
-    await this.fetchContacts()
-
     this.calculateComposerHeight()
     success(...(this.TAG), 'Finished initialization.')
     this.loading = false
@@ -207,30 +204,6 @@ const app = new Vue({
         href: url
       })
       this.hideLinkMenu()
-    },
-    async fetchContacts() {
-      const contactCache = (
-        await BigStorage.load(this.smtpConfig.email + '/contacts') ||
-        this.contacts
-      )
-      Object.assign(this.contacts, contactCache)
-    },
-    async suggestContact(term, limit = 5) {
-      term = term.toLowerCase()
-      const results = []
-      for (const contact of app.contacts.allContacts) {
-        const [address, name, frequency] = contact
-        if (term.length < 3) {
-          if (
-            (address && address.startsWith(term)) || (name && name.toLowerCase().startsWith(term))
-          ) results.push([address, name, frequency])
-        } else {
-          if (
-            (address && address.indexOf(term) > -1) || (name && name.toLowerCase().indexOf(term) > -1)
-          ) results.push([address, name, frequency])
-        }
-      }
-      return results.sort((r1, r2) => r2[2] - r1[2]).slice(0, limit)
-    },
+    }
   }
 })
