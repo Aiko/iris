@@ -18,7 +18,7 @@ const shortcuts = {
 
     const that = this
     document.addEventListener('keyup', function (evt) {
-      if (that.viewEmail) return
+      if (that.viewThread) return
       switch (evt.keyCode) {
         case shift: return (that.focused.quickReply = true)
         default:
@@ -27,7 +27,7 @@ const shortcuts = {
 
     document.addEventListener('keydown', function (evt) {
       // return if in viewing mode as that has diff shortcuts
-      if (that.viewEmail) return
+      if (that.viewThread) return
       switch (evt.keyCode) {
         case leftArrow: return that.focusPrevBoard(evt)
         case rightArrow: return that.focusNextBoard(evt)
@@ -52,6 +52,7 @@ const shortcuts = {
   },
   methods: {
     async focusNextEmail (e) {
+      /*
       this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
@@ -95,8 +96,10 @@ const shortcuts = {
           this.focused.index += 1
         }
       }
+      */
     },
     async focusPreviousEmail (e) {
+      /*
       this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
@@ -140,8 +143,10 @@ const shortcuts = {
           this.focused.index -= 1
         }
       }
+      */
     },
     async focusNextBoard (e) {
+      /*
       this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
@@ -170,8 +175,10 @@ const shortcuts = {
         }
       }
       //* if we're in the done board do nothing
+      */
     },
     async focusPrevBoard (e) {
+      /*
       this.focused.quickReply = false
       e?.preventDefault()
       e?.stopPropagation()
@@ -266,6 +273,7 @@ const shortcuts = {
           if (nextIndex != undefined) this.focused.index = nextIndex
         }
       }
+      */
     }
   }
 }
