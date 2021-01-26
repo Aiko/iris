@@ -110,8 +110,8 @@ const composer = {
     async sendEmail(html, attachments=[], includeCSS=true) {
       const mail = {}
 
-      const myName = (await this.suggestContact(this.smtpConfig.email))?.[0];
-      if (myName) mail.from = `${myName[1]} <${this.smtpConfig.email}>`
+      const Me = await this.engine.contacts.lookup(this.smtpConfig.email)?.[0]
+      if (Me) mail.from = `${Me.name} <${Me.email}>`
       else mail.from = this.currentMailbox || this.imapConfig?.email || this.smtpConfig?.email
 
       mail.to = this.sendTo.map(recipient => recipient.value)
