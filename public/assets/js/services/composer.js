@@ -18,6 +18,7 @@ const composer = {
     subject: '',
     quoted: '',
     messageId: '',
+    composerEngine: null
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -39,11 +40,9 @@ const composer = {
       }
       info(...COMPOSER_TAG, 'Loading SMTP config for', currentEmail)
       await this.loadSMTPConfig(currentEmail)
-      if (this.smtpConfig.provider == 'google') {
-        info(...COMPOSER_TAG, 'Loading Google config...')
-        await this.google_loadConfig()
-        await this.google_checkTokens()
-      }
+      //? load and check OAuth tokens
+      await this.loadOAuthConfig()
+      await this.checkOAuthTokens()
     },
     async saveSMTPConfig () {
       await SmallStorage.store(this.smtpConfig.email + '/smtp-config', this.smtpConfig)
@@ -62,7 +61,6 @@ const composer = {
       withQuoted='',
       withMessageId='',
     ) {
-      // TODO: somehow make settings
       const config = {
         smtp: this.smtpConfig,
         to: withTo,
@@ -70,7 +68,8 @@ const composer = {
         bcc: withBCC,
         subject: withSubject,
         quoted: withQuoted,
-        msgId: withMessageId
+        msgId: withMessageId,
+        enginePort: this.engine?.port,
       }
 
       // cache with randomized identifier
@@ -92,14 +91,13 @@ const composer = {
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
       this.messageId = config.msgId || ''
+      this.composerEngine = Engine(config.port)
       if (this.messageId && !this.quoted) {
-        const cached = await BigStorage.load(this.smtpConfig.email + '/emails/' + this.messageId)
+        const cached = await this.composerEngine.api.get.single(this.messageId)
         if (cached) {
-          this.quoted = cached?.parsed?.html || (cached?.parsed?.text || cached?.parsed?.msgText)?.replace(/\n/gim, '<br><br>')
-          const sender = cached.envelope.from?.[0] || cached.envelope.sender?.[0] || {address: '<hidden>', name: 'Hidden Sender'}
           this.quoted =
-            'On ' + (new Date(cached.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
-            ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + this.quoted
+          'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+          ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + cached.parsed?.html
         }
       }
     },
