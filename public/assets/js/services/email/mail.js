@@ -72,7 +72,6 @@ const mailapi = {
     //? the engine model
     engine: null,
     //? metadata and configurations for the IMAP client
-    connected: false,
     imapConfig: {
       email: '',
       host: '',
@@ -149,6 +148,14 @@ const mailapi = {
         }
       }
       */
+    }
+  },
+  computed: {
+    smartUnread() {
+      return Object.values(this.threads).filter(thread =>
+        !(thread.emails[0].M.flags.seen) && //? has to be unread
+        (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
+      ).length
     }
   },
   created () {
@@ -307,7 +314,8 @@ const mailapi = {
       await this.saveIMAPConfig()
       if (this.saveSMTPConfig) await this.saveSMTPConfig()
 
-      //? check OAuth tokens
+      //? load & check OAuth tokens
+      await this.loadOAuthConfig()
       await this.checkOAuthTokens()
 
       //? (re)start the engine
