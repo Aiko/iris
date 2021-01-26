@@ -58,6 +58,13 @@ Date.prototype.toMonth = function () {
   ][this.getMonth()]
 }
 
+//! immutable
+Date.prototype.addDays = function(days) {
+  const date = new Date(this.valueOf())
+  date.setDate(date.getDate() + days)
+  return date
+}
+
 Date.prototype.toDate = function () {
   return `${this.getMonth() + 1}/${this.getDate()}/${this.getFullYear()}`
 }
