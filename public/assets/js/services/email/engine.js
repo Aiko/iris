@@ -41,6 +41,7 @@ const Engine = port => {
   })
 
   return {
+    port,
     on: (event, cb) => (listeners[event] = cb),
     init: async config => await proxy('init')(config).catch(console.error),
     sync: {
