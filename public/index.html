@@ -839,6 +839,7 @@
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card
                   v-for="(tid, i) in inbox"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
                   :key="tid"
 
                   :sort="false"
@@ -1756,7 +1757,7 @@
             <!-- ? Email badges -->
             <!--!------------------------------------------------------------->
             <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg">
-            <img v-if="thread.hasTracker" src="assets/icons/badges-tracker.svg">
+            <img v-if="thread.hasTrackers" src="assets/icons/badges-tracker.svg">
             <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg">
             <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg">
           </div>
