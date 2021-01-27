@@ -86,10 +86,10 @@ Vue.component('thread-card', {
     },
     //? core logic for viewing message
     async viewMessage () {
-      this.$root.viewThread = this.thread
       this.thread.seen = true
       this.thread.emails[0].M.flags.seen = true
       this.$root.saveThread(this.thread, reset=false)
+      this.$root.viewThread = this.thread
 
       await this.$root.engine.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
