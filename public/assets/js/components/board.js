@@ -22,7 +22,7 @@ Vue.component('board', {
       return this.board.name.replace('[Aiko Mail]/', '')
     },
     unread () {
-      return this.$root.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
+      return this.$root.resolveThreads(this.board.tids || []).filter(({ seen }) => !seen).length
     },
     slug () {
       return this.board.name
