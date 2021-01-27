@@ -48,6 +48,7 @@ const Cache = (dir => {
       tid: { type: String },
       seen: { type: Boolean },
       starred: { type: Boolean },
+      subject: { type: String },
       timestamp: Date,
     }
     //! the schema also includes locations which is an array of { uid, folder } objects
@@ -243,7 +244,7 @@ const Cache = (dir => {
     //! be careful when using overwrite
     //! you have to provide EVERY PARAMETER when using overwite
     //! also keep in mind this will change the thread's core location (aikoFolder)
-    message: (mid, folder, uid, cursor, {
+    message: (mid, folder, uid, subject, cursor, {
       overwrite=false,
       seen=false,
       starred=false,
@@ -313,7 +314,7 @@ const Cache = (dir => {
 
         } else {
           const message = new Message({
-            mid, tid, seen, starred, locations: [], timestamp
+            mid, tid, seen, starred, locations: [], timestamp, subject
           })
           message.locations.push({folder, uid})
           message.save(err => {

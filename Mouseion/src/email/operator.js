@@ -277,7 +277,7 @@ module.exports = (
     if (!destUID) return false;
 
     // give it the new location in our db
-    await cache.add.message(msg.mid, dest, destUID, cursor)
+    await cache.add.message(msg.mid, dest, destUID, msg.subject, cursor)
     Log.success("Added", `${dest}:${destUID}`)
     configs.store('cursor', cursor)
     return destUID
@@ -331,7 +331,7 @@ module.exports = (
     // give it the new location in our db
     //? we add first because if it only exists in one location,
     //? removing the location will kill the db model :(
-    await cache.add.message(msg.mid, dest, destUID, cursor)
+    await cache.add.message(msg.mid, dest, destUID, msg.subject, cursor)
     await cache.remove.location(src, srcUID, cursor)
     Log.success("Moved to", `${dest}:${destUID}`)
     configs.store('cursor', cursor)

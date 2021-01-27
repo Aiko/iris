@@ -16,7 +16,7 @@ const threading = async (email, provider,
   const exists = await cache.lookup.mid(email.M.envelope.mid)
 
   if (exists) {
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, email.M.envelope.cleanSubject, cursor, {
       timestamp: email.M.envelope.date
     })
     return exists.tid
@@ -41,7 +41,7 @@ const threading = async (email, provider,
         return true
       } else {
         //* otherwise, just append it to the existing thread
-        await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+        await cache.add.message(email.M.envelope.mid, email.folder, email.uid, email.M.envelope.cleanSubject, cursor, {
           seen: email.M.flags.seen,
           starred: email.M.flags.starred,
           tid,
@@ -147,7 +147,7 @@ const threading = async (email, provider,
         if (thread_id) {
           if (thread_id == tid) return true;
           //* possibly add a new location for the previous message
-          await cache.add.message(mid, folder, uid)
+          await cache.add.message(mid, folder, uid, )
           //* bring the thread of the previous msg into our current thread
           await cache.merge(tid, thread_id) //? merges the old thread into the new one
           found = true
@@ -230,7 +230,7 @@ const threading = async (email, provider,
 
   //? if we don't have a thread id it's time to commit email to cache by itself
   if (!thread_id) {
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, email.M.envelope.cleanSubject, cursor, {
       seen: email.M.flags.seen,
       starred: email.M.flags.starred,
       timestamp: email.M.envelope.date,
@@ -240,7 +240,7 @@ const threading = async (email, provider,
     thread_id = tid
   } else {
     //* otherwise, just possibly add new location
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, email.M.envelope.cleanSubject, cursor, {
       timestamp: email.M.envelope.date
     })
   }
