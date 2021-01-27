@@ -256,7 +256,7 @@ module.exports = (
         downloadAttachments: false,
         keepCidLinks: true,
         always_fetch_headers: true
-      })
+      })?.[0]
       if (!envelope) return false; //! the mailserver refused to hand it over >:(
       const cleaned_envelope = await Cleaner.headers(envelope)
       if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
@@ -308,7 +308,7 @@ module.exports = (
         downloadAttachments: false,
         keepCidLinks: true,
         always_fetch_headers: true
-      })
+      })?.[0]
       if (!envelope) return false; //! the mailserver refused to hand it over >:(
       const cleaned_envelope = await Cleaner.headers(envelope)
       if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
