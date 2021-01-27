@@ -738,7 +738,7 @@ const mailapi = {
     },
     //? call this method after reordering boards to save the order
     async reorderBoards () {
-      this.boardOrder = this.boards.map(({ name }) => name)
+      // this.boardOrder = this.boards.map(({ name }) => name)
       await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
     //? sorts all threads across inbox and boards in ascending/descending order
