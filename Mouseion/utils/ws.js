@@ -1,7 +1,7 @@
 const WebSocket = require('ws')
 const net = require('net')
 
-const DEFUALT_PORT = 41605
+const DEFAULT_PORT = 41605
 
 const unused_port = async () => {
   const look_for_port = p => new Promise((s, _) => {
@@ -12,14 +12,14 @@ const unused_port = async () => {
       console.log("Port", port, "is open!")
       serv.once('close', () => {
         console.log("Resolving port validity.")
-        s(port)
+        return s(port)
       })
       serv.close()
     })
-    serv.on('error', _ => look_for_port(port + 10))
+    serv.on('error', _ => look_for_port(port + 10).then(P => s(P)))
   })
 
-  return await look_for_port(DEFUALT_PORT)
+  return await look_for_port(DEFAULT_PORT)
 }
 
 /*
