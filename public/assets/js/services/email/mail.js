@@ -1,5 +1,3 @@
-const { app } = require("electron")
-
 const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 
 /*
@@ -560,7 +558,7 @@ const mailapi = {
       //? sort the inbox to maintain date invariant
       this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       //? fetch updates to boards
-      this.boards.map(({ path, tids }, i) => {
+      await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
         const board_updates = await this.engine.api.get.latest(path, cursor, limit=max_board_updates)
         //? apply updates to inbox
@@ -580,7 +578,7 @@ const mailapi = {
           })
         })
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-      })
+      }))
       this.syncing = false
       release()
     },
@@ -821,6 +819,4 @@ const mailapi = {
 window.setInterval(() => {
   app.recalculateHeight()
 }, 1000)
-window.onresize = app.recalculateHeight
-
 Notification.requestPermission()
