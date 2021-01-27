@@ -193,7 +193,18 @@ const PostOffice = () => {
         }
 
         delete msg[key]
-        return msg
+
+        let cache = []
+        const tmp = JSON.stringify(msg, (key, value) => {
+          if (typeof value === 'object' && value !== null) {
+            if (cache.indexOf(value) !== -1) return;
+            cache.push(value);
+          }
+          return value;
+        })
+        cache = null
+
+        return JSON.parse(tmp)
       })
       Log.success(path, "| Parsed", sequence)
     }
