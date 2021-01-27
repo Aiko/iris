@@ -422,6 +422,10 @@ const mailapi = {
     //? process a thread and save it locally with added UI variables
     saveThread (thread, reset=true) {
       thread.date = new Date(thread.date)
+      thread.emails = thread.emails.map(email => {
+        email.M.envelope.date = new Date(email.M.envelope.date)
+        return email
+      })
       if (reset) {
         thread.dragging = false
         thread.syncing = false
@@ -542,7 +546,7 @@ const mailapi = {
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
       //? fetch updates to inbox
-      const max_inbox_updates = Math.max(5000, this.inbox.length)
+      const max_inbox_updates = Math.max(1000, this.inbox.length)
       const inbox_updates = await this.engine.api.get.latest(this.folders.inbox, cursor, limit=max_inbox_updates)
       //? apply updates to inbox
       const { exists, threads } = inbox_updates
