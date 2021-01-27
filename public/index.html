@@ -710,21 +710,32 @@
       </div>
 
       <!--!------------------------------------------------------------->
-      
+      <!-- ? Inbox Kanban Boards -->
+      <!--!------------------------------------------------------------->
       <div class="boards-container">
         <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
         <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
         <!-- TODO: add 'no-action-bar' class  to 'boards' class to remove action b ar from all emails-->
         <div class="boards two-lines">
-          <!-- INBOX BOARD -->
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Inbox Board (special case) -->
+          <!--!------------------------------------------------------------->
           <div :class="{
             'board': true,
             'inbox': true,
-            'load-board': syncingInbox
+            'load-board': syncing
           }">
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Board Header -->
+            <!--!------------------------------------------------------------->
             <div class="board-header">
               <div class="container p0">
                 <div class="row" style="display: -webkit-inline-box">
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Board Actions -->
                   <div class="col-1 cll">
                     <div class="dropdown">
                       <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
@@ -737,7 +748,12 @@
                       </div>
                     </div>
                   </div>
-                  <!-- TODO: Sorting sorts all boards at once-->
+
+
+                  <!-- FIXME: Sorting sorts all boards at once -->
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Board Sorting & Display Controls -->
+                  <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
                     <div class="dropdown">
                       <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
@@ -753,14 +769,24 @@
                       </div>
                     </div>
                   </div>
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Force Sync (inbox only) -->
+                  <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
-                    <a v-if="syncing" tooltip="Force refresh">
+                    <a v-if="backendSyncing" tooltip="Force refresh">
                       <img class="rotating" src="assets/icons/refresh.svg" width="17">
                     </a>
-                    <a v-if="!syncing" @click="updateAndFetch" tooltip="Force refresh">
+                    <a v-if="!backendSyncing" @click="forceSync" tooltip="Force refresh">
                       <img src="assets/icons/refresh.svg" width="17">
                     </a>
                   </div>
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Priority/Other Switcher -->
+                  <!--!------------------------------------------------------------->
                   <div class="col-8 text-center exp nowrap">
                     <div class="inbox-switch left text-center">
                       <!-- TODO: Add 'active' ti whichever is active, see below-->
@@ -770,7 +796,7 @@
                       }" @click="priority = true" inbox-direction="left">
                         Priority
                         <div class="secondary-count" tooltip="Unread emails in your inbox">
-                          {{priorityInbox.filter(e=>!e.ai.seen).length}}
+                          {{smartPriorityUnread}}
                         </div>
                       </h1>
                       <h1 :class="{
@@ -778,60 +804,123 @@
                         'active': !priority
                       }" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
-
-
                   </div>
+
                 </div>
               </div>
             </div>
-            <!-- END List loader -------------------------->
+
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Inbox Thread List -->
+            <!--!------------------------------------------------------------->
             <div ref="inboxBoard" @scroll="onScroll" class="board-body">
 
-              <!-- DON'T MODIFY BELOW -->
-              <!-- Can use :move to prevent it from moving into this board -->
-              <draggable v-if="!loading" filter=".dont-drag-this" id="aikomail--inbox" v-model="inbox.emails"
-                :group="{name: 'emails', pull: 'clone'}" ghost-class="ghost" @end="moveEmail" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email" @clone="cloneEmail">
-                <email-card :inbox="true" :key="email?.uid" :sort="false" v-for="(email, i) in inbox.emails"
+              <!--!------------------------------------------------------------->
+              <!-- ? Draggable List -->
+              <!--!------------------------------------------------------------->
+              <draggable
+                id="aikomail--inbox"
+
+                v-if="!loading"
+                v-model="inbox"
+
+                filter=".dont-drag-this"
+                draggable=".email"
+                ghost-class="ghost"
+
+                :group="{name: 'emails'}"
+
+                :force-fallback="true"
+                :fallback-on-body="true"
+                :fallback-tolerance="0"
+
+                @end="moveEmail"
+                @clone="cloneEmail"
+              >
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card
+                  v-for="(tid, i) in inbox"
+                  v-if="thread.priority == priority"
+                  :key="tid"
+
+                  :sort="false"
+
                   :render="i >= visibleMin && visibleMax >= i"
-                  v-if="!email?.ai?.deleted && email?.folder == 'INBOX' && priority == email?.ai?.priority && !(email?.ai?.threaded)"
-                  :index="i" :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
-                </email-card>
+                  :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply"
+
+                  :thread="threads[tid]"
+                  :index="i"
+                ></thread-card>
               </draggable>
 
-              <!-- START List loader ----------------------->
+
+              <!--!------------------------------------------------------------->
+              <!-- ? List Loader -->
+              <!--!------------------------------------------------------------->
               <div class="inbox-more">
                 <p @click="priority = false"><img src="assets/icons/filter-inbox.svg"> <span>Click here to see
-                  </span><b>{{fullInbox.length}}</b> filtered
-                  <span>emails</span></p>
-                <div v-if="seekingInbox" class="load-bottom">
+                  </span><b>{{otherInbox.length}}</b> filtered
+                  <span>threads</span></p>
+                <div class="load-bottom">
                 </div>
               </div>
-              <!-- END List loader -------------------------->
+
             </div>
           </div>
-          <!-- END Inbox Board ---------------------------->
+
 
           <!-- TODO: Boards should be draggable ----------->
           <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
 
-          <!-- START BOARDS-->
 
-          <!-- START Default Board Template ----------------------->
-          <draggable style="display: inline-flex;" v-model="boardNames" :group="{name: 'boards'}" ghost-class="ghost"
-            :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" draggable=".board"
-            handle=".board-drag-handle">
-            <board v-for="boardName in boardNames" :syncing="!!syncingBoards[boardName]" :board.sync="boards[boardName]"
-              :board-name.camel="boardName" inline-template>
-              <div :board-name="boardName" :class="{
+          <!--!------------------------------------------------------------->
+          <!-- ? Container for the other boards (draggable so you can adjust board order) -->
+          <!--!------------------------------------------------------------->
+          <draggable
+            style="display: inline-flex;"
+
+            v-model="boardOrder"
+
+            :group="{name: 'boards'}"
+
+            draggable=".board"
+            ghost-class="ghost"
+            handle=".board-drag-handle"
+
+            :force-fallback="true"
+            :fallback-on-body="true"
+
+            @end="reorderBoards"
+          >
+            <!--!------------------------------------------------------------->
+            <!-- ? Board Template -->
+            <!--!------------------------------------------------------------->
+            <board
+              v-for="slug in boardOrder"
+              :syncing="syncing"
+              :board="resolveBoard(slug)"
+            inline-template>
+
+              <div :class="{
                 'board': true,
                 'load-board': syncing,
                 'thin': board?.thin
               }">
+
+                <!--!------------------------------------------------------------->
+                <!-- ? Board Header -->
+                <!--!------------------------------------------------------------->
                 <div class="board-header board-drag-handle">
                   <div class="container p0">
                     <div class="row">
+
+                      <!--!------------------------------------------------------------->
+                      <!-- ? Board Actions -->
+                      <!--!------------------------------------------------------------->
                       <div class="col-2 cll">
                         <div class="dropdown">
                           <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
@@ -841,95 +930,110 @@
                             <a class="dropdown-item">Mark all as unread</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item">Board rules</a>
-                            <!-- TODO: THIS IS ONLY FOR ADDED CUSTOM BOARDS <a class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                           </div>
                         </div>
                       </div>
+
+
+                      <!--!------------------------------------------------------------->
+                      <!-- ? Board Title (click to thin/thicc) -->
+                      <!--!------------------------------------------------------------->
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
-                          {{prettyBoardName}}</h1>
-                        <div v-if="unread > 0" class="secondary-count" tooltip="Unread emails in board">
-                          {{unread > 99 ? '99+' : unread}}</div>
+                          {{slug}}
+                        </h1>
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" tooltip="Unread emails in board">
+                          {{unread > 99 ? '99+' : unread}}
+                        </div>
+                        <div v-if="slug == 'Done'" class="archive cll" tooltip="Trash entire board">
+                          <img src="assets/icons/sidebar-trash.svg">
+                          Trash all
+                        </div>
                       </div>
+
+                      <!--!------------------------------------------------------------->
+                      <!-- ? Board Drag Handle -->
+                      <!--!------------------------------------------------------------->
                       <div class="col-2 text-right cll">
-                        <!--  TESTING A UI WITHOUT THIS <a class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a> -->
+                        <!-- ! Testing a UI without this -->
+                        <a v-if="false" class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
                       </div>
                     </div>
                   </div>
                 </div>
+
+                <!--!------------------------------------------------------------->
+                <!-- ? Board Thread List -->
+                <!--!------------------------------------------------------------->
                 <div class="board-body">
-                  <!-- DON'T MODIFY BELOW -->
-                  <draggable filter=".dont-drag-this" v-if="board" :id="'aikomail--' + boardName" v-model="board.emails"
-                    :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove"
-                    :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Draggable List -->
+                  <!--!------------------------------------------------------------->
+                  <draggable
+                    :id="'aikomail--' + slug"
+
+                    v-if="board"
+                    v-model="board.tids"
+
+                    filter=".dont-drag-this"
+                    draggable=".email"
+                    ghost-class="ghost"
+
+                    :group="{name: 'emails'}"
+
+                    :force-fallback="true"
+                    :fallback-on-body="true"
+                    :fallback-tolerance="0"
+
+                    @start="startMove"
+                    @end="moveEmail"
+                  >
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
-                    <email-card :board="boardName"
-                      v-if="email.folder == boardName && !(email?.ai?.threaded == boardName)"
-                      :key="boardName + email.uid" v-for="(email, i) in board?.emails" :index="i"
-                      :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                      :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
-                    </email-card>
+                    <thread-card
+                      v-for="(tid, i) in board.tids"
+                      :key="tid"
+
+                      :sort="false"
+
+                      :render="true"
+                      :focused-folder.camel="focused.folder"
+                      :focused-index.camel="focused.index"
+                      :view-focused.camel="focused.view"
+                      :quick-focused.camel="focused.quickReply"
+
+                      :thread="threads[tid]"
+                      :index="i"
+                      :slug="slug"
+                    ></thread-card>
                   </draggable>
-                  <div class="empty" v-if="board?.emails?.length == 0">
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Board Empty Helper Text -->
+                  <!--!------------------------------------------------------------->
+                  <div class="empty" v-if="board?.tids?.length == 0">
                     <h1>Drag emails here.</h1>
                   </div>
                 </div>
               </div>
+
             </board>
           </draggable>
 
-          <!-- START Done Board Template ----------------------->
-          <div :class="{
-            'board': true,
-            'load-board': syncingDone
-          }">
-            <div class="board-header">
-              <div class="container p0">
-                <div class="row">
-                  <div class="col-2 cll">
-                    <div class="dropdown">
-                      <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
-                      <div class="dropdown-menu">
-                        <h6 class="dropdown-header">Actions</h6>
-                        <a class="dropdown-item">Mark all as read</a>
-                        <a class="dropdown-item">Mark all as unread</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">Board rules</a>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-8 text-center p0 exp margin-auto nowrap">
-                    <h1>Done</h1>
-                    <div class="archive cll" tooltip="Trash entire board"><img
-                        src="assets/icons/sidebar-trash.svg">Trash
-                      all</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="board-body">
-              <!-- DON'T MODIFY BELOW -->
-              <draggable filter=".dont-drag-this" v-if="done" id="aikomail--done" v-model="done.emails"
-                :group="{name: 'emails'}" ghost-class="ghost" @end="moveEmail" @start="startMove" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" draggable=".email">
-                <!-- Single Email ---------- add class 'drag' when dragged ------->
-                <email-card :board="folderNames.done"
-                  v-if="email.folder == folderNames.done && !(email?.ai?.threaded == '[Aiko Mail]/Done')"
-                  :key="folderNames.done + email.uid" v-for="(email, i) in done.emails" :index="i"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :email="email">
-                </email-card>
-              </draggable>
-              <div class="empty" v-if="done?.emails?.length == 0">
-                <h1>Drag emails here.</h1>
-              </div>
-            </div>
-          </div>
 
+          <!--!------------------------------------------------------------->
+          <!-- ? Long Board for regular inbox view -->
+          <!--!------------------------------------------------------------->
           <div class="long-board">
             <!-- copy <div class="main-email"> template here when needed-->
           </div>
 
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Add Board Button -->
+          <!--!------------------------------------------------------------->
           <div class="add-board" @click="addBoard = true">
             <img src="assets/icons/boards-add.svg">
           </div>
