@@ -306,7 +306,7 @@ const Cache = (dir => {
             Thread.findOne({tid: tid}, async (err, doc) => {
               if (err || !doc) s(false)
               doc.mids.push(mid)
-              if (timestamp && doc.date < timetamp) doc.date = timestamp
+              if (timestamp && doc.date < timestamp) doc.date = timestamp
               doc.cursor = cursor
               doc.aikoFolder = await uniteThread(doc)
               doc.save(err => s(!err))
