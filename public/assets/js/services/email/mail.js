@@ -645,7 +645,7 @@ const mailapi = {
       this.dragging = false
 
       //? identify the thread and its location
-      const tid = item.getAttribute(tid)
+      const tid = item.getAttribute('tid')
       const thread = this.resolveThread(tid)
       if (!thread) return error(...MAILAPI_TAG, "The thread that was moved has a TID that cannot be resolved.")
       const threadLoc = this.locThread(thread)
@@ -728,7 +728,7 @@ const mailapi = {
 
           //? reset the thread state
           _this.saveThread(thread, reset=true)
-          this.movers.remove(tid)
+          _this.movers.remove(tid)
         }
 
         window.setTimeout(sync, SYNC_TIMEOUT)

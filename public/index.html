@@ -1716,6 +1716,7 @@
       @blur="unfocus"
       :ref="thread.tid"
       :key="thread.tid"
+      :tid="thread.tid"
       :class="{
         'email': true,
         'unread': !(thread.seen),
@@ -1744,7 +1745,7 @@
             <!-- ? Participants -->
             <!--!------------------------------------------------------------->
             <h2 class="sender" @click="debug">
-              {{thread.participants.slice(0, 3).join(', ')}}
+              {{thread.participants.slice(0, 3).map(({ name, address }) => name || address).join(', ')}}
             </h2>
 
             <!--!------------------------------------------------------------->
