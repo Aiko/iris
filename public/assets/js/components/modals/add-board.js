@@ -1,13 +1,12 @@
 Vue.component('add-board-modal', {
   data () {
     return {
-      name: '',
-      step: 1
+      name: ''
     }
   },
   computed: {
     validBoard () {
-      return !!(this.name)
+      return !(this.$root.boardOrder.includes(this.name))
     }
   },
   methods: {

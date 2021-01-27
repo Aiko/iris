@@ -1042,7 +1042,10 @@
       </div>
     </div>
 
-    <!-- INVITE MODAL --------------------------------------->
+    <!--!------------------------------------------------------------->
+    <!-- ? Modals -->
+    <!--!------------------------------------------------------------->
+    <!-- MODAL Invite Team Member --------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -1061,7 +1064,7 @@
       </div>
     </div>
 
-    <!-- TODO: Rig UPGRADE MODAL - QUICK ACTIONS -->
+    <!-- MODAL Upgrade for Quick Actions -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1086,7 +1089,7 @@
       </div>
     </div>
 
-    <!-- TODO: Rig UPGRADE MODAL - MAILBOX SWITCHER -->
+    <!-- MODAL Upgrade for more mailboxes -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1112,7 +1115,7 @@
       </div>
     </div>
 
-    <!-- TODO: Rig UPGRADE MODAL - Notifications teehee -->
+    <!-- MODAL Upgrade for notifications -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1136,7 +1139,8 @@
         </div>
       </div>
     </div>
-    <!-- TUTORIAL MODAL -->
+
+    <!-- MODAL Tutorial Video -->
     <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
@@ -1156,31 +1160,47 @@
       </div>
     </tutorial-modal>
 
-    <!-- VIEW EMAIL -->
-    <view-email tabindex="0" v-if="viewEmail" :emailcard="viewEmail" inline-template>
+    <!-- MODAL View Thread -->
+    <view-thread tabindex="0" v-if="viewThread" :thread="viewThread" inline-template>
 
       <div tabindex="0" @click.self="close" class="aiko-modal">
 
         <div class="modal-dialog modal-lg">
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Tooltip -->
+          <!--!------------------------------------------------------------->
           <p class="esc-tip">press <b>ESC</b></p>
+
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Thread Container -->
+          <!--!------------------------------------------------------------->
           <div class="modal-content">
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Message List -->
+            <!--!------------------------------------------------------------->
             <div class="main-email">
 
-
-
+              <!--!------------------------------------------------------------->
+              <!-- ? Datepicker for Schedule Quick Action -->
+              <!-- TODO: move this out -->
+              <!--!------------------------------------------------------------->
               <div class="modal-dialog modal-md datepick">
                 <div class="modal-content">
                   <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email">
                   <div class="modal-reg">
                     <h1 class="mt-2">Please change or confirm suggested time.</h1>
                     <h2 class="mt-3 mb-2"><b>"Tomorrow after work"</b></h2>
-                    <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+                    <input type="datetime-local">
                     <br>
                     <label class="switch mr-1 mt-2">
                       <input type="checkbox" />
                       <span class="slider round cal"></span>
                     </label>
-                    <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p><br><br><br>
+                    <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p>
+                    <br><br><br>
                     <div class="modal-bottom">
                       <a class="blue">Compose</a>
                     </div>
@@ -1190,43 +1210,63 @@
                 </div>
               </div>
 
-
-
-
               <!-- TODO: Ruben, make sure shadow light mode not bad-->
-              <!-- Newest Message in Thread  -->
-              <view-email-single :validity="email?.validity || 0" :key="email.uid" :expanded="true"
-                :emailsingle="email">
-              </view-email-single>
-
-              <!-- Message in Thread -->
-              <view-email-single :validity="9999" :key="e.uid" :expanded="false"
-                v-if="email.parsed.thread?.messages?.length > 0" :emailsingle="e"
-                v-for="e in email?.parsed?.thread?.messages">
-              </view-email-single>
+              <!--!------------------------------------------------------------->
+              <!-- ? Thread Messages -->
+              <!--!------------------------------------------------------------->
+              <view-email
+                v-for="(email, i) in thread.emails"
+                :email="email"
+                :expanded="i == 0"
+                :key="i"
+                :tid="thread.tid"
+              >
+              </view-email>
             </div>
+
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Thread Sidebar -->
+            <!--!------------------------------------------------------------->
             <div class="secondary-email">
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Close Button -->
+              <!--!------------------------------------------------------------->
               <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
+
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
+              <!--!------------------------------------------------------------->
               <div class="secondary-head">
                 <div class="container">
                   <div class="row">
+
+                    <!--!------------------------------------------------------------->
+                    <!-- ? Avatar -->
+                    <!-- TODO: move this to message header -->
+                    <!--!------------------------------------------------------------->
                     <div class="col-3 p0">
-
-                      <img :src="avatar" style="	border-radius: 50%;
-	width: 54px;
-	height: 54px;
-	position: relative;
-	overflow: hidden;
-	border: 3px solid var(--secondary-bg-color);
-  background: var(--secondary-bg-color);
-  ">
-
+                      <img :src="avatar" style="
+                        border-radius: 50%;
+                        width: 54px;
+                        height: 54px;
+                        position: relative;
+                        overflow: hidden;
+                        border: 3px solid var(--secondary-bg-color);
+                        background: var(--secondary-bg-color);"
+                      >
                     </div>
-                    <div class="col-9 p0 spe hover-name">
-                      <h1>{{sender.name}}</h1>
-                      <h2>{{sender.address}}</h2>
 
-                      <!-- TODO: Prirpi add options here? its a hover thingy-->
+
+                    <!--!------------------------------------------------------------->
+                    <!-- ? Contact Info -->
+                    <!--!------------------------------------------------------------->
+                    <div class="col-9 p0 spe hover-name">
+                      <h1>{{email.M.envelope.from.name}}</h1>
+                      <h2>{{email.M.envelope.from.address}}</h2>
+
                       <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
                       <p>COPY</p> <!-- This is an option, could be anything we want really-->
                       <p>INVITE</p> <!-- This is an option, could be anything we want really-->
@@ -1235,152 +1275,12 @@
                 </div>
               </div>
 
-              <h3>Other conversations with {{sender.name}}</h3>
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Related Threads -->
+              <!--!------------------------------------------------------------->
+              <h3>Other conversations with {{email.M.envelope.from.name}}</h3>
               <div class="previous-threads sec-sec">
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="email thread">
-                  <div class="container pr">
-                    <div class="row" style="user-select: none;">
-                      <div class="col-8 p0" style="display: inline-flex;">
-                        <p class="subject">This is the subject</p>
-                      </div>
-                      <div class="col-4 p0">
-                        <div class="time">6:18PM</div>
-                      </div>
-
-                      <p class="body">This is the main content of the email, it is suppose to be
-                        longer than the subject and a summary of the main content.</p>
-                    </div>
-                  </div>
-                </div>
-
                 <div class="email thread">
                   <div class="container pr">
                     <div class="row" style="user-select: none;">
@@ -1401,9 +1301,9 @@
           </div>
         </div>
       </div>
-    </view-email>
+    </view-thread>
 
-    <!-- NEW MAILBOX MODAL --------------------------------------->
+    <!-- MODAL Add Mailbox --------------------------------------->
     <add-mailbox-modal v-if="addMailbox" :success="switchMailServer" :googlestrategy="google_addMailbox"
       :msftstrategy="msft_addMailbox" :closable="!forceAddMailbox" inline-template>
       <div class="aiko-modal add-mailbox">
@@ -1468,26 +1368,47 @@
       </div>
     </add-mailbox-modal>
 
-    <!-- TODO: Make it impossible to name a board like an existing one ------------->
-    <!-- NEW BOARD MODAL --------------------------------------->
+    <!-- MODAL Add Board --------------------------------------->
     <add-board-modal v-if="addBoard" inline-template>
       <div class="aiko-modal addb" @click.self="close">
-        <!-- STEP 1 - BOARD NAME --->
-        <div v-if="step == 1" class="modal-dialog modal-sm">
+        <div class="modal-dialog modal-sm">
           <div class="modal-content">
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Close Button -->
+            <!--!------------------------------------------------------------->
             <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
+
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Board-Create Form -->
+            <!--!------------------------------------------------------------->
             <div class="modal-reg">
+
               <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
+
               <h1>Add a board</h1>
               <h2>Enter a name for your board</h2>
-              <input v-model="name" type="text" placeholder="Board name" minlength="1" maxlength="13" class="cap"
-                style="margin-top: -20px;">
+
+              <input v-model="name" type="text" placeholder="Board name" minlength="1" maxlength="13" class="cap" style="margin-top: -20px;">
+
               <br><br>
-              <div v-if="validBoard" class="modal-bottom">
-                <!-- TODO: change this to do step = 2 and then rig the board rules -->
+
+              <div v-if="name && validBoard" class="modal-bottom">
+                <!-- TODO: should automatically open the board rules modal for this board -->
                 <a @click="addBoard" class="blue">Add</a>
               </div>
+
+              <div v-if="!name" class="modal-bottom">
+                Please enter a name to continue.
+              </div>
+
+              <div v-if="!validBoard" class="modal-bottom">
+                <b class="red">You already have a board with that name.</b>
+              </div>
+
               <br>
+
             </div>
           </div>
         </div>
