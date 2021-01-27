@@ -295,7 +295,6 @@ const mailapi = {
       //? grab the lock on loader
       const controlsLoader = !(this.loading)
       if (controlsLoader) this.loading = true
-      console.time('Switch Mailservers')
 
       //? Sanity check to make sure there is a current mailbox configuration
       if (!this.imapConfig?.email) {
@@ -393,7 +392,6 @@ const mailapi = {
       //? set the new title
       document.title = `Inbox - ${this.currentMailbox}`
 
-      console.timeEnd('SWITCH MAILBOX')
       if (controlsLoader) this.loading = false
     },
     ////////////////////////////////////////////!

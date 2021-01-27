@@ -839,7 +839,6 @@
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card
                   v-for="(tid, i) in inbox"
-                  v-if="thread.priority == priority && (seenFilter == null || thread.seen == seenFilter)"
                   :key="tid"
 
                   :sort="false"
