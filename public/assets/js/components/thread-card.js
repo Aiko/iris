@@ -50,10 +50,16 @@ Vue.component('thread-card', {
       if (!this.thread.syncing) {
         const { folder, uid } = this.$root.locThread(this.thread)
         await this.$root.engine.api.manage.delete(folder, uid)
-        const board = this.$root.boards.filter(({ name }) => name == slug)?.[0]
-        if (!board) return window.error("Tried to delete a message from a board that does not exist")
-        const i = this.$root.boards.indexOf(board)
-        this.$root.boards[i].tids.splice(this.index, 1)
+        if (this.slug) {
+          const board = this.$root.boards.filter(({ name }) => name == this.slug)?.[0]
+          if (!board) return window.error("Tried to delete a message from a board that does not exist")
+          const i = this.$root.boards.indexOf(board)
+          this.$root.boards[i].tids.splice(this.index, 1)
+        }
+        else {
+          const i = this.$root.inbox.indexOf(this.thread.tid)
+          this.$root.inbox.splice(i, 1)
+        }
       }
     },
     async starMessage () {
