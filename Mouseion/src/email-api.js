@@ -345,11 +345,12 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             latest_email.M.flags.seen = messages[0].seen
             latest_email.M.flags.starred = messages[0].starred
             latest_email.locations = messages[0].locations
+            latest_email.timestamp = messages[0].timestamp
             fetched[tid].push(latest_email)
           }
 
           await Promise.all(messages.slice(1).map(async message => {
-            const { mid, locations, seen, starred } = message
+            const { mid, locations, seen, starred, timestamp } = message
             const email = (await cache.L2.check(mid)) || (await cache.L1.check(mid))
             if (!email) return;
             /*
@@ -362,6 +363,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             email.M.flags.seen = seen
             email.M.flags.starred = starred
             email.locations = locations
+            email.timestamp = timestamp
             fetched[tid].push(email)
             have++;
           }))
@@ -377,7 +379,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const { aikoFolder } = thread
           //? process the thread into the fetch plan
           to_fetch[tid].map(message => {
-            const { locations } = message
+            const { locations, timestamp } = message
             //? first try fetching it from aiko folder
             const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
             if (afLoc) {
@@ -385,7 +387,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(aikoFolder, "fetch plan newly created.")
                 fetch_plan[aikoFolder] = []
               }
-              return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations })
+              return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, timestamp })
             }
             //? next look for an existing folder to optimize our fetch
             const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
@@ -394,7 +396,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(shortcut.folder, "fetch plan newly created")
                 fetch_plan[shortcut.folder] = []
               }
-              return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations })
+              return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, timestamp })
             }
             //? next look for inbox
             const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
@@ -404,7 +406,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 fetch_plan["INBOX"] = []
               }
               console.log("Adding", inboxLoc.uid, "to fetch plan for INBOX")
-              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations })
+              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, timestamp })
             }
             //? next look for sent
             const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
@@ -413,7 +415,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(Folders.get().sent, "fetch plan newly created.")
                 fetch_plan[Folders.get().sent] = []
               }
-              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations })
+              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, timestamp })
             }
             //? if all else fails just add random folder
             const loc = locations?.[0]
@@ -423,7 +425,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(folder, "fetch plan newly created.")
                 fetch_plan[folder] = []
               }
-              return fetch_plan[folder].push({ uid, tid, locations })
+              return fetch_plan[folder].push({ uid, tid, locations, timestamp })
             }
             else console.error("Message has no locations?")
           })
@@ -462,8 +464,9 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           await Promise.all(cleaned_emails.map(async email => {
             const meta = metadata[email.M.envelope.uid]
             if (meta) {
-              const { tid, locations } = meta
+              const { tid, locations, timestamp } = meta
               email.locations = locations
+              email.timestamp = timestamp
               //? put the fetched email into our fetched results array
               found++
               fetched[tid].push(email)
