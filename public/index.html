@@ -1462,8 +1462,7 @@
       </div>
     </dev-controls>
 
-
-    <!-- BOARD RULES (other than inbox) --------------------------------------->
+    <!-- MODAL Board Rules --------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
@@ -1564,17 +1563,10 @@
       </div>
     </div>
 
-    <!-- INBOX Board rules --------------------------------------->
+    <!-- MODAL Inbox Rules -------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
-
-          <!-- TODO: THIS IS AN EXPERIMENTAL CONTROL BAR FOR ALL MODALS -->
-          <div :class="{'control-bar int': true,'pc': isPC,}">
-            <p v-if="isLinux" title="Close"></p>
-            <h1 title="Close"><img src="assets/icons/top-close.png" width="10"></h1>
-            <!-- Close ---------------->
-          </div>
 
           <div class="modal-reg">
             <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
