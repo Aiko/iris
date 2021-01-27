@@ -750,7 +750,6 @@
                   </div>
 
 
-                  <!-- FIXME: Sorting sorts all boards at once -->
                   <!--!------------------------------------------------------------->
                   <!-- ? Board Sorting & Display Controls -->
                   <!--!------------------------------------------------------------->
@@ -759,13 +758,12 @@
                       <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
-                        <a class="dropdown-item">Date (newest)</a>
-                        <a class="dropdown-item">Date (oldest)</a>
-                        <a class="dropdown-item">Size (largest)</a>
-                        <a class="dropdown-item">Size (smallest)</a>
+                        <a class="dropdown-item" @click="sortThreads(true)">Date (newest)</a>
+                        <a class="dropdown-item" @click="sortThreads(false)">Date (oldest)</a>
                         <h6 class="dropdown-header">Display only</h6>
-                        <a class="dropdown-item">Unread</a>
-                        <a class="dropdown-item">Read</a>
+                        <a @click="seenFilter = null" class="dropdown-item">All</a>
+                        <a @click="seenFilter = false" class="dropdown-item">Unread</a>
+                        <a @click="seenFilter = true" class="dropdown-item">Read</a>
                       </div>
                     </div>
                   </div>
@@ -841,7 +839,7 @@
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card
                   v-for="(tid, i) in inbox"
-                  v-if="thread.priority == priority"
+                  v-if="thread.priority == priority && (seenFilter == null || thread.seen == seenFilter)"
                   :key="tid"
 
                   :sort="false"
@@ -903,6 +901,7 @@
               v-for="slug in boardOrder"
               :syncing="syncing"
               :board="resolveBoard(slug)"
+              :seen-filter.camel="seenFilter"
             inline-template>
 
               <div :class="{
@@ -993,6 +992,7 @@
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
                     <thread-card
                       v-for="(tid, i) in board.tids"
+                      v-if="(seenFilter == null || thread.seen == seenFilter)"
                       :key="tid"
 
                       :sort="false"

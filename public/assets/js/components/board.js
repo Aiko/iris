@@ -1,5 +1,5 @@
 Vue.component('board', {
-  props: ['board', 'syncing'],
+  props: ['board', 'syncing', 'seenFilter'],
   watch: {
     thin() {
       const board = this.$root.resolveBoard(this.board.name)

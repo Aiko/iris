@@ -102,6 +102,7 @@ const mailapi = {
     visibleMin: 0,
     visibleMax: 500,
     priority: true,
+    seenFilter: null,
     //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
@@ -239,6 +240,9 @@ const mailapi = {
       * more info: we should be creating an engine for each mailbox
       * and then, we assign the engine data object to this based on the engine for the mailbox
       * the engines in the background will still send notifications which is great!
+      * this should happen on the electron backend
+      * that way, trying to make an engine for an email address that exists
+      * will allow us to delete the existing one (as a Mouseion thread)
     */
     async getEngine() {
       //? if the engine exists, shut it down
@@ -713,6 +717,8 @@ const mailapi = {
         ((t1, t2) => this.resolveThread(t2).date - this.resolveThread(t1).date)
         : ((t1, t2) => this.resolveThread(t1).date - this.resolveThread(t2).date)
       ;;
+
+      this.inbox.sort(sorter)
 
       for (let i = 0; i < this.boards.length; i++)
         this.boards[i].tids.sort(sorter)
