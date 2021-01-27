@@ -1440,12 +1440,12 @@
               <br>
               <br>
               <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
-              <img v-if="imapValid === true" style="filter: invert(1)" src="assets/icons/check.svg">
+              <img v-if="imapValid === true" style="filter: invert(1)" src="assets/icons/check-circle.svg">
               <img v-if="imapValid === false" src="assets/icons/x-white.svg">
               <br>
               <br>
               <a @click="testSMTP" class="btn btn-dark text-white">Test SMTP Connection</a>
-              <img v-if="smtpValid === true" style="filter: invert(1)" src="assets/icons/check.svg">
+              <img v-if="smtpValid === true" style="filter: invert(1)" src="assets/icons/check-circle.svg">
               <img v-if="smtpValid === false" src="assets/icons/x-white.svg">
               <br>
               <br>
@@ -2083,6 +2083,9 @@
     </div>
   </script>
 
+  <script>
+    let app = null
+  </script>
   <!--! 3rd party libraries -->
   <script src="assets/js/third-party/popper.min.js"></script>
   <script src="assets/js/third-party/jquery.amsify.suggestags.js"></script>

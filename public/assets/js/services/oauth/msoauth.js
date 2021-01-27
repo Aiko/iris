@@ -1,4 +1,4 @@
-const MSOAUTH_TAG = ['%c[GOOGLE]', 'background-color: #67a5ff; color: #000;']
+const MSOAUTH_TAG = ['%c[MICROSOFT]', 'background-color: #67a5ff; color: #000;']
 
 const msoauth = {
   data: {

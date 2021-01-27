@@ -135,7 +135,7 @@ const app = new Vue({
       console.log(...msg)
     },
     async calculateComposerHeight() {
-      await app.$nextTick()
+      await this.$root.$nextTick()
       const composer = this.$refs['editor']
       const offset = composer.offsetTop + 66
       composer.style.maxHeight = `calc(100% - ${offset}px)`

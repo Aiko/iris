@@ -251,7 +251,7 @@ const mailapi = {
       }
 
       //? start new Mouseion instance, get port
-      const port = await this.callIPC(task_newEngine())
+      const port = await this.callIPC(this.task_NewEngine())
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it

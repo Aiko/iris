@@ -1,7 +1,7 @@
 Vue.component('board', {
   props: ['board', 'syncing', 'seenFilter'],
   watch: {
-    thin() {
+    async thin() {
       const board = this.$root.resolveBoard(this.board.name)
       if (!board) return;
       const i = this.$root.boards.indexOf(board)

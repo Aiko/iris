@@ -3,7 +3,7 @@ const CALENDAR_TAG = ['%c[CALENDAR]', 'background-color: #a55; color: #000;']
 const calendar = {
   data: {},
   created () {
-    info(...COMPOSER_TAG, 'Mounted calendar mixin. Please ensure this only ever happens once.')
+    info(...CALENDAR_TAG, 'Mounted calendar mixin. Please ensure this only ever happens once.')
   },
   methods: {
     task_OpenCalendar (bang) {
