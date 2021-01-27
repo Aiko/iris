@@ -30,7 +30,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
               peek=false, markAsSeen=false,
               always_fetch_headers=true,
               limit=1, downloadAttachments=true
-            }
+            } ={}
           )
           email = email?.[0]
           if (!email) return null;
