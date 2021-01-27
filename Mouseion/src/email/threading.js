@@ -16,7 +16,9 @@ const threading = async (email, provider,
   const exists = await cache.lookup.mid(email.M.envelope.mid)
 
   if (exists) {
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor)
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+      timestamp: email.M.envelope.date
+    })
     return exists.tid
   }
 
@@ -43,6 +45,7 @@ const threading = async (email, provider,
           seen: email.M.flags.seen,
           starred: email.M.flags.starred,
           tid,
+          timestamp: email.M.envelope.date
         })
         thread_id = tid
         return true
@@ -230,13 +233,16 @@ const threading = async (email, provider,
     await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
       seen: email.M.flags.seen,
       starred: email.M.flags.starred,
+      timestamp: email.M.envelope.date,
       //* we omit tid because the caching mechanism will create one by itself :)
     })
     const { tid } = await cache.lookup.mid(email.M.envelope.mid)
     thread_id = tid
   } else {
     //* otherwise, just possibly add new location
-    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor)
+    await cache.add.message(email.M.envelope.mid, email.folder, email.uid, cursor, {
+      timestamp: email.M.envelope.date
+    })
   }
 
   if (Contacts) Contacts.queue(email)
