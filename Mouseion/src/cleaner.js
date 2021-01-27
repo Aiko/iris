@@ -306,7 +306,10 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     //? attachment intents override link and ai intents
     //? this is also intended, as they have stronger intent indication than links
     email.parsed.attachments = email.parsed.attachments || []
-    const cal_invites = email.parsed.attachments.map(_ => _.filename || _.fileName).filter(fn => fn?.endsWith('.ics'))
+    email.parsed.attachments.map(attachment => {
+      attachment.filename = attachment.filename || attachment.fileName
+    })
+    const cal_invites = email.parsed.attachments.map(_ => _.filename).filter(fn => fn?.endsWith('.ics'))
     if (cal_invites.length > 0) {
       email.M.quick_actions.classification = 'calendar_invite'
       email.M.quick_actions.context = cal_invites?.[0]
