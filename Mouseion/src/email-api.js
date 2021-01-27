@@ -27,10 +27,11 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const Cleaner = Cleaners[folder]
           email = await courier.messages.listMessages(
             folder, uid, {
-              peek=false, markAsSeen=false,
-              always_fetch_headers=true,
-              limit=1, downloadAttachments=true
-            } ={}
+              peek: false,
+              markAsSeen: false,
+              always_fetch_headers: true,
+              limit: 1, downloadAttachments: true
+            }
           )
           email = email?.[0]
           if (!email) return null;
@@ -64,9 +65,9 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const Cleaner = Cleaners[folder]
           email = await courier.messages.listMessages(
             folder, uid, {
-              peek=false, markAsSeen=false,
-              always_fetch_headers=true,
-              limit=1
+              peek: false, markAsSeen: false,
+              always_fetch_headers: true,
+              limit: 1
             }
           )
           email = email?.[0]

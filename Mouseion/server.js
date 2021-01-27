@@ -18,6 +18,7 @@ const Engine = () => {
   const Log = Lumberjack('Engine')
 
   let mailbox = {}
+  let trigger = null
 
   const init = async config => {
     Log.log("Setting up engine")
@@ -26,11 +27,14 @@ const Engine = () => {
       SYNC_TIMEOUT: 30 * 1000,
     })
 
+    mailbox.registerTrigger(trigger)
+
     mailbox.syncSet.add(
       mailbox.Folders.inbox,
       mailbox.Folders.sent,
       ...Object.values(mailbox.Folders.aiko),
     )
+
   }
 
   return {
@@ -73,7 +77,7 @@ const Engine = () => {
       Log.success("Safe to exit. Killing engine process.")
       process.exit()
     },
-    registerTrigger: trigger => mailbox.registerTrigger(trigger)
+    registerTrigger: t => (trigger = t)
   }
 }
 
