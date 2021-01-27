@@ -29,10 +29,10 @@ const PostOffice = (Lumberjack, {
 
     const options = {
       logLevel: EmailJS.LOG_LEVEL_ERROR,
-      auth: {
-        user: user,
-        pass: pass,
-        xoauth2: oauth
+      auth: oauth ? {
+        user, xoauth2: oauth
+      } : {
+        user, pass
       },
       id: {
         version: '1.0b',
@@ -140,9 +140,9 @@ const PostOffice = (Lumberjack, {
     const options = { byUid: true }
     if (modseq) options.changedSince = modseq
 
-    Log.time(path, "| FETCH", sequence)
+    // (path, "| FETCH", sequence)
     let messages = await client.listMessages(path, sequence, query, options).catch(Log.error)
-    Log.timeEnd(path, "| FETCH", sequence)
+    // Log.timeEnd(path, "| FETCH", sequence)
     if (!messages) return []
 
     //* return the last n messages because they're passed in chronological order

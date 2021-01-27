@@ -15,7 +15,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
       full: async ({ mid, locations, seen, starred }) => {
         // TODO: attachment caching
         //? check if we have it
-        let email = cache.L3.check(mid)
+        let email = await cache.L3.check(mid)
         //? if we don't fetch it and cache it
         if (!email) {
           const { folder, uid } = locations.filter(_ => _)?.[0]
@@ -53,7 +53,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
       },
       partial: async ({ mid, locations, seen, starred }) => {
         //? check if we have it
-        let email = cache.L2.check(mid)
+        let email = await cache.L2.check(mid)
         //? if we don't fetch it and cache it
         if (!email) {
           const { folder, uid } = locations.filter(_ => _)?.[0]
@@ -91,7 +91,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
       },
       headers: async ({ mid, locations, seen, starred }) => {
         //? check if we have it
-        let email = cache.L1.check(mid)
+        let email = await cache.L1.check(mid)
         //? if we don't fetch it and cache it
         if (!email) {
           const { folder, uid } = locations.filter(_ => _)?.[0]
@@ -116,7 +116,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           email = email?.[0]
           if (!email) return null;
           email = Cleaner.headers(email)
-          cache.L1.store(mid, email)
+          await cache.L1.store(mid, email)
         }
 
         email.M.flags.seen = seen
@@ -133,15 +133,15 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const messages = await Promise.all(mids.map(cache.lookup.mid))
         const to_fetch = []
         const fetched = []
-        messages.map(message => {
+        await Promise.all(messages.map(async message => {
           const { mid, locations, seen, starred } = message
-          email = cache.L2.check(mid)
+          email = await cache.L2.check(mid)
           if (!email) return to_fetch.push(message)
           email.M.flags.seen = seen
           email.M.flags.starred = starred
           email.locations = locations
           fetched.push(email)
-        })
+        }))
         const fetch_plan = {}
         fetch_plan[aikoFolder] = []
         //? build the fetch plan
@@ -227,15 +227,15 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const messages = await Promise.all(mids.map(cache.lookup.mid))
         const to_fetch = []
         const fetched = []
-        messages.map(message => {
+        await Promise.all(messages.map(async message => {
           const { mid, locations, seen, starred } = message
-          email = cache.L3.check(mid)
+          email = await cache.L3.check(mid)
           if (!email) return to_fetch.push(message)
           email.M.flags.seen = seen
           email.M.flags.starred = starred
           email.locations = locations
           fetched.push(email)
-        })
+        }))
         const fetch_plan = {}
         fetch_plan[aikoFolder] = []
         //? build the fetch plan
@@ -323,57 +323,89 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const to_fetch = {}
         const fetched = {}
         const fetch_plan = {}
+        let have = 0
+        let need = 0
+        let found = 0
         //? first assemble what we know
         await Promise.all(threads.map(async ({ mids, aikoFolder, tid }) => {
           to_fetch[tid] = []
           fetched[tid] = []
           fetch_plan[aikoFolder] = []
           const messages = await Promise.all(mids.map(cache.lookup.mid))
-          messages.map(message => {
+          await Promise.all(messages.map(async message => {
             const { mid, locations, seen, starred } = message
-            email = cache.L2.check(mid)
-            if (!email) return to_fetch[tid].push(message)
+            const email = await cache.L2.check(mid)
+            if (!email) {
+              need++;
+              return to_fetch[tid].push(message)
+            }
             email.M.flags.seen = seen
             email.M.flags.starred = starred
             email.locations = locations
             fetched[tid].push(email)
-          })
+            have++;
+          }))
         }))
+
+        console.log("Have", have, "but need", need)
 
         //? build the fetch plan
         Object.keys(to_fetch).map(tid => {
           //? tid -> thread
           const thread = threads.filter(t => t.tid == tid)?.[0]
-          if (!thread) return; //! something clearly went wrong
+          if (!thread) return console.error("We don't have a thread with this TID"); //! something clearly went wrong
           const { aikoFolder } = thread
           //? process the thread into the fetch plan
           to_fetch[tid].map(message => {
             const { locations } = message
             //? first try fetching it from aiko folder
             const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
-            if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations })
+            if (afLoc) {
+              if (!fetch_plan[aikoFolder]) {
+                console.log(aikoFolder, "fetch plan newly created.")
+                fetch_plan[aikoFolder] = []
+              }
+              return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations })
+            }
             //? next look for an existing folder to optimize our fetch
             const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-            if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations })
+            if (shortcut) {
+              if (!fetch_plan[shortcut.folder]) {
+                console.log(shortcut.folder, "fetch plan newly created")
+                fetch_plan[shortcut.folder] = []
+              }
+              return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations })
+            }
             //? next look for inbox
             const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
             if (inboxLoc) {
-              if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
+              if (!(fetch_plan["INBOX"])) {
+                console.log("INBOX fetch plan newly created.")
+                fetch_plan["INBOX"] = []
+              }
+              console.log("Adding", inboxLoc.uid, "to fetch plan for INBOX")
               return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations })
             }
             //? next look for sent
             const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
             if (sentLoc) {
-              if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
+              if (!(fetch_plan[Folders.get().sent])) {
+                console.log(Folders.get().sent, "fetch plan newly created.")
+                fetch_plan[Folders.get().sent] = []
+              }
               return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations })
             }
             //? if all else fails just add random folder
             const loc = locations?.[0]
             if (loc) {
               const { folder, uid } = loc
-              if (!(fetch_plan[folder])) fetch_plan[folder] = []
+              if (!(fetch_plan[folder])) {
+                console.log(folder, "fetch plan newly created.")
+                fetch_plan[folder] = []
+              }
               return fetch_plan[folder].push({ uid, tid, locations })
             }
+            else console.error("Message has no locations?")
           })
         })
 
@@ -386,6 +418,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             return uid
           })
           if (uids.length == 0) return;
+
           if (!Cleaners[folder]) {
             Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
               folder == Folders.get().inbox || folder.startsWith("[Aiko]")
@@ -407,10 +440,11 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
             const meta = metadata[email.M.envelope.uid]
-            if (!meta) return; //! something went super wrong
+            if (!meta) return console.error("We don't have metadata for this uid"); //! something went super wrong
             const { tid, locations } = meta
             email.locations = locations
             //? put the fetched email into our fetched results array
+            found++
             fetched[tid].push(email)
             email = JSON.parse(JSON.stringify(email))
             //* cache the whole thing in L3
@@ -425,6 +459,8 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           }))
         }))
 
+        console.log("Found", found)
+
         //? finally, populate threads with fetched
         return Object.keys(fetched).map(tid => {
           const emails = fetched[tid]
@@ -432,7 +468,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           if (!thread) return null
           thread.emails = emails.sort((a, b) => b.envelope.date - a.envelope.date)
           return thread
-        }).filter(_ => _).sort((a, b) => (new Date(a.date)) - (new Date(b.date)))
+        }).sort((a, b) => (new Date(a.date)) - (new Date(b.date)))
       }
     }
   }
@@ -462,15 +498,15 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
       },
     },
     headers: {
-      star: Link.flags.star,
-      unstar: Link.flags.unstar,
-      read: Link.flags.read,
-      unread: Link.flags.unread
+      star: async (folder, uid) => await Link.flags.star(folder, uid),
+      unstar: async (folder, uid) => await Link.flags.unstar(folder, uid),
+      read: async (folder, uid) => await Link.flags.read(folder, uid),
+      unread: async (folder, uid) => await Link.flags.unread(folder, uid)
     },
     manage: {
-      copy: Link.copy,
-      move: Link.move,
-      delete: Link.delete
+      copy: async (src, srcUID, dest) => await Link.copy(src, srcUID, dest),
+      move: async (src, srcUID, dest) => await Link.move(src, srcUID, dest),
+      delete: async (folder, uid) => Link.delete(folder, uid)
     }
   }
 }

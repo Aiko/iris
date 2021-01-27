@@ -51,9 +51,9 @@ const PostOfficeProxy = Lumberjack => {
     if (queue.length > 0) {
       rotating = true
       const { id, msg } = queue.shift()
-      Log.time(msg)
+      // (msg)
       queueStatus[id] = () => {
-        Log.timeEnd(msg)
+        // Log.timeEnd(msg)
         delete queueStatus[id]
         rotate()
       }

@@ -52,7 +52,11 @@ ipcMain.handle('please test a connection', async (_, q) => {
 
   const testClient = new Client(host, port, options)
 
-  try { await testClient.connect() } catch (e) { return { error: e } }
+  try {
+    await testClient.connect()
+    const folders = await testClient.listMailboxes()
+    // console.log("IMAP test results:", folders)
+  } catch (e) { console.error(e); return { error: e } }
 
   await testClient.close()
   return { s: comms['👉'](client_secret, { success: true, payload: { valid: true } }) }

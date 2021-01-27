@@ -15,7 +15,7 @@ module.exports = () => (
   configs,
   Lumberjack, Folders,
   AI_BATCH_SIZE, THREAD_BATCH_SIZE) => async folder => {
-  Log.time("Synced", folder)
+  // Log.time("Synced", folder)
 
   const cursor = configs.load('cursor') + 1
 
@@ -88,7 +88,7 @@ module.exports = () => (
     const Y = X + (folder == Folders.get().inbox) ? 10000 : 1000;
 
     const uidMinEnv = Math.max(uidLatest + 1, uidNext - Y)
-    Log.time(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
+    // (folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
     const oldEnvelopes = await courier.messages.listMessages(folder, `${uidMinEnv}:${uidNext - X}`, {
       peek: true,
       markAsSeen: false,
@@ -114,7 +114,7 @@ module.exports = () => (
       await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
       await cache.L1.cache(email.M.envelope.mid, email)
     })
-    Log.timeEnd(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
+    // Log.timeEnd(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
   }
 
   //* get newest full messages (up to X)
@@ -160,6 +160,6 @@ module.exports = () => (
   })
 
   configs.store('cursor', cursor + 1)
-  Log.timeEnd("Synced", folder)
+  // Log.timeEnd("Synced", folder)
   return true
 }

@@ -30,9 +30,9 @@ const Engine = () => {
     mailbox.registerTrigger(trigger)
 
     mailbox.syncSet.add(
-      mailbox.Folders.inbox,
-      mailbox.Folders.sent,
-      ...Object.values(mailbox.Folders.aiko),
+      mailbox.FolderManager.get().inbox,
+      mailbox.FolderManager.get().sent,
+      ...Object.values(mailbox.FolderManager.get().aiko),
     )
 
   }
@@ -130,6 +130,7 @@ process.on('message', async m => {
         const result = await method(...args)
         return success(result)
       } catch (e) {
+        console.error(new Error())
         return error(e)
       }
     }

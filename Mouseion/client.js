@@ -54,9 +54,9 @@ const EngineProxy = () => new Promise((scb, _) => {
     if (queue.length > 0) {
       rotating = true
       const { id, msg } = queue.shift()
-      Log.time(msg)
+      // Log.time(msg)
       queueStatus[id] = () => {
-        Log.timeEnd(msg)
+        // Log.timeEnd(msg)
         delete queueStatus[id]
         rotate()
       }

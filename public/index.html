@@ -833,8 +833,8 @@
                 :fallback-on-body="true"
                 :fallback-tolerance="0"
 
-                @end="moveEmail"
-                @clone="cloneEmail"
+                @end="moveThread"
+                @clone="cloneThread"
               >
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card
@@ -901,6 +901,7 @@
               v-for="slug in boardOrder"
               :syncing="syncing"
               :board="resolveBoard(slug)"
+              :slug="slug"
               :seen-filter.camel="seenFilter"
             inline-template>
 
@@ -987,7 +988,7 @@
                     :fallback-tolerance="0"
 
                     @start="startMove"
-                    @end="moveEmail"
+                    @end="moveThread"
                   >
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
                     <thread-card

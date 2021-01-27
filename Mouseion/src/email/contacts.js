@@ -35,8 +35,8 @@ module.exports = () => (user, cache, Folders, Log) => {
       Log.log("Syncing", update_contact_queue.length, "contacts")
       for (const email of update_contact_queue)
         await update_contacts(email, user)
-      update_contact_queue = []
       Log.success("Synced", update_contact_queue.length, "contacts")
+      update_contact_queue = []
       return true
     },
     queue: (...args) => {

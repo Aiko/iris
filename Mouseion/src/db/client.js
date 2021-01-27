@@ -62,8 +62,10 @@ const CacheProxy = async (Lumberjack, dir) => {
     lookup: {
       mid: proxy_it('lookup.mid'),
       folder: proxy_it('lookup.folder'),
+      aikoFolder: proxy_it('lookup.aikoFolder'),
       uid: proxy_it('lookup.uid'),
       tid: proxy_it('lookup.tid'),
+      latest: proxy_it('lookup.latest'),
       contact: proxy_it('lookup.contact')
     },
     add: {

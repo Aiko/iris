@@ -18,7 +18,7 @@ const Storage = require('../../utils/storage')
 // TODO: attachment caching
 
 //* dir should be unique, i.e. the email address
-const Cache = dir => {
+const Cache = (dir => {
   /*
   Initialize dir like so:
   switch (process.platform) {
@@ -50,6 +50,8 @@ const Cache = dir => {
       starred: { type: Boolean },
       timestamp: Date,
     }
+    //! the schema also includes locations which is an array of { uid, folder } objects
+    //! don't incl. that in the schema unless u want ur shit to ✨ c r a s h ✨
     const options = { }
     fs2.ensureDirSync(path.join(db_dir, 'Message.db'))
     return new LinvoDB(modelName, schema, options)
@@ -62,6 +64,9 @@ const Cache = dir => {
     const modelName = "Thread"
     const schema = {
       mids: [],
+      date: { type: Date },
+      cursor: { type: Number }, //? the modseq 👑
+      aikoFolder: { type: String }, //? this should be the main folder we consider it to be in (either inbox or one of the boards)
       tid: { type: String, unique: true }
     }
     const options = { }
@@ -105,6 +110,63 @@ const Cache = dir => {
     }
   }
 
+  const cleanThread = ({
+    mids, tid, date, aikoFolder, cursor
+  }) => {
+    return {
+      aikoFolder, date, tid, cursor,
+      mids: mids.map(mid => mid)
+    }
+  }
+
+  const uniteThread = async thread => {
+    //? loop through the entire thread, returning a common board
+    //? by default, uses the latest board as the main board
+    //? by default, only copies messages that are in the inbox to the board
+    if (!thread) return; // for the sake of making things easy with nulls
+
+    let main_board = null
+    let fallback = null
+    const thread_messages = await Promise.all(thread.mids.map(mid => new Promise((s, _) => {
+      Message.findOne({mid}, (err, candidate) => {
+        if (err || !candidate) return s(null)
+        s(candidate)
+      })
+    })))
+    if (thread_messages.length == 0) return null;
+    //? sort ascending date
+    thread_messages.sort((m1, m2) => (new Date(m1.timestamp)) - (new Date(m2.timestamp)))
+    //? find main board (working backwards because only latest matters)
+    for (let i = thread_messages.length - 1; i > -1; i--) {
+      const in_folders = thread_messages[i].locations.map(({ folder }) => folder)
+      const in_boards = in_folders.filter(folder => folder.startsWith('[Aiko]'));
+      if (in_boards.length > 0) {
+        main_board = in_boards.reduceRight(_ => _)
+        break;
+      }
+      if (in_folders.includes("INBOX")) {
+        main_board = "INBOX"
+        break;
+      }
+      //? disabling the below because if you move a thread out of a board this is what should happen
+      /*
+      if (!fallback) {
+        if (in_folders.includes("INBOX")) fallback = "INBOX"
+        //? we disable the below because, frankly, I don't care if it's not in the inbox.
+        // else fallback = in_folders.reduceRight(_ => _)
+      }
+      */
+    }
+
+    if (!main_board) main_board = fallback;
+
+    //! we don't move/copy everything to that.
+    //? this is because, if you delete a message/location, then the rest should be invariantly in the location anyways
+    //? and if you add a new message/location, the location will be updated using the board rules!
+
+    return main_board
+  }
+
   const lookup = {
     mid: mid => new Promise((s, _) => {
       Message.findOne({ mid }, (err, doc) => {
@@ -118,6 +180,13 @@ const Cache = dir => {
         s(docs.map(clean))
       })
     }),
+    //? threads version of folder
+    aikoFolder: (folder, limit=5000) => new Promise((s, _) => {
+      Thread.find({ aikoFolder: folder }).limit(limit).exec((err, docs) => {
+        if (err || !docs) return s(null)
+        s(docs.map(cleanThread))
+      })
+    }),
     uid: (folder, uid) => new Promise((s, _) => {
       Message.findOne({ locations: { folder, uid } }, (err, doc) => {
         if (err || !doc) return s(null)
@@ -128,10 +197,16 @@ const Cache = dir => {
       Thread.findOne({tid: tid}, (err, doc) => {
         if (err || !doc) return s(null)
         // manual specification so we don't pass the document
-        s({
-          mids: doc.mids,
-          tid: doc.tid
-        })
+        s(cleanThread(doc))
+      })
+    }),
+    /// FIXME:
+    //! skip is dangerous. you can't paginate unless you're sure an email wasn't added so basically unless your client is synced
+    //! but since it happens very rarely and it's 3:23AM... I'm just not going to fix it right now
+    latest: (folder, limit=5000, skip=0) => new Promise((s, _) => {
+      Thread.find({ aikoFolder: folder }).sort({ date: -1 }).limit(limit).exec((err, docs) => {
+        if (err || !docs) return s(null)
+        s(docs.map(cleanThread))
       })
     }),
     contact: partial => new Promise((s, _) => { //? performs typeahead
@@ -149,10 +224,12 @@ const Cache = dir => {
       })
     }),
   }
+
   const add = {
     //! be careful when using overwrite
     //! you have to provide EVERY PARAMETER when using overwite
-    message: (mid, folder, uid, {
+    //! also keep in mind this will change the thread's core location (aikoFolder)
+    message: (mid, folder, uid, cursor, {
       overwrite=false,
       seen=false,
       starred=false,
@@ -172,7 +249,10 @@ const Cache = dir => {
           })
           tid = await makeTID()
           await new Promise((s, _) => {
-            const thread = new Thread({mids: [], tid: tid})
+            const thread = new Thread({
+              mids: [], tid: tid, date: timestamp,
+              cursor: cursor, aikoFolder: folder
+            })
             thread.save(_ => s())
           })
         }
@@ -199,12 +279,17 @@ const Cache = dir => {
             doc.starred = starred
           }
 
+          timestamp = timestamp || doc.timestamp
+
           doc.save(err => {
             if (err) s(false)
-            Thread.findOne({tid,}, (err, doc) => {
+            Thread.findOne({tid,}, async (err, doc) => {
               if (err || !doc) s(false)
               if (!doc.mids.includes(mid)) {
                 doc.mids.push(mid)
+                if (timestamp && doc.date < timestamp) doc.date = timestamp
+                doc.cursor = cursor
+                doc.aikoFolder = await uniteThread(doc)
                 doc.save(err => s(!err))
               }
               else s(true)
@@ -218,9 +303,12 @@ const Cache = dir => {
           message.locations.push({folder, uid})
           message.save(err => {
             if (err) s(false)
-            Thread.findOne({tid: tid}, (err, doc) => {
+            Thread.findOne({tid: tid}, async (err, doc) => {
               if (err || !doc) s(false)
               doc.mids.push(mid)
+              if (timestamp && doc.date < timetamp) doc.date = timestamp
+              doc.cursor = cursor
+              doc.aikoFolder = await uniteThread(doc)
               doc.save(err => s(!err))
             })
           })
@@ -240,7 +328,8 @@ const Cache = dir => {
     //! be careful, do not use this to MOVE emails.
     //! rather, you should remove the db model for the old folder/uid shallow
     //! and then use the add api above to create an entry in the new folder/uid
-    message: (mid, {
+    //! btw this also does not update the aiko folder :)
+    message: (mid, cursor, {
       tid, seen=null, starred=null
     }) => new Promise(async (s, _) => {
       Message.findOne({mid: mid}, (err, msg) => {
@@ -252,16 +341,32 @@ const Cache = dir => {
         //* if we have to change thread
         if (tid && msg.tid != tid) {
           //* remove it from its existing thread
-          Thread.findOne({tid: msg.tid}, (err, thr1) => {
+          Thread.findOne({tid: msg.tid}, async (err, thr1) => {
             if (err || !thr1) s(false)
             thr1.mids = thr1.mids.filter(m => m != mid)
+            //? this little bit of code computes the timestamp of a thread
+            thr1.timestamp = (await Promise.all(thr1.mids.map(mid => new Promise((s, _) => {
+              Message.findOne({mid}, (err, candidate) => {
+                if (err || !candidate) return s(null)
+                s(candidate.timestamp)
+              })
+            })))).sort((a, b) => b - a)?.[0]
+            thr1.aikoFolder = await uniteThread(thr1)
             const strategy = (thr1.mids.length == 0) ? thr1.remove : thr1.save;
             strategy((err) => {
               if (err) s(false)
               //* add it to the new thread
-              Thread.findOne({tid: tid}, (err, thr2) => {
+              Thread.findOne({tid: tid}, async (err, thr2) => {
                 if (err || !thr2) s(false)
                 thr2.mids.push(mid)
+                thr2.timestamp = (await Promise.all(thr2.mids.map(mid => new Promise((s, _) => {
+                  Message.findOne({mid}, (err, candidate) => {
+                    if (err || !candidate) return s(null)
+                    s(candidate.timestamp)
+                  })
+                })))).sort((a, b) => b - a)?.[0]
+                thr2.cursor = cursor
+                thr2.aikoFolder = await uniteThread(thr2)
                 thr2.save(err => {
                   if (err) s(false)
                   //* save the changes to the message
@@ -359,7 +464,7 @@ const Cache = dir => {
 
   const merge = {
     //? will merge thread 1 into thread 2, and delete thread 1
-    thread: (tid1, tid2) => new Promise(async (s, _) => {
+    thread: (tid1, tid2, cursor) => new Promise(async (s, _) => {
       Thread.findOne({tid: tid1}, (err, thread1) => {
         if (err || !thread) return s(false)
 
@@ -370,11 +475,20 @@ const Cache = dir => {
           const mids = thread1.mids
 
           //* kill thread 1
-          thread1.remove(err => {
+          thread1.remove(async err => {
             if (err) s(false)
 
             //* append all those MIDs to thread 2
             thread2.mids.push(...mids)
+            thread2.timestamp = (await Promise.all(thread2.mids.map(mid => new Promise((s, _) => {
+              Message.findOne({mid}, (err, candidate) => {
+                if (err || !candidate) return s(null)
+                s(candidate.timestamp)
+              })
+            })))).sort((a, b) => b - a)?.[0]
+            thread2.cursor = cursor
+            thread2.aikoFolder = await uniteThread(thread2)
+
             thread2.save(err => {
               if (err) s(false)
 
@@ -405,16 +519,26 @@ const Cache = dir => {
   }
 
   const remove = {
-    message: mid => new Promise(async (s, _) => {
-      Message.findOne({mid: mid}, (err, doc) => {
+    //! doesn't modify thread location
+    message: (mid, cursor) => new Promise(async (s, _) => {
+      Message.findOne({mid: mid}, async (err, doc) => {
         if (err || !doc) return s(false)
         const tid = doc.tid
         doc.remove((err, _) => {
           if (err) s(false)
-          Thread.findOne({tid: tid}, (err, doc) => {
+          Thread.findOne({tid: tid}, async (err, doc) => {
             if (err || !doc) return s(false)
 
             doc.mids = doc.mids.filter(m => m != mid)
+            doc.timestamp = (await Promise.all(doc.mids.map(mid => new Promise((s, _) => {
+              Message.findOne({mid}, (err, candidate) => {
+                if (err || !candidate) return s(null)
+                s(candidate.timestamp)
+              })
+            })))).sort((a, b) => b - a)?.[0]
+            doc.cursor = cursor
+            doc.aikoFolder = await uniteThread(doc)
+
             if (doc.mids.length == 0) doc.remove((err, _) => s(!err))
             else doc.save(err => s(!err))
           })
@@ -424,12 +548,21 @@ const Cache = dir => {
     //? removes a message from a location
     //? only removes root message if no locations left
     //! to remove the root message directly, lookup using folder & uid, get mid, remove with mid
-    location: (folder, uid) => new Promise(async (s, _) => {
+    //! FIXME: possibly we might trigger a removal if no locations left, affecting the thread date
+    location: (folder, uid, cursor) => new Promise(async (s, _) => {
       Message.findOne({locations: {folder, uid}}, (err, doc) => {
         if (err || !doc) return s(false)
         doc.locations = doc.locations.filter(l => !(l.folder == folder && l.uid == uid))
-        const strategy = (doc.locations.length > 0) ? doc.save : doc.remove
-        strategy(err => s(!err))
+        Thread.findOne({tid: doc.tid}, async (err, thread) => {
+          if (!err && thread) {
+            thread.cursor = cursor
+            thread.aikoFolder = await uniteThread(thread)
+          }
+          thread.save(_ => {
+            const strategy = (doc.locations.length > 0) ? doc.save : doc.remove
+            strategy(err => s(!err))
+          })
+        })
       })
     }),
     //! you should never manually remove a thread
@@ -456,7 +589,7 @@ const Cache = dir => {
     remove,
     merge,
   }
-}
+})
 
 let cache;
 
@@ -513,8 +646,10 @@ process.on('message', async m => {
 
       case 'lookup.mid': return await attempt(cache.lookup.mid)
       case 'lookup.folder': return await attempt(cache.lookup.folder)
+      case 'lookup.aikoFolder': return await attempt(cache.lookup.aikoFolder)
       case 'lookup.uid': return await attempt(cache.lookup.uid)
       case 'lookup.tid': return await attempt(cache.lookup.tid)
+      case 'lookup.latest': return await attempt(cache.lookup.latest)
       case 'lookup.contact': return await attempt(cache.lookup.contact)
 
       case 'add.message': return await attempt(cache.add.message)

@@ -8,11 +8,12 @@ module.exports = uids => {
     end: uids[0]
   }
   for (let i = 0; i < uids.length; i++) {
-    const uid = uids[0]
+    const uid = uids[i]
     if (uid - subsequence.start <= 1) {
       subsequence.end = uid
     } else {
-      subsequences.push(subsequence)
+      const { start, end } = subsequence
+      subsequences.push({ start, end })
       subsequence.start = uid
       subsequence.end = uid
     }

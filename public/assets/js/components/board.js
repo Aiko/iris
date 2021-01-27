@@ -1,5 +1,5 @@
 Vue.component('board', {
-  props: ['board', 'syncing', 'seenFilter'],
+  props: ['board', 'slug', 'syncing', 'seenFilter'],
   watch: {
     async thin() {
       const board = this.$root.resolveBoard(this.board.name)
@@ -22,6 +22,7 @@ Vue.component('board', {
       return this.board.name.replace('[Aiko Mail]/', '')
     },
     unread () {
+      console.log(this.board.tids)
       return this.$root.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
     },
     slug () {

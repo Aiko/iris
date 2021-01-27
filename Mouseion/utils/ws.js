@@ -5,14 +5,18 @@ const DEFUALT_PORT = 41605
 
 const unused_port = async () => {
   const look_for_port = p => new Promise((s, _) => {
-    const port = DEFUALT_PORT
-
+    console.log("Checking port", p)
+    const port = p
     const serv = net.createServer()
     serv.listen(port, _ => {
-      serv.once('close', () => s(port))
+      console.log("Port", port, "is open!")
+      serv.once('close', () => {
+        console.log("Resolving port validity.")
+        s(port)
+      })
       serv.close()
     })
-    serv.on('error', _ => look_for_port(port + 1))
+    serv.on('error', _ => look_for_port(port + 10))
   })
 
   return await look_for_port(DEFUALT_PORT)
@@ -35,8 +39,10 @@ const SockPuppet = async Target => {
       return {...res, ...tmp}
     }, []);
   const API = stratify(Target)
+  console.log(API)
 
   const port = await unused_port()
+  console.log("SockPuppetBuilder chose port", port)
   const wss = new WebSocket.Server({port})
 
   const sockets = []
@@ -74,6 +80,7 @@ const SockPuppet = async Target => {
             const result = await method(...args)
             return success(result)
           } catch (e) {
+            console.error(e, new Error())
             return error(e)
           }
         }

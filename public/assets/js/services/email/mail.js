@@ -325,6 +325,13 @@ const mailapi = {
       await this.loadOAuthConfig()
       await this.checkOAuthTokens()
 
+      info(...MAILAPI_TAG, "Testing connection...")
+      const testConnection = await this.ipcTask('please test a connection', {
+        ...this.imapConfig
+      })
+      const { valid, error } = await this.callIPC(testConnection).catch(_ => _)
+      info(...MAILAPI_TAG, "Validity:", valid, "Error:", error)
+
       //? (re)start the engine
       await this.getEngine()
       info(...MAILAPI_TAG, "Received engine instance")
@@ -538,20 +545,19 @@ const mailapi = {
       const max_inbox_updates = Math.max(5000, this.inbox.length)
       const inbox_updates = await this.engine.api.get.latest(this.folders.inbox, cursor, limit=max_inbox_updates)
       //? apply updates to inbox
-      inbox_updates.map(({ exists, threads }) => {
-        //? first, anything that is no longer in exists can be dumped
-        const existsTIDs = exists.map(({ tid }) => tid)
-        this.inbox = this.inbox.filter(tid => existsTIDs.includes(tid))
-        //? next, process the threads
-        threads.map(thread => {
-          thread = this.saveThread(thread)
-          //? first, determine if we have it locally
-          const local = this.inbox.includes(thread.tid)
-          //? since we resolve directly, this should update existing emails without us having to
-          //! if you want to force a UI change, can do a stringify-parse set on the tids
-          //? if we don't have it, we need to add it
-          if (!local) this.inbox.unshift(tid) //* unshift because it is in ascending date order
-        })
+      const { exists, threads } = inbox_updates
+      //? first, anything that is no longer in exists can be dumped
+      const existsTIDs = exists.map(({ tid }) => tid)
+      this.inbox = this.inbox.filter(tid => existsTIDs.includes(tid))
+      //? next, process the threads
+      threads.map(thread => {
+        thread = this.saveThread(thread)
+        //? first, determine if we have it locally
+        const local = this.inbox.includes(thread.tid)
+        //? since we resolve directly, this should update existing emails without us having to
+        //! if you want to force a UI change, can do a stringify-parse set on the tids
+        //? if we don't have it, we need to add it
+        if (!local) this.inbox.unshift(thread.tid) //* unshift because it is in ascending date order
       })
       //? sort the inbox to maintain date invariant
       this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
@@ -559,21 +565,20 @@ const mailapi = {
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
         const board_updates = await this.engine.api.get.latest(path, cursor, limit=max_board_updates)
-        //? apply updates to inbox
-        board_updates.map(({ exists, threads }) => {
-          //? first, anything that is no longer in exists can be dumped
-          const existsTIDs = exists.map(({ tid }) => tid)
-          this.boards[i].tids = this.boards[i].tids.filter(tid => existsTIDs.includes(tid))
-          //? next, process the threads
-          threads.map(thread => {
-            thread = this.saveThread(thread)
-            //? first, determine if we have it locally
-            const local = tids.includes(thread.tid)
-            //? since we resolve directly, this should update existing emails without us having to
-            //! if you want to force a UI change, can do a stringify-parse set on the tids
-            //? if we don't have it, we need to add it
-            if (!local) this.boards[i].tids.unshift(tid) //* unshift because it is in ascending date order
-          })
+        //? apply updates to board
+        const { exists, threads } = board_updates
+        //? first, anything that is no longer in exists can be dumped
+        const existsTIDs = exists.map(({ tid }) => tid)
+        this.boards[i].tids = this.boards[i].tids.filter(tid => existsTIDs.includes(tid))
+        //? next, process the threads
+        threads.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = tids.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.boards[i].tids.unshift(thread.tid) //* unshift because it is in ascending date order
         })
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       }))
@@ -799,15 +804,15 @@ const mailapi = {
           const minTID = this.priorityInbox?.[indexMin] || this.priorityInbox[0]
           const maxTID = this.priorityInbox?.[indexMax] || this.priorityInbox.last()
           this.visibleMin = this.inbox.indexOf(minTID) - TOLERANCE
-          this.visibleMax = this.inbox.emails.indexOf(maxTID) + TOLERANCE
+          this.visibleMax = this.inbox.indexOf(maxTID) + TOLERANCE
         }
       } else {
         // adjust to other indices
         if (this.otherInbox.length > 0) {
           const minTID = this.otherInbox?.[indexMin] || this.otherInbox[0]
           const maxTID = this.otherInbox?.[indexMax] || this.otherInbox.last()
-          this.visibleMin = this.inbox.emails.indexOf(minTID) - TOLERANCE
-          this.visibleMax = this.inbox.emails.indexOf(maxTID) + TOLERANCE
+          this.visibleMin = this.inbox.indexOf(minTID) - TOLERANCE
+          this.visibleMax = this.inbox.indexOf(maxTID) + TOLERANCE
         }
       }
     },

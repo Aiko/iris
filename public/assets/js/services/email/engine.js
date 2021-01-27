@@ -24,6 +24,7 @@ const Engine = port => {
   }
 
   socket.onmessage = m => {
+    if (m.data) m = m.data
     const { success, error, payload, id, event } = JSON.parse(m)
     if (event) {
       if (listeners[event]) listeners[event]()
@@ -78,8 +79,8 @@ const Engine = port => {
         unread: async (folder, uid) => await proxy('api.headers.unread')(folder, uid).catch(console.error),
       },
       manage: {
-        star: async (src, srcUID, dest) => await proxy('api.manage.copy')(src, srcUID, dest).catch(console.error),
-        star: async (src, srcUID, dest) => await proxy('api.manage.move')(src, srcUID, dest).catch(console.error),
+        copy: async (src, srcUID, dest) => await proxy('api.manage.copy')(src, srcUID, dest).catch(console.error),
+        move: async (src, srcUID, dest) => await proxy('api.manage.move')(src, srcUID, dest).catch(console.error),
         delete: async (folder, uid) => await proxy('api.manage.delete')(folder, uid).catch(console.error)
       }
     },

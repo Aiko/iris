@@ -42,9 +42,11 @@ const PostOffice = () => {
 
     const options = {
       logLevel: EmailJS.LOG_LEVEL_ERROR,
-      auth: {
-        user, pass,
+      auth: oauth ? {
+        user,
         xoauth2: oauth
+      } : {
+        user, pass
       },
       id: {
         version: '1.0b',
@@ -155,9 +157,9 @@ const PostOffice = () => {
     if (modseq) options.changedSince = modseq
 
     Log.log("Fetching via IMAP...")
-    Log.time(path, "| FETCH", sequence)
+    // Log.time(path, "| FETCH", sequence)
     let messages = await client.listMessages(path, sequence, query, options).catch(Log.error)
-    Log.timeEnd(path, "| FETCH", sequence)
+   //  Log.timeEnd(path, "| FETCH", sequence)
     if (!messages) return []
 
     //* return the last n messages because they're passed in chronological order
