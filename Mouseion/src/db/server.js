@@ -218,8 +218,8 @@ const Cache = (dir => {
     /// FIXME:
     //! skip is dangerous. you can't paginate unless you're sure an email wasn't added so basically unless your client is synced
     //! but since it happens very rarely and it's 3:23AM... I'm just not going to fix it right now
-    latest: (folder, limit=5000, skip=0) => new Promise((s, _) => {
-      Thread.find({ aikoFolder: folder }).sort({ date: -1 }).limit(limit).exec((err, docs) => {
+    latest: (aikoFolder, limit=5000, skip=0) => new Promise((s, _) => {
+      Thread.find({ aikoFolder, }).sort({ date: -1 }).limit(limit).exec((err, docs) => {
         if (err || !docs) return s(null)
         s(docs.map(cleanThread))
       })
@@ -297,18 +297,24 @@ const Cache = (dir => {
           timestamp = timestamp || doc.timestamp
 
           doc.save(err => {
-            if (err) s(false)
+            if (err) {
+              console.error(err)
+              return s(false)
+            }
             Thread.findOne({tid,}, async (err, doc) => {
-              if (err || !doc) s(false)
-              if (!doc.mids.includes(mid)) {
+              if (err) {
+                console.error(err)
+                return s(false)
+              }
+              if (!doc) return s(false)
+              if (!(doc.mids.includes(mid))) {
                 doc.mids.push(mid)
                 if (timestamp && doc.date < timestamp) doc.date = timestamp
-                doc.cursor = cursor
-                doc.aikoFolder = await uniteThread(doc)
                 doc.date = await timeThread(doc)
-                doc.save(err => s(!err))
               }
-              else s(true)
+              doc.cursor = cursor
+              doc.aikoFolder = await uniteThread(doc)
+              doc.save(err => s(!err))
             })
           })
 
