@@ -64,7 +64,7 @@ const Cache = (dir => {
     const modelName = "Thread"
     const schema = {
       mids: [],
-      date: { type: Date },
+      date: Date,
       cursor: { type: Number }, //? the modseq 👑
       aikoFolder: { type: String }, //? this should be the main folder we consider it to be in (either inbox or one of the boards)
       tid: { type: String, unique: true }
