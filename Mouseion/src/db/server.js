@@ -167,6 +167,20 @@ const Cache = (dir => {
     return main_board
   }
 
+  const timeThread = async thread => {
+    if (!thread) return null;
+    const thread_messages = await Promise.all(thread.mids.map(mid => new Promise((s, _) => {
+      Message.findOne({mid}, (err, candidate) => {
+        if (err || !candidate) return s(null)
+        s(candidate)
+      })
+    })))
+    if (thread_messages.length == 0) return null;
+    //? sort descending date
+    thread_messages.sort((m1, m2) => (new Date(m2.timestamp)) - (new Date(m1.timestamp)))
+    return thread_messages[0].timestamp
+  }
+
   const lookup = {
     mid: mid => new Promise((s, _) => {
       Message.findOne({ mid }, (err, doc) => {
@@ -290,6 +304,7 @@ const Cache = (dir => {
                 if (timestamp && doc.date < timestamp) doc.date = timestamp
                 doc.cursor = cursor
                 doc.aikoFolder = await uniteThread(doc)
+                doc.date = await timeThread(doc)
                 doc.save(err => s(!err))
               }
               else s(true)
@@ -309,6 +324,7 @@ const Cache = (dir => {
               if (timestamp && doc.date < timestamp) doc.date = timestamp
               doc.cursor = cursor
               doc.aikoFolder = await uniteThread(doc)
+              doc.date = await timeThread(doc)
               doc.save(err => s(!err))
             })
           })
@@ -538,6 +554,7 @@ const Cache = (dir => {
             })))).sort((a, b) => b - a)?.[0]
             doc.cursor = cursor
             doc.aikoFolder = await uniteThread(doc)
+            doc.date = await timeThread(doc)
 
             if (doc.mids.length == 0) doc.remove((err, _) => s(!err))
             else doc.save(err => s(!err))
