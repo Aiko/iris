@@ -546,7 +546,7 @@ const mailapi = {
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
       //? fetch updates to inbox
-      const max_inbox_updates = Math.max(1000, this.inbox.length)
+      const max_inbox_updates = Math.max(500, this.inbox.length)
       const inbox_updates = await this.engine.api.get.latest(this.folders.inbox, cursor, limit=max_inbox_updates)
       //? apply updates to inbox
       const { exists, threads } = inbox_updates
