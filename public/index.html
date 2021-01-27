@@ -1705,81 +1705,144 @@
     </div>
   </div>
 
-  <script type="text/x-template" id="email-card">
-    <!-- TODO: add 'quick-reply' class to 'email' class here, when click quick reply teehee -->
-    <div @blur="unfocus" :ref="email.folder + ':' + email.uid" :key="email.uid" :uid="email.uid" class="email" :class="{
-        'unread': !(email?.ai?.seen),
-        'zero': !(email?.ai?.summary?.sentences?.length > 0),
-        'syncing': email?.syncing,
-        'dont-drag-this': email?.syncing,
-        'starred': email?.ai?.starred,
-        'focus': email?.folder == focusedFolder && index == focusedIndex
-      }" v-if="!email?.ai?.deleted">
+  <!--!------------------------------------------------------------->
+  <!-- ? Thread Card -->
+  <!--!------------------------------------------------------------->
+  <script type="text/x-template" id="thread-card">
+    <!-- TODO: add 'quick-reply' class when they click quick reply -->
+    <div
+      @blur="unfocus"
+      :ref="thread.tid"
+      :key="thread.tid"
+      :class="{
+        'email': true,
+        'unread': !(thread.seen),
+        'zero': !(thread.emails[0].M.summary.sentences.length > 0),
+        'syncing': thread.syncing,
+        'dont-drag-this': thread.syncing,
+        'starred': thread.starred,
+        'focus': false
+      }"
+    >
+
+      <!-- ? Card content -->
       <div v-if="render !== false" class="container pr" @click="viewMessage">
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Preview latest message -->
+        <!--!------------------------------------------------------------->
         <div class="row" style="user-select: none;">
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Card Header -->
+          <!--!------------------------------------------------------------->
           <div class="col-8 p0 exp" style="display: inline-flex;">
-            <h2 v-if="email?.parsed?.thread?.senders.length" class="sender">
-              {{email?.parsed?.thread?.senders?.tail(3)?.reverse()?.join(', ')}}
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Participants -->
+            <!--!------------------------------------------------------------->
+            <h2 class="sender" @click="debug">
+              {{thread.participants.slice(0, 3).join(', ')}}
             </h2>
 
-            <h2 v-else class="sender" @click="debug">
-              {{(email?.envelope?.from?.[0]?.name || email?.envelope?.from?.[0]?.address || 'No Sender')}}
-            </h2>
-            <img v-if="email?.ai?.thread" src="assets/icons/thread.svg">
-            <span class="thread-count"
-              v-if="email?.parsed?.thread?.messages?.length > 0">{{email.parsed?.thread?.messages?.length}}</span>
-            <img v-if="email?.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-            <img v-if="email?.ai?.tracker" src="assets/icons/badges-tracker.svg">
-            <img v-if="email?.ai?.intents?.calendar" src="assets/icons/badges-event.svg">
-            <img v-if="email?.parsed?.bcc" src="assets/icons/badges-bcc.svg">
+            <!--!------------------------------------------------------------->
+            <!-- ? Thread indicators -->
+            <!--!------------------------------------------------------------->
+            <img v-if="thread.emails.length > 1" src="assets/icons/thread.svg">
+            <span class="thread-count" v-if="thread.emails.length > 1">{{thread.emails.length}}</span>
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Email badges -->
+            <!--!------------------------------------------------------------->
+            <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg">
+            <img v-if="thread.hasTracker" src="assets/icons/badges-tracker.svg">
+            <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg">
+            <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg">
           </div>
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Prettified Date -->
+          <!--!------------------------------------------------------------->
           <div class="col-4 p0 cll">
-            <div class="time">{{new Date(email?.envelope?.date).toNiceDateTime()}}</div>
+            <div class="time">{{thread.date.toNiceDateTime()}}</div>
           </div>
-          <p class="subject">{{email?.envelope?.subject}}</p>
-          <p v-if="email?.ai?.summary?.sentences?.length > 0" class="body">{{email?.ai?.summary?.text}}</p>
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Subject (cleaned) -->
+          <!--!------------------------------------------------------------->
+          <p class="subject">{{thread.emails[0].M.envelope.cleanSubject}}</p>
+
+          <!--!------------------------------------------------------------->
+          <!-- ? Summarized Content -->
+          <!--!------------------------------------------------------------->
+          <p v-if="thread.emails[0].M.summary.sentences.length > 0" class="body">{{thread.emails[0].M.summary.text}}</p>
         </div>
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Card Footer -->
+        <!--!------------------------------------------------------------->
         <div class="email-footer dont-drag-this" style="user-select: none;">
           <div class="row">
+            <!--!------------------------------------------------------------->
+            <!-- ? Quick Actions -->
+            <!--!------------------------------------------------------------->
             <div class="col-5 cll cll2 z1">
-              <a v-if="email?.ai?.intents?.main == 'schedule'" class="main-action ma2">
+              <a v-if="quickaction == 'scheduling'" class="main-action ma2">
                 <img src="assets/icons/badges-event-blue.svg"> Schedule
               </a>
-              <a @click.stop.prevent="openVerify" v-if="email?.ai?.intents?.main == 'verify'" class="main-action ma2">
+              <a @click.stop.prevent="openVerify" v-if="quickaction == 'verify'" class="main-action ma2">
                 <img src="assets/icons/link.svg"> Verify
               </a>
-              <a v-if="email?.ai?.intents?.main == 'subscribe'" class="main-action ma2">
+              <a v-if="quickaction == 'subscribe'" class="main-action ma2">
                 <img src="assets/icons/link.svg"> Subscribe
               </a>
-              <a v-if="email?.ai?.intents?.main == 'unsubscribe'" class="main-action ma3">
+              <a v-if="quickaction == 'unsubscribe'" class="main-action ma3">
                 <img src="assets/icons/options-unsub.svg"> Unsubscribe
               </a>
-              <a v-if="email?.ai?.intents?.main == 'sign'" class="main-action ma2">
+              <a v-if="quickaction == 'sign_document'" class="main-action ma2">
                 <img src="assets/icons/sign.svg"> Sign
               </a>
-              <a @click.stop.prevent="showQuickReply = true" v-if="email?.ai?.intents?.main == null"
+              <a v-if="quickaction == 'send_document'" class="main-action ma2">
+                <img src="assets/icons/attach.svg"> Attach files
+              </a>
+              <a @click="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp" class="main-action ma2">
+                <img src="assets/icons/clipboard.svg"> {{thread.emails[0].M.quick_actions.otp}}
+              </a>
+              <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)" class="main-action ma2">
+                <img src="assets/icons/link.svg"> Get Code
+              </a>
+              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction"
                 class="main-action ma1">
-                <img src="assets/icons/zap.svg"> Quick Reply <span @click="quickReplyAll = true" class="all">All</span>
+                <img src="assets/icons/zap.svg"> Quick Reply <span @click.stop.prevent="quickReplyAll = true" class="all">All</span>
               </a>
             </div>
-            <div class="col-5 sync-message">
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Sync Indicator -->
+            <!--!------------------------------------------------------------->
+            <div v-if="thread.syncing" class="col-5 sync-message">
               <a class="main-action ma1">
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Common Interactions -->
+            <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
               <a @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
               <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
-              <a @click.stop.prevent="starMessage" v-if="!(email?.ai?.starred)"><img src="assets/icons/options-star.svg"
-                  width="15"></a>
-              <a @click.stop.prevent="unstarMessage" v-if="email?.ai?.starred"><img src="assets/icons/badges-star.svg"
-                  width="15"></a>
-              <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
-                  width="15"></a>
+              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img src="assets/icons/options-star.svg" width="15"></a>
+              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img src="assets/icons/badges-star.svg" width="15"></a>
+              <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
             </div>
           </div>
         </div>
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Quick Reply -->
+        <!--!------------------------------------------------------------->
         <div :class="{
           'note': true,
           'hide': !showQuickReply,
@@ -1790,8 +1853,12 @@
             v-model="replyText" placeholder="Type a reply..." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
+
       </div>
-      <div :uid="email?.uid" style="height: 106px;" v-else></div>
+
+
+      <!-- ? Show empty card if it is not supposed to be visible -->
+      <div style="height: 106px;" v-else></div>
     </div>
   </script>
 
@@ -1973,7 +2040,7 @@
   <script src="assets/js/common/only-electron.js"></script>
   <script src="assets/js/common/ai-core.js"></script>
   <script src="assets/js/common/mailcleaner.js"></script>
-  <!--! services -->
+  <!--? Services -->
   <script src="assets/js/services/ipc.js"></script>
   <script src="assets/js/services/aiko.js"></script>
   <script src="assets/js/services/window.js"></script>
@@ -1983,22 +2050,25 @@
   <script src="assets/js/services/oauth/msoauth.js"></script>
   <!--? Mail-related -->
   <script src="assets/js/services/email/engine.js"></script>
-  <script src="assets/js/services/mail.js"></script>
+  <script src="assets/js/services/email/mail.js"></script>
+  <!--? Composer -->
   <script src="assets/js/services/composer.js"></script>
+  <!--? Calendar -->
   <script src="assets/js/services/calendar.js"></script>
+  <!--? Modals-->
   <script src="assets/js/services/modals.js"></script>
+  <!--? Shortcuts -->
   <script src="assets/js/services/shortcuts.js"></script>
-  <script src="assets/js/services/visual.js"></script>
-  <!-- templates -->
+  <!--? Components -->
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
-  <script src="assets/js/components/modals/view-email.js"></script>
+  <script src="assets/js/components/modals/view-thread.js"></script>
   <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/modals/dev-controls.js"></script>
-  <script src="assets/js/components/email-card.js"></script>
-  <script src="assets/js/components/view-email-single.js"></script>
+  <script src="assets/js/components/thread-card.js"></script>
+  <script src="assets/js/components/view-email.js"></script>
   <script src="assets/js/components/board.js"></script>
-  <!-- main/entrypoint -->
+  <!--? Entrypoint -->
   <script src="assets/js/main.js"></script>
 
 </body>

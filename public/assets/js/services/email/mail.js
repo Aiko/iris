@@ -430,17 +430,36 @@ const mailapi = {
           }
           return false
         })()
-        //? compute seen and starred as the status of the latest message
+        //? compute seen, bcced and starred as the status of the latest message
         thread.seen = thread.emails?.[0]?.M?.flags?.seen
         thread.starred = thread.emails?.[0]?.M?.flags?.starred
+        thread.bcced = thread.emails?.[0]?.M?.envelope?.bcc?.length > 0
+        //? compute badges
+        thread.hasAttachments = (() => {
+          for (const email of thread.emails) {
+            if (email.parsed?.attachments?.length > 0) return true
+          }
+          return false
+        })()
+        thread.hasTrackers = (() => {
+          for (const email of thread.emails) {
+            if (email.M.tracker) return true
+          }
+          return false
+        })
         //? compute participants
+        const participantAddresses = new Set()
         thread.participants = thread.emails.map(email => {
           const people = []
           people.push(email.M.envelope.from)
           people.push(...(email.M.envelope.cc))
           people.push(...(email.M.envelope.bcc))
           people.push(...(email.M.envelope.to))
-          return people.filter(({ address }) => address != this.currentMailbox)
+          const others = people.filter(({ address }) =>
+            address != this.currentMailbox &&
+            !(participantAddresses.has(address))
+          )
+          others.map(({ address }) => participantAddresses.add(address))
         }).flat()
       }
       //? next, update the threads global object so any UI updates can resolve

@@ -26,6 +26,11 @@ Vue.component('thread-card', {
       if (this.showQuickReply) this.focus()
     }
   },
+  computed: {
+    quickaction () {
+      return this.thread.emails[0].M.quick_actions.classification
+    }
+  },
   data() {
     return {
       showQuickReply: false,
@@ -97,6 +102,11 @@ Vue.component('thread-card', {
     async openVerify () {
       if (this.thread.emails[0].M.quick_actions.context) {
         remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)
+      }
+    },
+    async copyOTP () {
+      if (this.thread.emails[0].M.quick_actions.otp) {
+        window.copy(this.thread.emails[0].M.quick_actions.otp)
       }
     },
     //? interaction button methods
