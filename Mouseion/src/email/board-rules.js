@@ -71,13 +71,13 @@ module.exports = () => (configs, cache, Folders, Operator) => {
       //? we don't care if not in inbox
       if (!in_folders.includes(Folders.get().inbox)) continue;
 
-      const in_boards = in_folders.filter(folder.startsWith('[Aiko]'))
+      const in_boards = in_folders.filter(folder => folder.startsWith('[Aiko]'))
 
       //? if it doesn't contain main board or contains other boards
-      if (!in_boards.includes(main_board) || in_boards.length > 1) {
+      if (!(in_boards.includes(main_board)) || in_boards.length > 1) {
         //? delete message from all other boards
         //? move the message from inbox
-        for (const {folder, uid} of thread_message.locations) {
+        for (const {folder, uid} of thread_mssessage.locations) {
           if (folder.startsWith('[Aiko]')) {
             await Operator.delete(folder, uid)
           }

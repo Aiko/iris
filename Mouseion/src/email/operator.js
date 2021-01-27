@@ -277,7 +277,7 @@ module.exports = (
     if (!destUID) return false;
 
     // give it the new location in our db
-    await cache.add.message(msg.mid, dest, destUID, msg.subject, cursor)
+    await cache.add.message(msg.mid, dest, eval(destUID), msg.subject, cursor)
     Log.success("Added", `${dest}:${destUID}`)
     configs.store('cursor', cursor)
     return destUID
@@ -321,7 +321,7 @@ module.exports = (
     const d = await courier.messages.moveMessages(src, dest, srcUID)
     const destUID =
       d?.destSeqSet ||
-      d?.copyuid?.reduceRight(_ => _) ||
+      d?.copyuid?.reduceRight(_ => s_) ||
       d?.payload?.OK?.[0]?.copyuid?.[2] ||
       d?.OK?.[0]?.copyuid?.[2];
 
@@ -331,7 +331,7 @@ module.exports = (
     // give it the new location in our db
     //? we add first because if it only exists in one location,
     //? removing the location will kill the db model :(
-    await cache.add.message(msg.mid, dest, destUID, msg.subject, cursor)
+    await cache.add.message(msg.mid, dest, eval(destUID), msg.subject, cursor)
     await cache.remove.location(src, srcUID, cursor)
     Log.success("Moved to", `${dest}:${destUID}`)
     configs.store('cursor', cursor)
