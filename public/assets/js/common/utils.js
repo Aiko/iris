@@ -73,6 +73,50 @@ Date.prototype.toTime = function () {
   return this.toISOString().substr(11, 8)
 }
 
+Date.prototype.toDateTime = function () {
+  return this.toDate() + ' ' + this.toTime()
+}
+
+Date.prototype.toNicerDateTime = function () {
+  const now = new Date()
+  const tomorrow = now.addDays(1)
+  const yesterday = now.addDays(-1)
+  const diff = this - now
+  const days = diff / (1000 * 60 * 60 * 24)
+  if (Math.abs(days) < 2) {
+    if (this.getDate() == now.getDate())
+      return 'Today, ' + this.toLocaleTimeString('en-us', {
+        hour: 'numeric',
+        minute: '2-digit'
+      })
+    if (this.getDate() == tomorrow.getDate())
+      return 'Tomorrow, ' + this.toLocaleTimeString('en-us', {
+        hour: 'numeric',
+        minute: '2-digit'
+      })
+    if (this.getDate() == yesterday.getDate())
+      return 'Yesterday, ' + this.toLocaleTimeString('en-us', {
+        hour: 'numeric',
+        minute: '2-digit'
+      })
+  }
+  if (days < 0 && days > -7) {
+    return 'Last ' + this.toLocaleDateString('en-us', {
+      weekday: 'long',
+      hour: 'numeric',
+      minute: '2-digit'
+    })
+  }
+  if (days > 0 && days < 7) {
+    return this.toLocaleDateString('en-us', {
+      weekday: 'long',
+      hour: 'numeric',
+      minute: '2-digit'
+    })
+  }
+  return this.toDateTime()
+}
+
 Date.prototype.toNiceDateTime = function () {
   const now = new Date()
   const diff = this - now

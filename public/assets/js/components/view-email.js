@@ -4,6 +4,7 @@ Vue.component('view-email', {
   data () {
     return {
       showSenderInfo: false,
+      thread: this.$root.resolveThread(this.tid)
     }
   },
   computed: {
@@ -100,11 +101,18 @@ Vue.component('view-email', {
       if (!thread.syncing) {
         const { folder, uid } = this.$root.locThread(thread)
         await this.$root.engine.api.manage.delete(folder, uid)
-        const board = this.$root.boards.filter(({ path }) => path == thread.aikoFolder)?.[0]
-        if (!board) return window.error("Tried to delete a message from a board that does not exist")
-        const i = this.$root.boards.indexOf(board)
-        const index = this.$root.boards[i].tids.indexOf(this.tid)
-        this.$root.boards[i].splice(index, 1)
+        if (thread.aikoFolder != "INBOX") {
+          const board = this.$root.boards.filter(({ path }) => path == thread.aikoFolder)?.[0]
+          if (!board) return window.error("Tried to delete a message from a board that does not exist")
+          const i = this.$root.boards.indexOf(board)
+          const index = this.$root.boards[i].tids.indexOf(this.tid)
+          this.$root.boards[i].tids.splice(index, 1)
+        }
+        else {
+          const i = this.$root.inbox.indexOf(thread.tid)
+          this.$root.inbox.splice(i, 1)
+        }
+        this.$root.viewThread = null
       }
     },
     async reply() {
@@ -153,6 +161,17 @@ Vue.component('view-email', {
         withQuoted='',
         withMessageId=email.M.envelope.mid
       )
+    },
+    //? Quick Actions
+    async openVerify () {
+      if (this.email.M.quick_actions.context) {
+        remote.shell.openExternal(this.email.M.quick_actions.context)
+      }
+    },
+    async copyOTP () {
+      if (this.email.M.quick_actions.otp) {
+        window.copy(this.email.M.quick_actions.otp)
+      }
     },
   },
 })
