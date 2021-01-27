@@ -327,6 +327,7 @@ const mailapi = {
 
       //? (re)start the engine
       await this.getEngine()
+      info(...MAILAPI_TAG, "Received engine instance")
 
       //? bind engine listeners
       this.engine.on('sync-started', () => {

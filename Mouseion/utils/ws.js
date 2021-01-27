@@ -50,7 +50,7 @@ const SockPuppet = async Target => {
       error: msg + '\n' + (new Error),
       id
     }))
-    sockets.add(ws)
+    sockets.push(ws)
     ws.on('message', async m => {
       /*
       * m should be 'please ' + JSON stringified message

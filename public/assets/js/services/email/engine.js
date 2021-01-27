@@ -4,6 +4,15 @@ const Engine = port => {
   const socket = new WebSocket('ws://localhost:' + port)
   socket.binaryType = 'arraybuffer'
 
+  const ensureConnect = () => new Promise((s, _) => {
+    const helper = () => {
+      if (socket.readyState === 1) {
+        return s()
+      } else setTimeout(helper, 50)
+    }
+    helper()
+  })
+
   const waiters = {}
   const listeners = {}
 
@@ -34,9 +43,10 @@ const Engine = port => {
     return s(payload)
   }
 
-  const proxy = action => (...args) => new Promise((s, _) => {
+  const proxy = action => (...args) => new Promise(async (s, _) => {
     const id = ID()
     waiters[id] = s
+    await ensureConnect()
     socket.send('please ' + JSON.stringify({ id, action, args }))
   })
 
