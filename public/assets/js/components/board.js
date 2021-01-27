@@ -17,11 +17,15 @@ Vue.component('board', {
     }
   },
   computed: {
+    //! pretty sure we don't need this anymore.
     prettyBoardName () {
       return this.board.name.replace('[Aiko Mail]/', '')
     },
     unread () {
       return this.$root.resolveThreads(this.board.tids).filter(({ seen }) => !seen).length
+    },
+    slug () {
+      return this.board.name
     }
   }
 })
