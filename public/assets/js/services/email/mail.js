@@ -451,7 +451,7 @@ const mailapi = {
             if (email.M.tracker) return true
           }
           return false
-        })
+        })()
         //? compute participants
         const participantAddresses = new Set()
         thread.participants = thread.emails.map(email => {
@@ -465,6 +465,7 @@ const mailapi = {
             !(participantAddresses.has(address))
           )
           others.map(({ address }) => participantAddresses.add(address))
+          return others
         }).flat()
       }
       //? next, update the threads global object so any UI updates can resolve
