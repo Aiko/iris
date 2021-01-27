@@ -418,6 +418,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             return uid
           })
           if (uids.length == 0) return;
+          console.log("Fetching", uids.length, "for", folder, "using", Sequence(uids))
 
           if (!Cleaners[folder]) {
             Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(

@@ -187,7 +187,7 @@ const PostOffice = () => {
           msg.parsed.attachments = msg.parsed.attachments.map(attachment => {
             // strip the content of the attachments but return their names
             // (unless it is an aiko specific attachment)
-            if (!(attachment?.contentType?.includes('aiko/'))) attachment.content = null
+            if (attachment?.contentType && !(attachment.contentType.includes('aiko/'))) attachment.content = null
             return attachment
           })
         }

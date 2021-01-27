@@ -2,6 +2,8 @@
 module.exports = uids => {
   if (!uids?.length) return ''
   uids = uids.map(uid => eval(uid)).sort()
+  //! inefficiency here we come!
+  return uids.length > 1 ? `${uids[0]}:${uids[uids.length - 1]}` : `${uids?.[0]}`
   const subsequences = []
   const subsequence = {
     start: uids[0],
