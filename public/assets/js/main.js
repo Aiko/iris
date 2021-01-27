@@ -103,6 +103,7 @@ top.app = new Vue({
       console.log(...msg)
     },
     async deleteCache(emails=false, prefs=false, chrome=false) {
+      //! FIXME: this doesn't kill Mouseion's cache
       if (emails && prefs && chrome) {
         await ipcRenderer.invoke('clear all cache')
       }
