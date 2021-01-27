@@ -101,6 +101,7 @@ const mailapi = {
     dragging: false,
     visibleMin: 0,
     visibleMax: 500,
+    priority: true,
     //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
@@ -156,7 +157,14 @@ const mailapi = {
         !(thread.emails[0].M.flags.seen) && //? has to be unread
         (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
       ).length
-    }
+    },
+    smartPriorityUnread() {
+      return Object.values(this.threads).filter(thread =>
+        !(thread.emails[0].M.flags.seen) && //? has to be unread
+        (thread.priority) && //? priority check
+        (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
+      ).length
+    },
   },
   created () {
     info(...MAILAPI_TAG, 'Mounted IMAP processor. Please ensure this only ever happens once.')
@@ -391,6 +399,10 @@ const mailapi = {
         slug = 'Uncategorized'
       }
       return `[Aiko Mail]/${slug}`
+    },
+    //? resolve a single board from slug
+    resolveBoard (slug) {
+      return this.boards.filter(({ name }) => name == slug)?.[0]
     },
     //? resolve a tid to a thread
     resolveThread (tid) {
