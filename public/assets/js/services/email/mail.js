@@ -433,6 +433,15 @@ const mailapi = {
         //? compute seen and starred as the status of the latest message
         thread.seen = thread.emails?.[0]?.M?.flags?.seen
         thread.starred = thread.emails?.[0]?.M?.flags?.starred
+        //? compute participants
+        thread.participants = thread.emails.map(email => {
+          const people = []
+          people.push(email.M.envelope.from)
+          people.push(...(email.M.envelope.cc))
+          people.push(...(email.M.envelope.bcc))
+          people.push(...(email.M.envelope.to))
+          return people.filter(({ address }) => address != this.currentMailbox)
+        }).flat()
       }
       //? next, update the threads global object so any UI updates can resolve
       Vue.set(this.threads, thread.tid, thread)
