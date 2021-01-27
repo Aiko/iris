@@ -669,7 +669,7 @@ const mailapi = {
           await this.engine.api.manage.delete(threadLoc.folder, threadLoc.uid)
           thread.aikoFolder = this.folders.inbox
           this.saveThread(thread)
-          this.movers.remove(tid)
+          this.movers.delete(tid)
         }
       }
 
@@ -728,7 +728,7 @@ const mailapi = {
 
           //? reset the thread state
           _this.saveThread(thread, reset=true)
-          _this.movers.remove(tid)
+          _this.movers.delete(tid)
         }
 
         window.setTimeout(sync, SYNC_TIMEOUT)
