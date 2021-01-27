@@ -3,7 +3,7 @@ module.exports = uids => {
   if (!uids?.length) return ''
   uids = uids.map(uid => eval(uid)).sort()
   //! inefficiency here we come!
-  return uids.length > 1 ? `${uids[0]}:${uids[uids.length - 1]}` : `${uids?.[0]}`
+  // return uids.length > 1 ? `${uids[0]}:${uids[uids.length - 1]}` : `${uids?.[0]}`
   const subsequences = []
   const subsequence = {
     start: uids[0],
@@ -11,7 +11,7 @@ module.exports = uids => {
   }
   for (let i = 0; i < uids.length; i++) {
     const uid = uids[i]
-    if (uid - subsequence.start <= 1) {
+    if (uid - subsequence.start <= 200) {
       subsequence.end = uid
     } else {
       const { start, end } = subsequence
