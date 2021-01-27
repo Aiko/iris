@@ -533,9 +533,8 @@ const mailapi = {
         })
 
         this.boardOrder = this.boards.map(({ name }) => name)
-        await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
-
       })
+      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
       //? compute local cursor
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
