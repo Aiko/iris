@@ -233,7 +233,8 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
 
         //* in the special case of confirm_code, look for the confirmation code
         if (result.intent == 'confirm_code' && !email.M.quick_actions.otp) {
-          const code = /[0-9]{6}/g.exec(email.parsed.text)?.[0]
+          let code = result.entities.filter(({ subtype }) => subtype == "code")?.[0]?.value
+          if (!code) code = /[0-9]{6}/g.exec(email.parsed.text)?.[0]
           if (code) email.M.quick_actions.otp = code
         }
       }
