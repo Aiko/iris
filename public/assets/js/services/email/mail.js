@@ -255,11 +255,8 @@ const mailapi = {
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it
-      this.engine = new Engine(port)
-      {
-        host, port, user, pass, oauth, secure, //* config
-        provider="other" //? defaults to other but accepts google, microsoft, etc
-      }
+      this.engine = Engine(port)
+
       await this.engine.init({
         ...(this.imapConfig),
         oauth: this.imapConfig.xoauth2
