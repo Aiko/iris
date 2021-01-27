@@ -293,6 +293,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
               keepCidLinks: false
             }
           )
+          console.log("Fetched", emails.length, "messages")
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
@@ -319,6 +320,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
     },
     threads: {
       // TODO: full, headers are skipped for now
+      // TODO: you only need to parse the latest message dumbass...
       partial: async threads => {
         const to_fetch = {}
         const fetched = {}
@@ -331,14 +333,32 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           to_fetch[tid] = []
           fetched[tid] = []
           fetch_plan[aikoFolder] = []
-          const messages = await Promise.all(mids.map(cache.lookup.mid))
-          await Promise.all(messages.map(async message => {
+
+          const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => b.timestamp - a.timestamp)
+          const latest_email = await cache.L2.check(messages[0].mid)
+          if (!latest_email) {
+            need++
+            to_fetch[tid].push(messages[0])
+          }
+          else {
+            have++
+            latest_email.M.flags.seen = messages[0].seen
+            latest_email.M.flags.starred = messages[0].starred
+            latest_email.locations = messages[0].locations
+            fetched[tid].push(latest_email)
+          }
+
+          await Promise.all(messages.slice(1).map(async message => {
             const { mid, locations, seen, starred } = message
+            const email = (await cache.L2.check(mid)) || (await cache.L1.check(mid))
+            if (!email) return;
+            /*
             const email = await cache.L2.check(mid)
             if (!email) {
               need++;
               return to_fetch[tid].push(message)
             }
+            */
             email.M.flags.seen = seen
             email.M.flags.starred = starred
             email.locations = locations
@@ -441,12 +461,13 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
             const meta = metadata[email.M.envelope.uid]
-            if (!meta) return console.error("We don't have metadata for this uid"); //! something went super wrong
-            const { tid, locations } = meta
-            email.locations = locations
-            //? put the fetched email into our fetched results array
-            found++
-            fetched[tid].push(email)
+            if (meta) {
+              const { tid, locations } = meta
+              email.locations = locations
+              //? put the fetched email into our fetched results array
+              found++
+              fetched[tid].push(email)
+            }
             email = JSON.parse(JSON.stringify(email))
             //* cache the whole thing in L3
             // this is commented out because we currently dont download attachments or resolve CID links at fetch time
@@ -469,7 +490,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           if (!thread) return null
           thread.emails = emails.sort((a, b) => b.envelope.date - a.envelope.date)
           return thread
-        }).sort((a, b) => (new Date(a.date)) - (new Date(b.date)))
+        }).sort((a, b) => (new Date(a.date)) - (new Date(b.date))).filter(t => t.emails?.length > 0)
       }
     }
   }
