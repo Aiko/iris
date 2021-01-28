@@ -337,8 +337,6 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
 
           const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => (new Date(b.timestamp)) - (new Date(a.timestamp)))
 
-          if (tid == "ff08341d1e7f") console.log("ff08341d1e7f has", messages.length, "messages")
-
           const latest_email = await cache.L2.check(messages[0].mid)
           if (!latest_email) {
             need++
@@ -371,7 +369,6 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             email.locations = locations
             email.timestamp = timestamp
             fetched[tid].push(email)
-            if (tid == "ff08341d1e7f") console.log(fetched[tid])
             have++;
           }))
         }))
