@@ -45,6 +45,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     //? by default, uses the latest board as the main board
     //? by default, only copies messages that are in the inbox to the board
     // TODO: we might need to check trash as well here for unity...
+    await cache.update.refreshThread(tid)
     const thread = await cache.lookup.tid(tid)
     if (!thread) return; // doesn't work on messages not threaded
     let main_board = null
@@ -77,7 +78,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
       if (!(in_boards.includes(main_board)) || in_boards.length > 1) {
         //? delete message from all other boards
         //? move the message from inbox
-        for (const {folder, uid} of thread_mssessage.locations) {
+        for (const {folder, uid} of thread_message.locations) {
           if (folder.startsWith('[Aiko]')) {
             await Operator.delete(folder, uid)
           }

@@ -330,11 +330,15 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         let found = 0
         //? first assemble what we know
         await Promise.all(threads.map(async ({ mids, aikoFolder, tid }) => {
+          if (mids.length == 0) return;
           to_fetch[tid] = []
           fetched[tid] = []
           fetch_plan[aikoFolder] = []
 
-          const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => b.timestamp - a.timestamp)
+          const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => (new Date(b.timestamp)) - (new Date(a.timestamp)))
+
+          if (tid == "ff08341d1e7f") console.log("ff08341d1e7f has", messages.length, "messages")
+
           const latest_email = await cache.L2.check(messages[0].mid)
           if (!latest_email) {
             need++
@@ -346,6 +350,8 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             latest_email.M.flags.starred = messages[0].starred
             latest_email.locations = messages[0].locations
             latest_email.timestamp = messages[0].timestamp
+            latest_email.tid = messages[0].tid
+            latest_email.mid = messages[0].mid
             fetched[tid].push(latest_email)
           }
 
@@ -365,6 +371,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             email.locations = locations
             email.timestamp = timestamp
             fetched[tid].push(email)
+            if (tid == "ff08341d1e7f") console.log(fetched[tid])
             have++;
           }))
         }))
@@ -379,7 +386,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const { aikoFolder } = thread
           //? process the thread into the fetch plan
           to_fetch[tid].map(message => {
-            const { locations, timestamp } = message
+            const { locations, timestamp, mid, tid } = message
             //? first try fetching it from aiko folder
             const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
             if (afLoc) {
@@ -387,7 +394,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(aikoFolder, "fetch plan newly created.")
                 fetch_plan[aikoFolder] = []
               }
-              return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, timestamp })
+              return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
             }
             //? next look for an existing folder to optimize our fetch
             const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
@@ -396,7 +403,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(shortcut.folder, "fetch plan newly created")
                 fetch_plan[shortcut.folder] = []
               }
-              return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, timestamp })
+              return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, mid, timestamp })
             }
             //? next look for inbox
             const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
@@ -406,7 +413,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 fetch_plan["INBOX"] = []
               }
               console.log("Adding", inboxLoc.uid, "to fetch plan for INBOX")
-              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, timestamp })
+              return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, mid, timestamp })
             }
             //? next look for sent
             const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
@@ -415,7 +422,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(Folders.get().sent, "fetch plan newly created.")
                 fetch_plan[Folders.get().sent] = []
               }
-              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, timestamp })
+              return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, mid, timestamp })
             }
             //? if all else fails just add random folder
             const loc = locations?.[0]
@@ -425,7 +432,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
                 console.log(folder, "fetch plan newly created.")
                 fetch_plan[folder] = []
               }
-              return fetch_plan[folder].push({ uid, tid, locations, timestamp })
+              return fetch_plan[folder].push({ uid, tid, locations, mid, timestamp })
             }
             else console.error("Message has no locations?")
           })
@@ -464,11 +471,14 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           await Promise.all(cleaned_emails.map(async email => {
             const meta = metadata[email.M.envelope.uid]
             if (meta) {
-              const { tid, locations, timestamp } = meta
+              const { tid, mid, locations, timestamp } = meta
               email.locations = locations
               email.timestamp = timestamp
+              email.tid = tid
+              email.mid = mid
               //? put the fetched email into our fetched results array
               found++
+              if (!fetched[tid]) return;
               fetched[tid].push(email)
             }
             email = JSON.parse(JSON.stringify(email))
@@ -491,7 +501,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           const emails = fetched[tid]
           const thread = threads.filter(t => t.tid == tid)?.[0]
           if (!thread) return null
-          thread.emails = emails.sort((a, b) => b.envelope.date - a.envelope.date)
+          thread.emails = emails.sort((a, b) => b.M.envelope.date - a.M.envelope.date)
           return thread
         }).sort((a, b) => (new Date(a.date)) - (new Date(b.date))).filter(t => t.emails?.length > 0)
       }

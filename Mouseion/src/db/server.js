@@ -98,7 +98,7 @@ const Cache = (dir => {
   //* structured clone (used in Electron IPC) has difficulty dealing with doc
   //* so instead, we duplicate the properties we need
   const clean = ({
-    mid, tid, seen, starred, locations, timestamp
+    mid, tid, seen, starred, locations, timestamp, subject
   }) => {
     return {
       locations: locations.map(({folder, uid}) => {
@@ -107,7 +107,7 @@ const Cache = (dir => {
         }
       }),
       mid, tid, seen, starred,
-      timestamp
+      timestamp, subject
     }
   }
 
@@ -213,6 +213,12 @@ const Cache = (dir => {
         if (err || !doc) return s(null)
         // manual specification so we don't pass the document
         s(cleanThread(doc))
+      })
+    }),
+    withSubject: subject => new Promise((s, _) => {
+      Message.find({ subject, }).exec((err, docs) => {
+        if (err || !docs) return s([])
+        s(docs.map(clean))
       })
     }),
     /// FIXME:
@@ -326,7 +332,7 @@ const Cache = (dir => {
           message.save(err => {
             if (err) s(false)
             Thread.findOne({tid: tid}, async (err, doc) => {
-              if (err || !doc) s(false)
+              if (err || !doc) return s(false)
               doc.mids.push(mid)
               if (timestamp && doc.date < timestamp) doc.date = timestamp
               doc.cursor = cursor
@@ -401,6 +407,14 @@ const Cache = (dir => {
           })
         }
         else msg.save(err => s(!err))
+      })
+    }),
+    refreshThread: tid => new Promise(async (s, _) => {
+      Thread.findOne({ tid, }, async (err, thr) => {
+        if (err || !thr) return s(false)
+
+        thr.aikoFolder = await uniteThread(thr)
+        thr.save(err => s(!err))
       })
     }),
     //! you should never manually update a thread
@@ -489,49 +503,59 @@ const Cache = (dir => {
     //? will merge thread 1 into thread 2, and delete thread 1
     thread: (tid1, tid2, cursor) => new Promise(async (s, _) => {
       Thread.findOne({tid: tid1}, (err, thread1) => {
-        if (err || !thread) return s(false)
+        if (err || !thread1) return s({error: err || "cant find thread 1", at: 'finding tid1'})
 
         Thread.findOne({tid: tid2}, (err, thread2) => {
-          if (err || !thread2) return s(false)
+          if (err || !thread2) return s(({error: err || "cant find thread 2", at: 'finding tid2'}))
 
           //* these are the MIDs that need to be moved
-          const mids = thread1.mids
+          const mids = JSON.parse(JSON.stringify(thread1.mids))
 
-          //* kill thread 1
-          thread1.remove(async err => {
-            if (err) s(false)
+          thread1.mids = []
+          thread1.cursor = cursor
+          thread1.save(err => {
+            if (err) return s({error: err, at: 'saving thread1'})
 
-            //* append all those MIDs to thread 2
-            thread2.mids.push(...mids)
-            thread2.timestamp = (await Promise.all(thread2.mids.map(mid => new Promise((s, _) => {
-              Message.findOne({mid}, (err, candidate) => {
-                if (err || !candidate) return s(null)
-                s(candidate.timestamp)
-              })
-            })))).sort((a, b) => b - a)?.[0]
-            thread2.cursor = cursor
-            thread2.aikoFolder = await uniteThread(thread2)
-
-            thread2.save(err => {
-              if (err) s(false)
-
-              //* update each message
-              const helper = mid => new Promise((resolve, _) =>
-                Message.findOne({mid: mid}, (err, msg) => {
-                  if (err) return resolve(false)
-
-                  msg.tid = tid2
-                  return msg.save(err => {
-                    if (err) return resolve(false)
-                    return resolve(true)
-                  })
+            //* kill thread 1
+            thread1.remove(async err => {
+              if (err) return s({error: err, at: 'removing thread1'})
+              //* append all those MIDs to thread 2
+              thread2.mids.push(...(mids.filter(mid => !(thread2.mids.includes(mid)))))
+              thread2.timestamp = (await Promise.all(thread2.mids.map(mid => new Promise((s, _) => {
+                Message.findOne({mid}, (err, candidate) => {
+                  if (err || !candidate) return s(null)
+                  s(candidate.timestamp)
                 })
-              )
+              })))).sort((a, b) => b - a)?.[0]
+              thread2.cursor = cursor
+              thread2.aikoFolder = await uniteThread(thread2)
 
-              //! this doesnt actually check if it worked
-              Promise.all(mids.map(helper)).then(() => s(mids))
+              thread2.save(async err => {
+                if (err) return s({error: err, at: 'saving thread2'})
+
+                //* update each message
+                //! FIXME: this doesnt work clearly lol
+                const helper = mid => new Promise((resolve, _) =>
+                  Message.findOne({mid: mid}, (err, msg) => {
+                    if (err || !msg) {
+                      return resolve({error: err, mid})
+                    }
+
+                    msg.tid = tid2
+                    return msg.save(err => {
+                      if (err) return resolve({error: err})
+                      return resolve({success: true, mid})
+                    })
+                  })
+                )
+
+                const results = await Promise.all(mids.map(helper))
+                const errors = results.filter(({ error }) => !!error)
+                if (errors.length > 0) return s(errors)
+                else return s(mids)
+              })
+
             })
-
           })
         })
 
@@ -671,6 +695,7 @@ process.on('message', async m => {
       case 'lookup.mid': return await attempt(cache.lookup.mid)
       case 'lookup.folder': return await attempt(cache.lookup.folder)
       case 'lookup.aikoFolder': return await attempt(cache.lookup.aikoFolder)
+      case 'lookup.withSubject': return await attempt(cache.lookup.withSubject)
       case 'lookup.uid': return await attempt(cache.lookup.uid)
       case 'lookup.tid': return await attempt(cache.lookup.tid)
       case 'lookup.latest': return await attempt(cache.lookup.latest)
@@ -682,6 +707,7 @@ process.on('message', async m => {
 
       case 'update.message': return await attempt(cache.update.message)
       case 'update.thread': return await attempt(cache.update.thread)
+      case 'update.refreshThread': return await attempt(cache.update.refreshThread)
       case 'update.contact.received': return await attempt(cache.update.contact.received)
       case 'update.contact.sent': return await attempt(cache.update.contact.sent)
 

@@ -9,7 +9,7 @@ const Sequence = require('./sequence')
 //? built to spec of RFC 4549
 module.exports = () => (
   provider,
-  Contacts, BoardRules,
+  Contacts, BoardRules, AfterThread,
   cache, courier,
   Cleaners, Log,
   configs,
@@ -112,7 +112,7 @@ module.exports = () => (
         * otherwise you need to recursively apply references for that email
         * that check should be done in threading method :)
       */
-      await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
+      await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
       await cache.L1.cache(email.M.envelope.mid, email)
     })
     // Log.timeEnd(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
@@ -147,7 +147,7 @@ module.exports = () => (
 
   await batchMap(cleaned_emails, THREAD_BATCH_SIZE, async email => {
     if (!email.M.envelope.mid) return Log.error("Message is missing MID")
-    await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack) //* already puts it into the DB
+    await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack) //* already puts it into the DB
     email = JSON.parse(JSON.stringify(email))
     //* cache the whole thing in L3
     // this is commented out because we currently dont download attachments or resolve CID links at fetch time

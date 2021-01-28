@@ -4,7 +4,7 @@ const threading = async (email, provider,
   Folders,
   cursor,
   cache, courier,
-  Contacts, BoardRules,
+  Contacts, BoardRules, AfterThread,
   Cleaners, Log, Lumberjack, actually_thread=true) => {
 
   if (!email.M.references) {
@@ -75,7 +75,7 @@ const threading = async (email, provider,
                 await threading(remote_ref, Folders,
                   cursor,
                   cache, courier,
-                  Contacts, BoardRules,
+                  Contacts, BoardRules, AfterThread,
                   Cleaners, Log)
                 found = true
               }
@@ -190,7 +190,7 @@ const threading = async (email, provider,
           //? might run into issues if not date sorted
           await threading(remote_ref, Folders,
             cache, courier,
-            Contacts, BoardRules,
+            Contacts, BoardRules, AfterThread,
             Cleaners, Log)
           return helper(uid) //* call itself again so it goes through the exists pipeline
         }
@@ -244,6 +244,8 @@ const threading = async (email, provider,
       timestamp: email.M.envelope.date
     })
   }
+
+  if (AfterThread) AfterThread.queue(thread_id)
 
   if (Contacts) Contacts.queue(email)
   if (email.folder == Folders.get().inbox || Object.values(Folders.get().aiko).includes(email.folder)) {

@@ -11,6 +11,7 @@ const PostOffice = require('./imap/client')
 const FolderEngine = require('./email/folders')
 const ContactEngine = require('./email/contacts')()
 const BoardRuleEngine = require('./email/board-rules')()
+const AfterThreadEngine = require('./email/post-threading')()
 const SyncEngine = require('./email/sync')()
 
 const Operator = require('./email/operator')
@@ -84,19 +85,22 @@ const Mailbox = (async (Lumberjack, {
   //* Contact sync
   const Contacts = ContactEngine(user, cache, FolderManager, Log)
 
+  //* Post-Threading Cleanup
+  const AfterThread = AfterThreadEngine(cache, configs)
+
   //* Board rules
   const Cypher = Operator(provider,
     FolderManager,
     configs,
     cache, courier,
-    Contacts, null,
+    Contacts, null, AfterThread,
     Cleaners, Log, Lumberjack) //? Cypher is a stripped down operator (no board rules)
   const BoardRules = BoardRuleEngine(configs, cache, FolderManager, Cypher)
 
   //* Single Folder Sync
   const MailSync = SyncEngine(
     provider,
-    Contacts, BoardRules,
+    Contacts, BoardRules, AfterThread,
     cache, courier,
     Cleaners, Log,
     configs,
@@ -108,7 +112,7 @@ const Mailbox = (async (Lumberjack, {
     FolderManager,
     configs,
     cache, courier,
-    Contacts, BoardRules,
+    Contacts, BoardRules, AfterThread,
     Cleaners, Log, Lumberjack, auto_increment_cursor=true)
 
   //* Sync Lifecycle
@@ -121,6 +125,7 @@ const Mailbox = (async (Lumberjack, {
   const afterSync = async () => {
     await Contacts.sync()
     await BoardRules.apply()
+    await AfterThread.cleanup()
     Log.success("Finished sync.")
     trigger('sync-finished')
     onSync()

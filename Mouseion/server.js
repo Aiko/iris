@@ -71,12 +71,15 @@ const Engine = () => {
     contacts: {
       lookup: async partial => await mailbox.contacts.lookup(partial)
     },
-    close: async () => {
+    close: () => new Promise(async (s, _) => {
       Log.log("Closing out the engine and all connections...")
       await mailbox.close()
-      Log.success("Safe to exit. Killing engine process.")
-      process.exit()
-    },
+      Log.success("Safe to exit. Killing engine process in 1 second.")
+      s(true)
+      setTimeout(() => {
+        process.exit()
+      }, 1000)
+    }),
     registerTrigger: t => (trigger = t)
   }
 }

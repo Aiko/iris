@@ -7,11 +7,11 @@ module.exports = (
   Folders,
   configs,
   cache, courier,
-  Contacts, BoardRules,
+  Contacts, BoardRules, AfterThread,
   Cleaners, Log, Lumberjack,
   auto_increment_cursor=false
 ) => {
-  const thread = (email, cursor) => threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Cleaners, Log, Lumberjack)
+  const thread = (email, cursor) => threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack)
 
   const star = async (folder, uid) => {
     try {

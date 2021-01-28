@@ -48,7 +48,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
       folder: email.folder,
       date: email.envelope.date,
       subject: email.envelope.subject || 'No Subject',
-      cleanSubject: email.envelope.subject?.replace(/^((re|fw|fwd|aw|wg|undeliverable|undelivered):\s*)+/gim, ''),
+      cleanSubject: email.envelope.subject?.replace(/^((re|fw|fwd|aw|wg|undeliverable|undelivered|automatic reply):\s*)+/gim, ''),
       from: email.envelope.from?.[0] || email.envelope.sender?.[0] || { name: 'No sender', address: 'hidden@hidden'  },
       to: email.envelope.to || email.envelope.bcc || [],
       cc: email.envelope.cc || [],

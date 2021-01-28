@@ -63,6 +63,7 @@ const CacheProxy = async (Lumberjack, dir) => {
       mid: proxy_it('lookup.mid'),
       folder: proxy_it('lookup.folder'),
       aikoFolder: proxy_it('lookup.aikoFolder'),
+      withSubject: proxy_it('lookup.withSubject'),
       uid: proxy_it('lookup.uid'),
       tid: proxy_it('lookup.tid'),
       latest: proxy_it('lookup.latest'),
@@ -75,6 +76,7 @@ const CacheProxy = async (Lumberjack, dir) => {
     },
     update: {
       message: proxy_it('update.message'),
+      refreshThread: proxy_it('update.refreshThread'),
       thread: proxy_it('update.thread'),
       contact: {
         received: proxy_it('update.contact.received'),
