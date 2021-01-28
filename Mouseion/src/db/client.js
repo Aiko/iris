@@ -9,7 +9,7 @@ const crypto = require('crypto')
 //* creates a fresh cache process
 const CacheProxy = async (Lumberjack, dir) => {
   const Log = Lumberjack('Cache Proxy')
-  const API = fork(path.join(__dirname, 'server.js'), [], {
+  const API = fork(path.join(__dirname, 'server-nedb.js'), [], {
     stdio: ['pipe', 'pipe', 'pipe', 'ipc'],
   })
   API.stdout.pipe(process.stdout);

@@ -231,6 +231,8 @@ module.exports = (
   }
 
   const copy = async (src, srcUID, dest) => {
+
+    srcUID = eval(srcUID)
     //? get a new cursor
     const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
 
@@ -248,7 +250,7 @@ module.exports = (
     if (!msg) {
       Log.warn(`Did not have ${src}:${srcUID} locally, fetching from remote`)
       //* if we don't, we call ourselves again after fetching it (peeked)
-      const envelope = await courier.messages.listMessages(src, `${srcUID}`, {
+      const envelope = (await courier.messages.listMessages(src, `${srcUID}`, {
         peek: true,
         markAsSeen: false,
         limit: 1,
@@ -256,7 +258,7 @@ module.exports = (
         downloadAttachments: false,
         keepCidLinks: true,
         always_fetch_headers: true
-      })?.[0]
+      }).catch(Log.error))?.[0]
       if (!envelope) return false; //! the mailserver refused to hand it over >:(
       const cleaned_envelope = await Cleaner.headers(envelope)
       if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
@@ -284,58 +286,65 @@ module.exports = (
   }
 
   const move = async (src, srcUID, dest) => {
-    //? get a new cursor
-    const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
+    Log.log("Requested move", src, srcUID, "to", dest)
+    try {
+      srcUID = eval(srcUID)
+      //? get a new cursor
+      const cursor = configs.load('cursor') + (auto_increment_cursor ? 1 : 0)
 
-    //? create cleaner if doesn't exist
-    if (!Cleaners[src]) {
-      Log.warn("Cleaner for", folder, "did not exist, generating it")
-      Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-        src == Folders.get().inbox || src.startsWith("[Aiko]")
-      ))
+      //? create cleaner if doesn't exist
+      if (!Cleaners[src]) {
+        Log.warn("Cleaner for", folder, "did not exist, generating it")
+        Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
+          src == Folders.get().inbox || src.startsWith("[Aiko]")
+        ))
+      }
+      const Cleaner = Cleaners[src]
+
+      //* first, check if we have it locally
+      const msg = await cache.lookup.uid(src, srcUID)
+      if (!msg) {
+        Log.warn("Did not have message", src, srcUID, "locally, so we're going to fetch it for you.")
+        //* if we don't, we call ourselves again after fetching it (peeked)
+        const envelope = (await courier.messages.listMessages(src, `${srcUID}`, {
+          peek: true,
+          markAsSeen: false,
+          parse: true,
+          downloadAttachments: false,
+          keepCidLinks: true,
+          always_fetch_headers: true
+        }).catch(Log.error))?.[0]
+        if (!envelope) return Log.error("Could not find message on server."); //! the mailserver refused to hand it over >:(
+        const cleaned_envelope = await Cleaner.headers(envelope)
+        if (!(cleaned_envelope?.M?.envelope?.mid)) return Log.error("Could not clean envelope"); //! didn't get an MID somehow
+        await thread(cleaned_envelope, cursor)
+        await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
+        return await move(src, srcUID, dest)
+      }
+
+      Log.log("Moving", `${src}:${srcUID}`, "to", dest)
+      const d = await courier.messages.moveMessages(src, dest, srcUID)
+      const destUID =
+        d?.destSeqSet ||
+        d?.copyuid?.reduceRight(_ => s_) ||
+        d?.payload?.OK?.[0]?.copyuid?.[2] ||
+        d?.OK?.[0]?.copyuid?.[2];
+
+      // failure
+      if (!destUID) return false;
+
+      // give it the new location in our db
+      //? we add first because if it only exists in one location,
+      //? removing the location will kill the db model :(
+      await cache.add.message(msg.mid, dest, eval(destUID), msg.subject, cursor)
+      await cache.remove.location(src, srcUID, cursor)
+      Log.success("Moved to", `${dest}:${destUID}`)
+      configs.store('cursor', cursor)
+      return destUID
+    } catch (e) {
+      console.error(e)
+      return null
     }
-    const Cleaner = Cleaners[src]
-
-    //* first, check if we have it locally
-    const msg = await cache.lookup.uid(src, srcUID)
-    if (!msg) {
-      //* if we don't, we call ourselves again after fetching it (peeked)
-      const envelope = await courier.messages.listMessages(src, `${srcUID}`, {
-        peek: true,
-        markAsSeen: false,
-        limit: 1,
-        parse: true,
-        downloadAttachments: false,
-        keepCidLinks: true,
-        always_fetch_headers: true
-      })?.[0]
-      if (!envelope) return false; //! the mailserver refused to hand it over >:(
-      const cleaned_envelope = await Cleaner.headers(envelope)
-      if (!(cleaned_envelope?.M?.envelope?.mid)) return false; //! didn't get an MID somehow
-      await thread(cleaned_envelope, cursor)
-      await cache.L1.cache(cleaned_envelope.M.envelope.mid, cleaned_envelope)
-      return await move(src, srcUID, dest)
-    }
-
-    Log.log("Moving", `${src}:${srcUID}`, "to", dest)
-    const d = await courier.messages.moveMessages(src, dest, srcUID)
-    const destUID =
-      d?.destSeqSet ||
-      d?.copyuid?.reduceRight(_ => s_) ||
-      d?.payload?.OK?.[0]?.copyuid?.[2] ||
-      d?.OK?.[0]?.copyuid?.[2];
-
-    // failure
-    if (!destUID) return false;
-
-    // give it the new location in our db
-    //? we add first because if it only exists in one location,
-    //? removing the location will kill the db model :(
-    await cache.add.message(msg.mid, dest, eval(destUID), msg.subject, cursor)
-    await cache.remove.location(src, srcUID, cursor)
-    Log.success("Moved to", `${dest}:${destUID}`)
-    configs.store('cursor', cursor)
-    return destUID
   }
 
   //! for a deep delete you need to delete it from the inbox
