@@ -228,43 +228,46 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const to_fetch = []
         const fetched = []
         await Promise.all(messages.map(async message => {
-          const { mid, locations, seen, starred } = message
+          const { mid, locations, seen, starred, timestamp, tid } = message
           email = await cache.L3.check(mid)
           if (!email) return to_fetch.push(message)
           email.M.flags.seen = seen
           email.M.flags.starred = starred
           email.locations = locations
+          email.timestamp = timestamp
+          email.tid = tid
+          email.mid = mid
           fetched.push(email)
         }))
         const fetch_plan = {}
         fetch_plan[aikoFolder] = []
         //? build the fetch plan
         to_fetch.map(message => {
-          const { locations } = message
+          const { locations, tid, mid, timestamp } = message
           //? first try fetching it from aiko folder
           const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
-          if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, locations })
+          if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, locations })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, tid, locations, mid, timestamp })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
             if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
-            return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, locations })
+            return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, mid, timestamp })
           }
           //? next look for sent
           const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
           if (sentLoc) {
             if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
-            return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, locations })
+            return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, mid, timestamp })
           }
           //? if all else fails just add random folder
           const loc = locations?.[0]
           if (loc) {
             const { folder, uid } = loc
             if (!(fetch_plan[folder])) fetch_plan[folder] = []
-            return fetch_plan[folder].push({ uid, locations })
+            return fetch_plan[folder].push({ uid, tid, locations, mid, timestamp })
           }
         })
         //? perform fetch
@@ -299,8 +302,11 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           await Promise.all(cleaned_emails.map(async email => {
             const meta = metadata[email.M.envelope.uid]
             if (!meta) return; //! something went super wrong
-            const { locations } = meta
+            const { tid, locations, mid, timestamp } = meta
             email.locations = locations
+            email.tid = tid
+            email.mid = mid
+            email.timestamp = timestamp
             //? put the fetched email into our fetched results array
             fetched.push(email)
             email = JSON.parse(JSON.stringify(email))
@@ -517,7 +523,8 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const thread = await cache.lookup.tid(tid)
         if (!thread) return null;
         const resolved = await resolve.thread.full(thread)
-        return resolved
+        thread.emails = resolved
+        return thread
       },
       latest: async (folder, clientCursor, limit=5000, skip=0) => {
         const threads = await cache.lookup.latest(folder, limit, skip)
