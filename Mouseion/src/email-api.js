@@ -517,7 +517,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         const thread = await cache.lookup.tid(tid)
         if (!thread) return null;
         const resolved = await resolve.thread.full(thread)
-        return thread
+        return resolved
       },
       latest: async (folder, clientCursor, limit=5000, skip=0) => {
         const threads = await cache.lookup.latest(folder, limit, skip)
