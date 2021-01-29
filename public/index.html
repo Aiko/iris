@@ -1162,9 +1162,9 @@
     </tutorial-modal>
 
     <!-- MODAL View Thread -->
-    <view-thread tabindex="0" v-if="viewThread" :thread="viewThread" inline-template>
+    <view-thread v-if="viewThread" :thread="viewThread" inline-template>
 
-      <div tabindex="0" @click.self="close" class="aiko-modal">
+      <div @click.self="close" class="aiko-modal">
 
         <div class="modal-dialog modal-lg">
 
@@ -1188,7 +1188,7 @@
               <!-- ? Datepicker for Schedule Quick Action -->
               <!-- TODO: move this out -->
               <!--!------------------------------------------------------------->
-              <div class="modal-dialog modal-md datepick">
+              <div class="modal-dialog modal-md datepick" v-if="false">
                 <div class="modal-content">
                   <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email">
                   <div class="modal-reg">
@@ -1216,7 +1216,7 @@
               <!-- ? Thread Messages -->
               <!--!------------------------------------------------------------->
               <view-email
-                v-for="(email, i) in thread.emails"
+                v-for="(email, i) in fullThread.emails"
                 :email="email"
                 :expanded="i == 0"
                 :key="i"

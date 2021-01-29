@@ -17,6 +17,7 @@ Vue.component('view-email', {
   },
   watch: {
     email (_) {
+      console.log("Loaded email", this.email)
       if (this.email.parsed.html) this.setContent()
     },
   },
