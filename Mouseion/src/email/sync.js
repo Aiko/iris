@@ -77,7 +77,7 @@ module.exports = () => (
   //* then, get the envelopes of (up to X) new emails on remote
   //? we set X = 2000 for inbox
   //? X = 400 for everything else
-  const X = (folder == Folders.get().inbox) ? 1000 : 400;
+  const X = (folder == Folders.get().inbox) ? 500 : 200;
   const uidLatest = (localUIDs.length < 1) ? 0 : localUIDs[localUIDs.length - 1]
   const uidMin = Math.max(uidLatest + 1, uidNext - X + 1)
   if (uidLatest + 1 < uidNext - X) {
@@ -86,7 +86,7 @@ module.exports = () => (
     //? Y = 10000 for inbox
     //? Y = 1000 for everything else
     //? add X because it's a cursor from the Xth newest email
-    const Y = X + ((folder == Folders.get().inbox) ? 3000 : 1000);
+    const Y = X + ((folder == Folders.get().inbox) ? 2000 : 1000);
 
     const uidMinEnv = Math.max(uidLatest + 1, uidNext - Y)
     // (folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
