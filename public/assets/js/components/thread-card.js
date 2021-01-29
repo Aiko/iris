@@ -75,7 +75,7 @@ Vue.component('thread-card', {
         this.thread.emails[0].M.flags.starred = true
         this.$root.saveThread(this.thread, reset=false)
 
-        this.$root.engine.headers.star(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+        this.$root.engine.api.headers.star(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
     async unstarMessage () {
@@ -86,7 +86,7 @@ Vue.component('thread-card', {
         this.thread.emails[0].M.flags.starred = false
         this.$root.saveThread(this.thread, reset=false)
 
-        this.$root.engine.headers.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+        this.$root.engine.api.headers.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
     //? core logic for viewing message
@@ -96,7 +96,7 @@ Vue.component('thread-card', {
       this.$root.saveThread(this.thread, reset=false)
       this.$root.viewThread = this.thread
 
-      await this.$root.engine.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+      await this.$root.engine.api.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
     //? quick action interactions
     async openVerify () {
@@ -155,7 +155,7 @@ Vue.component('thread-card', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.m.envelope.mid
+        withMessageId=email.M.envelope.mid
       )
     },
     async forward() {

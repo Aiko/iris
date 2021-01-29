@@ -30,6 +30,7 @@ Vue.component('view-thread', {
     //? fetch the full thread
     this.fullThread = await this.$root.engine.api.get.thread(this.thread.tid)
     this.email = ((thread, sentFolder) => {
+      console.log(thread)
       for (const email of thread.emails) {
         const sentLoc = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
         if (!sentLoc) return email

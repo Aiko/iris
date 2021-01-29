@@ -78,7 +78,7 @@ Vue.component('view-email', {
         this.$root.saveThread(thread, reset=false)
 
         //? perform the star
-        this.$root.engine.headers.star(this.email.folder, this.email.M.envelope.uid)
+        this.$root.engine.api.headers.star(this.email.folder, this.email.M.envelope.uid)
       }
     },
     async unstarMessage () {
@@ -93,7 +93,7 @@ Vue.component('view-email', {
         this.$root.saveThread(thread, reset=false)
 
         //? perform the star
-        this.$root.engine.headers.unstar(this.email.folder, this.email.M.envelope.uid)
+        this.$root.engine.api.headers.unstar(this.email.folder, this.email.M.envelope.uid)
       }
     },
     async deleteMessage () {
@@ -148,7 +148,7 @@ Vue.component('view-email', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.m.envelope.mid
+        withMessageId=email.M.envelope.mid
       )
     },
     async forward() {
