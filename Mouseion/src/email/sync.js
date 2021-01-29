@@ -86,7 +86,7 @@ module.exports = () => (
     //? Y = 10000 for inbox
     //? Y = 1000 for everything else
     //? add X because it's a cursor from the Xth newest email
-    const Y = X + ((folder == Folders.get().inbox) ? 2000 : 1000);
+    const Y = X + ((folder == Folders.get().inbox) ? 2000 : 200);
 
     const uidMinEnv = Math.max(uidLatest + 1, uidNext - Y)
     // (folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
