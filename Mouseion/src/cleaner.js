@@ -216,6 +216,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     test_sentences.map(sentence => {
       const result = results[sentence]
       if (!result?.intent) return
+      if (result.confidence < 0.5) return
       //* only update classification if intent outranks current intent
       //? >= because there might be multiple sentences w/ same intent with partial information
       //? so we should build up our knowledge based on all sentences w/ same intent
