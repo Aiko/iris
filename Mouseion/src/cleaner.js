@@ -128,11 +128,11 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
   //* checks deeper for subscriptions
   const deepSubscription = async email => {
     email = await content(email)
-    if (email.parsed.headers['list-unsubscribe'] || email.parsed.headers['list-id'] || email.parsed.html.match(
+    if (email.parsed.headers?.['list-unsubscribe'] || email.parsed.headers?.['list-id'] || email.parsed.html.match(
       /unsubscribe|email ([^\.\?!]*)preferences|marketing preferences|opt( |-)*out|turn off([^\.\?!]*)email/gi
     )) {
       email.M.subscription.subscribed = true
-      email.M.subscription.unsubscribe = email.parsed.headers['list-unsubscribe'] || ''
+      email.M.subscription.unsubscribe = email.parsed.headers?.['list-unsubscribe'] || ''
     }
     return email
   }
