@@ -104,7 +104,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     email = await references(email)
     const t0 = performance.now()
     //* generate html from text if needed
-    if (!email.parsed.html) email.parsed.html = email.parsed.text?.replace(/\\n/gim, '<br>') || ''
+    if (!email.parsed.html) email.parsed.html = email.parsed.text?.replace(/\\n/gim, '\n<br>')?.replace(/\n/gim, '\n<br>') || ''
     //* generate text from html if needed
     if (!email.parsed.text) email.parsed.text = HTML2Text.fromString(email.parsed.html || '', {
       wordwrap: false,

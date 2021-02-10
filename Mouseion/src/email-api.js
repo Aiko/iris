@@ -221,7 +221,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           }))
         }))
 
-        return fetched.sort((a, b) => b.envelope.date - a.envelope.date)
+        return fetched.sort((a, b) => b.M.envelope.date - a.M.envelope.date)
       },
       full: async ({ mids, aikoFolder }) => {
         const messages = await Promise.all(mids.map(cache.lookup.mid))
@@ -321,7 +321,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           }))
         }))
 
-        return fetched.sort((a, b) => b.envelope.date - a.envelope.date)
+        return fetched.sort((a, b) => b.M.envelope.date - a.M.envelope.date)
       },
     },
     threads: {
