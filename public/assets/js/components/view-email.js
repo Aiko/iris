@@ -39,7 +39,26 @@ Vue.component('view-email', {
       doc.open()
       doc.clear()
       // TODO: there HAS to be a better way to load http inside https safely
+      //? auto-detect links
+      //! FIXME: twttr.txt.autoLinkHashtags breaks css
+      //! linkifyHTML breaks everything too because of weird errors
+      /*
+      const autodetected_links = linkify.find(this.email.parsed.html)
+      for (const { href, value } of autodetected_links) {
+        this.email.parsed.html = this.email.parsed.html.replace(value,
+          '<a target="_blank" href="' + href.replace('http:', 'https:') + '">' + value + '</a>'
+        )
+      }
+      */
+      /*
+      const content = twttr.txt.autoLinkCashtags(linkifyHtml(
+        this.email.parsed.html.replace(/\!doctype/gi, 'random'), {
+          defaultProtocol: 'https' //? enforce HTTPS
+        }
+      ))
+      */
       const content = this.email.parsed.html
+      // const content = twttr.txt.autoLinkCashtags(this.email.parsed.html)
       doc.write(content)
       doc.close()
 
@@ -66,6 +85,12 @@ Vue.component('view-email', {
       for (let i = 0; i < links.length; i++) {
         links[i].target = '_blank'
       }
+      const body = doc.body
+      body.innerHTML = twttr.txt.autoLinkCashtags(linkifyHtml(
+        body.innerHTML, {
+          defaultProtocol: 'https' //? enforce HTTPS
+        }
+      ))
     },
     async starMessage () {
       const thread = this.$root.resolveThread(this.tid)
