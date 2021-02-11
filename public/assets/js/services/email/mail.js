@@ -397,7 +397,7 @@ const mailapi = {
       //? start your engines!
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
-      if (controlsLoader && this.inbox.length > 0) this.loading = false
+      if (controlsLoader) this.loading = false
     },
     ////////////////////////////////////////////!
     //! Utility Methods
