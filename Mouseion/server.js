@@ -54,6 +54,7 @@ const Engine = () => {
       get: {
         single: async mid => await mailbox.api.get.single(mid),
         thread: async tid => await mailbox.api.get.thread(tid),
+        threadb: async tid => await mailbox.api.get.threadb(tid),
         latest: async (folder, clientCursor, limit=5000, skip=0) => await mailbox.api.get.latest(folder, clientCursor, limit, skip),
       },
       headers: {

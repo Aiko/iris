@@ -27,7 +27,19 @@ Vue.component('view-thread', {
 
     this.avatar = await this.email.M.envelope.from.address.getAvatar() //* in utils.js we added this to string proto
 
-    //? fetch the full thread
+    //? fetch the almost full thread (which we are more likely to have cached)
+    this.fullThread = await this.$root.engine.api.get.threadb(this.thread.tid)
+    this.email = ((thread, sentFolder) => {
+      console.log(thread)
+      for (const email of thread.emails) {
+        const sentLoc = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+        if (!sentLoc) return email
+      }
+      return thread.emails?.[0]
+    })(this.fullThread, this.$root.folders.sent)
+
+
+    //? patch in the real full thread
     this.fullThread = await this.$root.engine.api.get.thread(this.thread.tid)
     this.email = ((thread, sentFolder) => {
       console.log(thread)

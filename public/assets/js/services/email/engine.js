@@ -70,6 +70,7 @@ const Engine = port => {
       get: {
         single: async mid => await proxy('api.get.single')(mid).catch(console.error),
         thread: async tid => await proxy('api.get.thread')(tid).catch(console.error),
+        threadb: async tid => await proxy('api.get.threadb')(tid).catch(console.error),
         latest: async (folder, cursor, limit=5000, skip=0) => await proxy('api.get.latest')(folder, cursor, limit, skip).catch(console.error)
       },
       headers: {

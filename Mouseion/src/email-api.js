@@ -631,6 +631,13 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
         thread.emails = resolved
         return thread
       },
+      threadb: async tid => {
+        const thread = await cache.lookup.tid(tid)
+        if (!thread) return null;
+        const resolved = await resolve.thread.almost(thread)
+        thread.emails = resolved
+        return thread
+      },
       latest: async (folder, clientCursor, limit=5000, skip=0) => {
         const threads = await cache.lookup.latest(folder, limit, skip)
         const updated = threads.filter(({ cursor }) => cursor > clientCursor)
