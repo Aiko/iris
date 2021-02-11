@@ -385,7 +385,7 @@ const mailapi = {
       info(...MAILAPI_TAG, "Performing client sync.")
       await this.syncOp()
 
-      if (controlsLoader) this.loading = false
+      if (controlsLoader && this.inbox.length > 0) this.loading = false
 
       //? save IMAP configuration again as an extra measure (in case the OAuth tokens updated)
       info(...MAILAPI_TAG, 'Saving config...')
@@ -397,6 +397,7 @@ const mailapi = {
       //? start your engines!
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
+      if (controlsLoader && this.inbox.length > 0) this.loading = false
     },
     ////////////////////////////////////////////!
     //! Utility Methods
