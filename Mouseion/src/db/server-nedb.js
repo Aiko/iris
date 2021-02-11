@@ -23,6 +23,7 @@ const Cache = (dir => {
   const L1_dir = path.join(cache_dir, 'L1'); const L1_cache = Storage(L1_dir)
   const L2_dir = path.join(cache_dir, 'L2'); const L2_cache = Storage(L2_dir)
   const L3_dir = path.join(cache_dir, 'L3'); const L3_cache = Storage(L3_dir)
+  const L3b_dir = path.join(cache_dir, 'L3b'); const L3b_cache = Storage(L3b_dir)
   // TODO: attachments should get their own separated cache & db model
 
   const db_dir = path.join(dir, 'db'); fs2.ensureDirSync(db_dir)
@@ -608,6 +609,10 @@ const Cache = (dir => {
       cache: L3_cache.store,
       check: L3_cache.load,
     },
+    L3b: {
+      cache: L3b_cache.store,
+      check: L3b_cache.load
+    },
     lookup,
     add,
     update,
@@ -668,6 +673,9 @@ process.on('message', async m => {
 
       case 'L3.cache': return await attempt(cache.L3.cache)
       case 'L3.check': return await attempt(cache.L3.check)
+
+      case 'L3b.cache': return await attempt(cache.L3b.cache)
+      case 'L3b.check': return await attempt(cache.L3b.check)
 
       case 'lookup.mid': return await attempt(cache.lookup.mid)
       case 'lookup.folder': return await attempt(cache.lookup.folder)

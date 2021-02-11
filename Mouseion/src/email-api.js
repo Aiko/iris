@@ -37,6 +37,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           if (!email) return null;
           email = await Cleaner.full(email)
           await cache.L3.cache(mid, email)
+          await cache.L3b.cache(email.M.envelope.mid, email)
           email = JSON.parse(JSON.stringify(email))
           email.parsed.html = null
           email.parsed.text = null
@@ -75,6 +76,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
           email = await Cleaner.full(email)
           //? commented out because we don't fetch attachments
           // cache.L3.cache(mid, email)
+          await cache.L3b.cache(mid, email)
           email = JSON.parse(JSON.stringify(email))
           email.parsed.html = null
           email.parsed.text = null
@@ -223,6 +225,107 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
 
         return fetched.sort((a, b) => b.M.envelope.date - a.M.envelope.date)
       },
+      almost: async ({ mids, aikoFolder }) => {
+        const messages = await Promise.all(mids.map(cache.lookup.mid))
+        const to_fetch = []
+        const fetched = []
+        await Promise.all(messages.map(async message => {
+          const { mid, locations, seen, starred, timestamp, tid } = message
+          email = await cache.L3b.check(mid)
+          if (!email) return to_fetch.push(message)
+          email.M.flags.seen = seen
+          email.M.flags.starred = starred
+          email.locations = locations
+          email.timestamp = timestamp
+          email.tid = tid
+          email.mid = mid
+          fetched.push(email)
+        }))
+        const fetch_plan = {}
+        fetch_plan[aikoFolder] = []
+        //? build the fetch plan
+        to_fetch.map(message => {
+          const { locations, tid, mid, timestamp } = message
+          //? first try fetching it from aiko folder
+          const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
+          if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
+          //? next look for an existing folder to optimize our fetch
+          const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, tid, locations, mid, timestamp })
+          //? next look for inbox
+          const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
+          if (inboxLoc) {
+            if (!(fetch_plan["INBOX"])) fetch_plan["INBOX"] = []
+            return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, mid, timestamp })
+          }
+          //? next look for sent
+          const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
+          if (sentLoc) {
+            if (!(fetch_plan[Folders.get().sent])) fetch_plan[Folders.get().sent] = []
+            return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, mid, timestamp })
+          }
+          //? if all else fails just add random folder
+          const loc = locations?.[0]
+          if (loc) {
+            const { folder, uid } = loc
+            if (!(fetch_plan[folder])) fetch_plan[folder] = []
+            return fetch_plan[folder].push({ uid, tid, locations, mid, timestamp })
+          }
+        })
+        //? perform fetch
+        await Promise.all(Object.keys(fetch_plan).map(async folder => {
+          const metadata = {}
+          const uids = fetch_plan[folder].map(meta => {
+            const { uid } = meta
+            metadata[uid] = meta
+            return uid
+          })
+          if (uids.length == 0) return;
+          if (!Cleaners[folder]) {
+            Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
+              folder == Folders.get().inbox || folder.startsWith("[Aiko]")
+            ))
+          }
+          const Cleaner = Cleaners[folder]
+
+          const emails = await courier.messages.listMessages(
+            folder, Sequence(uids), {
+              peek: false,
+              markAsSeen: false,
+              limit: uids.length,
+              parse: true,
+              downloadAttachments: true,
+              keepCidLinks: false
+            }
+          )
+          console.log("Fetched", emails.length, "messages")
+
+          const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
+          await Promise.all(cleaned_emails.map(async email => {
+            const meta = metadata[email.M.envelope.uid]
+            if (!meta) return; //! something went super wrong
+            const { tid, locations, mid, timestamp } = meta
+            email.locations = locations
+            email.tid = tid
+            email.mid = mid
+            email.timestamp = timestamp
+            //? put the fetched email into our fetched results array
+            fetched.push(email)
+            email = JSON.parse(JSON.stringify(email))
+            //* cache the whole thing in L3
+            await cache.L3.cache(email.M.envelope.mid, email)
+            await cache.L3b.cache(email.M.envelope.mid, email)
+            //* strip parsed components and cache in L2
+            email.parsed.html = null
+            email.parsed.text = null
+            await cache.L2.cache(email.M.envelope.mid, email)
+            //* drop as-is into L1 (doesn't affect us that there is MORE info)
+            await cache.L1.cache(email.M.envelope.mid, email)
+          }))
+        }))
+
+        return fetched.sort((a, b) => b.M.envelope.date - a.M.envelope.date)
+      },
       full: async ({ mids, aikoFolder }) => {
         const messages = await Promise.all(mids.map(cache.lookup.mid))
         const to_fetch = []
@@ -312,6 +415,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
             email = JSON.parse(JSON.stringify(email))
             //* cache the whole thing in L3
             await cache.L3.cache(email.M.envelope.mid, email)
+            await cache.L3b.cache(email.M.envelope.mid, email)
             //* strip parsed components and cache in L2
             email.parsed.html = null
             email.parsed.text = null
@@ -485,9 +589,10 @@ module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
               fetched[tid].push(email)
             }
             email = JSON.parse(JSON.stringify(email))
-            //* cache the whole thing in L3
             // this is commented out because we currently dont download attachments or resolve CID links at fetch time
             // await cache.L3.cache(email.M.envelope.mid, email)
+            //* cache the whole thing in L3b
+            await cache.L3b.cache(email.M.envelope.mid, email)
             //* strip parsed components and cache in L2
             email.parsed.html = null
             email.parsed.text = null

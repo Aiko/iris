@@ -149,9 +149,10 @@ module.exports = () => (
     if (!email.M.envelope.mid) return Log.error("Message is missing MID")
     await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack) //* already puts it into the DB
     email = JSON.parse(JSON.stringify(email))
-    //* cache the whole thing in L3
     // this is commented out because we currently dont download attachments or resolve CID links at fetch time
     // await cache.L3.cache(email.M.envelope.mid, email)
+    //* cache the whole thing in L3b
+    await cache.L3b.cache(email.M.envelope.mid, email)
     //* strip parsed components and cache in L2
     email.parsed.html = null
     email.parsed.text = null

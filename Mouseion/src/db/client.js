@@ -59,6 +59,10 @@ const CacheProxy = async (Lumberjack, dir) => {
       cache: proxy_it('L3.cache'),
       check: proxy_it('L3.check')
     },
+    L3b: {
+      cache: proxy_it('L3b.cache'),
+      check: proxy_it('L3b.check')
+    },
     lookup: {
       mid: proxy_it('lookup.mid'),
       folder: proxy_it('lookup.folder'),
