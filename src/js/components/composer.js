@@ -12,7 +12,8 @@ const openComposer = bang => {
     titleBarStyle: 'hidden',
     backgroundColor: '#312f2e',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     },
     width: 800,
     height: 600,

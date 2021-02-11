@@ -408,7 +408,7 @@ const mailapi = {
         warn(...MAILAPI_TAG, 'Board slug is empty, defaulting to Uncategorized')
         slug = 'Uncategorized'
       }
-      return `[Aiko Mail]/${slug}`
+      return `[Aiko]/${slug}`
     },
     //? resolve a single board from slug
     resolveBoard (slug) {
@@ -498,14 +498,14 @@ const mailapi = {
       //? check if it already exists, we get the folder via WS to be 100% up to date
       const folders = await this.engine.folders.get()
       if (folders.aiko?.[slug]) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but it already exists!")
-      await this.engine.folders.add(path)
+      const x = await this.engine.folders.add(path)
       //? confirm it was added
       const updatedFolders = await this.engine.folders.get()
       if (!(updatedFolders.aiko?.[slug])) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
       //? add that to the sync set
       await this.engine.sync.add(path)
       //? create a UI element for it
-      boards.push({
+      this.boards.push({
         name: slug,
         thin: false,
         path,
