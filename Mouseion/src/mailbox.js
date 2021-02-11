@@ -155,7 +155,7 @@ const Mailbox = (async (Lumberjack, {
     })
   ;;
 
-  const api = API(cache, courier, FolderManager, Cleaners, Link, AI_BATCH_SIZE)
+  const api = API(cache, courier, FolderManager, Cleaners, Link, Lumberjack, AI_BATCH_SIZE)
 
   //! TODO: need a way to update the OAuth tokens while the engine is running. Like some way to safely
   //! update the courier -- maybe a quick close-connect pairing called from the checkOAuthTokens thing in client

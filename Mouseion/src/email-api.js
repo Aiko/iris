@@ -2,7 +2,7 @@ const Sequence = require('./email/sequence')
 const batchMap = require('../utils/do-in-batch')
 const Janitor = require('./cleaner')
 
-module.exports = (cache, courier, Folders, Cleaners, Link, AI_BATCH_SIZE) => {
+module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_SIZE) => {
   //! every time the app pulls from backend it pulls any thread with higher modseq (fresh open, app.modseq = 0)
 
   // TODO: need to add `emails` to resolve
