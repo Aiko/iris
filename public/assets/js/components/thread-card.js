@@ -71,6 +71,7 @@ Vue.component('thread-card', {
       }
     },
     async starMessage () {
+      const tid = this.thread.tid
       if (!this.thread.syncing) {
         log('Starring thread', tid)
         // update view model asap
@@ -82,6 +83,7 @@ Vue.component('thread-card', {
       }
     },
     async unstarMessage () {
+      const tid = this.thread.tid
       if (!this.thread.syncing) {
         log('Unstarring thread', tid)
         // update view model asap
@@ -94,6 +96,7 @@ Vue.component('thread-card', {
     },
     //? core logic for viewing message
     async viewMessage () {
+      const tid = this.thread.tid
       this.thread.seen = true
       this.thread.emails[0].M.flags.seen = true
       this.$root.saveThread(this.thread, reset=false)
@@ -103,11 +106,13 @@ Vue.component('thread-card', {
     },
     //? quick action interactions
     async openVerify () {
+      const tid = this.thread.tid
       if (this.thread.emails[0].M.quick_actions.context) {
         remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)
       }
     },
     async copyOTP () {
+      const tid = this.thread.tid
       if (this.thread.emails[0].M.quick_actions.otp) {
         window.copy(this.thread.emails[0].M.quick_actions.otp)
       }
