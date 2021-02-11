@@ -86,7 +86,7 @@ const PostOfficeProxy = Lumberjack => {
       openFolder: proxy_it('folders.openFolder'),
     },
     messages: {
-      listMessages: proxy_it('messages.listMessages', qu=true),
+      listMessages: proxy_it('messages.listMessages', qu=false),
       searchMessages: proxy_it('messages.searchMessages'),
       deleteMessages: proxy_it('messages.deleteMessages'),
       addMessage: proxy_it('messages.addMessage'),
