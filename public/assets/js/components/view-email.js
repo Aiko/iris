@@ -78,7 +78,7 @@ Vue.component('view-email', {
       if (!body.style.color && !body.style.backgroundColor && !body.style.background) {
         // TODO: dark mode styling can go here
       }
-      if (!body.style.padding) body.style.padding = '10px'
+      if (!body.style.padding) body.style.padding = '15px'
 
       //? this is a really high level CS technique called "throw stuff against the wall and see what sticks" 🤌🏾
       try {
