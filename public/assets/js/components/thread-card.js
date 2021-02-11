@@ -29,6 +29,9 @@ Vue.component('thread-card', {
   computed: {
     quickaction () {
       return this.thread.emails[0].M.quick_actions.classification
+    },
+    justMe () {
+      return this.thread.participants.length == 0
     }
   },
   data() {

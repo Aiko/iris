@@ -1725,6 +1725,7 @@
         'syncing': thread.syncing,
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
+        'just-me': justMe,
         'focus': false
       }"
     >
@@ -1745,8 +1746,11 @@
             <!--!------------------------------------------------------------->
             <!-- ? Participants -->
             <!--!------------------------------------------------------------->
-            <h2 class="sender" @click="debug">
+            <h2 class="sender" @click="debug" v-if="!justMe">
               {{thread.participants.slice(0, 3).map(({ name, address }) => name || address).join(', ')}}
+            </h2>
+            <h2 class="sender" @click="debug" v-if="justMe">
+              Me
             </h2>
 
             <!--!------------------------------------------------------------->

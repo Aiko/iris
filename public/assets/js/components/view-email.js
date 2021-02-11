@@ -20,6 +20,9 @@ Vue.component('view-email', {
       console.log("Loaded email", this.email)
       if (this.email.parsed.html) this.setContent()
     },
+    expanded (_) {
+      if (this.email.parsed.html) this.setContent()
+    },
   },
   methods: {
     async setContent (blank) {
@@ -38,6 +41,7 @@ Vue.component('view-email', {
       const doc = el.contentWindow.document
       doc.open()
       doc.clear()
+
       // TODO: there HAS to be a better way to load http inside https safely
       //? auto-detect links
       //! FIXME: twttr.txt.autoLinkHashtags breaks css
@@ -62,6 +66,20 @@ Vue.component('view-email', {
       doc.write(content)
       doc.close()
 
+      const body = doc.body
+      body.innerHTML = twttr.txt.autoLinkCashtags(linkifyHtml(
+        body.innerHTML, {
+          defaultProtocol: 'https' //? enforce HTTPS
+        }
+      ))
+
+      //? default styling
+      if (!body.style.fontFamily) body.style.fontFamily = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"'
+      if (!body.style.color && !body.style.backgroundColor && !body.style.background) {
+        // TODO: dark mode styling can go here
+      }
+      if (!body.style.padding) body.style.padding = '10px'
+
       //? this is a really high level CS technique called "throw stuff against the wall and see what sticks" 🤌🏾
       try {
         $('#' + iframeID).load(function () {
@@ -85,12 +103,6 @@ Vue.component('view-email', {
       for (let i = 0; i < links.length; i++) {
         links[i].target = '_blank'
       }
-      const body = doc.body
-      body.innerHTML = twttr.txt.autoLinkCashtags(linkifyHtml(
-        body.innerHTML, {
-          defaultProtocol: 'https' //? enforce HTTPS
-        }
-      ))
     },
     async starMessage () {
       const thread = this.$root.resolveThread(this.tid)

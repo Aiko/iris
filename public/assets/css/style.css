@@ -1641,6 +1641,10 @@ border: 2px solid #486fff !important;
 	border-left: 3px solid #ffc107 !important;
 }
 
+.just-me {
+	border-left: 3px solid #3dff5d !important;
+}
+
 .boards-container {
 	height: calc(100% - 47px);
 	width: 100%;
