@@ -374,16 +374,18 @@ const mailapi = {
         const board = tmp_boards.filter(({ name }) => name == slug)?.[0]
         if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
         const i = tmp_boards.indexOf(board)
-        tmp2_boards.push(tmp_boards.splice(i, 1))
+        tmp2_boards.push(...(tmp_boards.splice(i, 1)))
       })
       tmp2_boards.push(...tmp_boards)
-      this.boards = tmp2_boards
+      Vue.set(this, 'boards', tmp2_boards)
       this.boardOrder = this.boards.map(({ name }) => name)
       await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
 
-      //? start syncing
-      info(...MAILAPI_TAG, "Starting engine sync.")
-      await this.engine.sync.immediate()
+      //? sync client
+      info(...MAILAPI_TAG, "Performing client sync.")
+      await this.syncOp()
+
+      if (controlsLoader) this.loading = false
 
       //? save IMAP configuration again as an extra measure (in case the OAuth tokens updated)
       info(...MAILAPI_TAG, 'Saving config...')
@@ -392,7 +394,9 @@ const mailapi = {
       //? set the new title
       document.title = `Inbox - ${this.currentMailbox}`
 
-      if (controlsLoader) this.loading = false
+      //? start your engines!
+      info(...MAILAPI_TAG, "Starting engine sync.")
+      await this.engine.sync.immediate()
     },
     ////////////////////////////////////////////!
     //! Utility Methods
