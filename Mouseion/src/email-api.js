@@ -448,6 +448,8 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
 
           const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => (new Date(b.timestamp)) - (new Date(a.timestamp)))
 
+          if (!(messages?.[0])) return;
+
           const latest_email = await cache.L2.check(messages[0].mid)
           if (!latest_email) {
             need++

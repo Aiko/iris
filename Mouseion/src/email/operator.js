@@ -361,7 +361,7 @@ module.exports = (
           folder == Folders.get().inbox || folder.startsWith("[Aiko]")
         ))
       }
-      const Cleaner = Cleaners[src]
+      const Cleaner = Cleaners[folder]
 
       //* first, check if we have it locally
       const msg = await cache.lookup.uid(folder, uid)
