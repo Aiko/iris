@@ -733,7 +733,9 @@ padding: 5px 10px 6px 15px;
 .quick-reply {
 	height: 200px !important;
 }
-
+.note a img{
+	margin-left: 4px !important;
+}
 .quick-reply .note {
 	display: block !important;
 }
@@ -745,6 +747,7 @@ padding: 5px 10px 6px 15px;
 .main-action {
 	font-size: 11px;
 	font-weight: 500;
+	padding: 10px 0;
 	letter-spacing: 0.2px;
 	line-height: 28px;
 	white-space: nowrap;
@@ -1150,13 +1153,6 @@ overflow: visible;
 	border-left: none !important;
 }
 
-.board-header h1 {
-	color: var(--main-text-color);
-	font-size: 17px;
-	display: inline;
-	text-transform: capitalize;
-}
-
 .board-header {
 	padding: 15px 15px 10px 5px;
 }
@@ -1259,13 +1255,18 @@ overflow: visible;
 	font-size: 13px;
 }
 
+.thin .archive {
+	padding: 5px !important;
+	transition: .2s;
+}
+
 .archive {
 	font-size: 10px;
 	background: var(--secondary-bg-color);
 	border-radius: 3px;
 	line-height: 19px;
 	color: var(--main-text-color);
-	margin-left: 5px;
+	margin-left: -10px;
 	font-weight: 500;
 	padding: 5px 8px 5px 8px;
 	cursor: pointer;
@@ -1313,10 +1314,16 @@ hr {
     box-shadow: 0 6px 30px -10px #c2c8da;
 }
 
+
 .board-header h1 {
-	cursor: pointer;
+	color: var(--main-text-color);
+	font-size: 17px;
+	display: inline;
+	text-transform: capitalize;
+		cursor: pointer;
 	white-space: nowrap;
 	overflow: hidden;
+	padding: 13px;
 	text-overflow: ellipsis;
 	max-width: calc(100% - 45px);
 }
@@ -1802,10 +1809,6 @@ border: 2px solid #486fff !important;
 	background: #fff;
 }
 
-.sec-sec {
-	height: -webkit-fill-available;
-	overflow: scroll;
-}
 
 .main-email {
 	height: 100%;
@@ -1835,7 +1838,7 @@ border: 2px solid #486fff !important;
 	background: var(--main-bg-color);
 	position: relative;
 	border-radius: 3px;
-	padding: 107px 15px 25px 15px;
+	padding: 25px 15px 25px 15px;
 	overflow: hidden;
 	transition: 0.2s;
 }
@@ -1845,10 +1848,12 @@ border: 2px solid #486fff !important;
 }
 
 .previous-threads {
-	overflow: scroll;
-	width: calc(100% + 50px);
-	padding: 0 25px;
-	margin-left: -25px;
+margin-left: -15px;
+
+    padding-right: 15px;
+    width: calc(100% + 30px);
+    padding-left: 15px;
+    overflow: scroll;
 }
 
 .thread-count {
@@ -1870,6 +1875,15 @@ border: 2px solid #486fff !important;
 	color: var(--main-text-color);
 	margin-bottom: 12px;
 	line-height: 16px;
+}
+
+.secondary-email h4{
+    font-size: 13px;
+    color: var(--main-text-color);
+    margin-bottom: 0;
+    margin-top: 2px;
+    line-height: 16px;
+    margin-right: 10px;
 }
 
 .inline {
@@ -2025,13 +2039,15 @@ select.v1 {
 	position: relative;
 }
 
+.h67{
+	height: 67px !important;
+}
+
 .secondary-head {
-	padding-bottom: 15px;
-	position: absolute;
+	position: relative;
 	margin-left: -15px;
 	top: 0;
 	width: 100%;
-	padding-top: 30px;
 	padding-left: 10px;
 	padding-right: 10px;
 }
@@ -2083,6 +2099,15 @@ select.v1 {
 	letter-spacing: 0.3px;
 	display: inline;
 	transition: .2s;
+}
+
+.dark-side{
+	    background: var(--secondary-bg-color);
+    margin-left: -15px;
+    width: calc(100% + 30px);
+    display: inline-flex;
+    padding: 10px 15px;
+    margin-bottom: 10px;
 }
 
 .secondary-head p:hover {
@@ -2179,7 +2204,16 @@ select.v1 {
 	width: calc(100% - 299px);
 	transition: 0.2s;
 }
-
+.avtr img{
+	object-fit: contain;
+                        border-radius: 50%;
+                        width: 54px;
+                        height: 54px;
+                        position: relative;
+                        overflow: hidden;
+                        border: 5px solid var(--secondary-bg-color);
+                        background: #fff;
+}
 .options-qa {
 	position: absolute;
 	right: 0;
@@ -2190,7 +2224,7 @@ select.v1 {
 }
 
 .spe {
-	margin-left: -10px;
+	margin-left: 0px;
 }
 
 .set {
@@ -2206,8 +2240,7 @@ select.v1 {
 
 @media all and (max-width: 968px) {
 	.spe {
-		margin-left: 0;
-		padding-left: 10px !important;
+		margin-left: -10;
 	}
 }
 
@@ -2793,6 +2826,10 @@ unselectable {
 	font-weight: 400;
 	margin-bottom: 20px;
 }
+.modal-bottom h2{
+	margin-bottom: 0 !important;
+	padding: 4px 0;
+}
 
 .modal-bottom {
 	position: absolute;
@@ -2868,20 +2905,23 @@ unselectable {
 }
 
 .email-body .load-bottom {
-	position: absolute;
-	top: 0;
-	z-index: 1;
-	left: 0;
-	margin-top: 80px;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    margin-top: 0;
+    height: 3px;
+		background: #486fff !important;
 }
 
 .email-body .load-bottom p {
-	position: absolute;
-	margin: auto;
-	text-align: center;
-	width: 100% !important;
-	margin-top: -25px;
-	white-space: nowrap;
+    position: absolute;
+    margin: auto;
+    text-align: center;
+    width: 100% !important;
+    margin-top: 10px;
+    white-space: nowrap;
+    color: var(--main-color);
 }
 
 @keyframes lol {
@@ -3074,11 +3114,13 @@ unselectable {
 }
 
 .aiko-select {
-	background: transparent;
-	color: var(--main-color);
+	background: var(--main-color);
+	color: #fff;
 	border: 1px solid var(--main-color);
 	outline: none;
 	border-radius: 4px;
+	    font-size: 14px;
+    font-weight: 500;
 }
 
 .t-loader {

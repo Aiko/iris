@@ -2,6 +2,7 @@
 <!-- TODO: Save state of interface (sidebar and boards...) so it stays same on restart (collapsed, not collapsed etc) -->
 <!-- TODO: Make it so that when in 'single email view' we can press down and up arrow to go to next email -->
 <!-- TODO: Somehow autofocus fields like add board modal and invite etc -->
+<!-- TODO: Can we make date 'February 2' instead of 2/2 ? -->
 
 <!DOCTYPE html>
 <html>
@@ -599,8 +600,8 @@
                 </div>
 
                 <!-- Other mailboxes -->
-                <div class="account"
-                  @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes" v-if="mailbox != imapConfig?.email">
+                <div class="account" @click="switchMailbox(mailbox)" v-for="mailbox in mailboxes"
+                  v-if="mailbox != imapConfig?.email">
                   <img src="assets/icons/header-user.svg"> <span>{{mailbox}}</span>
                   <span class="sec-notif"></span>
                 </div>
@@ -817,42 +818,16 @@
               <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
               <!--!------------------------------------------------------------->
-              <draggable
-                id="aikomail--inbox"
-
-                v-if="!loading"
-                v-model="inbox"
-
-                filter=".dont-drag-this"
-                draggable=".email"
-                ghost-class="ghost"
-
-                :group="{name: 'emails'}"
-
-                :force-fallback="true"
-                :fallback-on-body="true"
-                :fallback-tolerance="0"
-
-                @end="moveThread"
-                @clone="cloneThread"
-              >
+              <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="0" @end="moveThread" @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
-                <thread-card
-                  v-for="(tid, i) in inbox"
+                <thread-card v-for="(tid, i) in inbox"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid"
-
-                  :sort="false"
-
-                  :render="i >= visibleMin && visibleMax >= i"
-                  :focused-folder.camel="focused.folder"
-                  :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view"
-                  :quick-focused.camel="focused.quickReply"
-
-                  :thread="threads[tid]"
-                  :index="i"
-                ></thread-card>
+                  :key="tid" :sort="false" :render="i >= visibleMin && visibleMax >= i"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
               </draggable>
 
 
@@ -878,32 +853,14 @@
           <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
           <!--!------------------------------------------------------------->
-          <draggable
-            style="display: inline-flex;"
-
-            v-model="boardOrder"
-
-            :group="{name: 'boards'}"
-
-            draggable=".board"
-            ghost-class="ghost"
-            handle=".board-drag-handle"
-
-            :force-fallback="true"
-            :fallback-on-body="true"
-
-            @end="reorderBoards"
-          >
+          <draggable style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
+            ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true" :fallback-on-body="true"
+            @end="reorderBoards">
             <!--!------------------------------------------------------------->
             <!-- ? Board Template -->
             <!--!------------------------------------------------------------->
-            <board
-              v-for="slug in boardOrder"
-              :syncing="syncing"
-              :board="resolveBoard(slug)"
-              :slug="slug"
-              :seen-filter.camel="seenFilter"
-            inline-template>
+            <board v-for="slug in boardOrder" :syncing="syncing" :board="resolveBoard(slug)" :slug="slug"
+              :seen-filter.camel="seenFilter" inline-template>
 
               <div :class="{
                 'board': true,
@@ -930,7 +887,8 @@
                             <a class="dropdown-item">Mark all as unread</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item">Board rules</a>
-                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
+                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
+                              board</a>
                           </div>
                         </div>
                       </div>
@@ -943,10 +901,11 @@
                         <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
                           {{slug}}
                         </h1>
-                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" tooltip="Unread emails in board">
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count"
+                          tooltip="Unread emails in board">
                           {{unread > 99 ? '99+' : unread}}
                         </div>
-                        <div v-if="slug == 'Done'" class="archive cll" tooltip="Trash entire board">
+                        <div v-if="slug == 'Done'" class="archive" tooltip="Trash entire board">
                           <img src="assets/icons/sidebar-trash.svg">
                           Trash all
                         </div>
@@ -957,7 +916,8 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 text-right cll">
                         <!-- ! Testing a UI without this -->
-                        <a v-if="false" class="board-drag-handle" tooltip="Drag board"><img src="assets/icons/board-dots2.svg"></a>
+                        <a v-if="false" class="board-drag-handle" tooltip="Drag board"><img
+                            src="assets/icons/board-dots2.svg"></a>
                       </div>
                     </div>
                   </div>
@@ -971,43 +931,15 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Draggable List -->
                   <!--!------------------------------------------------------------->
-                  <draggable
-                    :id="'aikomail--' + slug"
-
-                    v-if="board"
-                    v-model="board.tids"
-
-                    filter=".dont-drag-this"
-                    draggable=".email"
-                    ghost-class="ghost"
-
-                    :group="{name: 'emails'}"
-
-                    :force-fallback="true"
-                    :fallback-on-body="true"
-                    :fallback-tolerance="0"
-
-                    @start="startMove"
-                    @end="moveThread"
-                  >
+                  <draggable :id="'aikomail--' + slug" v-if="board" v-model="board.tids" filter=".dont-drag-this"
+                    draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                    :fallback-on-body="true" :fallback-tolerance="0" @start="startMove" @end="moveThread">
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
-                    <thread-card
-                      v-for="(tid, i) in board.tids"
-                      v-if="(seenFilter == null || thread.seen == seenFilter)"
-                      :key="tid"
-
-                      :sort="false"
-
-                      :render="true"
-                      :focused-folder.camel="focused.folder"
-                      :focused-index.camel="focused.index"
-                      :view-focused.camel="focused.view"
-                      :quick-focused.camel="focused.quickReply"
-
-                      :thread="threads[tid]"
-                      :index="i"
-                      :slug="slug"
-                    ></thread-card>
+                    <thread-card v-for="(tid, i) in board.tids" v-if="(seenFilter == null || thread.seen == seenFilter)"
+                      :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                      :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                      :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i" :slug="slug">
+                    </thread-card>
                   </draggable>
 
 
@@ -1169,7 +1101,7 @@
         <div class="modal-dialog modal-lg">
 
           <!--!------------------------------------------------------------->
-          <!-- ? Tooltip -->
+          <!-- ? ESCAPE TIP -->
           <!--!------------------------------------------------------------->
           <p class="esc-tip">press <b>ESC</b></p>
 
@@ -1190,7 +1122,6 @@
               <!--!------------------------------------------------------------->
               <div class="modal-dialog modal-md datepick" v-if="false">
                 <div class="modal-content">
-                  <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email">
                   <div class="modal-reg">
                     <h1 class="mt-2">Please change or confirm suggested time.</h1>
                     <h2 class="mt-3 mb-2"><b>"Tomorrow after work"</b></h2>
@@ -1215,13 +1146,8 @@
               <!--!------------------------------------------------------------->
               <!-- ? Thread Messages -->
               <!--!------------------------------------------------------------->
-              <view-email
-                v-for="(email, i) in fullThread.emails"
-                :email="email"
-                :expanded="i == 0"
-                :key="i"
-                :tid="thread.tid"
-              >
+              <view-email v-for="(email, i) in fullThread.emails" :email="email" :expanded="i == 0" :key="i"
+                :tid="thread.tid">
               </view-email>
             </div>
 
@@ -1232,39 +1158,20 @@
             <div class="secondary-email">
 
               <!--!------------------------------------------------------------->
-              <!-- ? Close Button -->
-              <!--!------------------------------------------------------------->
-              <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
-
-
-              <!--!------------------------------------------------------------->
               <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
               <!--!------------------------------------------------------------->
               <div class="secondary-head">
+                <h3>Participants </h3>
                 <div class="container">
-                  <div class="row">
 
-                    <!--!------------------------------------------------------------->
-                    <!-- ? Avatar -->
-                    <!-- TODO: move this to message header -->
-                    <!--!------------------------------------------------------------->
-                    <div class="col-3 p0">
-                      <img :src="avatar" style="
-                        object-fit: contain;
-                        border-radius: 50%;
-                        width: 54px;
-                        height: 54px;
-                        position: relative;
-                        overflow: hidden;
-                        border: 3px solid var(--secondary-bg-color);
-                        background: var(--secondary-bg-color);"
-                      >
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Participant Avatar + Contact Info -->
+                  <!--!------------------------------------------------------------->
+                  <div class="row h67">
+                    <div class="col-3 p0 avtr">
+                      <img :src="avatar">
                     </div>
-
-
-                    <!--!------------------------------------------------------------->
-                    <!-- ? Contact Info -->
-                    <!--!------------------------------------------------------------->
                     <div class="col-9 p0 spe hover-name">
                       <h1>{{email.M.envelope.from.name}}</h1>
                       <h2>{{email.M.envelope.from.address}}</h2>
@@ -1274,9 +1181,57 @@
                       <p>INVITE</p> <!-- This is an option, could be anything we want really-->
                     </div>
                   </div>
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Participant Avatar + Contact Info -->
+                  <!--!------------------------------------------------------------->
+                  <div class="row h67">
+                    <div class="col-3 p0 avtr">
+                      <img :src="avatar">
+                    </div>
+                    <div class="col-9 p0 spe hover-name">
+                      <h1>{{email.M.envelope.from.name}}</h1>
+                      <h2>{{email.M.envelope.from.address}}</h2>
+
+                      <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
+                      <p>COPY</p> <!-- This is an option, could be anything we want really-->
+                      <p>INVITE</p> <!-- This is an option, could be anything we want really-->
+                    </div>
+                  </div>
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Participant Avatar + Contact Info -->
+                  <!--!------------------------------------------------------------->
+                  <div class="row h67">
+                    <div class="col-3 p0 avtr">
+                      <img :src="avatar">
+                    </div>
+                    <div class="col-9 p0 spe hover-name">
+                      <h1>{{email.M.envelope.from.name}}</h1>
+                      <h2>{{email.M.envelope.from.address}}</h2>
+
+                      <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
+                      <p>COPY</p> <!-- This is an option, could be anything we want really-->
+                      <p>INVITE</p> <!-- This is an option, could be anything we want really-->
+                    </div>
+                  </div>
+
+
+
                 </div>
               </div>
 
+              <!--!------------------------------------------------------------->
+              <!-- ? Board Change -->
+              <!--!------------------------------------------------------------->
+              <div class="dark-side">
+                <h4>Current board</h4>
+                <select class="aiko-select">
+                  <option>Unrigged</option>
+                </select>
+              </div>
 
               <!--!------------------------------------------------------------->
               <!-- ? Related Threads -->
@@ -1311,8 +1266,13 @@
       <div class="aiko-modal add-mailbox">
         <!-- STEP ONE --->
         <div class="modal-dialog modal-md" v-if="step == 1">
+          <!--!------------------------------------------------------------->
+          <!-- ? ESCAPE TIP -->
+          <!-- TODO: Make Modal exitable by click out or ESC-->
+          <!--!------------------------------------------------------------->
+          <p class="esc-tip">press <b>ESC</b></p>
+
           <div class="modal-content">
-            <img @click="close" v-if="closable" src="assets/icons/grey-x.svg" class="x-email">
             <div class="modal-reg">
               <h1>Add a mailbox</h1>
               <h2>Pick an email provider</h2>
@@ -1374,13 +1334,15 @@
     <add-board-modal v-if="addBoard" inline-template>
       <div class="aiko-modal addb" @click.self="close">
         <div class="modal-dialog modal-sm">
+
+          <!--!------------------------------------------------------------->
+          <!-- ? ESCAPE TIP -->
+          <!-- TODO: Make Modal exitable by  ESC-->
+          <!--!------------------------------------------------------------->
+          <p class="esc-tip">press <b>ESC</b></p>
+
+
           <div class="modal-content">
-
-            <!--!------------------------------------------------------------->
-            <!-- ? Close Button -->
-            <!--!------------------------------------------------------------->
-            <img @click="close" src="assets/icons/grey-x.svg" class="x-email">
-
 
             <!--!------------------------------------------------------------->
             <!-- ? Board-Create Form -->
@@ -1390,23 +1352,23 @@
               <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
 
               <h1>Add a board</h1>
-              <h2>Enter a name for your board</h2>
 
-              <input v-model="name" type="text" placeholder="Board name" minlength="1" maxlength="13" class="cap" style="margin-top: -20px;">
+              <input v-model="name" type="text" placeholder="Board name" minlength="1" maxlength="13" class="cap"
+                style="margin-top: -20px;" autofocus>
 
               <br><br>
 
               <div v-if="name && validBoard" class="modal-bottom">
                 <!-- TODO: should automatically open the board rules modal for this board -->
-                <a @click="addBoard" class="blue">Add</a>
+                <a @click="addBoard">Add</a>
               </div>
 
               <div v-if="!name" class="modal-bottom">
-                Please enter a name to continue.
+                <h2>Please enter a name to continue.</h2>
               </div>
 
               <div v-if="!validBoard" class="modal-bottom">
-                <b class="red">You already have a board with that name.</b>
+                <h2 class="red">A board with that name already exists.</h2>
               </div>
 
               <br>
@@ -1713,12 +1675,7 @@
   <!--!------------------------------------------------------------->
   <script type="text/x-template" id="thread-card">
     <!-- TODO: add 'quick-reply' class when they click quick reply -->
-    <div
-      @blur="unfocus"
-      :ref="thread.tid"
-      :key="thread.tid"
-      :tid="thread.tid"
-      :class="{
+    <div @blur="unfocus" :ref="thread.tid" :key="thread.tid" :tid="thread.tid" :class="{
         'email': true,
         'unread': !(thread.seen),
         'zero': !(thread.emails[0].M.summary.sentences.length > 0),
@@ -1727,8 +1684,7 @@
         'starred': thread.starred,
         'just-me': justMe,
         'focus': false
-      }"
-    >
+      }">
 
       <!-- ? Card content -->
       <div v-if="render !== false" class="container pr" @click="viewMessage">
@@ -1813,15 +1769,17 @@
               <a v-if="quickaction == 'send_document'" class="main-action ma2">
                 <img src="assets/icons/attach.svg"> Attach files
               </a>
-              <a @click="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp" class="main-action ma2">
+              <a @click="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp"
+                class="main-action ma2">
                 <img src="assets/icons/clipboard.svg"> {{thread.emails[0].M.quick_actions.otp}}
               </a>
-              <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)" class="main-action ma2">
+              <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)"
+                class="main-action ma2">
                 <img src="assets/icons/link.svg"> Get Code
               </a>
-              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction"
-                class="main-action ma1">
-                <img src="assets/icons/zap.svg"> Quick Reply <span @click.stop.prevent="quickReplyAll = true" class="all">All</span>
+              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
+                <img src="assets/icons/zap.svg"> Quick Reply <span @click.stop.prevent="quickReplyAll = true"
+                  class="all">All</span>
               </a>
             </div>
 
@@ -1838,12 +1796,16 @@
             <!-- ? Common Interactions -->
             <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
+              <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
               <a @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
               <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
-              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img src="assets/icons/options-star.svg" width="15"></a>
-              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img src="assets/icons/badges-star.svg" width="15"></a>
-              <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red" width="15"></a>
+              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img src="assets/icons/options-star.svg"
+                  width="15"></a>
+              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img src="assets/icons/badges-star.svg"
+                  width="15"></a>
+              <a @click.stop.prevent="deleteMessage"><img src="assets/icons/options-trash.svg" class="red"
+                  width="15"></a>
             </div>
           </div>
         </div>
@@ -1858,7 +1820,7 @@
         }">
           <!-- TODO: make it so that when press enter in quick reply it sends rather than open email -->
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
-            v-model="replyText" placeholder="Type a reply..." autofocus>
+            v-model="replyText" placeholder="Type a reply, press enter to send." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
 
@@ -1885,7 +1847,6 @@
       <!--!------------------------------------------------------------->
       <div class="email-head" @click="expanded = !expanded">
         <div class="container">
-
           <!--!------------------------------------------------------------->
           <!-- ? Preview Metadata -->
           <!--!------------------------------------------------------------->
@@ -1895,6 +1856,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? Message Sender -->
               <!--!------------------------------------------------------------->
+              
               <h2 class="sender">
                 {{email.M.envelope.from.name || email.M.envelope.from.address}}
               </h2>
@@ -1907,15 +1869,6 @@
               <img v-if="email.M.tracker" src="assets/icons/badges-tracker.svg">
               <img v-if="email.M.quick_actions.classification == 'calendar_invite'" src="assets/icons/badges-event.svg">
               <img v-if="email.M.envelope.bcc.length > 0" src="assets/icons/badges-bcc.svg">
-
-
-              <!--!------------------------------------------------------------->
-              <!-- ? Board Change -->
-              <!-- TODO: move this to view thread sidebar -->
-              <!--!------------------------------------------------------------->
-              <select class="aiko-select">
-                <option>unrigged board change</option>
-              </select>
 
             </div>
             <div class="col-4 p0">
@@ -2061,7 +2014,7 @@
         <!-- ? Message Loader -->
         <!--!------------------------------------------------------------->
         <div v-if="!(email.parsed) || loading" class="load-bottom">
-          <p>Loading email</p>
+          <p>Loading content</p>
         </div>
 
 
