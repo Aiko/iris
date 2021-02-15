@@ -739,7 +739,9 @@ padding: 5px 10px 6px 15px;
 .quick-reply .note {
 	display: block !important;
 }
-
+.unread .note{
+	border-left: none !important;
+}
 .z1 {
 	z-index: 1;
 }
