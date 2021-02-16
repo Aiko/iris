@@ -726,13 +726,11 @@ padding: 5px 10px 6px 15px;
 }
 
 .quick-reply .body {
-	height: 112px !important;
+	height: unset !important;
+	max-height: 163px;
 	overflow: scroll !important;
 }
 
-.quick-reply {
-	height: 200px !important;
-}
 .note a img{
 	margin-left: 4px !important;
 }
