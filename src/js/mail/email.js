@@ -20,6 +20,7 @@ ipcMain.handle('please start up a new engine', async (_, q) => {
   if (engines[email]) return engines[email]
   try {
     const { port } = await Mouseion()
+    engines[email] = port
     return { s: comms['👉'](client_secret, { success: true, payload: port }) }
   } catch (e) { return { error: e } }
 })
