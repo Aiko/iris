@@ -75,7 +75,7 @@ const composer = {
       // cache with randomized identifier
       const identifier = String.random(12)
 
-      await BigStorage.store('composer/' + identifier, config)
+      await BigStorage.store('composer/composer-' + identifier, config)
 
       await this.executeIPC(this.task_OpenComposer(identifier))
     },
@@ -91,13 +91,13 @@ const composer = {
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
       this.messageId = config.msgId || ''
-      this.composerEngine = Engine(config.port)
+      this.composerEngine = Engine(config.enginePort)
       if (this.messageId && !this.quoted) {
         const cached = await this.composerEngine.api.get.single(this.messageId)
         if (cached) {
           this.quoted =
           'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
-          ', ' + sender.name + ' <' + sender.address + '> wrote:<br><br>' + cached.parsed?.html
+          ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + cached.parsed?.html
         }
       }
     },
@@ -110,7 +110,7 @@ const composer = {
     async sendEmail(html, attachments=[], includeCSS=true) {
       const mail = {}
 
-      const Me = await this.engine.contacts.lookup(this.smtpConfig.email)?.[0]
+      const Me = await this.composerEngine.contacts.lookup(this.smtpConfig.email)?.[0]
       if (Me) mail.from = `${Me.name} <${Me.email}>`
       else mail.from = this.currentMailbox || this.imapConfig?.email || this.smtpConfig?.email
 

@@ -75,6 +75,8 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
 
   let transporter;
 
+  console.log(xoauth2)
+  console.log(provider)
   switch(provider) {
     case "google": transporter = nodemailer.createTransport({
       service: 'gmail',
