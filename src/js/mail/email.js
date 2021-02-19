@@ -17,7 +17,9 @@ ipcMain.handle('please start up a new engine', async (_, q) => {
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
   if (!client_secret) return { error: "Couldn't decode client secret" }
 
-  if (engines[email]) return engines[email]
+  if (engines[email]) {
+    return { s: comms['👉'](client_secret, { success: true, payload: engines[email] }) }
+  }
   try {
     const { port } = await Mouseion()
     engines[email] = port
