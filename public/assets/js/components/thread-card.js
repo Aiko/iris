@@ -32,6 +32,9 @@ Vue.component('thread-card', {
     },
     justMe () {
       return this.thread.participants.length == 0
+    },
+    isRepliedTo () {
+      return !!(this.thread.emails[0].locations.filter(({ folder }) => folder == this.$root.folders.sent)?.[0])
     }
   },
   data() {
