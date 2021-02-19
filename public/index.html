@@ -822,7 +822,7 @@
               <!--!------------------------------------------------------------->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
                 draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="0" @end="moveThread" @clone="cloneThread">
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in inbox"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
@@ -857,7 +857,7 @@
           <!--!------------------------------------------------------------->
           <draggable style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
             ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true" :fallback-on-body="true"
-            @end="reorderBoards">
+            @end="reorderBoards" :fallback-tolerance="5">
             <!--!------------------------------------------------------------->
             <!-- ? Board Template -->
             <!--!------------------------------------------------------------->
@@ -935,7 +935,7 @@
                   <!--!------------------------------------------------------------->
                   <draggable :id="'aikomail--' + slug" v-if="board" v-model="board.tids" filter=".dont-drag-this"
                     draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                    :fallback-on-body="true" :fallback-tolerance="0" @start="startMove" @end="moveThread">
+                    :fallback-on-body="true" :fallback-tolerance="5" @start="startMove" @end="moveThread">
                     <!-- Single Email ---------- add class 'drag' when dragged ------->
                     <thread-card v-for="(tid, i) in board.tids" v-if="(seenFilter == null || thread.seen == seenFilter)"
                       :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
