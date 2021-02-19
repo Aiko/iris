@@ -59,7 +59,7 @@ const composer = {
       withBCC=[],
       withSubject='',
       withQuoted='',
-      withMessageId='',
+      withMessageId=''
     ) {
       const config = {
         smtp: this.smtpConfig,

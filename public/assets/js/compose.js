@@ -35,8 +35,9 @@ const app = new Vue({
     windowManager, // window controls
     composer, // SMTP API
     goauth, // Google OAuth
-    msoauth, // MSFT OAuth
-    oauth, // OAuth helper
+    msoauth, // Microsoft OAuth
+    oauth, // OAuth Provider
+    calendar, // Calendar API
     VueClickaway.mixin, // Clickaway
   ],
   components: {
