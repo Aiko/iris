@@ -173,8 +173,8 @@ const mailapi = {
     //! IPC Tasks
     ////////////////////////////////////////////!
     //? IPC task to create a new Mouseion engine
-    task_NewEngine () {
-      return this.ipcTask('please start up a new engine', {})
+    task_NewEngine (email) {
+      return this.ipcTask('please start up a new engine', {email,})
     },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
@@ -251,7 +251,7 @@ const mailapi = {
       }
 
       //? start new Mouseion instance, get port
-      const port = await this.callIPC(this.task_NewEngine())
+      const port = await this.callIPC(this.task_NewEngine(this.imapConfig.email))
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it
