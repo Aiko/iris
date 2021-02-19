@@ -34,6 +34,7 @@ Vue.component('chip-input', {
   },
   watch: {
     async term(is, was) {
+      this.engine = this.$root.engine || this.$root.composerEngine
       if (this.activeChip > -1) this.term = was
       let suggestions = []
       if (this.focused) {
@@ -45,6 +46,7 @@ Vue.component('chip-input', {
       this.height = $(this.$el).height() + this.$el.offsetTop
     },
     async focused() {
+      this.engine = this.$root.engine || this.$root.composerEngine
       let suggestions = []
       if (this.term) suggestions = await this.engine.contacts.lookup(this.term)
       else suggestions = []
