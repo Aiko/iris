@@ -1283,6 +1283,7 @@ overflow: visible;
 	width: 14px;
 	margin-right: 3px;
 	margin-top: -2px;
+	    margin-left: -1px;
 }
 
 hr {
