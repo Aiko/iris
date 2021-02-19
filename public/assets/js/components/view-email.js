@@ -156,7 +156,7 @@ Vue.component('view-email', {
     async reply() {
       const email = this.email
       //? if it is an email you sent, then we use the same recipient list
-      const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+      const is_sent = email.locations.filter(({ folder }) => folder == this.$root.folders.sent)?.[0]
       this.$root.openComposer(
         withTo=(is_sent ?
           this.normalizeAddresses(email.M.envelope.to)

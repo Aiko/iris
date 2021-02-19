@@ -123,9 +123,9 @@ Vue.component('thread-card', {
         ! this didn't make sense.
         //? the email replied to is the latest message not in sent
         //? unless all messages are in sent, then it is the latest message
-        const email = ((thread, sentFolder) => {
+        const email = ((thread, this.$root.folders.sent) => {
           for (const email of thread.emails) {
-            const sentLoc = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+            const sentLoc = email.locations.filter(({ folder }) => folder == this.$root.folders.sent)?.[0]
             if (!sentLoc) return email
           }
           return thread.emails?.[0]
@@ -133,7 +133,7 @@ Vue.component('thread-card', {
       */
       const email = this.thread.emails[0]
       //? if it is an email you sent, then we use the same recipient list
-      const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+      const is_sent = email.locations.filter(({ folder }) => folder == this.$root.folders.sent)?.[0]
       this.$root.openComposer(
         withTo=(is_sent ?
           this.normalizeAddresses(email.M.envelope.to)
@@ -189,7 +189,7 @@ Vue.component('thread-card', {
         [email.M.envelope.from, ...email.M.envelope.to] //? don't need to check if it's one you sent bc of below
           .filter(({ address }) => address != this.$root.currentMailbox) //? don't reply to yourself lol
       )
-      const is_sent = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
+      const is_sent = email.locations.filter(({ folder }) => folder == this.$root.folders.sent)?.[0]
       const to = is_sent ? this.normalizeAddresses(email.M.envelope.to)
           : this.normalizeAddresses([email.M.envelope.from]);
 
