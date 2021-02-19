@@ -1730,7 +1730,7 @@
           <!-- ? Prettified Date -->
           <!--!------------------------------------------------------------->
           <div class="col-4 p0 cll">
-            <div class="time">{{thread.date.toNiceDateTime()}}</div>
+            <div class="time">{{thread.date.toNiceDateTime(6)}}</div>
           </div>
 
           <!--!------------------------------------------------------------->
@@ -1858,7 +1858,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? Message Sender -->
               <!--!------------------------------------------------------------->
-              
+
               <h2 class="sender">
                 {{email.M.envelope.from.name || email.M.envelope.from.address}}
               </h2>
@@ -1874,7 +1874,7 @@
 
             </div>
             <div class="col-4 p0">
-              <div class="time">{{new Date(email.M.envelope.date).toNiceDateTime()}}</div>
+              <div class="time">{{new Date(email.M.envelope.date).toNiceDateTime(6)}}</div>
             </div>
           </div>
 

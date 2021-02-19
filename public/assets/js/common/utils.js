@@ -117,7 +117,7 @@ Date.prototype.toNicerDateTime = function () {
   return this.toDateTime()
 }
 
-Date.prototype.toNiceDateTime = function () {
+Date.prototype.toNiceDateTime = function (n=7) {
   const now = new Date()
   const diff = this - now
   const days = diff / (1000 * 60 * 60 * 24)
@@ -127,7 +127,7 @@ Date.prototype.toNiceDateTime = function () {
       minute: '2-digit'
     })
   }
-  if (Math.abs(days) < 7) {
+  if (Math.abs(days) < n) {
     return this.toLocaleDateString('en-us', {
       weekday: 'short',
       hour: 'numeric',
