@@ -1273,7 +1273,28 @@ overflow: visible;
 	display: inline;
 	transition: 0.2s;
 }
-
+.tour-modal{
+background-color: var(--main-color);
+    color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+				z-index: 10;
+				outline: none;
+}
+.tour-modal button{
+	    background: #fff;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    padding: 2px 10px;
+    margin-top: 10px;
+transition: .2s;
+}
+.tour-modal button:hover{
+	filter: brightness(.9);
+transition: .2s;
+}
 .archive:hover {
 	color: var(--main-text-color-hover);
 	transition: 0.2s;

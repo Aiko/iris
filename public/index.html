@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
+  <link rel="stylesheet" href="assets/css/shepherd.css">
   <!-- ? jQuery -->
   <script src="assets/js/third-party/jquery.min.js"></script>
   <script>
@@ -788,7 +789,7 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Priority/Other Switcher -->
                   <!--!------------------------------------------------------------->
-                  <div class="col-8 text-center exp nowrap">
+                  <div class="col-8 text-center exp nowrap" id="step2">
                     <div class="inbox-switch left text-center">
                       <!-- TODO: Add 'active' ti whichever is active, see below-->
                       <h1 :class="{
@@ -815,7 +816,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
             <!--!------------------------------------------------------------->
-            <div ref="inboxBoard" @scroll="onScroll" class="board-body">
+            <div ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
@@ -1799,7 +1800,8 @@
             <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
-              <a v-if="isRepliedTo" @click.stop.prevent="reply"><img src="assets/icons/options-replied.png" width="18"></a>
+              <a v-if="isRepliedTo" @click.stop.prevent="reply"><img src="assets/icons/options-replied.png"
+                  width="18"></a>
               <a v-else @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
               <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
@@ -2065,6 +2067,7 @@
   <script src="assets/js/third-party/twitter-text.min.js"></script>
   <script src="assets/js/third-party/linkify.min.js"></script>
   <script src="assets/js/third-party/anchorme.min.js"></script>
+  <script src="assets/js/third-party/shepherd.min.js"></script>
 
   <!-- TODO: minify all sources into one js file -->
   <!--! common libraries -->
@@ -2102,6 +2105,7 @@
   <script src="assets/js/components/thread-card.js"></script>
   <script src="assets/js/components/view-email.js"></script>
   <script src="assets/js/components/board.js"></script>
+  <script src="assets/js/components/tour.js"></script>
   <!--? Entrypoint -->
   <script src="assets/js/main.js"></script>
 
