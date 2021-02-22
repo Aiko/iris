@@ -105,7 +105,7 @@ const Mailbox = (async (Lumberjack, {
     Cleaners, Log,
     configs,
     Lumberjack, FolderManager,
-    AI_BATCH_SIZE)
+    AI_BATCH_SIZE, THREAD_BATCH_SIZE)
 
   //* Client Operator
   const Link = Operator(provider,
