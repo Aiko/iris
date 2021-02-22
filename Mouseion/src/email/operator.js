@@ -326,7 +326,7 @@ module.exports = (
       const d = await courier.messages.moveMessages(src, dest, srcUID)
       const destUID =
         d?.destSeqSet ||
-        d?.copyuid?.reduceRight(_ => s_) ||
+        d?.copyuid?.reduceRight(_ => _) ||
         d?.payload?.OK?.[0]?.copyuid?.[2] ||
         d?.OK?.[0]?.copyuid?.[2];
 
