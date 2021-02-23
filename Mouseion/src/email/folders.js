@@ -21,41 +21,64 @@ module.exports = async (provider, courier, Log) => {
     //* Default folder names
     folderNames.inbox = 'INBOX'
 
-    //* Provider specific folder names
-    if (provider == 'google') {
-      Log.log("Using Google strategy for folder selection.")
-      // FIXME: should check if these actually exist and if not default to auto-detection
-      folderNames.sent = '[Gmail]/Sent Mail'
-      folderNames.starred = '[Gmail]/Starred'
-      folderNames.spam = '[Gmail]/Spam'
-      folderNames.drafts = '[Gmail]/Drafts'
-      folderNames.archive = '[Gmail]/All Mail'
-      folderNames.trash = '[Gmail]/Trash'
+
+    Log.warn("Defaulting to folder auto-detection.")
+    const allfolders = []
+    const allFolderInfo = {}
+    const walk = folder => {
+      allfolders.push(folder.path)
+      allFolderInfo[folder.path] = {flags: folder.flags}
+      Object.values(folder?.children).map(walk)
+    }
+    Object.values(folders).map(walk)
+
+    const detectFolderName = (keyword, {
+      sent=false, star=false, drafts=false, trash=false, spam=false, archive=true
+    }={}) => {
+      const findWithFlag = flag => {
+        const candidate = allfolders.filter(folder => {
+          const { flags } = allFolderInfo[folder]
+          return flags.includes(flag)
+        })?.[0]
+        if (candidate) return candidate
+        return null
+      }
+      if (sent) {
+        const candidate = findWithFlag('\\Sent')
+        if (candidate) return candidate
+      }
+      if (star) {
+        const candidate = findWithFlag('\\Flagged')
+        if (candidate) return candidate
+      }
+      if (drafts) {
+        const candidate = findWithFlag('\\Drafts')
+        if (candidate) return candidate
+      }
+      if (trash) {
+        const candidate = findWithFlag('\\Trash')
+        if (candidate) return candidate
+      }
+      if (spam) {
+        const candidate = findWithFlag('\\Junk')
+        if (candidate) return candidate
+      }
+      if (archive) {
+        const candidate = findWithFlag('\\All')
+        if (candidate) return candidate
+      }
+
+      const matches = allfolders.filter(f => f.includes(keyword))
+      if (matches.length > 0) return matches[0]
+      return ''
     }
 
-    //* Folder name detection
-    else {
-      Log.warn("No strategy defined for this provider, will default to auto-detection.")
-      const allfolders = []
-      const walk = folder => {
-        allfolders.push(folder.path)
-        allfolders.push(...Object.values(folder?.children).map(({ path }) => path ))
-      }
-      Object.values(folders).map(walk)
-
-      const detectFolderName = keyword => {
-        const matches = allfolders.filter(f => f.includes(keyword))
-        if (matches.length > 0) return matches[0]
-        return ''
-      }
-
-      folderNames.sent = detectFolderName('Sent')
-      folderNames.starred = detectFolderName('Star')
-      folderNames.spam = detectFolderName('Spam') || detectFolderName('Junk')
-      folderNames.drafts = detectFolderName('Drafts')
-      folderNames.archive = detectFolderName('All Mail') || detectFolderName('Archive')
-      folderNames.trash = detectFolderName('Trash') || detectFolderName('Deleted')
-    }
+    folderNames.sent = detectFolderName('Sent', {sent: true})
+    folderNames.starred = detectFolderName('Star', {star: true})
+    folderNames.spam = detectFolderName('Spam', {spam: true}) || detectFolderName('Junk', {spam: true})
+    folderNames.drafts = detectFolderName('Drafts', {drafts: true})
+    folderNames.archive = detectFolderName('All Mail', {archive: true}) || detectFolderName('Archive', {archive: true})
+    folderNames.trash = detectFolderName('Trash', {trash: true}) || detectFolderName('Deleted', {trash: true})
 
     //? Aiko Mail folders:
 
