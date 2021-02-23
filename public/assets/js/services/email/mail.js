@@ -83,6 +83,7 @@ const mailapi = {
     //? manages mailboxes loaded into Aiko Mail
     mailboxes: [],
     currentMailbox: '',
+    avatar: 'assets/icons/header-user.svg',
     //? synced folders object
     folders: {},
     //? internal representation of threads
@@ -203,6 +204,7 @@ const mailapi = {
 
       //? set the current mailbox
       this.currentMailbox = currentEmail
+      this.avatar = await this.currentMailbox.getAvatar()
 
       //? load the relevant IMAP configuration
       info(...MAILAPI_TAG, 'Loading IMAP config...')
@@ -313,6 +315,7 @@ const mailapi = {
 
       //? set it as the current mailbox
       this.currentMailbox = this.imapConfig.email
+      this.avatar = await this.currentMailbox.getAvatar()
       await SmallStorage.store('current-mailbox', this.imapConfig.email)
 
       //? save IMAP/SMTP configurations as an extra measure

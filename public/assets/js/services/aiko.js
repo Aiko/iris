@@ -68,10 +68,11 @@ const aikoapi = {
 
         // manually form Date objects for later use
         this.profile.period_ends = new Date(this.profile.period_ends)
-        this.profile.team.team = this.profile.team.team.map(tm => {
+        this.profile.team.team = await Promise.all(this.profile.team.team.map(async tm => {
           tm.member.created = new Date(tm.member.created)
+          tm.member.avatar = await tm.member.email.getAvatar()
           return tm
-        })
+        }))
 
         success(...(AIKOAPI_TAG), 'Fetched user profile.')
         return true
