@@ -155,7 +155,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, locations })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, locations })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, locations })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
@@ -252,7 +252,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, tid, locations, mid, timestamp })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, mid, timestamp })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
@@ -299,7 +299,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
               keepCidLinks: false
             }
           )
-          console.log("Fetched", emails.length, "messages")
+          // console.log("Fetched", emails.length, "messages")
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
@@ -348,12 +348,13 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
         //? build the fetch plan
         to_fetch.map(message => {
           const { locations, tid, mid, timestamp } = message
+          if (locations.length == 0) console.log("NO LOCATIONS??????", mid, tid, locations)
           //? first try fetching it from aiko folder
           const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
           if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, tid, locations, mid, timestamp })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, mid, timestamp })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
@@ -400,7 +401,6 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
               keepCidLinks: false
             }
           )
-          console.log("Fetched", emails.length, "messages")
 
           const cleaned_emails = await batchMap(emails, AI_BATCH_SIZE, Cleaner.full)
           await Promise.all(cleaned_emails.map(async email => {
@@ -486,7 +486,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           }))
         }))
 
-        console.log("Have", have, "but need", need)
+        // console.log("Have", have, "but need", need)
 
         //? build the fetch plan
         Object.keys(to_fetch).map(tid => {
@@ -501,7 +501,6 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
             const afLoc = locations.filter(({ folder }) => folder == aikoFolder)?.[0]
             if (afLoc) {
               if (!fetch_plan[aikoFolder]) {
-                console.log(aikoFolder, "fetch plan newly created.")
                 fetch_plan[aikoFolder] = []
               }
               return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
@@ -510,7 +509,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
             const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
             if (shortcut) {
               if (!fetch_plan[shortcut.folder]) {
-                console.log(shortcut.folder, "fetch plan newly created")
+                // console.log(shortcut.folder, "fetch plan newly created")
                 fetch_plan[shortcut.folder] = []
               }
               return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, mid, timestamp })
@@ -519,17 +518,17 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
             const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
             if (inboxLoc) {
               if (!(fetch_plan["INBOX"])) {
-                console.log("INBOX fetch plan newly created.")
+                // console.log("INBOX fetch plan newly created.")
                 fetch_plan["INBOX"] = []
               }
-              console.log("Adding", inboxLoc.uid, "to fetch plan for INBOX")
+              // console.log("Adding", inboxLoc.uid, "to fetch plan for INBOX")
               return fetch_plan["INBOX"].push({ uid: inboxLoc.uid, tid, locations, mid, timestamp })
             }
             //? next look for sent
             const sentLoc = locations.filter(({ folder }) => folder == Folders.get().sent)?.[0]
             if (sentLoc) {
               if (!(fetch_plan[Folders.get().sent])) {
-                console.log(Folders.get().sent, "fetch plan newly created.")
+                // console.log(Folders.get().sent, "fetch plan newly created.")
                 fetch_plan[Folders.get().sent] = []
               }
               return fetch_plan[Folders.get().sent].push({ uid: sentLoc.uid, tid, locations, mid, timestamp })
@@ -539,7 +538,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
             if (loc) {
               const { folder, uid } = loc
               if (!(fetch_plan[folder])) {
-                console.log(folder, "fetch plan newly created.")
+                // console.log(folder, "fetch plan newly created.")
                 fetch_plan[folder] = []
               }
               return fetch_plan[folder].push({ uid, tid, locations, mid, timestamp })
@@ -557,7 +556,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
             return uid
           })
           if (uids.length == 0) return;
-          console.log("Fetching", uids.length, "for", folder, "using", Sequence(uids))
+          // console.log("Fetching", uids.length, "for", folder, "using", Sequence(uids))
 
           if (!Cleaners[folder]) {
             Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
@@ -605,7 +604,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           }))
         }))
 
-        console.log("Found", found)
+        // console.log("Found", found)
 
         //? finally, populate threads with fetched
         return Object.keys(fetched).map(tid => {
