@@ -1,13 +1,13 @@
 Vue.component('board', {
   props: ['board', 'slug', 'syncing', 'seenFilter'],
   watch: {
-    async thin() {
+    'board.thin': async function(_) {
       const board = this.$root.resolveBoard(this.board.name)
       if (!board) return;
       const i = this.$root.boards.indexOf(board)
 
-      this.$root.boards[i].thin = this.thin
-      if (this.thin) {
+      this.$root.boards[i].thin = this.board.thin
+      if (this.board.thin) {
         this.$root.boardThiccness.push(board.name)
       } else {
         this.$root.boardThiccness = this.$root.boardThiccness.filter(n => n != board.name)
