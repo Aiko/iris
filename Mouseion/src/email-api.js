@@ -155,7 +155,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, locations })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, locations })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, locations })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
@@ -252,7 +252,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           if (afLoc) return fetch_plan[aikoFolder].push({ uid: afLoc.uid, tid, locations, mid, timestamp })
           //? next look for an existing folder to optimize our fetch
           const shortcut = locations.filter(({ folder }) => !!(fetch_plan[folder]))?.[0]
-          if (shortcut) return fetch_plan[shortcut.folder].push({ uids: shortcut.uid, tid, locations, mid, timestamp })
+          if (shortcut) return fetch_plan[shortcut.folder].push({ uid: shortcut.uid, tid, locations, mid, timestamp })
           //? next look for inbox
           const inboxLoc = locations.filter(({ folder }) => folder == "INBOX")?.[0]
           if (inboxLoc) {
