@@ -1158,32 +1158,6 @@
             <div class="secondary-email">
 
               <!--!------------------------------------------------------------->
-              <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
-              <!--!------------------------------------------------------------->
-              <div class="secondary-head" v-if="thread.participants.length > 0">
-                <h3>Participants</h3>
-                <div class="container">
-                  <!--!------------------------------------------------------------->
-                  <!-- ? Participant Avatar + Contact Info -->
-                  <!--!------------------------------------------------------------->
-                  <div v-for="participant in thread.participants" class="row h67">
-                    <div class="col-3 p0 avtr">
-                      <img :src="participant.avatar">
-                    </div>
-                    <div class="col-9 p0 spe hover-name">
-                      <h1>{{participant.name}}</h1>
-                      <h2>{{participant.address}}</h2>
-
-                      <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
-                      <p>COPY</p> <!-- This is an option, could be anything we want really-->
-                      <p>INVITE</p> <!-- This is an option, could be anything we want really-->
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-              <!--!------------------------------------------------------------->
               <!-- ? Board Change -->
               <!--!------------------------------------------------------------->
               <div class="dark-side">
@@ -1813,82 +1787,105 @@
           <!--!------------------------------------------------------------->
           <!-- ? Preview Metadata -->
           <!--!------------------------------------------------------------->
-          <div class="row sender-top">
-            <div class="col-8 p0" style="display: inline-flex;height: 22px;">
-
-              <!--!------------------------------------------------------------->
-              <!-- ? Message Sender -->
-              <!--!------------------------------------------------------------->
-
-              <h2 class="sender">
-                {{email.M.envelope.from.name || email.M.envelope.from.address}}
-              </h2>
-
-
-              <!--!------------------------------------------------------------->
-              <!-- ? Message Badges -->
-              <!--!------------------------------------------------------------->
-              <img v-if="email.parsed?.attachments?.length > 0" src="assets/icons/badges-attach.svg">
-              <img v-if="email.M.tracker" src="assets/icons/badges-tracker.svg">
-              <img v-if="email.M.quick_actions.classification == 'calendar_invite'" src="assets/icons/badges-event.svg">
-              <img v-if="email.M.envelope.bcc.length > 0" src="assets/icons/badges-bcc.svg">
-
-            </div>
-            <div class="col-4 p0">
-              <div class="time">{{new Date(email.M.envelope.date).toNiceDateTime(6)}}</div>
-            </div>
-          </div>
-
-          <!--!------------------------------------------------------------->
-          <!-- ? More Metadata -->
-          <!--!------------------------------------------------------------->
           <div class="row">
-            <h2 class="fromto-info" @click.stop.prevent="showSenderInfo = !showSenderInfo">
+                                    <div class="w65">
+                                      <img class="email-view-avatar">
+                                      <!--!-  <img :src="participant.avatar" class="email-view-avatar"> -->
+                                    </div>
+                                    <div class="w65p">
+                                      <div class="container">
+                                      <div class="row sender-top">
+                                        <div class="col-8 p0" style="display: inline-flex;height: 22px;">
 
-              <!--!------------------------------------------------------------->
-              <!-- ? Singular Direct Recipient, Collapsed -->
-              <!--!------------------------------------------------------------->
-              <div v-if="!showSenderInfo && email.M.envelope.to.length == 1">
-                <b>From</b>
-                <span>{{email.M.envelope.from.address}}</span>
-                <b>to</b>
-                <span>{{email.M.envelope.to[0].address}}</span>
-                <b v-if="email.M.envelope.cc.length > 0">and {{email.M.envelope.cc.length}} others</b>
-              </div>
+                                          <!--!------------------------------------------------------------->
+                                          <!-- ? Message Sender -->
+                                          <!--!------------------------------------------------------------->
 
-
-              <!--!------------------------------------------------------------->
-              <!-- ? Multiple Direct Recipients, Collapsed -->
-              <!--!------------------------------------------------------------->
-              <div v-if="!showSenderInfo && email.M.envelope.recipients.length > 1">
-                <b>From</b>
-                <span>{{email.M.envelope.from.address}}</span>
-                <b>to</b>
-                <span v-for="to in email.M.envelope.to.slice(0, 2)">{{to.address}}, </span>
-                <b v-if="email.M.envelope.to.length > 2 || email.M.envelope.cc.length > 0">
-                  and {{Math.max(email.M.envelope.to.length - 2, 0) + email.M.envelope.cc.length}} others
-                </b>
-              </div>
+                                          <h2 class="sender">
+                                            {{email.M.envelope.from.name || email.M.envelope.from.address}}
+                                          </h2>
 
 
-              <!--!------------------------------------------------------------->
-              <!-- ? Any Recipient, Expanded -->
-              <!--!------------------------------------------------------------->
-              <div v-if="showSenderInfo" class="more-fromto">
-                <b>From </b>
-                <span>{{email.M.envelope.from.name ? '"' + email.M.envelope.from.name + '" ' : ''}} {{email.M.envelope.from.address}}</span>
-                <br>
-                <b>To </b>
-                <span v-for="to in email.M.envelope.to">{{to.name ? '"' + to.name + '" ' : ''}} {{to.address}},&nbsp;</span>
-                <br v-if="email.M.envelope.cc.length > 0">
-                <b v-if="email.M.envelope.cc.length > 0">CC </b>
-                <span v-for="cc in email.M.envelope.cc">{{cc.name ? '"' + cc.name + '" ' : ''}} {{cc.address}},&nbsp;</span>
-                <br v-if="email.M.envelope.bcc.length > 0">
-                <b v-if="email.M.envelope.bcc.length > 0">BCC </b>
-                <span v-for="bcc in email.M.envelope.bcc">{{bcc.name ? '"' + bcc.name + '" ' : ''}} {{bcc.address}},&nbsp;</span>
-              </div>
-            </h2>
+                                          <!--!------------------------------------------------------------->
+                                          <!-- ? Message Badges -->
+                                          <!--!------------------------------------------------------------->
+                                          <img v-if="email.parsed?.attachments?.length > 0"
+                                            src="assets/icons/badges-attach.svg">
+                                          <img v-if="email.M.tracker" src="assets/icons/badges-tracker.svg">
+                                          <img v-if="email.M.quick_actions.classification == 'calendar_invite'"
+                                            src="assets/icons/badges-event.svg">
+                                          <img v-if="email.M.envelope.bcc.length > 0" src="assets/icons/badges-bcc.svg">
+
+                                        </div>
+                                        <div class="col-4 p0">
+                                          <div class="time">{{new Date(email.M.envelope.date).toNiceDateTime(6)}}</div>
+                                        </div>
+                                      </div>
+
+                                      <!--!------------------------------------------------------------->
+                                      <!-- ? More Metadata -->
+                                      <!--!------------------------------------------------------------->
+                                      <div class="row">
+                                        <h2 class="fromto-info" @click.stop.prevent="showSenderInfo = !showSenderInfo">
+
+                                          <!--!------------------------------------------------------------->
+                                          <!-- ? Singular Direct Recipient, Collapsed -->
+                                          <!--!------------------------------------------------------------->
+                                          <div v-if="!showSenderInfo && email.M.envelope.to.length == 1">
+                                            <b>From</b>
+                                            <span>{{email.M.envelope.from.address}}</span>
+                                            <b>to</b>
+                                            <span>{{email.M.envelope.to[0].address}}</span>
+                                            <b v-if="email.M.envelope.cc.length > 0">and {{email.M.envelope.cc.length}}
+                                              others</b>
+                                          </div>
+
+
+                                          <!--!------------------------------------------------------------->
+                                          <!-- ? Multiple Direct Recipients, Collapsed -->
+                                          <!--!------------------------------------------------------------->
+                                          <div v-if="!showSenderInfo && email.M.envelope.recipients.length > 1">
+                                            <b>From</b>
+                                            <span>{{email.M.envelope.from.address}}</span>
+                                            <b>to</b>
+                                            <span v-for="to in email.M.envelope.to.slice(0, 2)">{{to.address}}, </span>
+                                            <b v-if="email.M.envelope.to.length > 2 || email.M.envelope.cc.length > 0">
+                                              and
+                                              {{Math.max(email.M.envelope.to.length - 2, 0) + email.M.envelope.cc.length}}
+                                              others
+                                            </b>
+                                          </div>
+
+
+                                          <!--!------------------------------------------------------------->
+                                          <!-- ? Any Recipient, Expanded -->
+                                          <!--!------------------------------------------------------------->
+                                          <div v-if="showSenderInfo" class="more-fromto">
+                                            <b>From </b>
+                                            <span>{{email.M.envelope.from.name ? '"' + email.M.envelope.from.name + '" ' : ''}}
+                                              {{email.M.envelope.from.address}}</span>
+                                            <br>
+                                            <b>To </b>
+                                            <span
+                                              v-for="to in email.M.envelope.to">{{to.name ? '"' + to.name + '" ' : ''}}
+                                              {{to.address}},&nbsp;</span>
+                                            <br v-if="email.M.envelope.cc.length > 0">
+                                            <b v-if="email.M.envelope.cc.length > 0">CC </b>
+                                            <span
+                                              v-for="cc in email.M.envelope.cc">{{cc.name ? '"' + cc.name + '" ' : ''}}
+                                              {{cc.address}},&nbsp;</span>
+                                            <br v-if="email.M.envelope.bcc.length > 0">
+                                            <b v-if="email.M.envelope.bcc.length > 0">BCC </b>
+                                            <span
+                                              v-for="bcc in email.M.envelope.bcc">{{bcc.name ? '"' + bcc.name + '" ' : ''}}
+                                              {{bcc.address}},&nbsp;</span>
+                                          </div>
+                                        </h2>
+                                      </div>
+                                      </div>
+                                    </div>
           </div>
+          
 
 
           <!--!------------------------------------------------------------->
