@@ -1924,6 +1924,7 @@ margin-left: -15px;
 	font-size: 16px;
 	font-weight: 600;
 	margin-top: 15px;
+	line-height: 20px;
 }
 
 .thread {
@@ -1958,7 +1959,7 @@ margin-left: -15px;
 	transition: 0.2s;
 }
 
-.email-head img:hover {
+.options img:hover {
 	opacity: 0.8;
 	transition: 0.2s;
 }
@@ -2007,7 +2008,7 @@ margin-left: -15px;
 .short .email-view-avatar{
     width: 24px;
     height: 24px;
-		margin-top: -8px;
+		margin-top: -7px;
 		transition: .1s;
 }
 .short .email-view-avatar{
@@ -3045,14 +3046,7 @@ unselectable {
 
 [tooltip]::after {
 	content: attr(tooltip);
-	/* magic! */
-	/* most of the rest of this is opinion */
-	font-family: Helvetica, sans-serif;
-	text-align: center;
-	/* 
-	Let the content set the size of the tooltips 
-	but this will also keep them from being obnoxious
-	*/
+text-align: center;
 	min-width: 3em;
 	max-width: 21em;
 	white-space: nowrap;
