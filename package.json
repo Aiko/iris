@@ -81,6 +81,7 @@
     "googleapis": "^44.0.0",
     "html-to-text": "^6.0.0",
     "jquery": "^3.4.1",
+    "jsdom": "^16.4.0",
     "jsonwebtoken": "^8.5.1",
     "leveldown": "^5.6.0",
     "linvodb3": "^3.26.0",
@@ -91,6 +92,7 @@
     "nodemailer": "^6.4.17",
     "nodemailer-juice": "^1.0.1",
     "nodemailer-plugin-inline-base64": "^2.1.1",
+    "planer": "^1.1.1",
     "request": "^2.88.0",
     "ws": "^7.2.5"
   },
