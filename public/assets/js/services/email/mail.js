@@ -465,8 +465,46 @@ const mailapi = {
           people.push(...(email.M.envelope.cc))
           people.push(...(email.M.envelope.bcc))
           people.push(...(email.M.envelope.to))
+          //? we try to detect a forwarding address
+          let forwardAddress = (() => {
+            //? if we weren't the sender
+            if (email.M.envelope.from.address == this.currentMailbox) return null;
+            //? ok but if we were the sender
+            if (email.locations.filter(({ folder }) => folder == this.folders.sent).length > 0) return email.M.envelope.from.address
+            //? if we weren't a "to" recipient
+            const recipients = email.M.envelope.to.map(({ address }) => address)
+            if (recipients.includes(this.currentMailbox)) return null;
+            //? and if we weren't cc'ed or bcc'ed
+            const cced = email.M.envelope.cc.map(({ address }) => address)
+            if (cced.includes(this.currentMailbox)) return null;
+            const bcced = email.M.envelope.bcc.map(({ address }) => address)
+            if (bcced.includes(this.currentMailbox)) return null;
+            //? check for the received header
+            if (!email.parsed.headerLines) return null;
+            const received = (() => {
+              const r = email.parsed.headerLines.filter(({key}) => key.toLowerCase() == "received")
+              if (!r) return null;
+              return r.map(({ line }) => line).join('\n')
+            })()
+            if (!received) return null;
+            //? check if any of the above recipients are in the received
+            for (const address of recipients) {
+              if (received.includes(address))
+                return address;
+            }
+            for (const address of cced) {
+              if (received.includes(address))
+                return address;
+            }
+            for (const address of bcced) {
+              if (received.includes(address))
+                return address;
+            }
+            return null;
+          })()
           const others = people.filter(({ address }) =>
-            address != this.currentMailbox &&
+            (address != this.currentMailbox) &&
+            (address != forwardAddress) &&
             !(participantAddresses.has(address))
           )
           others.map(({ address }) => participantAddresses.add(address))
