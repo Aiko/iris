@@ -1721,7 +1721,7 @@
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
         'just-me': justMe,
-        'focus': false
+        'focus': ($root.regularView && $root.viewThread) ? ($root.viewThread?.tid == thread.tid) : false
       }">
 
       <!-- ? Card content -->
