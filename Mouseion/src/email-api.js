@@ -446,7 +446,7 @@ module.exports = (cache, courier, Folders, Cleaners, Link, Lumberjack, AI_BATCH_
           fetched[tid] = []
           fetch_plan[aikoFolder] = []
 
-          const messages = (await Promise.all(mids.map(cache.lookup.mid))).sort((a, b) => (new Date(b.timestamp)) - (new Date(a.timestamp)))
+          const messages = (await Promise.all(mids.map(cache.lookup.mid))).filter(_ => _).sort((a, b) => (new Date(b.timestamp)) - (new Date(a.timestamp)))
 
           if (!(messages?.[0])) return;
 
