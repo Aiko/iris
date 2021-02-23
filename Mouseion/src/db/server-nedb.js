@@ -102,12 +102,12 @@ const Cache = (dir => {
 
     let main_board = null
     let fallback = null
-    const thread_messages = await Promise.all(thread.mids.map(mid => new Promise((s, _) => {
+    const thread_messages = (await Promise.all(thread.mids.map(mid => new Promise((s, _) => {
       Message.findOne({mid}, (err, candidate) => {
         if (err || !candidate) return s(null)
         s(candidate)
       })
-    })))
+    })))).filter(_ => _)
     if (thread_messages.length == 0) return null;
     //? sort ascending date
     thread_messages.sort((m1, m2) => (new Date(m1.timestamp)) - (new Date(m2.timestamp)))
@@ -120,7 +120,7 @@ const Cache = (dir => {
         break;
       }
       if (in_folders.includes("INBOX")) {
-        main_board = "INBOX"
+        fallback = "INBOX"
         break;
       }
       //? disabling the below because if you move a thread out of a board this is what should happen
