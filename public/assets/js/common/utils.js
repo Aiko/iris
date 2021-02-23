@@ -228,15 +228,30 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png') 
   }
   const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
   if (provider) {
+    //? mass mail providers should show jdenticon instead of generic logos :)
+    try {
+      const svg = jdenticon.toSvg(email, 200);
+      return SVG2PNG(svg)
+    } catch(e) {
+      return defaultTo
+    }
+
+    /*
     // if special provider, show provider logo
     if (specialProviders[provider]) return specialProviders[provider]
+    */
   }
   // try asking clearbit if they know
   const u = 'https://logo.clearbit.com/' + email.split('@')[1]
   const s2 = await fetch(u)
   if (s2.status != 200) {
-    // worst case show default
-    return defaultTo
+    // still no? try jdenticon
+    try {
+      const svg = jdenticon.toSvg(email, 200);
+      return SVG2PNG(svg)
+    } catch(e) {
+      return defaultTo
+    }
   }
   return u
 }
