@@ -132,7 +132,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     email.parsed.cleanText = email.parsed.text.slice(0, replyStarts?.index || email.parsed.text.length + 2)
     email.parsed.cleanText = Sift.text(email.parsed.text)
     //* segment into sentences
-    const sentences = email.parsed.cleanText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT-TOKEN').split(/AIKO-SPLIT-TOKEN/g)
+    const sentences = email.parsed.cleanText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?|\n)\s/g, '$&AIKO-SPLIT-TOKEN').split(/AIKO-SPLIT-TOKEN/g)
     email.parsed.sentences = sentences
     const t1 = performance.now()
     runtimes['content'].runs++
@@ -161,8 +161,8 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
 
     //? subscriptions do not get summarized at this time
     email.M.summary = {
-      sentences: email.parsed.sentences.filter(s => s.length < 196 && s.length > 16).slice(0, 3),
-      text: email.parsed.sentences.filter(s => s.length < 196 && s.length > 16).slice(0, 3).join(' ')
+      sentences: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, 3),
+      text: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, 3).join(' ')
     }
     if (!email.M.subscription.subscribed && useAiko) {
       const t0 = performance.now()
@@ -174,6 +174,11 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
       const t1 = performance.now()
       runtimes['summarizer'].runs++
       runtimes['summarizer'].time += t1 - t0
+    }
+
+    if (email.M.summary.sentences.length == 0) {
+      email.M.summary.sentences = email.parsed.sentences.slice(0, 5)
+      email.M.summary.text = email.M.summary.sentences.join(' ')
     }
 
     return email
