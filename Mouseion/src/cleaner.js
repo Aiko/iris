@@ -1,8 +1,22 @@
 const HTML2Text = require('html-to-text')
 const Cheerio = require('cheerio')
+const jsdom = require('jsdom')
+jsdom.defaultDocumentFeatures = {
+  FetchExternalResources: false,
+  ProcessExternalResources: false
+}
+const { JSDOM } = jsdom
 //! TODO: needs timeouts on node fetch (something for aikomail-sdk)
 const AikoAI = require('aikomail-sdk')
+const planer = require('planer')
 
+const Sift = {
+  text: text => planer.extractFrom(text, 'text/plain'),
+  html: html => {
+    const dom = new JSDOM()
+    return planer.extractFromHtml(html, dom.window.document)
+  }
+}
 
 //! TODO: upgrade to node v15 and replace polyfill below with performance module
 const performance = {
@@ -116,6 +130,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     //* remove the replies
     const replyStarts = /On \w+ [0-9]+, [0-9]+, at [0-9]+:[0-9]+ \w+, \w+ <.*> wrote:/g.exec(email.parsed.text)
     email.parsed.cleanText = email.parsed.text.slice(0, replyStarts?.index || email.parsed.text.length + 2)
+    email.parsed.cleanText = Sift.text(email.parsed.text)
     //* segment into sentences
     const sentences = email.parsed.cleanText.replace(/(?!\w\.\w.)(?![A-Z][a-z]\.)(?:\.|!|\?)\s/g, '$&AIKO-SPLIT-TOKEN').split(/AIKO-SPLIT-TOKEN/g)
     email.parsed.sentences = sentences
