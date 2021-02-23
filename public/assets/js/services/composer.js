@@ -77,6 +77,8 @@ const composer = {
 
       await BigStorage.store('composer/composer-' + identifier, config)
 
+      if (this.tour) this.tour.complete()
+
       await this.executeIPC(this.task_OpenComposer(identifier))
     },
     async loadComposer () {

@@ -57,7 +57,7 @@ const runTour = () => {
     ]
   });
 
-    tour.addStep({
+  tour.addStep({
     id: 'step4',
     text: 'This is an AI-summarized version of your email.',
     attachTo: {
@@ -71,9 +71,9 @@ const runTour = () => {
         action: tour.next
       }
     ]
-    });
-  
-      tour.addStep({
+  });
+
+  tour.addStep({
     id: 'step5',
     text: 'Quick actions are automatically detected and added to emails to save you time.',
     attachTo: {
@@ -89,15 +89,16 @@ const runTour = () => {
     ]
   });
 
-    tour.addStep({
+  tour.addStep({
     id: 'step6',
       text: 'Click here to compose your first email using Aiko Mail!',
     attachTo: {
       element: '.sbtn',
       on: 'bottom'
     },
-          classes: 'last-tour'
-    });
+    classes: 'last-tour'
+  });
 
   tour.start();
+  return tour
 }

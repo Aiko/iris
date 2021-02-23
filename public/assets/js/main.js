@@ -19,7 +19,8 @@ top.app = new Vue({
     firstTime: true,
     priority: true,
     collapseSidebar: false,
-    hash: ''
+    hash: '',
+    tour: null
   },
   watch: {
     loading (isLoading, wasLoading) {
@@ -65,7 +66,7 @@ top.app = new Vue({
     this.firstTime = firstTime
     if (this.firstTime) {
       info(...(this.TAG), "This is the user's first open of the app.")
-      runTour()
+      this.tour = runTour()
       await ipcRenderer.invoke('save preferences', {
         firstTime: false
       })
