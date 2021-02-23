@@ -2228,7 +2228,6 @@ select.v1 {
     margin-bottom: 44px;
     transition: .2s;
     background: var(--secondary-bg-color);
-    padding: 7px 7px 5px 7px;
     border-radius: 4px;
 }
 .options-qa:hover{
@@ -2238,6 +2237,7 @@ select.v1 {
 .options-qa h2{
 font-size: 13px;
 margin: 0;
+    padding: 7px 7px 5px 7px;
 color: var(--main-color);
 }
 .options-qa img{
