@@ -126,7 +126,9 @@ body {
 .composer-tag-single {
   border: 1px solid #b0b0b0 !important;
 }
-
+.single-email{
+  box-shadow: none !important;
+}
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: var(--secondary-bg-color) !important;
