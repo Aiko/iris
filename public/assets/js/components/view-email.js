@@ -27,6 +27,13 @@ Vue.component('view-email', {
     },
   },
   methods: {
+    normalizeAddresses(addresses) {
+      return addresses.map(({ name, address}) => {
+        return {
+          display: name, value: address
+        }
+      })
+    },
     async setContent (blank) {
       //? grab the corresponding iframe
       const iframeID = this.iframeId
@@ -170,7 +177,7 @@ Vue.component('view-email', {
         ),
         withCC=[],
         withBCC=[],
-        withSubject="Re: " + email.M.envelope.subject,
+        withSubject="Re: " + email.M.envelope.cleanSubject,
         withQuoted='',
         withMessageId=email.M.envelope.mid
       )
@@ -190,7 +197,7 @@ Vue.component('view-email', {
         withTo=to,
         withCC=cc,
         withBCC=[],
-        withSubject="Re: " + email.M.envelope.subject,
+        withSubject="Re: " + email.M.envelope.cleanSubject,
         withQuoted='',
         withMessageId=email.M.envelope.mid
       )
@@ -201,7 +208,7 @@ Vue.component('view-email', {
         withTo=[],
         withCC=[],
         withBCC=[],
-        withSubject="Fwd: " + email.M.envelope.subject,
+        withSubject="Fwd: " + email.M.envelope.cleanSubject,
         withQuoted='',
         withMessageId=email.M.envelope.mid
       )
