@@ -12,7 +12,7 @@ const runTour = () => {
     text: 'This is your inbox, all your emails are sorted as <b>Priority</b> and <b>Other</b>',
     attachTo: {
       element: '.inbox',
-      on: 'bottom'
+      on: 'right'
     },
 
     classes: 'example-step-extra-class',
