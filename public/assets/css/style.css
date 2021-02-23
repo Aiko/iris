@@ -4,9 +4,9 @@
 	--main-color: #486fff;
 	/* Main Aiko accent */
 	--main-color-hover: #4366e8;
-	--main-bg-color: #fff;
+	--main-bg-color: #f1f3f9;
 	/* Sidebar and Header */
-	--secondary-bg-color: #f1f3f9;
+	--secondary-bg-color: #fff;
 	/* Control bar and picker and search, etc*/
 	--secondary-bg-color-hover: #efefef;
 	/* Control bar and picker and search, etc*/
@@ -18,7 +18,7 @@
 	--sidebar-item-bg-color: #f1f3f9;
 	/* Active and hover in sidebar */
 	--sender-text-color: #536282;
-	--subject-text-color: #333d50;
+	--subject-text-color: #4b5c80;
 	--main-border: 1px solid #f1f3f9;
 	--placeholder-text-color: #6e80a5;
 	/* Global placeholder color */
@@ -88,7 +88,7 @@ video:focus {
 .bg {
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-color: #f1f3f9 !important;
+	background-color: #fff !important;
 }
 
 a,
@@ -301,7 +301,6 @@ input:active {
 	padding: 9px 6px;
 	overflow-x: hidden;
 	z-index: 2;
-	box-shadow: 9px 0 15px -10px #d5dbed;
 	transition: 0.2s;
 }
 
@@ -696,7 +695,6 @@ padding: 5px 10px 6px 15px;
 
 .header {
 	padding: 9px 15px 9px 20px;
-	box-shadow: 0  7px 15px -10px #d5dbed;
 	height: 47px;
 	background: var(--main-bg-color);
 	z-index: 3;
@@ -1299,13 +1297,12 @@ hr {
 }
 
 .board {
-		background: #ffffffed;
+		background: var(--main-bg-color);
     width: 300px;
     border-radius: 4px 4px 0 0;
     height: 100%;
     margin-right: 20px;
     position: relative;
-    box-shadow: 0 6px 30px -10px #c2c8da;
 }
 
 
@@ -1433,14 +1430,13 @@ border: 2px solid #486fff !important;
 }
 
 .email {
-	position: relative;
-	background: #fff;
-	border-radius: 4px;
-	cursor: pointer;
-	margin-bottom: 15px;
-	padding: 8px 13px 0 10px;
-	overflow: hidden;
-	box-shadow: 0 1px 9px 0 #d5dbed;
+position: relative;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    padding: 8px 13px 0 10px;
+    overflow: hidden;
 }
 
 .chip {
@@ -1462,7 +1458,6 @@ border: 2px solid #486fff !important;
 
 .sender {
 	font-size: 14px;
-	color: var(--sender-text-color);
 	white-space: nowrap;
 	line-height: 20px;
 	text-overflow: ellipsis;
@@ -1591,7 +1586,6 @@ border: 2px solid #486fff !important;
 	height: 33px;
 	overflow: hidden;
 	line-height: 16px;
-	filter: brightness(0.7);
 	margin-bottom: 3px;
 	text-overflow: ellipsis;
 	letter-spacing: 0.1px;
@@ -1867,7 +1861,7 @@ margin-left: -15px;
 }
 
 .email-head {
-	padding: 15px 25px 10px 25px;
+	padding: 15px 15px 10px 15px;
 	position: relative;
 	cursor: pointer;
 }
@@ -1922,11 +1916,11 @@ margin-left: -15px;
 }
 
 .single-email {
-	background: var(--main-bg-color);
-	border-radius: 4px;
-	box-shadow: 0 1px 18px 0 #0000000f;
-	margin: 20px 15px;
-	overflow-x: hidden;
+    background: var(--main-bg-color);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px 1px #515a7b30;
+    margin: 20px 15px;
+    overflow-x: hidden;
 }
 
 .w65{
@@ -2026,7 +2020,7 @@ margin-left: -15px;
 }
 
 .email:hover {
-	filter: brightness(0.98);
+	background: #f5f8ff;
 	transition: 0.2s;
 }
 
@@ -2049,7 +2043,6 @@ select.v1 {
 .email-body {
 	overflow-y: hidden;
 	width: 100%;
-	border-top: 2px solid var(--secondary-bg-color);
 	position: relative;
 }
 
@@ -2108,6 +2101,7 @@ select.v1 {
 	border-radius: 3px;
 	padding: 2px 5px;
 	font-size: 9px;
+	font-weight: 600;
 	cursor: pointer;
 	margin-right: 2px;
 	letter-spacing: 0.3px;
