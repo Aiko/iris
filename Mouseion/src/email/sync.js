@@ -32,6 +32,7 @@ module.exports = () => (
 
   //* then, check for messages locally put in the folder
   const localMessages = (await cache.lookup.folder(folder)) || []
+  Log.log("Have", localMessages.length, "messages in", folder)
 
   //* then, check those messages' existence & flags on remote
   const localUIDs = localMessages
@@ -55,12 +56,13 @@ module.exports = () => (
     })
     const remoteMessages = {}; envelopes.map(envelope => remoteMessages[envelope.uid] = envelope)
     await Promise.all(localMessages.map(async localMessage => {
-      const remoteMessage = remoteMessages[localMessage.uid]
+      const localUID = localMessage.locations.filter(L => L.folder == folder)?.[0]?.uid
+      const remoteMessage = remoteMessages[localUID]
       //? there is a chance we should not delete emails
       //? that have the deleted flag b/c of IMAP inconsistencies
       if (!remoteMessage) {
         //* email has been removed from location, remove location from cache
-        await cache.remove.location(folder, localMessage.uid, cursor)
+        await cache.remove.location(folder, localUID, cursor)
       } else if (remoteMessage.flags.includes('\\Deleted')) {
         //* email has been directly deleted, purge away!
         await cache.remove.message(localMessage.mid, cursor)
@@ -68,7 +70,7 @@ module.exports = () => (
         //* otherwise sync flags
         const seen = remoteMessage.flags.includes('\\Seen')
         const starred = remoteMessage.flags.includes('\\Starred')
-        await cache.update(localMessage.mid, cursor, { seen, starred })
+        await cache.update.message(localMessage.mid, cursor, { seen, starred })
       }
     }))
     Log.success(folder, "| Checked", localUIDs.length, "message flags/existence")
