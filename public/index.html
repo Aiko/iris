@@ -19,7 +19,6 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
-  <link rel="stylesheet" href="assets/css/shepherd.css">
   <!-- ? jQuery -->
   <script src="assets/js/third-party/jquery.min.js"></script>
   <script>
@@ -427,7 +426,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Open Composer Button -->
           <!--!------------------------------------------------------------->
-          <a class="sbtn" @click="openComposer()"><img src="assets/icons/sidebar-edit.svg"
+          <a class="sbtn" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
 
           <!--!------------------------------------------------------------->
@@ -968,7 +967,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Add Board Button -->
           <!--!------------------------------------------------------------->
-          <div class="add-board" @click="addBoard = true">
+          <div class="add-board" @click="addBoard = true" id="step3">
             <img src="assets/icons/boards-add.svg">
           </div>
 
@@ -1700,13 +1699,14 @@
           <!--!------------------------------------------------------------->
           <!-- ? Summarized Content -->
           <!--!------------------------------------------------------------->
-          <p v-if="thread.emails[0].M.summary.sentences.length > 0" class="body">{{thread.emails[0].M.summary.text}}</p>
+          <p v-if="thread.emails[0].M.summary.sentences.length > 0" class="body" id="step4">
+            {{thread.emails[0].M.summary.text}}</p>
         </div>
 
         <!--!------------------------------------------------------------->
         <!-- ? Card Footer -->
         <!--!------------------------------------------------------------->
-        <div class="email-footer dont-drag-this" style="user-select: none;">
+        <div class="email-footer dont-drag-this" style="user-select: none;" id="step5">
           <div class="row">
             <!--!------------------------------------------------------------->
             <!-- ? Quick Actions -->
