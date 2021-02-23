@@ -218,14 +218,14 @@ li[data-done="true"]>.todo-checkbox {
   opacity: 0.8 !important;
 }
 
-.options {
-  background: #151515 !important;
-}
-
 .add-board {
   background: var(--main-bg-color) !important;
 }
-
+.options img:hover {
+	filter: brightness(2);
+  opacity: 1;
+	transition: 0.2s;
+}
 .header {
   box-shadow: 8px 1px 10px #0000002e !important;
 }
