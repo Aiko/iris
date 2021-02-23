@@ -1714,30 +1714,30 @@
             <!-- ? Quick Actions -->
             <!--!------------------------------------------------------------->
             <div class="col-5 cll cll2 z1">
-              <a v-if="quickaction == 'scheduling'" class="main-action ma2">
+              <a v-if="quickaction == 'scheduling'" class="main-action blue">
                 <img src="assets/icons/badges-event-blue.svg"> Schedule
               </a>
-              <a @click.stop.prevent="openVerify" v-if="quickaction == 'verify'" class="main-action ma2">
+              <a @click.stop.prevent="openVerify" v-if="quickaction == 'verify'" class="main-action blue">
                 <img src="assets/icons/link.svg"> Verify
               </a>
-              <a v-if="quickaction == 'subscribe'" class="main-action ma2">
+              <a v-if="quickaction == 'subscribe'" class="main-action blue">
                 <img src="assets/icons/link.svg"> Subscribe
               </a>
-              <a v-if="quickaction == 'unsubscribe'" class="main-action ma3">
+              <a v-if="quickaction == 'unsubscribe'" class="main-action red">
                 <img src="assets/icons/options-unsub.svg"> Unsubscribe
               </a>
-              <a v-if="quickaction == 'sign_document'" class="main-action ma2">
+              <a v-if="quickaction == 'sign_document'" class="main-action blue">
                 <img src="assets/icons/sign.svg"> Sign
               </a>
-              <a v-if="quickaction == 'send_document'" class="main-action ma2">
+              <a v-if="quickaction == 'send_document'" class="main-action blue">
                 <img src="assets/icons/attach.svg"> Attach files
               </a>
               <a @click="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp"
-                class="main-action ma2">
+                class="main-action blue">
                 <img src="assets/icons/clipboard.svg"> {{thread.emails[0].M.quick_actions.otp}}
               </a>
               <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)"
-                class="main-action ma2">
+                class="main-action blue">
                 <img src="assets/icons/link.svg"> Get Code
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
@@ -1916,7 +1916,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject -->
           <!--!------------------------------------------------------------->
-          <div class="row mw-170">
+          <div class="row mw-130">
             <h3>{{email.M.envelope.subject}}</h3>
           </div>
 
@@ -1926,25 +1926,25 @@
           <!--!------------------------------------------------------------->
           <div class="options-qa">
             <a v-if="email.M.quick_actions.classification == 'scheduling'">
-              <h2 class="action ma2"><img src="assets/icons/email-schedule.svg">Schedule</h2>
+              <h2><img src="assets/icons/email-schedule.svg">Schedule</h2>
             </a>
             <a @click.stop.prevent="openVerify" v-if="email.M.quick_actions.classification == 'verify'">
-              <h2 class="action ma2"><img src="assets/icons/link.svg">Verify</h2>
+              <h2><img src="assets/icons/link.svg">Verify</h2>
             </a>
             <a v-if="email.M.quick_actions.classification == 'subscribe'">
-              <h2 class="action ma2"><img src="assets/icons/link.svg">Subscribe</h2>
+              <h2><img src="assets/icons/link.svg">Subscribe</h2>
             </a>
             <a v-if="email.M.quick_actions.classification == 'unsubscribe'">
-              <h2 class="action ma3"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
+              <h2 class="red"><img src="assets/icons/options-unsub.svg">Unsubscribe</h2>
             </a>
             <a v-if="email.M.quick_actions.classification == 'sign_document'">
-              <h2 class="action ma2"><img src="assets/icons/sign.svg">Sign</h2>
+              <h2><img src="assets/icons/sign.svg">Sign</h2>
             </a>
             <a v-if="email.M.quick_actions.classification == 'send_document'">
-              <h2 class="action ma2"><img src="assets/icons/attach.svg">Attach Files</h2>
+              <h2><img src="assets/icons/attach.svg">Attach Files</h2>
             </a>
             <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
-              <h2 class="action ma2"><img src="assets/icons/clipboard.svg">{{email.M.quick_actions.otp}}</h2>
+              <h2><img src="assets/icons/clipboard.svg">{{email.M.quick_actions.otp}}</h2>
             </a>
           </div>
 
