@@ -1378,15 +1378,15 @@ hr {
 }
 
 .fromto-info {
-	font-size: 11px;
-	background: var(--secondary-bg-color);
-	padding: 2px 5px;
-	border-radius: 4px;
-	margin-bottom: 0;
-	margin-top: 7px;
-	margin-left: -3px;
-	line-height: 18px;
-	transition: .2s;
+    font-size: 13px;
+    background: var(--secondary-bg-color);
+    padding: 2px 5px;
+    border-radius: 4px;
+    margin-bottom: 0;
+    margin-top: 7px;
+    margin-left: -3px;
+    line-height: 18px;
+    transition: .2s;
 }
 
 .more-fromto {
