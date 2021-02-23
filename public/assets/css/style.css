@@ -1970,9 +1970,11 @@ margin-left: -15px;
 
 .w65{
 	width: 65px;
+	transition: .1s;
 }
 .w65p{
 	width: calc(100% - 65px);
+	transition: .1s;
 }
 .email-view-avatar{
     object-fit: contain;
@@ -1981,9 +1983,11 @@ margin-left: -15px;
     height: 54px;
     position: relative;
     overflow: hidden;
-    border: 5px solid var(--secondary-bg-color);
     background: #fff;
-		transition: .2s;
+		transition: .1s;
+}
+.email-view-avatar{
+    border: 5px solid var(--secondary-bg-color);
 }
 
 .short {
@@ -1998,14 +2002,18 @@ margin-left: -15px;
     width: 24px;
     height: 24px;
 		margin-top: -8px;
+		transition: .1s;
+}
+.short .email-view-avatar{
 		border: none;
-		transition: .2s;
 }
 .short .w65{
 	width: 30px;
+	transition: .1s;
 }
 .short .w65p{
 	width: calc(100% - 30px);
+	transition: .1s;
 }
 
 .short .email-head h3 {
@@ -2028,10 +2036,16 @@ margin-left: -15px;
 	display: none;
 }
 
-.email-head .aiko-select {
-	margin-left: 5px;
-	width: 80px;
-	font-size: 14px;
+.secondary-email .aiko-select {
+    background: transparent;
+    color: var(--main-color);
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-weight: 600;
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
 }
 
 .extra-actions a {
