@@ -105,6 +105,10 @@ const mailapi = {
     //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
+    //? regular view list
+    fullInbox: [],
+    priorityFullInbox: [],
+    otherFullInbox: [],
   },
   watch: {
     'inbox': async function (_) {
@@ -118,6 +122,20 @@ const mailapi = {
 
       this.priorityInbox = priorityInbox
       this.otherInbox = otherInbox
+
+      this.recalculateHeight()
+    },
+    'fullInbox': async function (_) {
+      const priorityInbox = []
+      const otherInbox = []
+
+      this.resolveThreads(this.fullInbox).map(({ tid, priority }) => {
+        if (priority) priorityInbox.push(tid)
+        else otherInbox.push(tid)
+      })
+
+      this.priorityFullInbox = priorityInbox
+      this.otherFullInbox = otherInbox
 
       this.recalculateHeight()
     },
@@ -631,6 +649,18 @@ const mailapi = {
         })
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       }))
+
+      //? make the fullInbox
+      this.fullInbox = (that => {
+        const s = []
+        s.push(...that.inbox)
+        that.boards.map(({ tids }) => s.push(...tids))
+        const ms = new Set(s)
+        const os = [...ms]
+        os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        return os
+      })(this)
+
       this.syncing = false
       release()
     },
@@ -837,7 +867,10 @@ const mailapi = {
       }
 
       const itemHeight = THREAD_HEIGHT + THREAD_SPACING
-      const listSize = (this.priority ? this.priorityInbox.length : this.otherInbox.length)
+      const listSize = (that => {
+        if (that.fullInbox) return (that.priority) ? that.priorityFullInbox.length : that.otherFullInbox.length;
+        return (that.priority) ? that.priorityInbox.length : that.otherInbox.length;
+      })(this)
       const listHeight = listSize * itemHeight
 
       const threadsAbove = scrollView.min / itemHeight
@@ -847,7 +880,25 @@ const mailapi = {
       const indexMin = Math.floor(threadsAbove - TOLERANCE)
       const indexMax = Math.ceil((listSize - threadsBelow) + TOLERANCE)
 
-      if (this.priority) {
+      if (this.regularView) {
+        // adjust to full indices
+        if (this.priority) {
+          if (this.priorityFullInbox.length > 0) {
+            const minTID = this.priorityFullInbox?.[indexMin] || this.priorityFullInbox[0]
+            const maxTID = this.priorityFullInbox?.[indexMax] || this.priorityFullInbox.last()
+            this.visibleMin = this.fullInbox.indexOf(minTID) - TOLERANCE
+            this.visibleMax = this.fullInbox.indexOf(maxTID) + TOLERANCE
+          }
+        } else {
+          if (this.otherFullInbox.length > 0) {
+            const minTID = this.otherFullInbox?.[indexMin] || this.otherFullInbox[0]
+            const maxTID = this.otherFullInbox?.[indexMax] || this.otherFullInbox.last()
+            this.visibleMin = this.fullInbox.indexOf(minTID) - TOLERANCE
+            this.visibleMax = this.fullInbox.indexOf(maxTID) + TOLERANCE
+          }
+        }
+      }
+      else if (this.priority) {
         // adjust to priority indices
         if (this.priorityInbox.length > 0) {
           const minTID = this.priorityInbox?.[indexMin] || this.priorityInbox[0]

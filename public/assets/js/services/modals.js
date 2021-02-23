@@ -6,12 +6,16 @@ const modalmanager = {
     forceAddMailbox: false,
     addBoard: false,
     viewThread: null,
-    showDev: false
+    showDev: false,
+    regularView: false,
   },
   watch: {
     forceAddMailbox (f, _) {
       this.addMailbox = f || this.addMailbox
-    }
+    },
+    regularView (_) {
+      this.recalculateHeight()
+    },
   },
   methods: {
   }

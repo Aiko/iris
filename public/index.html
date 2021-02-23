@@ -716,7 +716,11 @@
         <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
         <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
         <!-- TODO: add 'no-action-bar' class  to 'boards' class to remove action b ar from all emails-->
-        <div class="boards two-lines">
+        <div :class="{
+          'boards': true,
+          'two-lines': true,
+          'regular': regularView
+        }">
 
           <!--!------------------------------------------------------------->
           <!-- ? Inbox Board (special case) -->
@@ -813,7 +817,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
             <!--!------------------------------------------------------------->
-            <div ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="!regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
@@ -843,17 +847,48 @@
               </div>
 
             </div>
+
+            <!--!------------------------------------------------------------->
+            <!-- ? Inbox Thread List -->
+            <!--!------------------------------------------------------------->
+            <div v-if="regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+
+              <!--!------------------------------------------------------------->
+              <!-- ? Draggable List -->
+              <!--!------------------------------------------------------------->
+              <draggable id="aikomail--inbox" v-if="!loading" v-model="fullInbox" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in fullInbox"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="i >= visibleMin && visibleMax >= i"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+
+              <!--!------------------------------------------------------------->
+              <!-- ? List Loader -->
+              <!--!------------------------------------------------------------->
+              <div class="inbox-more">
+                <p @click="priority = false"><img src="assets/icons/filter-inbox.svg"> <span>Click here to see
+                  </span><b>{{otherInbox.length}}</b> filtered
+                  <span>threads</span></p>
+                <div class="load-bottom">
+                </div>
+              </div>
+
+            </div>
+
           </div>
-
-
-          <!-- TODO: Boards should be draggable ----------->
-          <!-- TODO: Add 'thin' to 'board' when click on board title ----------->
 
 
           <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
           <!--!------------------------------------------------------------->
-          <draggable style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
+          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
             ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true" :fallback-on-body="true"
             @end="reorderBoards" :fallback-tolerance="5">
             <!--!------------------------------------------------------------->
@@ -959,7 +994,48 @@
           <!--!------------------------------------------------------------->
           <!-- ? Long Board for regular inbox view -->
           <!--!------------------------------------------------------------->
-          <div class="long-board">
+          <div v-if="regularView" class="long-board">
+            <regular-view-thread v-if="viewThread && regularView" :thread="viewThread" inline-template>
+              <!--!------------------------------------------------------------->
+              <!-- ? Message List -->
+              <!--!------------------------------------------------------------->
+              <div class="main-email">
+
+                <!--!------------------------------------------------------------->
+                <!-- ? Datepicker for Schedule Quick Action -->
+                <!-- TODO: move this out -->
+                <!--!------------------------------------------------------------->
+                <div class="modal-dialog modal-md datepick" v-if="false">
+                  <div class="modal-content">
+                    <div class="modal-reg">
+                      <h1 class="mt-2">Please change or confirm suggested time.</h1>
+                      <h2 class="mt-3 mb-2"><b>"Tomorrow after work"</b></h2>
+                      <input type="datetime-local">
+                      <br>
+                      <label class="switch mr-1 mt-2">
+                        <input type="checkbox" />
+                        <span class="slider round cal"></span>
+                      </label>
+                      <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p>
+                      <br><br><br>
+                      <div class="modal-bottom">
+                        <a class="blue">Compose</a>
+                      </div>
+                      <p class="ns30"></p>
+                      <br>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- TODO: Ruben, make sure shadow light mode not bad-->
+                <!--!------------------------------------------------------------->
+                <!-- ? Thread Messages -->
+                <!--!------------------------------------------------------------->
+                <view-email v-for="(email, i) in fullThread.emails" :email="email" :expanded="i == 0" :key="i"
+                  :tid="thread.tid">
+                </view-email>
+              </div>
+            </regular-view-thread>
             <!-- copy <div class="main-email"> template here when needed-->
           </div>
 
@@ -967,7 +1043,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Add Board Button -->
           <!--!------------------------------------------------------------->
-          <div class="add-board" @click="addBoard = true" id="step3">
+          <div v-if="!regularView" class="add-board" @click="addBoard = true" id="step3">
             <img src="assets/icons/boards-add.svg">
           </div>
 
@@ -1094,7 +1170,7 @@
     </tutorial-modal>
 
     <!-- MODAL View Thread -->
-    <view-thread v-if="viewThread" :thread="viewThread" inline-template>
+    <view-thread v-if="viewThread && !regularView" :thread="viewThread" inline-template>
 
       <div @click.self="close" class="aiko-modal">
 
@@ -2082,6 +2158,7 @@
   <script src="assets/js/components/modals/tutorial.js"></script>
   <script src="assets/js/components/modals/add-mailbox.js"></script>
   <script src="assets/js/components/modals/view-thread.js"></script>
+  <script src="assets/js/components/regular-view-thread.js"></script>
   <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/modals/dev-controls.js"></script>
   <script src="assets/js/components/thread-card.js"></script>
