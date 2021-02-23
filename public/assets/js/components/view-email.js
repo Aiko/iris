@@ -4,7 +4,8 @@ Vue.component('view-email', {
   data () {
     return {
       showSenderInfo: false,
-      thread: this.$root.resolveThread(this.tid)
+      thread: this.$root.resolveThread(this.tid),
+      avatar: 'assets/img/avatar.png'
     }
   },
   computed: {
@@ -16,8 +17,9 @@ Vue.component('view-email', {
     }
   },
   watch: {
-    email (_) {
+    async email (_) {
       console.log("Loaded email", this.email)
+      this.avatar = await this.email.M.envelope.from.address.getAvatar()
       if (this.email.parsed.html) this.setContent()
     },
     expanded (_) {
