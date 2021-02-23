@@ -1992,7 +1992,10 @@ margin-left: -15px;
 .email-view-avatar{
     border: 5px solid var(--secondary-bg-color);
 }
-
+.mh240{
+	    max-height: 240px;
+    overflow: scroll;
+}
 .short {
 	cursor: pointer;
 	overflow-y: hidden;

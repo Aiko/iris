@@ -1158,6 +1158,34 @@
             <div class="secondary-email">
 
               <!--!------------------------------------------------------------->
+              <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
+              <!--!------------------------------------------------------------->
+              <div class="secondary-head mh240" v-if="thread.participants.length > 0">
+                <h3>Participants</h3>
+                <div class="container">
+
+
+                  <!--!------------------------------------------------------------->
+                  <!-- ? Participant Avatar + Contact Info -->
+                  <!--!------------------------------------------------------------->
+                  <div v-for="participant in thread.participants" class="row h67">
+                    <div class="col-3 p0">
+                      <img :src="participant.avatar" class=" email-view-avatar">
+                    </div>
+                    <div class="col-9 p0 spe hover-name">
+                      <h1>{{participant.name}}</h1>
+                      <h2>{{participant.address}}</h2>
+
+                      <p>NEW EMAIL</p> <!-- This is an option, could be anything we want really-->
+                      <p>COPY</p> <!-- This is an option, could be anything we want really-->
+                      <p>INVITE</p> <!-- This is an option, could be anything we want really-->
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!--!------------------------------------------------------------->
               <!-- ? Board Change -->
               <!--!------------------------------------------------------------->
               <div class="dark-side">
