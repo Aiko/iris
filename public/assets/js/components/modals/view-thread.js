@@ -2,9 +2,12 @@ Vue.component('view-thread', {
   props: ['thread'],
   data () {
     return {
-      avatar: 'assets/img/avatar.png',
       fullThread: this.thread,
-      email: this.thread.emails[0]
+      email: this.thread.emails[0],
+      participants: this.thread.participants.map(participant => {
+        participant.avatar = 'assets/img/avatar.png'
+        return participant
+      })
     }
   },
   async created () {
@@ -16,7 +19,6 @@ Vue.component('view-thread', {
       }
     })
 
-    //? fetch avatar
     this.email = ((thread, sentFolder) => {
       for (const email of thread.emails) {
         const sentLoc = email.locations.filter(({ folder }) => folder == sentFolder)?.[0]
@@ -25,7 +27,11 @@ Vue.component('view-thread', {
       return thread.emails?.[0]
     })(this.thread, this.$root.folders.sent)
 
-    this.avatar = await this.email.M.envelope.from.address.getAvatar() //* in utils.js we added this to string proto
+    //? fetch avatars
+    this.participants = await Promise.all(this.thread.participants.map(async participant => {
+      participant.avatar = await participant.address?.getAvatar()
+      return participant
+    }))
 
     //? fetch the almost full thread (which we are more likely to have cached)
     this.fullThread = await this.$root.engine.api.get.threadb(this.thread.tid)
