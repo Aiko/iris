@@ -19,8 +19,8 @@ Vue.component('view-email', {
   watch: {
     async email (_) {
       console.log("Loaded email", this.email)
-      this.avatar = await this.email.M.envelope.from.address.getAvatar()
       if (this.email.parsed.html) this.setContent()
+      this.avatar = await this.email.M.envelope.from.address.getAvatar()
     },
     expanded (_) {
       if (this.email.parsed.html) this.setContent()
@@ -82,29 +82,33 @@ Vue.component('view-email', {
       }
       if (!body.style.padding) body.style.padding = '15px'
 
+      //? make sure all the links open in new windows to trigger the external flow in electron
+      const links = doc.links
+      for (let i = 0; i < links.length; i++) {
+        links[i].target = '_blank'
+      }
+
       //? this is a really high level CS technique called "throw stuff against the wall and see what sticks" 🤌🏾
       try {
         $('#' + iframeID).load(function () {
           document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
         })
       } catch (e) { }
-      document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
-      // Don't judge me. It works.
-      setTimeout(function () {
+      try {
         document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
-      }, 100)
-      setTimeout(function () {
-        document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
-      }, 200)
-      setTimeout(function () {
-        document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
-      }, 500)
-
-      //? make sure all the links open in new windows to trigger the external flow in electron
-      const links = doc.links
-      for (let i = 0; i < links.length; i++) {
-        links[i].target = '_blank'
-      }
+      } catch (e) { }
+      try {
+        // Don't judge me. It works.
+        setTimeout(function () {
+          document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
+        }, 100)
+        setTimeout(function () {
+          document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
+        }, 200)
+        setTimeout(function () {
+          document.getElementById(iframeID).style.height = Math.max(document.getElementById(iframeID).contentWindow.document.body.offsetHeight, document.getElementById(iframeID).contentWindow.document.body.scrollHeight) + 'px'
+        }, 500)
+      } catch (e) { }
     },
     async starMessage () {
       const thread = this.$root.resolveThread(this.tid)
