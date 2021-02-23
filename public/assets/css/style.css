@@ -15,7 +15,7 @@
 	--main-text-color-hover: #536282;
 	--dark-text: #536282;
 	/* Dropdown titles */
-	--sidebar-item-bg-color: #f1f3f9;
+	--sidebar-item-bg-color: #fff;
 	/* Active and hover in sidebar */
 	--sender-text-color: #536282;
 	--subject-text-color: #4b5c80;
@@ -890,7 +890,7 @@ overflow: visible;
 
 .sidebar .active {
 	background: var(--sidebar-item-bg-color);
-	border-left: 2px solid #536282;
+	border-left: 2px solid #6e80a5;
 	padding-left: 7px !important;
 }
 
@@ -1506,7 +1506,7 @@ position: relative;
 
 .main-count {
 	float: right;
-	color: var(--main-text-color);
+	color: var(--main-color);
 	padding: 0;
 	border-radius: 3px;
 	font-size: 12px;
@@ -2193,6 +2193,7 @@ select.v1 {
 
 .regular .long-board {
 	display: unset !important;
+	    margin-top: -20px;
 }
 
 .regular .board:not(.inbox) {
@@ -2205,7 +2206,6 @@ select.v1 {
 
 .long-board {
 	display: none;
-	background: var(--main-bg-color);
 	margin-left: -21px;
 	border-radius: 0;
 	height: 100%;
