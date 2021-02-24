@@ -178,12 +178,6 @@ li[data-done="true"]>.todo-checkbox {
 .unread .body {
   filter: brightness(1.2) !important;
 }
-
-.email {
-  background: var(--secondary-bg-color) !important;
-  box-shadow: none !important;
-}
-
 .fromto-info {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13);
 }

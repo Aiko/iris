@@ -4,6 +4,7 @@
 <!-- TODO: Somehow autofocus fields like add board modal and invite etc -->
 <!-- TODO: Can we make date 'February 2' instead of 2/2 ? -->
 <!-- TODO: Maybe we implement a right click for some options like m ar as unread etc -->
+<!-- TODO: We can but we dont have to add .pre-delete for .3 second before deleting .email -->
 
 <!DOCTYPE html>
 <html>
@@ -888,9 +889,9 @@
           <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
           <!--!------------------------------------------------------------->
-          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
-            ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true" :fallback-on-body="true"
-            @end="reorderBoards" :fallback-tolerance="5">
+          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
+            draggable=".board" ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true"
+            :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!--!------------------------------------------------------------->
             <!-- ? Board Template -->
             <!--!------------------------------------------------------------->
@@ -930,7 +931,7 @@
 
 
                       <!--!------------------------------------------------------------->
-                      <!-- ? Board Title (click to thin/thicc) -->
+                      <!-- ? Board Title (click to thin/thick) -->
                       <!--!------------------------------------------------------------->
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
@@ -1068,6 +1069,36 @@
             <a class="blue">Done</a>
             <p class="ns30"></p>
             <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig MODAL Pick trash or archive --------------------------------------->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-reg">
+            <h1>Trash or archive </h1>
+            <h2>Do you wish to use trash or archive?</h2>
+            <div class="container pr">
+              <div class="row" style="user-select: none;">
+                <div class="col-6">
+                  <div class="btnrt">
+                    <img src="assets/icons/sidebar-trash.svg" width="20">
+                    <a>Trash</a>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="btnrt">
+                    <img src="assets/icons/sidebar-archive.svg" width="20">
+                    <a>Archive</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <h2 class="mb0">This preference will be used from now</h2>
           </div>
         </div>
       </div>

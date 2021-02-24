@@ -192,6 +192,9 @@ input:active {
 .mb-9{
 	    margin-bottom: -9px;
 }
+.mb0{
+	margin-bottom: 0 !important;
+}
 .sec-notif{
 	    padding: 1px;
     background: var(--main-color);
@@ -293,6 +296,12 @@ input:active {
 	opacity: 1;
 	transition: 0.2s;
 }
+.pre-delete{
+	margin-left: 290px;
+	background: var(--main-bg-color);
+	opacity: .5;
+		transition: .2s;
+	}
 
 .sidebar {
 	width: 122px;
@@ -1435,6 +1444,7 @@ position: relative;
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 15px;
+		    background: var(--secondary-bg-color);
     padding: 8px 13px 0 10px;
     overflow: hidden;
 }
@@ -2199,7 +2209,20 @@ select.v1 {
 .regular .board:not(.inbox) {
 	display: none !important;
 }
-
+.btnrt{
+	color: var(--main-text-color);
+    background: var(--secondary-bg-color);
+    width: 80px;
+    padding: 8px 10px;
+    border-radius: 4px;
+		transition: .2s;
+		cursor: pointer;
+		margin: auto;
+}
+.btnrt:hover{
+filter: brightness(0.8);
+transition: .2s;
+}
 .regular .add-board {
 	display: none !important;
 }
