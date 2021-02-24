@@ -11,7 +11,7 @@ module.exports = uids => {
   }
   for (let i = 0; i < uids.length; i++) {
     const uid = uids[i]
-    if (uid - subsequence.start <= 3) {
+    if (uid - subsequence.start <= 20) {
       subsequence.end = uid
     } else {
       const { start, end } = subsequence
