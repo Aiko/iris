@@ -1384,6 +1384,8 @@ hr {
     margin-top: 7px;
     margin-left: -3px;
     line-height: 18px;
+    max-width: calc(100% - 120px);
+    overflow: scroll;
     transition: .2s;
 }
 
@@ -1945,10 +1947,10 @@ margin-left: -15px;
     object-fit: contain;
     border-radius: 50%;
     width: 54px;
+		background-position: center;
     height: 54px;
     position: relative;
     overflow: hidden;
-    background: #fff;
 		transition: .1s;
 }
 .email-view-avatar{
