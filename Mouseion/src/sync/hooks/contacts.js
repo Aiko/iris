@@ -1,6 +1,6 @@
 // Contact Sync engine
 
-module.exports = () => (user, cache, Folders, Log) => {
+module.exports = () => Registry => {
 
   //? Retrieve the necessary modules from the Registry
   const { user } = Registry.get('imap-config')
