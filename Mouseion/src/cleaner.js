@@ -160,13 +160,14 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     email = await deepSubscription(email)
 
     //? subscriptions do not get summarized at this time
+    const SUMMARY_LENGTH = (email.parsed.sentences.length > 7) ? 5 : 3; //? length of summary in sentences
     email.M.summary = {
-      sentences: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, 3),
-      text: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, 3).join(' ')
+      sentences: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, SUMMARY_LENGTH),
+      text: email.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, SUMMARY_LENGTH).join(' ')
     }
     if (!email.M.subscription.subscribed && useAiko) {
       const t0 = performance.now()
-      const summary = await AikoAI.summarize(email.parsed.cleanText, 3).catch(_ => false)
+      const summary = await AikoAI.summarize(email.parsed.cleanText, SUMMARY_LENGTH).catch(_ => false)
       if (summary?.[0]) email.M.summary = {
         sentences: summary,
         text: summary.join(' ')
@@ -177,7 +178,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     }
 
     if (email.M.summary.sentences.length == 0) {
-      email.M.summary.sentences = email.parsed.sentences.slice(0, 5)
+      email.M.summary.sentences = email.parsed.sentences.slice(0, SUMMARY_LENGTH)
       email.M.summary.text = email.M.summary.sentences.join(' ')
     }
 
@@ -209,7 +210,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     /* //? if you want to allow testing more of an email then enable the below
       let test_sentences = []
       const short_sentences = email.parsed.sentences.filter(s => s.length < 196 && s.length > 16)
-      if (short_sentences.length <= 15) test_sentences.push(...short_sentences)
+      if (short_sentences.length <= 10) test_sentences.push(...short_sentences)
       else test_sentences.push(...(email.M.summary.sentences))
     */
 
@@ -221,6 +222,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     //* next we classify their intents
     const results = await AikoAI.quick_actions(test_sentences).catch(Log.error)
     if (!results) return email
+    email.M.quick_actions.rawResults = JSON.parse(JSON.stringify(results))
     email.M.quick_actions.results = results
 
     //? we define an order of precedence for quick actions
