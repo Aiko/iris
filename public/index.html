@@ -888,9 +888,9 @@
           <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
           <!--!------------------------------------------------------------->
-          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}" draggable=".board"
-            ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true" :fallback-on-body="true"
-            @end="reorderBoards" :fallback-tolerance="5">
+          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
+            draggable=".board" ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true"
+            :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!--!------------------------------------------------------------->
             <!-- ? Board Template -->
             <!--!------------------------------------------------------------->
@@ -1068,6 +1068,36 @@
             <a class="blue">Done</a>
             <p class="ns30"></p>
             <br>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig MODAL Pick trash or archive --------------------------------------->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-reg">
+            <h1>Trash or archive </h1>
+            <h2>Do you wish to use trash or archive?</h2>
+            <div class="container pr">
+              <div class="row" style="user-select: none;">
+                <div class="col-6">
+                  <div class="btnrt">
+                    <img src="assets/icons/sidebar-trash.svg" width="20">
+                    <a>Trash</a>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="btnrt">
+                    <img src="assets/icons/sidebar-archive.svg" width="20">
+                    <a>Archive</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <h2 class="mb0">This preference will be used from now</h2>
           </div>
         </div>
       </div>
