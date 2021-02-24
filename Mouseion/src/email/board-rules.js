@@ -30,8 +30,16 @@ Board Rule schema:
 
 */
 
-module.exports = () => (configs, cache, Folders, Operator) => {
-  let board_rule_queue = []
+module.exports = () => Registry => {
+
+  Configuration = Registry.get('Configuration')
+  CacheDB = Registry.get('Cache')
+  FolderManager = Registry.get('FolderManager')
+  Operator = Registry.get('Operator')
+  Lumberjack = Registry.get('Lumberjack')
+
+  const board_rule_queue = []
+
   const BoardRuleActions = {
     Star: "star",
     Forward: "forward",
@@ -39,31 +47,40 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     Delete: "delete",
     Archive: "archive"
   }
+
   const apply_rules = rules => async email => {
+
+    //? Check whether board rules can be applied
     if (!email.parsed.text) return; // only applies rules to L3 messages
     if (!email.M.envelope.mid) return; // doesn't work on no mid msg
-    const msg = await cache.lookup.mid(email.M.envelope.mid)
+
+    //? Find the relevant message
+    const msg = await CacheDB.lookup.mid(email.M.envelope.mid)
     if (!msg) return; // doesn't work on messages not cached
 
-    const inbox_loc = msg.locations.filter(({ folder }) => folder == Folders.get().inbox)?.[0]
+    //? Find the location of the message in the inbox and what other folders it is located in
+    const inbox_loc = msg.locations.filter(({ folder }) => folder == FolderManager.get().inbox)?.[0]
     const in_folders = msg.locations.map(({ folder }) => folder)
 
-    // actions can only take place once, and should be in order:
-    // star, forward, copy, archive OR delete (not both)
+    //! Actions can only take place once, and should be in order:
+    //* star, forward, copy, archive OR delete (not both)
     const actions = {}
 
-    for (const {
-        folder,
-        conditions,
-        action
-      } of rules) {
+    //? Build Phase - Decides which rules to apply.
+    for (const { folder, conditions, action } of rules) {
+
+      //? Does the rule apply to the email's folder?
       let conditions_met = folder == email.folder
       if (!conditions_met) continue;
+
+      //? Does the sender address match the rule?
       if (conditions.from) {
         const match = (email.M.envelope.from.address == conditions.from)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Do the recipients match the rule?
       if (conditions.to) {
         const match = email.M.envelope.to
           .filter(({
@@ -73,26 +90,36 @@ module.exports = () => (configs, cache, Folders, Operator) => {
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Does the subject match the rule?
       if (conditions.subject) {
         const match = email.M.envelope.subject.includes(conditions.subject)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Does the quick action match the rule?
       if (conditions.quick_action) {
         const match = email.M.quick_actions.classification == conditions.quick_action
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Does the priority status match the rule?
       if (conditions.subscription != null) {
         const match = email.M.subscription.subscribed == conditions.subscription
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Does the condition match the rule?
       if (conditions.text) {
         const match = email.parsed.text.includes(conditions.text)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? Do the attachments match the rule?
       if (conditions.attachment_type) {
         // TODO: type should be bucketed maybe
         const match = email.parsed.attachments.filter(
@@ -101,12 +128,15 @@ module.exports = () => (configs, cache, Folders, Operator) => {
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
+
+      //? If everything checks out, add an action to be applied
       action.map(({type, value}) => {
         if (actions[type]) return;
         actions[type] = value
       })
     }
 
+    //? Apply Phase - Apply actions.
     if (actions[BoardRuleActions.Star] != null) {
       const flagstaff = Operator.flags
       const strategy = actions[BoardRuleActions.Star] ? flagstaff.star : flagstaff.unstar
@@ -118,7 +148,7 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     if (actions[BoardRuleActions.Move]) {
       //* check to see if its already moved
       if (!(in_folders.includes(actions[BoardRuleActions.Move]))) {
-        const strategy = (email.folder == Folders.inbox) ? Operator.copy : Operator.move;
+        const strategy = (email.folder == FolderManager.get().inbox) ? Operator.copy : Operator.move;
         await strategy(email.folder, email.M.envelope.uid, actions[BoardRuleActions.Move])
         // FIXME: there may be lag in uniting threads until the next sync
       }
@@ -131,10 +161,10 @@ module.exports = () => (configs, cache, Folders, Operator) => {
   }
 
   const do_apply_rules = async () => {
-    const rules = configs.load("board-rules")
+    const rules = Configuration.load("board-rules")
     if (!rules) {
       //! TODO: this should sync to a server or something.
-      configs.store('board-rules', [])
+      Configuration.store('board-rules', [])
       return await do_apply_rules()
     }
 
