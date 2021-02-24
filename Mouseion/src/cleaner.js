@@ -261,7 +261,15 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
           let code = result.entities.filter(({ subtype }) => subtype == "code")?.[0]?.value
           // if (!code) code = /[0-9]{5,7}/g.exec(email.parsed.text)?.[0]
           if (!code) code = /\b[0-9A-Z]{5,12}\b/g.exec(email.parsed.text)?.[0]
-          if (code) email.M.quick_actions.otp = code
+          if (code) {
+            code = code.trim()
+            if (/\b/.test(code)) {
+              const maybeCode = code.split(/\b/gim).filter(fragment =>
+                /^[0-9A-Z]{4,20}$/.test(fragment))?.[0]
+              if (maybeCode) code = maybeCode
+            }
+            email.M.quick_actions.otp = code
+          }
         }
       }
     })
