@@ -10,6 +10,7 @@ const PostOffice = require('./imap/client')
 
 const FolderEngine = require('./email/folders')
 const ContactEngine = require('./email/contacts')()
+const UnityEngine = require('./email/thread-unity')()
 const BoardRuleEngine = require('./email/board-rules')()
 const AfterThreadEngine = require('./email/post-threading')()
 const SyncEngine = require('./email/sync')()
@@ -93,14 +94,17 @@ const Mailbox = (async (Lumberjack, {
     FolderManager,
     configs,
     cache, courier,
-    Contacts, null, AfterThread,
+    Contacts, null, null, AfterThread,
     Cleaners, Log, Lumberjack) //? Cypher is a stripped down operator (no board rules)
   const BoardRules = BoardRuleEngine(configs, cache, FolderManager, Cypher)
+
+  //* Thread unity
+  const Unity = UnityEngine(configs, cache, FolderManager, Cypher)
 
   //* Single Folder Sync
   const MailSync = SyncEngine(
     provider,
-    Contacts, BoardRules, AfterThread,
+    Contacts, BoardRules, AfterThread, Unity,
     cache, courier,
     Cleaners, Log,
     configs,
@@ -112,7 +116,7 @@ const Mailbox = (async (Lumberjack, {
     FolderManager,
     configs,
     cache, courier,
-    Contacts, BoardRules, AfterThread,
+    Contacts, BoardRules, Unity, AfterThread,
     Cleaners, Log, Lumberjack, auto_increment_cursor=true)
 
   //* Sync Lifecycle
@@ -124,6 +128,7 @@ const Mailbox = (async (Lumberjack, {
 
   const afterSync = async () => {
     await Contacts.sync()
+    await Unity.apply()
     await BoardRules.apply()
     await AfterThread.cleanup()
     Log.success("Finished sync.")
@@ -146,7 +151,7 @@ const Mailbox = (async (Lumberjack, {
       }
       try {
         await beforeSync()
-        await batchMap(syncedFolders, SYNC_BATCH_SIZE, MailSync)
+        await batchMap(syncedFolders, 1 /*SYNC_BATCH_SIZE*/, MailSync)
         await afterSync()
       } catch (e) {
         Log.error(e)

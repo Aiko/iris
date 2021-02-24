@@ -9,16 +9,17 @@ const Sequence = require('./sequence')
 //? built to spec of RFC 4549
 module.exports = () => (
   provider,
-  Contacts, BoardRules, AfterThread,
+  Contacts, BoardRules, Unity, AfterThread,
   cache, courier,
   Cleaners, Log,
   configs,
   Lumberjack, Folders,
   AI_BATCH_SIZE, THREAD_BATCH_SIZE) => async folder => {
-  // Log.time("Synced", folder)
 
+  //? Uses a new cursor
   const cursor = configs.load('cursor') + 1
 
+  //? Assigns a new cleaner if one does not exist
   if (!Cleaners[folder]) {
     Log.warn("Cleaner for", folder, "did not exist, generating it")
     Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
@@ -27,10 +28,19 @@ module.exports = () => (
   }
   const Cleaner = Cleaners[folder]
 
-  //* first, open the folder to get uidNext
+  //? Gets the next valid UID from the server
   const { uidNext } = await courier.folders.openFolder(folder)
 
-  //* then, check for messages locally put in the folder
+  //? Phase 1: Check the existence of messages we have locally.
+  const Phase1 = async () => {
+    //? Lookup what messages we already have locally
+    const localMessages = (await cache.lookup.folder(folder)) || []
+    if (localMessages.length == 0) {
+      Log.warn(folder, "| Folder is empty!")
+      return;
+    }
+    Log.log(folder, "| Have", localMessages.length, "messages in folder")
+  }
   const localMessages = (await cache.lookup.folder(folder)) || []
   Log.log("Have", localMessages.length, "messages in", folder)
 
@@ -43,13 +53,16 @@ module.exports = () => (
     })
     .filter(_ => _)
     .sort((a,b) => a - b) // defaults to lexicographic even w/ numbers
+  ;;
+
   if (localUIDs.length > 0) {
-    Log.log("Fetching local UIDs...")
+    Log.log("Syncing local UIDs in", folder)
+    if (folder == '[Aiko]/Done') Log.warn("what we have is", localUIDs, Sequence(localUIDs))
     const envelopes = await courier.messages.listMessages(folder, Sequence(localUIDs), {
       peek: true,
       onlyflags: true, //? this is an experimental optimization
       markAsSeen: false,
-      limit: 300,
+      limit: 5000,
       parse: false,
       downloadAttachments: false,
       keepCidLinks: true
@@ -62,10 +75,14 @@ module.exports = () => (
       //? that have the deleted flag b/c of IMAP inconsistencies
       if (!remoteMessage) {
         //* email has been removed from location, remove location from cache
+        Log.warn(localMessage.mid, "has been removed from", folder)
         await cache.remove.location(folder, localUID, cursor)
+        Unity.queue(localMessage.tid)
       } else if (remoteMessage.flags.includes('\\Deleted')) {
         //* email has been directly deleted, purge away!
+        Log.warn(localMessage.mid, "has been deleted.")
         await cache.remove.message(localMessage.mid, cursor)
+        Unity.queue(localMessage.tid)
       } else {
         //* otherwise sync flags
         const seen = remoteMessage.flags.includes('\\Seen')
@@ -114,7 +131,7 @@ module.exports = () => (
         * otherwise you need to recursively apply references for that email
         * that check should be done in threading method :)
       */
-      await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
+      await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Unity, AfterThread, Cleaners, Log, Lumberjack, actually_thread=false) //* already puts it into the DB
       await cache.L1.cache(email.M.envelope.mid, email)
     })
     // Log.timeEnd(folder, "synced", uidNext - X - uidMinEnv, "older envelopes")
@@ -149,7 +166,7 @@ module.exports = () => (
 
   await batchMap(cleaned_emails, THREAD_BATCH_SIZE, async email => {
     if (!email.M.envelope.mid) return Log.error("Message is missing MID")
-    await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, AfterThread, Cleaners, Log, Lumberjack) //* already puts it into the DB
+    await threading(email, provider, Folders, cursor, cache, courier, Contacts, BoardRules, Unity, AfterThread, Cleaners, Log, Lumberjack) //* already puts it into the DB
     email = JSON.parse(JSON.stringify(email))
     // this is commented out because we currently dont download attachments or resolve CID links at fetch time
     // await cache.L3.cache(email.M.envelope.mid, email)

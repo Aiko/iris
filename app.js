@@ -179,7 +179,14 @@ ipcMain.handle('reentry', (_, __) => entry())
 // Define launch scripts
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
+//import { ElectronBlocker } from '@cliqz/adblocker-electron';
+//import fetch from 'cross-fetch'; // required 'fetch'
+const { ElectronBlocker } = require('@cliqz/adblocker-electron')
+const fetch = require('cross-fetch')
+
 const init = async () => {
+  const Sentinel = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
+
   win = new BrowserWindow({
     show: false,
     frame: process.platform == 'darwin',
@@ -217,6 +224,7 @@ const init = async () => {
 
   entry()
 
+  Sentinel.enableBlockingInSession(win.webContents.session)
   win.on('closed', () => {
     win = null
     WindowManager.setWindow(null)

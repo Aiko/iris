@@ -32,65 +32,12 @@ Board Rule schema:
 
 module.exports = () => (configs, cache, Folders, Operator) => {
   let board_rule_queue = []
-  const threads_managed = {}
   const BoardRuleActions = {
     Star: "star",
     Forward: "forward",
     Move: "move",
     Delete: "delete",
     Archive: "archive"
-  }
-  const unite_thread = async tid => {
-    //? loop through the entire thread, making sure everything is only in one board
-    //? by default, uses the latest board as the main board
-    //? by default, only copies messages that are in the inbox to the board
-    // TODO: we might need to check trash as well here for unity...
-    await cache.update.refreshThread(tid)
-    const thread = await cache.lookup.tid(tid)
-    if (!thread) return; // doesn't work on messages not threaded
-    let main_board = null
-    const thread_messages = await Promise.all(thread.mids.map(cache.lookup.mid))
-    //? sort ascending date
-    thread_messages.sort((m1, m2) => (new Date(m1.timestamp)) - (new Date(m2.timestamp)))
-    //? find main board (working backwards because only latest matters)
-    for (let i = thread_messages.length - 1; i > -1; i--) {
-      const in_boards = thread_messages[i].locations
-        .map(({ folder }) => folder)
-        .filter(folder => folder.startsWith('[Aiko]'));
-      if (in_boards.length > 0) {
-        main_board = in_boards.reduceRight(_ => _)
-        break;
-      }
-    }
-
-    if (!main_board) return (threads_managed[tid] = true); // there's no main board
-
-    //? move/copy everything to that
-    for (const thread_message of thread_messages) {
-      const in_folders = thread_message.locations.map(({ folder }) => folder)
-
-      //? we don't care if not in inbox
-      if (!in_folders.includes(Folders.get().inbox)) continue;
-
-      const in_boards = in_folders.filter(folder => folder.startsWith('[Aiko]'))
-
-      //? if it doesn't contain main board or contains other boards
-      if (!(in_boards.includes(main_board)) || in_boards.length > 1) {
-        //? delete message from all other boards
-        //? move the message from inbox
-        for (const {folder, uid} of thread_message.locations) {
-          if (folder.startsWith('[Aiko]')) {
-            await Operator.delete(folder, uid)
-          }
-          if (folder == Folders.get().inbox) {
-            await Operator.copy(folder, uid, main_board)
-          }
-        }
-      }
-
-    }
-
-    threads_managed[tid] = true
   }
   const apply_rules = rules => async email => {
     if (!email.parsed.text) return; // only applies rules to L3 messages
@@ -104,8 +51,6 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     // actions can only take place once, and should be in order:
     // star, forward, copy, archive OR delete (not both)
     const actions = {}
-
-    if (!threads_managed[msg.tid]) await unite_thread(msg.tid)
 
     for (const {
         folder,
@@ -208,6 +153,6 @@ module.exports = () => (configs, cache, Folders, Operator) => {
     apply: do_apply_rules,
     queue: (...args) => {
       board_rule_queue.push(...args)
-    }
+    },
   }
 }

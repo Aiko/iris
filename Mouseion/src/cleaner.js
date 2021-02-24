@@ -349,7 +349,7 @@ const Janitor = (async (Lumberjack, folder, useAiko=false) => {
     return email
   }
 
-  //* check for trackers
+  //* check for & remove trackers
   const trackers = async email => {
     email = await attachments(email)
 

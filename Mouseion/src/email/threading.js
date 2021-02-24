@@ -4,7 +4,7 @@ const threading = async (email, provider,
   Folders,
   cursor,
   cache, courier,
-  Contacts, BoardRules, AfterThread,
+  Contacts, BoardRules,Unity, AfterThread,
   Cleaners, Log, Lumberjack, actually_thread=true) => {
 
   if (!email.M.references) {
@@ -19,6 +19,7 @@ const threading = async (email, provider,
     await cache.add.message(email.M.envelope.mid, email.folder, email.uid, email.M.envelope.cleanSubject, cursor, {
       timestamp: email.M.envelope.date
     })
+    if (Unity) Unity.queue(exists.tid)
     return exists.tid
   }
 
@@ -253,6 +254,8 @@ const threading = async (email, provider,
       BoardRules.queue(email)
     }
   }
+
+  if (Unity) Unity.queue(thread_id)
 
   //? this system works best when older messages are added first
   return thread_id

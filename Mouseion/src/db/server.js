@@ -146,7 +146,7 @@ const Cache = (dir => {
         break;
       }
       if (in_folders.includes("INBOX")) {
-        main_board = "INBOX"
+        fallbac = "INBOX"
         break;
       }
       //? disabling the below because if you move a thread out of a board this is what should happen

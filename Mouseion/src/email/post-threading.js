@@ -10,7 +10,7 @@ module.exports = () => (cache, configs) => {
       if (!thread) continue;
 
       const thread_date = new Date(thread.date)
-      const thread_messages = (await Promise.all(thread.mids.map(cache.lookup.mid))).sort((a, b) => b.timestamp - a.timestamp)
+      const thread_messages = (await Promise.all(thread.mids.map(cache.lookup.mid))).filter(_ => _).sort((a, b) => b.timestamp - a.timestamp)
       if (thread_messages.length == 0) continue;
       const thread_subject = thread_messages[0].subject
 
