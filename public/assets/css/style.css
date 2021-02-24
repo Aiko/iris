@@ -296,6 +296,12 @@ input:active {
 	opacity: 1;
 	transition: 0.2s;
 }
+.pre-delete{
+	margin-left: 290px;
+	background: var(--main-bg-color);
+	opacity: .5;
+		transition: .2s;
+	}
 
 .sidebar {
 	width: 122px;
@@ -1438,6 +1444,7 @@ position: relative;
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 15px;
+		    background: var(--secondary-bg-color);
     padding: 8px 13px 0 10px;
     overflow: hidden;
 }
