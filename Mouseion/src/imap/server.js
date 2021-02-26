@@ -41,7 +41,7 @@ const PostOffice = () => {
     if (client) await close()
 
     const options = {
-      logLevel: EmailJS.LOG_LEVEL_ERROR,
+      logLevel: EmailJS.LOG_LEVEL_DEBUG,
       auth: oauth ? {
         user,
         xoauth2: oauth
