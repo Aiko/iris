@@ -48,11 +48,11 @@ const msoauth = {
 
       if (this.imapConfig) {
         success(...(MSOAUTH_TAG), 'Setting up IMAP configuration.')
-        this.imapConfig.email = user_profile.mail
+        this.imapConfig.email = user_profile.userPrincipalName
         this.imapConfig.host = 'outlook.office365.com'
         this.imapConfig.port = 993
         this.imapConfig.xoauth2 = xoauth
-        this.imapConfig.user = user_profile.mail
+        this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
         this.imapConfig.provider = 'outlook'
         this.imapConfig.secure = true
@@ -61,7 +61,7 @@ const msoauth = {
 
       if (this.smtpConfig) {
         success(...(MSOAUTH_TAG), 'Setting up SMTP configuration.')
-        this.smtpConfig.email = user_profile.mail
+        this.smtpConfig.email = user_profile.userPrincipalNamel
         this.smtpConfig.host = 'smtp.office365.com'
         this.smtpConfig.port = 587
         this.smtpConfig.xoauth2 = xoauth
@@ -115,11 +115,11 @@ const msoauth = {
 
         if (this.imapConfig) {
           success(...(GOAUTH_TAG), 'Setting up IMAP configuration.')
-          this.imapConfig.email = user_profile.mail
+          this.imapConfig.email = user_profile.userPrincipalName
           this.imapConfig.host = 'outlook.office365.com'
           this.imapConfig.port = 993
           this.imapConfig.xoauth2 = xoauth
-          this.imapConfig.user = user_profile.mail
+          this.imapConfig.user = user_profile.userPrincipalName
           this.imapConfig.pass = ''
           this.imapConfig.secure = true // gmail uses self signed certs
           this.imapConfig.provider = 'outlook'
@@ -128,7 +128,7 @@ const msoauth = {
 
         if (this.smtpConfig) {
           success(...(GOAUTH_TAG), 'Setting up SMTP configuration.')
-          this.smtpConfig.email = user_profile.mail
+          this.smtpConfig.email = user_profile.userPrincipalName
           this.smtpConfig.host = 'smtp.office365.com'
           this.smtpConfig.port = 587
           this.smtpConfig.xoauth2 = xoauth
@@ -180,11 +180,11 @@ const msoauth = {
 
       if (this.imapConfig) {
         success(...(GOAUTH_TAG), 'Setting up IMAP configuration.')
-        this.imapConfig.email = user_profile.mail
+        this.imapConfig.email = user_profile.userPrincipalName
         this.imapConfig.host = 'outlook.office365.com'
         this.imapConfig.port = 993
         this.imapConfig.xoauth2 = xoauth
-        this.imapConfig.user = user_profile.mail
+        this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
         this.imapConfig.secure = true // gmail uses self signed certs
         this.imapConfig.provider = 'outlook'
@@ -193,7 +193,7 @@ const msoauth = {
 
       if (this.smtpConfig) {
         success(...(GOAUTH_TAG), 'Setting up SMTP configuration.')
-        this.smtpConfig.email = user_profile.mail
+        this.smtpConfig.email = user_profile.userPrincipalName
         this.smtpConfig.host = 'smtp.office365.com'
         this.smtpConfig.port = 587
         this.smtpConfig.xoauth2 = xoauth
