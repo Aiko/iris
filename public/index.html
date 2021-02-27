@@ -1965,11 +1965,12 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Singular Direct Recipient, Collapsed -->
                   <!--!------------------------------------------------------------->
-                  <div v-if="!showSenderInfo && email.M.envelope.to.length == 1">
+                  <div v-if="!showSenderInfo && email.M.envelope.to.length <= 1">
                     <b>From</b>
                     <span>{{email.M.envelope.from.address}}</span>
                     <b>to</b>
-                    <span>{{email.M.envelope.to[0].address}}</span>
+                    <span v-if="email.M.envelope.to.length > 0">{{email.M.envelope.to[0].address}}</span>
+                    <span v-else>undisclosed recipients</span>
                     <b v-if="email.M.envelope.cc.length > 0">and {{email.M.envelope.cc.length}}
                       others</b>
                   </div>
