@@ -61,7 +61,7 @@ const msoauth = {
 
       if (this.smtpConfig) {
         success(...(MSOAUTH_TAG), 'Setting up SMTP configuration.')
-        this.smtpConfig.email = user_profile.userPrincipalNamel
+        this.smtpConfig.email = user_profile.userPrincipalName
         this.smtpConfig.host = 'smtp.office365.com'
         this.smtpConfig.port = 587
         this.smtpConfig.xoauth2 = xoauth
