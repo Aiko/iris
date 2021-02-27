@@ -142,6 +142,7 @@ const PostOffice = () => {
       downloadAttachments=false, keepCidLinks=false
     } ={} // kissy face operator lets us make default named parameters
   ) => {
+    sequence = '' + sequence // better be a fuckin string
     if (!client) await connect()
     if (sequence.startsWith('0')) {
       Log.error("Sequences cannot contain '0' as a startpoint")

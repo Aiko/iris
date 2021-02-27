@@ -84,7 +84,7 @@ const composer = {
     async loadComposer () {
       const identifier = this.bang
       if (!identifier) return window.error(...COMPOSER_TAG, 'No bang!')
-      const config = await BigStorage.pop('composer/' + identifier)
+      const config = await BigStorage.load('composer/' + identifier)
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
       this.sendTo = config.to || []
@@ -95,12 +95,20 @@ const composer = {
       this.messageId = config.msgId || ''
       this.composerEngine = Engine(config.enginePort)
       if (this.messageId && !this.quoted) {
-        const cached = await this.composerEngine.api.get.single(this.messageId)
-        if (cached) {
-          this.quoted =
-          'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
-          ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + cached.parsed?.html
+        info(...COMPOSER_TAG, "Trying to fetch message for composer.")
+        const tryToGetIt = async (that, max_tries=3, try_n=0) => {
+          if (try_n >= max_tries) return null;
+          info(...COMPOSER_TAG, "Try", try_n+1, "of", max_tries)
+          const cached = await that.composerEngine.api.get.single(that.messageId)
+          if (cached) {
+            that.quoted =
+            'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
+            ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + (cached.parsed?.html || '[Message was too long to include.]')
+          }
+          if (!(cached.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
         }
+        await tryToGetIt(this)
+        console.log(this.quoted)
       }
     },
     task_SendEmail (mail) {
