@@ -8,6 +8,8 @@ const Lock = require('../utils/promise-lock')
 const Cache = require('./db/client')
 const PostOffice = require('./imap/client')
 
+const Registry = require('./register')()
+
 const FolderEngine = require('./email/folders')
 const ContactEngine = require('./email/contacts')()
 const UnityEngine = require('./email/thread-unity')()
