@@ -759,8 +759,43 @@ padding: 5px 10px 6px 15px;
 	line-height: 28px;
 	white-space: nowrap;
 	text-transform: uppercase;
-	transition: .2s;
 }
+
+	.email-footer .main-action.blue:hover,
+	.email-footer .main-action.red:hover,
+	.email-footer .main-action.ma1:hover {
+    background-position: 0 100%;
+  }
+
+ .email-footer .main-action.ma1{
+    background: linear-gradient(to right, #fff, #fff 50%, var(--main-text-color) 50%);
+		    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    background-position: 100%;
+    transition: background-position 275ms ease;
+    text-decoration: none;
+	}
+
+	 .email-footer .main-action.blue{
+    background: linear-gradient(to right, #2e49ab, #2a4abd 50%, var(--main-color) 50%);
+		    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    background-position: 100%;
+    transition: background-position 275ms ease;
+    text-decoration: none;
+	}
+		 .email-footer .main-action.red{
+    background: linear-gradient(to right, #ab2330, #ab2330 50%, #dc3545 50%);
+		    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    background-position: 100%;
+    transition: background-position 275ms ease;
+    text-decoration: none;
+	}
+
 
 .main-action:hover .all {
 	display: unset !important;
@@ -1585,16 +1620,18 @@ position: relative;
 	margin-left: 5px;
 }
 
-.email-footer img:hover {
-	filter: brightness(0.9);
-	transition: 0.2s;
+.email-footer .main-action.ma1:hover img {
+    filter: brightness(1.5);
+		transition: .1s;
 }
 
-.email-footer .main-action:hover {
-	filter: brightness(0.9);
-	font-size: 12px;
-	margin-left: -2px;
-	transition: 0.2s;
+.email-footer .main-action.red:hover img {
+    filter: brightness(0.7);
+		transition: .1s;
+}
+.email-footer .main-action.blue:hover img {
+    filter: brightness(0.7);
+		transition: .1s;
 }
 
 .body {
