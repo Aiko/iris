@@ -14,8 +14,6 @@
 	/* Sidebar, body preview, board title */
 	--main-text-color-hover: #536282;
 	--dark-text: #536282;
-	/* Dropdown titles */
-	--sidebar-item-bg-color: #fff;
 	/* Active and hover in sidebar */
 	--sender-text-color: #536282;
 	--subject-text-color: #4b5c80;
@@ -78,7 +76,7 @@ div.board-body>div:first-child {
 video {
 	width: 100%;
 	height: auto;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 
 video:focus {
@@ -122,7 +120,7 @@ hr {
 	background: var(--main-color);
 	color: #fff;
 	padding: 0 6px 2px 6px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 input {
@@ -173,7 +171,7 @@ input:active {
 .announce {
 	padding: 6px 5px;
 	background: var(--secondary-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	letter-spacing: 0 !important;
 	position: absolute;
     bottom: 0;
@@ -281,7 +279,7 @@ input:active {
 	height: 19px;
 	cursor: pointer;
 	background: var(--secondary-bg-color) !important;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 .sidebar-collapse img {
@@ -304,10 +302,10 @@ input:active {
 	}
 
 .sidebar {
-	width: 122px;
+	width: 132px;
 	background: var(--main-bg-color);
 	position: relative;
-	padding: 9px 6px;
+	padding: 9px;
 	overflow-x: hidden;
 	z-index: 2;
 	transition: 0.2s;
@@ -322,6 +320,7 @@ input:active {
 	margin-left: -5px;
 	box-shadow: 0 1px 9px #00000038;
 	border: none;
+	border-radius: 5px;
 }
 
 .dropdown-menu {
@@ -369,7 +368,7 @@ input:active {
 	margin-top: -4px;
 	height: 33px;
 	margin-right: -15px;
-	border-radius: 4px;
+	border-radius: 5px;
 	overflow: hidden;
 	font-size: 16px !important;
 	margin-bottom: -3px;
@@ -419,7 +418,7 @@ padding: 5px 10px 6px 15px;
 .active-tab {
 	opacity: 1;
 	transition: 0.2s;
-	border-radius: 4px;
+	border-radius: 5px;
 	box-shadow: 0 0 9px 2px #212121f7;
 }
 
@@ -486,7 +485,7 @@ padding: 5px 10px 6px 15px;
 
 .main {
 		position: relative;
-    width: calc(100% - 122px);
+    width: calc(100% - 132px);
 }
 
 #app {
@@ -596,7 +595,7 @@ padding: 5px 10px 6px 15px;
 	padding: 0 5px 5px 9px;
 	background: var(--secondary-bg-color);
 	border: var(--main-border);
-	border-radius: 3px;
+	border-radius: 5px;
 	cursor: pointer;
 	height: 30px;
 	max-width: 250px;
@@ -641,7 +640,7 @@ padding: 5px 10px 6px 15px;
 
 .secondary {
 	width: calc(100% - 40px);
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 .note {
@@ -705,6 +704,7 @@ padding: 5px 10px 6px 15px;
 .header {
 	padding: 9px 15px 9px 20px;
 	height: 47px;
+	border-left: 2px solid var(--secondary-bg-color);
 	background: var(--main-bg-color);
 	z-index: 3;
 	position: relative;
@@ -798,7 +798,7 @@ a.main-action:hover {
 	width: 100%;
 	position: relative;
 	padding: 4px 10px 5px 9px;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-size: 14px;
 	color: var(--main-text-color);
 	margin-top: 3px;
@@ -898,8 +898,7 @@ overflow: visible;
 }
 
 .sidebar .active {
-	background: var(--sidebar-item-bg-color);
-	border-left: 2px solid #6e80a5;
+	background: var(--secondary-bg-color);
 	padding-left: 7px !important;
 }
 
@@ -909,14 +908,14 @@ overflow: visible;
 }
 
 .sidebar .container .row:nth-child(2) .search img {
-	width: 18px;
-	margin-top: 0;
-	margin-left: -2px;
+width: 18px;
+    margin-top: 0;
+    margin-left: -2px;
 }
 
 .sidebar .container .row:nth-child(2) .search input {
 	font-size: 12px;
-	padding: 4px 0 4px 0px;
+	padding: 4px 0 4px 0;
 }
 
 .sidebar .container .row:nth-child(3) {
@@ -930,7 +929,7 @@ overflow: visible;
 	max-width: 210px;
 	text-overflow: ellipsis;
 	border: var(--main-border);
-	border-radius: 3px;
+	border-radius: 5px;
 	cursor: pointer;
 	height: 30px;
 	overflow: hidden;
@@ -943,7 +942,7 @@ overflow: visible;
 
 .picker:hover {
 	height: fit-content;
-	border-radius: 3px;
+	border-radius: 5px;
 	box-shadow: 0 6px 13px 0 #cccfdd;
 	transition: 0.2s;
 }
@@ -970,7 +969,7 @@ overflow: visible;
 .settings {
 	margin: 40px;
 	background: #f7f7f7;
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 20px 30px;
 }
 
@@ -1069,7 +1068,7 @@ overflow: visible;
 }
 
 .search {
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 0 7px 0 7px;
 	border: var(--main-border);
 	height: 30px;
@@ -1086,7 +1085,7 @@ overflow: visible;
 	padding: 20px 5px 15px 30px;
 	max-width: 500px;
 	z-index: 0;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-size: 14px;
 	line-height: 12px;
 	box-shadow: 0 0 15px #0000003b;
@@ -1142,14 +1141,9 @@ overflow: visible;
 }
 
 .sidebar .search {
-	position: absolute;
-	left: 0;
-	margin-left: -12px;
-	margin-right: -10px;
-	border-radius: 0;
-	padding-left: 20px;
-	border-right: none !important;
-	border-left: none !important;
+    border-right: 0 !important;
+    border-left: 5px !important;
+    padding: 0 0 0 7px;
 }
 
 .board-header {
@@ -1176,7 +1170,7 @@ overflow: visible;
 
 .search input {
 	width: calc(100% - 21px);
-	border-radius: 3px;
+	border-radius: 5px;
 	border: none;
 	color: var(--dark-text);
 	font-weight: 400;
@@ -1229,7 +1223,7 @@ overflow: visible;
 .empty {
 	background: #adadad1c;
 	height: 110px;
-	border-radius: 3px;
+	border-radius: 5px;
 	text-align: center;
 	padding-top: 45px;
 	box-shadow: inset 0 0 2px 1px #d5dbed;
@@ -1242,7 +1236,7 @@ overflow: visible;
 	margin-top: 10px;
 	background: #e4e4e4;
 	height: 50px;
-	border-radius: 3px;
+	border-radius: 5px;
 	box-shadow: inset 0 0 3px 1px rgba(215, 215, 215, 0.75);
 }
 
@@ -1262,7 +1256,7 @@ overflow: visible;
 .archive {
 	font-size: 10px;
 	background: var(--secondary-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	line-height: 19px;
 	color: var(--main-text-color);
 	margin-left: -10px;
@@ -1308,7 +1302,7 @@ hr {
 .board {
 		background: var(--main-bg-color);
     width: 300px;
-    border-radius: 4px 4px 0 0;
+    border-radius: 5px 5px 0 0;
     height: 100%;
     margin-right: 20px;
     position: relative;
@@ -1379,7 +1373,7 @@ hr {
     font-size: 13px;
     background: var(--secondary-bg-color);
     padding: 2px 5px;
-    border-radius: 4px;
+    border-radius: 5px;
     margin-bottom: 0;
     margin-top: 7px;
     margin-left: -3px;
@@ -1443,7 +1437,7 @@ border: 2px solid #486fff !important;
 .email {
 position: relative;
     background: #fff;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     margin-bottom: 15px;
 		    background: var(--secondary-bg-color);
@@ -1517,15 +1511,18 @@ position: relative;
 }
 
 .main-count {
-	float: right;
-	color: var(--main-color);
-	padding: 0;
-	border-radius: 3px;
-	font-size: 12px;
-	margin-top: 3px;
-	width: calc(100% - 60px);
-	text-align: center;
-	margin-right: -5px;
+    color: var(--main-color);
+    padding: 2px 8px;
+    margin: auto;
+    z-index: 2;
+		font-weight: 500;
+		margin-top: 1px;
+    border-radius: 50px;
+    font-size: 12px;
+    background: var(--secondary-bg-color);
+    text-align: center;
+    position: absolute;
+    right: 0;
 }
 
 .user-list {
@@ -1535,14 +1532,14 @@ position: relative;
 }
 
 .secondary-count {
-	color: var(--main-text-color);
-	background: var(--secondary-bg-color);
-	padding: 3px 4px 3px 5px;
-	border-radius: 3px;
-	font-size: 12px;
-	margin-left: 5px;
-	display: inline;
-	font-weight: 600;
+    color: var(--main-text-color);
+    background: var(--main-bg-color);
+    padding: 2px 3px 2px 6px;
+    border-radius: 50px;
+    font-size: 12px;
+    margin-left: 5px;
+    display: inline;
+    font-weight: 600;
 }
 
 .nowrap {
@@ -1636,7 +1633,7 @@ position: relative;
 
 .add-board {
 	background: var(--main-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	opacity: 0.6;
 	text-align: center;
 	height: 100%;
@@ -1678,7 +1675,7 @@ position: relative;
 	top: 0;
 	opacity: 0;
 	margin-top: -1px;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 
 .load-sidebar::before {
@@ -1694,7 +1691,7 @@ position: relative;
 	top: 0;
 	opacity: 0;
 	margin-top: -1px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 .load-bottom {
@@ -1792,7 +1789,7 @@ position: relative;
 
 	z-index: 1;
 	position: relative;
-	border-radius: 3px;
+	border-radius: 5px;
 	overflow-y: scroll;
 	transition: 0.2s;
 }
@@ -1812,7 +1809,7 @@ position: relative;
 	width: 300px;
 	background: var(--main-bg-color);
 	position: relative;
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 25px 15px 25px 15px;
 	overflow: hidden;
 	transition: 0.2s;
@@ -1930,7 +1927,7 @@ margin-left: -15px;
 
 .single-email {
     background: var(--main-bg-color);
-    border-radius: 4px;
+    border-radius: 5px;
     box-shadow: 0 1px 3px 1px #515a7b30;
     margin: 20px 15px;
     overflow-x: hidden;
@@ -2049,7 +2046,7 @@ select.v1 {
 	font-weight: 600;
 	letter-spacing: 0.4px;
 	width: unset !important;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 .email-body {
@@ -2110,7 +2107,7 @@ select.v1 {
 
 .secondary-head p {
 	background: var(--secondary-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 2px 5px;
 	font-size: 9px;
 	font-weight: 600;
@@ -2137,14 +2134,14 @@ select.v1 {
 
 .secondary-head h2:hover {
 	width: fit-content;
-	border-radius: 3px;
+	border-radius: 5px;
 	transition: 0.2s;
 	background-color: var(--main-bg-color);
 }
 
 .secondary-head h1:hover {
 	width: fit-content;
-	border-radius: 3px;
+	border-radius: 5px;
 	transition: 0.2s;
 	background-color: var(--main-bg-color);
 }
@@ -2160,7 +2157,7 @@ select.v1 {
 	bottom: 0;
 	right: 0;
 	padding: 0 5px 3px 5px;
-	border-radius: 4px 0 0 0;
+	border-radius: 5px 0 0 0;
 	opacity: 1;
 	text-align: center;
 	margin-bottom: 5px;
@@ -2216,7 +2213,7 @@ select.v1 {
     background: var(--secondary-bg-color);
     width: 80px;
     padding: 8px 10px;
-    border-radius: 4px;
+    border-radius: 5px;
 		transition: .2s;
 		cursor: pointer;
 		margin: auto;
@@ -2247,7 +2244,7 @@ transition: .2s;
     margin-bottom: 44px;
     transition: .2s;
     background: var(--secondary-bg-color);
-    border-radius: 4px;
+    border-radius: 5px;
 }
 .options-qa:hover{
 	filter: brightness(0.8);
@@ -2350,10 +2347,6 @@ color: var(--main-color);
 		margin-left: 4px !important;
 	}
 
-	.sidebar .active {
-		padding-left: 7px !important;
-	}
-
 	.header .side img {
 		margin-right: 10px;
 	}
@@ -2389,7 +2382,7 @@ color: var(--main-color);
 	.picker {
 		max-width: 30px;
 		padding-left: 3px;
-		border-radius: 3px;
+		border-radius: 5px;
 		padding-top: 1px;
 		height: 30px;
 		margin-left: -5px;
@@ -2512,7 +2505,7 @@ color: var(--main-color);
 
 .attachment {
 background: var(--main-color);
-    border-radius: 3px;
+    border-radius: 5px;
     color: #fff;
     font-weight: 500;
     padding: 5px;
@@ -2601,7 +2594,7 @@ unselectable {
 	width: fit-content;
 	color: #fff;
 	background: var(--main-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 3px 5px 0 5px;
 	font-weight: 500;
 	cursor: pointer;
@@ -2614,7 +2607,7 @@ unselectable {
 	width: fit-content;
 	color: #fff;
 	background: #28a745;
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 3px 5px 0 5px;
 	font-weight: 500;
 	cursor: pointer;
@@ -2627,7 +2620,7 @@ unselectable {
 	width: fit-content;
 	color: #000;
 	background: transparent;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-weight: 500;
 	cursor: pointer;
 	display: inline-flex;
@@ -2681,7 +2674,7 @@ unselectable {
 	width: 100%;
 	max-width: 130px;
 	margin-bottom: 20px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
 
 .alert-danger {
@@ -2697,7 +2690,7 @@ unselectable {
 	max-width: 190px;
 	border: solid 1px #e4e4e4;
 	margin-bottom: 20px;
-	border-radius: 3px;
+	border-radius: 5px;
 	padding: 5px 30px;
 	background: #fff;
 }
@@ -2747,7 +2740,7 @@ unselectable {
 
 .s-invite {
 	background: var(--main-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	font-size: 14px;
 	padding: 2px 6px;
 }
@@ -2775,7 +2768,7 @@ unselectable {
 .settings-main .row {
 	height: 39px;
 	background: var(--main-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	padding-top: 7px;
 	margin-bottom: 10px;
 	    box-shadow: 0 6px 13px -10px #7b86a4;
@@ -2836,7 +2829,7 @@ unselectable {
 .modal-reg input {
 	width: 100%;
 	max-width: 250px;
-	border-radius: 3px;
+	border-radius: 5px;
 	border: var(--main-border);
 	padding: 4px 10px;
 	font-size: 16px;
@@ -3150,7 +3143,7 @@ text-align: center;
 	color: #fff;
 	border: 1px solid var(--main-color);
 	outline: none;
-	border-radius: 4px;
+	border-radius: 5px;
 	    font-size: 14px;
     font-weight: 500;
 }
@@ -3308,7 +3301,7 @@ text-align: center;
 
 .existing-rules {
 	background: var(--secondary-bg-color);
-	border-radius: 4px !important;
+	border-radius: 5px !important;
 	padding: 10px 0 10px 10px;
 	border-bottom: 2px solid var(--main-bg-color);
 	margin: auto !important;
@@ -3342,17 +3335,17 @@ text-align: center;
 }
 
 .accordion {
-	border-radius: 4px !important;
+	border-radius: 5px !important;
 }
 
 .accordion .card {
 	background: var(--main-bg-color);
-	border-radius: 4px !important;
+	border-radius: 5px !important;
 }
 
 .accordion .card-header {
 	background: var(--secondary-bg-color);
-	border-radius: 4px !important;
+	border-radius: 5px !important;
 }
 
 .card-header {
@@ -3491,7 +3484,7 @@ input:checked+.slider:before {
 	z-index: 1;
 	position: absolute;
 	background: var(--main-bg-color);
-	border-radius: 3px;
+	border-radius: 5px;
 	box-shadow: 0 1px 20px 3px #0000002b;
 	left: 100px;
 	top: 100px;
@@ -3506,7 +3499,7 @@ input:checked+.slider:before {
 	height: 40px;
 	position: relative;
 	padding: 5px 7px 7px 5px;
-	border-radius: 3px;
+	border-radius: 5px;
 	font-weight: 500;
 	font-size: 14px;
 	margin-top: 5px;
@@ -3553,7 +3546,7 @@ input:checked+.slider:before {
 	color: var(--dark-text);
 	background: var(--main-bg-color);
 	padding: 2px 5px;
-	border-radius: 4px;
+	border-radius: 5px;
 }
 
 .plans{
@@ -3623,7 +3616,7 @@ position: absolute;
     width: 190px;
     height: 30px;
     padding: 4px 10px 5px 9px;
-    border-radius: 3px;
+    border-radius: 5px;
     transform: translateX(-50%);
     left: 50%;
     white-space: nowrap;
@@ -3778,7 +3771,7 @@ z-index:9999;
 font-weight: 500;
     background: #fff;
     border: 0;
-    border-radius: 3px;
+    border-radius: 5px;
     color: var(--main-color);
     cursor: pointer;
     margin-right: .5rem;

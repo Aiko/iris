@@ -38,19 +38,11 @@
 }
 
 /*  Custom styling */
-
-
-.inbox-switch .active .secondary-count {
-  filter: brightness(1.5) !important;
-}
 .settings-main .row{
   box-shadow: 0 6px 13px -10px #0d1016;
 }
 .plan{
   box-shadow: 0 6px 13px -10px #0d1016;
-}
-.sidebar .active{
-  border-left: 2px solid #a0a0a0;
 }
 .inbox-switch .inbox2{
   box-shadow: none;
