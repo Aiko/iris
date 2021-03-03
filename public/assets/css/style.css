@@ -169,7 +169,7 @@ input:active {
 /* END DRAGGABLE CLASSES */
 
 .announce {
-	padding: 6px 5px;
+	padding: 7px;
 	background: var(--secondary-bg-color);
 	border-radius: 5px;
 	letter-spacing: 0 !important;

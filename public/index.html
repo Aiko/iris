@@ -472,9 +472,7 @@
             <img src="assets/icons/header-search.svg">
             <input type="" name="" placeholder="Search Team">
           </div>
-          <div style="height: 30px"></div>
           <div class="user-list">
-
             <a class="user" v-for="user in profile.team.team">
               <div class="user-in">
                 <img :src="user.member.avatar">
@@ -1867,8 +1865,8 @@
             <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
-              <a v-if="isRepliedTo" @click.stop.prevent="reply"><img src="assets/icons/options-replied.png"
-                  width="18"></a>
+              <a v-if="isRepliedTo" @click.stop.prevent="reply" tooltip="You've replied to this email"><img
+                  src="assets/icons/options-replied.png" width="18"></a>
               <a v-else @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
               <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
