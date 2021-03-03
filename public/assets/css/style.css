@@ -375,7 +375,7 @@ input:active {
 }
 
 .inbox-switch .inbox1 {
-	border-radius: 3px 0 0 3px;
+	border-radius: 5px 0 0 5px;
 	box-shadow: inset 0 0 40px -10px #c2c8da78;
 	opacity: .7;
 	margin-left: -20px;
@@ -385,7 +385,7 @@ padding: 5px 10px 6px 15px;
 }
 
 .inbox-switch .inbox2 {
-	border-radius: 0 3px 3px 0;
+	border-radius: 0 5px 5px 0;
 	box-shadow: inset 0 0 40px -10px #c2c8da78;
 	margin-right: -17px;
 	padding: 5px 17px 7px 10px;
@@ -654,7 +654,7 @@ padding: 5px 10px 6px 15px;
 	border: 2px solid #486fff !important;
 	z-index: 3;
 	margin-top: -26px;
-	border-radius: 0 0 4px 4px;
+	border-radius: 0 0 5px 5px;
 	height: 33px;
 	cursor: text;
 }
@@ -810,6 +810,11 @@ a.main-action:hover {
 	transition: 0.2s;
 }
 
+.sidebar a:hover {
+    background: #272623;
+    transition: 0.2s;
+}
+
 
 .user {
 	display: -webkit-inline-box;
@@ -898,7 +903,7 @@ overflow: visible;
 }
 
 .sidebar .active {
-	background: var(--secondary-bg-color);
+	background: var(--secondary-bg-color) !important;
 	padding-left: 7px !important;
 }
 
@@ -1419,7 +1424,7 @@ border: 2px solid #486fff !important;
 	border-right: none !important;
 	border-left: none !important;
 	border-bottom: none !important;
-	border-radius: 0 0 0 4px !important;
+	border-radius: 0 0 0 5px !important;
 }
 
 
@@ -1450,7 +1455,7 @@ position: relative;
 .chip {
 	background: var(--main-color);
 	padding: 1px 4px;
-	border-radius: 2px;
+	border-radius: 5px;
 	width: max-content;
 	cursor: pointer;
 	margin-right: 5px;
@@ -1554,7 +1559,7 @@ position: relative;
 	width: 283px;
 	height: 27px;
 	margin-left: -25px;
-	border-radius: 0 0 4px 4px;
+	border-radius: 0 0 5px 5px;
 	margin-top: 2px;
 }
 
@@ -1779,7 +1784,7 @@ position: relative;
 	height: 100%;
 	border: none;
 	margin-bottom: -4px;
-	border-radius: 0 0 4px 4px;
+	border-radius: 0 0 5px 5px;
 	background: #fff;
 }
 
@@ -1833,7 +1838,7 @@ margin-left: -15px;
 .thread-count {
 	background: var(--main-bg-color);
 	height: 11px;
-	border-radius: 2px;
+	border-radius: 5px;
 	margin-top: 3px;
 	width: fit-content;
 	color: var(--main-text-color);
@@ -2294,13 +2299,7 @@ color: var(--main-color);
 .invite-icon {
 	padding-left: 5px !important;
 	display: inline-block;
-	background: transparent !important;
 	opacity: 1;
-	transition: 0.2s;
-}
-
-.invite-icon:hover {
-	opacity: 0.7;
 	transition: 0.2s;
 }
 

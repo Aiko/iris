@@ -116,7 +116,7 @@
 	background: var(--main-color);
 	color: #fff !important;
 	z-index: 1;
-	border-radius: 0 0 4px 4px;
+	border-radius: 0 0 5px 5px;
 	margin-bottom: -60px;
 	position: absolute;
 	margin-right: -2px;
