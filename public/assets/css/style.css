@@ -1157,8 +1157,8 @@ width: 18px;
 }
 
 .header .side img {
-    width: 30px;
-    margin-right: 10px;
+    width: 29px;
+    margin-right: 7px;
     color: var(--main-text-color);
     padding: 5px;
     background: var(--main-bg-color);
@@ -2570,7 +2570,7 @@ background: var(--main-color-hover);
 }
 
 .set a {
-	background: transparent !important;
+	padding: 6px 4px 6px 7px;
 }
 
 [contenteditable="true"]:empty:before {
