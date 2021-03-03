@@ -2542,7 +2542,7 @@ background: var(--main-color-hover);
     letter-spacing: 0.4px;
     margin-left: 4px;
     width: fit-content;
-    padding-right: 50px;
+    padding-right: 80px;
 }
 
 .attachment .size {
