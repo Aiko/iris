@@ -799,7 +799,6 @@ a.main-action:hover {
 	position: relative;
 	padding: 4px 10px 5px 9px;
 	border-radius: 3px;
-	font-weight: 500;
 	font-size: 14px;
 	color: var(--main-text-color);
 	margin-top: 3px;
@@ -917,7 +916,7 @@ overflow: visible;
 
 .sidebar .container .row:nth-child(2) .search input {
 	font-size: 12px;
-	padding: 4px 0 4px 3px;
+	padding: 4px 0 4px 0px;
 }
 
 .sidebar .container .row:nth-child(3) {
