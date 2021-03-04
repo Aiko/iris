@@ -820,8 +820,8 @@ background-color: var(--main-bg-color);
 		transition: .2s;
 }
 
-.all:hover {
-	color: var(--dark-text) !important;
+.all:hover::before{
+	background-color: var(--main-color);
 	transition: 0.2s;
 }
 
