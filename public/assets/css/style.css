@@ -2464,7 +2464,6 @@ color: var(--main-color);
 
 .collapsed .sidebar .active {
 	padding-left: 8px !important;
-  padding-top: 5px !important;
 }
 
 .collapsed .sidebar {
@@ -3516,6 +3515,9 @@ input:checked+.slider:before {
 }
 .ml0{
 	margin-left: 0 !important;
+}
+.mt0{
+	margin-top: 0 !important;
 }
 .ml10{
 	margin-left: 10px !important;
