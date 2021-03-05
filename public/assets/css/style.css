@@ -2463,7 +2463,8 @@ color: var(--main-color);
 }
 
 .collapsed .sidebar .active {
-	padding-left: 7px !important;
+	padding-left: 8px !important;
+  padding-top: 5px !important;
 }
 
 .collapsed .sidebar {
