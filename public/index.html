@@ -646,7 +646,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? Open Calendar -->
               <!--!------------------------------------------------------------->
-              <a @click="openCalendar" class="inline">
+              <a @click="openCalendar" class="inline" title="Show calendar">
                 <img src="assets/icons/header-calendar.svg">
               </a>
 
@@ -654,7 +654,7 @@
               <!-- ? Notifications -->
               <!--!------------------------------------------------------------->
               <div class="dropdown inline">
-                <a data-toggle="dropdown">
+                <a data-toggle="dropdown" title="Smart notifications">
                   <img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
                   <span class="notif-count">3</span>
@@ -1778,16 +1778,18 @@
             <!--!------------------------------------------------------------->
             <!-- ? Thread indicators -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.emails.length > 1" src="assets/icons/thread.svg">
+            <img v-if="thread.emails.length > 1" src="assets/icons/thread.svg" title="Number of emails in this thread">
             <span class="thread-count" v-if="thread.emails.length > 1">{{thread.emails.length}}</span>
 
             <!--!------------------------------------------------------------->
             <!-- ? Email badges -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg">
-            <img v-if="thread.hasTrackers" src="assets/icons/badges-tracker.svg">
-            <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg">
-            <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg">
+            <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg" title="This email has attachments">
+            <img v-if="thread.hasTrackers" src="assets/icons/badges-tracker.svg"
+              title="Tracker in this email successfully blocked">
+            <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg"
+              title="This email contains an event">
+            <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg" title="You were BCC'ed">
           </div>
 
           <!--!------------------------------------------------------------->
@@ -1854,7 +1856,7 @@
             <!-- ? Sync Indicator -->
             <!--!------------------------------------------------------------->
             <div v-if="thread.syncing" class="col-5 sync-message">
-              <a class="main-action ma1">
+              <a class="main-action ma1" title="Waiting for your email provider">
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
