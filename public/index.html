@@ -529,8 +529,8 @@
           </div>
           <br>
           <div class="set">
-            <a href="settings.html"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
+            <a href="settings.html" title="Settings"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a title="Documentation" class="no-mobile sc ml10" target="_blank"><img src="assets/icons/sidebar-help.svg"
                 width="30"></a>
           </div>
         </div>
@@ -741,7 +741,7 @@
                   <!-- ? Board Actions -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                      <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
@@ -759,7 +759,7 @@
                   <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
+                      <a title="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
                         <a class="dropdown-item" @click="sortThreads(true)">Date (newest)</a>
@@ -777,10 +777,10 @@
                   <!-- ? Force Sync (inbox only) -->
                   <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
-                    <a v-if="backendSyncing" tooltip="Force refresh">
+                    <a v-if="backendSyncing" title="Force refresh">
                       <img class="rotating" src="assets/icons/refresh.svg" width="17">
                     </a>
-                    <a v-if="!backendSyncing" @click="forceSync" tooltip="Force refresh">
+                    <a v-if="!backendSyncing" @click="forceSync" title="Force refresh">
                       <img src="assets/icons/refresh.svg" width="17">
                     </a>
                   </div>
@@ -797,7 +797,7 @@
                         'active': priority
                       }" @click="priority = true" inbox-direction="left">
                         Priority
-                        <div class="secondary-count" tooltip="Unread emails in your inbox">
+                        <div class="secondary-count" title="Unread emails in your inbox">
                           {{smartPriorityUnread}}
                         </div>
                       </h1>
@@ -914,7 +914,7 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                          <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                           <div class="dropdown-menu">
                             <h6 class="dropdown-header">Actions</h6>
                             <a class="dropdown-item">Mark all as read</a>
@@ -932,14 +932,13 @@
                       <!-- ? Board Title (click to thin/thick) -->
                       <!--!------------------------------------------------------------->
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
+                        <h1 @click="board.thin = !board.thin" title="Click title to minimize/maximize">
                           {{slug}}
                         </h1>
-                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count"
-                          tooltip="Unread emails in board">
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in board">
                           {{unread > 99 ? '99+' : unread}}
                         </div>
-                        <div v-if="slug == 'Done'" class="archive" tooltip="Trash entire board">
+                        <div v-if="slug == 'Done'" class="archive" title="Trash entire board">
                           <img src="assets/icons/sidebar-trash.svg">
                           Trash all
                         </div>
@@ -950,7 +949,7 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 text-right cll">
                         <!-- ! Testing a UI without this -->
-                        <a v-if="false" class="board-drag-handle" tooltip="Drag board"><img
+                        <a v-if="false" class="board-drag-handle" title="Drag board"><img
                             src="assets/icons/board-dots2.svg"></a>
                       </div>
                     </div>
@@ -1865,7 +1864,7 @@
             <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
-              <a v-if="isRepliedTo" @click.stop.prevent="reply" tooltip="You've replied to this email"><img
+              <a v-if="isRepliedTo" @click.stop.prevent="reply" title="You've replied to this email"><img
                   src="assets/icons/options-replied.png" width="18"></a>
               <a v-else @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
@@ -2061,16 +2060,16 @@
           <div class="options">
             <div class="container">
               <div class="row">
-                <a @click.stop="reply" tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
-                <a @click.stop="replyAll" tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
-                <a @click.stop="forward" tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(thread.starred)">
+                <a @click.stop="reply" title="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+                <a @click.stop="replyAll" title="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+                <a @click.stop="forward" title="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
+                <a title="Star" @click.stop.prevent="starMessage" v-if="!(thread.starred)">
                   <img src="assets/icons/options-star.svg" width="20">
                 </a>
-                <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
+                <a title="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
                   <img src="assets/icons/badges-star.svg" width="20">
                 </a>
-                <a tooltip="Trash" @click.stop.prevent="deleteMessage">
+                <a title="Trash" @click.stop.prevent="deleteMessage">
                   <img src="assets/icons/options-trash.svg" class="red" width="20"></a>
               </div>
             </div>
@@ -2088,7 +2087,7 @@
         <!-- ? Scheduler Mini-Tool -->
         <!--!------------------------------------------------------------->
         <div v-if="email.M.quick_actions.classification == 'scheduling'" class="scheduler">
-          <p tooltip="Click to change date and time">(new Date(email.M.quick_actions.start)).toNicerDateTime()</p>
+          <p title="Click to change date and time">(new Date(email.M.quick_actions.start)).toNicerDateTime()</p>
           <a>
             <img src="assets/icons/event-white.svg" width="20" />
             <span>Schedule</span>
