@@ -1882,18 +1882,31 @@
         </div>
 
         <!--!------------------------------------------------------------->
-        <!-- ? Quick Reply -->
+        <!-- ? Quick Actions -QUICK REPLY-->
         <!--!------------------------------------------------------------->
         <div :class="{
           'note': true,
           'hide': !showQuickReply,
           'dont-drag-this': true
         }">
-          <!-- TODO: make it so that when press enter in quick reply it sends rather than open email -->
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
             v-model="replyText" placeholder="Type a reply, press enter to send." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Quick Actions - SCHEDULE-->
+        <!--!------------------------------------------------------------->
+        <div :class="{
+          'dpick': true,
+          'hide': true,
+          'dont-drag-this': true
+        }">
+          <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+          <a @click.stop="sendQuickReply"><img src="assets/icons/calendar.svg" width="20"></a>
+        </div>
+
+
 
       </div>
 

@@ -737,13 +737,84 @@ padding: 5px 10px 6px 15px;
 	max-height: 163px;
 	overflow: scroll !important;
 }
+.quick-reply .note {
+	display: block !important;
+}
+
+.quick-schedule .body{
+	height: unset !important;
+	max-height: 163px;
+	overflow: scroll !important;
+}
+
+.quick-schedule .dpick {
+	display: block !important;
+}
+
+
+
+
+
+.dpick {
+	width: calc(100% + 53px);
+	position: relative;
+	margin-left: -25px;
+	background: var(--secondary-bg-color);
+	overflow: hidden;
+	color: var(--dark-text);
+	font-size: 14px;
+	border: 2px solid #486fff !important;
+	z-index: 3;
+	margin-top: -26px;
+	border-radius: 0 0 5px 5px;
+	height: 33px;
+	cursor: text;
+}
+
+.dpick a {
+	width: 30px;
+	background: var(--main-color);
+	height: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 2px 0;
+	transition: 0.2s;
+}
+
+.thin .dpick input {
+	padding: 3px 0 5px 3px !important;
+}
+.dpick a img{
+	margin-left: 5px;
+}
+
+.dpick a:hover {
+	background: var(--main-color-hover) !important;
+	transition: 0.2s;
+}
+
+.dpick input {
+	background: transparent;
+	border: none;
+	color: var(--dark-text);
+	padding: 3px 5px 12px;
+	width: calc(100% - 30px);
+}
+
+.thin .dpick {
+	width: 130px !important;
+	margin-left: -23px !important;
+}
+
+
+
+
 
 .note a img{
 	margin-left: 4px !important;
 }
-.quick-reply .note {
-	display: block !important;
-}
+
 .unread .note{
 	border-left: none !important;
 }
