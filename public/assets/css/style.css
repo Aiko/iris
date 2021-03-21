@@ -974,6 +974,9 @@ overflow: visible;
 			margin-left: 0 !important;
 			transition: .2s;
 }
+.collapsed .set a img{
+	margin-right: 8px !important;
+}
 
 #u3 {
 	width: 90px;
