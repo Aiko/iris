@@ -160,14 +160,14 @@ const entry = () => {
     Log.log('User is signed in, loading the main app.')
     // FIXME: before deployment, remove commit_hash from url below
     //win.loadURL(`file://${__dirname}/public/index.html#${commit_hash}`, {
-    win.loadURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
+    win.loadURL('file://${__dirname}/public/index.html#${commit_hash}', {
       // have to pretend to be Chrome to pass OAuth
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0'
     })
   } else {
     Log.log('User is not signed in, they will go thru the signin flow.')
     //win.loadURL('https://helloaiko.com/email/signin', {
-    win.loadURL('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
+    win.loadURL('https://www.helloaiko.com/email/signin', {
       userAgent: 'Aiko Mail'
     })
   }
