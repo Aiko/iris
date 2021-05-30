@@ -50,6 +50,26 @@
 .inbox-switch .inbox1{
   box-shadow: none;
 }
+  .space:hover {
+      filter: brightness(1.2) !important;
+    transition: 0.2s;
+}
+
+.custd .dropdown-menu span:hover {
+      filter: brightness(1.2) !important;
+    transition: 0.2s;
+}
+
+  .space-select span:hover {
+      filter: brightness(1.2) !important;
+    transition: 0.2s;
+}
+
+.space-select{
+		    background: var(--secondary-bg-color) !important;
+}
+
+
 .inbox-switch .active {
   background: var(--secondary-bg-color) !important;
 }

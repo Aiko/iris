@@ -427,20 +427,63 @@
           <!--!------------------------------------------------------------->
           <!-- ? Open Composer Button -->
           <!--!------------------------------------------------------------->
-          <a class="sbtn" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
+          <a class="sbtn compose-button" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
 
           <!--!------------------------------------------------------------->
           <!-- ? Email Folders -->
           <!--!------------------------------------------------------------->
-          <a class="active">
-            <img src="assets/icons/sidebar-home.svg">
-            <span>Home <span class="main-count">{{smartUnread}}</span></span>
+          <a class="active space-picker home">
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>Home <span class="main-count">{{smartUnread}}</span></span>
+            </div>
+
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>ASR</span>
+              <div class="dropdown custd">
+                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div class="dropdown-menu">
+                  <span>Rename</span>
+                  <span class="red">Delete</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>Cooley</span>
+              <div class="dropdown custd">
+                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div class="dropdown-menu">
+                  <span>Rename</span>
+                  <span class="red">Delete</span>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="space">
+              <img src="assets/icons/header-plus.svg">
+              <span>New space</span>
+            </div>
+
+
+
+
+
           </a>
+
+
           <!-- TODO: Outbox only shows when there is actually an email being sent for more than 5 seconds -->
-          <a><img src="assets/icons/out.svg" class="mt0">
+          <a>
+            <img src="assets/icons/out.svg" class="mt0">
             <span class="blue">Outbox <span class="main-count">3</span></span>
           </a>
+
+
           <a>
             <img src="assets/icons/sidebar-send.svg" class="sent-fix">
             <span>Sent</span>
@@ -453,6 +496,7 @@
             <img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;">
             <span>Spam <span class="main-count">4</span></span>
           </a>
+          <!-- TODO: only show drafts when there are drafts -->
           <a>
             <img src="assets/icons/sidebar-drafts.svg">
             <span>Drafts</span>
@@ -465,9 +509,9 @@
 
 
         <!--!------------------------------------------------------------->
-        <!-- ? Team Menu -->
+        <!-- ? Team Menu  TODO: ONLY SHOW THESE WHEN THERE IS AT LEAST 1 MORE TEAM MEMBER -->
         <!--!------------------------------------------------------------->
-        <div class="row">
+        <div class="row sr2" style="display: none;">
           <div class="search no-mobile sc">
             <img src="assets/icons/header-search.svg">
             <input type="" name="" placeholder="Search Team">
@@ -522,7 +566,7 @@
         <!--!------------------------------------------------------------->
         <!-- ? Sidebar Footer -->
         <!--!------------------------------------------------------------->
-        <div class="row bottom">
+        <div class="row bottom sr3">
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
             class="sidebar-collapse no-mobile">
             <img src="assets/icons/sidebar-collapse.svg">
@@ -923,6 +967,17 @@
                             <a class="dropdown-item">Board rules</a>
                             <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
                               board</a>
+                            <a class="dropdown-item space-change">
+                              Move to space:
+                              <div class="space-select">
+
+                                <span><img src="assets/icons/sidebar-home.svg">ASR</span>
+                                <span><img src="assets/icons/sidebar-home.svg">Cooley</span>
+                                <span><img src="assets/icons/sidebar-home.svg">PM Team</span>
+
+                              </div>
+                            </a>
+
                           </div>
                         </div>
                       </div>
