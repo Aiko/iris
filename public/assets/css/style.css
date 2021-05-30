@@ -839,7 +839,7 @@ padding: 5px 10px 6px 15px;
   }
 
  .email-footer .main-action.ma1{
-    background: linear-gradient(to right, #fff, #fff 50%, var(--main-text-color) 50%);
+    background: linear-gradient(to right, #4b5c80, #4b5c80 50%, var(--main-text-color) 50%);
 		    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 200% 100%;
@@ -879,7 +879,7 @@ padding: 5px 10px 6px 15px;
 	transition: 0.2s;
 }
 .all::before{
-background-color: var(--main-bg-color);
+		border: 1px solid var(--subject-text-color);
     content: " ";
     content: "ALL";
     /* color: #fff; */
@@ -892,7 +892,7 @@ background-color: var(--main-bg-color);
 }
 
 .all:hover::before{
-	background-color: var(--main-color);
+	background-color: var(--main-bg-color);
 	transition: 0.2s;
 }
 
@@ -1099,6 +1099,7 @@ width: 18px;
 
 .space-picker{
 	  height: 30px;
+		padding-top: 3px !important;
 		border: var(--main-border);
 		transition: .2s;
 }
@@ -1634,10 +1635,15 @@ position: relative;
     background: #fff;
     border-radius: 5px;
     cursor: pointer;
+		    box-shadow: 0px 4px 8px -2px #cccfdd;
     margin-bottom: 15px;
 		    background: var(--secondary-bg-color);
     padding: 8px 13px 0 10px;
     overflow: hidden;
+}
+.email:hover {
+	    box-shadow: 0px 4px 8px 0px #cccfdd;
+
 }
 
 .chip {
@@ -1774,7 +1780,7 @@ position: relative;
 }
 
 .email-footer .main-action.ma1:hover img {
-    filter: brightness(1.5);
+    filter: brightness(0.7);
 		transition: .1s;
 }
 
@@ -2226,9 +2232,7 @@ margin-left: -15px;
 	padding-left: 20px !important;
 }
 
-.email:hover {
-	transition: 0.2s;
-}
+
 
 select.v1 {
 	background: var(--main-color) !important;
