@@ -35,7 +35,7 @@ module.exports = () => Registry => {
   //? Retrieve the necessary modules from the Registry
   Configuration = Registry.get('Configuration')
   CacheDB = Registry.get('Cache')
-  FolderManager = Registry.get('FolderManager')
+  FolderManager = Registry.get('Folder Manager')
   Operator = Registry.get('Operator')
   Lumberjack = Registry.get('Lumberjack')
 

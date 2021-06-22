@@ -9,7 +9,7 @@ module.exports = (Registry, auto_increment_cursor=false) => {
   const CacheDB = Registry.get('Cache')
   const Courier = Registry.get('Courier')
   const Cleaners = Registry.get('Cleaners')
-  const FolderManager = Registry.get('FolderManager')
+  const FolderManager = Registry.get('Folder Manager')
   const Lumberjack = Registry.get('Lumberjack')
 
   //? Initialize a Log

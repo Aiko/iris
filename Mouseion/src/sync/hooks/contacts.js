@@ -5,7 +5,7 @@ module.exports = () => Registry => {
   //? Retrieve the necessary modules from the Registry
   const { user } = Registry.get('imap-config')
   const CacheDB = Registry.get('CacheDB')
-  const FolderManager = Registry.get('FolderManager')
+  const FolderManager = Registry.get('Folder Manager')
   const Lumberjack = Registry.get('Lumberjack')
 
   //? Initialize a Log
