@@ -293,22 +293,19 @@ module.exports = (Registry, auto_increment_cursor=false) => {
     }
   }
 
-  //? Composite and Aliased Operations
-  const archive_op = ({ folder, uid, msg, cursor }) => move_op({
-    srcFolder: folder,
-    srcUID: uid,
-    destFolder: FolderManager.get().archive
-  })
+  //? Composites and Aliases
+  const archive_alias = multi_cb => (folder, uid) => multi_cb(folder, uid, FolderManager.get().archive)
 
   return {
-    copy: retry(multi_op(copy_op)),
-    move: retry(multi_op(move_op)),
-    delete: retry(single_op(remove_op)),
+    copy: retry(multi_op("ko:Copy", copy_op)),
+    move: retry(multi_op("ko:Move", move_op)),
+    delete: retry(single_op("ko:Remove", remove_op)),
+    archive: retry(archive_alias(multi_op("ko:Archive", move_op))),
     flags: {
-      star: retry(single_op(star_op)),
-      unstar: retry(single_op(unstar_op)),
-      read: retry(single_op(seen_op)),
-      unread: retry(single_op(unseen_op))
+      star: retry(single_op("ko:Star", star_op)),
+      unstar: retry(single_op("ko:Unstar", unstar_op)),
+      read: retry(single_op("ko:MarkRead", seen_op)),
+      unread: retry(single_op("ko:MarkUnread", unseen_op))
     }
   }
 }
