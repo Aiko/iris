@@ -8,7 +8,7 @@ module.exports = (Registry, auto_increment_cursor=false) => {
   const Threading = Registry.get('Threading')
   const CacheDB = Registry.get('Cache')
   const Courier = Registry.get('Courier')
-  const Cleaners = Registry.get('Cleaners')
+  const Custodian = Registry.get('Custodian')
   const FolderManager = Registry.get('Folder Manager')
   const Lumberjack = Registry.get('Lumberjack')
 
@@ -20,16 +20,8 @@ module.exports = (Registry, auto_increment_cursor=false) => {
     //? Increment the cursor for the upcoming update
     const cursor = Configuration.load('cursor') + (auto_increment_cursor ? 1 : 0)
 
-    //? Create Cleaner if it doesn't already exist
-    if (!Cleaners[folder]) {
-      Log.warn("Cleaner for", folder, "did not exist, generating it")
-      Cleaners[folder] = await Janitor(Lumberjack, folder, useAiko=(
-        folder == FolderManager.get().inbox || FolderManager.startsWith("[Aiko]")
-      ))
-    }
-
-    //? Assign a Cleaner
-    const Cleaner = Cleaners[folder]
+    //? Get the Cleaner
+    const Cleaner = Custodian.get(folder)
 
     //? Retrieve the message
     const msg = await (async () => {
@@ -177,16 +169,8 @@ module.exports = (Registry, auto_increment_cursor=false) => {
     //? Increment the cursor for the upcoming update
     const cursor = Configuration.load('cursor') + (auto_increment_cursor ? 1 : 0)
 
-    //? Create Cleaner if it doesn't already exist
-    if (!Cleaners[srcFolder]) {
-      Log.warn("Cleaner for", srcFolder, "did not exist, generating it")
-      Cleaners[srcFolder] = await Janitor(Lumberjack, srcFolder, useAiko=(
-        srcFolder == FolderManager.get().inbox || FolderManager.startsWith("[Aiko]")
-      ))
-    }
-
-    //? Assign a Cleaner
-    const Cleaner = Cleaners[srcFolder]
+    //? Get the Cleaner
+    const Cleaner = Custodian.get(srcFolder)
 
     //? srcUID needs to be a number
     srcUID = eval(srcUID)
