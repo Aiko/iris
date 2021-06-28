@@ -168,9 +168,10 @@ module.exports = () => Registry => {
         }
       }
       if (actions[BoardRuleActions.Delete]) {
+        // FIXME: do I need to do a recursive delete on threads?
         await Operator.delete(inbox_loc?.folder || email.folder, inbox_loc?.uid || email.M.envelope.uid)
       } else if (actions[BoardRuleActions.Archive]) {
-        // TODO: archive
+        await Operator.archive(inbox_loc?.folder || email.folder, inbox_loc?.uid || email.M.envelope.uid)
       }
     }
     if (doApply) {
