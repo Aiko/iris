@@ -14,8 +14,8 @@ module.exports = () => Registry => {
   //? I'm using a normal list for our queue, as in JS, arrays have push/pop by default.
   const queue = []
 
-  const update_contacts = async mid => {
-
+  //? Check contacts from one email and update our local contacts cache if necessary
+  const check_contacts = async mid => {
     //? Find the relevant email
     const email = CacheDB.L3b.check(mid) || CacheDB.L3.check(mid) || CacheDB.L2.check(mid)
     if (!email) return Log.warn("Contact update failed for an email because it does not appear in an L2 or higher cache.")
@@ -31,29 +31,27 @@ module.exports = () => Registry => {
     if (email.folder == FolderManager.get().sent || email.M.envelope.from.address == user) {
       await CacheDB.update.contact.sent(user, email.M.envelope.from.name)
       for (const { name, address } of email.M.envelope.to)
-        await cache.update.contact.sent(address, name)
+        await CacheDB.update.contact.sent(address, name)
     }
 
     //? Otherwise, we need to update receive-side.
     else {
-      await cache.update.contact.received(email.M.envelope.from, email.M.envelope.name)
+      await CacheDB.update.contact.received(email.M.envelope.from, email.M.envelope.name)
       for (const { name, address } of email.M.envelope.to)
-        await cache.update.contact.received(address, name)
+        await CacheDB.update.contact.received(address, name)
     }
+  }
 
+  const sync = async () => {
+    const q_len = queue.length
+    Log.time("Updated contacts for", q_len, "emails")
+    while (queue.length > 0) await update_contacts(queue.pop())
+    Log.timeEnd("Updated contacts for", q_len, "emails")
+    return true
   }
 
   return {
-    sync: async () => {
-      const q_len = queue.length
-      Log.time("Updated contacts for", q_len, "emails")
-
-      while (queue.length > 0) await update_contacts(queue.pop())
-
-      Log.timeEnd("Updated contacts for", q_len, "emails")
-
-      return true
-    },
+    sync,
     queue: (...mids) => queue.push(...mids),
     lookup: CacheDB.lookup.contact
   }
