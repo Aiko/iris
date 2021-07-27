@@ -1,4 +1,4 @@
-export default async function <A, B>(
+const do_in_batch = async function <A, B>(
   elements: A[], batch_size: number,
   consumer: (_: A) => Promise<B>, monitor: () => void | Promise<void> = ()=>{},
   verbose: boolean = false
@@ -25,3 +25,6 @@ export default async function <A, B>(
   if (verbose) console.log("Processed", elements.length)
   return results
 }
+
+Promise.batch = do_in_batch
+export default do_in_batch
