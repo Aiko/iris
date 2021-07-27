@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import fs2 from 'fs-extra'
 
+/** A basic storage system mimicking localstorage, persisting within the filesystem */
 class Storage {
 
   /*
@@ -17,7 +18,7 @@ class Storage {
   readonly dir: string //? the directory the storage works out of
   readonly json: boolean //? whether or not data is stored in JSON format
 
-  constructor(dir: string, json: boolean = true) {
+  constructor(dir: string, {json=true}: {json?: boolean} ={}) {
     this.dir = dir
     this.json = json
   }
@@ -29,7 +30,7 @@ class Storage {
   //? Creates the correct filepath for a cleaned key, taking into account JSON settings
   private filepath = (key: string): string => `${this.dir}/${key}.${this.json ? 'json' : 'log'}`
 
-  //? Stores data into the relevant file for a key, stringifying it if need be
+  /** Stores data into the relevant file for a key, stringifying it if need be */
   store(key: string, data: any): void {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
@@ -37,7 +38,7 @@ class Storage {
     fs.writeFileSync(fp, this.json ? JSON.stringify(data) : data)
   }
 
-  //? Loads data for a relevant key, parsing it if need be
+  /** Loads data for a relevant key, parsing it if need be */
   load(key: string): any {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
@@ -46,7 +47,7 @@ class Storage {
     return s && (this.json ? JSON.parse(s) : s)
   }
 
-  //? Loads data for the relevant key, parsing it if need be, then clearing the key
+  /** Loads data for the relevant key, parsing it if need be, then clearing the key */
   pop(key: string): any {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
@@ -56,7 +57,7 @@ class Storage {
     return s && (this.json ? JSON.parse(s) : s)
   }
 
-  //? Appends data to a file if the directory is not JSON managed
+  /** Appends a string to a file if the directory is not JSON managed */
   append(key: string, data: string): void {
     if (this.json) throw new Error("Cannot append to a JSON-managed directory. Do a full read-write.");
     key = Storage.clean_key(key)
@@ -66,4 +67,4 @@ class Storage {
   }
 }
 
-module.exports = Storage
+export default Storage
