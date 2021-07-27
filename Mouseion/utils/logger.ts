@@ -22,7 +22,7 @@ const Identifier = (prefix: string, label: string): string => {
   return `${timestamp}${signature}${prefix}[${label.magenta}]`
 }
 
-type log_fn = (...msg: string[]) => void;
+type log_fn = (...msg: any[]) => void;
 export interface Logger {
   log: log_fn
   error: log_fn
@@ -39,7 +39,7 @@ class UnemployedLumberjack implements Logger {
     this.forest = forest
   }
 
-  private readonly _log = (prefix: string) => (..._: string[]) =>
+  private readonly _log = (prefix: string) => (..._: any[]) =>
     this.forest.logger(prefix, this.label, ..._)
 
   log = this._log(Forest.prefixes.log)
@@ -48,8 +48,8 @@ class UnemployedLumberjack implements Logger {
   warn = this._log(Forest.prefixes.warn)
 
   //! Timing functions will not appear in logs (intentional)
-  time = (..._: string[]) => console.time([Forest.prefixes.timer, this.label, ..._].join(' '))
-  timeEnd = (..._: string[]) => console.timeEnd([Forest.prefixes.timer, this.label, ..._].join(' '))
+  time = (..._: any[]) => console.time([Forest.prefixes.timer, this.label, ..._].join(' '))
+  timeEnd = (..._: any[]) => console.timeEnd([Forest.prefixes.timer, this.label, ..._].join(' '))
 
 }
 export type LumberjackEmployer = (label: string) => Logger
@@ -96,7 +96,7 @@ export default class Forest {
     console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
   }
 
-  logger(prefix: string, label: string, ...msg: string[]): void {
+  logger(prefix: string, label: string, ...msg: any[]): void {
     const identifier = Identifier(prefix, label)
     if (prefix == Forest.prefixes.error) {
       console.log(identifier, ...msg, new Error) //? dumps trace
