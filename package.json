@@ -94,7 +94,6 @@
     "mailparser": "github:pshah123/mailparser",
     "nedb": "^1.8.0",
     "node-abi": "^2.19.3",
-    "node-email": "github:Aiko/node-email",
     "nodemailer": "^6.4.17",
     "nodemailer-juice": "^1.0.1",
     "nodemailer-plugin-inline-base64": "^2.1.1",
