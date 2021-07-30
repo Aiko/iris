@@ -81,19 +81,35 @@ export interface EmailParsedRaw {
 export interface EmailRawBase {
   uid: number
 }
+export const isEmailRawBase = (e: any):e is EmailRawBase => {
+  return (typeof e.uid === 'number')
+}
 
 export interface EmailRawWithFlags extends EmailRawBase {
   flags: string[]
 }
-
+export const isEmailRawWithFlags = (e: any):e is EmailRawWithFlags => {
+  return (e.flags?.length && isEmailRawBase(e))
+}
 export interface EmailRawWithEnvelope extends EmailRawWithFlags {
   envelope: EmailWithEnvelopeRaw
+}
+export const isEmailRawWithEnvelope = (e: any):e is EmailRawWithEnvelope => {
+  return (!!(e.envelope) && isEmailRawWithFlags(e))
 }
 
 export interface EmailRawWithHeaders extends EmailRawWithEnvelope {
   parsed: EmailParsedRaw
 }
+export const isEmailRawWithHeaders = (e: any):e is EmailRawWithHeaders => {
+  return (!!(e.parsed) && isEmailRawWithEnvelope(e))
+}
 
 export interface EmailRaw extends EmailRawWithHeaders {
 
 }
+export const isEmailRaw = (e: any):e is EmailRaw => {
+  return isEmailRawWithHeaders(e)
+}
+
+export type RawEmail = EmailRawBase | EmailRawWithFlags | EmailRawWithEnvelope | EmailRawWithHeaders | EmailRaw
