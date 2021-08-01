@@ -192,3 +192,59 @@ export interface FlagsMod {
   add: string[],
   remove: string[]
 }
+
+//? This is inconsistent but necessary so we try handling all common cases
+//? However, we can only support copying a single UID
+//? If you copied multiple messages DO NOT use the returned UID set
+//? It will DEFINITELY be wrong in some way
+export interface CopyUIDSetRaw {
+  copyuid?: string | string[]
+  OK?: any
+  payload?: any
+  destSeqSet?: CopyUIDSetRaw | string[] | string
+}
+
+/** Only supports copying 1 message. Do NOT try to rely on this when copying multiple messages. */
+export class CopyUID {
+  private _uid: number
+
+  private static isArray(x: any):x is any[] {
+    return !!(x.reduceRight)
+  }
+
+  private static getUID(c: CopyUIDSetRaw): number {
+    if (c.copyuid) {
+      if (typeof (c.copyuid) == "string") {
+        return +c.copyuid
+      } else {
+        return +(c.copyuid.reduceRight(_ => _))
+      }
+    }
+
+    if (c.destSeqSet) {
+      if (typeof (c.destSeqSet) == "string") {
+        return +c.destSeqSet
+      } else if (CopyUID.isArray(c.destSeqSet)) {
+        return +(c.destSeqSet.reduceRight(_ => _))
+      } else {
+        return CopyUID.getUID(c.destSeqSet)
+      }
+    }
+
+    return +(c.OK?.[0]?.copyuid?.[2] || c.payload?.OK?.[0]?.copyuid?.[2] || -1)
+  }
+
+  constructor(c: CopyUIDSetRaw) {
+    this._uid = CopyUID.getUID(c)
+  }
+
+  get uid():number | null {
+    if (this._uid > 0) return this._uid
+    else return null
+  }
+
+}
+
+//? it's the same internally, we just have a new class to make it readable in code
+/** Only supports moving 1 message. Do NOT try to rely on this when moving multiple messages. */
+export class MoveUID extends CopyUID {}
