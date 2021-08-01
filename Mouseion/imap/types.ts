@@ -7,6 +7,16 @@ export interface FolderMetadata {
   subscribed: boolean
 }
 
+export interface FolderDetails {
+  exists: number
+  flags: string[]
+  permanentFlags: string[]
+  readOnly: boolean
+  uidValidity: number
+  uidNext: number
+  highestModseq?: string
+}
+
 //? Raw Message Types
 
 export type MessageID = string
@@ -113,3 +123,72 @@ export const isEmailRaw = (e: any):e is EmailRaw => {
 }
 
 export type RawEmail = EmailRawBase | EmailRawWithFlags | EmailRawWithEnvelope | EmailRawWithHeaders | EmailRaw
+
+//? search queries are AND by default
+export interface SearchQueryRaw {
+  unseen?: boolean
+  keyword?: string
+  header?: string[]
+  seen?: boolean
+  since?: Date
+  or?: SearchQueryRaw
+  not?: SearchQueryRaw
+}
+
+//? We don't support multi-keyword searches yet because behaviour is inconsistent
+export class SearchQuery {
+  private read: boolean | null = null
+  private keyword: string | null = null
+  private header: string[] | null = null
+  private after: Date | null = null
+  private or: SearchQuery | null = null
+  private not: SearchQuery | null = null
+
+  isRead(b: boolean) {
+    if (this.read != null) console.log("Warning: overwriting existing search read-status.".yellow)
+    this.read = b
+  }
+  term(s: string) {
+    if (this.keyword != null) console.log("Warning: overwriting existing search term.".yellow)
+    this.keyword = s
+  }
+  hasHeader(k: string, v: string) {
+    if (this.header != null) console.log("Warning: overwriting existing header search.".yellow)
+    this.header = [k, v]
+  }
+  oldest(d: Date) {
+    if (this.after != null) console.log("Warning: overwriting existing search minimum date.".yellow)
+    this.after = d
+  }
+  any(q: SearchQuery) {
+    if (this.or != null) console.log("Warning: overwriting existing or query.".yellow)
+    this.or = q
+  }
+  none(q: SearchQuery) {
+    if (this.not != null) console.log("Warning: overwriting existing not query.".yellow)
+    this.not = q
+  }
+
+  compile(): SearchQueryRaw {
+    const q: SearchQueryRaw = {}
+
+    if (this.read != null) {
+      if (this.read) q.seen = true
+      else q.unseen = true
+    }
+    if (this.keyword != null) q.keyword = this.keyword
+    if (this.header != null) q.header = this.header
+    if (this.after != null) q.since = this.after
+    if (this.or != null) q.or = this.or.compile()
+    if (this.not != null) q.not = this.not.compile()
+
+    return q
+  }
+
+}
+//? "set" basically means remove all flags and add new ones
+export interface FlagsMod {
+  set: string[],
+  add: string[],
+  remove: string[]
+}
