@@ -22,8 +22,15 @@ export default class PostOffice {
 
   private readonly Log: Logger
 
-  constructor(l: Logger) {
-    this.Log = l
+  constructor(l?: Logger) {
+    this.Log = l || {
+      error: _ => _,
+      success: _ => _,
+      log: _ => _,
+      warn: _ => _,
+      time: _ => _,
+      timeEnd: _ => _
+    }
   }
 
   /** Closes a connection */
