@@ -26,5 +26,5 @@ const do_in_batch = async function <A, B>(
   return results
 }
 
-Promise.batch = do_in_batch
+// Promise.batch = do_in_batch
 export default do_in_batch
