@@ -16,6 +16,10 @@ const Storage = require('../../utils/storage')
 
 // TODO: attachment caching
 
+//! For Typescript conversion, make classes for each db model
+//! Should have a constructor and update that write to DB
+//! Should have fromXYZ methods to find matching models in DB or null
+
 //* dir should be unique, i.e. the email address
 const Cache = (dir => {
 
