@@ -27,6 +27,8 @@ const psucc = (id: string) => (payload: object): boolean => proc.send(JSON.strin
 }))
 const perr = (id: string) => (msg: string): boolean => proc.send(JSON.stringify({
   error: msg + '\n' + (new Error),
+  payload: {},
+  success: false,
   id
 }))
 
