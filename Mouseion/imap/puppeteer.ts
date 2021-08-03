@@ -25,6 +25,31 @@ type PromisingMethod<ParamType extends any[], Return> = (...args: ParamType) => 
 type MethodProxy = <ParamType extends any[], ReturnPromise extends Promise<any>>
   (action: string, immediate?: boolean) => PromisingMethod<ParamType, ValueType<ReturnPromise>>;;
 
+const PO = PostOffice.prototype
+const POConnect = PO.connect
+const POClose = PO.close
+const POCheckConnect = PO.checkConnect
+
+const POGetFolders = PO.getFolders
+const PONewFolder = PO.newFolder
+const PODeleteFolder = PO.deleteFolder
+const POOpenFolder = PO.openFolder
+
+const POListMessages = PO.listMessages
+const POListMessagesWithFlags = PO.listMessagesWithFlags
+const POListMessagesWithHeaders = PO.listMessagesWithHeaders
+const POListMessagesWithEnvelopes = PO.listMessagesWithEnvelopes
+const POListMessagesFull = PO.listMessagesFull
+
+const POSearchMessages = PO.searchMessages
+const PODeleteMessages = PO.deleteMessages
+
+const POAddMessage = PO.addMessage
+
+const POCopyMessages = PO.copyMessages
+const POMoveMessages = PO.moveMessages
+const POFlagMessages = PO.flagMessages
+
 export class PostOfficeProxy {
   readonly Log: Logger
   readonly API: ChildProcess
@@ -113,44 +138,33 @@ export class PostOfficeProxy {
 
   //? Bindings below
   network = {
-    connect: this.proxy('network.connect'),
-    close: this.proxy('network.close'),
+    connect: this.proxy<Parameters<typeof POConnect>, ReturnType<typeof POConnect>>("network.connect"),
+    close: this.proxy<Parameters<typeof POClose>, ReturnType<typeof POClose>>("network.close"),
+    checkConnect: this.proxy<Parameters<typeof POCheckConnect>, ReturnType<typeof POCheckConnect>>("network.checkConnect"),
   }
 
-  hello() {
-    const x = async (y: number, z: boolean) => {
-      return true
-    }
-    this.proxy<Parameters<typeof x>, ReturnType<typeof x>>("hello")
+  folders = {
+    getFolders: this.proxy<Parameters<typeof POGetFolders>, ReturnType<typeof POGetFolders>>("folders.getFolders"),
+    newFolder: this.proxy<Parameters<typeof PONewFolder>, ReturnType<typeof PONewFolder>>("folders.newFolder"),
+    deleteFolder: this.proxy<Parameters<typeof PODeleteFolder>, ReturnType<typeof PODeleteFolder>>("folders.deleteFolder"),
+    openFolder: this.proxy<Parameters<typeof POOpenFolder>, ReturnType<typeof POOpenFolder>>("folders.openFolder"),
   }
 
+  messages = {
+    listMessages: this.proxy<Parameters<typeof POListMessages>, ReturnType<typeof POListMessages>>("messages.listMessages"),
+    listMessagesWithFlags: this.proxy<Parameters<typeof POListMessagesWithFlags>, ReturnType<typeof POListMessagesWithFlags>>("messages.listMessagesWithFlags"),
+    listMessagesWithHeaders: this.proxy<Parameters<typeof POListMessagesWithHeaders>, ReturnType<typeof POListMessagesWithHeaders>>("messages.listMessagesWithHeaders"),
+    listMessagesWithEnvelopes: this.proxy<Parameters<typeof POListMessagesWithEnvelopes>, ReturnType<typeof POListMessagesWithEnvelopes>>("messages.listMessagesWithEnvelopes"),
+    listMessagesFull: this.proxy<Parameters<typeof POListMessagesFull>, ReturnType<typeof POListMessagesFull>>("messages.listMessagesFull"),
+
+    searchMessages: this.proxy<Parameters<typeof POSearchMessages>, ReturnType<typeof POSearchMessages>>("messages.searchMessages"),
+    deleteMessages: this.proxy<Parameters<typeof PODeleteMessages>, ReturnType<typeof PODeleteMessages>>("messages.deleteMessages"),
+
+    addMessage: this.proxy<Parameters<typeof POAddMessage>, ReturnType<typeof POAddMessage>>("messages.addMessage"),
+
+    copyMessages: this.proxy<Parameters<typeof POCopyMessages>, ReturnType<typeof POCopyMessages>>("messages.copyMessages"),
+    moveMessages: this.proxy<Parameters<typeof POMoveMessages>, ReturnType<typeof POMoveMessages>>("messages.moveMessages"),
+    flagMessages: this.proxy<Parameters<typeof POFlagMessages>, ReturnType<typeof POFlagMessages>>("messages.flagMessages"),
+  }
 
 }
-/*
-const PostOfficeProxy2 = Lumberjack => {
-
-  return {
-    network: {
-      connect: proxy_it('network.connect'),
-      close: proxy_it('network.close'),
-      checkConnect: proxy_it('network.checkConnect'),
-    },
-    folders: {
-      getFolders: proxy_it('folders.getFolders'),
-      newFolder: proxy_it('folders.newFolder'),
-      deleteFolder: proxy_it('folders.deleteFolder'),
-      openFolder: proxy_it('folders.openFolder'),
-    },
-    messages: {
-      listMessages: proxy_it('messages.listMessages', qu=false),
-      searchMessages: proxy_it('messages.searchMessages'),
-      deleteMessages: proxy_it('messages.deleteMessages'),
-      addMessage: proxy_it('messages.addMessage'),
-      copyMessages: proxy_it('messages.copyMessages'),
-      moveMessages: proxy_it('messages.moveMessages'),
-      flagMessages: proxy_it('messages.flagMessages')
-    }
-  }
-}
-
-*/
