@@ -111,6 +111,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.54",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.54",
     "@electron-forge/publisher-github": "^6.0.0-beta.54",
+    "@types/nedb": "^1.8.12",
     "electron": "^11.1.0"
   }
 }
