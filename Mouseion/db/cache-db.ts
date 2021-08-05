@@ -4,12 +4,6 @@ import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
 
-//* Multiple caching levels
-//* Level 1 -- envelope based caching (no parse)
-//* Level 2 -- strip parsed caching (parsed but without some keys like attachments)
-//* Level 3 -- full load caching (parsed with all keys)
-//* Level 3b -- full load w/o attachments
-
 // TODO: attachment DB & caching
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b"
@@ -67,7 +61,7 @@ interface DBError {
   error: string,
   dne?: boolean
 }
-const isDBError = (x: any):x is DBError => !!(x.error)
+export const isDBError = (x: any):x is DBError => !!(x.error)
 
 enum DBState {
   OK,
@@ -117,6 +111,39 @@ export class DB {
   }
 
   //*-------------- Utility methods for messages
+  async findMessageWithMID(mid: string): Promise<MessageModel | null> {
+    const message = await Message.fromMID(this, mid)
+    if (isDBError(message)) {
+      console.error(message.error)
+      return null
+    }
+    return message.clean()
+  }
+  async findMessagesInFolder(folder: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
+    const messages = await Message.fromFolder(this, folder, {limit})
+    if (isDBError(messages)) {
+      console.error(messages.error)
+      return null
+    }
+    return messages.map(m => m.clean())
+  }
+  async findMessageWithUID(folder: string, uid: string | number): Promise<MessageModel | null> {
+    const location: MessageLocation = { folder, uid }
+    const message = await Message.fromLocation(this, location)
+    if (isDBError(message)) {
+      console.error(message.error)
+      return null
+    }
+    return message.clean()
+  }
+  async findMessagesWithSubject(subject: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
+    const messages = await Message.fromSubject(this, subject, {limit})
+    if (isDBError(messages)) {
+      console.error(messages.error)
+      return null
+    }
+    return messages.map(m => m.clean())
+  }
   //! You have to provide everything when using overwrite
   async addMessage(m: MessageModel, {
     overwrite=false
@@ -181,38 +208,23 @@ export class DB {
     if (isDBError(saved)) return false
     return true
   }
-  async findMessageWithMID(mid: string): Promise<MessageModel | null> {
+  async removeMessage(mid: string): Promise<boolean> {
     const message = await Message.fromMID(this, mid)
     if (isDBError(message)) {
       console.error(message.error)
-      return null
+      return false
     }
-    return message.clean()
+    return await message.purge()
   }
-  async findMessagesInFolder(folder: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
-    const messages = await Message.fromFolder(this, folder, {limit})
-    if (isDBError(messages)) {
-      console.error(messages.error)
-      return null
-    }
-    return messages.map(m => m.clean())
-  }
-  async findMessageWithUID(folder: string, uid: string | number): Promise<MessageModel | null> {
-    const location: MessageLocation = { folder, uid }
-    const message = await Message.fromLocation(this, location)
+  async removeMessageLocation(folder: string, uid: string | number, {
+    purgeIfEmpty=true
+  } ={}): Promise<boolean> {
+    const message = await Message.fromLocation(this, {folder, uid})
     if (isDBError(message)) {
       console.error(message.error)
-      return null
+      return false
     }
-    return message.clean()
-  }
-  async findMessagesWithSubject(subject: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
-    const messages = await Message.fromSubject(this, subject, {limit})
-    if (isDBError(messages)) {
-      console.error(messages.error)
-      return null
-    }
-    return messages.map(m => m.clean())
+    return await message.removeLocation({folder, uid}, {purgeIfEmpty})
   }
 
   //*-------------- Utility methods for threads
@@ -230,7 +242,44 @@ export class DB {
       console.error(threads.error)
       return null
     }
-    return threads.map(m => m.clean())
+    return threads.map(t => t.clean())
+  }
+  async findThreadsByLatest(folder: string, {limit=5000} ={}): Promise<ThreadModel[] | null> {
+    const threads = await Thread.fromLatest(this, folder, {limit})
+    if (isDBError(threads)) {
+      console.error(threads.error)
+      return null
+    }
+    return threads.map(t => t.clean())
+  }
+  async mergeThreads(eul: string, gap: string): Promise<boolean> {
+    return await Thread.merge(this, eul, gap)
+  }
+
+  //*-------------- Utility methods for contacts
+  async findContacts(searchTerm: string): Promise<ContactModel[] | null {
+    const contacts = await Contact.search(this, searchTerm)
+    if (isDBError(contacts)) {
+      console.error(contacts.error)
+      return null
+    }
+    return contacts.map(c => c.clean())
+  }
+  async updateContactReceived(email: string, name: string): Promise<boolean> {
+    const contact = await Contact.fromReceived(this, email, name)
+    if (isDBError(contact)) {
+      console.error(contact.error)
+      return false
+    }
+    return true
+  }
+  async updateContactSent(email: string, name: string): Promise<boolean> {
+    const contact = await Contact.fromSent(this, email, name)
+    if (isDBError(contact)) {
+      console.error(contact.error)
+      return false
+    }
+    return true
   }
 
 }
