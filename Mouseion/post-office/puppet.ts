@@ -1,4 +1,4 @@
-//? This is a standalone IMAP IPC server adherent to Aiko SockPuppet standards
+//? This is a standalone Post Office IPC server adherent to Aiko SockPuppet standards
 
 import Forest from '../utils/logger'
 import { LumberjackEmployer, Logger } from '../utils/logger'
