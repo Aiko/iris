@@ -2,7 +2,7 @@
 
 import Forest from '../utils/logger'
 import { LumberjackEmployer, Logger } from '../utils/logger'
-const forest: Forest = new Forest('logs-imap')
+const forest: Forest = new Forest('logs-post-office')
 const Lumberjack: LumberjackEmployer = forest.Lumberjack
 const Log: Logger = Lumberjack('Post Office')
 
