@@ -101,6 +101,7 @@ export class DB {
     }
   }
 
+  //! You have to provide everything when using overwrite
   async addMessage(m: MessageModel, {
     overwrite=false
   } ={}) {
@@ -139,6 +140,11 @@ export class DB {
     }
   }
 
+  /**
+   * Please do not use this to MOVE emails (aka changing location).
+   * Rather, instead remove the location first and
+   * then use addMessage to add a new location.
+  */
   async updateMessage(mid: string, {
     tid, seen=null, starred=null
   }: {
@@ -168,7 +174,7 @@ type MessageLocation = {
   uid: string | number
 }
 
-interface MessageModel {
+export interface MessageModel {
   mid: string
   tid: string
   seen: boolean
@@ -437,7 +443,7 @@ class Message implements MessageModel {
 
 }
 
-interface ThreadModel {
+export interface ThreadModel {
   mids: string[],
   date: Date
   cursor: number //? similar to "last modified"
@@ -537,13 +543,7 @@ class Thread implements ThreadModel {
       }
       const shadow = await this.shadow()
       if (this.state == DBState.New || (force && this.state == DBState.Corrupt)) {
-        this.ds.insert({
-          tid: this.tid,
-          mids: this.mids,
-          date: this.date,
-          cursor: this.cursor,
-          folder: this.folder
-        }, (err, doc: ThreadModel) => {
+        this.ds.insert(this.clean(), (err, doc: ThreadModel) => {
           if (err || !doc) return s({
             error: err ? (err.message + err.stack) : "Failed to save new/corrupt Thread."
           })
