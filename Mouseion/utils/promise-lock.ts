@@ -13,7 +13,7 @@ export default class Lock {
 
   private ID(): string {
     const id = crypto.randomBytes(12).toString('hex')
-    if (this.waiting.includes(id)) return ID()
+    if (this.waiting.includes(id)) return this.ID()
     if (this._lock.holder) this.waiting.push(id)
     else this._lock.holder = id
     return id
