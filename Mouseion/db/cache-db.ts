@@ -1,0 +1,648 @@
+import crypto from 'crypto'
+import fs2 from 'fs-extra'
+import path from 'path'
+import Datastore from 'nedb'
+import Storage from '../utils/storage'
+
+//* Multiple caching levels
+//* Level 1 -- envelope based caching (no parse)
+//* Level 2 -- strip parsed caching (parsed but without some keys like attachments)
+//* Level 3 -- full load caching (parsed with all keys)
+//* Level 3b -- ???
+
+type CacheLevels = "L1" | "L2" | "L3" | "L3b"
+
+export class Cache {
+  readonly dir: string
+  readonly paths: Record<CacheLevels, string>
+  readonly caches: Record<CacheLevels, Storage>
+
+  private path(part: string) {
+    return path.join(this.dir, part)
+  }
+
+  private storage(level: CacheLevels) {
+    return new Storage(this.paths[level])
+  }
+
+  constructor(dir: string) {
+    this.dir = dir
+    this.dir = this.path('cache')
+
+    this.paths = {
+      L1: this.path('L1'),
+      L2: this.path('L2'),
+      L3: this.path('L3'),
+      L3b: this.path('L3b'),
+    }
+
+    this.caches = {
+      L1: this.storage("L1"),
+      L2: this.storage("L2"),
+      L3: this.storage("L3"),
+      L3b: this.storage("L3b")
+    }
+  }
+
+}
+
+type DBModels = "Message" | "Thread" | "Contact"
+
+interface DBError {
+  error: string,
+  dne?: boolean
+}
+const isDBError = (x: any):x is DBError => !!(x.error)
+
+enum DBState {
+  OK,
+  New,
+  Corrupt
+}
+
+export class DB {
+  readonly dir: string
+  readonly stores: Record<DBModels, Datastore>
+  private cursor: number
+
+  private path(part: string) {
+    return path.join(this.dir, part)
+  }
+
+  nextCursor() {
+    this.cursor++
+    return this.cursor
+  }
+
+  getCursor() {
+    return this.cursor
+  }
+
+  constructor(dir: string, cursor: number) {
+    this.cursor = cursor
+    this.dir = dir
+    this.dir = this.path("db")
+    this.stores = {
+      Message: new Datastore({
+        filename: this.path("Message"),
+        autoload: true,
+        timestampData: true
+      }),
+      Thread: new Datastore({
+        filename: this.path("Thread"),
+        autoload: true,
+        timestampData: true
+      }),
+      Contact: new Datastore({
+        filename: this.path("Contact"),
+        autoload: true,
+        timestampData: true
+      })
+    }
+  }
+
+  async addMessage(m: MessageModel, {
+    overwrite=false
+  } ={}) {
+    //? Check if it exists
+    let message = await Message.fromMID(this, m.mid)
+    if (isDBError(message)) {
+      if (message.dne) {
+        //? The message doesn't exist and we add it from scratch
+
+        message = new Message(this, m)
+        if (isDBError(await message.save())) return false
+        else return true
+
+      } else return false
+    } else {
+      //? The message exists and we may need to simply update
+      //! Note that although new locations will always be added,
+      //! no other changes will occur without overwrite=true
+
+      for (const location of (m.locations)) {
+        message.addLocation(location, {overwrite,})
+      }
+
+      if (overwrite) {
+        message.tid = m.tid
+        message.seen = m.seen
+        message.starred = m.starred
+      }
+
+      const saved = await message.save()
+      await message.calibrateThread()
+
+      if (isDBError(saved)) return false
+      else return true
+
+    }
+  }
+
+}
+
+type MessageLocation = {
+  folder: string,
+  uid: string | number
+}
+
+interface MessageModel {
+  mid: string
+  tid: string
+  seen: boolean
+  starred: boolean
+  subject: string
+  timestamp: Date
+  locations: MessageLocation[]
+}
+
+class Message implements MessageModel {
+  readonly db: DB
+  readonly ds: Datastore
+
+  readonly mid: string
+  tid: string
+  seen: boolean
+  starred: boolean
+  subject: string
+  timestamp: Date
+  locations: MessageLocation[]
+
+  private state: DBState = DBState.New
+
+  //? Call with tid: '' then immediately save to create a thread
+  constructor(db: DB, data: MessageModel) {
+    this.db = db
+    this.ds = this.db.stores.Message
+
+    this.mid = data.mid
+    this.tid = data.tid
+    this.seen = data.seen
+    this.starred = data.starred
+    this.subject = data.subject
+    this.timestamp = new Date(data.timestamp)
+    this.locations = data.locations
+  }
+
+  /** Utility method to make life easier for the structured clone algorithm */
+  clean(): MessageModel {
+    return {
+      mid: this.mid,
+      tid: this.tid,
+      seen: this.seen,
+      starred: this.starred,
+      subject: this.subject,
+      timestamp: this.timestamp,
+      locations: this.locations.map((m: MessageLocation) => {
+        const { folder, uid } = m
+        return { folder, uid }
+      }),
+    }
+  }
+
+  /** Returns the "shadow," essentially what is in the DB */
+  shadow(): Promise<MessageModel | DBError> {
+    return new Promise((s, _) => {
+      if (this.state == DBState.New) return s({
+        error: "Tried to find the shadow for a Message that has yet to be saved."
+      })
+      this.ds.findOne({ mid: this.mid }, (err, doc: MessageModel) => {
+        if (err || !doc) {
+          this.state = DBState.Corrupt
+          return s({
+            error: "The shadow for the Message no longer exists. Message is in a corrupt state."
+          })
+        }
+        this.state = DBState.OK
+        doc.timestamp = new Date(doc.timestamp)
+        return s(doc)
+      })
+    })
+  }
+
+  /** Resets to whatever is in DB */
+  async reset() {
+    const shadow = await this.shadow()
+    if (isDBError(shadow)) throw new Error(shadow.error)
+    if (this.state != DBState.OK) throw new Error(
+      "Tried resetting a Message that " +
+        (this.state == DBState.New) ? "does not exist." : "is corrupted."
+    )
+    const {
+      tid, seen, starred, subject, timestamp, locations
+    } = shadow
+    this.tid = tid
+    this.seen = seen
+    this.starred = starred
+    this.subject = subject
+    this.timestamp = timestamp
+    this.locations = locations
+  }
+
+  save({force=false} ={}): Promise<MessageModel | DBError> {
+    return new Promise(async (s, _) => {
+      const shadow = await this.shadow()
+      if (this.state == DBState.New || (force && this.state == DBState.Corrupt)) {
+        if (this.tid.length == 0) {
+          const t = new Thread(this.db, {
+            tid: this.tid,
+            mids: [],
+            date: this.timestamp,
+            cursor: this.db.getCursor(),
+            folder: ''
+          })
+          await t.save()
+          this.tid = t.tid
+        }
+        this.ds.insert(this.clean(), async (err, doc: MessageModel) => {
+          if (err || !doc) return s({
+            error: err ? (err.message + err.stack) : "Failed to save new/corrupt Message."
+          })
+          this.state = DBState.OK
+
+          //? Update the thread
+          const t = await this.thread()
+          if (isDBError(t)) return s(t)
+          t.mids.push(this.mid)
+          await t.calibrate()
+
+          return s(doc)
+        })
+      } else {
+        if (isDBError(shadow)) return s(shadow)
+
+        this.ds.update({ mid: this.mid }, this.clean(), {}, async (err) => {
+          if (err) return s({error: err.message + err.stack})
+
+          const t = await this.thread()
+          if (isDBError(t)) return s(t)
+          if (!(t.mids.includes(this.mid))) {
+            t.mids.push(this.mid)
+            await t.calibrate()
+          }
+
+          return s(await this.shadow())
+        })
+
+
+      }
+    })
+  }
+
+  async thread(): Promise<Thread | DBError> {
+    return await Thread.fromTID(this.db, this.tid)
+  }
+  //! Fail-silent
+  async calibrateThread({
+    save=true,
+    updateCursor=true
+  } ={}) {
+    const t = await this.thread()
+    if (isDBError(t)) {}
+    else {
+      await t.calibrate({save, updateCursor})
+    }
+  }
+
+  //? Utility methods to help with dealing with locations
+  getLocation(f: string):MessageLocation | null {
+    return this.locations.filter(({ folder }) => f == folder)?.[0]
+  }
+  isInFolder(f: string):boolean {
+    return !!(this.getLocation(f))
+  }
+  addLocation(m: MessageLocation, {overwrite=false} ={}) {
+    if (this.isInFolder(m.folder)) {
+      if (overwrite) this.locations = this.locations.map(L => {
+        if (L.folder == m.folder) L.uid = m.uid
+        return L
+      })
+    } else {
+      this.locations.push(m)
+    }
+  }
+
+  static fromMID(db: DB, mid: string): Promise<Message | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Message
+      ds.findOne({ mid, }, (err, doc: MessageModel) => {
+        if (err || !doc) {
+          return s({
+            error: "A message with that MID does not exist.",
+            dne: !err
+          })
+        }
+        const m = new Message(db, doc)
+        m.state = DBState.OK
+        return s(m)
+      })
+    })
+  }
+
+  static fromFolder(db: DB, folder: string, {limit=5000} ={}): Promise<Message[] | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Message
+      ds.find({ locations: {
+        $elemMatch: { folder, }
+      }}).limit(limit).exec((err, docs: MessageModel[]) => {
+        if (err || !docs) {
+          return s({
+            error: err?.message || "Couldn't find Messages in that folder."
+          })
+        }
+        const messages = docs.map(doc => {
+          const m = new Message(db, doc)
+          m.state = DBState.OK
+          return m
+        })
+        return s(messages)
+      })
+    })
+  }
+
+  static fromLocation(db: DB, {folder, uid}: MessageLocation): Promise<Message | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Message
+      ds.findOne({ locations: {
+        $elemMatch: { folder, uid }
+      } }, (err, doc: MessageModel) => {
+        if (err || !doc) {
+          return s({
+            error: "A message with that location does not exist."
+          })
+        }
+        const m = new Message(db, doc)
+        m.state = DBState.OK
+        return s(m)
+      })
+    })
+  }
+
+  static fromSubject(db: DB, subject: string, {limit=5000} ={}): Promise<Message[] | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Message
+      ds.find({ subject, }).limit(limit).exec((err, docs: MessageModel[]) => {
+        if (err || !docs) {
+          return s({
+            error: err?.message || "Couldn't find Messages with that subject."
+          })
+        }
+        const messages = docs.map(doc => {
+          const m = new Message(db, doc)
+          m.state = DBState.OK
+          return m
+        })
+        return s(messages)
+      })
+    })
+  }
+
+}
+
+interface ThreadModel {
+  mids: string[],
+  date: Date
+  cursor: number //? similar to "last modified"
+  //! ^ as long as sync interval > 3s it'll take 20+ years for this to be outdated
+  folder: string //? core foldeer for thread
+  tid: string
+}
+
+class Thread implements ThreadModel {
+  readonly db: DB
+  readonly ds: Datastore
+
+  mids: string[]
+  date: Date
+  cursor: number = 0
+  folder: string
+  tid: string
+
+  private state: DBState = DBState.New
+
+  TID(): Promise<string> {
+    return new Promise(async (s, _) => {
+      const tid = crypto.randomBytes(6).toString('hex')
+      this.ds.findOne({ tid, }, async (err, doc: ThreadModel) => {
+        if (!doc || isDBError(err)) s(tid)
+        else s(await this.TID())
+      })
+    })
+  }
+
+  //? Call with tid: '' and then immediately call save to auto-generate a TID
+  constructor(db: DB, data: ThreadModel) {
+    this.db = db
+    this.ds = this.db.stores.Thread
+
+    this.mids = data.mids
+    this.date = new Date(data.date)
+    this.cursor = data.cursor
+    this.folder = data.folder
+    this.tid = data.tid
+  }
+
+  /** Utility method to make life easier for the structured clone algorithm */
+  clean(): ThreadModel {
+    return {
+      mids: this.mids.map((mid: string) => mid),
+      date: this.date,
+      cursor: this.cursor,
+      folder: this.folder,
+      tid: this.tid
+    }
+  }
+
+  /** Returns the "shadow," essentially what is in the DB */
+  shadow(): Promise<ThreadModel | DBError> {
+    return new Promise((s, _) => {
+      if (this.state == DBState.New) return s({
+        error: "Tried to find the shadow for a Thread that has yet to be saved."
+      })
+      this.ds.findOne({ tid: this.tid }, (err, doc: ThreadModel) => {
+        if (err || !doc) {
+          this.state = DBState.Corrupt
+          return s({
+            error: "The shadow for the Thread no longer exists. Message is in a corrupt state."
+          })
+        }
+        this.state = DBState.OK
+        doc.date = new Date(doc.date)
+        return s(doc)
+      })
+    })
+  }
+
+  /** Resets to whatever is in DB */
+  async reset() {
+    const shadow = await this.shadow()
+    if (isDBError(shadow)) throw new Error(shadow.error)
+    if (this.state != DBState.OK) throw new Error(
+      "Tried resetting a Thread that " +
+        (this.state == DBState.New) ? "does not exist." : "is corrupted."
+    )
+    const {
+      mids, date, cursor, folder
+    } = shadow
+
+    this.mids = mids.map(_ => _)
+    this.date = date
+    this.cursor = cursor
+    this.folder = folder
+  }
+
+  save({force=false} ={}): Promise<ThreadModel | DBError> {
+    return new Promise(async (s, _) => {
+      if (this.tid.length < 1) {
+        this.tid = await this.TID()
+        this.state = DBState.New
+      }
+      const shadow = await this.shadow()
+      if (this.state == DBState.New || (force && this.state == DBState.Corrupt)) {
+        this.ds.insert({
+          tid: this.tid,
+          mids: this.mids,
+          date: this.date,
+          cursor: this.cursor,
+          folder: this.folder
+        }, (err, doc: ThreadModel) => {
+          if (err || !doc) return s({
+            error: err ? (err.message + err.stack) : "Failed to save new/corrupt Thread."
+          })
+          this.state = DBState.OK
+          return s(doc)
+        })
+      } else {
+        if (isDBError(shadow)) return s(shadow)
+        this.ds.update({ tid: this.tid }, this.clean(), {}, async (err) => {
+          if (err) return s({error: err.message + err.stack})
+
+          return s(await this.shadow())
+        })
+      }
+    })
+  }
+
+  async messages({descending=true} ={}): Promise<Message[]> {
+    const maybeMessages = await Promise.all(
+      this.mids.map(async (mid: string) => {
+        const message = await Message.fromMID(this.db, mid)
+        if (isDBError(message)) return null
+        return message
+      })
+    )
+    //! we have to typecast the below as typescript does not understand != null
+    const messages = maybeMessages.filter((msg: Message | null) => msg != null) as Message[]
+    //? sort by date
+    if (descending) messages.sort((m1, m2) => m2.timestamp.valueOf() - m1.timestamp.valueOf())
+    else messages.sort((m1, m2) => m1.timestamp.valueOf() - m2.timestamp.valueOf())
+    return messages
+  }
+
+  /** Calibrates the date & folder of the thread (or deletes it from DB if it has no MIDs) */
+  async calibrate({
+    save=true,
+    updateCursor=true
+  } ={}) {
+    const messages = await this.messages()
+    if (messages.length == 0) {
+      // TODO: delete the thread
+      return
+    }
+
+    //? set the date to the newest date (first message)
+    this.date = messages[0].timestamp
+
+    //? determine the UI board a thread belongs to
+    let board = ''
+    let fallback = ''
+    for (const message of messages) {
+      const folders = message.locations.map(({ folder }) => folder)
+      const boards = folders.filter(folder => folder.startsWith('[Aiko]'))
+
+      //? Boards take precedence
+      if (boards.length > 0) {
+        board = boards.reduceRight(_ => _)
+        break;
+      }
+
+      //? INBOX can be used as fallback
+      if (folders.includes("INBOX")) {
+        fallback = "INBOX"
+        //! The logic behind breaking here is simple
+        //! If the newest email in a thread is not in a board
+        //! and is also in the inbox, then the thread no longer
+        //! belongs to the board but to the inbox instead
+        //! i.e. if the mailserver did not automatically move the email, move the thread
+        //! in this way we can leave default behavior to the mailserver
+        break;
+      }
+
+    }
+
+    if (!board) board = fallback
+
+    //? if folder is still empty string after this,
+    //? means don't show it in the inbox UI
+    this.folder = board
+
+    if (updateCursor) this.cursor = this.db.getCursor()
+
+    if (save) await this.save()
+  }
+
+  static fromTID(db: DB, tid: string): Promise<Thread | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Thread
+      ds.findOne({ tid, }, (err, doc: ThreadModel) => {
+        if (err || !doc) {
+          return s({
+            error: "A thread with that TID does not exist."
+          })
+        }
+        const t = new Thread(db, doc)
+        t.state = DBState.OK
+        return s(t)
+      })
+    })
+  }
+
+  static fromFolder(db: DB, folder: string, {limit=5000} ={}): Promise<Thread[] | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Thread
+      ds.find({ folder, }).limit(limit).exec((err, docs: ThreadModel[]) => {
+        if (err || !docs) {
+          return s({
+            error: err?.message || "Couldn't find Threads in that folder."
+          })
+        }
+        const threads = docs.map(doc => {
+          const t = new Thread(db, doc)
+          t.state = DBState.OK
+          return t
+        })
+        return s(threads)
+      })
+    })
+  }
+
+  static fromLatest(db: DB, folder: string, {limit=5000} ={}): Promise<Thread[] | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Thread
+      ds.find({ folder, }).sort({ date: -1 }).limit(limit).exec((err, docs: ThreadModel[]) => {
+        if (err || !docs) {
+          return s({
+            error: err?.message || "Couldn't find Threads in that folder."
+          })
+        }
+        const threads = docs.map(doc => {
+          const t = new Thread(db, doc)
+          t.state = DBState.OK
+          return t
+        })
+        return s(threads)
+      })
+    })
+  }
+
+}
