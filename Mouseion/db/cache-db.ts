@@ -139,6 +139,28 @@ export class DB {
     }
   }
 
+  async updateMessage(mid: string, {
+    tid, seen=null, starred=null
+  }: {
+    tid: string | null,
+    seen: boolean | null,
+    starred: boolean | null
+  }): Promise<boolean> {
+    const message = await Message.fromMID(this, mid)
+    if (isDBError(message)) return false
+
+    if (seen != null) message.seen = seen
+    if (starred != null) message.starred = starred
+    if (tid != null) {
+      const changed = await message.changeThread(tid)
+      if (!changed) return false
+    }
+
+    const saved = await message.save()
+    if (isDBError(saved)) return false
+    return true
+  }
+
 }
 
 type MessageLocation = {
@@ -289,10 +311,10 @@ class Message implements MessageModel {
     })
   }
 
+  //? Utility methods to help with dealing with threads
   async thread(): Promise<Thread | DBError> {
     return await Thread.fromTID(this.db, this.tid)
   }
-  //! Fail-silent
   async calibrateThread({
     save=true,
     updateCursor=true
@@ -302,6 +324,22 @@ class Message implements MessageModel {
     else {
       await t.calibrate({save, updateCursor})
     }
+  }
+  async changeThread(tid: string): Promise<boolean> {
+    if (tid == this.tid) return true
+
+    const t1 = await this.thread()
+    if (isDBError(t1)) return false
+
+    //? Remove it from current thread
+    t1.mids = t1.mids.filter(mid => mid != this.mid)
+    await t1.calibrate()
+
+    this.tid = tid
+    const m2 = await this.save()
+    if (isDBError(m2)) return false
+
+    return true
   }
 
   //? Utility methods to help with dealing with locations
@@ -546,7 +584,11 @@ class Thread implements ThreadModel {
   } ={}) {
     const messages = await this.messages()
     if (messages.length == 0) {
-      // TODO: delete the thread
+      if (save) {
+        this.ds.remove({ tid: this.tid }, {}, (err) => {
+          if (err) console.error(err)
+        })
+      }
       return
     }
 
