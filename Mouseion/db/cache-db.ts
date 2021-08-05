@@ -173,6 +173,9 @@ type MessageLocation = {
   folder: string,
   uid: string | number
 }
+const sameLocation = (L1: MessageLocation, L2: MessageLocation): boolean => {
+  return (L1.folder == L2.folder && L1.uid == L2.uid)
+}
 
 export interface MessageModel {
   mid: string
@@ -317,6 +320,25 @@ class Message implements MessageModel {
     })
   }
 
+  purge(): Promise<boolean> {
+    return new Promise(async (s, _) => {
+      const shadow = await this.shadow()
+      if (isDBError(shadow)) return s(false)
+
+      const t = await this.thread()
+      if (isDBError(t)) return s(false)
+
+      if (!(t.removeMessage(this.mid))) return s(false)
+
+      this.ds.remove({ mid: this.mid }, {}, (err) => {
+        if (err) return s(false)
+
+        this.state = DBState.Corrupt
+        return s(true)
+      })
+    })
+  }
+
   //? Utility methods to help with dealing with threads
   async thread(): Promise<Thread | DBError> {
     return await Thread.fromTID(this.db, this.tid)
@@ -336,10 +358,7 @@ class Message implements MessageModel {
 
     const t1 = await this.thread()
     if (isDBError(t1)) return false
-
-    //? Remove it from current thread
-    t1.mids = t1.mids.filter(mid => mid != this.mid)
-    await t1.calibrate()
+    if (!(t1.removeMessage(this.mid))) return false
 
     this.tid = tid
     const m2 = await this.save()
@@ -349,13 +368,14 @@ class Message implements MessageModel {
   }
 
   //? Utility methods to help with dealing with locations
+  //! Note everything will implode if you forcibly add two locations in the same folder
   getLocation(f: string):MessageLocation | null {
     return this.locations.filter(({ folder }) => f == folder)?.[0]
   }
   isInFolder(f: string):boolean {
     return !!(this.getLocation(f))
   }
-  addLocation(m: MessageLocation, {overwrite=false} ={}) {
+  async addLocation(m: MessageLocation, {overwrite=false} ={}) {
     if (this.isInFolder(m.folder)) {
       if (overwrite) this.locations = this.locations.map(L => {
         if (L.folder == m.folder) L.uid = m.uid
@@ -364,6 +384,21 @@ class Message implements MessageModel {
     } else {
       this.locations.push(m)
     }
+    return this.save()
+  }
+  //! purges messages when no locations are left by default
+  //? override this behaviour by passing purgeIfEmpty: false
+  async removeLocation(m: MessageLocation, {
+    purgeIfEmpty=true
+  } ={}): Promise<boolean> {
+    const location = this.getLocation(m.folder)
+    if (!location) return false
+    if (!(location.uid == m.uid)) return false
+    this.locations = this.locations.filter(L => !sameLocation(L, m))
+    if (purgeIfEmpty && this.locations.length == 0) return await this.purge()
+    if (isDBError(await this.save())) return false
+    await this.calibrateThread()
+    return true
   }
 
   static fromMID(db: DB, mid: string): Promise<Message | DBError> {
@@ -561,22 +596,6 @@ class Thread implements ThreadModel {
     })
   }
 
-  async messages({descending=true} ={}): Promise<Message[]> {
-    const maybeMessages = await Promise.all(
-      this.mids.map(async (mid: string) => {
-        const message = await Message.fromMID(this.db, mid)
-        if (isDBError(message)) return null
-        return message
-      })
-    )
-    //! we have to typecast the below as typescript does not understand != null
-    const messages = maybeMessages.filter((msg: Message | null) => msg != null) as Message[]
-    //? sort by date
-    if (descending) messages.sort((m1, m2) => m2.timestamp.valueOf() - m1.timestamp.valueOf())
-    else messages.sort((m1, m2) => m1.timestamp.valueOf() - m2.timestamp.valueOf())
-    return messages
-  }
-
   /** Calibrates the date & folder of the thread (or deletes it from DB if it has no MIDs) */
   async calibrate({
     save=true,
@@ -633,8 +652,30 @@ class Thread implements ThreadModel {
     if (save) await this.save()
   }
 
+  //? Utility methods to work with messages
   hasMID(mid: string): boolean {
     return this.mids.includes(mid)
+  }
+  async messages({descending=true} ={}): Promise<Message[]> {
+    const maybeMessages = await Promise.all(
+      this.mids.map(async (mid: string) => {
+        const message = await Message.fromMID(this.db, mid)
+        if (isDBError(message)) return null
+        return message
+      })
+    )
+    //! we have to typecast the below as typescript does not understand != null
+    const messages = maybeMessages.filter((msg: Message | null) => msg != null) as Message[]
+    //? sort by date
+    if (descending) messages.sort((m1, m2) => m2.timestamp.valueOf() - m1.timestamp.valueOf())
+    else messages.sort((m1, m2) => m1.timestamp.valueOf() - m2.timestamp.valueOf())
+    return messages
+  }
+  async removeMessage(mid: string): Promise<boolean> {
+    if (!this.hasMID(mid)) return false
+    this.mids = this.mids.filter(m => m != mid)
+    await this.calibrate()
+    return true
   }
 
   static fromTID(db: DB, tid: string): Promise<Thread | DBError> {
