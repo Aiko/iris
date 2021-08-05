@@ -1,6 +1,6 @@
 import AikoAI from 'aikomail-sdk'
 import { BabylonResult, BabylonScheduling, EnhancedBabylonResult } from 'aikomail-sdk/dist/ai/types'
-import { EmailParticipantRaw, EmailRaw, EmailRawBase, MessageID } from '../imap/types'
+import { EmailParticipantRaw, EmailRaw, EmailRawBase, MessageID } from '../post-office/types'
 
 //? Mouseion Types
 

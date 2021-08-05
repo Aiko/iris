@@ -31,7 +31,7 @@ import {
   EmailRawWithEnvelope,
   EmailRawWithFlags,
   EmailRawWithHeaders
-} from '../imap/types'
+} from '../post-office/types'
 import {
   EmailBase,
   EmailParticipant,
