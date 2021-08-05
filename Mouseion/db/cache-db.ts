@@ -8,9 +8,15 @@ import Storage from '../utils/storage'
 //* Level 1 -- envelope based caching (no parse)
 //* Level 2 -- strip parsed caching (parsed but without some keys like attachments)
 //* Level 3 -- full load caching (parsed with all keys)
-//* Level 3b -- ???
+//* Level 3b -- full load w/o attachments
+
+// TODO: attachment DB & caching
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b"
+interface CacheBinding {
+  cache: (key: string, data: any) => void
+  check: (key: string) => any
+}
 
 export class Cache {
   readonly dir: string
@@ -24,6 +30,11 @@ export class Cache {
   private storage(level: CacheLevels) {
     return new Storage(this.paths[level])
   }
+
+  envelope: CacheBinding
+  headers: CacheBinding
+  content: CacheBinding
+  full: CacheBinding
 
   constructor(dir: string) {
     this.dir = dir
@@ -42,8 +53,12 @@ export class Cache {
       L3: this.storage("L3"),
       L3b: this.storage("L3b")
     }
-  }
 
+    this.envelope = this.caches.L1
+    this.headers = this.caches.L2
+    this.content = this.caches.L3b
+    this.full = this.caches.L3
+  }
 }
 
 type DBModels = "Message" | "Thread" | "Contact"
@@ -101,6 +116,7 @@ export class DB {
     }
   }
 
+  //*-------------- Utility methods for messages
   //! You have to provide everything when using overwrite
   async addMessage(m: MessageModel, {
     overwrite=false
@@ -139,7 +155,6 @@ export class DB {
 
     }
   }
-
   /**
    * Please do not use this to MOVE emails (aka changing location).
    * Rather, instead remove the location first and
@@ -165,6 +180,57 @@ export class DB {
     const saved = await message.save()
     if (isDBError(saved)) return false
     return true
+  }
+  async findMessageWithMID(mid: string): Promise<MessageModel | null> {
+    const message = await Message.fromMID(this, mid)
+    if (isDBError(message)) {
+      console.error(message.error)
+      return null
+    }
+    return message.clean()
+  }
+  async findMessagesInFolder(folder: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
+    const messages = await Message.fromFolder(this, folder, {limit})
+    if (isDBError(messages)) {
+      console.error(messages.error)
+      return null
+    }
+    return messages.map(m => m.clean())
+  }
+  async findMessageWithUID(folder: string, uid: string | number): Promise<MessageModel | null> {
+    const location: MessageLocation = { folder, uid }
+    const message = await Message.fromLocation(this, location)
+    if (isDBError(message)) {
+      console.error(message.error)
+      return null
+    }
+    return message.clean()
+  }
+  async findMessagesWithSubject(subject: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
+    const messages = await Message.fromSubject(this, subject, {limit})
+    if (isDBError(messages)) {
+      console.error(messages.error)
+      return null
+    }
+    return messages.map(m => m.clean())
+  }
+
+  //*-------------- Utility methods for threads
+  async findThreadWithTID(tid: string): Promise<ThreadModel | null> {
+    const thread = await Thread.fromTID(this, tid)
+    if (isDBError(thread)) {
+      console.error(thread.error)
+      return null
+    }
+    return thread.clean()
+  }
+  async findThreadsInFolder(folder: string, {limit=5000} ={}): Promise<ThreadModel[] | null> {
+    const threads = await Thread.fromFolder(this, folder, {limit})
+    if (isDBError(threads)) {
+      console.error(threads.error)
+      return null
+    }
+    return threads.map(m => m.clean())
   }
 
 }
@@ -760,6 +826,236 @@ class Thread implements ThreadModel {
     }
 
     return true
+  }
+
+}
+
+export interface ContactModel {
+  name: string
+  email: string
+  sent: number
+  received: number
+  lastSeen: Date
+  priority: number
+}
+
+class Contact implements ContactModel {
+  readonly db: DB
+  readonly ds: Datastore
+
+  readonly email: string
+  name: string
+  sent: number
+  received: number
+  lastSeen: Date
+  priority: number
+
+  private state: DBState = DBState.New
+
+  //? Call with any prio then immediately save to calculate priority
+  constructor(db: DB, data: ContactModel) {
+    this.db = db
+    this.ds = this.db.stores.Message
+
+    this.email = data.email
+    this.name = data.name
+    this.sent = data.sent
+    this.received = data.received
+    this.lastSeen = new Date(data.lastSeen)
+    this.priority = data.priority
+  }
+
+  //? Algorithm to calculate priority value
+  //! Does not save!
+  score() {
+    this.priority = this.received + (5*this.sent)
+  }
+
+  /** Utility method to make life easier for the structured clone algorithm */
+  clean(): ContactModel {
+    return {
+      email: this.email,
+      name: this.name,
+      sent: this.sent,
+      received: this.received,
+      lastSeen: this.lastSeen,
+      priority: this.priority
+    }
+  }
+
+  /** Returns the "shadow," essentially what is in the DB */
+  shadow(): Promise<ContactModel | DBError> {
+    return new Promise((s, _) => {
+      if (this.state == DBState.New) return s({
+        error: "Tried to find the shadow for a Contact that has yet to be saved."
+      })
+      this.ds.findOne({ email: this.email }, (err, doc: ContactModel) => {
+        if (err || !doc) {
+          this.state = DBState.Corrupt
+          return s({
+            error: "The shadow for the Contact no longer exists. Contact is in a corrupt state."
+          })
+        }
+        this.state = DBState.OK
+        doc.lastSeen = new Date(doc.lastSeen)
+        return s(doc)
+      })
+    })
+  }
+
+  /** Resets to whatever is in DB */
+  async reset() {
+    const shadow = await this.shadow()
+    if (isDBError(shadow)) throw new Error(shadow.error)
+    if (this.state != DBState.OK) throw new Error(
+      "Tried resetting a Contact that " +
+        (this.state == DBState.New) ? "does not exist." : "is corrupted."
+    )
+    const {
+      name, sent, received, lastSeen, priority
+    } = shadow
+    this.name = name
+    this.sent = sent
+    this.received = received
+    this.lastSeen = lastSeen
+    this.priority = priority
+  }
+
+  save({force=false} ={}): Promise<ContactModel | DBError> {
+    return new Promise(async (s, _) => {
+      this.score()
+      const shadow = await this.shadow()
+      if (this.state == DBState.New || (force && this.state == DBState.Corrupt)) {
+        this.ds.insert(this.clean(), async (err, doc: ContactModel) => {
+          if (err || !doc) return s({
+            error: err ? (err.message + err.stack) : "Failed to save new/corrupt Contact."
+          })
+          this.state = DBState.OK
+
+          return s(doc)
+        })
+      } else {
+        if (isDBError(shadow)) return s(shadow)
+
+        this.ds.update({ email: this.email }, this.clean(), {}, async (err) => {
+          if (err) return s({error: err.message + err.stack})
+
+          return s(await this.shadow())
+        })
+
+      }
+    })
+  }
+
+  purge(): Promise<boolean> {
+    return new Promise(async (s, _) => {
+      const shadow = await this.shadow()
+      if (isDBError(shadow)) return s(false)
+
+      this.ds.remove({ email: this.email }, {}, (err) => {
+        if (err) return s(false)
+
+        this.state = DBState.Corrupt
+        return s(true)
+      })
+    })
+  }
+
+  static fromEmail(db: DB, email: string): Promise<Contact | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Message
+      ds.findOne({ email }, (err, doc: ContactModel) => {
+        if (err || !doc) {
+          return s({
+            error: "A contact with that email does not exist.",
+            dne: !err
+          })
+        }
+        const c = new Contact(db, doc)
+        c.state = DBState.OK
+        return s(c)
+      })
+    })
+  }
+
+  static async fromEmailOrCreate(db: DB, email: string, name: string): Promise<Contact | DBError> {
+    let contact = await this.fromEmail(db, email)
+    if (isDBError(contact)) {
+      if (contact.dne) {
+        contact = new Contact(db, {
+          email, name,
+          received: 0,
+          sent: 0,
+          priority: -1,
+          lastSeen: new Date()
+        })
+        const saved = await contact.save()
+        if (isDBError(saved)) return saved
+        else return contact
+      } else return contact
+    } else return contact
+  }
+
+  //! Sanitizes input as this is client facing
+  static async fromReceived(db: DB, email: string, name: string): Promise<Contact | DBError> {
+
+    email = email.toLowerCase().trim()
+    if (!name) name = ''
+    name = name.trim()
+
+    const contact = await this.fromEmailOrCreate(db, email, name)
+    if (isDBError(contact)) return contact
+
+    contact.received += 1
+    contact.lastSeen = new Date()
+    contact.name = name || contact.name || ''
+
+    const saved = await contact.save()
+    if (isDBError(saved)) return saved
+    return contact
+  }
+  //! Sanitizes input as this is client facing
+  static async fromSent(db: DB, email: string, name: string): Promise<Contact | DBError> {
+
+    email = email.toLowerCase().trim()
+    if (!name) name = ''
+    name = name.trim()
+
+    const contact = await this.fromEmailOrCreate(db, email, name)
+    if (isDBError(contact)) return contact
+
+    contact.sent += 1
+    contact.lastSeen = new Date()
+    contact.name = name || contact.name || ''
+
+    const saved = await contact.save()
+    if (isDBError(saved)) return saved
+    return contact
+  }
+
+  static search(db: DB, partial: string): Promise<Contact[] | DBError> {
+    const ds = db.stores.Contact
+    return new Promise((s, _) => {
+      //? if the search string is short, only search beginning of string
+      const pattern = partial.length <3 ? '^' + partial : partial
+      const regex = new RegExp(pattern, 'gi')
+      ds.find({
+        $or: [
+          { name: { $regex: regex } },
+          { email: { $regex: regex } },
+        ]
+      }).sort({ priority: -1, lastSeen: 1 }).exec((err, docs: ContactModel[]) => {
+        if (err || !docs) return s({
+          error: err ? err.message + err.stack : "Could not find contacts matching the query."
+        })
+        const contacts: Contact[] = docs.map(doc => {
+          const c = new Contact(db, doc)
+          c.state = DBState.OK
+          return c
+        })
+        return s(contacts)
+      })
+    })
   }
 
 }
