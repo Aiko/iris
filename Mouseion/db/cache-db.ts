@@ -633,6 +633,10 @@ class Thread implements ThreadModel {
     if (save) await this.save()
   }
 
+  hasMID(mid: string): boolean {
+    return this.mids.includes(mid)
+  }
+
   static fromTID(db: DB, tid: string): Promise<Thread | DBError> {
     return new Promise((s, _) => {
       const ds = db.stores.Thread
@@ -685,6 +689,36 @@ class Thread implements ThreadModel {
         return s(threads)
       })
     })
+  }
+
+  static async merge(db: DB, eulTID: string, gapTID: string): Promise<boolean> {
+    const eul = await this.fromTID(db, eulTID)
+    if (isDBError(eul)) return false
+
+    const gap = await this.fromTID(db, gapTID)
+    if (isDBError(gap)) return false
+
+    const immigrants = eul.clean().mids
+    eul.mids = []
+    await eul.calibrate()
+
+    //? grant visas
+    const visa_holders = immigrants.filter(immigrant => !(gap.hasMID(immigrant)))
+    visa_holders.map(mid => gap.mids.push(mid))
+    await gap.calibrate()
+
+    const results:(MessageModel | DBError)[] = await Promise.all(visa_holders.map(async mid => {
+      const message = await Message.fromMID(db, mid)
+      if (isDBError(message)) return message
+      message.tid = gap.tid //? can't use .changeThread because eul is deleted
+      return await message.save()
+    }))
+
+    for (const result of results) {
+      if (isDBError(result)) console.error(result.error)
+    }
+
+    return true
   }
 
 }
