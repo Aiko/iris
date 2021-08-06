@@ -8,8 +8,8 @@ import Storage from '../utils/storage'
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b"
 interface CacheBinding {
-  cache: (key: string, data: any) => void
-  check: (key: string) => any
+  cache: (key: string, data: any) => Promise<void>
+  check: (key: string) => Promise<any>
 }
 
 export class Cache {
@@ -48,10 +48,18 @@ export class Cache {
       L3b: this.storage("L3b")
     }
 
-    this.envelope = this.caches.L1
-    this.headers = this.caches.L2
-    this.content = this.caches.L3b
-    this.full = this.caches.L3
+    //? we need to promisify methods as SP only uses promises
+    const promisify = (fn: Storage): CacheBinding => {
+      return {
+        cache: async (key: string, value: any) => fn.cache(key, value),
+        check: async (key: string) => fn.check(key)
+      }
+    }
+
+    this.envelope = promisify(this.caches.L1)
+    this.headers = promisify(this.caches.L2)
+    this.content = promisify(this.caches.L3b)
+    this.full = promisify(this.caches.L3)
   }
 }
 
@@ -257,7 +265,7 @@ export class DB {
   }
 
   //*-------------- Utility methods for contacts
-  async findContacts(searchTerm: string): Promise<ContactModel[] | null {
+  async findContacts(searchTerm: string): Promise<ContactModel[] | null> {
     const contacts = await Contact.search(this, searchTerm)
     if (isDBError(contacts)) {
       console.error(contacts.error)
