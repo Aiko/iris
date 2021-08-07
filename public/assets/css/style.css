@@ -313,6 +313,11 @@ input:active {
 
 .red {
 	color: #dc3545 !important;
+	transition: .2s;
+}
+.red:hover {
+	color: #b12836 !important;
+	transition: .2s;
 }
 
 .board .dropdown-menu.show {
