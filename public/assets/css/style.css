@@ -67,6 +67,7 @@ p {
 body {
 	overflow: hidden;
 	user-select: none;
+	 background-image: url("../img/bg.jpg");
 }
 
 div.board-body>div:first-child {
@@ -82,7 +83,24 @@ video {
 video:focus {
 	outline: none;
 }
-
+.aiko-check{
+	-webkit-appearance: none !important;
+	background-color: #fff;
+	border: 1px solid #fff;
+	box-shadow: 0 1px 6px 2px rgb(0 0 0 / 10%);
+	padding: 7px !important;
+	border-radius: 3px;
+	display: inline-block;
+	    margin-bottom: -3px;
+	cursor: pointer;
+	position: relative;
+}
+.aiko-check:checked {
+	background-color: #486fff;
+	border: 1px solid #486fff;
+	box-shadow: 0 1px 2px rgb(0 0 0 / 0%) !important;
+	color: #99a1a7;
+}
 .bg {
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -1139,6 +1157,7 @@ filter: unset !important;
 	display: inline-grid;
     width: 0;
 		height: 0;
+		cursor: pointer;
     overflow: hidden;
 		    background: var(--main-bg-color);
     padding: 0 10px 0 10px;
@@ -1152,11 +1171,6 @@ filter: unset !important;
 	    width: 17px;
     margin-right: 4px;
     margin-top: -3px;
-}
-
-  .space-select span:hover {
-	filter: brightness(0.7);
-	transition: 0.2s;
 }
 
 
@@ -1838,7 +1852,6 @@ position: relative;
 	width: 100%;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	background-color: #6e80a5;
 }
 
 .add-board {

@@ -42,7 +42,7 @@
     <!--!------------------------------------------------------------->
     <!--? Prestyled themes -->
     <!--!------------------------------------------------------------->
-    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark .css">
+    <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
 
     <!--!------------------------------------------------------------->
     <!--? User styles -->
@@ -965,10 +965,20 @@
                               Move to space:
                               <div class="space-select">
 
-                                <span><img src="assets/icons/sidebar-home.svg">ASR</span>
-                                <span><img src="assets/icons/sidebar-home.svg">Cooley</span>
-                                <span><img src="assets/icons/sidebar-home.svg">PM Team</span>
-
+                                <span>
+                                  <div class="form-check">
+                                    <input class="aiko-check" type="checkbox" value="" id="flexCheckDefault" checked>
+                                    <label class="form-check-label" for="flexCheckDefault"> ASR</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="aiko-check" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> Cooley</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="aiko-check" type="checkbox" value="" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault"> PM Team</label>
+                                  </div>
+                                </span>
                               </div>
                             </a>
 
