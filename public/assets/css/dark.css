@@ -268,10 +268,6 @@ border: none !important;
   transition: 0.2s;
 }
 
-.thread-count {
-  background: var(--secondary-bg-color) !important;
-}
-
 .email-footer img {
   opacity: 1 !important;
 }
@@ -290,6 +286,7 @@ border: none !important;
 }
 .header {
   box-shadow: 8px 1px 10px #0000002e !important;
+  border-left: 2px solid var(--secondary-bg-color);
 }
 .announce a {
 	color: #fff !important;
@@ -297,6 +294,10 @@ border: none !important;
 
 .composer-active img {
   filter: brightness(1.8);
+}
+.sidebar a:hover {
+    background: #272623;
+    transition: 0.2s;
 }
 .compose-bottom {
 
@@ -312,6 +313,7 @@ border: none !important;
 
 .boards-container {
   box-shadow: none !important;
+  background-color: none !important;
 }
 
 .sortable-drag {

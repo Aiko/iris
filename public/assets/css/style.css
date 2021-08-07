@@ -709,7 +709,7 @@ padding: 5px 10px 6px 15px;
 .header {
 	padding: 9px 15px 9px 20px;
 	height: 47px;
-	border-left: 2px solid var(--secondary-bg-color);
+	border-left: 2px solid #dee2e6;
 	background: var(--main-bg-color);
 	z-index: 3;
 	position: relative;
@@ -934,7 +934,7 @@ a.main-action:hover {
 }
 
 .sidebar a:hover {
-    background: #272623;
+    background: #fff;
     transition: 0.2s;
 }
 
@@ -1074,7 +1074,7 @@ width: 18px;
 .picker:hover {
 	height: fit-content;
 	border-radius: 5px;
-	box-shadow: 0 6px 13px 0 #cccfdd;
+	    box-shadow: 0 6px 13px 0 #71758aad;
 	transition: 0.2s;
 }
 
@@ -1099,6 +1099,7 @@ width: 18px;
 .space-picker:hover{
 	  height: auto !important;
 		background: var(--secondary-bg-color) !important;
+		    box-shadow: 0 6px 13px 0 #71758a63;
 		transition: .2s;
 }
 
@@ -1207,7 +1208,7 @@ filter: unset !important;
 	transform: translate3d(-269px, 18px, 0);
 	min-width: 310px !important;
 	top: 0;
-	box-shadow: 0 6px 13px 0 #cccfdd;
+	    box-shadow: 0 6px 13px 0 #71758aad;
 	padding-left: 5px !important;
 	left: 0;
 	will-change: transform;
@@ -1640,14 +1641,14 @@ position: relative;
     background: #fff;
     border-radius: 5px;
     cursor: pointer;
-		    box-shadow: 0px 4px 8px -2px #cccfdd;
+		box-shadow: 0 2px 6px -1px #b1b6cc;
     margin-bottom: 15px;
-		    background: var(--secondary-bg-color);
+		background: var(--secondary-bg-color);
     padding: 8px 13px 0 10px;
     overflow: hidden;
 }
 .email:hover {
-	    box-shadow: 0px 4px 8px 0px #cccfdd;
+	  box-shadow: 0 4px 8px 0 #cccfdd;
 
 }
 
@@ -1837,6 +1838,7 @@ position: relative;
 	width: 100%;
 	overflow-x: scroll;
 	overflow-y: hidden;
+	background-color: #6e80a5;
 }
 
 .add-board {
@@ -2037,7 +2039,7 @@ margin-left: -15px;
 }
 
 .thread-count {
-	background: var(--main-bg-color);
+	background: var(--secondary-bg-color);
 	height: 11px;
 	border-radius: 5px;
 	margin-top: 3px;
