@@ -68,7 +68,9 @@
 .space-select{
 		    background: var(--secondary-bg-color) !important;
 }
-
+.space-picker:hover{
+		    box-shadow: none !important;
+}
 
 .inbox-switch .active {
   background: var(--secondary-bg-color) !important;
