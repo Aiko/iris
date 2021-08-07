@@ -60,7 +60,7 @@
     transition: 0.2s;
 }
 
-  .space-select span:hover {
+  .space-select span label:hover {
       filter: brightness(1.2) !important;
     transition: 0.2s;
 }
