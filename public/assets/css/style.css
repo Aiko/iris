@@ -333,6 +333,9 @@ input:active {
 	color: #dc3545 !important;
 	transition: .2s;
 }
+.pb15{
+	    padding-bottom: 15px !important;
+}
 .red:hover {
 	color: #b12836 !important;
 	transition: .2s;
@@ -346,6 +349,10 @@ input:active {
 	box-shadow: 0 1px 9px #00000038;
 	border: none;
 	border-radius: 5px;
+}
+
+.ac1{
+	background-color: var(--main-bg-color) !important;
 }
 
 .dropdown-menu {
