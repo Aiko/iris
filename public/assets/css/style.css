@@ -1182,7 +1182,9 @@ filter: unset !important;
     margin-right: 4px;
     margin-top: -3px;
 }
-
+.space-select p{
+	margin: 10px 0 0 20px;
+}
 
 .space-change:hover .space-select{
     width: auto !important;

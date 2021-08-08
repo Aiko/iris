@@ -185,7 +185,7 @@ const app = new Vue({
         }) => {
           this.html = getHTML()
         },
-        content: '<p></p><br><p></p><br><a href="https://aikomail.com">Sent with Aiko Mail</a>' + (this.quoted ? `<br><blockquote>${this.quoted}</blockquote>` : '')
+        content: '<p></p><br><p></p><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>' + (this.quoted ? `<br><blockquote>${this.quoted}</blockquote>` : '')
       })
     },
     showLinkMenu(attrs) {

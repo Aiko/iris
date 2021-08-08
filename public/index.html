@@ -979,6 +979,8 @@
                             </div>
                             -->
                             <div class="dropdown-divider"></div>
+                            <a v-if="slug != 'Done'" class="dropdown-item">Rename
+                              board</a>
                             <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
                               board</a>
                             <a class="dropdown-item space-change">
@@ -998,6 +1000,8 @@
                                     <input class="aiko-check" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault"> PM Team</label>
                                   </div>
+                                  <p>Boards need to show<br>
+                                    in at least one space</p>
                                 </span>
                               </div>
                             </a>
