@@ -331,14 +331,12 @@ input:active {
 
 .red {
 	color: #dc3545 !important;
-	transition: .2s;
 }
 .pb15{
 	    padding-bottom: 15px !important;
 }
 .red:hover {
 	color: #b12836 !important;
-	transition: .2s;
 }
 .radio-cont{
 	padding: 0 1.5rem 0.5rem 1.5rem;
@@ -1113,10 +1111,17 @@ width: 18px;
 	padding: 3px 1px 2px 1px;
 	transition: 0.2s;
 }
-
+.collapsing {
+    -webkit-transition: none !important;
+    transition: none !important;
+    display: none !important;
+}
 .account:hover {
 	filter: brightness(0.7);
 	transition: 0.2s;
+}
+.collapsing {
+  transition: none !important;
 }
 .home{
     position: absolute !important;
@@ -1129,7 +1134,9 @@ width: 18px;
 		    box-shadow: 0 6px 13px 0 #71758a63;
 		transition: .2s;
 }
-
+.space .dropdown-menu{
+	border-radius: 0 !important;
+}
 .space-picker{
 	  height: 30px;
 		padding-top: 3px !important;
