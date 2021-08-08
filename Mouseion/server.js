@@ -2,7 +2,7 @@
 
 const Forest = require('./utils/logger')
 const Lumberjack = Forest()
-const SockPuppet = require('./utils/ws')
+const SockPuppet = require('./utils/marionette')
 
 /*
   ? This server is unique.
