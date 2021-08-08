@@ -23,7 +23,7 @@ import Cheerio from 'cheerio'
 import AikoAI from 'aikomail-sdk'
 import { performance } from 'perf_hooks'
 import { LumberjackEmployer, Logger } from './logger'
-import Register from '../register'
+import Register from '../managers/register'
 import {
   AttachmentRaw,
   EmailRaw,

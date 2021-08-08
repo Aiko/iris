@@ -1,7 +1,7 @@
 import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
-import Register from '../register'
+import Register from '../managers/register'
 import { LumberjackEmployer, Logger } from '../utils/logger'
 import PostOffice from './post-office'
 
