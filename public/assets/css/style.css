@@ -673,6 +673,11 @@ padding: 5px 10px 6px 15px;
 	border-radius: 5px;
 }
 
+.all:hover::before{
+	background-color: var(--main-color);
+	transition: 0.2s;
+}
+
 .note {
     width: calc(100% + 53px);
     position: relative;
@@ -910,14 +915,15 @@ padding: 5px 10px 6px 15px;
     /* color: #fff; */
     position: relative;
     padding: 2px 3px;
-    margin-right: -24px;
+    margin-right: -25px;
     z-index: -1;
     border-radius: 5px;
 		transition: .2s;
 }
 
 .all:hover::before{
-	background-color: var(--main-bg-color);
+	background-color: var(--main-color) !important;
+	color: #fff !important;
 	transition: 0.2s;
 }
 
@@ -1076,7 +1082,7 @@ width: 18px;
 
 .picker {
 	color: var(--main-text-color);
-	padding: 0 5px 5px 9px;
+	padding: 0 5px 0 9px;
 	max-width: 210px;
 	text-overflow: ellipsis;
 	border: var(--main-border);
@@ -1135,7 +1141,7 @@ width: 18px;
 }
 .space-picker{
 	  height: 30px;
-		padding-top: 3px !important;
+		    padding: 3px 10px 0 9px;
 		border: var(--main-border);
 		transition: .2s;
 }
