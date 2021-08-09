@@ -49,6 +49,13 @@
 }
 .inbox-switch .inbox1{
   box-shadow: none;
+  padding-top: 2px !important;
+}
+.thread-count {
+	background: var(--secondary-bg-color) !important;
+}
+.inbox-switch .inbox2{
+padding-top: 2px !important;
 }
   .space:hover {
       filter: brightness(1.2) !important;
