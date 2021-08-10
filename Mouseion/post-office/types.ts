@@ -1,10 +1,11 @@
 export interface IMAPConfig {
-  host?: string
-  port?: number
-  user?: string
-  pass?: string
-  oauth?: string
-  secure?: boolean
+  host: string
+  port: number
+  user: string
+  pass: string
+  oauth: string
+  secure: boolean
+  provider?: string
 }
 
 export interface FolderMetadata {
