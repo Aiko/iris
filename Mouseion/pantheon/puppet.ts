@@ -87,6 +87,8 @@ proc.on('message', async (m: string): Promise<any> => {
         return success({cursor: db.nextCursor()})
       case 'cursor.get':
         return success({cursor: db.getCursor()})
+      case 'cursor.prev':
+        return success({cursor: db.prevCursor()})
 
       case 'cache.envelope.cache': return await attempt(cache.envelope.cache)
       case 'cache.envelope.check': return await attempt(cache.envelope.check)

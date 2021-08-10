@@ -40,6 +40,9 @@ const CacheFullCache = Cache.full.cache
 const CacheFullCheck = Cache.full.check
 
 const DB = Pantheon.DB.prototype
+const DBGetCursor = DB.getCursor
+const DBNextCursor = DB.nextCursor
+const DBPrevCursor = DB.prevCursor
 const DBMessagesFindMID = DB.findMessageWithMID
 const DBMessagesFindUID = DB.findMessageWithUID
 const DBMessagesFindFolder = DB.findMessagesInFolder
@@ -144,6 +147,12 @@ export class PantheonProxy {
     } else {
       this.rotating = false
     }
+  }
+
+  cursor = {
+    get: this.proxy<Parameters<typeof DBGetCursor>, Promise<Cursor>>('cursor.get'),
+    next: this.proxy<Parameters<typeof DBNextCursor>, Promise<Cursor>>('cursor.next'),
+    prev: this.proxy<Parameters<typeof DBPrevCursor>, Promise<Cursor>>('cursor.prev')
   }
 
   cache = {

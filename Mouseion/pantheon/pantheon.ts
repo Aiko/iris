@@ -91,6 +91,11 @@ export class DB {
     return this.cursor
   }
 
+  prevCursor() {
+    this.cursor--
+    return this.cursor
+  }
+
   getCursor() {
     return this.cursor
   }
