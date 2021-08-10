@@ -59,7 +59,7 @@ import { isError } from 'aikomail-sdk/dist/ai/types'
 
 type runtime = { runs: number, time: number }
 
-class Janitor {
+export default class Janitor {
   readonly Log: Logger
   readonly folder: string
   readonly useAiko: boolean = false
@@ -495,5 +495,3 @@ class Janitor {
   }
 
 }
-
-module.exports = Janitor
