@@ -198,9 +198,9 @@ export class SearchQuery {
 }
 //? "set" basically means remove all flags and add new ones
 export interface FlagsMod {
-  set: string[],
-  add: string[],
-  remove: string[]
+  set?: string[],
+  add?: string[],
+  remove?: string[]
 }
 
 //? This is inconsistent but necessary so we try handling all common cases
