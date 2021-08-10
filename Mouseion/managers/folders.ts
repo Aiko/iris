@@ -29,7 +29,7 @@ interface FolderState {
 export default class Folders {
 
   private readonly Log: Logger
-  private readonly Courier: PostOfficeProxy
+  private readonly courier: PostOfficeProxy
   private _state: FolderState = {
     names: [],
     special: {
@@ -56,14 +56,14 @@ export default class Folders {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Folders')
 
-    this.Courier = Registry.get('Courier') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
 
   }
 
   async sync(): Promise<FolderState> {
     this.Log.time("Synced folders.")
 
-    const folderTree = await this.Courier.folders.getFolders()
+    const folderTree = await this.courier.folders.getFolders()
 
     const folderNames: Record<SpecialFolder, string | null> = {
       inbox: "INBOX",
@@ -142,7 +142,7 @@ export default class Folders {
 
     const aiko_folder = folderTree[PREFIX]
     if (!aiko_folder) {
-      await this.Courier.folders.newFolder(PREFIX)
+      await this.courier.folders.newFolder(PREFIX)
       return await this.sync()
     }
 
@@ -159,7 +159,7 @@ export default class Folders {
       this.Log.warn("Done folder did not exist, creating it.")
       const slug = DONE_SLUG
       const path = PREFIX + '/' + slug
-      await this.Courier.folders.newFolder(path)
+      await this.courier.folders.newFolder(path)
       boardNames.push(slug)
       boardPaths[slug] = path
       boards.push({ slug, path })
@@ -170,7 +170,7 @@ export default class Folders {
       this.Log.warn("No user boards exist, creating To-Do automatically.")
       const slug = TODO_SLUG
       const path = PREFIX + '/' + slug
-      await this.Courier.folders.newFolder(path)
+      await this.courier.folders.newFolder(path)
       boardNames.push(slug)
       boardPaths[slug] = path
       boards.push({ slug, path })
@@ -196,7 +196,7 @@ export default class Folders {
 
   async add(path: string) {
     try {
-      await this.Courier.folders.newFolder(path)
+      await this.courier.folders.newFolder(path)
       await this.sync()
       return true
     } catch (e) {
@@ -207,7 +207,7 @@ export default class Folders {
 
   async remove(path: string) {
     try {
-      await this.Courier.folders.deleteFolder(path)
+      await this.courier.folders.deleteFolder(path)
       await this.sync()
       return true
     } catch (e) {
