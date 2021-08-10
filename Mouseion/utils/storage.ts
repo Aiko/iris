@@ -40,7 +40,7 @@ class Storage {
   cache = this.store
 
   /** Loads data for a relevant key, parsing it if need be */
-  load(key: string): any {
+  load(key: string): string | any {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
@@ -50,7 +50,7 @@ class Storage {
   check = this.load
 
   /** Loads data for the relevant key, parsing it if need be, then clearing the key */
-  pop(key: string): any {
+  pop(key: string): string | any {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
