@@ -4,14 +4,13 @@ import Register from "../managers/register"
 import { MessageModel } from "../pantheon/pantheon"
 import { PantheonProxy } from "../pantheon/puppeteer"
 import { PostOfficeProxy } from "../post-office/puppeteer"
-import { CopyUID, IMAPConfig, MoveUID } from "../post-office/types"
+import { CopyUID, MoveUID } from "../post-office/types"
 import { Logger, LumberjackEmployer } from "./logger"
 import retry from "./retry"
 import Storage from "./storage"
 
 export default class Operator {
   private readonly Log: Logger
-  private readonly config: IMAPConfig
   private readonly pantheon: PantheonProxy
   private readonly courier: PostOfficeProxy
   private readonly custodian: Custodian
@@ -23,7 +22,6 @@ export default class Operator {
     auto_increment_cursor=false,
     internal_use=false
   } ={}) {
-    this.config = Registry.get('IMAP Config') as IMAPConfig
     // TODO: threading, if internal_use=true then use one without Board Rules or Unity
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.courier = Registry.get('Courier') as PostOfficeProxy
