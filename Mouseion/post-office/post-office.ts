@@ -5,7 +5,7 @@ const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
 const simpleParser = require('mailparser').simpleParser
 
-import { AttachmentRaw, CopyUID, CopyUIDSetRaw, EmailParsedRaw, EmailRaw, EmailRawBase, EmailRawWithEnvelope, EmailRawWithFlags, EmailRawWithHeaders, FlagsMod, FolderDetails, FolderMetadata, MoveUID, RawEmail, SearchQuery, SearchQueryRaw } from './types'
+import { AttachmentRaw, CopyUID, CopyUIDSetRaw, EmailParsedRaw, EmailRaw, EmailRawBase, EmailRawWithEnvelope, EmailRawWithFlags, EmailRawWithHeaders, FlagsMod, FolderDetails, FolderMetadata, IMAPConfig, MoveUID, RawEmail, SearchQuery, SearchQueryRaw } from './types'
 
 //? for multiple mailboxes make multiple post offices
 //? to change params like OAuth, you will need to do a full close-connect
@@ -52,13 +52,15 @@ export default class PostOffice {
    * @param {string} o - OAuth token (leave empty if N/A)
    * @param {boolean} s - whether or not the connection is secure
    */
-  async connect(h?: string, p?: number, u?: string, w?: string, o?: string, s?: boolean) {
-    this.host = h || this.host
-    this.port = p || this.port
-    this.user = u || this.user
-    this.pass = w || this.pass
-    this.oauth = o || this.oauth
-    this.secure = s || this.secure
+  async connect({
+    host, port, user, pass, oauth, secure
+  }: Partial<IMAPConfig> ={}) {
+    this.host = host || this.host
+    this.port = port || this.port
+    this.user = user || this.user
+    this.pass = pass || this.pass
+    this.oauth = oauth || this.oauth
+    this.secure = secure || this.secure
 
     this.Log.log("Connecting to IMAP server...")
 

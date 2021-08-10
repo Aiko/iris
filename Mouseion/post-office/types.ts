@@ -1,3 +1,12 @@
+export interface IMAPConfig {
+  host?: string
+  port?: number
+  user?: string
+  pass?: string
+  oauth?: string
+  secure?: boolean
+}
+
 export interface FolderMetadata {
   delimiter: string
   path: string
