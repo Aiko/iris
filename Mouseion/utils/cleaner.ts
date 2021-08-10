@@ -123,7 +123,7 @@ export default class Janitor {
     }
   }
 
-  async subscription(email: EmailRawWithHeaders): Promise<EmailWithSubscription> {
+  private async subscription(email: EmailRawWithHeaders): Promise<EmailWithSubscription> {
     const e: EmailWithEnvelope = await this.envelope(email)
     const d: MouseionSubscription = {
       subscribed: false,
@@ -148,7 +148,7 @@ export default class Janitor {
     }
   }
 
-  async references(email: EmailRawWithHeaders): Promise<EmailWithReferences> {
+  private async references(email: EmailRawWithHeaders): Promise<EmailWithReferences> {
     const e: EmailWithSubscription = await this.subscription(email)
 
     const inReplyTo = email.envelope['in-reply-to']
@@ -168,7 +168,7 @@ export default class Janitor {
     }
   }
 
-  async content(email: EmailRaw): Promise<EmailWithContent> {
+  private async content(email: EmailRaw): Promise<EmailWithContent> {
     const e: EmailWithReferences = await this.references(email)
     const t0 = performance.now()
 
@@ -203,7 +203,7 @@ export default class Janitor {
     }
   }
 
-  async deepSubscription(email: EmailRaw): Promise<EmailWithContent> {
+  private async deepSubscription(email: EmailRaw): Promise<EmailWithContent> {
     const e: EmailWithContent = await this.content(email)
     if (email.parsed.headers?.['list-unsubscribe'] || email.parsed.headers?.['list-id'] || e.parsed.html.match(
       /unsubscribe|email ([^\.\?!]*)preferences|marketing preferences|opt( |-)*out|turn off([^\.\?!]*)email/gi
@@ -214,7 +214,7 @@ export default class Janitor {
     return e
   }
 
-  async summarize(email: EmailRaw): Promise<EmailWithSummary> {
+  private async summarize(email: EmailRaw): Promise<EmailWithSummary> {
     const e: EmailWithContent = await this.deepSubscription(email)
     const SUMMARY_LENGTH = (e.parsed.sentences.length > 7) ? 5 : 3 //? target num of sentences in summary
     const preview = e.parsed.sentences.filter(s => s.length < 300 && s.length > 16).slice(0, SUMMARY_LENGTH)
@@ -249,7 +249,7 @@ export default class Janitor {
     }
   }
 
-  async snips(email: EmailRaw): Promise<EmailWithQA> {
+  private async snips(email: EmailRaw): Promise<EmailWithQA> {
     const e: EmailWithSummary = await this.summarize(email)
     const d: MouseionQuickActions = {
       rawResults: null,
@@ -352,7 +352,7 @@ export default class Janitor {
     }
   }
 
-  async links(email: EmailRaw): Promise<EmailWithLinks> {
+  private async links(email: EmailRaw): Promise<EmailWithLinks> {
     const e: EmailWithQA = await this.snips(email)
 
     const $ = Cheerio.load(e.parsed.html)
@@ -405,7 +405,7 @@ export default class Janitor {
     }
   }
 
-  async attachments(email: EmailRaw): Promise<EmailWithAttachments> {
+  private async attachments(email: EmailRaw): Promise<EmailWithAttachments> {
     const e: EmailWithLinks = await this.links(email)
 
     const raw_attachments: AttachmentRaw[] = email.parsed.attachments || []
@@ -435,7 +435,7 @@ export default class Janitor {
     }
   }
 
-  async trackers(email: EmailRaw): Promise<EmailWithTrackers> {
+  private async trackers(email: EmailRaw): Promise<EmailWithTrackers> {
     const e: EmailWithAttachments = await this.attachments(email)
 
     let tracker = false
@@ -461,7 +461,7 @@ export default class Janitor {
     }
   }
 
-  async priority(email: EmailRaw): Promise<EmailWithPriority> {
+  private async priority(email: EmailRaw): Promise<EmailWithPriority> {
     const e: EmailWithTrackers = await this.trackers(email)
     const priority = !e.M.subscription.subscribed || e.M.flags.starred
     return {
