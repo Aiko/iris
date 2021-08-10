@@ -165,3 +165,7 @@ export interface MPriority extends MTracker {
 export interface EmailWithPriority extends EmailWithTrackers {
   M: MPriority
 }
+
+export interface EmailFull extends EmailWithPriority {
+  
+}
