@@ -99,7 +99,7 @@ export class PantheonProxy {
     return await this.proxy<[string, number], Promise<Cursor>>('init')(dir, cursor)
   }
 
-  proxy<ParamType extends any[], ReturnPromise extends Promise<any | void>>(action: string, immediate: boolean=true) {
+  private proxy<ParamType extends any[], ReturnPromise extends Promise<any | void>>(action: string, immediate: boolean=true) {
     type Return = ValueType<ReturnPromise>
     return (...args: ParamType): Promise<Return> => new Promise((s, _) => {
       const id = this.getID()
@@ -132,7 +132,7 @@ export class PantheonProxy {
     })
   }
 
-  async rotate() {
+  private async rotate() {
     if (this.queue.length > 0) {
       this.rotating = true
       const { id, msg } = this.queue.shift() as ProcessMessage //? TS didn't connx length > 0 to shift() != undefined
