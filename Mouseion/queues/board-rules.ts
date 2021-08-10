@@ -186,6 +186,7 @@ export default class BoardRuleQueue implements MessageQueue {
       })
     }
 
+    //? Apply phase
     if (valid) {
       this.Log.log("MID", mid, "matched a rule and will be acted upon.")
       if (actions[BoardRuleActions.Star] != null) {
