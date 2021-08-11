@@ -35,7 +35,7 @@ export default class ContactsQueue implements MessageQueue {
     this.Log.timeEnd("Parsed contacts from", n_pending, "MIDs.")
     return true
   }
-  queue(mids: string[]): void {
+  queue(...mids: string[]): void {
     this.pending.push(...mids)
   }
 

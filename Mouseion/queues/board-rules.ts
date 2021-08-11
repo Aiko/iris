@@ -85,7 +85,7 @@ export default class BoardRulesQueue implements MessageQueue {
     this.Log.timeEnd("Applied", this.rules.length, "rules to", n_pending, "MIDs.")
     return true
   }
-  queue(mids: string[]): void {
+  queue(...mids: string[]): void {
     this.pending.push(...mids)
   }
 
