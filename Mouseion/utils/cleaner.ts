@@ -60,9 +60,9 @@ import { isError } from 'aikomail-sdk/dist/ai/types'
 type runtime = { runs: number, time: number }
 
 export default class Janitor {
-  readonly Log: Logger
-  readonly folder: string
-  readonly useAiko: boolean = false
+  private readonly Log: Logger
+  private readonly folder: string
+  private readonly useAiko: boolean = false
   private readonly runtimes: Record<string, runtime> = {}
 
   constructor(Registry: Register, { folder, useAiko = false }: { folder: string, useAiko?: boolean }) {
