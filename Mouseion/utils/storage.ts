@@ -45,7 +45,7 @@ class Storage {
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
     const s: string = fs.readFileSync(fp).toString()
-    return s && (this.json ? JSON.parse(s) : s)
+    return !!s && (this.json ? JSON.parse(s) : s)
   }
   check = this.load
 
@@ -56,7 +56,7 @@ class Storage {
     fs2.ensureFileSync(fp)
     const s: string = fs.readFileSync(fp).toString()
     fs.unlinkSync(fp)
-    return s && (this.json ? JSON.parse(s) : s)
+    return !!s && (this.json ? JSON.parse(s) : s)
   }
 
   /** Appends a string to a file if the directory is not JSON managed */

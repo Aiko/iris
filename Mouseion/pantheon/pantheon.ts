@@ -3,13 +3,14 @@ import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
+import { EmailFull, EmailWithEnvelope, EmailWithReferences } from '../utils/types'
 
 // TODO: attachment DB & caching
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b"
-interface CacheBinding {
-  cache: (key: string, data: any) => Promise<void>
-  check: (key: string) => Promise<any>
+interface CacheBinding<T> {
+  cache: (key: string, data: T) => Promise<void>
+  check: (key: string) => Promise<T | false>
 }
 
 export class Cache {
@@ -25,10 +26,10 @@ export class Cache {
     return new Storage(this.paths[level])
   }
 
-  envelope: CacheBinding
-  headers: CacheBinding
-  content: CacheBinding
-  full: CacheBinding
+  envelope: CacheBinding<EmailWithEnvelope>
+  headers: CacheBinding<EmailWithReferences>
+  content: CacheBinding<EmailFull>
+  full: CacheBinding<EmailFull>
 
   constructor(dir: string) {
     this.dir = dir
@@ -49,17 +50,17 @@ export class Cache {
     }
 
     //? we need to promisify methods as SP only uses promises
-    const promisify = (fn: Storage): CacheBinding => {
+    const promisify = <T>(fn: Storage): CacheBinding<T> => {
       return {
-        cache: async (key: string, value: any) => fn.cache(key, value),
-        check: async (key: string) => fn.check(key)
+        cache: async (key: string, value: T) => fn.cache(key, value),
+        check: async (key: string): Promise<T | false> => fn.check(key)
       }
     }
 
-    this.envelope = promisify(this.caches.L1)
-    this.headers = promisify(this.caches.L2)
-    this.content = promisify(this.caches.L3b)
-    this.full = promisify(this.caches.L3)
+    this.envelope = promisify<EmailWithEnvelope>(this.caches.L1)
+    this.headers = promisify<EmailWithReferences>(this.caches.L2)
+    this.content = promisify<EmailFull>(this.caches.L3b)
+    this.full = promisify<EmailFull>(this.caches.L3)
   }
 }
 

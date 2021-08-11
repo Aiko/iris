@@ -41,11 +41,12 @@ export default class ContactsQueue implements MessageQueue {
 
   private async apply(mid: MessageID) {
     //? Find the relevant email
-    const email: EmailWithEnvelope =
+    const email: EmailWithEnvelope | null =
       await this.pantheon.cache.full.check(mid) ||
       await this.pantheon.cache.content.check(mid) ||
       await this.pantheon.cache.headers.check(mid) ||
-      await this.pantheon.cache.envelope.check(mid)
+      await this.pantheon.cache.envelope.check(mid) ||
+      null
     if (!email) return this.Log.warn("MID", mid, "is not in a content-level or higher cache and will be skipped.")
 
     //? Check whether it has an envelope (which contains all participant info)
