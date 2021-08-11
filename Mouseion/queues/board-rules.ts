@@ -41,7 +41,7 @@ export interface BoardRule {
 }
 export type BoardRules = BoardRule[]
 
-export default class BoardRuleQueue implements MessageQueue {
+export default class BoardRulesQueue implements MessageQueue {
   readonly pending: MessageID[] = []
   private readonly meta: Storage
   private readonly pantheon: PantheonProxy
