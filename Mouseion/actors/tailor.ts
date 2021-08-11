@@ -336,4 +336,8 @@ export default class Tailor {
     }
   }
 
+  unity(...tids: string[]) {
+    this.p3_queue.push(...tids)
+  }
+
 }
