@@ -90,6 +90,7 @@ export interface MFlags {
 // base flags envelope headers/references full/priority
 export interface EmailWithFlags extends EmailBase {
   M: MFlags
+  uid: number
 }
 
 export interface MEnvelope extends MFlags {
