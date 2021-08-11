@@ -237,4 +237,48 @@ export default class Tailor {
     return TID
   }
 
+  async phase_2() {
+    const mergedTIDs: Set<string> = new Set() //? wOW DynAMiC PRoGrAmmInG ?!
+    while (this.p2_queue.length > 0) {
+      const TID = this.p2_queue.pop()
+      if (!TID) continue;
+      if (mergedTIDs.has(TID)) continue;
+
+      const thread = await this.pantheon.db.threads.find.tid(TID)
+      if (!thread) continue;
+
+      const date = new Date(thread.date)
+      const messages = await this.pantheon.db.threads.messages(TID)
+      if (messages.length <= 0) continue;
+      const subject = messages[0].subject
+
+      const same_subject_messages = await this.pantheon.db.messages.find.subject(subject)
+      if (!same_subject_messages) continue;
+
+      const subjectTIDs: Set<string> = new Set()
+      const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+
+      same_subject_messages.forEach(({ timestamp, tid }) => {
+        timestamp = new Date(timestamp)
+        //? ignore ourselves
+        if (tid == TID) return;
+        //? ignore merged threads
+        if (mergedTIDs.has(tid)) return;
+        //? ignore anything newer
+        if (timestamp > date) return;
+        //? ignore anything too old
+        if (Math.abs(date.valueOf() - timestamp.valueOf()) > 16 * WEEK_MS) return;
+        //? add TID
+        subjectTIDs.add(tid)
+      })
+
+      for (const tid of subjectTIDs) {
+        //? merge each same subject thread into our current thread
+        await this.pantheon.db.threads.merge(tid, TID)
+        mergedTIDs.add(tid)
+      }
+
+    }
+  }
+
 }
