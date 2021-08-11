@@ -1,3 +1,4 @@
+import Tailor from "../actors/tailor"
 import Custodian from "../managers/cleaners"
 import Folders from "../managers/folders"
 import Register from "../managers/register"
@@ -17,12 +18,14 @@ export default class Operator {
   private readonly folders: Folders
   private readonly auto_increment_cursor: boolean
   private readonly meta: Storage
+  private readonly tailor: Tailor
 
   constructor(private readonly Registry: Register, {
     auto_increment_cursor=false,
     internal_use=false
   } ={}) {
-    // TODO: threading, if internal_use=true then use one without Board Rules or Unity
+    if (internal_use) this.tailor = Registry.get('Seamstress') as Tailor
+    else this.tailor = Registry.get('Tailor') as Tailor
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.courier = Registry.get('Courier') as PostOfficeProxy
     this.custodian = Registry.get('Custodian') as Custodian
@@ -64,7 +67,7 @@ export default class Operator {
         return null
       }
 
-      // TODO: threading function to place it into DB
+      await this.tailor.phase_1(email)
 
       await this.pantheon.cache.envelope.cache(email.M.envelope.mid, email)
       await this.pantheon.cache.headers.cache(email.M.envelope.mid, email)
