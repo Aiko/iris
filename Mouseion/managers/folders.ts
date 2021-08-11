@@ -229,6 +229,8 @@ export default class Folders {
   trash() { return this.name("trash") }
 
   readonly prefix = PREFIX
+  readonly done = PREFIX + '/' + DONE_SLUG
+  readonly todo = PREFIX + '/' + TODO_SLUG
   isBoard(path: string) { return path.startsWith(this.prefix) }
 
 }
