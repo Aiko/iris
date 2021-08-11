@@ -19,6 +19,7 @@ import BoardRulesQueue from "../queues/board-rules";
 import ContactsQueue from "../queues/contacts";
 import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
+import Operator from "../utils/operator";
 import { EmailWithReferences } from "../utils/types";
 
 export default class Tailor {
@@ -34,6 +35,7 @@ export default class Tailor {
   private readonly contactQ: ContactsQueue
   private readonly boardrulesQ: BoardRulesQueue
   private readonly internal_use: boolean
+  private readonly operator: Operator
 
   constructor(Registry: Register, opts: {
     internal_use: boolean
@@ -49,6 +51,7 @@ export default class Tailor {
     this.contactQ = Registry.get('Contacts Queue') as ContactsQueue
     this.boardrulesQ = Registry.get('Board Rules Queue') as BoardRulesQueue
     this.internal_use = opts.internal_use
+    this.operator = Registry.get('Cypher') as Operator
   }
 
   private async fetch_reference(referenceMID: MessageID, searchFolder: string): Promise<boolean> {
@@ -278,6 +281,58 @@ export default class Tailor {
         mergedTIDs.add(tid)
       }
 
+    }
+  }
+
+  async phase_3() {
+    const unitedTIDs: Set<string> = new Set()
+    while (this.p3_queue.length > 0) {
+      const TID = this.p3_queue.pop()
+      if (!TID) continue;
+      if (unitedTIDs.has(TID)) continue;
+
+      const thread = await this.pantheon.db.threads.find.tid(TID)
+      if (!thread) continue;
+
+      const messages = await this.pantheon.db.threads.messages(TID)
+      if (messages.length <= 0) continue;
+
+      const board = thread.folder
+      if (!(this.folders.isBoard(board))) {
+        unitedTIDs.add(TID)
+        continue;
+      }
+
+      //? ensure all messages are in the board on mailserver
+      for (const message of messages) {
+        const folders = message.locations.map(({ folder }) => folder)
+        const inbox = this.folders.inbox()
+        if (!inbox) continue;
+        const inboxLOC = message.locations.filter(({ folder }) => folder == inbox)?.[0]
+        if (!inboxLOC) continue;
+
+        const boards = folders.filter(folder => this.folders.isBoard(folder))
+        if (boards.length == 1 && boards[0] == board) continue;
+
+        this.Log.log("Uniting thread message with MID", message.mid)
+
+        //? it must be in the main board exclusively
+        if (boards.length > 1) {
+          //? delete message from all other boards
+          for (const { folder, uid } of message.locations) {
+            if (this.folders.isBoard(folder) && folder != board) {
+              await this.operator.delete(folder, uid)
+            }
+          }
+        }
+
+        //? it must be in the main board
+        if (!(boards.includes(board))) {
+          await this.operator.copy(inboxLOC.folder, inboxLOC.uid, board)
+        }
+      }
+
+      unitedTIDs.add(TID)
     }
   }
 
