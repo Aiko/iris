@@ -268,6 +268,17 @@ export class DB {
   async mergeThreads(eul: string, gap: string): Promise<boolean> {
     return await Thread.merge(this, eul, gap)
   }
+  async threadMessages(tid: string, {
+    descending=true
+  } ={}): Promise<MessageModel[]> {
+    const thread = await Thread.fromTID(this, tid)
+    if (isDBError(thread)) {
+      console.error(thread.error)
+      return []
+    }
+    const messages = await thread.messages({descending})
+    return messages.map(message => message.clean())
+  }
 
   //*-------------- Utility methods for contacts
   async findContacts(searchTerm: string): Promise<ContactModel[] | null> {

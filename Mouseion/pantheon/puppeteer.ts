@@ -55,6 +55,7 @@ const DBThreadsFindTID = DB.findThreadWithTID
 const DBThreadsFindLatest = DB.findThreadsByLatest
 const DBThreadsFindFolder = DB.findThreadsInFolder
 const DBThreadsMerge = DB.mergeThreads
+const DBThreadsMessages = DB.threadMessages
 const DBContactsSearch = DB.findContacts
 const DBContactsUpdateReceived = DB.updateContactReceived
 const DBContactsUpdateSent = DB.updateContactSent
@@ -196,6 +197,7 @@ export class PantheonProxy {
         folder: this.proxy<Parameters<typeof DBThreadsFindFolder>, ReturnType<typeof DBThreadsFindFolder>>("db.threads.find.folder"),
       },
       merge: this.proxy<Parameters<typeof DBThreadsMerge>, ReturnType<typeof DBThreadsMerge>>("db.threads.merge"),
+      messages: this.proxy<Parameters<typeof DBThreadsMessages>, ReturnType<typeof DBThreadsMessages>>("db.threads.messages"),
     },
     contacts: {
       search: this.proxy<Parameters<typeof DBContactsSearch>, ReturnType<typeof DBContactsSearch>>("db.contacts.search"),

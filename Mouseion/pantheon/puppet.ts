@@ -112,6 +112,7 @@ proc.on('message', async (m: string): Promise<any> => {
       case 'db.threads.find.latest': return await attempt(db.findThreadsByLatest)
       case 'db.threads.find.folder': return await attempt(db.findThreadsInFolder)
       case 'db.threads.merge': return await attempt(db.mergeThreads)
+      case 'db.threads.messages': return await attempt(db.threadMessages)
 
       case 'db.contacts.search': return await attempt(db.findContacts)
       case 'db.contacts.update.received': return await attempt(db.updateContactReceived)
