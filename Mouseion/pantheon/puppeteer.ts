@@ -25,7 +25,7 @@ type PromisingMethod<ParamType extends any[], Return> = (...args: ParamType) => 
 type MethodProxy = <ParamType extends any[], ReturnPromise extends Promise<any>>
   (action: string, immediate?: boolean) => PromisingMethod<ParamType, ValueType<ReturnPromise>>;;
 
-type Cursor = {
+export type Cursor = {
   cursor: number
 }
 
