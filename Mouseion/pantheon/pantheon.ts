@@ -309,7 +309,7 @@ export class DB {
 
 }
 
-type MessageLocation = {
+export type MessageLocation = {
   folder: string,
   uid: string | number
 }
