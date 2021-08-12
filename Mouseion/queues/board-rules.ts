@@ -1,5 +1,6 @@
 import Folders from "../managers/folders";
 import Register from "../managers/register";
+import { getLocation } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { EmailRawWithHeaders, MessageID } from "../post-office/types";
 import { Logger, LumberjackEmployer } from "../utils/logger";
@@ -106,7 +107,8 @@ export default class BoardRulesQueue implements MessageQueue {
     if (!message) return this.Log.warn("MID", mid, "does not exist in our databaase. Are you missing a call to threading?")
 
     //? Find the location of the message in the inbox
-    const inboxLOC = message.locations.filter(({ folder }) => folder == this.folders.inbox())?.[0]
+    const inbox = this.folders.inbox()
+    const inboxLOC = inbox ? getLocation(message.locations, inbox) : null
 
     //? Identify which folders the message is in
     const folders = message.locations.map(({ folder }) => folder)
@@ -202,7 +204,11 @@ export default class BoardRulesQueue implements MessageQueue {
         //? Check to see if we actually need to move it
         if (!(folders.includes(destFolder))) {
           const strategy = inboxLOC ? this.operator.copy : this.operator.move
-          await strategy(inboxLOC.folder, inboxLOC.uid, destFolder)
+          await strategy(
+            inboxLOC?.folder || message.locations[0].folder,
+            inboxLOC?.uid || message.locations[0].uid,
+            destFolder
+          )
         }
       }
       if (actions[BoardRuleActions.Delete]) {

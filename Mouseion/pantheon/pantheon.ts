@@ -316,6 +316,7 @@ export type MessageLocation = {
 export const sameLocation = (L1: MessageLocation, L2: MessageLocation): boolean => {
   return (L1.folder == L2.folder && L1.uid == L2.uid)
 }
+//! This is defined here so you can use it in synchronous contexts
 export const getLocation = (locations: MessageLocation[], folder: string): MessageLocation | null => {
   const matches = locations.filter(L => L.folder == folder)
   if (matches.length == 0) return null

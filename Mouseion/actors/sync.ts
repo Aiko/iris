@@ -3,6 +3,7 @@
 import Custodian from "../managers/cleaners";
 import Folders from "../managers/folders";
 import Register from "../managers/register";
+import { getLocation } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { PostOfficeProxy } from "../post-office/puppeteer";
 import do_in_batch from "../utils/do-in-batch";
@@ -45,7 +46,7 @@ export default class Sync {
 
     const uidSet: Set<number> = new Set()
     messages.forEach(message => {
-      const loc = message.locations.filter(L => L.folder == folder)?.[0]
+      const loc = getLocation(message.locations, folder)
       if (loc?.uid) uidSet.add(+(loc.uid))
     })
     const uids = [...uidSet].sort((a, b) => a - b)
@@ -64,7 +65,7 @@ export default class Sync {
 
       //? use async here so you don't do queue locking on 5k+ ops
       await Promise.all(messages.map(async message => {
-        const loc = message.locations.filter(L => L.folder == folder)?.[0]
+        const loc = getLocation(message.locations, folder)
         if (!(loc?.uid)) return;
         const uid = +(loc.uid)
         const email = lookup[uid]

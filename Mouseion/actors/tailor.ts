@@ -11,7 +11,7 @@
 import Custodian from "../managers/cleaners";
 import Folders from "../managers/folders";
 import Register from "../managers/register";
-import { MessageModel } from "../pantheon/pantheon";
+import { getLocation, MessageModel } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { PostOfficeProxy } from "../post-office/puppeteer";
 import { IMAPConfig, MessageID, SearchQuery } from "../post-office/types";
@@ -308,7 +308,7 @@ export default class Tailor {
         const folders = message.locations.map(({ folder }) => folder)
         const inbox = this.folders.inbox()
         if (!inbox) continue;
-        const inboxLOC = message.locations.filter(({ folder }) => folder == inbox)?.[0]
+        const inboxLOC = getLocation(message.locations, inbox)
         if (!inboxLOC) continue;
 
         const boards = folders.filter(folder => this.folders.isBoard(folder))

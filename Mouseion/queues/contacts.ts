@@ -1,5 +1,6 @@
 import Folders from "../managers/folders";
 import Register from "../managers/register";
+import { getLocation } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { IMAPConfig, MessageID } from "../post-office/types";
 import { Logger, LumberjackEmployer } from "../utils/logger";
@@ -58,7 +59,7 @@ export default class ContactsQueue implements MessageQueue {
 
     //? Determine whether the email has been sent by you
     const is_sent = (
-      !!(message.locations.filter(({ folder }) => folder == this.folders.sent())?.[0]) ||
+      !!(getLocation(message.locations, this.folders.sent() || '')) ||
       email.M.envelope.from.address == this.user
     )
 
