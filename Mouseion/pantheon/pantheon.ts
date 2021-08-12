@@ -313,8 +313,13 @@ export type MessageLocation = {
   folder: string,
   uid: string | number
 }
-const sameLocation = (L1: MessageLocation, L2: MessageLocation): boolean => {
+export const sameLocation = (L1: MessageLocation, L2: MessageLocation): boolean => {
   return (L1.folder == L2.folder && L1.uid == L2.uid)
+}
+export const getLocation = (locations: MessageLocation[], folder: string): MessageLocation | null => {
+  const matches = locations.filter(L => L.folder == folder)
+  if (matches.length == 0) return null
+  return matches?.[0]
 }
 
 export interface MessageModel {
