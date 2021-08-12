@@ -294,7 +294,9 @@ export default class Tailor {
       const thread = await this.pantheon.db.threads.find.tid(TID)
       if (!thread) continue;
 
-      const messages = await this.pantheon.db.threads.messages(TID)
+      const messages = await this.pantheon.db.threads.messages(TID, {
+        descending: false
+      })
       if (messages.length <= 0) continue;
 
       const board = thread.folder
