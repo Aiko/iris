@@ -480,7 +480,7 @@ export default class Janitor {
 
   //? JSON storage turns certain objects into strings
   //? you can coerce the type to EmailWithEnvelope to use it, just call this storage method to fix bindings
-  storage(email: EmailWithEnvelope) {
+  static storage<T extends EmailWithEnvelope>(email: T): T {
     email.M.envelope.date = new Date(email.M.envelope.date)
     return email
   }

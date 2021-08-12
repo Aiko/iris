@@ -3,6 +3,7 @@ import Register from "../managers/register";
 import { getLocation } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { IMAPConfig, MessageID } from "../post-office/types";
+import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
 import Operator from "../utils/operator";
 import { EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
@@ -42,13 +43,14 @@ export default class ContactsQueue implements MessageQueue {
 
   private async apply(mid: MessageID) {
     //? Find the relevant email
-    const email: EmailWithEnvelope | null =
+    const _email: EmailWithEnvelope | null =
       await this.pantheon.cache.full.check(mid) ||
       await this.pantheon.cache.content.check(mid) ||
       await this.pantheon.cache.headers.check(mid) ||
       await this.pantheon.cache.envelope.check(mid) ||
       null
-    if (!email) return this.Log.warn("MID", mid, "is not in a content-level or higher cache and will be skipped.")
+    if (!_email) return this.Log.warn("MID", mid, "is not in a content-level or higher cache and will be skipped.")
+    const email = Janitor.storage<EmailWithEnvelope>(_email)
 
     //? Check whether it has an envelope (which contains all participant info)
     if (!(email.M.envelope.mid == mid)) return this.Log.warn("MID", mid, "could not be verified and will be skipped.")

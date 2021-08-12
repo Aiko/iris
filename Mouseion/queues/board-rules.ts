@@ -3,6 +3,7 @@ import Register from "../managers/register";
 import { getLocation } from "../pantheon/pantheon";
 import { PantheonProxy } from "../pantheon/puppeteer";
 import { EmailRawWithHeaders, MessageID } from "../post-office/types";
+import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
 import Operator from "../utils/operator";
 import Storage from "../utils/storage";
@@ -92,11 +93,12 @@ export default class BoardRulesQueue implements MessageQueue {
 
   private async apply(mid: MessageID) {
     //? Find the relevant email
-    const email: EmailFull | null =
+    const _email: EmailFull | null =
       await this.pantheon.cache.full.check(mid) ||
       await this.pantheon.cache.content.check(mid) ||
       null
-    if (!email) return this.Log.warn("MID", mid, "is not in a content-level or higher cache and will be skipped.")
+    if (!_email) return this.Log.warn("MID", mid, "is not in a content-level or higher cache and will be skipped.")
+    const email = Janitor.storage<EmailFull>(_email)
 
     //? Check whether board rules can be applied
     if (!email.parsed.text) return this.Log.warn("MID", mid, "does not contain text in cache and will be skipped.")
