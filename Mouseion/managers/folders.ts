@@ -57,7 +57,6 @@ export default class Folders {
     this.Log = Lumberjack('Folders')
 
     this.courier = Registry.get('Courier') as PostOfficeProxy
-
   }
 
   async sync(): Promise<FolderState> {
