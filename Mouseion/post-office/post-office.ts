@@ -1,5 +1,6 @@
 import batchMap from '../utils/do-in-batch'
 import { Logger } from '../utils/logger'
+import sleep from '../utils/sleep'
 
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
@@ -19,6 +20,7 @@ export default class PostOffice {
   private oauth: string = ""
   secure: boolean = false
   private client: any = null
+  private connecting: boolean = false
 
   private readonly Log: Logger
 
@@ -55,6 +57,20 @@ export default class PostOffice {
   async connect({
     host, port, user, pass, oauth, secure
   }: Partial<IMAPConfig> ={}) {
+    if (this.connecting) {
+      const try_time = 200
+      const timeout = 10_000
+      let tries = Math.trunc(timeout / try_time)
+      while (this.connecting) {
+        if (tries == 0) {
+          this.connecting = false;
+          break;
+        }
+        await sleep(try_time)
+        tries--;
+      }
+      if (tries > 0) return;
+    }
     this.host = host || this.host
     this.port = port || this.port
     this.user = user || this.user
@@ -110,13 +126,25 @@ export default class PostOffice {
 
   /** Checks connection (& connects if disconnected) */
   async checkConnect(): Promise<boolean> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
+    if (this.connecting) {
+      const try_time = 200
+      const timeout = 20_000
+      let tries = Math.trunc(timeout / try_time)
+      while (this.connecting) {
+        if (tries == 0) {
+          return false
+        }
+        await sleep(try_time)
+        tries--;
+      }
+    }
     return true
   }
 
   /** Provides a folder structure object for the user's mailbox */
   async getFolders(): Promise<Record<string, FolderMetadata>> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.log("Listing folders...")
 
     const folderTree = await this.client.listMailboxes().catch(this.Log.error) as any
@@ -140,21 +168,21 @@ export default class PostOffice {
   }
 
   async newFolder(path: string) {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.log("Creating new folder...")
     await this.client.createMailbox(path).catch(this.Log.error)
     return this.Log.success("Created folder", path)
   }
 
   async deleteFolder(path: string) {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.log("Deleting folder...")
     await this.client.deleteMailbox(path).catch(this.Log.error)
     return this.Log.success("Deleted folder", path)
   }
 
   async openFolder(path: string): Promise<FolderDetails> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.log("Selecting mailbox", path)
     const details = await this.client.selectMailbox(path, {readOnly: false, condstore: true }).catch(this.Log.error) as FolderDetails
     return details
@@ -188,7 +216,7 @@ export default class PostOffice {
       limit?: number | null //? impose a maximum number of emails to fetch
     } ={}
   ): Promise<RawEmail[]> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (!path) throw new Error("Empty path provided to listMessages.")
     if (sequence.startsWith('0')) {
       this.Log.error("Fetch sequences cannot contain '0' as a startpoint.")
@@ -344,7 +372,7 @@ export default class PostOffice {
    * @returns a list of number UIDs that match the query
    */
   async searchMessages(path: string, query: SearchQuery): Promise<number[]> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     const q: SearchQueryRaw = query.compile()
     this.Log.log("Searching", path, "with query", q)
     await this.openFolder(path) //? for sanity's sake
@@ -353,7 +381,7 @@ export default class PostOffice {
   }
 
   async deleteMessages(path: string, sequence: string) {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (sequence.startsWith('0')) return this.Log.error("Delete sequences cannot contain '0' as a startpoint.")
     this.Log.log("Deleting messages in", path)
     await this.client.deleteMessages(path, sequence, {byUid: true}).catch(this.Log.error)
@@ -361,7 +389,7 @@ export default class PostOffice {
   }
 
   async flagMessages(path: string, sequence: string, flags: FlagsMod) {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (sequence.startsWith('0')) return this.Log.error("Flag sequences cannot contain '0' as a startpoint.")
     this.Log.log("Flagging messages in", path)
     await this.client.setFlags(path, sequence, flags, {byUid: true, silent: true}).catch(this.Log.error)
@@ -369,7 +397,7 @@ export default class PostOffice {
   }
 
   async copyMessages(src: string, dst: string, sequence: string): Promise<CopyUID> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (sequence.startsWith('0')) {
       this.Log.error("Copy sequences cannot contain '0' as a startpoint.")
       return new CopyUID({})
@@ -382,7 +410,7 @@ export default class PostOffice {
   }
 
   async moveMessages(src: string, dst: string, sequence: string): Promise<MoveUID> {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (sequence.startsWith('0')) {
       this.Log.error("Move sequences cannot contain '0' as a startpoint.")
       return new MoveUID({})
@@ -396,7 +424,7 @@ export default class PostOffice {
 
   /** Inconsistent behaviour depending on mailserver. Highly recommended to avoid usage where possible. */
   async addMessage(path: string, message: any, flags:string[]=['\\Seen']) {
-    if (!this.client) await this.connect()
+    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.warn("Adding messages. The behaviour of this method is not consistent.")
     await this.client.upload(path, message, { flags: flags }).catch(this.Log.error)
     return this.Log.success("(Probably) Uploaded message to", path)
