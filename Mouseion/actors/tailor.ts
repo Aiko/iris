@@ -19,7 +19,7 @@ import BoardRulesQueue from "../queues/board-rules";
 import ContactsQueue from "../queues/contacts";
 import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
-import Operator from "../utils/operator";
+import Operator from "./operator";
 import { EmailWithReferences } from "../utils/types";
 
 export default class Tailor {

@@ -5,7 +5,7 @@ import { PantheonProxy } from "../pantheon/puppeteer";
 import { EmailRawWithHeaders, MessageID } from "../post-office/types";
 import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
-import Operator from "../utils/operator";
+import Operator from "../actors/operator";
 import Storage from "../utils/storage";
 import { EmailFull, EmailWithContent, EmailWithPriority, EmailWithReferences } from "../utils/types";
 import MessageQueue from "./MessageQueue";

@@ -1,4 +1,4 @@
-import Tailor from "../actors/tailor"
+import Tailor from "./tailor"
 import Custodian from "../managers/cleaners"
 import Folders from "../managers/folders"
 import Register from "../managers/register"
@@ -6,9 +6,9 @@ import { MessageModel } from "../pantheon/pantheon"
 import { PantheonProxy } from "../pantheon/puppeteer"
 import { PostOfficeProxy } from "../post-office/puppeteer"
 import { CopyUID, MoveUID } from "../post-office/types"
-import { Logger, LumberjackEmployer } from "./logger"
-import retry from "./retry"
-import Storage from "./storage"
+import { Logger, LumberjackEmployer } from "../utils/logger"
+import retry from "../utils/retry"
+import Storage from "../utils/storage"
 
 export default class Operator {
   private readonly Log: Logger
