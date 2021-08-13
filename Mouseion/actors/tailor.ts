@@ -229,7 +229,7 @@ export default class Tailor {
     if (TID) {
       this.p2_queue.push(TID)
       this.contactQ.queue(MID)
-      if (this.internal_use) {
+      if (!(this.internal_use)) {
         if (email.folder == this.folders.inbox() || this.folders.isBoard(email.folder)) {
           this.boardrulesQ.queue(MID)
         }
