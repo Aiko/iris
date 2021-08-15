@@ -117,9 +117,11 @@ export default class PostOffice {
     await this.client.connect()
 
     //? register listeners
+    const _this = this
     this.client.onupdate = function (path: string, type: string, value: any) {
       if (type === 'exists') {
-        // TODO: trigger check for new messages
+        if (path == "INBOX" && _this.trigger)
+          _this.trigger("imap-exists")
       }
     }
     this.client.onerror = (error: any) => {

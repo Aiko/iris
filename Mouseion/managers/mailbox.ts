@@ -27,6 +27,7 @@ export default class Mailbox {
   private readonly tailor: Tailor
   private readonly seamstress: Tailor
   private readonly pantheon: PantheonProxy
+  private readonly folders: Folders
 
   constructor(
     private readonly Registry: Register,
@@ -39,6 +40,7 @@ export default class Mailbox {
     this.tailor = Registry.get("Tailor") as Tailor
     this.seamstress = Registry.get("Seamstress") as Tailor
     this.pantheon = Registry.get("Pantheon") as PantheonProxy
+    this.folders = Registry.get("Folders") as Folders
   }
 
   static async load(config: IMAPConfig, AI_BATCH_SIZE=500, THREAD_BATCH_SIZE=100): Promise<Mailbox | null> {
@@ -164,8 +166,12 @@ export default class Mailbox {
   }
 
   trigger(event: string) {
-    for(const trigger of this.triggers) {
-      trigger(event)
+    switch (event) {
+      case "imap-exists":
+        this.run()
+        break;
+
+      default: this.triggers.map(trigger => trigger(event))
     }
   }
 
