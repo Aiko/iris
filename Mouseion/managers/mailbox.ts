@@ -157,6 +157,8 @@ export default class Mailbox {
 
     const mailbox = new this(Registry, Log)
     Registry.register("Mailbox", mailbox)
+    Log.success("Instantiated Mailbox")
+    courier.setTrigger(mailbox.trigger)
 
     return mailbox
   }

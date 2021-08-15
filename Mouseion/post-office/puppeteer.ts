@@ -11,6 +11,11 @@ type SockPuppeteerWaiterParams = {
   error?: string,
   id: string
 }
+type TriggerResponse = {
+  trigger: string
+}
+const isTriggerResponse = (x: any):x is TriggerResponse => !!(x.trigger)
+type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 type SockPuppeteerWaiter = (_: SockPuppeteerWaiterParams) => void
 type SockPuppeteerListener = () => void
 
@@ -57,6 +62,7 @@ export class PostOfficeProxy {
   private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
   private readonly listeners: Record<string, SockPuppeteerListener> = {}
   private readonly queue: ProcessMessage[] = []
+  private trigger: Trigger | null = null
 
   private rotating: boolean = false
   get isRotating() { return this.rotating }
@@ -79,7 +85,11 @@ export class PostOfficeProxy {
 
     //? Parses incoming messages then calls the relevant callbacks and notifies listeners
     this.API.on('message', (m: string) => {
-      const s = JSON.parse(m) as SockPuppeteerWaiterParams
+      const s = JSON.parse(m) as (SockPuppeteerWaiterParams | TriggerResponse)
+      if (isTriggerResponse(s)) {
+        if (this.trigger) this.trigger(s.trigger)
+        return;
+      }
       if (!(s?.id)) return this.Log.error("No ID in received message")
       const cb = this.waiters[s.id]
       if (!cb) return this.Log.error("No waiter set.")
@@ -87,6 +97,10 @@ export class PostOfficeProxy {
       if (listener) listener()
       cb(s)
     })
+  }
+
+  setTrigger(trigger: Trigger) {
+    this.trigger = trigger
   }
 
   private proxy<ParamType extends any[], ReturnPromise extends Promise<any>>(action: string, immediate: boolean=true) {

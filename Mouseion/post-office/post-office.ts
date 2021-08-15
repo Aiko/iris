@@ -8,6 +8,9 @@ const simpleParser = require('mailparser').simpleParser
 
 import { AttachmentRaw, CopyUID, CopyUIDSetRaw, EmailParsedRaw, EmailRaw, EmailRawBase, EmailRawWithEnvelope, EmailRawWithFlags, EmailRawWithHeaders, FlagsMod, FolderDetails, FolderMetadata, IMAPConfig, MoveUID, RawEmail, SearchQuery, SearchQueryRaw } from './types'
 
+type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
+
+
 //? for multiple mailboxes make multiple post offices
 //? to change params like OAuth, you will need to do a full close-connect
 //? there is no reconnect helper method (intentional, to force you to acknowledge the cold start)
@@ -21,6 +24,7 @@ export default class PostOffice {
   secure: boolean = false
   private client: any = null
   private connecting: boolean = false
+  private trigger: Trigger | null = null
 
   private readonly Log: Logger
 
@@ -33,6 +37,10 @@ export default class PostOffice {
       time: _ => _,
       timeEnd: _ => _
     }
+  }
+
+  async setTrigger(trigger: Trigger) {
+    this.trigger = trigger
   }
 
   /** Closes a connection */

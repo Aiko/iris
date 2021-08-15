@@ -32,6 +32,13 @@ const perr = (id: string) => (msg: string): boolean => proc.send(JSON.stringify(
   id
 }))
 
+type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
+
+const trigger: Trigger = (event: string) => proc.send(JSON.stringify({
+  trigger: event
+}))
+courier.setTrigger(trigger)
+
 proc.on('message', async (m: string): Promise<any> => {
   /*
   ? m should be 'please ' + JSON stringified message
