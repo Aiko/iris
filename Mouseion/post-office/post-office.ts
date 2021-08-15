@@ -69,7 +69,7 @@ export default class PostOffice {
         await sleep(try_time)
         tries--;
       }
-      if (tries > 0) return;
+      if (tries > 0) return true;
     }
     this.host = host || this.host
     this.port = port || this.port
