@@ -226,6 +226,12 @@ export default class Folders {
   drafts() { return this.name("drafts") }
   archive() { return this.name("archive") }
   trash() { return this.name("trash") }
+  all() {
+    return this._state.names
+  }
+  boards() {
+    return Object.values(this._state.boards.paths)
+  }
 
   readonly prefix = PREFIX
   readonly done = PREFIX + '/' + DONE_SLUG
