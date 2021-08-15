@@ -1191,16 +1191,7 @@ filter: unset !important;
     padding: 0 10px 0 10px;
     border-radius: 5px;
 }
-.space-select span{
-	 font-size: 14px;
-	 cursor: pointer;
-	 margin-bottom: 10px;
-}
-.space-select span img{
-	    width: 17px;
-    margin-right: 4px;
-    margin-top: -3px;
-}
+
 .space-select p{
 	margin: 10px 0 0 20px;
 }
@@ -2748,7 +2739,7 @@ color: var(--main-color);
 .attachments {
     overflow: scroll;
     width: 100%;
-    padding: 10px 10px;
+    padding: 10px 10px 3px 10px;
     margin-top: -10px;
     background: #fff;
 }
@@ -2799,6 +2790,7 @@ background: var(--main-color);
 }
 .attachment:hover {
 background: var(--main-color-hover);
+box-shadow: none;
 	transition: .2s;
 }
 
@@ -2808,12 +2800,22 @@ background: var(--main-color-hover);
 }
 
 .attachment .name {
-    line-height: 20px;
+line-height: 20px;
     font-weight: 400;
     letter-spacing: 0.4px;
+    font-size: 14px;
     margin-left: 4px;
-    width: fit-content;
-    padding-right: 80px;
+    max-width: 240px;
+    text-overflow: ellipsis;
+    padding-right: 70px;
+    overflow: hidden;
+		transition: .2s;
+}
+.attachment .name:hover {
+    max-width:fit-content !important;
+    text-overflow:unset !important;
+    overflow: unset !important;
+		transition: .2s;
 }
 
 .attachment .size {
@@ -2821,7 +2823,7 @@ background: var(--main-color-hover);
 	float: right;
 	color: #fff;
 	opacity: 0.7;
-	padding: 3px 2px 1px 2px;
+	padding: 2px 2px 1px 2px;
 	font-size: 12px;
 	position: absolute;
 	margin-right: 4px;

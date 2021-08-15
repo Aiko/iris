@@ -51,6 +51,13 @@
   box-shadow: none;
   padding-top: 2px !important;
 }
+.attachment{
+  background: var(--main-bg-color);
+}
+.attachment:hover{
+  background: var(--main-bg-color);
+  filter: brightness(0.9);
+}
 .thread-count {
 	background: var(--secondary-bg-color) !important;
 }
