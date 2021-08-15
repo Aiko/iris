@@ -8,6 +8,7 @@ import { PantheonProxy } from "../pantheon/puppeteer";
 import { PostOfficeProxy } from "../post-office/puppeteer";
 import do_in_batch from "../utils/do-in-batch";
 import { Logger, LumberjackEmployer } from "../utils/logger";
+import Lock from "../utils/promise-lock";
 import sequence from "../utils/sequence";
 import Storage from "../utils/storage";
 import { EmailWithFlags } from "../utils/types";
@@ -22,8 +23,16 @@ export default class Sync {
   private readonly courier: PostOfficeProxy
   private readonly tailor: Tailor
   private readonly folders: Folders
+  private readonly syncQ: Set<string> = new Set()
+  private readonly lock: Lock
+  private queuedSync: NodeJS.Timeout | null = null
 
-  constructor(Registry: Register, private readonly AI_BATCH_SIZE: number, private readonly THREAD_BATCH_SIZE: number) {
+  constructor(Registry: Register,
+    private readonly AI_BATCH_SIZE: number,
+    private readonly THREAD_BATCH_SIZE: number,
+    private readonly SYNC_INTERVAL: number=30*1000,
+    private readonly SYNC_BATCH_SIZE: number=1
+  ) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Sync')
     this.meta = Registry.get('Metadata Storage') as Storage
@@ -32,6 +41,30 @@ export default class Sync {
     this.courier = Registry.get('Post Office') as PostOfficeProxy
     this.tailor = Registry.get('Tailor') as Tailor
     this.folders = Registry.get('Folders') as Folders
+    this.queueForSync(this.folders.inbox())
+    this.queueForSync(this.folders.sent())
+    this.lock = new Lock()
+  }
+
+  queueForSync(...folders: (string | null)[]) {
+    for(const folder of folders)
+      if (folder) this.syncQ.add(folder)
+  }
+
+  async syncAll() {
+    const _this = this
+    this.lock.acquire(async () => {
+      if (_this.queuedSync) {
+        clearTimeout(_this.queuedSync)
+        _this.queuedSync = null
+      }
+      try {
+        await do_in_batch([..._this.syncQ], _this.SYNC_BATCH_SIZE, _this.sync)
+      } catch(e) {
+        _this.Log.error(e)
+      }
+      _this.queuedSync = setTimeout(_this.syncAll, _this.SYNC_INTERVAL)
+    })
   }
 
   private async sync_existing(folder: string): Promise<number> {
