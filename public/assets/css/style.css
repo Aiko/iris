@@ -2811,12 +2811,6 @@ line-height: 20px;
     overflow: hidden;
 		transition: .2s;
 }
-.attachment .name:hover {
-    max-width:fit-content !important;
-    text-overflow:unset !important;
-    overflow: unset !important;
-		transition: .2s;
-}
 
 .attachment .size {
 	text-align: right;
