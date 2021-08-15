@@ -26,10 +26,11 @@ export default class Mailbox {
   private readonly boardrulesQ: BoardRulesQueue
   private readonly tailor: Tailor
   private readonly seamstress: Tailor
+  private readonly pantheon: PantheonProxy
 
   constructor(
-    Registry: Register,
-    private Log: Logger,
+    private readonly Registry: Register,
+    private readonly Log: Logger,
   ) {
     this.courier = Registry.get("Courier") as PostOfficeProxy
     this.sync = Registry.get("Sync") as Sync
@@ -37,6 +38,7 @@ export default class Mailbox {
     this.boardrulesQ = Registry.get("Board Rules Queue") as BoardRulesQueue
     this.tailor = Registry.get("Tailor") as Tailor
     this.seamstress = Registry.get("Seamstress") as Tailor
+    this.pantheon = Registry.get("Pantheon") as PantheonProxy
   }
 
   static async load(config: IMAPConfig, AI_BATCH_SIZE=500, THREAD_BATCH_SIZE=100): Promise<Mailbox | null> {
@@ -182,6 +184,16 @@ export default class Mailbox {
     await this.tailor.phase_3()
     this.Log.success("Sync completed.")
     this.trigger("sync-finished")
+  }
+
+  async close() {
+    this.Log.log("Closing out engine.")
+    await this.courier.network.close()
+    await this.courier.API.kill()
+    await this.pantheon.API.kill()
+    this.Registry.clear()
+    this.Log.success("Mailbox has been totally closed.")
+    this.Log.warn("Please close out the Mouseion process. Mouseion is in a BAD state.")
   }
 
 }
