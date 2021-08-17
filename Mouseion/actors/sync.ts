@@ -49,6 +49,11 @@ export default class Sync {
       if (folder) this.syncQ.add(folder)
   }
 
+  unqueueForSync(...folders: (string | null)[]) {
+    for (const folder of folders)
+      if (folder) this.syncQ.delete(folder)
+  }
+
   async syncAll() {
     await do_in_batch([...this.syncQ], this.SYNC_BATCH_SIZE, this.sync)
   }
