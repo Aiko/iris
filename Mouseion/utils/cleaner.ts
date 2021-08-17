@@ -56,6 +56,7 @@ import {
   MouseionSummary
 } from './types'
 import { isError } from 'aikomail-sdk/dist/ai/types'
+import autoBind from 'auto-bind'
 
 type runtime = { runs: number, time: number }
 
@@ -73,6 +74,7 @@ export default class Janitor {
     this.runtimes['content'] = { runs: 0, time: 0 }
     this.runtimes['summarizer'] = { runs: 0, time: 0 }
     this.runtimes['snips'] = { runs: 0, time: 0 }
+    autoBind(this)
   }
 
   async base(email: EmailRawBase): Promise<EmailBase> {

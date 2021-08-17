@@ -2,6 +2,7 @@ import Janitor from "../utils/cleaner"
 import { Logger, LumberjackEmployer } from "../utils/logger"
 import Folders from "./folders"
 import Register from "./register"
+import autoBind from 'auto-bind'
 
 export default class Custodian {
   readonly Log: Logger
@@ -12,6 +13,7 @@ export default class Custodian {
     const Lumberjack = this.Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Custodian')
     this.folders = this.Registry.get('Folders') as Folders
+    autoBind(this)
   }
 
   async hire(folder: string): Promise<Janitor> {

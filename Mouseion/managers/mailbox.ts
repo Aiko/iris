@@ -15,6 +15,7 @@ import BoardRulesQueue, { BoardRule } from "../queues/board-rules";
 import Resolver from "../actors/resolver";
 import Sync from "../actors/sync";
 import Lock from "../utils/promise-lock";
+import autoBind from 'auto-bind'
 
 type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 
@@ -46,6 +47,7 @@ export default class Mailbox {
     this.pantheon = Registry.get("Pantheon") as PantheonProxy
     this.folders = Registry.get("Folders") as Folders
     this.lock = new Lock()
+    autoBind(this)
   }
 
   static async load(config: IMAPConfig, AI_BATCH_SIZE=500, THREAD_BATCH_SIZE=100): Promise<Mailbox | null> {

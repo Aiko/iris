@@ -1,5 +1,6 @@
 import AikoAI from 'aikomail-sdk'
 import { BabylonResult, BabylonScheduling, EnhancedBabylonResult } from 'aikomail-sdk/dist/ai/types'
+import autoBind from 'auto-bind'
 import { EmailParticipantRaw, EmailRaw, EmailRawBase, MessageID } from '../post-office/types'
 
 //? Mouseion Types
@@ -18,6 +19,7 @@ export class EmailParticipant {
     this.name = participant.name || "No Sender"
     this.address = participant.address || "hidden@"
     this.base = this.address.replace(/\+.*(?=@)/gim, '')
+    autoBind(this)
   }
   static fromList(participants: EmailParticipantRaw[]) {
     return participants.map(participant => new EmailParticipant(participant))

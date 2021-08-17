@@ -4,6 +4,7 @@ import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
 import { EmailFull, EmailWithEnvelope, EmailWithReferences } from '../utils/types'
+import autoBind from 'auto-bind'
 
 // TODO: attachment DB & caching
 
@@ -61,6 +62,8 @@ export class Cache {
     this.headers = promisify<EmailWithReferences>(this.caches.L2)
     this.content = promisify<EmailFull>(this.caches.L3b)
     this.full = promisify<EmailFull>(this.caches.L3)
+
+    autoBind(this)
   }
 }
 
@@ -122,6 +125,7 @@ export class DB {
         timestampData: true
       })
     }
+    autoBind(this)
   }
 
   //*-------------- Utility methods for messages
@@ -359,6 +363,7 @@ class Message implements MessageModel {
     this.subject = data.subject
     this.timestamp = new Date(data.timestamp)
     this.locations = data.locations
+    autoBind(this)
   }
 
   /** Utility method to make life easier for the structured clone algorithm */
@@ -665,6 +670,7 @@ class Thread implements ThreadModel {
     this.cursor = data.cursor
     this.folder = data.folder
     this.tid = data.tid
+    autoBind(this)
   }
 
   /** Utility method to make life easier for the structured clone algorithm */
@@ -943,6 +949,7 @@ class Contact implements ContactModel {
     this.received = data.received
     this.lastSeen = new Date(data.lastSeen)
     this.priority = data.priority
+    autoBind(this)
   }
 
   //? Algorithm to calculate priority value

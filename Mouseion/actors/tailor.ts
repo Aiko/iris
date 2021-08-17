@@ -21,6 +21,7 @@ import Janitor from "../utils/cleaner";
 import { Logger, LumberjackEmployer } from "../utils/logger";
 import Operator from "./operator";
 import { EmailWithReferences } from "../utils/types";
+import autoBind from 'auto-bind'
 
 export default class Tailor {
 
@@ -52,6 +53,7 @@ export default class Tailor {
     this.boardrulesQ = Registry.get('Board Rules Queue') as BoardRulesQueue
     this.internal_use = opts.internal_use
     this.operator = Registry.get('Cypher') as Operator
+    autoBind(this)
   }
 
   private async fetch_reference(referenceMID: MessageID, searchFolder: string): Promise<boolean> {

@@ -18,7 +18,8 @@
     "lint": "echo \"No linting configured\"",
     "compile-M": "cd Mouseion && tsc",
     "clean-M": "rm -rf Mouseion/dist",
-    "dry-M": "cd Mouseion; tsc; rm -rf dist"
+    "dry-M": "cd Mouseion; tsc; rm -rf dist",
+    "make-M": "rm -rf Mouseion/dist; cd Mouseion && tsc"
   },
   "keywords": [],
   "author": {
@@ -75,6 +76,7 @@
     "@sentry/electron": "^2.0.4",
     "@sentry/node": "^5.11.0",
     "aikomail-sdk": "github:Aiko/mail-sdk",
+    "auto-bind": "^4.0.0",
     "cheerio": "^1.0.0-rc.3",
     "colors": "^1.4.0",
     "cross-fetch": "^3.0.6",

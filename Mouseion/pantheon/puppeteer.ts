@@ -4,6 +4,7 @@ import crypto from 'crypto'
 import Register from '../managers/register'
 import { LumberjackEmployer, Logger } from '../utils/logger'
 import * as Pantheon from './pantheon'
+import autoBind from 'auto-bind'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,
@@ -97,6 +98,8 @@ export class PantheonProxy {
       if (listener) listener()
       cb(s)
     })
+
+    autoBind(this)
   }
 
   async init(dir: string, cursor: number): Promise<Cursor> {

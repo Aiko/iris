@@ -13,6 +13,7 @@ import sequence from "../utils/sequence";
 import Storage from "../utils/storage";
 import { EmailWithFlags } from "../utils/types";
 import Tailor from "./tailor";
+import autoBind from 'auto-bind'
 
 export default class Sync {
 
@@ -40,6 +41,7 @@ export default class Sync {
     this.folders = Registry.get('Folders') as Folders
     this.queueForSync(this.folders.inbox())
     this.queueForSync(this.folders.sent())
+    autoBind(this)
   }
 
   queueForSync(...folders: (string | null)[]) {

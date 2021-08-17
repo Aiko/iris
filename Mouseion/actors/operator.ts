@@ -9,7 +9,7 @@ import { CopyUID, MoveUID } from "../post-office/types"
 import { Logger, LumberjackEmployer } from "../utils/logger"
 import retry from "../utils/retry"
 import Storage from "../utils/storage"
-
+import autoBind from 'auto-bind'
 export default class Operator {
   private readonly Log: Logger
   private readonly pantheon: PantheonProxy
@@ -34,6 +34,7 @@ export default class Operator {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Operator')
     this.auto_increment_cursor = auto_increment_cursor
+    autoBind(this)
   }
 
   private async pre_op() {

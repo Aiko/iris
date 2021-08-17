@@ -4,6 +4,7 @@ import crypto from 'crypto'
 import Register from '../managers/register'
 import { LumberjackEmployer, Logger } from '../utils/logger'
 import PostOffice from './post-office'
+import autoBind from 'auto-bind'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,
@@ -97,6 +98,7 @@ export class PostOfficeProxy {
       if (listener) listener()
       cb(s)
     })
+    autoBind(this)
   }
 
   setTrigger(trigger: Trigger) {

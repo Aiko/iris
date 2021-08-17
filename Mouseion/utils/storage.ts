@@ -1,6 +1,7 @@
 import path from 'path'
 import fs from 'fs'
 import fs2 from 'fs-extra'
+import autoBind from 'auto-bind'
 
 /** A basic storage system mimicking localstorage, persisting within the filesystem */
 class Storage {
@@ -21,6 +22,7 @@ class Storage {
   constructor(dir: string, {json=true}: {json?: boolean} ={}) {
     this.dir = dir
     this.json = json
+    autoBind(this)
   }
 
   //? Cleans a storage key by explicitly allowing only certain characters in the filename

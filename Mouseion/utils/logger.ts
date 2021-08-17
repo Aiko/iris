@@ -1,3 +1,4 @@
+import autoBind from 'auto-bind'
 import 'colors'
 import crypto from 'crypto'
 import path from 'path'
@@ -94,6 +95,7 @@ export default class Forest {
     this.id = crypto.randomBytes(6).toString('hex')
 
     console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
+    autoBind(this)
   }
 
   logger(prefix: string, label: string, ...msg: any[]): void {

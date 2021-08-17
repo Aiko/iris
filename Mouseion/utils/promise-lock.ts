@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import autoBind from 'auto-bind'
 
 export default class Lock {
   private readonly _lock: {
@@ -10,6 +11,8 @@ export default class Lock {
   }
 
   private readonly waiting: string[] = []
+
+  constructor() { autoBind(this) }
 
   private ID(): string {
     const id = crypto.randomBytes(12).toString('hex')

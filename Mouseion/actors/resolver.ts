@@ -13,7 +13,7 @@ import { Logger, LumberjackEmployer } from "../utils/logger";
 import sequence from "../utils/sequence";
 import { EmailBase, EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
 import Tailor from "./tailor";
-
+import autoBind from 'auto-bind'
 export default class Resolver {
 
   private readonly Log: Logger
@@ -27,6 +27,7 @@ export default class Resolver {
     this.messages = new MessageResolver(Registry)
     this.thread = new ThreadResolver(Registry, AI_BATCH_SIZE)
     this.multithread = new MultiThreadResolver(Registry, AI_BATCH_SIZE)
+    autoBind(this)
   }
 
 }

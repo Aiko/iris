@@ -8,6 +8,7 @@ import { Logger, LumberjackEmployer } from "../utils/logger";
 import Operator from "../actors/operator";
 import { EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
 import MessageQueue from "./MessageQueue";
+import autoBind from "auto-bind";
 
 export default class ContactsQueue implements MessageQueue {
   readonly pending: MessageID[] = []
@@ -23,6 +24,7 @@ export default class ContactsQueue implements MessageQueue {
     this.Log = Lumberjack("Contacts")
     const config = Registry.get('IMAP Config') as IMAPConfig
     this.user = config.user
+    autoBind(this)
   }
 
   async consume(): Promise<boolean> {

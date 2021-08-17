@@ -9,6 +9,7 @@ import Operator from "../actors/operator";
 import Storage from "../utils/storage";
 import { EmailFull, EmailWithContent, EmailWithPriority, EmailWithReferences } from "../utils/types";
 import MessageQueue from "./MessageQueue";
+import autoBind from 'auto-bind'
 
 /*
 ! For forward, it might be better to just create a forward specific board
@@ -71,6 +72,7 @@ export default class BoardRulesQueue implements MessageQueue {
     const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
     this.Log = Lumberjack("Board Rules")
     this.rules = []; this.sync()
+    autoBind(this)
   }
 
   async consume(): Promise<boolean> {

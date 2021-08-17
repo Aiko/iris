@@ -25,12 +25,15 @@ const psucc = (id: string) => (payload: object): boolean => proc.send(JSON.strin
   success: true,
   payload, id
 }))
-const perr = (id: string) => (msg: string): boolean => proc.send(JSON.stringify({
-  error: msg + '\n' + (new Error),
-  payload: {},
-  success: false,
-  id
-}))
+const perr = (id: string) => (msg: string): boolean => {
+  const ret = proc.send(JSON.stringify({
+    error: msg + '\n' + (new Error),
+    payload: {},
+    success: false,
+    id
+  })); console.error(msg + '\n', + (new Error))
+  return ret
+}
 
 type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 

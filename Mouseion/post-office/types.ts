@@ -1,3 +1,5 @@
+import autoBind from "auto-bind"
+
 export interface IMAPConfig {
   host: string
   port: number
@@ -154,6 +156,10 @@ export class SearchQuery {
   private or: SearchQuery | null = null
   private not: SearchQuery | null = null
 
+  constructor() {
+    autoBind(this)
+  }
+
   isRead(b: boolean) {
     if (this.read != null) console.log("Warning: overwriting existing search read-status.".yellow)
     this.read = b
@@ -246,6 +252,7 @@ export class CopyUID {
 
   constructor(c: CopyUIDSetRaw) {
     this._uid = CopyUID.getUID(c)
+    autoBind(this)
   }
 
   get uid():number | null {

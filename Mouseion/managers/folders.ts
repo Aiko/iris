@@ -2,6 +2,7 @@ import { PostOfficeProxy } from "../post-office/puppeteer"
 import { FolderMetadata } from "../post-office/types"
 import { Logger, LumberjackEmployer } from "../utils/logger"
 import Register from "./register"
+import autoBind from 'auto-bind'
 
 type SpecialFolder =
   "inbox" |
@@ -57,6 +58,7 @@ export default class Folders {
     this.Log = Lumberjack('Folders')
 
     this.courier = Registry.get('Courier') as PostOfficeProxy
+    autoBind(this)
   }
 
   async sync(): Promise<FolderState> {

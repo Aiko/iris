@@ -5,6 +5,7 @@ import sleep from '../utils/sleep'
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
 const simpleParser = require('mailparser').simpleParser
+import autoBind from 'auto-bind'
 
 import { AttachmentRaw, CopyUID, CopyUIDSetRaw, EmailParsedRaw, EmailRaw, EmailRawBase, EmailRawWithEnvelope, EmailRawWithFlags, EmailRawWithHeaders, FlagsMod, FolderDetails, FolderMetadata, IMAPConfig, MoveUID, RawEmail, SearchQuery, SearchQueryRaw } from './types'
 
@@ -37,6 +38,7 @@ export default class PostOffice {
       time: _ => _,
       timeEnd: _ => _
     }
+    autoBind(this)
   }
 
   async setTrigger(trigger: Trigger) {
@@ -136,7 +138,7 @@ export default class PostOffice {
 
   /** Checks connection (& connects if disconnected) */
   async checkConnect(): Promise<boolean> {
-    if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
+    if (!(await this.connect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     if (this.connecting) {
       const try_time = 200
       const timeout = 20_000

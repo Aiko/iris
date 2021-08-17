@@ -1,7 +1,11 @@
 import 'colors'
+import autoBind from 'auto-bind'
 
 export default class Register {
   private defs: Record<string, any> = {}
+  constructor() {
+    autoBind(this)
+  }
 
   register(key: string, def: any): void { this.defs[key] = def }
   clear() { this.defs = {} }

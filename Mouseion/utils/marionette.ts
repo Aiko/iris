@@ -2,6 +2,7 @@ import WebSocket from 'ws'
 import net from 'net'
 import Forest from './logger'
 import { LumberjackEmployer, Logger } from './logger'
+import autoBind from 'auto-bind'
 const forest: Forest = new Forest('logs-marionette')
 const Lumberjack: LumberjackEmployer = forest.Lumberjack
 const Log: Logger = Lumberjack('Marionette')
@@ -120,7 +121,7 @@ export default class SockPuppet {
       })
 
     })
-
+    autoBind(this)
   }
 
   /**
