@@ -477,8 +477,8 @@ export default class Janitor {
   }
 
   //? method aliases
-  readonly headers = this.references
-  readonly full = this.priority
+  readonly headers = this.references.bind(this)
+  readonly full = this.priority.bind(this)
 
   //? JSON storage turns certain objects into strings
   //? you can coerce the type to EmailWithEnvelope to use it, just call this storage method to fix bindings

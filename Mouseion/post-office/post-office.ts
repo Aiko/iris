@@ -138,7 +138,9 @@ export default class PostOffice {
 
   /** Checks connection (& connects if disconnected) */
   async checkConnect(): Promise<boolean> {
-    if (!(await this.connect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
+    if (!(this.client)) {
+      if (!(await this.connect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
+    }
     if (this.connecting) {
       const try_time = 200
       const timeout = 20_000

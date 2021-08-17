@@ -132,7 +132,7 @@ export class DB {
   async findMessageWithMID(mid: string): Promise<MessageModel | null> {
     const message = await Message.fromMID(this, mid)
     if (isDBError(message)) {
-      console.error(message.error)
+      if (!(message.dne)) console.error(message.error)
       return null
     }
     return message.clean()
@@ -558,7 +558,7 @@ class Message implements MessageModel {
       ds.findOne({ mid, }, (err, doc: MessageModel) => {
         if (err || !doc) {
           return s({
-            error: "A message with that MID does not exist.",
+            error: err?.message || "A message with that MID does not exist.",
             dne: !err
           })
         }

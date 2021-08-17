@@ -39,7 +39,7 @@ class Storage {
     fs2.ensureFileSync(fp)
     fs.writeFileSync(fp, this.json ? JSON.stringify(data) : data)
   }
-  cache = this.store
+  cache = this.store.bind(this)
 
   /** Loads data for a relevant key, parsing it if need be */
   load(key: string): string | any {
@@ -49,7 +49,7 @@ class Storage {
     const s: string = fs.readFileSync(fp).toString()
     return !!s && (this.json ? JSON.parse(s) : s)
   }
-  check = this.load
+  check = this.load.bind(this)
 
   /** Loads data for the relevant key, parsing it if need be, then clearing the key */
   pop(key: string): string | any {
