@@ -31,10 +31,13 @@ export default class Mailbox {
   readonly pantheon: PantheonProxy
   readonly folders: Folders
   private readonly lock: Lock
+  readonly resolver: Resolver
+  readonly link: Operator
+  private readonly cypher: Operator
   queuedSync: NodeJS.Timeout | null = null
 
   constructor(
-    private readonly Registry: Register,
+    public readonly Registry: Register,
     private readonly Log: Logger,
     private readonly SYNC_INTERVAL: number=30*1000,
   ) {
@@ -46,6 +49,9 @@ export default class Mailbox {
     this.seamstress = Registry.get("Seamstress") as Tailor
     this.pantheon = Registry.get("Pantheon") as PantheonProxy
     this.folders = Registry.get("Folders") as Folders
+    this.resolver = Registry.get("Resolver") as Resolver //? not to be confused with the absolver
+    this.cypher = Registry.get("Cypher") as Operator
+    this.link = Registry.get("Link") as Operator
     this.lock = new Lock()
     autoBind(this)
   }
