@@ -249,7 +249,7 @@ export class DB {
   async findThreadWithTID(tid: string): Promise<ThreadModel | null> {
     const thread = await Thread.fromTID(this, tid)
     if (isDBError(thread)) {
-      console.error(thread.error)
+      if (!(thread.dne)) console.error(thread.error)
       return null
     }
     return thread.clean()
@@ -278,7 +278,7 @@ export class DB {
   } ={}): Promise<MessageModel[]> {
     const thread = await Thread.fromTID(this, tid)
     if (isDBError(thread)) {
-      console.error(thread.error)
+      if (!(thread.dne)) console.error(thread.error)
       return []
     }
     const messages = await thread.messages({descending})
@@ -836,7 +836,8 @@ class Thread implements ThreadModel {
       ds.findOne({ tid, }, (err, doc: ThreadModel) => {
         if (err || !doc) {
           return s({
-            error: "A thread with that TID does not exist."
+            error: err?.message || "A thread with that TID does not exist.",
+            dne: !err
           })
         }
         const t = new Thread(db, doc)
