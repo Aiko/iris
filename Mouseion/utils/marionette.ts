@@ -31,7 +31,6 @@ export const unused_port = async (start_port=DEFAULT_PORT): Promise<number> => {
 //? If you want to type this be my guest, I don't have the patience for this
 const stratify = (obj: any, prefix = ''): any =>
     Object.keys(obj).reduce((res: Record<string, any>, el: string) => {
-
       //? if it's an array, skip it
       if (Array.isArray(obj[el])) return res
 

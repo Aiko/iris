@@ -28,7 +28,7 @@ let engine: Engine;
 const init = async (config: IMAPConfig) => {
   console.log("Initializing Engine".magenta)
   engine = await Engine.init(config)
-  const marionette = await Marionette.build(engine)
+  const marionette = await Marionette.build(engine.API)
   engine.trigger.register(marionette.trigger)
   proc.send(JSON.stringify({
     wsport: marionette.port

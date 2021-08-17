@@ -6,9 +6,10 @@ import { Logger, LumberjackEmployer } from "./utils/logger";
 import sleep from "./utils/sleep";
 
 //? Mostly the core API
+//! FIXME: this will break stratify until we fix it
 export default class Engine {
 
-  readonly Log: Logger
+  private readonly Log: Logger
 
   constructor(
     public mailbox: Mailbox
@@ -75,6 +76,17 @@ export default class Engine {
   trigger = {
     register: this.mailbox.register,
     shoot: this.mailbox.trigger
+  }
+
+  API = {
+    reconnect: this.reconnect.bind(this),
+    close: this.close.bind(this),
+    sync: this.sync,
+    folders: this.folders,
+    resolve: this.resolve,
+    manage: this.manage,
+    contacts: this.contacts,
+    trigger: this.trigger
   }
 
   async close() {
