@@ -11,12 +11,13 @@ const DEFAULT_PORT = 41605
 
 export const unused_port = async (start_port=DEFAULT_PORT): Promise<number> => {
   const look_for_port = (port: number): Promise<number> => new Promise((s, _) => {
+    Log.log("Checking port", port)
     const serv = net.createServer()
     serv.listen(port, () => {
       Log.success("Port", port, "is open.")
       serv.once('close', () => s(port))
+      serv.close()
     })
-    serv.close()
     serv.on('error', _ => {
       Log.warn("Port", port, "did not allow binding. Continuing search.")
       //? We add 10 here because one Mailbox spawns multiple subprocesses for email, DB, etc
