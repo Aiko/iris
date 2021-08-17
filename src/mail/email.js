@@ -1,6 +1,6 @@
 const comms = require('../utils/comms.js')
 const { ipcMain } = require('electron')
-const Mouseion = require('../../../Mouseion/client')
+const { EightySix } = require('../../Mouseion/dist/client')
 const Client = require('emailjs-imap-client').default
 
 /**
@@ -12,7 +12,8 @@ const Client = require('emailjs-imap-client').default
 const engines = {}
 
 ipcMain.handle('please start up a new engine', async (_, q) => {
-  const { token, email } = q
+  const { token, config } = q
+  const email = config.user
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
   if (!client_secret) return { error: "Couldn't decode client secret" }
@@ -21,7 +22,7 @@ ipcMain.handle('please start up a new engine', async (_, q) => {
     return { s: comms['👉'](client_secret, { success: true, payload: engines[email] }) }
   }
   try {
-    const { port } = await Mouseion()
+    const { port } = await EightySix.init(config)
     engines[email] = port
     return { s: comms['👉'](client_secret, { success: true, payload: port }) }
   } catch (e) { return { error: e } }
