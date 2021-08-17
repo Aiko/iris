@@ -79,7 +79,7 @@ export class EightySix {
         scb(agent)
       }
 
-      const agent = new this(API, cb)
+      agent = new this(API, cb)
       await agent.proxy('init')(config)
       return agent
     })
