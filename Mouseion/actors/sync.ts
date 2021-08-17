@@ -24,13 +24,10 @@ export default class Sync {
   private readonly tailor: Tailor
   private readonly folders: Folders
   private readonly syncQ: Set<string> = new Set()
-  private readonly lock: Lock
-  private queuedSync: NodeJS.Timeout | null = null
 
   constructor(Registry: Register,
     private readonly AI_BATCH_SIZE: number,
     private readonly THREAD_BATCH_SIZE: number,
-    private readonly SYNC_INTERVAL: number=30*1000,
     private readonly SYNC_BATCH_SIZE: number=1
   ) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
@@ -43,7 +40,6 @@ export default class Sync {
     this.folders = Registry.get('Folders') as Folders
     this.queueForSync(this.folders.inbox())
     this.queueForSync(this.folders.sent())
-    this.lock = new Lock()
   }
 
   queueForSync(...folders: (string | null)[]) {
@@ -52,19 +48,7 @@ export default class Sync {
   }
 
   async syncAll() {
-    const _this = this
-    this.lock.acquire(async () => {
-      if (_this.queuedSync) {
-        clearTimeout(_this.queuedSync)
-        _this.queuedSync = null
-      }
-      try {
-        await do_in_batch([..._this.syncQ], _this.SYNC_BATCH_SIZE, _this.sync)
-      } catch(e) {
-        _this.Log.error(e)
-      }
-      _this.queuedSync = setTimeout(_this.syncAll, _this.SYNC_INTERVAL)
-    })
+    await do_in_batch([...this.syncQ], this.SYNC_BATCH_SIZE, this.sync)
   }
 
   private async sync_existing(folder: string): Promise<number> {

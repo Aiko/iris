@@ -14,6 +14,7 @@ import Operator from "../actors/operator";
 import BoardRulesQueue, { BoardRule } from "../queues/board-rules";
 import Resolver from "../actors/resolver";
 import Sync from "../actors/sync";
+import Lock from "../utils/promise-lock";
 
 type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 
@@ -28,10 +29,13 @@ export default class Mailbox {
   private readonly seamstress: Tailor
   private readonly pantheon: PantheonProxy
   private readonly folders: Folders
+  private readonly lock: Lock
+  private queuedSync: NodeJS.Timeout | null = null
 
   constructor(
     private readonly Registry: Register,
     private readonly Log: Logger,
+    private readonly SYNC_INTERVAL: number=30*1000,
   ) {
     this.courier = Registry.get("Courier") as PostOfficeProxy
     this.sync = Registry.get("Sync") as Sync
@@ -41,6 +45,7 @@ export default class Mailbox {
     this.seamstress = Registry.get("Seamstress") as Tailor
     this.pantheon = Registry.get("Pantheon") as PantheonProxy
     this.folders = Registry.get("Folders") as Folders
+    this.lock = new Lock()
   }
 
   static async load(config: IMAPConfig, AI_BATCH_SIZE=500, THREAD_BATCH_SIZE=100): Promise<Mailbox | null> {
@@ -180,18 +185,32 @@ export default class Mailbox {
   }
 
   async run() {
-    await this.courier.network.checkConnect()
-    this.trigger("sync-started")
+    const _this = this
+    this.lock.acquire(async () => {
+      if (_this.queuedSync) {
+        clearTimeout(_this.queuedSync)
+        _this.queuedSync = null
+      }
 
-    await this.sync.syncAll()
+      try {
+        await _this.courier.network.checkConnect()
+        _this.trigger("sync-started")
 
-    await this.contactsQ.consume()
-    await this.seamstress.phase_2()
-    await this.tailor.phase_2()
-    await this.boardrulesQ.consume()
-    await this.tailor.phase_3()
-    this.Log.success("Sync completed.")
-    this.trigger("sync-finished")
+        await _this.sync.syncAll()
+
+        await _this.contactsQ.consume()
+        await _this.seamstress.phase_2()
+        await _this.tailor.phase_2()
+        await _this.boardrulesQ.consume()
+        await _this.tailor.phase_3()
+        _this.Log.success("Sync completed.")
+        _this.trigger("sync-finished")
+      } catch(e) {
+        _this.Log.error(e)
+      }
+
+      _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)
+    })
   }
 
   async close() {
