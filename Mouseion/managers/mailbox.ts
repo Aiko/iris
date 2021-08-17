@@ -20,17 +20,17 @@ type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 
 export default class Mailbox {
 
-  private readonly courier: PostOfficeProxy
-  private readonly triggers: Trigger[] = []
-  private readonly sync: Sync
-  private readonly contactsQ: ContactsQueue
-  private readonly boardrulesQ: BoardRulesQueue
-  private readonly tailor: Tailor
+  readonly courier: PostOfficeProxy
+  readonly triggers: Trigger[] = []
+  readonly sync: Sync
+  readonly contactsQ: ContactsQueue
+  readonly boardrulesQ: BoardRulesQueue
+  readonly tailor: Tailor
   private readonly seamstress: Tailor
-  private readonly pantheon: PantheonProxy
-  private readonly folders: Folders
+  readonly pantheon: PantheonProxy
+  readonly folders: Folders
   private readonly lock: Lock
-  private queuedSync: NodeJS.Timeout | null = null
+  queuedSync: NodeJS.Timeout | null = null
 
   constructor(
     private readonly Registry: Register,
