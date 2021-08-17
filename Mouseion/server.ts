@@ -26,6 +26,7 @@ const perr = (id: string) => (msg: string): boolean => proc.send(JSON.stringify(
 let engine: Engine;
 
 const init = async (config: IMAPConfig) => {
+  console.log("Initializing Engine".magenta)
   engine = await Engine.init(config)
   const marionette = await Marionette.build(engine)
   engine.trigger.register(marionette.trigger)
