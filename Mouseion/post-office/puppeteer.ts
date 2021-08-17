@@ -58,7 +58,7 @@ const POFlagMessages = PO.flagMessages
 
 export class PostOfficeProxy {
   readonly Log: Logger
-  readonly API: ChildProcess
+  API: ChildProcess
 
   private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
   private readonly listeners: Record<string, SockPuppeteerListener> = {}
@@ -75,9 +75,7 @@ export class PostOfficeProxy {
     return id
   }
 
-  constructor(Registry: Register) {
-    const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
-    this.Log = Lumberjack('Post Office Proxy')
+  spawn() {
     this.API = fork(path.join(__dirname, 'puppet.js'), [], {
       stdio: ['pipe', 'pipe', 'pipe', 'ipc']
     })
@@ -98,6 +96,18 @@ export class PostOfficeProxy {
       if (listener) listener()
       cb(s)
     })
+    this.API.on('exit', (code) => {
+      this.Log.error("Post Office puppet exited with code", code)
+      setTimeout(this.spawn.bind(this), 2000)
+      // TODO: pause execution, reconnect to mailserver
+    })
+    return this.API
+  }
+
+  constructor(Registry: Register) {
+    const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
+    this.Log = Lumberjack('Post Office Proxy')
+    this.API = this.spawn()
     autoBind(this)
   }
 
