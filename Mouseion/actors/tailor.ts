@@ -45,7 +45,7 @@ export default class Tailor {
     this.Log = Lumberjack('Tailor')
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
-    this.courier = Registry.get('Post Office') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
     this.folders = Registry.get('Folders') as Folders
     const config = Registry.get('IMAP Config') as IMAPConfig
     this.provider = config.provider || ''

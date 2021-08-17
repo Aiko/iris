@@ -95,7 +95,8 @@ class MessageResolver {
     this.Log = Lumberjack('Resolver/Message')
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
-    this.courier = Registry.get('Post Office') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
+    autoBind(this)
   }
 
   async full(MID: MessageID): Promise<Resolved<EmailFull> | null> {
@@ -281,8 +282,9 @@ class ThreadResolver {
     this.Log = Lumberjack('Resolver/Thread')
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
-    this.courier = Registry.get('Post Office') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
     this.folders = Registry.get('Folders') as Folders
+    autoBind(this)
   }
 
   plan(need: MessageModel[], thread: ThreadModel): FetchPlan {
@@ -557,8 +559,9 @@ class MultiThreadResolver {
     this.Log = Lumberjack('Resolver/MultiThread')
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
-    this.courier = Registry.get('Post Office') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
     this.folders = Registry.get('Folders') as Folders
+    autoBind(this)
   }
 
   plan(need: MessageModel[], threads: ThreadModel[]): FetchPlan {

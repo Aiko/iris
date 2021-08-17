@@ -36,7 +36,7 @@ export default class Sync {
     this.meta = Registry.get('Metadata Storage') as Storage
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
-    this.courier = Registry.get('Post Office') as PostOfficeProxy
+    this.courier = Registry.get('Courier') as PostOfficeProxy
     this.tailor = Registry.get('Tailor') as Tailor
     this.folders = Registry.get('Folders') as Folders
     this.queueForSync(this.folders.inbox())
