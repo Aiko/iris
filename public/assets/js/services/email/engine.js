@@ -51,42 +51,67 @@ const Engine = port => {
     socket.send('please ' + JSON.stringify({ id, action, args }))
   })
 
+  /*
+
+  contacts = {
+    lookup: this.mailbox.pantheon.db.contacts.search
+  }
+  trigger = {
+    register: this.mailbox.register,
+    shoot: this.mailbox.trigger
+  }
+  */
+
   return {
     port,
     on: (event, cb) => (listeners[event] = cb),
-    init: async config => await proxy('init')(config).catch(console.error),
+    reconnect: async config => await proxy('reconnect')(config).catch(console.error),
     sync: {
       immediate: async () => await proxy('sync.immediate')().catch(console.error),
-      add: async (...paths) => await proxy('sync.add')().catch(console.error),
-      remove: async (...paths) => await proxy('sync.remove')().catch(console.error)
+      start: async () => await proxy('sync.start')().catch(console.error),
+      stop: async () => await proxy('sync.stop')().catch(console.error),
+      add: async (...paths) => await proxy('sync.add')(...paths).catch(console.error),
+      remove: async (...paths) => await proxy('sync.remove')(...paths).catch(console.error)
     },
     folders: {
-      get: async () => await proxy('folders.get')().catch(console.error),
+      state: async () => await proxy('folders.state')().catch(console.error),
+      sync: async () => await proxy('folders.sync')().catch(console.error),
       add: async path => await proxy('folders.add')(path).catch(console.error),
       remove: async path => await proxy('folders.remove')(path).catch(console.error),
-      fetch: async () => await proxy('folders.fetch')().catch(console.error)
+      boards: async () => await proxy('folders.get')().catch(console.error),
+      all: async () => await proxy('folders.get')().catch(console.error),
     },
-    api: {
-      get: {
-        single: async mid => await proxy('api.get.single')(mid).catch(console.error),
-        thread: async tid => await proxy('api.get.thread')(tid).catch(console.error),
-        threadb: async tid => await proxy('api.get.threadb')(tid).catch(console.error),
-        latest: async (folder, cursor, limit=5000, skip=0) => await proxy('api.get.latest')(folder, cursor, limit, skip).catch(console.error)
+    resolve: {
+      messages: {
+        full: async MID => await proxy('resolve.messages.full')(MID).catch(console.error),
+        content: async MID => await proxy('resolve.messages.content')(MID).catch(console.error),
+        headers: async MID => await proxy('resolve.messages.headers')(MID).catch(console.error),
+        envelope: async MID => await proxy('resolve.messages.envelope')(MID).catch(console.error),
       },
-      headers: {
-        star: async (folder, uid) => await proxy('api.headers.star')(folder, uid).catch(console.error),
-        unstar: async (folder, uid) => await proxy('api.headers.unstar')(folder, uid).catch(console.error),
-        read: async (folder, uid) => await proxy('api.headers.read')(folder, uid).catch(console.error),
-        unread: async (folder, uid) => await proxy('api.headers.unread')(folder, uid).catch(console.error),
+      thread: {
+        full: async TID => await proxy('resolve.thread.full')(TID).catch(console.error),
+        content: async TID => await proxy('resolve.thread.content')(TID).catch(console.error),
+        headers: async TID => await proxy('resolve.thread.headers')(TID).catch(console.error),
       },
-      manage: {
-        copy: async (src, srcUID, dest) => await proxy('api.manage.copy')(src, srcUID, dest).catch(console.error),
-        move: async (src, srcUID, dest) => await proxy('api.manage.move')(src, srcUID, dest).catch(console.error),
-        delete: async (folder, uid) => await proxy('api.manage.delete')(folder, uid).catch(console.error)
+      threads: {
+        latest: async (folder, minCursor, limit=5000) => await proxy('resolve.threads.latest')(folder, minCursor, limit).catch(console.error),
       }
+    },
+    manage: {
+      star: async (folder, uid) => await proxy('manage.star')(folder, uid).catch(console.error),
+      unstar: async (folder, uid) => await proxy('manage.unstar')(folder, uid).catch(console.error),
+      read: async (folder, uid) => await proxy('manage.read')(folder, uid).catch(console.error),
+      unread: async (folder, uid) => await proxy('manage.unread')(folder, uid).catch(console.error),
+      archive: async (folder, uid) => await proxy('manage.archive')(folder, uid).catch(console.error),
+      copy: async (srcFolder, srcUID, destFolder) => await proxy('manage.copy')(srcFolder, srcUID, destFolder).catch(console.error),
+      delete: async (folder, uid) => await proxy('manage.delete')(folder, uid).catch(console.error),
+      move: async (srcFolder, srcUID, destFolder) => await proxy('manage.move')(srcFolder, srcUID, destFolder).catch(console.error),
     },
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)
+    },
+    triggers: {
+      shoot: async event => await proxy('triggers.shoot')(event).catch(console.error)
     },
     close: async () => await proxy('close')().catch(console.error)
   }
