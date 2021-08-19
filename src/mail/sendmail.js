@@ -10,7 +10,7 @@ ipcMain.handle('please send an email', async (_, q) => {
     mail, // mail options
     user,
     pass,
-    xoauth2,
+    oauth,
     secure,
     host,
     port,
@@ -29,7 +29,7 @@ ipcMain.handle('please send an email', async (_, q) => {
       auth: {
         type: 'OAuth2',
         user,
-        accessToken: xoauth2
+        accessToken: oauth
       }
     }); break;
     case "microsoft": transporter = nodemailer.createTransport({
@@ -63,7 +63,7 @@ ipcMain.handle('please send an email', async (_, q) => {
 ipcMain.handle('please test SMTP connection', async (_, q) => {
   const {
     token,
-    user, pass, xoauth2,
+    user, pass, oauth,
     secure, host, port,
     provider
   } = q
@@ -75,7 +75,7 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
 
   let transporter;
 
-  console.log(xoauth2)
+  console.log(oauth)
   console.log(provider)
   switch(provider) {
     case "google": transporter = nodemailer.createTransport({
@@ -83,13 +83,13 @@ ipcMain.handle('please test SMTP connection', async (_, q) => {
       auth: {
         type: 'OAuth2',
         user,
-        accessToken: xoauth2
+        accessToken: oauth
       }
     }); break;
     case "outlook": transporter = nodemailer.createTransport({
       service: 'hotmail',
       auth: {
-        type: 'OAuth2', user, accessToken: xoauth2
+        type: 'OAuth2', user, accessToken: oauth
       }
     }); break;
     case "microsoft": transporter = nodemailer.createTransport({
