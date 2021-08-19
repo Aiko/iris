@@ -122,7 +122,7 @@ export default class PostOffice {
     //? register listeners
     const _this = this
     this.client.onupdate = function (path: string, type: string, value: any) {
-      _this.Log.log("Update received for", path, ":", type, "=", value)
+      _this.Log.shout("Update received for", path, ":", type, "=", value)
       if (type === 'exists') {
         if (path == "INBOX" && _this.trigger)
           _this.trigger("imap-exists")

@@ -27,7 +27,8 @@ type log_fn = (...msg: any[]) => void;
 export interface Logger {
   log: log_fn
   error: log_fn
-  success: log_fn
+  success: log_fn,
+  shout: log_fn,
   warn: log_fn
   time: log_fn
   timeEnd: log_fn
@@ -43,10 +44,11 @@ class UnemployedLumberjack implements Logger {
   private readonly _log = (prefix: string) => (..._: any[]) =>
     this.forest.logger(prefix, this.label, ..._)
 
-  log = this._log(Forest.prefixes.log)
-  error = this._log(Forest.prefixes.error)
-  success = this._log(Forest.prefixes.success)
-  warn = this._log(Forest.prefixes.warn)
+  log = this._log(Forest.prefixes.log).bind(this)
+  error = this._log(Forest.prefixes.error).bind(this)
+  shout = this._log(Forest.prefixes.shout).bind(this)
+  success = this._log(Forest.prefixes.success).bind(this)
+  warn = this._log(Forest.prefixes.warn).bind(this)
 
   //! Timing functions will not appear in logs (intentional)
   time = (..._: any[]) => console.time([Forest.prefixes.timer, this.label, ..._].join(' '))
@@ -63,6 +65,7 @@ export default class Forest {
   static readonly prefixes = {
     log:     '[  LOG  ]'.black.bgWhite,
     error:   '[ ERROR ]'.white.bgRed,
+    shout:   '[ SHOUT ]'.red.bgCyan,
     success: '[SUCCESS]'.green.bgBlack,
     warn:    '[ WARN! ]'.yellow.bgBlack,
     timer:   '[ TIMER ]'.red.bgWhite
@@ -102,6 +105,8 @@ export default class Forest {
     const identifier = Identifier(prefix, label)
     if (prefix == Forest.prefixes.error) {
       console.log(identifier, ...msg, new Error) //? dumps trace
+    } else if (prefix == Forest.prefixes.shout) {
+      console.log(identifier, ...(msg.map(m => m.toString().red.bgCyan)))
     } else {
       console.log(identifier, ...msg)
     }
