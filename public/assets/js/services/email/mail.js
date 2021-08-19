@@ -76,7 +76,7 @@ const mailapi = {
       port: 993,
       user: '',
       pass: '',
-      xoauth2: '',
+      oauth: '',
       secure: true,
       provider: 'other'
     },
@@ -192,8 +192,8 @@ const mailapi = {
     //! IPC Tasks
     ////////////////////////////////////////////!
     //? IPC task to create a new Mouseion engine
-    task_NewEngine (email) {
-      return this.ipcTask('please start up a new engine', {email,})
+    task_GetEngine (config, force=false) {
+      return this.ipcTask('please get or start the corresponding engine', {config, force})
     },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
@@ -241,6 +241,19 @@ const mailapi = {
     },
     //? Saves the IMAP configuration to persistent cache
     async saveIMAPConfig () {
+      //? Migration
+      if (this.imapConfig.xoauth2 && !(this.imapConfig.oauth)) {
+        this.imapConfig = {
+          email: this.imapConfig.email,
+          host: this.imapConfig.host,
+          port: 993,
+          user: this.imapConfig.user,
+          pass: this.imapConfig.pass,
+          oauth: this.imapConfig.xoauth2,
+          secure: this.imapConfig.secure,
+          provider: this.imapConfig.provider
+        }
+      }
       await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
     },
     //? Loads the IMAP configuration for an email from persistent cache
@@ -262,16 +275,18 @@ const mailapi = {
       * that way, trying to make an engine for an email address that exists
       * will allow us to delete the existing one (as a Mouseion thread)
     */
-    async getEngine() {
+    async getEngine(force=false) {
       //? if the engine exists, shut it down
       if (this.engine) {
-        await this.engine.close()
-        info(...MAILAPI_TAG, 'Shut down existing engine.')
-        this.engine = null
+        if (force) {
+          await this.engine.close()
+          info(...MAILAPI_TAG, 'Shut down existing engine.')
+          this.engine = null
+        } else return;
       }
 
       //? start new Mouseion instance, get port
-      const port = await this.callIPC(this.task_NewEngine(this.imapConfig.email))
+      const port = await this.callIPC(this.task_GetEngine(this.imapConfig))
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it
@@ -279,7 +294,7 @@ const mailapi = {
 
       await this.engine.init({
         ...(this.imapConfig),
-        oauth: this.imapConfig.xoauth2
+        oauth: this.imapConfig.oauth
       })
     },
     ////////////////////////////////////////////!
