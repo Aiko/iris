@@ -27,7 +27,7 @@ class Storage {
 
   //? Cleans a storage key by explicitly allowing only certain characters in the filename
   //! Known bug: if two different keys *clean* to the same key filepath, they will overlap
-  private static clean_key = (key: string): string => key.replace(/[^A-z0-9/\-_]/g, '')
+  private static clean_key = (key: string): string => key.replace(/[^A-z0-9/\-_]/g, '').substr(0, 69)
 
   //? Creates the correct filepath for a cleaned key, taking into account JSON settings
   private filepath = (key: string): string => `${this.dir}/${key}.${this.json ? 'json' : 'log'}`
