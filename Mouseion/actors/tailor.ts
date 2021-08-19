@@ -1,4 +1,5 @@
 //? Tailor is the threading system used by Mouseion.
+//* See RFC 5256: https://datatracker.ietf.org/doc/html/rfc5256
 
 //? Threading can be completed as a 3 phase process:
 //? Phase 1: Exhaustively find all previous messages in a thread using reply-to and references
@@ -27,6 +28,7 @@ export default class Tailor {
 
   private readonly Log: Logger
   private readonly pantheon: PantheonProxy
+  private readonly p1_seen: Set<string> = new Set()
   private readonly p2_queue: string[] = []
   private readonly p3_queue: string[] = []
   private readonly custodian: Custodian
@@ -42,7 +44,7 @@ export default class Tailor {
     internal_use: boolean
   }) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
-    this.Log = Lumberjack('Tailor')
+    this.Log = Lumberjack(opts.internal_use ? 'Seamstress' : 'Tailor')
     this.pantheon = Registry.get('Pantheon') as PantheonProxy
     this.custodian = Registry.get('Custodian') as Custodian
     this.courier = Registry.get('Courier') as PostOfficeProxy
@@ -56,17 +58,18 @@ export default class Tailor {
     autoBind(this)
   }
 
-  private async fetch_reference(referenceMID: MessageID, searchFolder: string): Promise<boolean> {
+  private async fetch_reference(referenceMID: MessageID, searchFolder: string, E: EmailWithReferences): Promise<boolean> {
     const janitor: Janitor = await this.custodian.get(searchFolder)
     const query = new SearchQuery()
     query.hasHeader('Message-ID', referenceMID)
-    const uids = await this.courier.messages.searchMessages(searchFolder, query)
+    const uids = await this.courier.messages.searchMessages(searchFolder, query.compile())
 
     let found = false
 
     //? Thread every UID found on the server
     for (const uid of uids) {
       if (uid == 0) continue; //? invalid UID
+      if (E.M.envelope.folder == searchFolder && E.M.envelope.uid == uid) continue; //? same UID
       const local_message = await this.pantheon.db.messages.find.uid(searchFolder, uid)
       if (local_message) continue; //? skip if we already have it
       const raw_email = (await this.courier.messages.listMessagesWithHeaders(searchFolder, '' + uid, {
@@ -77,7 +80,9 @@ export default class Tailor {
       const email = await janitor.headers(raw_email)
 
       //! this may have issues if not done in sequential order by date
-      await this.phase_1(email)
+      await this.phase_1(email, {
+        deepThreading: false //! Experimental, adherent still to RFC 5256
+      })
       found = true
     }
 
@@ -115,9 +120,10 @@ export default class Tailor {
       //? If we don't have the reference we need to fetch it from the remote
       //? We do this by searching prospective folders
       let found = false
+      if (email.M.envelope.mid == referenceMID) return existingTID
 
       const archive = this.folders.archive()
-      if (archive) found = await this.fetch_reference(referenceMID, archive)
+      if (archive) found = await this.fetch_reference(referenceMID, archive, email)
 
       //? GMail uses archive as All Mail, so there is no need to search anything other than that
       if (this.provider != 'google' && !found) {
@@ -128,13 +134,13 @@ export default class Tailor {
         //! 3. Trash
 
         const sent = this.folders.sent()
-        if (sent) found = await this.fetch_reference(referenceMID, sent)
+        if (sent) found = await this.fetch_reference(referenceMID, sent, email)
         if (!found) {
           const inbox = await this.folders.inbox()
-          if (inbox) found = await this.fetch_reference(referenceMID, inbox)
+          if (inbox) found = await this.fetch_reference(referenceMID, inbox, email)
           if (!found) {
             const trash = await this.folders.trash()
-            if (trash) found = await this.fetch_reference(referenceMID, trash)
+            if (trash) found = await this.fetch_reference(referenceMID, trash, email)
           }
         }
       }
@@ -159,7 +165,6 @@ export default class Tailor {
       this.Log.error("MID", email.M.envelope.mid, "does not meet the minimum parse level.")
       return null
     }
-
     const MID = email.M.envelope.mid
     const local_message = await this.pantheon.db.messages.find.mid(MID)
 
@@ -179,18 +184,25 @@ export default class Tailor {
       return local_message.tid
     }
 
+    if (this.p1_seen.has(MID)) return null;
+    this.p1_seen.add(MID)
+
     let TID = ''
 
     //? If deepThreading is enabled let's go through all the references
     if(deepThreading) {
+      this.Log.time("Threaded", MID, "with", email.M.references.length, "references")
       if (email.M.references.length > 0) {
         //? reverse to preserve oldest-first
         const referenceMIDs = email.M.references.slice().reverse()
-        for (const referenceMID of referenceMIDs) {
-          TID = await this.thread_reference(email, referenceMID, TID)
-        }
+        TID = (await Promise.all(
+          referenceMIDs.map(referenceMID => this.thread_reference(email, referenceMID, TID))
+        )).filter(_ => _)?.[0] || ''
+      } else {
+        // this.Log.log("MID", email.M.envelope.mid, "does not need threading.")
       }
       // TODO: subject threading
+      this.Log.timeEnd("Threaded", MID, "with", email.M.references.length, "references")
     }
 
     if (!TID) {
@@ -243,6 +255,7 @@ export default class Tailor {
   }
 
   async phase_2() {
+    this.Log.time("Phase 2")
     const mergedTIDs: Set<string> = new Set() //? wOW DynAMiC PRoGrAmmInG ?!
     while (this.p2_queue.length > 0) {
       const TID = this.p2_queue.pop()
@@ -284,9 +297,11 @@ export default class Tailor {
       }
 
     }
+    this.Log.timeEnd("Phase 2")
   }
 
   async phase_3() {
+    this.Log.time("Phase 3")
     const unitedTIDs: Set<string> = new Set()
     while (this.p3_queue.length > 0) {
       const TID = this.p3_queue.pop()
@@ -338,6 +353,7 @@ export default class Tailor {
 
       unitedTIDs.add(TID)
     }
+    this.Log.timeEnd("Phase 3")
   }
 
   unity(...tids: string[]) {
