@@ -33,6 +33,7 @@ export default class PostOffice {
     this.Log = l || {
       error: _ => _,
       success: _ => _,
+      shout: _ => _,
       log: _ => _,
       warn: _ => _,
       time: _ => _,
