@@ -11,20 +11,25 @@ const Client = require('emailjs-imap-client').default
 
 const engines = {}
 
-ipcMain.handle('please start up a new engine', async (_, q) => {
-  const { token, config } = q
+ipcMain.handle('please get or start the corresponding engine', async (_, q) => {
+  const { token, config, force } = q
   const email = config.user
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
   if (!client_secret) return { error: "Couldn't decode client secret" }
 
   if (engines[email]) {
-    return { s: comms['👉'](client_secret, { success: true, payload: engines[email] }) }
+    if (force) {
+      const agent = engines[email]
+      await agent.proxy('close')()
+      delete engines[email];
+    }
+    else return { s: comms['👉'](client_secret, { success: true, payload: engines[email] }) }
   }
   try {
-    const { port } = await EightySix.init(config)
-    engines[email] = port
-    return { s: comms['👉'](client_secret, { success: true, payload: port }) }
+    const agent = await EightySix.init(config)
+    engines[email] = agent
+    return { s: comms['👉'](client_secret, { success: true, payload: agent.port }) }
   } catch (e) { return { error: e } }
 })
 
@@ -35,6 +40,7 @@ ipcMain.handle('please test a connection', async (_, q) => {
     port,
     user,
     pass,
+    oauth,
     xoauth2,
     secure
   } = q
@@ -44,8 +50,8 @@ ipcMain.handle('please test a connection', async (_, q) => {
 
   const options = {
     logLevel: 40, // ERROR
-    auth: xoauth2 ? {
-      user, xoauth2
+    auth: (oauth || xoauth2) ? {
+      user, xoauth2: oauth || xoauth2
     } : {
       user, pass
     },
