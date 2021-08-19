@@ -211,6 +211,7 @@ export default class Mailbox {
         await _this.tailor.phase_2()
         await _this.boardrulesQ.consume()
         await _this.tailor.phase_3()
+        await _this.courier.folders.openFolder(_this.folders.inbox() || "INBOX")
         _this.Log.success("Sync completed.")
         _this.trigger("sync-finished")
       } catch(e) {
