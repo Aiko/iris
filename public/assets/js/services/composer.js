@@ -8,7 +8,7 @@ const composer = {
       port: 587,
       user: '',
       pass: '',
-      xoauth2: '',
+      oauth: '',
       secure: true,
       provider: 'other'
     },
