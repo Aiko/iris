@@ -30,36 +30,36 @@ export type Cursor = {
   cursor: number
 }
 
-const Cache = Pantheon.Cache.prototype
-const CacheEnvelopeCache = Cache.envelope.cache
-const CacheEnvelopeCheck = Cache.envelope.check
-const CacheHeadersCache = Cache.headers.cache
-const CacheHeadersCheck = Cache.headers.check
-const CacheContentCache = Cache.content.cache
-const CacheContentCheck = Cache.content.check
-const CacheFullCache = Cache.full.cache
-const CacheFullCheck = Cache.full.check
+const Cache = Pantheon.Cache.prototype || {}
+const CacheEnvelopeCache = Cache?.envelope?.cache
+const CacheEnvelopeCheck = Cache?.envelope?.check
+const CacheHeadersCache = Cache?.headers?.cache
+const CacheHeadersCheck = Cache?.headers?.check
+const CacheContentCache = Cache?.content?.cache
+const CacheContentCheck = Cache?.content?.check
+const CacheFullCache = Cache?.full?.cache
+const CacheFullCheck = Cache?.full?.check
 
-const DB = Pantheon.DB.prototype
-const DBGetCursor = DB.getCursor
-const DBNextCursor = DB.nextCursor
-const DBPrevCursor = DB.prevCursor
-const DBMessagesFindMID = DB.findMessageWithMID
-const DBMessagesFindUID = DB.findMessageWithUID
-const DBMessagesFindFolder = DB.findMessagesInFolder
-const DBMessagesFindSubject = DB.findMessagesWithSubject
-const DBMessagesAdd = DB.addMessage
-const DBMessagesUpdate = DB.updateMessage
-const DBMessagesPurgeAll = DB.removeMessage
-const DBMessagesPurgeLocation = DB.removeMessageLocation
-const DBThreadsFindTID = DB.findThreadWithTID
-const DBThreadsFindLatest = DB.findThreadsByLatest
-const DBThreadsFindFolder = DB.findThreadsInFolder
-const DBThreadsMerge = DB.mergeThreads
-const DBThreadsMessages = DB.threadMessages
-const DBContactsSearch = DB.findContacts
-const DBContactsUpdateReceived = DB.updateContactReceived
-const DBContactsUpdateSent = DB.updateContactSent
+const DB = Pantheon?.DB?.prototype || {}
+const DBGetCursor = DB?.getCursor
+const DBNextCursor = DB?.nextCursor
+const DBPrevCursor = DB?.prevCursor
+const DBMessagesFindMID = DB?.findMessageWithMID
+const DBMessagesFindUID = DB?.findMessageWithUID
+const DBMessagesFindFolder = DB?.findMessagesInFolder
+const DBMessagesFindSubject = DB?.findMessagesWithSubject
+const DBMessagesAdd = DB?.addMessage
+const DBMessagesUpdate = DB?.updateMessage
+const DBMessagesPurgeAll = DB?.removeMessage
+const DBMessagesPurgeLocation = DB?.removeMessageLocation
+const DBThreadsFindTID = DB?.findThreadWithTID
+const DBThreadsFindLatest = DB?.findThreadsByLatest
+const DBThreadsFindFolder = DB?.findThreadsInFolder
+const DBThreadsMerge = DB?.mergeThreads
+const DBThreadsMessages = DB?.threadMessages
+const DBContactsSearch = DB?.findContacts
+const DBContactsUpdateReceived = DB?.updateContactReceived
+const DBContactsUpdateSent = DB?.updateContactSent
 
 export class PantheonProxy {
   readonly Log: Logger

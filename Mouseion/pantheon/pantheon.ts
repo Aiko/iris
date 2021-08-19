@@ -36,6 +36,9 @@ export class Cache {
     this.dir = dir
     this.dir = this.path('cache')
 
+
+    process.title = "Mouseion - Pantheon: " + this.dir
+
     this.paths = {
       L1: this.path('L1'),
       L2: this.path('L2'),
@@ -149,7 +152,7 @@ export class DB {
     const location: MessageLocation = { folder, uid }
     const message = await Message.fromLocation(this, location)
     if (isDBError(message)) {
-      console.error(message.error)
+      if (!(message.dne)) console.error(message.error)
       return null
     }
     return message.clean()
@@ -598,7 +601,8 @@ class Message implements MessageModel {
       } }, (err, doc: MessageModel) => {
         if (err || !doc) {
           return s({
-            error: "A message with that location does not exist."
+            error: err?.message ?? "A message with that location does not exist.",
+            dne: !err
           })
         }
         const m = new Message(db, doc)
