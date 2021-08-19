@@ -107,8 +107,8 @@ export default class Forest {
     }
 
     //? remove color escape sequences and dump to log
-    const uncolored_msg: string = msg.map((m: string): string => JSON.stringify(m).stripColors).join(' ')
-    this.storage.append(this.id, `${identifier.stripColors} ${uncolored_msg}\n`)
+    const uncolored_msg: string = msg.map((m: string): string => JSON.stringify(m)?.stripColors).join(' ')
+    this.storage.append(this.id, `${identifier?.stripColors} ${uncolored_msg}\n`)
   }
 
   Lumberjack = (label: string): Logger => new UnemployedLumberjack(label, this)
