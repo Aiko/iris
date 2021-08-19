@@ -14,7 +14,7 @@ Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sent
 /// //////////////////////////////////////////////////////
 // Logger :)
 // TODO: upgrade to Aiko Lumberjack
-const Log = require('./src/js/utils/logger')
+const Log = require('./src/utils/logger')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -88,8 +88,8 @@ autoUpdater.setFeedURL({
 //! gmail uses self signed certs :(
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 Log.log("Building OAuth modules")
-const GOAuth = require('./src/js/oauth/goauth')
-const MSAuth = require('./src/js/oauth/msoauth')
+const GOAuth = require('./src/oauth/goauth')
+const MSAuth = require('./src/oauth/msoauth')
 
 Log.log('Setting up GOauth')
 GOAuth(
@@ -112,9 +112,9 @@ MSAuth(
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 Log.log('Setting up email engine IPC')
-const CarrierPigeon = require('./src/js/mail/email')
+const CarrierPigeon = require('./src/mail/email')
 Log.log('Setting up SMTP...')
-const Mailman = require('./src/js/mail/sendmail')
+const Mailman = require('./src/mail/sendmail')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -124,11 +124,11 @@ const Mailman = require('./src/js/mail/sendmail')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 Log.log('Setting up preferences IPC')
-const Prefs = require('./src/js/cache/prefs')('prefs.json')
+const Prefs = require('./src/cache/prefs')('prefs.json')
 Log.log('Loading preferences...')
 Prefs.set(Prefs.load())
 Log.log('Building cache...')
-const BigBoi = require('./src/js/cache/big-boi-cache')('cache')
+const BigBoi = require('./src/cache/big-boi-cache')('cache')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -140,11 +140,11 @@ const BigBoi = require('./src/js/cache/big-boi-cache')('cache')
 // Controls the windows of our app :)
 let win
 Log.log('Setting up window controls')
-const WindowManager = require('./src/js/utils/window')(win)
+const WindowManager = require('./src/utils/window')(win)
 
 // Components and side windows of our app
-const Composer = require('./src/js/components/composer')
-const Calendar = require('./src/js/components/calendar')
+const Composer = require('./src/components/composer')
+const Calendar = require('./src/components/calendar')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
