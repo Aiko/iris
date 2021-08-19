@@ -65,7 +65,7 @@ export default class PostOffice {
    * @param {boolean} s - whether or not the connection is secure
    */
   async connect({
-    host, port, user, pass, oauth, secure
+    host, port, user, pass, oauth, xoauth2, secure
   }: Partial<IMAPConfig> ={}) {
     if (this.connecting) {
       const try_time = 200
@@ -84,8 +84,9 @@ export default class PostOffice {
     this.host = host || this.host
     this.port = port || this.port
     this.user = user || this.user
+    process.title = "Mouseion - " + this.user + " - Post Office"
     this.pass = pass || this.pass
-    this.oauth = oauth || this.oauth
+    this.oauth = oauth || xoauth2 || this.oauth
     this.secure = secure || this.secure
 
     this.Log.log("Connecting to IMAP server...")
@@ -121,6 +122,7 @@ export default class PostOffice {
     //? register listeners
     const _this = this
     this.client.onupdate = function (path: string, type: string, value: any) {
+      _this.Log.log("Update received for", path, ":", type, "=", value)
       if (type === 'exists') {
         if (path == "INBOX" && _this.trigger)
           _this.trigger("imap-exists")
@@ -197,7 +199,7 @@ export default class PostOffice {
 
   async openFolder(path: string): Promise<FolderDetails> {
     if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
-    this.Log.log("Selecting mailbox", path)
+    // this.Log.log("Selecting mailbox", path)
     const details = await this.client.selectMailbox(path, {readOnly: false, condstore: true }).catch(this.Log.error) as FolderDetails
     return details
   }
@@ -259,7 +261,7 @@ export default class PostOffice {
     const options:any = { byUid: true }
     if (modseq) options.changedSince = modseq
 
-    this.Log.log("Fetching via IMAP...")
+    // this.Log.log("Fetching via IMAP...")
 
     let messages = await this.client.listMessages(
       path, sequence, query, options
@@ -271,7 +273,7 @@ export default class PostOffice {
 
     //? if the messages have a content key and we want to parse run mailparser
     if (content_key && parse) {
-      this.Log.log(path, "| Parsing", sequence)
+      this.Log.time(path, "| Parsed", sequence)
 
       const parsed_messages = await batchMap<any, EmailRaw>(messages, 500, async (message: any): Promise<EmailRaw> => {
         message.parsed = await simpleParser(message[content_key], {
@@ -301,7 +303,7 @@ export default class PostOffice {
         return JSON.parse(tmp) as EmailRaw
       })
 
-      this.Log.success(path, "| Parsed", sequence)
+      this.Log.timeEnd(path, "| Parsed", sequence)
       return parsed_messages as EmailRaw[]
     }
 
@@ -385,11 +387,11 @@ export default class PostOffice {
    * @param {SearchQuery} query - a SearchQuery object to compile into a search query
    * @returns a list of number UIDs that match the query
    */
-  async searchMessages(path: string, query: SearchQuery): Promise<number[]> {
+  async searchMessages(path: string, query: SearchQueryRaw): Promise<number[]> {
     if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
-    const q: SearchQueryRaw = query.compile()
-    this.Log.log("Searching", path, "with query", q)
-    await this.openFolder(path) //? for sanity's sake
+    const q: SearchQueryRaw = query
+    // this.Log.log("Searching", path, "with query", q)
+    // await this.openFolder(path) //? for sanity's sake
     const results:string[] | number[] = await this.client.search(path, q, {byUid: true})
     return results.map((x: string | number):number => +x)
   }

@@ -31,7 +31,7 @@ type PromisingMethod<ParamType extends any[], Return> = (...args: ParamType) => 
 type MethodProxy = <ParamType extends any[], ReturnPromise extends Promise<any>>
   (action: string, immediate?: boolean) => PromisingMethod<ParamType, ValueType<ReturnPromise>>;;
 
-const PO = PostOffice.prototype
+const PO = PostOffice.prototype || {}
 const POConnect = PO.connect
 const POClose = PO.close
 const POCheckConnect = PO.checkConnect
@@ -137,6 +137,7 @@ export class PostOfficeProxy {
       this.waiters[id] = cb
 
       if (!immediate) {
+        this.Log.log("Queued command.")
         this.queue.push({
           id, msg: 'please ' + JSON.stringify(instr)
         })

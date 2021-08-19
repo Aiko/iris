@@ -6,6 +6,7 @@ export interface IMAPConfig {
   user: string
   pass: string
   oauth: string
+  xoauth2?: string
   secure: boolean
   provider?: string
 }
