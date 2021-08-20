@@ -5,6 +5,7 @@ import Register from '../managers/register'
 import { LumberjackEmployer, Logger } from '../utils/logger'
 import PostOffice from './post-office'
 import autoBind from 'auto-bind'
+import { IMAPConfig } from './types'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,
@@ -64,6 +65,7 @@ export class PostOfficeProxy {
   private readonly listeners: Record<string, SockPuppeteerListener> = {}
   private readonly queue: ProcessMessage[] = []
   private trigger: Trigger | null = null
+  private exists: boolean = false
 
   private rotating: boolean = false
   get isRotating() { return this.rotating }
@@ -96,18 +98,23 @@ export class PostOfficeProxy {
       if (listener) listener()
       cb(s)
     })
+    const _this = this
     this.API.on('exit', (code) => {
-      this.Log.error("Post Office puppet exited with code", code)
-      setTimeout(this.spawn.bind(this), 2000)
-      // TODO: pause execution, reconnect to mailserver
+      _this.Log.error("Post Office puppet exited with code", code)
+      setTimeout(async() => {
+        await _this.spawn()
+        const config = await _this.Registry.get('IMAP Config') as IMAPConfig
+        await _this.network.connect(config)
+      }, 2000)
     })
     return this.API
   }
 
-  constructor(Registry: Register) {
+  constructor(private Registry: Register) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Post Office Proxy')
     this.API = this.spawn()
+    this.exists = true
     autoBind(this)
   }
 

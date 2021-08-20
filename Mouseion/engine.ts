@@ -28,8 +28,11 @@ export default class Engine {
     return new Engine(mailbox)
   }
 
-  //? Probably only password change and etc here
-  reconnect = this.mailbox.courier.network.connect
+  async reconnect(config: Partial<IMAPConfig>) {
+    await this.mailbox.updateConfig(config)
+    return await this.mailbox.courier.network.connect(config)
+  }
+
   sync = {
     immediate: this.mailbox.run,
     start: this.mailbox.run,

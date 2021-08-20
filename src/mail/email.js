@@ -10,6 +10,24 @@ const Client = require('emailjs-imap-client').default
 */
 
 const engines = {}
+const engineConfigs = {}
+
+ipcMain.handle('please update engine config', async (_, q) => {
+  const { token, config, force } = q
+  const email = config.user
+
+  let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
+  if (!client_secret) return { error: "Couldn't decode client secret" }
+  if (!engines[email]) return { error: "Engine does not exist." }
+
+  try {
+    const agent = engines[email]
+    await agent.proxy('reconnect')(config)
+    engineConfigs[email] = config
+    return { s: comms['👉'](client_secret, { success: true, payload: agent.port }) }
+  } catch (e) { return { error: e } }
+})
+
 
 ipcMain.handle('please get or start the corresponding engine', async (_, q) => {
   const { token, config, force } = q
@@ -29,6 +47,7 @@ ipcMain.handle('please get or start the corresponding engine', async (_, q) => {
   try {
     const agent = await EightySix.init(config)
     engines[email] = agent
+    engineConfigs[email] = config
     return { s: comms['👉'](client_secret, { success: true, payload: agent.port }) }
   } catch (e) { return { error: e } }
 })

@@ -178,11 +178,18 @@ export default class Mailbox {
     return mailbox
   }
 
+  updateConfig(config: Partial<IMAPConfig>) {
+    this.Registry.register("IMAP Config", config)
+  }
+
   trigger(event: string) {
     switch (event) {
       case "imap-exists":
         this.run()
         break;
+
+      case "courier-reconnect":
+
 
       default: this.triggers.map(trigger => trigger(event))
     }
