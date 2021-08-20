@@ -195,6 +195,9 @@ const mailapi = {
     task_GetEngine (config, force=false) {
       return this.ipcTask('please get or start the corresponding engine', {config, force})
     },
+    task_RestartEngine (config) {
+      return this.ipcTask('please update engine config', {config,})
+    },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
     ////////////////////////////////////////////!

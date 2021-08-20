@@ -13,7 +13,7 @@ const engines = {}
 const engineConfigs = {}
 
 ipcMain.handle('please update engine config', async (_, q) => {
-  const { token, config, force } = q
+  const { token, config } = q
   const email = config.user
 
   let client_secret; try { client_secret = await comms['👈'](token) } catch (e) { return { error: e } }
