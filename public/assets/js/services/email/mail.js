@@ -294,11 +294,6 @@ const mailapi = {
 
       //? set engine and initialize it
       this.engine = Engine(port)
-
-      await this.engine.init({
-        ...(this.imapConfig),
-        oauth: this.imapConfig.oauth
-      })
     },
     ////////////////////////////////////////////!
     //! Handlers & Sinks
