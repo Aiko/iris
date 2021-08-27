@@ -4,7 +4,8 @@
 <!-- TODO: Somehow autofocus fields like add board modal and invite etc -->
 <!-- TODO: Can we make date 'February 2' instead of 2/2 ? -->
 <!-- TODO: Maybe we implement a right click for some options like m ar as unread etc -->
-<!-- TODO: We can but we dont have to add .pre-delete for .3 second before deleting .email -->
+<!-- TODO: Add  .pre-delete  for .2 second before deleting .email , just a delete animation-->
+<!-- TODO: Add js to remove all bootstrap animations and to prevent board dropdowns from closing on click (call me)-->
 
 <!DOCTYPE html>
 <html>
@@ -427,32 +428,70 @@
           <!--!------------------------------------------------------------->
           <!-- ? Open Composer Button -->
           <!--!------------------------------------------------------------->
-          <a class="sbtn" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
+          <a class="sbtn compose-button" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
 
           <!--!------------------------------------------------------------->
           <!-- ? Email Folders -->
           <!--!------------------------------------------------------------->
-          <a class="active">
-            <img src="assets/icons/sidebar-home.svg">
-            <span>Home <span class="main-count">{{smartUnread}}</span></span>
+          <a class="active space-picker home">
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>Home <span class="main-count">{{smartUnread}}</span></span>
+            </div>
+
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>ASR</span>
+              <div class="dropdown custd">
+                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div class="dropdown-menu">
+                  <span>Rename</span>
+                  <span class="red">Delete</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space">
+              <img src="assets/icons/sidebar-home.svg">
+              <span>Cooley</span>
+              <div class="dropdown custd">
+                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div class="dropdown-menu">
+                  <span>Rename</span>
+                  <span class="red">Delete</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="space">
+              <img src="assets/icons/header-plus.svg">
+              <span>Add space</span>
+            </div>
+
           </a>
+
+
           <!-- TODO: Outbox only shows when there is actually an email being sent for more than 5 seconds -->
-          <a><img src="assets/icons/out.svg">
-            <span class="blue">Outbox</span>
+          <a>
+            <img src="assets/icons/out.svg" class="mt0">
+            <span class="blue">Outbox <span class="main-count">3</span></span>
           </a>
+
+
           <a>
             <img src="assets/icons/sidebar-send.svg" class="sent-fix">
             <span>Sent</span>
           </a>
           <a>
             <img src="assets/icons/sidebar-star.svg" class="off-star">
-            <span> Starred</span>
+            <span>Starred</span>
           </a>
           <a>
             <img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;">
-            <span>Spam</span>
+            <span>Spam <span class="main-count">4</span></span>
           </a>
+          <!-- TODO: only show drafts when there are drafts -->
           <a>
             <img src="assets/icons/sidebar-drafts.svg">
             <span>Drafts</span>
@@ -465,16 +504,14 @@
 
 
         <!--!------------------------------------------------------------->
-        <!-- ? Team Menu -->
+        <!-- ? Team Menu  TODO: ONLY SHOW THESE WHEN THERE IS AT LEAST 1 MORE TEAM MEMBER -->
         <!--!------------------------------------------------------------->
-        <div class="row">
+        <div class="row sr2" style="display: none;">
           <div class="search no-mobile sc">
             <img src="assets/icons/header-search.svg">
             <input type="" name="" placeholder="Search Team">
           </div>
-          <div style="height: 30px"></div>
           <div class="user-list">
-
             <a class="user" v-for="user in profile.team.team">
               <div class="user-in">
                 <img :src="user.member.avatar">
@@ -524,15 +561,15 @@
         <!--!------------------------------------------------------------->
         <!-- ? Sidebar Footer -->
         <!--!------------------------------------------------------------->
-        <div class="row bottom">
+        <div class="row bottom sr3">
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
             class="sidebar-collapse no-mobile">
             <img src="assets/icons/sidebar-collapse.svg">
           </div>
           <br>
           <div class="set">
-            <a href="settings.html"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a tooltip="Documentation" class="no-mobile sc" target="_blank"><img src="assets/icons/sidebar-help.svg"
+            <a href="settings.html" title="Settings"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
+            <a title="Documentation" class="no-mobile sc ml10" target="_blank"><img src="assets/icons/sidebar-help.svg"
                 width="30"></a>
           </div>
         </div>
@@ -648,7 +685,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? Open Calendar -->
               <!--!------------------------------------------------------------->
-              <a @click="openCalendar" class="inline">
+              <a @click="openCalendar" class="inline" title="Show calendar">
                 <img src="assets/icons/header-calendar.svg">
               </a>
 
@@ -656,7 +693,7 @@
               <!-- ? Notifications -->
               <!--!------------------------------------------------------------->
               <div class="dropdown inline">
-                <a data-toggle="dropdown">
+                <a data-toggle="dropdown" title="Smart notifications">
                   <img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
                   <span class="notif-count">3</span>
@@ -743,7 +780,7 @@
                   <!-- ? Board Actions -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                      <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
@@ -761,7 +798,7 @@
                   <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a tooltip="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
+                      <a title="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
                         <a class="dropdown-item" @click="sortThreads(true)">Date (newest)</a>
@@ -779,10 +816,10 @@
                   <!-- ? Force Sync (inbox only) -->
                   <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
-                    <a v-if="backendSyncing" tooltip="Force refresh">
+                    <a v-if="backendSyncing" title="Force refresh">
                       <img class="rotating" src="assets/icons/refresh.svg" width="17">
                     </a>
-                    <a v-if="!backendSyncing" @click="forceSync" tooltip="Force refresh">
+                    <a v-if="!backendSyncing" @click="forceSync" title="Force refresh">
                       <img src="assets/icons/refresh.svg" width="17">
                     </a>
                   </div>
@@ -799,7 +836,7 @@
                         'active': priority
                       }" @click="priority = true" inbox-direction="left">
                         Priority
-                        <div class="secondary-count" tooltip="Unread emails in your inbox">
+                        <div class="secondary-count" title="Unread emails in your inbox">
                           {{smartPriorityUnread}}
                         </div>
                       </h1>
@@ -916,15 +953,69 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a tooltip="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                          <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
                           <div class="dropdown-menu">
                             <h6 class="dropdown-header">Actions</h6>
                             <a class="dropdown-item">Mark all as read</a>
                             <a class="dropdown-item">Mark all as unread</a>
+
+                            <!-- POTENTIAL COLOR ADD
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item">Board rules</a>
+                            <h6 class="dropdown-header">Board Color</h6>
+                            <div class="radio-cont">
+                              <input class="aiko-check ac1" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac2" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac3" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac4" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac5" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac6" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                              <input class="aiko-check ac7" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
+                                aria-label="...">
+                            </div>
+                            -->
+                            <div class="dropdown-divider"></div>
+                            <a v-if="slug != 'Done'" class="dropdown-item">Rename
+                              board</a>
                             <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
                               board</a>
+                            <a class="dropdown-item space-change">
+                              Show in spaces:
+                              <div class="space-select">
+                                <!-- TODO: Make sure users HAVE to leave board checked in at least one space so it doesnt disappear in a limbo -->
+                                <span>
+                                  <div class="form-check">
+                                    <label class="switch">
+                                      <input type="checkbox">
+                                      <span class="slider round"></span>
+                                    </label>
+                                    <label class="form-check-label" for="flexCheckDefault"> Home</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label class="switch">
+                                      <input type="checkbox">
+                                      <span class="slider round"></span>
+                                    </label>
+                                    <label class="form-check-label" for="flexCheckDefault"> Cooley</label>
+                                  </div>
+                                  <div class="form-check">
+                                    <label class="switch">
+                                      <input type="checkbox">
+                                      <span class="slider round"></span>
+                                    </label>
+                                    <label class="form-check-label" for="flexCheckDefault"> PM Team</label>
+                                  </div>
+                                  <p>Boards need to show<br>
+                                    in at least one space</p>
+                                </span>
+                              </div>
+                            </a>
+
                           </div>
                         </div>
                       </div>
@@ -934,14 +1025,13 @@
                       <!-- ? Board Title (click to thin/thick) -->
                       <!--!------------------------------------------------------------->
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
-                        <h1 @click="board.thin = !board.thin" tooltip="Click title to minimize/maximize">
+                        <h1 @click="board.thin = !board.thin" title="Click title to minimize/maximize">
                           {{slug}}
                         </h1>
-                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count"
-                          tooltip="Unread emails in board">
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in board">
                           {{unread > 99 ? '99+' : unread}}
                         </div>
-                        <div v-if="slug == 'Done'" class="archive" tooltip="Trash entire board">
+                        <div v-if="slug == 'Done'" class="archive" title="Trash entire board">
                           <img src="assets/icons/sidebar-trash.svg">
                           Trash all
                         </div>
@@ -952,7 +1042,7 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 text-right cll">
                         <!-- ! Testing a UI without this -->
-                        <a v-if="false" class="board-drag-handle" tooltip="Drag board"><img
+                        <a v-if="false" class="board-drag-handle" title="Drag board"><img
                             src="assets/icons/board-dots2.svg"></a>
                       </div>
                     </div>
@@ -1601,7 +1691,7 @@
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
 
-          <div class="modal-reg">
+          <div class="modal-reg pb15">
             <img src="assets/icons/new-board.svg" width="40" style="margin-bottom: 5px;">
             <h1><b>Inbox</b> board rules</h1>
             <br>
@@ -1685,7 +1775,7 @@
                   <h2 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
                       aria-expanded="true" aria-controls="collapseOne">
-                      Add new rule
+                      Add new rules
                     </button>
                   </h2>
                 </div>
@@ -1729,9 +1819,6 @@
                 </div>
               </div>
             </div>
-            <p style="margin-top: 25px;margin-bottom: 0">You may add additional rules to other boards separately as
-              well.
-            </p>
           </div>
         </div>
       </div>
@@ -1781,16 +1868,18 @@
             <!--!------------------------------------------------------------->
             <!-- ? Thread indicators -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.emails.length > 1" src="assets/icons/thread.svg">
+            <img v-if="thread.emails.length > 1" src="assets/icons/thread.svg" title="Number of emails in this thread">
             <span class="thread-count" v-if="thread.emails.length > 1">{{thread.emails.length}}</span>
 
             <!--!------------------------------------------------------------->
             <!-- ? Email badges -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg">
-            <img v-if="thread.hasTrackers" src="assets/icons/badges-tracker.svg">
-            <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg">
-            <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg">
+            <img v-if="thread.hasAttachments" src="assets/icons/badges-attach.svg" title="This email has attachments">
+            <img v-if="thread.hasTrackers" src="assets/icons/badges-tracker.svg"
+              title="Tracker in this email successfully blocked">
+            <img v-if="quickaction == 'calendar_invite'" src="assets/icons/badges-event.svg"
+              title="This email contains an event">
+            <img v-if="thread.bcced" src="assets/icons/badges-bcc.svg" title="You were BCC'ed">
           </div>
 
           <!--!------------------------------------------------------------->
@@ -1857,7 +1946,7 @@
             <!-- ? Sync Indicator -->
             <!--!------------------------------------------------------------->
             <div v-if="thread.syncing" class="col-5 sync-message">
-              <a class="main-action ma1">
+              <a class="main-action ma1" title="Waiting for your email provider">
                 <img src="assets/icons/refresh.svg" class="rotating ml5"> Syncing
               </a>
             </div>
@@ -1867,8 +1956,8 @@
             <!--!------------------------------------------------------------->
             <div class="col-7 extra-actions cll2">
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
-              <a v-if="isRepliedTo" @click.stop.prevent="reply"><img src="assets/icons/options-replied.png"
-                  width="18"></a>
+              <a v-if="isRepliedTo" @click.stop.prevent="reply" title="You've replied to this email"><img
+                  src="assets/icons/options-replied.png" width="18"></a>
               <a v-else @click.stop.prevent="reply"><img src="assets/icons/options-reply.png" width="18"></a>
               <a @click.stop.prevent="replyAll"><img src="assets/icons/options-replya.png" width="18"></a>
               <a @click.stop.prevent="forward"><img src="assets/icons/options-forward.png" width="15"></a>
@@ -1883,18 +1972,31 @@
         </div>
 
         <!--!------------------------------------------------------------->
-        <!-- ? Quick Reply -->
+        <!-- ? Quick Actions -QUICK REPLY-->
         <!--!------------------------------------------------------------->
         <div :class="{
           'note': true,
           'hide': !showQuickReply,
           'dont-drag-this': true
         }">
-          <!-- TODO: make it so that when press enter in quick reply it sends rather than open email -->
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
             v-model="replyText" placeholder="Type a reply, press enter to send." autofocus>
           <a @click.stop="sendQuickReply"><img src="assets/icons/compose-send.svg" width="20"></a>
         </div>
+
+        <!--!------------------------------------------------------------->
+        <!-- ? Quick Actions - SCHEDULE-->
+        <!--!------------------------------------------------------------->
+        <div :class="{
+          'dpick': true,
+          'hide': true,
+          'dont-drag-this': true
+        }">
+          <input type="datetime-local" id="birthdaytime" name="birthdaytime">
+          <a @click.stop="sendQuickReply"><img src="assets/icons/calendar.svg" width="20"></a>
+        </div>
+
+
 
       </div>
 
@@ -2063,16 +2165,16 @@
           <div class="options">
             <div class="container">
               <div class="row">
-                <a @click.stop="reply" tooltip="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
-                <a @click.stop="replyAll" tooltip="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
-                <a @click.stop="forward" tooltip="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
-                <a tooltip="Star" @click.stop.prevent="starMessage" v-if="!(thread.starred)">
+                <a @click.stop="reply" title="Reply"><img src="assets/icons/options-reply.png" width="20"></a>
+                <a @click.stop="replyAll" title="Reply All"><img src="assets/icons/options-replya.png" width="20"></a>
+                <a @click.stop="forward" title="Forward"><img src="assets/icons/options-forward.png" width="20"></a>
+                <a title="Star" @click.stop.prevent="starMessage" v-if="!(thread.starred)">
                   <img src="assets/icons/options-star.svg" width="20">
                 </a>
-                <a tooltip="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
+                <a title="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
                   <img src="assets/icons/badges-star.svg" width="20">
                 </a>
-                <a tooltip="Trash" @click.stop.prevent="deleteMessage">
+                <a title="Trash" @click.stop.prevent="deleteMessage">
                   <img src="assets/icons/options-trash.svg" class="red" width="20"></a>
               </div>
             </div>
@@ -2090,7 +2192,7 @@
         <!-- ? Scheduler Mini-Tool -->
         <!--!------------------------------------------------------------->
         <div v-if="email.M.quick_actions.classification == 'scheduling'" class="scheduler">
-          <p tooltip="Click to change date and time">(new Date(email.M.quick_actions.start)).toNicerDateTime()</p>
+          <p title="Click to change date and time">(new Date(email.M.quick_actions.start)).toNicerDateTime()</p>
           <a>
             <img src="assets/icons/event-white.svg" width="20" />
             <span>Schedule</span>
@@ -2126,6 +2228,7 @@
         <div class="attachments" v-if="email.parsed.attachments.length > 0">
           <div class="attachment" v-for="attachment in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
+            <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
             <img src="assets/icons/music.svg">
             <div class="name">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
@@ -2199,6 +2302,7 @@
   <script src="assets/js/components/tour.js"></script>
   <!--? Entrypoint -->
   <script src="assets/js/main.js"></script>
+
 
 </body>
 

@@ -258,7 +258,7 @@ temporary rendered events).
   /* make the <a> tag block */
   font-size: .85em;
   line-height: 1.4;
-  border-radius: 3px;
+  border-radius: 5px;
   border: 1px solid #3788d8;
 }
 
@@ -422,7 +422,7 @@ temporary rendered events).
 /* resizer (touch devices) */
 .fc-h-event.fc-selected .fc-resizer {
   /* 8x8 little dot */
-  border-radius: 4px;
+  border-radius: 5px;
   border-width: 1px;
   width: 6px;
   height: 6px;
