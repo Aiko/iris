@@ -47,6 +47,7 @@
 					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span> Account</span></a>
 					<a href="#"><img src="assets/icons/image.svg"> <span> Appearance</span></a>
 					<a href="#"><img src="assets/icons/settings-team.svg"> <span> Team</span></a>
+					<a href="#"><img src="assets/icons/user-mail.svg"> <span> Unsubscribe</span></a>
 					<a href="#"><img src="assets/icons/settings-templates.svg"> <span> Templates</span></a>
 					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing <span
 								class="new-pill ml0">New</span></span>
@@ -231,10 +232,10 @@
 						<div class="col-8">
 							<p><b>Ruben Touitou </b> &lt;ruben@priansh.com&gt;</p>
 						</div>
-						<div class="col-2 text-right" tooltip="Admin toggle">
+						<div class="col-2 text-right" title="Admin toggle">
 							<label class="switch">
 								<input type="checkbox">
-								<span class="slider s-admin round"></span>
+								<span class="slider round"></span>
 							</label>
 							</select>
 						</div>
@@ -247,10 +248,10 @@
 						<div class="col-8">
 							<p><b>Priansh Touitou </b> &lt;priansh@priansh.com&gt;</p>
 						</div>
-						<div class="col-2 text-right" tooltip="Admin toggle">
+						<div class="col-2 text-right" title="Admin toggle">
 							<label class="switch">
-								<input type="checkbox" checked>
-								<span class="slider s-admin round"></span>
+								<input type="checkbox">
+								<span class="slider round"></span>
 							</label>
 							</select>
 						</div>
@@ -258,6 +259,36 @@
 							<p class="act red">Delete</p>
 						</div>
 					</div>
+				</div>
+				<div class="container" id="Unsubscribe" style="display: none;">
+					<h1>Unsubscribe</h1>
+					<br>
+					<h2>Current subscriptions</h2>
+					<div class="row">
+						<div class="col-9">
+							<p><b>Sub1 </b> &lt;Some text&gt;</p>
+						</div>
+						<div class="col-3 text-right">
+							<p class="act red">Unsubscribe</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-9">
+							<p><b>Sub2 </b> &lt;Some text&gt;</p>
+						</div>
+						<div class="col-3 text-right">
+							<p class="act red">Unsubscribe</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-9">
+							<p><b>Sub3 </b> &lt;Some text&gt;</p>
+						</div>
+						<div class="col-3 text-right">
+							<p class="act red">Unsubscribe</p>
+						</div>
+					</div>
+
 				</div>
 				<div class="container" id="Templates" style="display: none;">
 					<h1>Templates</h1>
@@ -268,8 +299,6 @@
 					<h1>Billing</h1>
 					<br>
 					<h2>Plans <Span style="font-size: 12px;">Cancel anytime, no commitment.</Span></h2>
-
-
 					<div class="plans">
 
 						<div class="plan active-p">
@@ -324,10 +353,9 @@
 					</div>
 
 					<p class="mw-300">Some legal jargon about plans here, i need to look this up, but if you sign up for a plan it
-						will
-						auto-renew until it is canc...</p>
+						will auto-renew until it is canc...</p>
 
-
+					<!-- TODO: Only show 'Save button when field edited' -->
 					<br><br>
 					<h2>Billing information</h2>
 					<div class="row">
@@ -394,7 +422,7 @@
 							<p><b>Trello</b>&nbsp;Description</p>
 						</div>
 						<div class="col-4 text-right">
-							<p class="act">Remove</p>
+							<p class="act red">Remove</p>
 						</div>
 					</div>
 					<div class="row">
