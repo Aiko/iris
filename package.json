@@ -40,9 +40,11 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "aiko_mail",
+            "name": "Aiko.Mail",
             "setupIcon": "./public/assets/img/icon.ico",
-            "loadingGif": "./public/assets/img/loading.gif"
+            "loadingGif": "./public/assets/img/loading.gif",
+            "noDelta": false,
+            "remoteReleases": "https://knidos.helloaiko.com"
           }
         },
         {
