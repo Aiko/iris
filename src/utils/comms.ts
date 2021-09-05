@@ -98,6 +98,18 @@ export default class SecureCommunications {
       }
     })
   }
+
+  static registerBasic(channel: string, cb: any) {
+    const _this = this
+    ipcMain.handle(channel, async (_, q) => {
+      try {
+        const payload = cb(q)
+        return { success: true, payload }
+      } catch (e) {
+        return { error: e }
+      }
+    })
+  }
 }
 
 ipcMain.handle("start new websocket server", async (_, q) => {
