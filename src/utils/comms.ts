@@ -85,10 +85,11 @@ export default class SecureCommunications {
       const { token } = q
 
       let client_secret: string;
-      try { client_secret = _this.verify(q) } catch (e) { return { error: e } }
+      try { client_secret = _this.verify(token) } catch (e) { return { error: e } }
       if (!client_secret) return { error: "Couldn't decode client secret." }
 
-      const payload = cb(q)
+      const payload = await cb(q)
+      if (payload?.error) return payload
 
       return {
         s: _this.sign(client_secret, {
@@ -100,10 +101,10 @@ export default class SecureCommunications {
   }
 
   static registerBasic(channel: string, cb: any) {
-    const _this = this
     ipcMain.handle(channel, async (_, q) => {
       try {
-        const payload = cb(q)
+        const payload = await cb(q)
+        if (payload?.error) return payload
         return { success: true, payload }
       } catch (e) {
         return { error: e }
