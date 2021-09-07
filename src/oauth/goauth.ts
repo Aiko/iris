@@ -19,7 +19,7 @@ export default class GOauth {
     private readonly clientSecret: string | undefined,
     private scopes: string[]
   ) {
-    this.comms = Registry.get("Inbox Communications") as SecureCommunications
+    this.comms = Registry.get("Communications") as SecureCommunications
 
     if (!scopes.includes("profile")) scopes.push("profile")
     if (!scopes.includes("email")) scopes.push("email")

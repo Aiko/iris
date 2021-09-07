@@ -15,7 +15,7 @@ export default class MSOauth {
     private readonly clientId: string,
     private readonly tenant: string
   ) {
-    this.comms = Registry.get("Inbox Communications") as SecureCommunications
+    this.comms = Registry.get("Communications") as SecureCommunications
 
     this.comms.register("please get microsoft oauth token", this.newToken)
     this.comms.register("please refresh microsoft oauth token", this.refreshToken)

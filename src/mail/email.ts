@@ -20,7 +20,7 @@ export default class Mailman {
   private engineConfigs: Record<string, Partial<IMAPConfig>> = {}
 
   constructor(Registry: Register) {
-    this.comms = Registry.get("Inbox Communications") as SecureCommunications
+    this.comms = Registry.get("Communications") as SecureCommunications
 
     this.comms.register("please update engine config", this.updateConfig)
     this.comms.register("please get or start the corresponding engine", this.getEngine)

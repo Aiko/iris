@@ -10,7 +10,7 @@ export default class Calendar {
   constructor(
     private readonly Registry: Register,
   ) {
-    this.comms = Registry.get("Inbox Communications") as SecureCommunications
+    this.comms = Registry.get("Communications") as SecureCommunications
 
     this.comms.register("please open the calendar", this.open)
 
