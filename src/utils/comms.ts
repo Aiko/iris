@@ -88,15 +88,19 @@ export default class SecureCommunications {
       try { client_secret = _this.verify(token) } catch (e) { return { error: e } }
       if (!client_secret) return { error: "Couldn't decode client secret." }
 
-      const payload = await cb(q)
-      if (payload?.error) return payload
-
-      return {
-        s: _this.sign(client_secret, {
-          success: true,
-          payload,
-        })
+      try {
+        const payload = await cb(q)
+        if (payload?.error) return payload
+        return {
+          s: _this.sign(client_secret, {
+            success: true,
+            payload,
+          })
+        }
+      } catch (e) {
+        return { error: e }
       }
+
     })
   }
 
