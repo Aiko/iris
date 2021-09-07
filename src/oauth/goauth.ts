@@ -16,7 +16,7 @@ export default class GOauth {
   constructor(
     Registry: Register,
     private readonly clientId: string,
-    private readonly clientSecret: string,
+    private readonly clientSecret: string | undefined,
     private scopes: string[]
   ) {
     this.comms = Registry.get("Inbox Communications") as SecureCommunications
