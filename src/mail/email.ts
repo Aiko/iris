@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind'
-import { EightySix } from '../../Mouseion/dist/client'
+import { EightySix } from '../../Mouseion/client'
 import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
 import SecureCommunications from '../utils/comms'
