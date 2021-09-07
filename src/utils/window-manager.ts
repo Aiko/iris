@@ -1,6 +1,7 @@
 import autoBind from 'auto-bind'
 import { ipcMain, shell, powerMonitor, BrowserWindow } from 'electron'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
+import Register from '../../Mouseion/managers/register'
 import SecureCommunications from './comms'
 
 export default class WindowManager {
@@ -8,11 +9,12 @@ export default class WindowManager {
   private readonly Log: Logger
 
   constructor(
-    Lumberjack: LumberjackEmployer,
+    Registry: Register,
     private win: BrowserWindow,
     private readonly hash='',
   ) {
     const _this = this
+    const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
     this.Log = Lumberjack("Window Manager #" + hash)
     this.handler("minimize window", () => _this.win.minimize())
     this.handler("maximize window", () => _this.win.maximize())
