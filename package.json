@@ -3,7 +3,7 @@
   "productName": "Aiko Mail",
   "version": "3.3.0",
   "description": "Aiko Mail - Email powered by AI",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -22,7 +22,13 @@
     "compile-M": "cd Mouseion && tsc",
     "clean-M": "rm -rf Mouseion/dist",
     "dry-M": "cd Mouseion; tsc; rm -rf dist",
-    "make-M": "rm -rf Mouseion/dist; cd Mouseion && tsc"
+    "make-M": "rm -rf Mouseion/dist; cd Mouseion && tsc",
+
+    "lint": "echo \"No linting configured\"",
+    "compile": "tsc",
+    "clean": "rm -rf dist",
+    "dry": "tsc; rm -rf dist",
+    "make-app": "rm -rf dist; tsc"
   },
   "keywords": ["email", "ai", "aiko"],
   "author": {
