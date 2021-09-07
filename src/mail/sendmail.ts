@@ -2,7 +2,7 @@ import nodemailer from "nodemailer"
 import inlineBase64 from 'nodemailer-plugin-inline-base64'
 import inlineCss from 'nodemailer-juice'
 import SecureCommunications from '../utils/comms'
-import Register from '../../Mouseion/dist/managers/register'
+import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
 import Mail from "nodemailer/lib/mailer"
 import autoBind from "auto-bind"
