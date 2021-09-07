@@ -1,4 +1,4 @@
-import { ipcMain, remote, BrowserWindow } from "electron"
+import { remote, BrowserWindow } from "electron"
 import URL from 'url'
 import request from 'request'
 import Register from "../../Mouseion/managers/register"

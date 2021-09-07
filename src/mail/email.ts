@@ -1,5 +1,4 @@
 import autoBind from 'auto-bind'
-import { ipcMain } from 'electron'
 import { EightySix } from '../../Mouseion/dist/client'
 import Register from '../../Mouseion/dist/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
