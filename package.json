@@ -7,7 +7,7 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make",
+    "make-forge": "electron-forge make",
     "publish": "electron-forge publish",
 
     "start-windows": "%APPDATA%\\npm\\electron-forge start",
@@ -18,19 +18,17 @@
     "enable-github": "export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
     "enable-github-windows": "set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
 
-    "lint-M": "echo \"No linting configured\"",
-    "compile-M": "cd Mouseion && tsc",
-    "clean-M": "rm -rf Mouseion/dist",
-    "dry-M": "cd Mouseion; tsc; rm -rf dist",
-    "make-M": "rm -rf Mouseion/dist; cd Mouseion && tsc",
-
     "lint": "echo \"No linting configured\"",
     "compile": "tsc",
     "clean": "rm -rf dist",
     "dry": "tsc; rm -rf dist",
-    "make-app": "rm -rf dist; tsc"
+    "make": "rm -rf dist; tsc"
   },
-  "keywords": ["email", "ai", "aiko"],
+  "keywords": [
+    "email",
+    "ai",
+    "aiko"
+  ],
   "author": {
     "name": "Mr. Seal 🦭",
     "email": "support@helloaiko.com"
@@ -124,7 +122,10 @@
     "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.54",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.54",
     "@electron-forge/publisher-github": "^6.0.0-beta.54",
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/nedb": "^1.8.12",
+    "@types/nodemailer": "^6.4.4",
+    "@types/request": "^2.48.7",
     "@types/ws": "^7.4.7",
     "electron": "^11.1.0"
   }
