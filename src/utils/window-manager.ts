@@ -78,4 +78,19 @@ export default class WindowManager {
     ipcMain.removeHandler(this.hash + ": please get fullscreen status")
     this.handler("get fullscreen status", () => updateFullscreenStatus(_this.fullscreened))
   }
+
+  static newWindow(args: Partial<Electron.BrowserWindowConstructorOptions>) {
+    return new BrowserWindow({
+      show: false,
+      frame: process.platform == 'darwin',
+      titleBarStyle: 'hidden',
+      backgroundColor: '#312f2e',
+      webPreferences: {
+        enableRemoteModule: true, //! FIXME: you know this is bad...
+        nodeIntegration: true, //! FIXME: migrate fully to websockets
+      },
+      icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png',
+      ...args
+    })
+  }
 }
