@@ -49,7 +49,7 @@ export default class MSOauth {
       //! this is intentional in MS APIs because the M in Microsoft stands for monke
       //! so we just get two codes by reloading the URL
       let emailCode: string;
-      const finish = (code: string) => {
+      const finish = (code: string | string[]) => {
         if (!emailCode) {
           const opts = {
             method: 'POST',
