@@ -17,7 +17,7 @@ const PREFIX = "[Aiko]"
 const DONE_SLUG = "Done"
 const TODO_SLUG = "To-Do"
 
-interface FolderState {
+export interface FolderState {
   names: string[]
   special: Record<SpecialFolder, string | null>
   tree: Record<string, FolderMetadata>

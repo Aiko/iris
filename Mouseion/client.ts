@@ -32,7 +32,7 @@ export class EightySix {
   private rotating: boolean = false
   get isRotating() { return this.rotating }
 
-  private port: number | null = null
+  public port: number | null = null
 
   //? in theory may never terminate
   private getID(): string {
@@ -86,7 +86,7 @@ export class EightySix {
   }
 
 
-  private proxy<ParamType extends any[], ReturnPromise extends Promise<any>>(action: string, immediate: boolean=true) {
+  public proxy<ParamType extends any[], ReturnPromise extends Promise<any>>(action: string, immediate: boolean=true) {
     type Return = ValueType<ReturnPromise>
     return (...args: ParamType): Promise<Return> => new Promise((s, _) => {
       const id = this.getID()

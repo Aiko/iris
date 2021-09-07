@@ -52,7 +52,10 @@ export default class Preferences {
   }
 
   private set(d: Partial<Settings>) {
-    Object.keys(d).map(k => this.settings[k] = d[k])
+    this.settings = {
+      ...this.settings,
+      ...d
+    }
     return this.save()
   }
 
@@ -68,6 +71,9 @@ export default class Preferences {
 
   static get defaultSettings(): Settings {
     return {
+
+      version: 1,
+
       auth: {
         authenticated: false,
         token: "",

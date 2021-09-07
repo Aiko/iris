@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer"
-import inlineBase64 from 'nodemailer-plugin-inline-base64'
-import inlineCss from 'nodemailer-juice'
+type NodeMailerPlugin = (args?: any) => Mail.PluginFunction<any>;
+const inlineBase64 = require('nodemailer-plugin-inline-base64') as NodeMailerPlugin
+const inlineCss = require('nodemailer-juice') as NodeMailerPlugin
 import SecureCommunications from '../utils/comms'
 import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'

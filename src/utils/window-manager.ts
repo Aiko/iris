@@ -26,8 +26,8 @@ export default class WindowManager {
     autoBind(this)
   }
 
-  private handler(action, cb) {
-    SecureCommunications.registerBasic(this.hash + ': please ' + action, _ => {
+  private handler(action: string, cb: any) {
+    SecureCommunications.registerBasic(this.hash + ': please ' + action, (_: any) => {
       cb()
       return true
     })

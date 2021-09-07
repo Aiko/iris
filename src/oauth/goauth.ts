@@ -69,7 +69,7 @@ export default class GOauth {
           win.close()
         }
 
-        const auth_code = parsed.query.code || parsed.query.approvalCode
+        const auth_code = <string> (parsed.query.code || parsed.query.approvalCode)
         if (auth_code) finish(auth_code)
       })
 
@@ -85,7 +85,7 @@ export default class GOauth {
         }
       })
 
-      const finish = code => _this.client.getToken(code).then(res => _this.client.setCredentials(res.tokens))
+      const finish = (code: string) => _this.client.getToken(code).then(res => _this.client.setCredentials(res.tokens))
     })
   }
 

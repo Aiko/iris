@@ -5,7 +5,7 @@ import autoBind from 'auto-bind'
 
 export default class Calendar {
   private readonly comms: SecureCommunications
-  private windowManager: WindowManager | null
+  private windowManager: WindowManager | null = null
 
   constructor(
     private readonly Registry: Register,

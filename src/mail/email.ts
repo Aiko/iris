@@ -17,7 +17,7 @@ export default class Mailman {
   private readonly comms: SecureCommunications
 
   private engines: Record<string, EightySix> = {}
-  private engineConfigs: Record<string, Partial<IMAPConfig>>
+  private engineConfigs: Record<string, Partial<IMAPConfig>> = {}
 
   constructor(Registry: Register) {
     this.comms = Registry.get("Inbox Communications") as SecureCommunications
@@ -40,8 +40,8 @@ export default class Mailman {
     return agent.port
   }
 
-  private async getEngine({config, force}: {config: Partial<IMAPConfig>, force?: boolean}) {
-    const email = config.user ?? ""
+  private async getEngine({config, force}: {config: IMAPConfig, force?: boolean}) {
+    const email = config.user
 
     if (force) {
       const agent = this.engines[email]
