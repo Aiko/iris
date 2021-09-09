@@ -45,9 +45,13 @@ export default class DwarfStar {
   reset() {
     fs2.ensureFileSync(this.fp)
     const s = fs2.readFileSync(this.fp, {encoding: "utf-8"})
-    if (!(s?.length > 0)) this.settings = DwarfStar.defaultSettings;
-    const d = JSON.parse(s)
-    if (isSettings(d)) this.settings = d
+    if (!(s?.length > 0)) {
+      this.settings = DwarfStar.defaultSettings
+    }
+    else {
+      const d = JSON.parse(s)
+      if (isSettings(d)) this.settings = d
+    }
     return this.save()
   }
 
