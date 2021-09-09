@@ -100,4 +100,4 @@ prefs.json
 cache/*
 
 # Compiled TS dist
-Mouseion/dist/*
+**/dist/*
