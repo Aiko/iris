@@ -146,11 +146,7 @@ dwarfStar.reset()
 //? Window controls for the main window
 Log.log("Initializing Window Manager.")
 
-const windowManager = new WindowManager(
-  Registry,
-  WindowManager.newWindow({}),
-  "INBOX"
-)
+const windowManager = new WindowManager(Registry, null, "INBOX")
 Registry.register("Window Manager", windowManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -228,9 +224,7 @@ const init = async () => {
   entry()
 
   SentinelAdblock.enableBlockingInSession(windowManager.window.webContents.session)
-  windowManager.window.on("closed", () => {
-    windowManager.window.close()
-  })
+  windowManager.window.on("closed", () => windowManager.close())
 }
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -250,7 +244,7 @@ app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-app.on("activate", () => windowManager.window.focus())
+app.on("activate", () => windowManager.focus())
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
