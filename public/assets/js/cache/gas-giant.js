@@ -1,6 +1,6 @@
-// storage for small things
+//? Storage for larger files
 
-const BigStorage = (() => {
+const GasGiant = (() => {
   const makeKey = k => 'aiko-mail/' + k
   const decoder = new TextDecoder()
 
