@@ -42,7 +42,7 @@ export default class DwarfStar {
     SecureCommunications.registerBasic("get preferences", this.copy)
   }
 
-  reset() {
+  reset(_: {}={}) {
     fs2.ensureFileSync(this.fp)
     const s = fs2.readFileSync(this.fp, {encoding: "utf-8"})
     if (!(s?.length > 0)) {
@@ -63,7 +63,7 @@ export default class DwarfStar {
     return this.save()
   }
 
-  private copy(_: {}) {
+  private copy(_: {}={}) {
     return JSON.parse(JSON.stringify(this.settings))
   }
 
