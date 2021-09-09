@@ -18,6 +18,7 @@ const Lumberjack = forest.Lumberjack
 Registry.register("Lumberjack", Lumberjack)
 const Log = Lumberjack("App")
 
+// TODO: cleanup
 import os from 'os'
 import { app, BrowserWindow, ipcMain } from 'electron'
 /// //////////////////////////////////////////////////////
@@ -29,8 +30,8 @@ import { app, BrowserWindow, ipcMain } from 'electron'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Communications
-
 import SecureCommunications from './utils/comms'
+
 const comms = await SecureCommunications.init()
 Registry.register("Communications", comms)
 /// //////////////////////////////////////////////////////
@@ -41,9 +42,9 @@ Registry.register("Communications", comms)
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
+//? Various "session" variables
 import child_process from 'child_process'
 
-//? Version identifier using commit
 let commit_hash: string, dev: boolean
 try {
   commit_hash = child_process
@@ -60,12 +61,7 @@ try {
 }
 Registry.register("commit hash", commit_hash)
 Registry.register("dev flag", dev)
-
-//? App Manager tool that handles updates
-import AppManager from './utils/app-manager'
-Log.log("Initializing App Manager.")
-const appManager = new AppManager(Registry, dev ? "Dev" : "Stable")
-Registry.register("App Manager", appManager)
+Registry.register("user agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0")
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -74,22 +70,24 @@ Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? OAuth modules handle servicing OAuth requests
+Log.log("Initializing OAuth modules.")
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import GOAuth from './oauth/google'
 import MSOAuth from './oauth/msft'
 
-Log.log("Initializing OAuth modules.")
-new GOAuth(
+const goauth = new GOAuth(
   Registry,
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
   undefined, //! no client secret: register it as an iOS app
   ['https://mail.google.com']
 )
-new MSOAuth(
+Registry.register("Google OAuth", goauth)
+const msoauth = new MSOAuth(
   Registry,
   '65b77461-4950-4abb-b571-ad129d9923a3',
   '8154fffe-1ce5-4712-aea5-077fdcd97b9c'
 )
+Registry.register("Microsoft OAuth", msoauth)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -102,6 +100,11 @@ new MSOAuth(
 Log.log("Building IMAP/SMTP modules.")
 import CarrierPigeon from './mail/smtp'
 import Mailman from './mail/imap'
+
+const carrierPigeon = new CarrierPigeon(Registry)
+Registry.register("Carrier Pigeon", carrierPigeon)
+const mailman = new Mailman(Registry)
+Registry.register("Mailman", mailman)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -112,10 +115,15 @@ import Mailman from './mail/imap'
 /// //////////////////////////////////////////////////////
 //? Caches, preferences, storage
 Log.log("Building cache modules.")
-const Prefs = require('./src/cache/prefs')('prefs.json')
-const BigBoi = require('./src/cache/big-boi-cache')('cache')
+import DwarfStar from './cache/dwarf-star'
+import GasGiant from './cache/gas-giant'
+
+const dwarfStar = new DwarfStar("dwarf-star.json")
+Registry.register("Dwarf Star", dwarfStar)
+const gasGiant = new GasGiant("gas-giant")
+Registry.register("Gas Giant", gasGiant)
 //? Load preferences
-Prefs.set(Prefs.load())
+dwarfStar.reset()
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -125,12 +133,46 @@ Prefs.set(Prefs.load())
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Window controls for the main window
-let win //! our main window tool
-const WindowManager = require('./src/utils/window-manager')(win)
+Log.log("Initializing Window Manager.")
+import WindowManager from './utils/window-manager'
 
-//? Components that spawn side windows receive their own window controls
-const ComposerManager = require('./src/components/composer')
-const Calendar = require('./src/components/calendar')
+const windowManager = new WindowManager(
+  Registry,
+  WindowManager.newWindow({}),
+  "INBOX"
+)
+Registry.register("Window Manager", windowManager)
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+
+
+
+
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+//? Other windows in component form
+Log.log("Initializing secondary components.")
+import Composer from './components/composer'
+import Calendar from './components/calendar'
+
+const composer = new Composer(Registry)
+Registry.register("Composer", composer)
+const calendar = new Calendar(Registry)
+Registry.register("Calendar", calendar)
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+
+
+
+
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+//? App Manager tool that handles updates
+Log.log("Initializing App Manager.")
+import AppManager from './utils/app-manager'
+
+const appManager = new AppManager(Registry, dev ? "Dev" : "Stable")
+Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -140,26 +182,22 @@ const Calendar = require('./src/components/calendar')
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Entry script for the main window
-const GLOBAL_DISABLE_AUTH=true
+const GLOBAL_DISABLE_AUTH=true //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
+
 const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
-  const signed_in = Prefs.data.authenticated
+  const signed_in = dwarfStar.settings.auth.authenticated
 
   if (signed_in || disable_auth) {
     Log.success("User is signed in, loading their inbox.")
     //! FIXME: before deployment, remove commit_hash from url below
-    win.loadURL(`file://${__dirname}/public/index.html#${commit_hash}`, {
-      //? have to pretend to be Chrome to pass OAuth
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0'
-    })
+    windowManager.loadURL(`file://${__dirname}/public/index.html#${commit_hash}`)
   } else {
     Log.warn("User is not signed in, loading the signin flow.")
-    win.loadURL("https://helloaiko.com/email/signin", {
-      userAgent: 'Aiko Mail'
-    })
+    windowManager.loadURL("https://helloaiko.com/email/signin")
   }
 }
 
-ipcMain.handle('reentry', () => entry())
+SecureCommunications.registerBasic('reentry', () => entry())
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -171,47 +209,36 @@ ipcMain.handle('reentry', () => entry())
 //? Initialization script for launching the main window
 
 //? Adblock to block email trackers
-const { ElectronBlocker } = require('@cliqz/adblocker-electron')
+import { ElectronBlocker } from '@cliqz/adblocker-electron'
 //? Fetch tooling for requests
-const fetch = require('cross-fetch')
+import fetch from 'cross-fetch'
 
 const init = async () => {
   const SentinelAdblock = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
 
-  win = new BrowserWindow({
-    show: false, //? don't show it until after we load window controls
-    frame: process.platform == 'darwin', //? frameless on windows
-    titleBarStyle: "hidden",
-    backgroundColor: "#312f2e", //? background for the app
-    webPreferences: {
-      enableRemoteModule: true, //! FIXME: you know this is bad...
-      nodeIntegration: true, //! FIXME: migrate fully to websockets
-    },
-    icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png'
-  })
-  WindowManager.setWindow(win)
-  win.maximize()
-  win.show()
-  win.focus()
+  windowManager.window = WindowManager.newWindow({})
+  windowManager.window.maximize()
+  windowManager.window.show()
+  windowManager.window.focus()
 
   entry()
 
-  SentinelAdblock.enableBlockingInSession(win.webContents.session)
-  win.on("closed", () => {
-    win = null
-    WindowManager.setWindow(null)
+  SentinelAdblock.enableBlockingInSession(windowManager.window.webContents.session)
+  windowManager.window.on("closed", () => {
+    windowManager.window.close()
   })
 }
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
 
-//! TODO: refactor below this line
 
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
+//? App Lifecycle Hooks
 app.allowRendererProcessReuse = false
+
 app.on("ready", init)
 
 app.on("window-all-closed", () => {
@@ -219,9 +246,7 @@ app.on("window-all-closed", () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-app.on("activate", () => {
-  if (win === null) init()
-})
+app.on("activate", () => windowManager.window.focus())
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -230,10 +255,17 @@ app.on("activate", () => {
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-module.exports = {
-  platform: process.platform
-}
+//? Finalize exports
+export const platform = process.platform
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
 
-if (!dev) AppManager.checkForUpdates()
+
+
+
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+//? Check for updates
+if (!dev) appManager.checkForUpdates()
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
