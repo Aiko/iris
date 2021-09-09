@@ -200,7 +200,11 @@ String.prototype.getDomain = function () {
   }
 }
 
-String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png', useJdenticon=false) {
+String.prototype.getAvatar = async function (
+  defaultTo='assets/img/avatar.png',
+  useBoringAvatars=true,
+  useJdenticon=false
+) {
   const email = this.toString()
 
   // look for gravatar first
@@ -226,10 +230,17 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png', 
     'live.com': 'assets/img/microsoft.png',
     'office365.com': 'assets/img/microsoft.png',
   }
-  const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
-  if (provider) {
-    //? mass mail providers should show jdenticon instead of generic logos :)
-    if (useJdenticon) {
+
+  const fallback = () => {
+    if (useBoringAvatars) {
+      try {
+        const svg = BoringAvatars.beam(email)
+        return SVG2PNG(svg)
+      } catch(e) {
+        return defaultTo
+      }
+    }
+    else if (useJdenticon) {
       try {
         const svg = jdenticon.toSvg(email, 200);
         return SVG2PNG(svg)
@@ -240,17 +251,18 @@ String.prototype.getAvatar = async function (defaultTo='assets/img/avatar.png', 
     // if (specialProviders[provider]) return specialProviders[provider]
     return defaultTo
   }
+
+  const provider = mailProviders.filter(provider => email.endsWith(provider))?.[0]
+  if (provider) {
+    //? mass mail providers should show jdenticon/boring avatars instead of generic logos :)
+    return fallback()
+  }
   // try asking clearbit if they know
   const u = 'https://logo.clearbit.com/' + email.split('@')[1]
   const s2 = await fetch(u)
   if (s2.status != 200) {
-    // still no? try jdenticon
-    try {
-      const svg = jdenticon.toSvg(email, 200);
-      return SVG2PNG(svg)
-    } catch(e) {
-      return defaultTo
-    }
+    // still no? try the fallback
+    return fallback()
   }
   return u
 }
