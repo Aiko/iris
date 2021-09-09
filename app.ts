@@ -1,26 +1,32 @@
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Imports
-import { ElectronBlocker } from '@cliqz/adblocker-electron'
-import Sentry from '@sentry/electron'
-import child_process from 'child_process'
-import fetch from 'cross-fetch'
-import { app } from 'electron'
+import * as Sentry from '@sentry/electron'
+//? We use Sentry for security.
+//! Sentry should be the first thing to load in the entire app.
+// TODO: should also track environment
+// TODO: bug reports, managed updates, etc. for electron
+Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
+import child_process from 'child_process'
+import { app } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
-import DwarfStar from './src/cache/dwarf-star'
-import GasGiant from './src/cache/gas-giant'
-import Calendar from './src/components/calendar'
-import Composer from './src/components/composer'
-import Mailman from './src/mail/imap'
-import CarrierPigeon from './src/mail/smtp'
-import GOAuth from './src/oauth/google'
-import MSOAuth from './src/oauth/msft'
-import AppManager from './src/utils/app-manager'
 import SecureCommunications from './src/utils/comms'
 import WindowManager from './src/utils/window-manager'
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+import DwarfStar from './src/cache/dwarf-star'
+import GasGiant from './src/cache/gas-giant'
+import GOAuth from './src/oauth/google'
+import MSOAuth from './src/oauth/msft'
+import Mailman from './src/mail/imap'
+import CarrierPigeon from './src/mail/smtp'
+import Composer from './src/components/composer'
+import Calendar from './src/components/calendar'
+import AppManager from './src/utils/app-manager'
+
+import { ElectronBlocker } from '@cliqz/adblocker-electron'
+import fetch from 'cross-fetch'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 ;;(async () => { //! Don't remove this -- async function to use await below
@@ -29,12 +35,6 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-//? We use Sentry for security.
-//! Sentry should be the first thing to load in the entire app.
-// TODO: should also track environment
-// TODO: bug reports, managed updates, etc. for electron
-Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
-
 //? Create our Registry for global state
 const Registry = new Register()
 
