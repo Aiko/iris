@@ -22,7 +22,7 @@ interface Settings {
 }
 const isSettings = (x: any):x is Settings => !!(x.version > 0)
 
-export default class Preferences {
+export default class DwarfStar {
 
   private readonly fp: string
   settings: Settings
@@ -35,7 +35,7 @@ export default class Preferences {
     }
     this.fp = fp
 
-    this.settings = Preferences.defaultSettings
+    this.settings = DwarfStar.defaultSettings
 
     SecureCommunications.registerBasic("save preferences", this.set)
     SecureCommunications.registerBasic("clear preferences", this.reset)
@@ -45,7 +45,7 @@ export default class Preferences {
   reset() {
     fs2.ensureFileSync(this.fp)
     const s = fs2.readFileSync(this.fp, {encoding: "utf-8"})
-    if (!(s?.length > 0)) this.settings = Preferences.defaultSettings;
+    if (!(s?.length > 0)) this.settings = DwarfStar.defaultSettings;
     const d = JSON.parse(s)
     if (isSettings(d)) this.settings = d
     return this.save()

@@ -4,7 +4,7 @@ import SecureCommunications from '../utils/comms'
 import path from 'path'
 import fs2 from 'fs-extra'
 
-export default class BigBoiCache {
+export default class GasGiant {
   private readonly storage: Storage
   private readonly dir: string
 
