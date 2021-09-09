@@ -224,7 +224,6 @@ const init = async () => {
   entry()
 
   SentinelAdblock.enableBlockingInSession(windowManager.window.webContents.session)
-  windowManager.window.on("closed", () => windowManager.close())
 }
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
