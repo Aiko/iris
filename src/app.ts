@@ -4,17 +4,22 @@
 //! Sentry should be the first thing to load in the entire app.
 // TODO: should also track environment
 // TODO: bug reports, managed updates, etc. for electron
-const Sentry = require('@sentry/electron')
+import Sentry from '@sentry/electron'
 Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
 
+//? Create our Registry for global state
+import Register from '../Mouseion/managers/register'
+const Registry = new Register()
+
 //? Spawn a new Forest to use for the Main process's logs
-const Forest = require('./Mouseion/dist/utils/logger').default
+import Forest from '../Mouseion/utils/logger'
 const forest = new Forest("logs-main-process")
 const Lumberjack = forest.Lumberjack
+Registry.register("Lumberjack", Lumberjack)
 const Log = Lumberjack("App")
 
-const os = require('os')
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+import os from 'os'
+import { app, BrowserWindow, ipcMain } from 'electron'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -23,10 +28,25 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
+//? Communications
+
+import SecureCommunications from './utils/comms'
+const comms = await SecureCommunications.init()
+Registry.register("Communications", comms)
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+
+
+
+
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+import child_process from 'child_process'
+
 //? Version identifier using commit
-let commit_hash, dev
+let commit_hash: string, dev: boolean
 try {
-  commit_hash = require('child_process')
+  commit_hash = child_process
                   .execSync("git rev-parse HEAD")
                   .toString()
                   .trim()
@@ -38,9 +58,14 @@ try {
   dev = false
   Log.log("Developer mode OFF. Performance will reflect production.")
 }
+Registry.register("commit hash", commit_hash)
+Registry.register("dev flag", dev)
 
 //? App Manager tool that handles updates
-const AppManager = require('./src/utils/app-management')(Lumberjack, dev ? "Dev" : "Stable")
+import AppManager from './utils/app-manager'
+Log.log("Initializing App Manager.")
+const appManager = new AppManager(Registry, dev ? "Dev" : "Stable")
+Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -50,17 +75,18 @@ const AppManager = require('./src/utils/app-management')(Lumberjack, dev ? "Dev"
 /// //////////////////////////////////////////////////////
 //? OAuth modules handle servicing OAuth requests
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
-Log.log("Building OAuth modules.")
-const GOAuth = require('./src/oauth/goauth')
-const MSOAuth = require('./src/oauth/msoauth')
+import GOAuth from './oauth/google'
+import MSOAuth from './oauth/msft'
 
 Log.log("Initializing OAuth modules.")
-GOAuth(
+new GOAuth(
+  Registry,
   '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
-  null, //! no client secret: register it as an iOS app
+  undefined, //! no client secret: register it as an iOS app
   ['https://mail.google.com']
 )
-MSOAuth(
+new MSOAuth(
+  Registry,
   '65b77461-4950-4abb-b571-ad129d9923a3',
   '8154fffe-1ce5-4712-aea5-077fdcd97b9c'
 )
@@ -74,8 +100,8 @@ MSOAuth(
 /// //////////////////////////////////////////////////////
 //? Email modules that enable IMAP/SMTP
 Log.log("Building IMAP/SMTP modules.")
-const CarrierPigeon = require('./src/mail/email')
-const Mailman = require('./src/mail/sendmail')
+import CarrierPigeon from './mail/smtp'
+import Mailman from './mail/imap'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -100,7 +126,7 @@ Prefs.set(Prefs.load())
 /// //////////////////////////////////////////////////////
 //? Window controls for the main window
 let win //! our main window tool
-const WindowManager = require('./src/utils/window')(win)
+const WindowManager = require('./src/utils/window-manager')(win)
 
 //? Components that spawn side windows receive their own window controls
 const ComposerManager = require('./src/components/composer')
