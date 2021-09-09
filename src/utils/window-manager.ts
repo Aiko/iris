@@ -10,18 +10,18 @@ export default class WindowManager {
 
   constructor(
     private readonly Registry: Register,
-    private win: BrowserWindow,
+    private win: BrowserWindow | null,
     private readonly hash='',
   ) {
     const _this = this
     const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
     this.Log = Lumberjack("Window Manager #" + hash)
-    this.handler("minimize window", () => _this.win.minimize())
-    this.handler("maximize window", () => _this.win.maximize())
-    this.handler("unmaximize window", () => _this.win.unmaximize())
-    this.handler("fullscreen window", () => _this.win.setFullScreen(true))
-    this.handler("close window", () => _this.win.close())
-    this.handler("hide window", () => _this.win.hide())
+    this.handler("minimize window", () => _this.minimize())
+    this.handler("maximize window", () => _this.maximize())
+    this.handler("unmaximize window", () => _this.unmaximize())
+    this.handler("fullscreen window", () => _this.setFullScreen(true))
+    this.handler("close window", () => _this.close())
+    this.handler("hide window", () => _this.hide())
 
     autoBind(this)
   }
@@ -33,16 +33,26 @@ export default class WindowManager {
     })
   }
 
-  set window(win: BrowserWindow) {
+  maximize() { if (this.win) this.win.maximize() }
+  unmaximize() { if (this.win) this.win.unmaximize() }
+  minimize() { if (this.win) this.win.minimize() }
+  setFullScreen(s: boolean) { if (this.win) this.win.setFullScreen(s) }
+  close() { if (this.win) this.win.close() }
+  hide() { if (this.win) this.win.hide() }
+  focus() { if (this.win) this.win.focus() }
+
+  set window(win: BrowserWindow | null) {
     this.win = win
     this.addListeners()
   }
 
   get window() {
+    if (!this.win) return null;
     return this.win
   }
 
   loadURL(url: string, args?: Electron.LoadURLOptions) {
+    if (!this.win) throw "Window has not been set. Cannot load URL."
     this.win.loadURL(url, {
       userAgent: this.Registry.get("user agent"),
       ...args
@@ -54,11 +64,15 @@ export default class WindowManager {
     const _this = this
 
     const updateFullscreenStatus = (status: boolean) => {
-      _this.win.webContents.send(_this.hash + ': please fullscreen status changed', status)
-      _this.fullscreened = status
+      if (_this.win) {
+        _this.win.webContents.send(_this.hash + ': please fullscreen status changed', status)
+        _this.fullscreened = status
+      }
     }
     const updateMaximizedStatus = (status: boolean) => {
-      _this.win.webContents.send(_this.hash + ': please maximized status changed', status)
+      if (_this.win) {
+        _this.win.webContents.send(_this.hash + ': please maximized status changed', status)
+      }
     }
 
     this.win.on("enter-full-screen", () => updateFullscreenStatus(true))
@@ -71,7 +85,7 @@ export default class WindowManager {
 
     powerMonitor.on("resume", () => {
       try {
-        _this.win.reload()
+        if (_this.win) _this.win.reload()
       } catch (e) {
         _this.Log.error(e)
       }
