@@ -24,9 +24,7 @@ export default class Composer {
     const windowManager = new WindowManager(this.Registry, win, 'composer-' + bang)
     windowManager.window = win
 
-    win.loadURL(`file://${__dirname}/../../public/compose.html#${bang}`, {
-      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0'
-    })
+    windowManager.loadURL(`file://${__dirname}/../../public/compose.html#${bang}`)
 
     win.show()
     win.focus()

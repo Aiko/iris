@@ -9,7 +9,7 @@ export default class WindowManager {
   private readonly Log: Logger
 
   constructor(
-    Registry: Register,
+    private readonly Registry: Register,
     private win: BrowserWindow,
     private readonly hash='',
   ) {
@@ -40,6 +40,13 @@ export default class WindowManager {
 
   get window() {
     return this.win
+  }
+
+  loadURL(url: string, args?: Electron.LoadURLOptions) {
+    this.win.loadURL(url, {
+      userAgent: this.Registry.get("user agent"),
+      ...args
+    })
   }
 
   private addListeners() {

@@ -14,7 +14,7 @@ export default class GOauth {
   private readonly client: OAuth2Client
 
   constructor(
-    Registry: Register,
+    private readonly Registry: Register,
     private readonly clientId: string,
     private readonly clientSecret: string | undefined,
     private scopes: string[]
@@ -54,7 +54,7 @@ export default class GOauth {
         login_hint,
       })
       win.loadURL(url, {
-        userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0"
+        userAgent: this.Registry.get("user agent") as string
       })
 
       win.on("closed", () => {
