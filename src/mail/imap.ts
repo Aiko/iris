@@ -48,16 +48,21 @@ export default class Mailman {
       if (agent) {
         try {
           await agent.proxy("close")()
+          console.log("Agent 86 has been disposed of.")
         } catch (_) { }
         delete this.engines[email]
       }
     }
 
-    if (this.engines[email]) return this.engines[email].port
+    if (this.engines[email]) {
+      console.log("Agent 86 is already in the field.")
+      return this.engines[email].port
+    }
 
     const agent = await EightySix.init(config)
     this.engines[email] = agent
     this.engineConfigs[email] = config
+    console.log("Agent 86 has been dispatched.")
     return agent.port
   }
 

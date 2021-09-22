@@ -285,7 +285,7 @@ const mailapi = {
     async getEngine(force=false) {
       //? start new Mouseion instance, get port
       //? if the engine exists, shut it down
-      const port = await this.callIPC(this.task_GetEngine(this.imapConfig, force=true))
+      const port = await this.callIPC(this.task_GetEngine(this.imapConfig, force=force))
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it
@@ -605,7 +605,7 @@ const mailapi = {
       this.syncing = true
       //? update folders
       this.folders = await this.engine.folders.state()
-      const boards = this.engine.folders.boards()
+      const boards = await this.engine.folders.boards()
       //? if a board no longer exists, delete it
       for (let i = 0; i < this.boards.length;) {
         const { name } = this.boards[i]

@@ -175,13 +175,13 @@ export default class Janitor {
     const e: EmailWithReferences = await this.references(email)
     const t0 = performance.now()
 
-    const html = email.parsed.html ?? email.parsed.text?.replace(/\\n/gim, '\n<br>')?.replace(/\n/gim, '\n<br>') ?? ''
-    const text = email.parsed.text ?? (HTML2Text.fromString(email.parsed.html ?? '', {
+    const html = email.parsed.html || email.parsed.text?.replace(/\\n/gim, '\n<br>')?.replace(/\n/gim, '\n<br>') || ''
+    const text = email.parsed.text || (HTML2Text.fromString(email.parsed.html ?? '', {
       wordwrap: false,
       hideLinkHrefIfSameAsText: true,
       ignoreImage: true,
       unorderedListItemPrefix: ' - '
-    }) as string)
+    }) as string) || ''
 
     //? remove quoted content, first using our shoddy regex then using Sift (which calls planer)
     const replyStarts = /On \w+ [0-9]+, [0-9]+, at [0-9]+:[0-9]+ \w+, \w+ <.*> wrote:/g.exec(text)
@@ -208,7 +208,7 @@ export default class Janitor {
 
   private async deepSubscription(email: EmailRaw): Promise<EmailWithContent> {
     const e: EmailWithContent = await this.content(email)
-    if (email.parsed.headers?.['list-unsubscribe'] || email.parsed.headers?.['list-id'] || e.parsed.html.match(
+    if (email.parsed.headers?.['list-unsubscribe'] || email.parsed.headers?.['list-id'] || (e.parsed.html || '').match(
       /unsubscribe|email ([^\.\?!]*)preferences|marketing preferences|opt( |-)*out|turn off([^\.\?!]*)email/gi
     )) {
       e.M.subscription.subscribed = true
