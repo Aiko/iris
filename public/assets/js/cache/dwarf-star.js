@@ -1,4 +1,4 @@
-//? Storage for larger files
+//? Storage for preferences/settings
 
 const DwarfStar = (() => {
 

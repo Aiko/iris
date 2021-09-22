@@ -1,13 +1,15 @@
-const MODALS_TAG = ['%c[MODALS API]', 'background-color: #ff7895; color: #000;']
+const FLOW_TAG = ['%c[FLOW API]', 'background-color: #ff7895; color: #000;']
 
-const modalmanager = {
+const flow_mgr = {
   data: {
-    addMailbox: false,
-    forceAddMailbox: false,
-    addBoard: false,
-    viewThread: null,
-    showDev: false,
-    regularView: false,
+    flow: {
+      addMailbox: false,
+      forceAddMailbox: false,
+      addBoard: false,
+      viewThread: null,
+      showDev: false,
+      regularView: false
+    },
   },
   watch: {
     forceAddMailbox (f, _) {
