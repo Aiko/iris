@@ -3,6 +3,7 @@ import { session } from 'electron'
 import SecureCommunications from '../utils/comms'
 import path from 'path'
 import fs2 from 'fs-extra'
+import autoBind from 'auto-bind'
 
 export default class GasGiant {
   private readonly storage: Storage
@@ -25,6 +26,8 @@ export default class GasGiant {
     SecureCommunications.registerBasic("pop cache", this.pop)
     SecureCommunications.registerBasic("kill cache", this.kill)
     SecureCommunications.registerBasic("clear all cache", this.clear)
+
+    autoBind(this)
   }
 
   private save({key, data}: {key: string, data: any}) {

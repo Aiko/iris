@@ -1134,7 +1134,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Add Board Button -->
           <!--!------------------------------------------------------------->
-          <div v-if="!flow.regularView" class="add-board" @click="addBoard = true" id="step3">
+          <div v-if="!flow.regularView" class="add-board" @click="flow.addBoard = true" id="step3">
             <img src="assets/icons/boards-add.svg">
           </div>
 
@@ -1490,7 +1490,7 @@
     </add-mailbox-modal>
 
     <!-- MODAL Add Board --------------------------------------->
-    <add-board-modal v-if="addBoard" inline-template>
+    <add-board-modal v-if="flow.addBoard" inline-template>
       <div class="aiko-modal addb" @click.self="close">
         <div class="modal-dialog modal-sm">
 
@@ -1519,7 +1519,7 @@
 
               <div v-if="name && validBoard" class="modal-bottom">
                 <!-- TODO: should automatically open the board rules modal for this board -->
-                <a @click="addBoard">Add</a>
+                <a @click="flow.addBoard">Add</a>
               </div>
 
               <div v-if="!name" class="modal-bottom">

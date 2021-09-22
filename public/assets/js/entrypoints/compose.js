@@ -32,7 +32,7 @@ const app = new Vue({
   mixins: [
     ipc, // IPC communication
     aikoapi, // Aiko API
-    windowManager, // window controls
+    window_mgr, // window controls
     composer, // SMTP API
     goauth, // Google OAuth
     msoauth, // Microsoft OAuth
@@ -95,7 +95,7 @@ const app = new Vue({
     await this.initWindowControls()
 
     // fetch preferences
-    DwarfStar.sync()
+    await DwarfStar.sync()
     const token = DwarfStar.settings.auth.token
 
     // try logging in
@@ -108,7 +108,7 @@ const app = new Vue({
       // FIXME: we can try relog with stored email/pass
       // if those fail then we can ask for relog
       DwarfStar.settings.auth.authenticated = false
-      DwarfStar.save()
+      await DwarfStar.save()
       await ipcRenderer.invoke('reentry')
       return
     }

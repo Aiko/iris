@@ -3,13 +3,13 @@ top.app = new Vue({
   mixins: [
     ipc, // IPC communication
     aikoapi, // Aiko API
-    windowManager, // window controls
+    window_mgr, // window controls
     mailapi, // IMAP API
     composer, // SMTP API
     goauth, // Google OAuth
     msoauth, // Microsoft OAuth
     oauth, // OAuth Provider
-    modalmanager, // Modals
+    flow_mgr, // Modals
     shortcuts, // Shortcuts
     calendar, // Calendar API
   ],
@@ -55,7 +55,7 @@ top.app = new Vue({
     await this.initWindowControls()
 
     // fetch preferences
-    DwarfStar.sync()
+    await DwarfStar.sync()
     const token = DwarfStar.settings.auth.token
     const firstTime = DwarfStar.settings.meta.firstTime
     this.firstTime = firstTime
@@ -63,7 +63,7 @@ top.app = new Vue({
       info(...(this.TAG), "This is the user's first open of the app.")
       this.tour = runTour()
       DwarfStar.settings.meta.firstTime = false
-      DwarfStar.save()
+      await DwarfStar.save()
     }
 
     // try logging in
@@ -76,7 +76,7 @@ top.app = new Vue({
       // FIXME: we can try relog with stored email/pass
       // if those fail then we can ask for relog
       DwarfStar.settings.auth.auth = false
-      DwarfStar.save()
+      await DwarfStar.save()
       await ipcRenderer.invoke('reentry')
       return
     }

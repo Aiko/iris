@@ -1,6 +1,6 @@
 const { platform } = remote.require('./app.js')
 
-const windowManager = {
+const window_mgr = {
   data: {
     windowPrefix: 'INBOX',
     isFullScreen: false,

@@ -1,6 +1,7 @@
 import path from 'path'
 import fs2 from 'fs-extra'
 import SecureCommunications from '../utils/comms'
+import autoBind from 'auto-bind'
 
 interface Settings {
 
@@ -40,6 +41,8 @@ export default class DwarfStar {
     SecureCommunications.registerBasic("save preferences", this.set)
     SecureCommunications.registerBasic("clear preferences", this.reset)
     SecureCommunications.registerBasic("get preferences", this.copy)
+
+    autoBind(this)
   }
 
   reset(_: {}={}) {

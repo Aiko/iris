@@ -121,7 +121,7 @@ const aikoapi = {
         }
         this.token = d.accessToken
         DwarfStar.settings.auth.token = token
-        DwarfStar.save()
+        await DwarfStar.save()
         success(...(AIKOAPI_TAG), 'Logged into account with email:', email)
         await this.fetchProfile()
         return this.token

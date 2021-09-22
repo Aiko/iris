@@ -18,7 +18,7 @@ const DwarfStar = (() => {
     }
   }
 
-  const save = () => {
+  const save = async () => {
     const { success, payload } = await app.executeIPC(
       app.ipcTask("save preferences", settings)
     )
@@ -29,7 +29,7 @@ const DwarfStar = (() => {
     return success
   }
 
-  const sync = () => {
+  const sync = async () => {
     const { success, payload } = await app.executeIPC(
       app.ipcTask("get preferences", {})
     )
@@ -40,7 +40,7 @@ const DwarfStar = (() => {
     return success
   }
 
-  const reset = () => {
+  const reset = async () => {
     const { success, payload } = await app.executeIPC(
       app.ipcTask("clear preferences", {})
     )
