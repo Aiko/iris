@@ -613,7 +613,7 @@ class MultiThreadResolver {
     return plan
   }
 
-  async latest(folder: string, minCursor: number, limit=5000): Promise<ResolvedThread<EmailFull>[] | null> {
+  async latest(folder: string, minCursor: number, limit=5000): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[]} | null> {
     const _threads = await this.pantheon.db.threads.find.latest(folder, { limit })
     if (!_threads) {
       this.Log.error(folder.blue, "| threads do not exist in our database.")
@@ -697,7 +697,7 @@ class MultiThreadResolver {
     }
 
     const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads)
-    return resolved
+    return {all: _threads, updated: resolved}
   }
 
 }
