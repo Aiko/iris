@@ -21,6 +21,7 @@ export default class SecureCommunications {
     this.port = port
 
     this.key = randomBytes(32).toString('hex')
+    console.log("New Secure Communications object created.")
     ipcMain.handle("key exchange", async (_, q): Promise<string> => {
       const { secret } = q as { secret: string }
       const token = sign({ token: secret }, this.key, { expiresIn: 60 * 60 * 24 * 7 })
@@ -85,7 +86,10 @@ export default class SecureCommunications {
       const { token } = q
 
       let client_secret: string;
-      try { client_secret = _this.verify(token) } catch (e) { return { error: e } }
+      try { client_secret = _this.verify(token) } catch (e) {
+        console.error(e)
+        return { error: e }
+      }
       if (!client_secret) return { error: "Couldn't decode client secret." }
 
       try {
@@ -118,6 +122,7 @@ export default class SecureCommunications {
 }
 
 ipcMain.handle("start new websocket server", async (_, q) => {
+  console.error("NEW SECURE COMMS???? WHY???")
   const comms = await SecureCommunications.init()
   return comms.port
 })

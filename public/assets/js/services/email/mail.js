@@ -370,14 +370,18 @@ const mailapi = {
         app.backendSyncing = true
       })
       this.engine.on('sync-finished', this.syncOp)
+      info(...MAILAPI_TAG, "Registered Listeners")
 
       //? reset the UI
       this.inbox = []
       this.boards = []
+      info(...MAILAPI_TAG, "Reset UI")
 
       //? create local boards
       this.folders = await this.engine.folders.state()
+      info(...MAILAPI_TAG, "Synced direct folder state:", this.folders)
       const boards = await this.engine.folders.boards()
+      info(...MAILAPI_TAG, "Fetched boards:", boards)
       boards.names.map(slug => {
         const path = boards.paths[slug]
         this.boards.push({
@@ -396,6 +400,7 @@ const mailapi = {
         const i = this.boards.indexOf(board)
         this.boards[i].thin = true
       })
+      info(...MAILAPI_TAG, "Computed Board Thiccness.")
 
       //? sort the local boards
       this.boardOrder = await Satellite.load(this.imapConfig.email + ':board-order') || []
@@ -411,6 +416,7 @@ const mailapi = {
       Vue.set(this, 'boards', tmp2_boards)
       this.boardOrder = this.boards.map(({ name }) => name)
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      info(...MAILAPI_TAG, "Sorted local boards.")
 
       //? sync client
       info(...MAILAPI_TAG, "Performing client sync.")

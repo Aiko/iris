@@ -168,7 +168,7 @@ export default class Mailbox {
     Log.success("Instantiated Sync")
     sync.queueForSync(folders.inbox())
     sync.queueForSync(folders.sent())
-    sync.queueForSync(...folders.boards())
+    sync.queueForSync(...folders.boardPaths())
 
     const mailbox = new this(Registry, Log)
     Registry.register("Mailbox", mailbox)

@@ -46,7 +46,9 @@ export default class Mailman {
     if (force) {
       const agent = this.engines[email]
       if (agent) {
-        await agent.proxy("close")()
+        try {
+          await agent.proxy("close")()
+        } catch (_) { }
         delete this.engines[email]
       }
     }

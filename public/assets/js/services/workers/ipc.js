@@ -182,7 +182,7 @@ const ipc = {
             if (results.length == 1) s(results[0])
             else s(results)
           } catch (error) {
-            window.error(error)
+            window.error(error, new Error("encountered on channel: " + channel))
             s({ error })
           }
           this.ipcProcessed += 1

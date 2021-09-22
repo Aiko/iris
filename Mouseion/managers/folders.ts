@@ -22,8 +22,8 @@ export interface FolderState {
   special: Record<SpecialFolder, string | null>
   tree: Record<string, FolderMetadata>
   boards: {
-      names: string[]
-      paths: Record<string, string>
+    names: string[]
+    paths: Record<string, string>
   }
 }
 
@@ -50,6 +50,7 @@ export default class Folders {
   }
 
   get state(): FolderState {
+    this.Log.warn("Reading folder state directly is not recommended.")
     return this._state
   }
 
@@ -231,9 +232,8 @@ export default class Folders {
   all() {
     return this._state.names
   }
-  boards() {
-    return Object.values(this._state.boards.paths)
-  }
+  boards() { return this._state.boards }
+  boardPaths() { return Object.values(this._state.boards.paths) }
 
   readonly prefix = PREFIX
   readonly done = PREFIX + '/' + DONE_SLUG

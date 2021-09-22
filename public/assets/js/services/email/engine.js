@@ -78,8 +78,8 @@ const Engine = port => {
       sync: async () => await proxy('folders.sync')().catch(console.error),
       add: async path => await proxy('folders.add')(path).catch(console.error),
       remove: async path => await proxy('folders.remove')(path).catch(console.error),
-      boards: async () => await proxy('folders.get')().catch(console.error),
-      all: async () => await proxy('folders.get')().catch(console.error),
+      boards: async () => await proxy('folders.boards')().catch(console.error),
+      all: async () => await proxy('folders.all')().catch(console.error),
     },
     resolve: {
       messages: {

@@ -82,8 +82,9 @@ proc.on('message', async (m: string): Promise<any> => {
       case 'init': return await attempt(init)
       case 'sync.start': return await attempt(engine.sync.start)
       case 'reconnect': return await attempt(engine.reconnect)
+      case 'close': return await attempt(engine.close)
 
-      default: return error("Action provided to Marionette does not match any existing binding.")
+      default: return error("Action provided to Marionette does not match any existing binding: " + action)
     }
 
   } catch (e) {
