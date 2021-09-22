@@ -44,7 +44,7 @@ top.app = new Vue({
     this.hash = window.location.hash
 
     info(...(this.TAG), 'Initializing cache')
-    await SmallStorage.load('random')
+    await Satellite.load('random')
 
     // setup IPC
     info(...(this.TAG), 'Initializing IPC')
@@ -112,7 +112,7 @@ top.app = new Vue({
       else {
         if (emails) await BigStorage.kill()
         if (prefs) await ipcRenderer.invoke('clear preferences')
-        if (chrome) await SmallStorage.kill()
+        if (chrome) await Satellite.kill()
       }
       if (!prefs) window.location.reload()
       else await ipcRenderer.invoke('reentry')

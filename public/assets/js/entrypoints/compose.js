@@ -82,7 +82,7 @@ const app = new Vue({
     this.bang = 'composer-' + window.location.hash.substr(1)
 
     info(...(this.TAG), 'Initializing cache')
-    await SmallStorage.load('random')
+    await Satellite.load('random')
 
     // setup IPC
     info(...(this.TAG), 'Initializing IPC')

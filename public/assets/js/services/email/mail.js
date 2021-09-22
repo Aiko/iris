@@ -198,6 +198,9 @@ const mailapi = {
     task_RestartEngine (config) {
       return this.ipcTask('please update engine config', {config,})
     },
+    task_TestEngine (config) {
+      return this.ipcTask('please test a connection', {config,})
+    },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
     ////////////////////////////////////////////!
@@ -205,12 +208,13 @@ const mailapi = {
     //? Loads IMAP configuration
     //? Loads OAuth configuration & checks tokens
     async initIMAP () {
+
       info(...MAILAPI_TAG, 'Loading address cache...')
-      this.mailboxes = (await SmallStorage.load('mailboxes')) || []
+      this.mailboxes = (await Satellite.load('mailboxes')) || []
 
       //? determine what to use as our opened mailbox or force addition otherwise
       info(...MAILAPI_TAG, 'Loading previously selected mailbox')
-      let currentEmail = await SmallStorage.load('current-mailbox')
+      let currentEmail = await Satellite.load('current-mailbox')
       if (!currentEmail) {
         warn(...MAILAPI_TAG, 'There is no current email.')
         if (this.mailboxes.filter(_ => _).length > 0) {
@@ -257,11 +261,11 @@ const mailapi = {
           provider: this.imapConfig.provider
         }
       }
-      await SmallStorage.store(this.imapConfig.email + '/imap-config', this.imapConfig)
+      await Satellite.store(this.imapConfig.email + '/imap-config', this.imapConfig)
     },
     //? Loads the IMAP configuration for an email from persistent cache
     async loadIMAPConfig (email) {
-      this.imapConfig = await SmallStorage.load(email + '/imap-config')
+      this.imapConfig = await Satellite.load(email + '/imap-config')
     },
     ////////////////////////////////////////////!
     //! Engine Control
@@ -279,17 +283,9 @@ const mailapi = {
       * will allow us to delete the existing one (as a Mouseion thread)
     */
     async getEngine(force=false) {
-      //? if the engine exists, shut it down
-      if (this.engine) {
-        if (force) {
-          await this.engine.close()
-          info(...MAILAPI_TAG, 'Shut down existing engine.')
-          this.engine = null
-        } else return;
-      }
-
       //? start new Mouseion instance, get port
-      const port = await this.callIPC(this.task_GetEngine(this.imapConfig))
+      //? if the engine exists, shut it down
+      const port = await this.callIPC(this.task_GetEngine(this.imapConfig, force=true))
       info(...MAILAPI_TAG, 'Started a new engine on port', port)
 
       //? set engine and initialize it
@@ -341,13 +337,13 @@ const mailapi = {
       //? add it to mailboxes if it's not already there
       if (!this.mailboxes.includes(this.imapConfig.email)) {
         this.mailboxes.push(this.imapConfig.email)
-        await SmallStorage.store('mailboxes', this.mailboxes)
+        await Satellite.store('mailboxes', this.mailboxes)
       }
 
       //? set it as the current mailbox
       this.currentMailbox = this.imapConfig.email
       this.avatar = await this.currentMailbox.getAvatar()
-      await SmallStorage.store('current-mailbox', this.imapConfig.email)
+      await Satellite.store('current-mailbox', this.imapConfig.email)
 
       //? save IMAP/SMTP configurations as an extra measure
       //? in case this is being called on a new mailserver
@@ -380,9 +376,10 @@ const mailapi = {
       this.boards = []
 
       //? create local boards
-      this.folders = await this.engine.folders.get()
-      Object.keys(this.folders.aiko).map(slug => {
-        const path = this.folders.aiko[slug]
+      this.folders = await this.engine.folders.state()
+      const boards = await this.engine.folders.boards()
+      boards.names.map(slug => {
+        const path = boards.paths[slug]
         this.boards.push({
           name: slug,
           thin: false,
@@ -392,7 +389,7 @@ const mailapi = {
       })
 
       //? restore thinness to boards
-      this.boardThiccness = await SmallStorage.load(this.imapConfig.email + ':board-thiccness') || []
+      this.boardThiccness = await Satellite.load(this.imapConfig.email + ':board-thiccness') || []
       this.boardThiccness.map(slug => {
         const board = this.boards.filter(({ name }) => name == slug)?.[0]
         if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
@@ -401,7 +398,7 @@ const mailapi = {
       })
 
       //? sort the local boards
-      this.boardOrder = await SmallStorage.load(this.imapConfig.email + ':board-order') || []
+      this.boardOrder = await Satellite.load(this.imapConfig.email + ':board-order') || []
       const tmp_boards = JSON.parse(JSON.stringify(this.boards))
       const tmp2_boards = []
       this.boardOrder.map(slug => {
@@ -413,7 +410,7 @@ const mailapi = {
       tmp2_boards.push(...tmp_boards)
       Vue.set(this, 'boards', tmp2_boards)
       this.boardOrder = this.boards.map(({ name }) => name)
-      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
 
       //? sync client
       info(...MAILAPI_TAG, "Performing client sync.")
@@ -466,7 +463,7 @@ const mailapi = {
       if (reset) {
         thread.dragging = false
         thread.syncing = false
-        thread.originFolder = thread.aikoFolder
+        thread.originFolder = thread.folder
         //? compute priority
         thread.priority = (() => {
           for (const email of thread.emails) {
@@ -500,7 +497,7 @@ const mailapi = {
           people.push(...(email.M.envelope.bcc))
           people.push(...(email.M.envelope.to))
           //? we try to detect a forwarding address
-          let forwardAddress = (() => {
+          const forwardAddress = (() => {
             //? if we weren't the sender
             if (email.M.envelope.from.address == this.currentMailbox) return null;
             //? ok but if we were the sender
@@ -535,7 +532,7 @@ const mailapi = {
                 return address;
             }
             return null;
-          })()
+          })();;
           const others = people.filter(({ address }) =>
             (address != this.currentMailbox) &&
             (address != forwardAddress) &&
@@ -568,12 +565,12 @@ const mailapi = {
       }
       const path = this.folderWithSlug(slug)
       //? check if it already exists, we get the folder via WS to be 100% up to date
-      const folders = await this.engine.folders.get()
-      if (folders.aiko?.[slug]) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but it already exists!")
-      const x = await this.engine.folders.add(path)
+      const boards = await this.engine.folders.boards()
+      if (boards.names.includes(slug)) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but it already exists!")
+      ;;await this.engine.folders.add(path)
       //? confirm it was added
-      const updatedFolders = await this.engine.folders.get()
-      if (!(updatedFolders.aiko?.[slug])) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
+      const updatedBoards = await this.engine.folders.boards()
+      if (!(updatedBoards.names.includes(slug))) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
       //? add that to the sync set
       await this.engine.sync.add(path)
       //? create a UI element for it
@@ -585,7 +582,7 @@ const mailapi = {
       })
 
       this.boardOrder = this.boards.map(({ name }) => name)
-      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
     ////////////////////////////////////////////!
     //! Syncing with Backend
@@ -595,42 +592,43 @@ const mailapi = {
       this.backendSyncing = false
       this.syncing = true
       //? update folders
-      this.folders = await this.engine.folders.get()
+      this.folders = await this.engine.folders.state()
+      const boards = this.engine.folders.boards()
       //? if a board no longer exists, delete it
       for (let i = 0; i < this.boards.length;) {
         const { name } = this.boards[i]
-        if (!(this.folders.aiko?.[name])) {
+        if (!(boards.names.includes(name))) {
           this.boards.splice(i, 1)
         } else i++;
       }
       //? locally adds new boards
-      Object.keys(this.folders.aiko).map(slug => {
+      boards.names.map(slug => {
         const local_board = this.boards.filter(({ name }) => name == slug)?.[0]
         if (local_board) return;
         //? if it doesn't exist locally we need to create the UI element for it
         this.boards.push({
           name: slug,
           thin: false,
-          path: this.folders.aiko[slug],
+          path: boards.paths[slug],
           tids: []
         })
 
         this.boardOrder = this.boards.map(({ name }) => name)
       })
-      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
       //? compute local cursor
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
       //? fetch updates to inbox
       const max_inbox_updates = Math.max(500, this.inbox.length)
-      const inbox_updates = await this.engine.api.get.latest(this.folders.inbox, cursor, limit=max_inbox_updates)
+      const inbox_updates = await this.engine.resolve.threads.latest(this.folders.special.inbox, cursor, limit=max_inbox_updates)
       //? apply updates to inbox
-      const { exists, threads } = inbox_updates
+      const { all, updated } = inbox_updates
       //? first, anything that is no longer in exists can be dumped
-      const existsTIDs = exists.map(({ tid }) => tid)
+      const existsTIDs = all.map(({ tid }) => tid)
       this.inbox = this.inbox.filter(tid => existsTIDs.includes(tid))
       //? next, process the threads
-      threads.map(thread => {
+      updated.map(thread => {
         thread = this.saveThread(thread)
         //? first, determine if we have it locally
         const local = this.inbox.includes(thread.tid)
@@ -644,14 +642,14 @@ const mailapi = {
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
-        const board_updates = await this.engine.api.get.latest(path, cursor, limit=max_board_updates)
+        const board_updates = await this.engine.resolve.threads.latest(path, cursor, limit=max_board_updates)
         //? apply updates to board
-        const { exists, threads } = board_updates
+        const { all, updated } = board_updates
         //? first, anything that is no longer in exists can be dumped
-        const existsTIDs = exists.map(({ tid }) => tid)
+        const existsTIDs = all.map(({ tid }) => tid)
         this.boards[i].tids = this.boards[i].tids.filter(tid => existsTIDs.includes(tid))
         //? next, process the threads
-        threads.map(thread => {
+        updated.map(thread => {
           thread = this.saveThread(thread)
           //? first, determine if we have it locally
           const local = tids.includes(thread.tid)
@@ -753,10 +751,10 @@ const mailapi = {
         // if (this.inbox.includes(tid)) this.inbox.splice(this.inbox.indexOf(tid), 1)
 
         //? immediately sync this, deleting it from its representative location
-        if (thread.aikoFolder != this.folders.inbox) {
-          info(...MAILAPI_TAG, "Deleting thread", tid, "from", thread.aikoFolder, "via email with UID", threadLoc.uid)
-          await this.engine.api.manage.delete(threadLoc.folder, threadLoc.uid)
-          thread.aikoFolder = this.folders.inbox
+        if (thread.folder != this.folders.special.inbox) {
+          info(...MAILAPI_TAG, "Deleting thread", tid, "from", thread.folder, "via email with UID", threadLoc.uid)
+          await this.engine.manage.delete(threadLoc.folder, threadLoc.uid)
+          thread.folder = this.folders.special.inbox
           this.saveThread(thread)
           this.movers.delete(tid)
         }
@@ -766,14 +764,14 @@ const mailapi = {
       else {
         //? identify the board it is moving to
         const toSlug = to.id.substring('aikomail--'.length)
-        const toPath = this.folders.aiko[toSlug]
+        const toPath = this.folders.boards.paths[toSlug]
         if (!toPath) return error(...MAILAPI_TAG, "Dragged thread to", toSlug, "but could not find that folder in the folder manager.")
-        info(...MAILAPI_TAG, "Dragged thread", tid, "from", thread.aikoFolder, "to", toPath)
+        info(...MAILAPI_TAG, "Dragged thread", tid, "from", thread.folder, "to", toPath)
 
         //? update the UI right away!
         this.movers.add(tid)
         thread.dragging = false
-        thread.aikoFolder = toPath
+        thread.folder = toPath
         this.saveThread(thread, reset=false)
 
         //? defer the sync
@@ -797,23 +795,23 @@ const mailapi = {
           if (thread.syncing) return warn(...MAILAPI_TAG, 'Cancelled moving thread', tid, 'to', toSlug, 'because it is already being synced')
 
           //? if the destination folder has changed, prevent race
-          if (thread.aikoFolder != toPath) return warn(...MAILAPI_TAG, 'Cancelled moving thread', tid, 'to', toSlug, 'because it was dragged elsewhere')
+          if (thread.folder != toPath) return warn(...MAILAPI_TAG, 'Cancelled moving thread', tid, 'to', toSlug, 'because it was dragged elsewhere')
 
           //? lock the thread from concurrent syncs
           thread.syncing = true
           _this.saveThread(thread, reset=false)
 
           //? when deciding a sync strategy, we copy from the inbox and move from boards
-          const strategy = (thread.originFolder == this.folders.inbox) ? this.engine.api.manage.copy : this.engine.api.manage.move;
+          const strategy = (thread.originFolder == this.folders.special.inbox) ? this.engine.manage.copy : this.engine.manage.move;
 
           //? perform the movement
-          await strategy(threadLoc.folder, threadLoc.uid, thread.aikoFolder)
+          await strategy(threadLoc.folder, threadLoc.uid, thread.folder)
 
           //? we don't need the result UID and we don't manage failures
           //? if it failed it will reflect in next backend sync
           //? otherwise the thread will simply be updated in the next backend sync
 
-          info(...MAILAPI_TAG, "Moved thread", tid, "from", thread.originFolder, "to", thread.aikoFolder)
+          info(...MAILAPI_TAG, "Moved thread", tid, "from", thread.originFolder, "to", thread.folder)
 
           //? reset the thread state
           _this.saveThread(thread, reset=true)
@@ -828,7 +826,7 @@ const mailapi = {
     //? call this method after reordering boards to save the order
     async reorderBoards () {
       // this.boardOrder = this.boards.map(({ name }) => name)
-      await SmallStorage.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
     //? sorts all threads across inbox and boards in ascending/descending order
     async sortThreads(newest=true) {

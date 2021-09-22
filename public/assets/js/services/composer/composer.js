@@ -26,9 +26,9 @@ const composer = {
   methods: {
     async initSMTP () {
       info(...COMPOSER_TAG, 'Loading address cache...')
-      const mailboxes = (await SmallStorage.load('mailboxes')) || []
+      const mailboxes = (await Satellite.load('mailboxes')) || []
       info(...COMPOSER_TAG, 'Loading previously selected mailbox')
-      let currentEmail = await SmallStorage.load('current-mailbox')
+      let currentEmail = await Satellite.load('current-mailbox')
       if (!currentEmail) {
         if (mailboxes.length > 0) {
           currentEmail = mailboxes[0]
@@ -45,10 +45,10 @@ const composer = {
       await this.checkOAuthTokens()
     },
     async saveSMTPConfig () {
-      await SmallStorage.store(this.smtpConfig.email + '/smtp-config', this.smtpConfig)
+      await Satellite.store(this.smtpConfig.email + '/smtp-config', this.smtpConfig)
     },
     async loadSMTPConfig (email) {
-      this.smtpConfig = await SmallStorage.load(email + '/smtp-config')
+      this.smtpConfig = await Satellite.load(email + '/smtp-config')
     },
     task_OpenComposer (bang) {
       return this.ipcTask('please open the composer', { bang })
@@ -114,7 +114,7 @@ const composer = {
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {
         mail,
-        ...this.smtpConfig
+        config: this.smtpConfig
       })
     },
     async sendEmail(html, attachments=[], includeCSS=true) {

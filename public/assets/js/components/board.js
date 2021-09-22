@@ -13,7 +13,7 @@ Vue.component('board', {
         this.$root.boardThiccness = this.$root.boardThiccness.filter(n => n != board.name)
       }
 
-      await SmallStorage.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
+      await Satellite.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
     }
   },
   computed: {

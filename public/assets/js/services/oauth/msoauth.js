@@ -19,11 +19,11 @@ const msoauth = {
   },
   methods: {
     async msft_saveConfig () {
-      await SmallStorage.store((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config', this.msftConfig)
+      await Satellite.store((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config', this.msftConfig)
     },
     async msft_loadConfig () {
       // must have called loadIMAPConfig or loadSMTPConfig first
-      this.msftConfig = await SmallStorage.load((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config')
+      this.msftConfig = await Satellite.load((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config')
     },
     // Core Methods
     async msft_addMailbox () {
