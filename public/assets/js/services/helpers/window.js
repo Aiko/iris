@@ -2,7 +2,7 @@ const { platform } = remote.require('./app.js')
 
 const windowManager = {
   data: {
-    windowPrefix: 'please',
+    windowPrefix: 'INBOX',
     isFullScreen: false,
     isMaximized: true,
     isDarkMode: true, //window.matchMedia('(prefers-color-scheme: dark)').matches,
@@ -12,34 +12,34 @@ const windowManager = {
   },
   methods: {
     async initWindowControls () {
-      ipcRenderer.on(this.windowPrefix + ' fullscreen status changed',
+      ipcRenderer.on(this.windowPrefix + ': please fullscreen status changed',
         (_, status) => app.isFullScreen = status)
-      ipcRenderer.on(this.windowPrefix + ' maximized status changed',
+      ipcRenderer.on(this.windowPrefix + ': please maximized status changed',
         (_, status) => app.isMaximized = status)
 
-      ipcRenderer.invoke(this.windowPrefix + ' get fullscreen status')
+      ipcRenderer.invoke(this.windowPrefix + ': please get fullscreen status')
     },
     // why use IPC here?
     // because we dont want everything to freeze
     // and we want to be able to do some magic with these later on
     async minimize () {
-      await ipcRenderer.invoke(this.windowPrefix + ' minimize window')
+      await ipcRenderer.invoke(this.windowPrefix + ': please minimize window')
     },
     async maximize () {
-      await ipcRenderer.invoke(this.windowPrefix + ' maximize window')
+      await ipcRenderer.invoke(this.windowPrefix + ': please maximize window')
     },
     async unmaximize () {
-      await ipcRenderer.invoke(this.windowPrefix + ' unmaximize window')
+      await ipcRenderer.invoke(this.windowPrefix + ': please unmaximize window')
     },
     async fullscreen () {
-      await ipcRenderer.invoke(this.windowPrefix + ' fullscreen window')
+      await ipcRenderer.invoke(this.windowPrefix + ': please fullscreen window')
     },
     async hide () {
-      await ipcRenderer.invoke(this.windowPrefix + ' hide window')
+      await ipcRenderer.invoke(this.windowPrefix + ': please hide window')
     },
     async close () {
       try {
-        await ipcRenderer.invoke(this.windowPrefix + ' close window')
+        await ipcRenderer.invoke(this.windowPrefix + ': please close window')
       } catch (e) {
         window.close()
       }

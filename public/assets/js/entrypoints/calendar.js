@@ -52,7 +52,7 @@ const app = new Vue({
 
     // setup window controls
     info(...(this.TAG), 'Initializing window controls')
-    this.windowPrefix = this.bang + ':please'
+    this.windowPrefix = this.bang
     this.isMaximized = false
     await this.initWindowControls()
 
