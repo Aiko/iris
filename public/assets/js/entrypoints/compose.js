@@ -95,12 +95,8 @@ const app = new Vue({
     await this.initWindowControls()
 
     // fetch preferences
-    info(...(this.TAG), 'Fetching preferences')
-    const {
-      token
-    } = await ipcRenderer.invoke('get preferences', [
-      'token'
-    ])
+    DwarfStar.sync()
+    const token = DwarfStar.settings.auth.token
 
     // try logging in
     info(...(this.TAG), 'Logging in')
@@ -111,9 +107,8 @@ const app = new Vue({
       window.error(...(this.TAG), 'Authentication failed. User needs to login again?')
       // FIXME: we can try relog with stored email/pass
       // if those fail then we can ask for relog
-      await ipcRenderer.invoke('save preferences', {
-        authenticated: false
-      })
+      DwarfStar.settings.auth.authenticated = false
+      DwarfStar.save()
       await ipcRenderer.invoke('reentry')
       return
     }

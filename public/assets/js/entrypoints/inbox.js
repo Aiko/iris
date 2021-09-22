@@ -55,21 +55,15 @@ top.app = new Vue({
     await this.initWindowControls()
 
     // fetch preferences
-    info(...(this.TAG), 'Fetching preferences')
-    const {
-      token,
-      firstTime
-    } = await ipcRenderer.invoke('get preferences', [
-      'token',
-      'firstTime'
-    ])
+    DwarfStar.sync()
+    const token = DwarfStar.settings.auth.token
+    const firstTime = DwarfStar.settings.meta.firstTime
     this.firstTime = firstTime
     if (this.firstTime) {
       info(...(this.TAG), "This is the user's first open of the app.")
       this.tour = runTour()
-      await ipcRenderer.invoke('save preferences', {
-        firstTime: false
-      })
+      DwarfStar.settings.meta.firstTime = false
+      DwarfStar.save()
     }
 
     // try logging in
@@ -81,9 +75,8 @@ top.app = new Vue({
       window.error(...(this.TAG), 'Authentication failed. User needs to login again?')
       // FIXME: we can try relog with stored email/pass
       // if those fail then we can ask for relog
-      await ipcRenderer.invoke('save preferences', {
-        authenticated: false
-      })
+      DwarfStar.settings.auth.auth = false
+      DwarfStar.save()
       await ipcRenderer.invoke('reentry')
       return
     }
@@ -110,8 +103,8 @@ top.app = new Vue({
         await ipcRenderer.invoke('clear all cache')
       }
       else {
-        if (emails) await BigStorage.kill()
-        if (prefs) await ipcRenderer.invoke('clear preferences')
+        if (emails) await GasGiant.kill()
+        if (prefs) await DwarfStar.reset()
         if (chrome) await Satellite.kill()
       }
       if (!prefs) window.location.reload()

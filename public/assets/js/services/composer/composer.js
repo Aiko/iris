@@ -75,7 +75,7 @@ const composer = {
       // cache with randomized identifier
       const identifier = String.random(12)
 
-      await BigStorage.store('composer/composer-' + identifier, config)
+      await GasGiant.store('composer/composer-' + identifier, config)
 
       if (this.tour) this.tour.complete()
 
@@ -84,7 +84,7 @@ const composer = {
     async loadComposer () {
       const identifier = this.bang
       if (!identifier) return window.error(...COMPOSER_TAG, 'No bang!')
-      const config = await BigStorage.load('composer/' + identifier)
+      const config = await GasGiant.load('composer/' + identifier)
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
       this.sendTo = config.to || []

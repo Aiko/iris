@@ -46,9 +46,7 @@ const aikoapi = {
 
       this.token = token
       if ((await this.fetchProfile()).error) {
-        const { email, password } = await ipcRenderer.invoke(
-          'get preferences', ['email', 'password']
-        )
+        const { email, password } = DwarfStar.settings.auth.credentials
         return await this.login(email, password)
       }
       return this.token
@@ -122,7 +120,8 @@ const aikoapi = {
           return { error: d.error || 'unknown' }
         }
         this.token = d.accessToken
-        ipcRenderer.invoke('save preferences', { token: this.token })
+        DwarfStar.settings.auth.token = token
+        DwarfStar.save()
         success(...(AIKOAPI_TAG), 'Logged into account with email:', email)
         await this.fetchProfile()
         return this.token

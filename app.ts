@@ -193,7 +193,7 @@ const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
   if (signed_in || disable_auth) {
     Log.success("User is signed in, loading their inbox.")
     //! FIXME: before deployment, remove commit_hash from url below
-    windowManager.loadURL(`file://${__dirname}/public/index.html#${commit_hash}`)
+    windowManager.loadURL(`file://${__dirname}/../public/index.html#${commit_hash}`)
   } else {
     Log.warn("User is not signed in, loading the signin flow.")
     windowManager.loadURL("https://helloaiko.com/email/signin")
