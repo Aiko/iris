@@ -400,7 +400,7 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5 @click="showDev = true">{{hash.substring(0, 9)}}</h5>
+      <h5 @click="flow.showDev = true">{{hash.substring(0, 9)}}</h5>
 
 
       <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
@@ -643,7 +643,7 @@
                   <span class="sec-notif"></span>
                 </div>
 
-                <div @click="addMailbox = true" class="account">
+                <div @click="flow.addMailbox = true" class="account">
                   <img src="assets/icons/header-plus.svg"> <span>Add a mailbox</span>
                 </div>
               </div>
@@ -757,7 +757,7 @@
         <div :class="{
           'boards': true,
           'two-lines': true,
-          'regular': regularView
+          'regular': flow.regularView
         }">
 
           <!--!------------------------------------------------------------->
@@ -855,7 +855,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
             <!--!------------------------------------------------------------->
-            <div v-if="!regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="!flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
@@ -889,7 +889,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
             <!--!------------------------------------------------------------->
-            <div v-if="regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
@@ -926,7 +926,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
           <!--!------------------------------------------------------------->
-          <draggable v-if="!regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
+          <draggable v-if="!flow.regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
             draggable=".board" ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true"
             :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!--!------------------------------------------------------------->
@@ -1085,8 +1085,8 @@
           <!--!------------------------------------------------------------->
           <!-- ? Long Board for regular inbox view -->
           <!--!------------------------------------------------------------->
-          <div v-if="regularView" class="long-board">
-            <regular-view-thread v-if="viewThread && regularView" :thread="viewThread" inline-template>
+          <div v-if="flow.regularView" class="long-board">
+            <regular-view-thread v-if="flow.viewThread && flow.regularView" :thread="flow.viewThread" inline-template>
               <!--!------------------------------------------------------------->
               <!-- ? Message List -->
               <!--!------------------------------------------------------------->
@@ -1134,7 +1134,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Add Board Button -->
           <!--!------------------------------------------------------------->
-          <div v-if="!regularView" class="add-board" @click="addBoard = true" id="step3">
+          <div v-if="!flow.regularView" class="add-board" @click="addBoard = true" id="step3">
             <img src="assets/icons/boards-add.svg">
           </div>
 
@@ -1291,7 +1291,7 @@
     </tutorial-modal>
 
     <!-- MODAL View Thread -->
-    <view-thread v-if="viewThread && !regularView" :thread="viewThread" inline-template>
+    <view-thread v-if="flow.viewThread && !flow.regularView" :thread="flow.viewThread" inline-template>
 
       <div @click.self="close" class="aiko-modal">
 
@@ -1420,8 +1420,8 @@
     </view-thread>
 
     <!-- MODAL Add Mailbox --------------------------------------->
-    <add-mailbox-modal v-if="addMailbox" :success="switchMailServer" :googlestrategy="google_addMailbox"
-      :msftstrategy="msft_addMailbox" :closable="!forceAddMailbox" inline-template>
+    <add-mailbox-modal v-if="flow.addMailbox" :success="switchMailServer" :googlestrategy="google_addMailbox"
+      :msftstrategy="msft_addMailbox" :closable="!(flow.forceAddMailbox)" inline-template>
       <div class="aiko-modal add-mailbox">
         <!-- STEP ONE --->
         <div class="modal-dialog modal-md" v-if="step == 1">
@@ -1538,7 +1538,7 @@
       </div>
     </add-board-modal>
 
-    <dev-controls v-if="showDev" :delete-cache.camel="deleteCache" inline-template>
+    <dev-controls v-if="flow.showDev" :delete-cache.camel="deleteCache" inline-template>
       <div style="z-index: 9999" class="aiko-modal" @click.self="close">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -1839,7 +1839,7 @@
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
         'just-me': justMe,
-        'focus': ($root.regularView && $root.viewThread) ? ($root.viewThread?.tid == thread.tid) : false
+        'focus': ($root.regularView && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">
 
       <!-- ? Card content -->

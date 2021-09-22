@@ -222,7 +222,7 @@ const mailapi = {
           currentEmail = this.mailboxes.filter(_ => _)[0]
         } else {
           error(...MAILAPI_TAG, 'There are no mailboxes. Forcing a mailbox addition.')
-          this.forceAddMailbox = true
+          this.flow.forceAddMailbox = true
           return
         }
       }
@@ -238,7 +238,7 @@ const mailapi = {
       //? if it isn't correct then force a mailbox addition
       if (!this.imapConfig.email) {
         error(...MAILAPI_TAG, 'Was unable to load IMAP config. Most likely a Time Machine Effect.')
-        this.forceAddMailbox = true
+        this.flow.forceAddMailbox = true
         return
       }
 
@@ -891,7 +891,7 @@ const mailapi = {
       const indexMin = Math.floor(threadsAbove - TOLERANCE)
       const indexMax = Math.ceil((listSize - threadsBelow) + TOLERANCE)
 
-      if (this.regularView) {
+      if (this.flow.regularView) {
         // adjust to full indices
         if (this.priority) {
           if (this.priorityFullInbox.length > 0) {

@@ -163,7 +163,7 @@ Vue.component('view-email', {
           const i = this.$root.inbox.indexOf(thread.tid)
           this.$root.inbox.splice(i, 1)
         }
-        this.$root.viewThread = null
+        this.$root.flow.viewThread = null
       }
     },
     async reply() {

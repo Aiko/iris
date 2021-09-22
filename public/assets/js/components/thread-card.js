@@ -103,7 +103,7 @@ Vue.component('thread-card', {
       this.thread.seen = true
       this.thread.emails[0].M.flags.seen = true
       this.$root.saveThread(this.thread, reset=false)
-      this.$root.viewThread = this.thread
+      this.$root.flow.viewThread = this.thread
 
       await this.$root.engine.api.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },

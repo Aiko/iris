@@ -13,7 +13,7 @@ const flow_mgr = {
   },
   watch: {
     forceAddMailbox (f, _) {
-      this.addMailbox = f || this.addMailbox
+      this.flow.addMailbox = f || this.flow.addMailbox
     },
     regularView (_) {
       this.recalculateHeight()
