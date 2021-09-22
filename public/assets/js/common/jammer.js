@@ -1,5 +1,5 @@
-// Cleans up some stuff and limits user interaction that would mess
-// with our electron setup! :- )
+//? Jams and limits user interaction that would mess
+//? with our electron setup! :- )
 
 $(document).ready(function () {
   // Disable CTRL Mouse Click
