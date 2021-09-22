@@ -12,7 +12,7 @@ export default class Calendar {
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
 
-    this.comms.register("please open the calendar", this.open)
+    this.comms.register("please open the calendar", this.open.bind(this))
 
     autoBind(this)
   }

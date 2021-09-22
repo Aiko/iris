@@ -11,7 +11,7 @@ export default class Composer {
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
 
-    this.comms.register("please open the composer", this.open)
+    this.comms.register("please open the composer", this.open.bind(this))
 
     autoBind(this)
   }

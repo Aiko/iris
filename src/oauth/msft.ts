@@ -17,8 +17,8 @@ export default class MSOauth {
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
 
-    this.comms.register("please get microsoft oauth token", this.newToken)
-    this.comms.register("please refresh microsoft oauth token", this.refreshToken)
+    this.comms.register("please get microsoft oauth token", this.newToken.bind(this))
+    this.comms.register("please refresh microsoft oauth token", this.refreshToken.bind(this))
 
     autoBind(this)
   }

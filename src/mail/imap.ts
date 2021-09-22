@@ -22,9 +22,9 @@ export default class Mailman {
   constructor(Registry: Register) {
     this.comms = Registry.get("Communications") as SecureCommunications
 
-    this.comms.register("please update engine config", this.updateConfig)
-    this.comms.register("please get or start the corresponding engine", this.getEngine)
-    this.comms.register("please test a connection", this.testConnection)
+    this.comms.register("please update engine config", this.updateConfig.bind(this))
+    this.comms.register("please get or start the corresponding engine", this.getEngine.bind(this))
+    this.comms.register("please test a connection", this.testConnection.bind(this))
 
     autoBind(this)
   }

@@ -47,6 +47,8 @@ const aikoapi = {
       this.token = token
       if ((await this.fetchProfile()).error) {
         const { email, password } = DwarfStar.settings.auth.credentials
+        // FIXME: remove this
+        return 'FIXME: fake token'
         return await this.login(email, password)
       }
       return this.token
@@ -54,7 +56,10 @@ const aikoapi = {
     // USER API
     async fetchProfile () {
       info(...(AIKOAPI_TAG), 'Attempting to fetch user profile.')
-      if (!this.token) return error(...(AIKOAPI_TAG), 'Tried to fetch user profile but no token has been retrieved.')
+      if (!this.token) {
+        error(...(AIKOAPI_TAG), 'Tried to fetch user profile but no token has been retrieved.')
+        return { error: 'Never signed in' }
+      }
       try {
         const d = await post('/v3/me', {}, this.token)
         if (!d || d.error) {

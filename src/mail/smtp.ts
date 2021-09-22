@@ -16,8 +16,8 @@ export default class CarrierPigeon {
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
 
-    this.comms.register("please send an email", this.send)
-    this.comms.register("please test SMTP connection", this.test)
+    this.comms.register("please send an email", this.send.bind(this))
+    this.comms.register("please test SMTP connection", this.test.bind(this))
 
     autoBind(this)
   }

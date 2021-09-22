@@ -24,8 +24,8 @@ export default class GOauth {
     if (!scopes.includes("profile")) scopes.push("profile")
     if (!scopes.includes("email")) scopes.push("email")
 
-    this.comms.register("please get google oauth token", this.newToken)
-    this.comms.register("please refresh google oauth token", this.refreshToken)
+    this.comms.register("please get google oauth token", this.newToken.bind(this))
+    this.comms.register("please refresh google oauth token", this.refreshToken.bind(this))
 
     this.client = new google.auth.OAuth2(
       clientId, clientSecret, "urn:ietf:wg:oauth:2.0:oob"
