@@ -21,11 +21,11 @@ export default class GasGiant {
 
     this.storage = new Storage(dir, {json: true})
 
-    SecureCommunications.registerBasic("save cache", this.save)
-    SecureCommunications.registerBasic("get cache", this.load)
-    SecureCommunications.registerBasic("pop cache", this.pop)
-    SecureCommunications.registerBasic("kill cache", this.kill)
-    SecureCommunications.registerBasic("clear all cache", this.clear)
+    SecureCommunications.registerBasic("save cache", this.save.bind(this))
+    SecureCommunications.registerBasic("get cache", this.load.bind(this))
+    SecureCommunications.registerBasic("pop cache", this.pop.bind(this))
+    SecureCommunications.registerBasic("kill cache", this.kill.bind(this))
+    SecureCommunications.registerBasic("clear all cache", this.clear.bind(this))
 
     autoBind(this)
   }

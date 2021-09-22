@@ -38,9 +38,9 @@ export default class DwarfStar {
 
     this.settings = DwarfStar.defaultSettings
 
-    SecureCommunications.registerBasic("save preferences", this.set)
-    SecureCommunications.registerBasic("clear preferences", this.reset)
-    SecureCommunications.registerBasic("get preferences", this.copy)
+    SecureCommunications.registerBasic("save preferences", this.set.bind(this))
+    SecureCommunications.registerBasic("clear preferences", this.reset.bind(this))
+    SecureCommunications.registerBasic("get preferences", this.copy.bind(this))
 
     autoBind(this)
   }
