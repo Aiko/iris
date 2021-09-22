@@ -59,12 +59,6 @@ top.app = new Vue({
     const token = DwarfStar.settings.auth.token
     const firstTime = DwarfStar.settings.meta.firstTime
     this.firstTime = firstTime
-    if (this.firstTime) {
-      info(...(this.TAG), "This is the user's first open of the app.")
-      this.tour = runTour()
-      DwarfStar.settings.meta.firstTime = false
-      await DwarfStar.save()
-    }
 
     // try logging in
     info(...(this.TAG), 'Logging in')

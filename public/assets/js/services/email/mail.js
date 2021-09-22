@@ -429,6 +429,12 @@ const mailapi = {
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
       if (controlsLoader) this.loading = false
+      if (this.firstTime) {
+        info(...(this.TAG), "This is the user's first open of the app. Running tour...")
+        this.tour = runTour()
+        DwarfStar.settings.meta.firstTime = false
+        await DwarfStar.save()
+      }
     },
     ////////////////////////////////////////////!
     //! Utility Methods
