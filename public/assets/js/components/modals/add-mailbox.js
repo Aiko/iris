@@ -112,7 +112,7 @@ Vue.component('add-mailbox-modal', {
       this.close()
     },
     async close () {
-      if (this.closable) { app.addMailbox = false }
+      if (this.closable) { this.$root.flow.addMailbox = false }
     },
     async back () {
       this.step = 1

@@ -66,7 +66,7 @@ const IPCStream = async () => {
 
   // now for the websocket stuff
   // first, start the websocket server
-  const port = await ipcRenderer.invoke('start websocket server', {})
+  const port = await ipcRenderer.invoke('get websocket port', {})
   // then, connect to it
   const socket = new WebSocket('ws://localhost:' + port)
   socket.binaryType = 'arraybuffer'
