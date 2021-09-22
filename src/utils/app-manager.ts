@@ -40,7 +40,7 @@ export default class AppManager {
 
     autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
       // TODO: replace w/ modal
-      const ret = await dialog.showMessageBox(_this.windowManager.window, {
+      const ret = await dialog.showMessageBox(_this.windowManager.window!, {
         type: 'question',
         buttons: ['Update', 'Later'],
         defaultId: 0,
