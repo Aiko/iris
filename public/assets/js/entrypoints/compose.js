@@ -107,8 +107,7 @@ const app = new Vue({
       window.error(...(this.TAG), 'Authentication failed. User needs to login again?')
       // FIXME: we can try relog with stored email/pass
       // if those fail then we can ask for relog
-      DwarfStar.settings().auth.authenticated = false
-      await DwarfStar.save()
+      await DwarfStar.save({auth: {authenticated: false}})
       await ipcRenderer.invoke('reentry')
       return
     }

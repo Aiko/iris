@@ -18,7 +18,8 @@ const DwarfStar = (() => {
     }
   }
 
-  const save = async () => {
+  const save = async (newSettings) => {
+    settings = {...settings, ...newSettings}
     const { success, payload } = await app.executeIPC(
       app.ipcTask("save preferences", settings)
     )

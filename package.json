@@ -20,7 +20,7 @@
     "clean": "rm -rf dist",
     "dry": "tsc; rm -rf dist",
     "make": "rm -rf dist; tsc",
-    "restart": "rm -rf dist; tsc; electron-forge start"
+    "restart": "clear; rm -rf dist; tsc; electron-forge start"
   },
   "keywords": [
     "email",

@@ -438,8 +438,7 @@ const mailapi = {
       if (this.firstTime) {
         info(...(this.TAG), "This is the user's first open of the app. Running tour...")
         this.tour = runTour()
-        DwarfStar.settings().meta.firstTime = false
-        await DwarfStar.save()
+        await DwarfStar.save({meta: {firstTime: false}})
       }
     },
     ////////////////////////////////////////////!

@@ -2,6 +2,7 @@ import autoBind from 'auto-bind'
 import { EightySix } from '../../Mouseion/client'
 import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
+import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import SecureCommunications from '../utils/comms'
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
@@ -15,12 +16,15 @@ const Client = EmailJS.default
 export default class Mailman {
 
   private readonly comms: SecureCommunications
+  private readonly Log: Logger
 
   private engines: Record<string, EightySix> = {}
   private engineConfigs: Record<string, Partial<IMAPConfig>> = {}
 
   constructor(Registry: Register) {
     this.comms = Registry.get("Communications") as SecureCommunications
+    const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
+    this.Log = Lumberjack("Mailman")
 
     this.comms.register("please update engine config", this.updateConfig.bind(this))
     this.comms.register("please get or start the corresponding engine", this.getEngine.bind(this))
@@ -48,21 +52,22 @@ export default class Mailman {
       if (agent) {
         try {
           await agent.proxy("close")()
-          console.log("Agent 86 has been disposed of.")
+          this.Log.log("Agent 86 has been disposed of.")
         } catch (_) { }
         delete this.engines[email]
       }
     }
 
     if (this.engines[email]) {
-      console.log("Agent 86 is already in the field.")
+      this.Log.log("Agent 86 is already in the field.")
       return this.engines[email].port
     }
 
+    this.Log.log("Deploying Agent 86...")
     const agent = await EightySix.init(config)
     this.engines[email] = agent
     this.engineConfigs[email] = config
-    console.log("Agent 86 has been dispatched.")
+    this.Log.success("Agent 86 has been dispatched.")
     return agent.port
   }
 

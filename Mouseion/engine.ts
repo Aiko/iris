@@ -20,9 +20,11 @@ export default class Engine {
   }
 
   static async init(config: IMAPConfig) {
+    console.log("Initializing engine...")
     const mailbox = await Mailbox.load(
       config, 500, 100
     )
+    console.log("Initialized mailbox...")
     process.title = "Mouseion - " + config.user + " - Engine"
     if (!mailbox) throw "Mailbox failed to construct"
     return new Engine(mailbox)

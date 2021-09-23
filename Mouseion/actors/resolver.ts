@@ -632,8 +632,8 @@ class MultiThreadResolver {
       messages.push(...(msgs.slice(0, 3)))
     }
     if (messages.length == 0) {
-      this.Log.warn("Latest TIDs do not have messages?")
-      return {all: [], updated: []}
+      if (threads.length > 0) this.Log.warn("Latest TIDs do not have messages?")
+      return {all: _threads, updated: []}
     }
 
     const have: Resolved<EmailFull>[] = []
