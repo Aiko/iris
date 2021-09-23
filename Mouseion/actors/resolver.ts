@@ -367,7 +367,7 @@ class ThreadResolver {
 
       const lookup: Record<string | number, MessageModel> = {}
       const uids = plan[folder].map(({ uid, message }) => {
-        lookup[uid] = message
+        lookup[message.mid] = message
         return uid
       })
 
@@ -382,7 +382,7 @@ class ThreadResolver {
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
-        const message = lookup[email.M.envelope.uid]
+        const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
@@ -442,7 +442,7 @@ class ThreadResolver {
 
       const lookup: Record<string | number, MessageModel> = {}
       const uids = plan[folder].map(({ uid, message }) => {
-        lookup[uid] = message
+        lookup[message.mid] = message
         return uid
       })
 
@@ -457,7 +457,7 @@ class ThreadResolver {
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
-        const message = lookup[email.M.envelope.uid]
+        const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
@@ -517,7 +517,7 @@ class ThreadResolver {
 
       const lookup: Record<string | number, MessageModel> = {}
       const uids = plan[folder].map(({ uid, message }) => {
-        lookup[uid] = message
+        lookup[message.mid] = message
         return uid
       })
 
@@ -529,7 +529,7 @@ class ThreadResolver {
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.headers)
       await Promise.all(emails.map(async email => {
-        const message = lookup[email.M.envelope.uid]
+        const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailWithReferences>(email, message)
         have.push(resolved)
@@ -613,11 +613,11 @@ class MultiThreadResolver {
     return plan
   }
 
-  async latest(folder: string, minCursor: number, limit=5000): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[]} | null> {
+  async latest(folder: string, minCursor: number, limit=5000): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[]}> {
     const _threads = await this.pantheon.db.threads.find.latest(folder, { limit })
     if (!_threads) {
       this.Log.error(folder.blue, "| threads do not exist in our database.")
-      return null
+      return {all: [], updated: []}
     }
     const threads = _threads.filter(({ cursor }) => cursor > minCursor)
 
@@ -633,7 +633,7 @@ class MultiThreadResolver {
     }
     if (messages.length == 0) {
       this.Log.warn("Latest TIDs do not have messages?")
-      return null
+      return {all: [], updated: []}
     }
 
     const have: Resolved<EmailFull>[] = []
@@ -658,9 +658,10 @@ class MultiThreadResolver {
     for (const folder of folders) {
       const janitor = await this.custodian.get(folder)
 
+      //? Populate lookup table
       const lookup: Record<string | number, MessageModel> = {}
       const uids = plan[folder].map(({ uid, message }) => {
-        lookup[uid] = message
+        lookup[message.mid] = message
         return uid
       })
 
@@ -675,7 +676,7 @@ class MultiThreadResolver {
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
-        const message = lookup[email.M.envelope.uid]
+        const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
