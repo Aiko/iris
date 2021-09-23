@@ -30,27 +30,27 @@ export default class GasGiant {
     autoBind(this)
   }
 
-  private save({key, data}: {key: string, data: any}) {
+  private async save({key, data}: {key: string, data: any}) {
     try {
-      this.storage.store(key, data)
+      await this.storage.store(key, data)
       return { success: true }
     } catch (e) {
       return { error: e }
     }
   }
 
-  private load({key}: {key: string}) {
+  private async load({key}: {key: string}) {
     try {
-      const data = this.storage.load(key)
+      const data = await this.storage.load(key)
       return { success: true, data }
     } catch (e) {
       return { error: e }
     }
   }
 
-  private pop({key}: {key: string}) {
+  private async pop({key}: {key: string}) {
     try {
-      const data = this.storage.pop(key)
+      const data = await this.storage.pop(key)
       return { success: true, data }
     } catch (e) {
       return { error: e }

@@ -56,8 +56,8 @@ export class Cache {
     //? we need to promisify methods as SP only uses promises
     const promisify = <T>(fn: Storage): CacheBinding<T> => {
       return {
-        cache: async (key: string, value: T) => fn.cache(key, value),
-        check: async (key: string): Promise<T | false> => fn.check(key)
+        cache: (key: string, value: T) => fn.cache(key, value),
+        check: (key: string): Promise<T | false> => fn.check(key)
       }
     }
 

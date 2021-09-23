@@ -14,6 +14,7 @@ import sequence from "../utils/sequence";
 import { EmailBase, EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
 import Tailor from "./tailor";
 import autoBind from 'auto-bind'
+import { performance } from "perf_hooks"
 export default class Resolver {
 
   private readonly Log: Logger
@@ -614,6 +615,7 @@ class MultiThreadResolver {
   }
 
   async latest(folder: string, minCursor: number, limit=5000): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[]}> {
+    this.Log.log(folder, "Building thread delta...")
     const _threads = await this.pantheon.db.threads.find.latest(folder, { limit })
     if (!_threads) {
       this.Log.error(folder.blue, "| threads do not exist in our database.")
@@ -625,21 +627,25 @@ class MultiThreadResolver {
     for (const thread of threads) {
       const msgs = await this.pantheon.db.threads.messages(thread.tid)
       if (!msgs || msgs.length == 0) {
-        this.Log.warn("TID", thread.tid, "does not have messages?")
+        this.Log.warn(folder, "TID", thread.tid, "does not have messages?")
         continue;
       }
       //! we only push the latest 3 messages as that's all we're concerned with
       messages.push(...(msgs.slice(0, 3)))
     }
     if (messages.length == 0) {
-      if (threads.length > 0) this.Log.warn("Latest TIDs do not have messages?")
+      if (threads.length > 0) this.Log.warn(folder, "Latest TIDs do not have messages?")
       return {all: _threads, updated: []}
     }
+    this.Log.log(folder, "Built shallow delta...")
 
     const have: Resolved<EmailFull>[] = []
     const need: MessageModel[] = []
+    const rtCheck: number[] = []
     await Promise.all(messages.map(async message => {
+      const t0 = performance.now()
       const email = await this.pantheon.cache.content.check(message.mid) || null
+      rtCheck.push(performance.now() - t0)
       if (!email) {
         need.push(message)
         return
@@ -649,12 +655,16 @@ class MultiThreadResolver {
       const resolved = resolve<EmailFull>(email, message)
       have.push(resolved)
     }))
+    this.Log.log(folder, "Built partial deep thread delta.")
+    this.Log.log(folder, "Check avg time:", rtCheck.reduce((a, b) => a + b) / rtCheck.length, rtCheck)
 
     //? Build plan
     const plan = this.plan(need, threads)
+    this.Log.log(folder, "Assembled fetch plan...")
 
     //? Execute plan
     const folders = Object.keys(plan)
+    const Folder = folder
     for (const folder of folders) {
       const janitor = await this.custodian.get(folder)
 
@@ -665,6 +675,8 @@ class MultiThreadResolver {
         return uid
       })
 
+      const count = uids.length
+      this.Log.time(Folder, "Fetched", count, "relevant emails from", folder)
       const raw_emails = await this.courier.messages.listMessagesFull(folder, sequence(uids), {
         bodystructure: true,
         parse: true,
@@ -673,11 +685,13 @@ class MultiThreadResolver {
         cids: false,
         limit: uids.length
       })
+      this.Log.timeEnd(Folder, "Fetched", count, "relevant emails from", folder)
+
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
-        if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
+        if (!message) return this.Log.error(Folder, "Something went wrong in populating the lookup table for", folder)
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
@@ -696,6 +710,7 @@ class MultiThreadResolver {
       }))
 
     }
+    this.Log.log(folder, "Completed deep thread delta.")
 
     const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads)
     return {all: _threads, updated: resolved}

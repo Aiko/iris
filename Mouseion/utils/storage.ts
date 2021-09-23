@@ -2,7 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
-
+import { performance } from 'perf_hooks'
 /** A basic storage system mimicking localstorage, persisting within the filesystem */
 class Storage {
 
@@ -33,30 +33,37 @@ class Storage {
   private filepath = (key: string): string => `${this.dir}/${key}.${this.json ? 'json' : 'log'}`
 
   /** Stores data into the relevant file for a key, stringifying it if need be */
-  store(key: string, data: any): void {
+  async store(key: string, data: any): Promise<void> {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
-    fs.writeFileSync(fp, this.json ? JSON.stringify(data) : data)
+    await fs.promises.writeFile(fp, this.json ? JSON.stringify(data) : data)
   }
   cache = this.store.bind(this)
 
   /** Loads data for a relevant key, parsing it if need be */
-  load(key: string): string | any {
+  async load(key: string): Promise<string | any> {
+    const t0 = performance.now()
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
-    const s: string = fs.readFileSync(fp).toString()
-    return !!s && (this.json ? JSON.parse(s) : s)
+    const s: string = (await fs.promises.readFile(fp)).toString()
+    const t1 = performance.now()
+    const res = !!s && (this.json ? JSON.parse(s) : s)
+    const t2 = performance.now()
+    console.log('----------------------')
+    console.log("CHECK", key, "READ:", t1 - t0)
+    console.log("CHECK", key, "PARSE:", t2 - t1)
+    console.log('----------------------')
   }
   check = this.load.bind(this)
 
   /** Loads data for the relevant key, parsing it if need be, then clearing the key */
-  pop(key: string): string | any {
+  async pop(key: string): Promise<string | any> {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
-    const s: string = fs.readFileSync(fp).toString()
+    const s: string = (await fs.promises.readFile(fp)).toString()
     fs.unlinkSync(fp)
     return !!s && (this.json ? JSON.parse(s) : s)
   }

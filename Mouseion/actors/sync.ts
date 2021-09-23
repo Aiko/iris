@@ -170,11 +170,12 @@ export default class Sync {
     this.Log.time(folder.blue, "| Completed sync cycle.")
 
     //? Increment cursor
-    this.meta.store('cursor', await this.pantheon.cursor.next())
+    await this.meta.store('cursor', await this.pantheon.cursor.next())
 
     const janitor = await this.custodian.get(folder)
 
-    const { uidNext } = await this.courier.folders.openFolder(folder)
+    const folderDetails = await this.courier.folders.openFolder(folder)
+    const uidNext = folderDetails?.uidNext
     if (!uidNext) return this.Log.error(folder.blue, "| did not provide a UIDNext.");
 
     const uidLatest = (await this.sync_existing(folder)) + 1

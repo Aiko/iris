@@ -432,6 +432,8 @@ const mailapi = {
       document.title = `Inbox - ${this.currentMailbox}`
 
       //? start your engines!
+      await DwarfStar.sync()
+      this.firstTime = DwarfStar.settings().meta.firstTime
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
       if (controlsLoader) this.loading = false
@@ -602,6 +604,7 @@ const mailapi = {
       const release = await this.syncLock.acquire()
       this.backendSyncing = false
       this.syncing = true
+      info(...MAILAPI_TAG, "SYNCOP - START")
       //? update folders
       this.folders = await this.engine.folders.state()
       const boards = await this.engine.folders.boards()
@@ -627,6 +630,8 @@ const mailapi = {
         this.boardOrder = this.boards.map(({ name }) => name)
       })
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      info(...MAILAPI_TAG, "SYNCOP - synced board metadata")
+      let t0 = performance.now()
       //? compute local cursor
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
@@ -637,8 +642,10 @@ const mailapi = {
       if (!inbox_updates) {
         this.syncing = false
         release()
-        return error(...MAILAPI_TAG, "No updates received.")
+        return error(...MAILAPI_TAG, "SYNCOP - no updates received to inbox.")
       }
+      info(...MAILAPI_TAG, "SYNCOP - fetched updates for inbox:", performance.now() - t0)
+      t0 = performance.now()
       const { all, updated } = inbox_updates
       //? first, anything that is no longer in exists can be dumped
       const existsTIDs = all.map(({ tid }) => tid)
@@ -655,6 +662,8 @@ const mailapi = {
       })
       //? sort the inbox to maintain date invariant
       this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      success(...MAILAPI_TAG, "SYNCOP - synced inbox state:", performance.now() - t0)
+
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
@@ -677,6 +686,8 @@ const mailapi = {
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       }))
 
+      t0 = performance.now()
+      info(...MAILAPI_TAG, "SYNCOP - computing full inbox")
       //? make the fullInbox
       this.fullInbox = (that => {
         const s = []
@@ -687,6 +698,7 @@ const mailapi = {
         os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
         return os
       })(this)
+      success(...MAILAPI_TAG, "SYNCOP - computed full inbox:", performance.now() - t0)
 
       this.syncing = false
       release()

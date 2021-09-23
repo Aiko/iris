@@ -54,10 +54,10 @@ export default class BoardRulesQueue implements MessageQueue {
   private rules: BoardRules
 
   // TODO: eventually load from server
-  private sync() {
-    const rules = this.meta.load('board-rules')
+  private async sync() {
+    const rules = await this.meta.load('board-rules')
     if (!rules) {
-      this.meta.store('board-rules', [])
+      await this.meta.store('board-rules', [])
       this.rules = []
     } else {
       this.rules = rules
@@ -71,12 +71,13 @@ export default class BoardRulesQueue implements MessageQueue {
     this.operator = Registry.get("Cypher") as Operator
     const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
     this.Log = Lumberjack("Board Rules")
-    this.rules = []; this.sync()
+    this.rules = []
+    this.sync() //! you better hope this finishes firing before the sync happens nancy
     autoBind(this)
   }
 
   async consume(): Promise<boolean> {
-    this.sync()
+    await this.sync()
 
     const n_pending = this.pending.length
     this.Log.time("Applied", this.rules.length, "rules to", n_pending, "MIDs.")

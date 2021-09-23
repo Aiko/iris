@@ -99,7 +99,7 @@ export default class Mailbox {
     const pantheon: PantheonProxy = new PantheonProxy(Registry)
     Registry.register("Pantheon", pantheon)
     Log.success("Instantiated Pantheon")
-    let cursor: Cursor = meta.load("cursor") || {
+    let cursor: Cursor = await meta.load("cursor") || {
       cursor: 0
     }
     cursor = await pantheon.init(dir, cursor.cursor)
