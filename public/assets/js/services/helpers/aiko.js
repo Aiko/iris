@@ -46,7 +46,7 @@ const aikoapi = {
 
       this.token = token
       if ((await this.fetchProfile()).error) {
-        const { email, password } = DwarfStar.settings.auth.credentials
+        const { email, password } = DwarfStar.settings().auth.credentials
         // FIXME: remove this
         return 'FIXME: fake token'
         return await this.login(email, password)
@@ -125,7 +125,7 @@ const aikoapi = {
           return { error: d.error || 'unknown' }
         }
         this.token = d.accessToken
-        DwarfStar.settings.auth.token = token
+        DwarfStar.settings().auth.token = token
         await DwarfStar.save()
         success(...(AIKOAPI_TAG), 'Logged into account with email:', email)
         await this.fetchProfile()

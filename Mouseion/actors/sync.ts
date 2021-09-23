@@ -55,6 +55,7 @@ export default class Sync {
   }
 
   async syncAll() {
+    this.Log.log("Starting bulk sync...")
     await do_in_batch([...this.syncQ], this.SYNC_BATCH_SIZE, this.sync)
   }
 

@@ -438,7 +438,7 @@ const mailapi = {
       if (this.firstTime) {
         info(...(this.TAG), "This is the user's first open of the app. Running tour...")
         this.tour = runTour()
-        DwarfStar.settings.meta.firstTime = false
+        DwarfStar.settings().meta.firstTime = false
         await DwarfStar.save()
       }
     },
@@ -635,6 +635,11 @@ const mailapi = {
       const max_inbox_updates = Math.max(500, this.inbox.length)
       const inbox_updates = await this.engine.resolve.threads.latest(this.folders.special.inbox, cursor, limit=max_inbox_updates)
       //? apply updates to inbox
+      if (!inbox_updates) {
+        this.syncing = false
+        release()
+        return error(...MAILAPI_TAG, "No updates received.")
+      }
       const { all, updated } = inbox_updates
       //? first, anything that is no longer in exists can be dumped
       const existsTIDs = all.map(({ tid }) => tid)

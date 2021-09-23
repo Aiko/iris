@@ -33,7 +33,7 @@ const DwarfStar = (() => {
     const { success, payload } = await app.executeIPC(
       app.ipcTask("get preferences", {})
     )
-    if (!success || !payload) return null
+    if (!success || !payload) return error("Couldn't sync preferences")
     const remoteSettings = payload
     if (remoteSettings?.version > settings.version) throw "Version mismatch. Needs fix."
     else settings = remoteSettings
@@ -51,5 +51,8 @@ const DwarfStar = (() => {
     return success
   }
 
-  return { save, sync, reset, settings }
+  return { save, sync, reset, settings: () => {
+    console.log("Returning settings:", settings)
+    return settings
+  }}
 })()
