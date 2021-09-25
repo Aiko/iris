@@ -53,7 +53,7 @@ export default class AppManager {
       } else _this.Log.error(ret.response)
     })
 
-    this.feed = this.getFeedURL()
+    this.feed = "" // this.getFeedURL()
 
     autoBind(this)
   }
@@ -67,6 +67,7 @@ export default class AppManager {
   }
 
   public checkForUpdates() {
+    this.feed = this.getFeedURL()
     autoUpdater.checkForUpdates()
     if (!(this.interval)) {
       this.interval = setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)

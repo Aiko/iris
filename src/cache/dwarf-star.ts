@@ -2,6 +2,7 @@ import path from 'path'
 import fs2 from 'fs-extra'
 import SecureCommunications from '../utils/comms'
 import autoBind from 'auto-bind'
+import Register from '../../Mouseion/managers/register'
 
 interface Settings {
 
@@ -27,20 +28,22 @@ export default class DwarfStar {
 
   private readonly fp: string
   settings: Settings
+  private comms: SecureCommunications
 
-  constructor(fp: string) {
+  constructor(Registry: Register, fp: string) {
     switch (process.platform) {
       case 'darwin': fp = path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", fp); break
       case 'win32': fp = path.join(process.env.APPDATA || "/c/", "Aiko Mail", fp); break
       case 'linux': fp = path.join(process.env.HOME || "~", ".Aiko Mail", fp); break
     }
     this.fp = fp
+    this.comms = Registry.get("Communications") as SecureCommunications
 
     this.settings = DwarfStar.defaultSettings
 
-    SecureCommunications.registerBasic("save preferences", this.set.bind(this))
-    SecureCommunications.registerBasic("clear preferences", this.reset.bind(this))
-    SecureCommunications.registerBasic("get preferences", this.copy.bind(this))
+    this.comms.register("save preferences", this.set.bind(this))
+    this.comms.register("clear preferences", this.reset.bind(this))
+    this.comms.register("get preferences", this.copy.bind(this))
 
     autoBind(this)
   }
@@ -67,6 +70,7 @@ export default class DwarfStar {
   }
 
   private copy(_: {}={}) {
+    console.log("COPY CREATED")
     return JSON.parse(JSON.stringify(this.settings))
   }
 

@@ -4,12 +4,14 @@ import SecureCommunications from '../utils/comms'
 import path from 'path'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
+import Register from '../../Mouseion/managers/register'
 
 export default class GasGiant {
   private readonly storage: Storage
   private readonly dir: string
 
   constructor(
+    Registry: Register,
     dir: string
   ) {
     switch (process.platform) {
@@ -21,11 +23,12 @@ export default class GasGiant {
 
     this.storage = new Storage(dir, {json: true})
 
-    SecureCommunications.registerBasic("save cache", this.save.bind(this))
-    SecureCommunications.registerBasic("get cache", this.load.bind(this))
-    SecureCommunications.registerBasic("pop cache", this.pop.bind(this))
-    SecureCommunications.registerBasic("kill cache", this.kill.bind(this))
-    SecureCommunications.registerBasic("clear all cache", this.clear.bind(this))
+    const comms = Registry.get("Communications") as SecureCommunications
+    comms.register("save cache", this.save.bind(this))
+    comms.register("get cache", this.load.bind(this))
+    comms.register("pop cache", this.pop.bind(this))
+    comms.register("kill cache", this.kill.bind(this))
+    comms.register("clear all cache", this.clear.bind(this))
 
     autoBind(this)
   }

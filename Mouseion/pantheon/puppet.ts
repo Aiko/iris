@@ -71,6 +71,7 @@ proc.on('message', async (m: string): Promise<any> => {
         const result = await method(...args)
         return success(result)
       } catch (e) {
+        Log.error(e)
         return error(e)
       }
     }

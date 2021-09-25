@@ -129,9 +129,9 @@ Registry.register("Mailman", mailman)
 //? Caches, preferences, storage
 Log.log("Building cache modules.")
 
-const dwarfStar = new DwarfStar("dwarf-star.json")
+const dwarfStar = new DwarfStar(Registry, "dwarf-star.json")
 Registry.register("Dwarf Star", dwarfStar)
-const gasGiant = new GasGiant("gas-giant")
+const gasGiant = new GasGiant(Registry, "gas-giant")
 Registry.register("Gas Giant", gasGiant)
 //? Load preferences
 dwarfStar.reset()

@@ -81,7 +81,7 @@ export class PantheonProxy {
 
   constructor(Registry: Register) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
-    this.Log = Lumberjack('Pantheon')
+    this.Log = Lumberjack('Pantheon Puppeteer')
     this.API = fork(path.join(__dirname, 'puppet.js'), [], {
       stdio: ['pipe', 'pipe', 'pipe', 'ipc']
     })

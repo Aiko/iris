@@ -384,7 +384,7 @@ class ThreadResolver {
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
-        if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
+        if (!message) return this.Log.error("FULL - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
@@ -459,7 +459,7 @@ class ThreadResolver {
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
-        if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
+        if (!message) return this.Log.error("CONTENT - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
@@ -531,7 +531,7 @@ class ThreadResolver {
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.headers)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
-        if (!message) return this.Log.error("Something went wrong in populating the lookup table.")
+        if (!message) return this.Log.error("HEADERS - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailWithReferences>(email, message)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
@@ -690,8 +690,10 @@ class MultiThreadResolver {
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
+        const _MID = email.M.envelope.mid
+        if (!_MID) return this.Log.warn(Folder, "LATEST - cannot check lookup table without qualifying MID for email in", folder)
         const message = lookup[email.M.envelope.mid]
-        if (!message) return this.Log.error(Folder, "Something went wrong in populating the lookup table for", folder)
+        if (!message) return; //* there will be extras due to the way we construct sequences
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))

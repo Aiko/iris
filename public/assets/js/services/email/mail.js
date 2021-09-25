@@ -893,7 +893,7 @@ const mailapi = {
       /* CONFIG */
       const THREAD_HEIGHT = 114 // height including padding
       const THREAD_SPACING = 15 // margin between items
-      const TOLERANCE = 10 // # of items above/below rendered additionally
+      const TOLERANCE = 5 // # of items above/below rendered additionally
       /* END CONFIG */
 
       const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard

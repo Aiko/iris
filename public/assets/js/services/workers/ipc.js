@@ -157,7 +157,7 @@ const ipc = {
         if (results.length == 1) return results[0]
         else return results
       } catch (error) {
-        window.error(error)
+        window.error(error, new Error("encountered on channel: " + channel))
         return { error }
       }
     },

@@ -43,18 +43,16 @@ class Storage {
 
   /** Loads data for a relevant key, parsing it if need be */
   async load(key: string): Promise<string | any> {
-    const t0 = performance.now()
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
     fs2.ensureFileSync(fp)
     const s: string = (await fs.promises.readFile(fp)).toString()
-    const t1 = performance.now()
-    const res = !!s && (this.json ? JSON.parse(s) : s)
-    const t2 = performance.now()
-    console.log('----------------------')
-    console.log("CHECK", key, "READ:", t1 - t0)
-    console.log("CHECK", key, "PARSE:", t2 - t1)
-    console.log('----------------------')
+    try {
+      return !!s && (this.json ? JSON.parse(s) : s)
+    } catch (e) {
+      console.error(`Couldn't parse JSON from ${this.dir}/${key}`)
+      return null
+    }
   }
   check = this.load.bind(this)
 

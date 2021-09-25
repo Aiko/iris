@@ -112,7 +112,7 @@ export class PostOfficeProxy {
 
   constructor(private Registry: Register) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
-    this.Log = Lumberjack('Post Office Proxy')
+    this.Log = Lumberjack('Post Office Puppeteer')
     this.API = this.spawn()
     this.exists = true
     autoBind(this)
