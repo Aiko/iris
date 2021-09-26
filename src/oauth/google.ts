@@ -1,4 +1,4 @@
-import { remote, BrowserWindow } from "electron"
+import { remote, BrowserWindow, shell, app } from "electron"
 import URL from 'url'
 import request from 'request'
 import Register from "../../Mouseion/managers/register"
@@ -7,11 +7,15 @@ import autoBind from "auto-bind"
 const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
 import { google } from 'googleapis'
 import { OAuth2Client } from "google-auth-library"
+import { Request } from 'express-serve-static-core'
+import WindowManager from "../utils/window-manager"
 
 export default class GOauth {
 
   private readonly comms: SecureCommunications
   private readonly client: OAuth2Client
+  private readonly windowManager: WindowManager
+  private tmpListener: ((code: string) => void | any) | null = null
 
   constructor(
     private readonly Registry: Register,
@@ -20,23 +24,53 @@ export default class GOauth {
     private scopes: string[]
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
+    this.windowManager = Registry.get("Window Manager") as WindowManager
 
     if (!scopes.includes("profile")) scopes.push("profile")
     if (!scopes.includes("email")) scopes.push("email")
 
     this.comms.register("please get google oauth token", this.newToken.bind(this))
     this.comms.register("please refresh google oauth token", this.refreshToken.bind(this))
+    this.comms.registerGET("/oauth/google", this.getCode.bind(this))
 
     this.client = new google.auth.OAuth2(
-      clientId, clientSecret, "urn:ietf:wg:oauth:2.0:oob"
+      clientId, clientSecret, "http://127.0.0.1:41599/oauth/google"
     )
 
     autoBind(this)
   }
 
+  private getCode(req: Request) {
+    const codeParam = req.query.code
+    const code: string = codeParam ? (typeof codeParam == "string" ? codeParam : "") : ""
+    this.windowManager.focus()
+    if (this.tmpListener) return this.tmpListener(code)
+    else return console.error("OAuth code was not caught by listener.")
+  }
+
+
   private newToken({login_hint}: {login_hint?: string}) {
     const _this = this
     return new Promise(async (s, _) => {
+      const finish = (code: string) => _this.client.getToken(code).then(res => _this.client.setCredentials(res.tokens))
+
+      _this.client.on("tokens", tokens => {
+        s(tokens)
+      })
+
+      const url = _this.client.generateAuthUrl({
+        access_type: "offline",
+        scope: _this.scopes,
+        login_hint,
+      })
+
+
+      this.tmpListener = finish
+
+      shell.openExternal(url)
+
+      //! Below doesn't work currently as Google has removed Electron as a trusted browser
+      /*
       const win = new BW({
         useContentSize: true,
         fullscreen: false
@@ -48,12 +82,6 @@ export default class GOauth {
         win.close()
       })
 
-      const url = _this.client.generateAuthUrl({
-        access_type: "offline",
-        scope: _this.scopes,
-        login_hint,
-      })
-      console.log(url)
       win.loadURL(url, {
         userAgent: this.Registry.get("user agent") as string
       })
@@ -85,8 +113,7 @@ export default class GOauth {
           finish(auth_code)
         }
       })
-
-      const finish = (code: string) => _this.client.getToken(code).then(res => _this.client.setCredentials(res.tokens))
+      */
     })
   }
 
