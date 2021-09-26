@@ -29,7 +29,7 @@ class Storage {
   static async readFile(filename: string) {
     const handle = await fs.promises.open(filename, "r").catch(_ => _)
     if (!handle) return null
-    let buffer: Buffer
+    let buffer: Buffer | null = null
     try {
         const stats = await handle.stat()
         buffer = Buffer.allocUnsafe(stats.size)
@@ -38,7 +38,7 @@ class Storage {
             throw new Error("bytesRead not full file size")
         }
     } finally {
-      handle.close()
+      if (handle.close) handle.close()
     }
     return buffer
   }
@@ -83,7 +83,12 @@ class Storage {
     if (!buffer) return null
     const s: string = buffer.toString()
     fs.unlinkSync(fp)
-    return !!s && (this.json ? JSON.parse(s) : s)
+    try {
+      return !!s && (this.json ? JSON.parse(s) : s)
+    } catch (e) {
+      console.error(`Couldn't parse JSON from ${this.dir}/${key}`)
+      return null
+    }
   }
 
   /** Appends a string to a file if the directory is not JSON managed */
