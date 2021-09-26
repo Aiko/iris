@@ -27,9 +27,6 @@ export default class SecureCommunications {
 
     this.app = express()
     this.app.listen(41599, () => console.log("Comms web relay is ACTIVE".green))
-    this.app.get('/*', (q, s) => {
-      console.log(q)
-    })
 
     this.key = randomBytes(32).toString('hex')
     console.log("New Secure Communications object created.")
@@ -128,6 +125,14 @@ export default class SecureCommunications {
       } catch (e) {
         return { error: e }
       }
+    })
+  }
+
+  registerGET(route: string, cb: any, {respondWithClose=true}={}) {
+    this.app.get(route, (q, s) => {
+      cb(q) //? no await -- we don't care if it actually works
+      if (respondWithClose) return s.redirect("https://helloaiko.com/redirect")
+      else return s.status(200).send("OK")
     })
   }
 }
