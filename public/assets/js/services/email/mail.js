@@ -419,8 +419,14 @@ const mailapi = {
       info(...MAILAPI_TAG, "Sorted local boards.")
 
       //? sync client
-      info(...MAILAPI_TAG, "Performing client sync.")
-      await this.syncOp()
+      //! experimental: instead, pop cache
+      this.threads = Satellite.load("threads")
+      this.boards.map((board, i) => this.boards[i].tids = (Satellite.load("emails/" + board.name) || []))
+      this.inbox = Satellite.load("emails/inbox")
+      this.fullInbox = Satellite.load("emails/fullInbox")
+
+      // info(...MAILAPI_TAG, "Performing client sync.")
+      // await this.syncOp()
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
 
@@ -699,6 +705,12 @@ const mailapi = {
         return os
       })(this)
       success(...MAILAPI_TAG, "SYNCOP - computed full inbox:", performance.now() - t0)
+
+      //? Cache
+      this.boards.map(board => Satellite.store("emails/" + board.name, board.tids))
+      Satellite.store("emails/inbox", this.inbox)
+      Satellite.store("emails/fullInbox", this.fullInbox)
+      Satellite.store("threads", this.threads)
 
       this.syncing = false
       release()

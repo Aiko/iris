@@ -53,6 +53,7 @@ export default class GOauth {
         scope: _this.scopes,
         login_hint,
       })
+      console.log(url)
       win.loadURL(url, {
         userAgent: this.Registry.get("user agent") as string
       })

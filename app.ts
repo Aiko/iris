@@ -10,7 +10,7 @@ Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sent
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import child_process from 'child_process'
-import { app } from 'electron'
+import { app, session } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
 import SecureCommunications from './src/utils/comms'
@@ -79,7 +79,7 @@ try {
 }
 Registry.register("commit hash", commit_hash)
 Registry.register("dev flag", dev)
-Registry.register("user agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4101.0 Safari/537.36 Edg/83.0.474.0")
+Registry.register("user agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52")
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -214,6 +214,12 @@ SecureCommunications.registerBasic('reentry', () => entry())
 //? Fetch tooling for requests
 
 const init = async () => {
+
+  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+    details.requestHeaders["User-Agent"] = Registry.get("user agent")
+    callback({ cancel: false, requestHeaders: details.requestHeaders });
+  })
+
   const SentinelAdblock = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
 
   windowManager.window = WindowManager.newWindow({})

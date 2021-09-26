@@ -5,8 +5,12 @@ import { sign, verify } from 'jsonwebtoken'
 import { randomBytes } from 'crypto'
 import { unused_port } from '../../Mouseion/utils/marionette'
 import autoBind from 'auto-bind'
+import express from 'express'
 
 const DEFAULT_PORT = 41604
+//! NEVER, NEVER, NEVER, NEVER USE PORT 41599 FOR ANYTHING ELSE
+//! WE NEEEEEED 41599 FOR EXPRESS
+//! IT IS A HARD-CODED REDIRECT URI PORT FOR SECURITY IN GOOGLE SIGNIN
 
 //! Create a new comms object for each service, as it
 //! will only support a singular websocket connection (the latest is used)
@@ -16,9 +20,16 @@ export default class SecureCommunications {
   private readonly wss: Server
   private readonly waiters: Record<string, () => void> = {}
   private readonly connections: WebSocket[] = []
+  private readonly app: express.Express
 
   private constructor(port: number) {
     this.port = port
+
+    this.app = express()
+    this.app.listen(41599, () => console.log("Comms web relay is ACTIVE".green))
+    this.app.get('/*', (q, s) => {
+      console.log(q)
+    })
 
     this.key = randomBytes(32).toString('hex')
     console.log("New Secure Communications object created.")
@@ -122,7 +133,5 @@ export default class SecureCommunications {
 }
 
 ipcMain.handle("start new websocket server", async (_, q) => {
-  console.error("NEW SECURE COMMS???? WHY???")
-  const comms = await SecureCommunications.init()
-  return comms.port
+  throw "Why are you starting a new secure comms server? Are you okay? Do you need someone to talk to?"
 })

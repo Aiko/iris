@@ -2,8 +2,7 @@
 
 const Satellite = (() => {
   const tinyStore = localforage.createInstance({
-    name: 'ko-quick-access',
-    driver: localforage.WEBSQL
+    name: 'ko-quick-access'
   })
 
   const makeKey = k => 'aiko-mail:' + k

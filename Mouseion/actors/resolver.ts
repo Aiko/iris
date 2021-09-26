@@ -176,6 +176,10 @@ class MessageResolver {
       email = JSON.parse(JSON.stringify(email)) as EmailFull
 
       //? Cache the email locally
+      email.parsed.attachments = email.parsed.attachments.map((attachment: any) => {
+        attachment.content = Buffer.from([])
+        return attachment
+      })
       await this.pantheon.cache.content.cache(MID, email)
       const partial: any = JSON.parse(JSON.stringify(email))
       partial.parsed = null

@@ -207,6 +207,10 @@ export default class Sync {
       const mid = email.M.envelope.mid
 
       //? we don't save to the full-cache (L3 pure) because no attachments
+      email.parsed.attachments = email.parsed.attachments.map((attachment: any) => {
+        attachment.content = Buffer.from([])
+        return attachment
+      })
       await this.pantheon.cache.content.cache(mid, email)
 
       const partial: any = email

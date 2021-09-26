@@ -12,10 +12,10 @@ const flow_mgr = {
     },
   },
   watch: {
-    forceAddMailbox (f, _) {
+    'flow.forceAddMailbox': function (f, _) {
       this.flow.addMailbox = f || this.flow.addMailbox
     },
-    regularView (_) {
+    'flow.regularView': function (_) {
       this.recalculateHeight()
     },
   },

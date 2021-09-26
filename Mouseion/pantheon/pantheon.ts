@@ -265,8 +265,8 @@ export class DB {
     }
     return threads.map(t => t.clean())
   }
-  async findThreadsByLatest(folder: string, {limit=5000} ={}): Promise<ThreadModel[] | null> {
-    const threads = await Thread.fromLatest(this, folder, {limit})
+  async findThreadsByLatest(folder: string, {limit=5000, start=0} ={}): Promise<ThreadModel[] | null> {
+    const threads = await Thread.fromLatest(this, folder, {limit, start})
     if (isDBError(threads)) {
       console.error(threads.error)
       return null
@@ -870,7 +870,7 @@ class Thread implements ThreadModel {
     })
   }
 
-  static fromLatest(db: DB, folder: string, {limit=5000} ={}): Promise<Thread[] | DBError> {
+  static fromLatest(db: DB, folder: string, {limit=5000, start=0} ={}): Promise<Thread[] | DBError> {
     return new Promise((s, _) => {
       const ds = db.stores.Thread
       ds.find({ folder, }).sort({ date: -1 }).limit(limit).exec((err, docs: ThreadModel[]) => {

@@ -25,6 +25,24 @@ class Storage {
     autoBind(this)
   }
 
+  // read a file in one single read
+  static async readFile(filename: string) {
+    const handle = await fs.promises.open(filename, "r").catch(_ => _)
+    if (!handle) return null
+    let buffer: Buffer
+    try {
+        const stats = await handle.stat()
+        buffer = Buffer.allocUnsafe(stats.size)
+        const { bytesRead } = await handle.read(buffer, 0, stats.size, 0)
+        if (bytesRead !== stats.size) {
+            throw new Error("bytesRead not full file size")
+        }
+    } finally {
+      handle.close()
+    }
+    return buffer
+  }
+
   //? Cleans a storage key by explicitly allowing only certain characters in the filename
   //! Known bug: if two different keys *clean* to the same key filepath, they will overlap
   private static clean_key = (key: string): string => key.replace(/[^A-z0-9/\-_]/g, '').substr(0, 69)
@@ -36,7 +54,7 @@ class Storage {
   async store(key: string, data: any): Promise<void> {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
-    fs2.ensureFileSync(fp)
+    await fs2.ensureFile(fp)
     await fs.promises.writeFile(fp, this.json ? JSON.stringify(data) : data)
   }
   cache = this.store.bind(this)
@@ -45,8 +63,9 @@ class Storage {
   async load(key: string): Promise<string | any> {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
-    fs2.ensureFileSync(fp)
-    const s: string = (await fs.promises.readFile(fp)).toString()
+    const buffer = await Storage.readFile(fp)
+    if (!buffer) return null
+    const s: string = buffer.toString()
     try {
       return !!s && (this.json ? JSON.parse(s) : s)
     } catch (e) {
@@ -60,8 +79,9 @@ class Storage {
   async pop(key: string): Promise<string | any> {
     key = Storage.clean_key(key)
     const fp: string = this.filepath(key)
-    fs2.ensureFileSync(fp)
-    const s: string = (await fs.promises.readFile(fp)).toString()
+    const buffer = await Storage.readFile(fp)
+    if (!buffer) return null
+    const s: string = buffer.toString()
     fs.unlinkSync(fp)
     return !!s && (this.json ? JSON.parse(s) : s)
   }
