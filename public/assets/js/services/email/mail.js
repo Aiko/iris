@@ -419,14 +419,15 @@ const mailapi = {
       info(...MAILAPI_TAG, "Sorted local boards.")
 
       //? sync client
-      //! experimental: instead, pop cache
-      this.threads = Satellite.load("threads")
-      this.boards.map((board, i) => this.boards[i].tids = (Satellite.load("emails/" + board.name) || []))
-      this.inbox = Satellite.load("emails/inbox")
-      this.fullInbox = Satellite.load("emails/fullInbox")
-
       // info(...MAILAPI_TAG, "Performing client sync.")
       // await this.syncOp()
+      //! experimental: instead, pop cache
+      this.threads = await Satellite.load("threads") || {}
+      this.boards.map(async (board, i) => {
+        this.boards[i].tids = ((await Satellite.load("emails/" + board.name)) || [])
+      })
+      this.inbox = await Satellite.load("emails/inbox") || []
+      this.fullInbox = await Satellite.load("emails/fullInbox") || []
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
 
