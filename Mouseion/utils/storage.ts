@@ -29,6 +29,10 @@ class Storage {
   static async readFile(filename: string) {
     const handle = await fs.promises.open(filename, "r").catch(_ => _)
     if (!handle) return null
+    if (handle instanceof Error) {
+      console.error(handle)
+      return null
+    }
     let buffer: Buffer | null = null
     try {
         const stats = await handle.stat()
@@ -38,7 +42,7 @@ class Storage {
             throw new Error("bytesRead not full file size")
         }
     } finally {
-      if (handle.close) handle.close()
+      handle.close()
     }
     return buffer
   }
