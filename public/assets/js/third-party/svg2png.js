@@ -2,7 +2,7 @@
 const SVG2PNG = _svg => {
   const div = document.createElement('div')
   div.innerHTML = _svg
-  const svg = div.firstChild
+  const svg = div.children[0]
   const xml = new XMLSerializer().serializeToString(svg)
   const b64 = btoa(xml)
   return 'data:image/svg+xml;base64,' + b64
