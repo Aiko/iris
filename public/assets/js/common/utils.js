@@ -234,7 +234,7 @@ String.prototype.getAvatar = async function (
   const fallback = () => {
     if (useBoringAvatars) {
       try {
-        const svg = BoringAvatars.beam(email)
+        const svg = BoringAvatars.beam.default(email)
         return SVG2PNG(svg)
       } catch(e) {
         return defaultTo
