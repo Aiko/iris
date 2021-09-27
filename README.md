@@ -1,28 +1,36 @@
 # VIDEO TRACKLIST
 
-- [ ] Go to aikomail.com
-- [ ] Click download
+Storyboard:
+- [x] Go to aikomail.com
+- [x] Click download
 - [ ] Sign into app (fake that its easy)
 - [ ] Board explanation
-- [ ]    -to do
-- [ ]    -custom boards
-- [ ]    -board rules
-- [ ]    -drag and drop
-- [ ] Priority/Other and Unsubscribe demo
-- [ ] Summary in email card demo
-- [ ] Quick actions explanation
-- [ ]    -schedule example
-- [ ]    -sign document
-- [ ]    -quick reply
-- [ ] Compose/Templates
-- [ ] In app notifications
-- [ ]    -priansh opened email
+    - [x] to do
+    - [x] custom boards
+    - [ ] board rules
+    - [x] drag and drop
+- [x] Priority/Other and Unsubscribe demo
+- [ ] Summarizer
+    - [x] Summary in email card demo
+    - [ ] Highlight in-email
+- [ ] Quick Actions
+    - [ ] schedule example
+    - [ ] sign document
+    - [ ] quick reply
+- [ ] Compose
+    - [x] Smart Contacts
+    - [x] Supercharged Composer
+    - [ ] Smart Compose
+    - [ ] Templates
+    - [ ] Recent Attachments
+- [ ] In-app notifications
+    - [ ] Priansh opened email
 - [ ] Native Notifications( fake it)
-- [ ]    -copy 2fa code
+    - [ ] Copy 2fa code
 
 Maybe:
 - [ ] Undo send
-- [ ] Gpt3 equivalent but mentioning this is for v2
+- [ ] GPT-3 equivalent but mentioning this is for v2
 
 # OH NO's
 
