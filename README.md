@@ -1,31 +1,31 @@
 # VIDEO TRACKLIST
 
 Storyboard:
-- [x] Go to aikomail.com
-- [x] Click download
-- [ ] Sign into app (fake that its easy)
+- [x] ~Go to aikomail.com~
+- [x] ~Click download~
+- [ ] Sign into app
 - [ ] Board explanation
-    - [x] to do
-    - [x] custom boards
-    - [ ] board rules
-    - [x] drag and drop
-- [x] Priority/Other and Unsubscribe demo
+    - [x] ~To-Do and Done~
+    - [x] ~Custom boards~
+    - [ ] Board Rules
+    - [x] ~Drag and Drop~
+- [x] ~Priority/Other and Unsubscribe demo~
 - [ ] Summarizer
-    - [x] Summary in email card demo
+    - [x] ~Summary in email card demo~
     - [ ] Highlight in-email
 - [ ] Quick Actions
-    - [ ] schedule example
-    - [ ] sign document
-    - [ ] quick reply
+    - [ ] Schedule
+    - [ ] Sign Document
+    - [ ] ~Quick Reply~
 - [ ] Compose
-    - [x] Smart Contacts
-    - [x] Supercharged Composer
+    - [x] ~Smart Contacts~
+    - [x] ~Supercharged Composer~
     - [ ] Smart Compose
     - [ ] Templates
     - [ ] Recent Attachments
 - [ ] In-app notifications
     - [ ] Priansh opened email
-- [ ] Native Notifications( fake it)
+- [ ] Native Notifications
     - [ ] Copy 2fa code
 
 Maybe:
