@@ -336,7 +336,7 @@ class ThreadResolver {
     return plan
   }
 
-  async full(TID: string): Promise<Resolved<EmailFull>[] | null> {
+  async full(TID: string): Promise<ResolvedThread<EmailFull> | null> {
     const thread = await this.pantheon.db.threads.find.tid(TID)
     if (!thread) {
       this.Log.error("TID", TID, "does not exist in our database.")
@@ -408,10 +408,11 @@ class ThreadResolver {
 
     }
 
-    return have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    return resolveThread<EmailFull>(emails, thread)
   }
 
-  async content(TID: string): Promise<Resolved<EmailFull>[] | null> {
+  async content(TID: string): Promise<ResolvedThread<EmailFull> | null> {
     const thread = await this.pantheon.db.threads.find.tid(TID)
     if (!thread) {
       this.Log.error("TID", TID, "does not exist in our database.")
@@ -483,10 +484,11 @@ class ThreadResolver {
 
     }
 
-    return have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    return resolveThread<EmailFull>(emails, thread)
   }
 
-  async headers(TID: string): Promise<Resolved<EmailWithReferences>[] | null> {
+  async headers(TID: string): Promise<ResolvedThread<EmailWithReferences> | null> {
     const thread = await this.pantheon.db.threads.find.tid(TID)
     if (!thread) {
       this.Log.error("TID", TID, "does not exist in our database.")
@@ -546,7 +548,8 @@ class ThreadResolver {
 
     }
 
-    return have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
+    return resolveThread<EmailWithReferences>(emails, thread)
   }
 
 }
