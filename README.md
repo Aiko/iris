@@ -1,4 +1,30 @@
-# OH NO
+# VIDEO TRACKLIST
+
+- [ ] Go to aikomail.com
+- [ ] Click download
+- [ ] Sign into app (fake that its easy)
+- [ ] Board explanation
+- [ ]    -to do
+- [ ]    -custom boards
+- [ ]    -board rules
+- [ ]    -drag and drop
+- [ ] Priority/Other and Unsubscribe demo
+- [ ] Summary in email card demo
+- [ ] Quick actions explanation
+- [ ]    -schedule example
+- [ ]    -sign document
+- [ ]    -quick reply
+- [ ] Compose/Templates
+- [ ] In app notifications
+- [ ]    -priansh opened email
+- [ ] Native Notifications( fake it)
+- [ ]    -copy 2fa code
+
+Maybe:
+- [ ] Undo send
+- [ ] Gpt3 equivalent but mentioning this is for v2
+
+# OH NO's
 
 > I'm on Windows/WSL and when I `npm i` I get all sorts of issues like electron-prebuilt-compile missing and SUID binary not configured and...
 

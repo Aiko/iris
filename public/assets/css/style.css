@@ -1227,6 +1227,10 @@ filter: unset !important;
 	margin-top: 1px;
 }
 
+.account img {
+	border-radius: 100px;
+}
+
 .account span {
 	text-overflow: ellipsis;
 	width: 100%;
