@@ -129,7 +129,7 @@ Vue.component('view-email', {
         this.$root.saveThread(thread, reset=false)
 
         //? perform the star
-        this.$root.engine.api.headers.star(this.email.folder, this.email.M.envelope.uid)
+        this.$root.engine.manage.star(this.email.folder, this.email.M.envelope.uid)
       }
     },
     async unstarMessage () {
@@ -144,14 +144,14 @@ Vue.component('view-email', {
         this.$root.saveThread(thread, reset=false)
 
         //? perform the star
-        this.$root.engine.api.headers.unstar(this.email.folder, this.email.M.envelope.uid)
+        this.$root.engine.manage.unstar(this.email.folder, this.email.M.envelope.uid)
       }
     },
     async deleteMessage () {
       const thread = this.$root.resolveThread(this.tid)
       if (!thread.syncing) {
         const { folder, uid } = this.$root.locThread(thread)
-        await this.$root.engine.api.manage.delete(folder, uid)
+        await this.$root.engine.manage.delete(folder, uid)
         if (thread.aikoFolder != "INBOX") {
           const board = this.$root.boards.filter(({ path }) => path == thread.aikoFolder)?.[0]
           if (!board) return window.error("Tried to delete a message from a board that does not exist")

@@ -60,7 +60,7 @@ Vue.component('thread-card', {
     async deleteMessage () {
       if (!this.thread.syncing) {
         const { folder, uid } = this.$root.locThread(this.thread)
-        await this.$root.engine.api.manage.delete(folder, uid)
+        await this.$root.engine.manage.delete(folder, uid)
         if (this.slug) {
           const board = this.$root.boards.filter(({ name }) => name == this.slug)?.[0]
           if (!board) return window.error("Tried to delete a message from a board that does not exist")
@@ -82,7 +82,7 @@ Vue.component('thread-card', {
         this.thread.emails[0].M.flags.starred = true
         this.$root.saveThread(this.thread, reset=false)
 
-        this.$root.engine.api.headers.star(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+        this.$root.engine.manage.star(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
     async unstarMessage () {
@@ -94,7 +94,7 @@ Vue.component('thread-card', {
         this.thread.emails[0].M.flags.starred = false
         this.$root.saveThread(this.thread, reset=false)
 
-        this.$root.engine.api.headers.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+        this.$root.engine.manage.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
     //? core logic for viewing message
@@ -105,7 +105,7 @@ Vue.component('thread-card', {
       this.$root.saveThread(this.thread, reset=false)
       this.$root.flow.viewThread = this.thread
 
-      await this.$root.engine.api.headers.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+      await this.$root.engine.manage.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
     //? quick action interactions
     async openVerify () {
@@ -182,7 +182,7 @@ Vue.component('thread-card', {
     },
     async sendQuickReply() {
       const email = this.thread.emails[0]
-      const msg = await this.$root.engine.api.get.single(email.M.envelope.mid)
+      const msg = await this.$root.engine.resolve.messages.full(email.M.envelope.mid)
       const quoted = msg.parsed.html
       const html = `<p>${this.replyText}</p><br><blockquote>${quoted}</blockquote>`
 

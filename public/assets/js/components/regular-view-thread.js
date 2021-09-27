@@ -47,7 +47,7 @@ Vue.component('regular-view-thread', {
       }))
 
       //? fetch the almost full thread (which we are more likely to have cached)
-      this.fullThread = await this.$root.engine.api.get.threadb(this.thread.tid)
+      this.fullThread = await this.$root.engine.resolve.thread.content(this.thread.tid)
       this.email = ((thread, sentFolder) => {
         console.log(thread)
         for (const email of thread.emails) {
@@ -59,7 +59,7 @@ Vue.component('regular-view-thread', {
 
 
       //? patch in the real full thread
-      this.fullThread = await this.$root.engine.api.get.thread(this.thread.tid)
+      this.fullThread = await this.$root.engine.resolve.thread.full(this.thread.tid)
       this.email = ((thread, sentFolder) => {
         console.log(thread)
         for (const email of thread.emails) {
