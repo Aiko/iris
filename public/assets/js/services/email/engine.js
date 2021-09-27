@@ -25,7 +25,7 @@ const Engine = port => {
 
   socket.onmessage = m => {
     if (m.data) m = m.data
-    console.log("Got response of size", m.length)
+    //console.log("Got response of size", m.length)
     const { success, error, payload, id, event } = JSON.parse(m)
     if (event) {
       if (listeners[event]) listeners[event]()
