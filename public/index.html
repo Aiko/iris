@@ -1928,7 +1928,7 @@
               <a v-if="quickaction == 'send_document'" class="main-action blue">
                 <img src="assets/icons/attach.svg"> Attach files
               </a>
-              <a @click="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp"
+              <a @click.stop.prevent="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp"
                 class="main-action blue">
                 <img src="assets/icons/clipboard.svg"> {{thread.emails[0].M.quick_actions.otp}}
               </a>
