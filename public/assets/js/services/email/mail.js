@@ -178,9 +178,9 @@ const mailapi = {
     },
     smartPriorityUnread() {
       return Object.values(this.threads).filter(thread =>
-        !(thread.emails[0].M.flags.seen) && //? has to be unread
+        !(thread.emails?.[0]?.M.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
-        (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
+        (thread.emails?.[0]?.M.envelope.date.addDays(-40)) //? within last month
       ).length
     },
   },
