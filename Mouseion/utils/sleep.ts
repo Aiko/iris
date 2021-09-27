@@ -1,0 +1,1 @@
+export default (ms: number) => new Promise((s, _) => setTimeout(s, ms))

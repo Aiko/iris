@@ -19,11 +19,11 @@ const msoauth = {
   },
   methods: {
     async msft_saveConfig () {
-      await SmallStorage.store((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config', this.msftConfig)
+      await Satellite.store((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config', this.msftConfig)
     },
     async msft_loadConfig () {
       // must have called loadIMAPConfig or loadSMTPConfig first
-      this.msftConfig = await SmallStorage.load((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config')
+      this.msftConfig = await Satellite.load((this.imapConfig?.email || this.smtpConfig?.email) + '/msft-config')
     },
     // Core Methods
     async msft_addMailbox () {
@@ -51,7 +51,7 @@ const msoauth = {
         this.imapConfig.email = user_profile.userPrincipalName
         this.imapConfig.host = 'outlook.office365.com'
         this.imapConfig.port = 993
-        this.imapConfig.xoauth2 = xoauth
+        this.imapConfig.oauth = xoauth
         this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
         this.imapConfig.provider = 'outlook'
@@ -64,7 +64,7 @@ const msoauth = {
         this.smtpConfig.email = user_profile.userPrincipalName
         this.smtpConfig.host = 'smtp.office365.com'
         this.smtpConfig.port = 587
-        this.smtpConfig.xoauth2 = xoauth
+        this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = user_profile.userPrincipalName
         this.smtpConfig.pass = ''
         this.smtpConfig.provider = 'outlook'
@@ -118,7 +118,7 @@ const msoauth = {
           this.imapConfig.email = user_profile.userPrincipalName
           this.imapConfig.host = 'outlook.office365.com'
           this.imapConfig.port = 993
-          this.imapConfig.xoauth2 = xoauth
+          this.imapConfig.oauth = xoauth
           this.imapConfig.user = user_profile.userPrincipalName
           this.imapConfig.pass = ''
           this.imapConfig.secure = true // gmail uses self signed certs
@@ -131,7 +131,7 @@ const msoauth = {
           this.smtpConfig.email = user_profile.userPrincipalName
           this.smtpConfig.host = 'smtp.office365.com'
           this.smtpConfig.port = 587
-          this.smtpConfig.xoauth2 = xoauth
+          this.smtpConfig.oauth = xoauth
           this.smtpConfig.user = user_profile.userPrincipalName
           this.smtpConfig.pass = ''
           this.smtpConfig.provider = 'outlook'
@@ -183,7 +183,7 @@ const msoauth = {
         this.imapConfig.email = user_profile.userPrincipalName
         this.imapConfig.host = 'outlook.office365.com'
         this.imapConfig.port = 993
-        this.imapConfig.xoauth2 = xoauth
+        this.imapConfig.oauth = xoauth
         this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
         this.imapConfig.secure = true // gmail uses self signed certs
@@ -196,7 +196,7 @@ const msoauth = {
         this.smtpConfig.email = user_profile.userPrincipalName
         this.smtpConfig.host = 'smtp.office365.com'
         this.smtpConfig.port = 587
-        this.smtpConfig.xoauth2 = xoauth
+        this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = user_profile.userPrincipalName
         this.smtpConfig.pass = ''
         this.smtpConfig.provider = 'outlook'

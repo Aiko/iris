@@ -12,11 +12,11 @@ const goauth = {
   },
   methods: {
     async google_saveConfig () {
-      await SmallStorage.store((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config', this.googleConfig)
+      await Satellite.store((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config', this.googleConfig)
     },
     async google_loadConfig () {
       // must have called loadIMAPConfig or loadSMTPConfig first
-      this.googleConfig = await SmallStorage.load((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config')
+      this.googleConfig = await Satellite.load((this.imapConfig?.email || this.smtpConfig?.email) + '/google-config')
     },
     // Core Methods
     async google_addMailbox () {
@@ -46,7 +46,7 @@ const goauth = {
         this.imapConfig.email = profile.email
         this.imapConfig.host = 'imap.gmail.com'
         this.imapConfig.port = 993
-        this.imapConfig.xoauth2 = xoauth
+        this.imapConfig.oauth = xoauth
         this.imapConfig.user = profile.email
         this.imapConfig.pass = ''
         this.imapConfig.provider = 'google'
@@ -59,7 +59,7 @@ const goauth = {
         this.smtpConfig.email = profile.email
         this.smtpConfig.host = 'smtp.gmail.com'
         this.smtpConfig.port = 587
-        this.smtpConfig.xoauth2 = xoauth
+        this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = profile.email
         this.smtpConfig.pass = ''
         this.smtpConfig.provider = 'google'
@@ -109,7 +109,7 @@ const goauth = {
           this.imapConfig.email = profile.email
           this.imapConfig.host = 'imap.gmail.com'
           this.imapConfig.port = 993
-          this.imapConfig.xoauth2 = xoauth
+          this.imapConfig.oauth = xoauth
           this.imapConfig.user = profile.email
           this.imapConfig.pass = ''
           this.imapConfig.secure = true // gmail uses self signed certs
@@ -122,7 +122,7 @@ const goauth = {
           this.smtpConfig.email = profile.email
           this.smtpConfig.host = 'smtp.gmail.com'
           this.smtpConfig.port = 587
-          this.smtpConfig.xoauth2 = xoauth
+          this.smtpConfig.oauth = xoauth
           this.smtpConfig.user = profile.email
           this.smtpConfig.pass = ''
           this.smtpConfig.provider = 'google'
@@ -170,7 +170,7 @@ const goauth = {
         this.imapConfig.email = profile.email
         this.imapConfig.host = 'imap.gmail.com'
         this.imapConfig.port = 993
-        this.imapConfig.xoauth2 = xoauth
+        this.imapConfig.oauth = xoauth
         this.imapConfig.user = profile.email
         this.imapConfig.pass = ''
         this.imapConfig.secure = true // gmail uses self signed certs
@@ -183,7 +183,7 @@ const goauth = {
         this.smtpConfig.email = profile.email
         this.smtpConfig.host = 'smtp.gmail.com'
         this.smtpConfig.port = 587
-        this.smtpConfig.xoauth2 = xoauth
+        this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = profile.email
         this.smtpConfig.pass = ''
         this.smtpConfig.provider = 'google'

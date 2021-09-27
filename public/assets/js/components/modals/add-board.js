@@ -16,7 +16,7 @@ Vue.component('add-board-modal', {
       this.close()
     },
     async close () {
-      this.$root.addBoard = false
+      this.$root.flow.addBoard = false
     }
   }
 })

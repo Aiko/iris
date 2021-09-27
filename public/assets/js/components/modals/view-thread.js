@@ -58,7 +58,7 @@ Vue.component('view-thread', {
   },
   methods: {
     close () {
-      this.$root.viewThread = null
+      this.$root.flow.viewThread = null
       this.$root.focused.view = false
     }
   }

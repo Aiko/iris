@@ -31,7 +31,7 @@ Vue.component('dev-controls', {
       this.testSMTP()
     },
     async close() {
-      app.showDev = false
+      this.$root.flow.showDev = false
     }
   }
 })

@@ -90,8 +90,14 @@ typings/
 
 # Electron-Forge
 out/
+
+# Generated files
 .vscode/settings.json
 package-lock.json
 prefs.json
 
+# Temp Mouseion cache
 cache/*
+
+# Compiled TS dist
+**/dist/*

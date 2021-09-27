@@ -16,7 +16,7 @@ Vue.component('add-mailbox-modal', {
         port: 993,
         user: '',
         pass: '',
-        xoauth2: '',
+        oauth: '',
         secure: true,
         provider: 'other'
       },
@@ -26,7 +26,7 @@ Vue.component('add-mailbox-modal', {
         port: 587,
         user: '',
         pass: '',
-        xoauth2: '',
+        oauth: '',
         secure: true,
         provider: 'other'
       }
@@ -75,7 +75,7 @@ Vue.component('add-mailbox-modal', {
         this.smtpConfig.provider = this.imapConfig.provider
         this.smtpConfig.user = this.imapConfig.user
         this.smtpConfig.pass = this.imapConfig.pass
-        this.smtpConfig.xoauth2 = this.imapConfig.xoauth2
+        this.smtpConfig.oauth = this.imapConfig.oauth
         this.smtpConfig.secure = this.imapConfig.secure
         return true
       }
@@ -112,7 +112,7 @@ Vue.component('add-mailbox-modal', {
       this.close()
     },
     async close () {
-      if (this.closable) { app.addMailbox = false }
+      if (this.closable) { this.$root.flow.addMailbox = false }
     },
     async back () {
       this.step = 1

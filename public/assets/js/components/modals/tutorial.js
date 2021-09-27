@@ -4,7 +4,8 @@ Vue.component('tutorial-modal', {
   },
   methods: {
     close () {
-      app.firstTime = false
+      this.$root.firstTime = false
+      DwarfStar.save({meta: {firstTime: false}})
     }
   }
 })
