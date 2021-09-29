@@ -12,6 +12,7 @@ top.app = new Vue({
     flow_mgr, // Modals
     shortcuts, // Shortcuts
     calendar, // Calendar API
+    settings, // Settings API
   ],
   data: {
     TAG: ['%c[MAIN]', 'background-color: #dd00aa; color: #000;'],
