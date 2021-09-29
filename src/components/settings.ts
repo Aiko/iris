@@ -7,11 +7,13 @@ import { BrowserWindow } from 'electron'
 export default class Settings {
   private readonly comms: SecureCommunications
   lock: BrowserWindow | null = null
+  private readonly windowManager: WindowManager
 
   constructor(
     private readonly Registry: Register,
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
+    this.windowManager = Registry.get("Window Manager") as WindowManager
 
     this.comms.register("please open settings", this.open.bind(this))
 
@@ -24,9 +26,12 @@ export default class Settings {
       this.lock.focus()
       return
     }
+
     const win = WindowManager.newWindow({
-      height: 600, width: 800
+      width: this.windowManager.window?.getBounds().width || 800,
+      height: this.windowManager.window?.getBounds().height || 600
     })
+    if (this.windowManager.window?.isFullScreen()) win.setFullScreen(true)
     this.lock = win
 
     const windowManager = new WindowManager(this.Registry, win, 'settings-' + bang)

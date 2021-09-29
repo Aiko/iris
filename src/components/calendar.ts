@@ -26,9 +26,13 @@ export default class Calendar {
       return
     }
 
+    const mainWindowManager = this.Registry.get("Window Manager") as WindowManager
+
     const win = WindowManager.newWindow({
-      height: 600, width: 800
+      width: mainWindowManager.window?.getBounds().width || 800,
+      height: mainWindowManager.window?.getBounds().height || 600
     })
+    if (mainWindowManager.window?.isFullScreen()) win.setFullScreen(true)
     this.lock = win
 
     this.windowManager = new WindowManager(this.Registry, win, 'calendar-' + bang)
