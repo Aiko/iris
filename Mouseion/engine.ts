@@ -79,6 +79,13 @@ export default class Engine {
   contacts = {
     lookup: this.mailbox.pantheon.db.contacts.search
   }
+  boardRules = {
+    addRule: this.mailbox.boardrulesQ.addRule,
+    queue: this.mailbox.boardrulesQ.queue,
+    consume: this.mailbox.boardrulesQ.consume,
+  }
+
+
   trigger = {
     register: this.mailbox.register,
     shoot: this.mailbox.trigger
@@ -92,7 +99,8 @@ export default class Engine {
     resolve: this.resolve,
     manage: this.manage,
     contacts: this.contacts,
-    trigger: this.trigger
+    trigger: this.trigger,
+    boardRules: this.boardRules
   }
 
   async close() {

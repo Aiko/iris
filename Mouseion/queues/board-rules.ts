@@ -53,7 +53,7 @@ export default class BoardRulesQueue implements MessageQueue {
   private readonly Log: Logger
   private rules: BoardRules
 
-  // TODO: eventually load from server
+  // TODO: eventually load & store to server
   private async sync() {
     const rules = await this.meta.load('board-rules')
     if (!rules) {
@@ -62,6 +62,11 @@ export default class BoardRulesQueue implements MessageQueue {
     } else {
       this.rules = rules
     }
+  }
+  async addRule(rule: BoardRule) {
+    this.rules.push(rule)
+    await this.meta.store('board-rules', this.rules)
+    return true
   }
 
   constructor(Registry: Register) {
