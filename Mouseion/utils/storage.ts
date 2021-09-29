@@ -30,7 +30,6 @@ class Storage {
     const handle = await fs.promises.open(filename, "r").catch(_ => _)
     if (!handle) return null
     if (handle instanceof Error) {
-      console.error(handle)
       return null
     }
     let buffer: Buffer | null = null
