@@ -109,7 +109,7 @@ export default class Janitor {
       folder: e.folder,
       date,
       subject: email.envelope.subject ?? 'No Subject',
-      cleanSubject: email.envelope.subject?.replace(/^((.?external.?|re|fw|fwd|aw|wg|undeliverable|undelivered|automatic reply):?\s*)+/gim, '') ?? '',
+      cleanSubject: email.envelope.subject?.replace(/^((.external.|external:|re:|fw:|fwd:|aw:|wg:|undeliverable|undelivered|automatic reply):?\s*)+/gim, '') ?? '',
       from: new EmailParticipant(email.envelope.from?.[0] ?? email.envelope.sender?.[0] ?? { name: 'No sender', address: 'hidden@hidden' }),
       to: EmailParticipant.fromList(email.envelope.to ?? email.envelope.bcc ?? []),
       cc: EmailParticipant.fromList(email.envelope.cc ?? []),
