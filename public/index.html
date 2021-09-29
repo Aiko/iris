@@ -369,13 +369,13 @@
       <div id="load-text5">Just a moment</div>
       <!-- Button trigger modal -->
       <div>
-        <button type="button" class="btn btn-primary wv" data-toggle="modal" data-target="#initVideo">
+        <button type="button" class="btn btn-primary wv">
           Watch a demo
         </button>
         <p class="wv">Get familiar with Aiko Mail while you wait.</p>
       </div>
       <!-- Modal -->
-      <div class="modal fade" id="initVideo" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-body">
@@ -444,7 +444,7 @@
               <img src="assets/icons/sidebar-home.svg">
               <span>ASR</span>
               <div class="dropdown custd">
-                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div title="Board options"><img src="assets/icons/board-dots.svg"></div>
                 <div class="dropdown-menu">
                   <span>Rename</span>
                   <span class="red">Delete</span>
@@ -456,7 +456,7 @@
               <img src="assets/icons/sidebar-home.svg">
               <span>Cooley</span>
               <div class="dropdown custd">
-                <div title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></div>
+                <div title="Board options"><img src="assets/icons/board-dots.svg"></div>
                 <div class="dropdown-menu">
                   <span>Rename</span>
                   <span class="red">Delete</span>
@@ -693,7 +693,7 @@
               <!-- ? Notifications -->
               <!--!------------------------------------------------------------->
               <div class="dropdown inline">
-                <a data-toggle="dropdown" title="Smart notifications">
+                <a title="Smart notifications">
                   <img src="assets/icons/header-bell.svg">
                   <!-- TODO: rig notif-count, the badge notification count by the bell-->
                   <span class="notif-count">3</span>
@@ -780,7 +780,7 @@
                   <!-- ? Board Actions -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                      <a title="Board options"><img src="assets/icons/board-dots.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
@@ -798,7 +798,7 @@
                   <!--!------------------------------------------------------------->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a title="Sort and filter emails" data-toggle="dropdown"><img src="assets/icons/sort.svg"></a>
+                      <a title="Sort and filter emails"><img src="assets/icons/sort.svg"></a>
                       <div class="dropdown-menu">
                         <h6 class="dropdown-header">Sort by</h6>
                         <a class="dropdown-item" @click="sortThreads(true)">Date (newest)</a>
@@ -952,7 +952,7 @@
                       <!--!------------------------------------------------------------->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a title="Board options" data-toggle="dropdown"><img src="assets/icons/board-dots.svg"></a>
+                          <a title="Board options"><img src="assets/icons/board-dots.svg"></a>
                           <div class="dropdown-menu">
                             <h6 class="dropdown-header">Actions</h6>
                             <a class="dropdown-item">Mark all as read</a>
@@ -1635,13 +1635,12 @@
               <div class="card b0">
                 <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
                   <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                      aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-link" type="button">
                       Add new rule
                     </button>
                   </h2>
                 </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div id="collapseOne" class="collapse">
                   <div class="row margin-auto existing-rules">
                     <div class="col-3">
                       <select class="aiko-select">
@@ -1772,13 +1771,12 @@
               <div class="card b0">
                 <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
                   <h2 class="mb-0">
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                      aria-expanded="true" aria-controls="collapseOne">
+                    <button class="btn btn-link" type="button">
                       Add new rules
                     </button>
                   </h2>
                 </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="collapse">
                   <div class="row margin-auto existing-rules">
                     <div class="col-3">
                       <select class="aiko-select">
