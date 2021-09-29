@@ -97,6 +97,30 @@ Vue.component('thread-card', {
         this.$root.engine.manage.unstar(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
       }
     },
+    async readMessage() {
+      const tid = this.thread.tid
+      if (!this.thread.syncing) {
+        log('Marking thread as seen', tid)
+        // update view model asap
+        this.thread.seen = true
+        this.thread.emails[0].M.flags.seen = true
+        this.$root.saveThread(this.thread, reset=false)
+
+        this.$root.engine.manage.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+      }
+    },
+    async unreadMessage() {
+      const tid = this.thread.tid
+      if (!this.thread.syncing) {
+        log('Marking thread as unseen', tid)
+        // update view model asap
+        this.thread.seen = false
+        this.thread.emails[0].M.flags.seen = false
+        this.$root.saveThread(this.thread, reset=false)
+
+        this.$root.engine.manage.unread(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
+      }
+    },
     //? core logic for viewing message
     async viewMessage () {
       const tid = this.thread.tid
