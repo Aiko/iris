@@ -39,7 +39,7 @@ export default class WindowManager {
   setFullScreen(s: boolean) { if (this.win) this.win.setFullScreen(s) }
   close() { if (this.win) this.win.close() }
   hide() { if (this.win) this.win.hide() }
-  focus() { if (this.win) this.win.focus() }
+  focus() { if (this.win) { this.win.show(); this.win.focus() }}
 
   set window(win: BrowserWindow | null) {
     this.win = win
