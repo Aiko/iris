@@ -29,7 +29,8 @@ import { ElectronBlocker } from '@cliqz/adblocker-electron'
 import fetch from 'cross-fetch'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-;;(async () => { //! Don't remove this -- async function to use await below
+;import Settings from './src/components/settings';
+;(async () => { //! Don't remove this -- async function to use await below
 
 
 
@@ -164,6 +165,8 @@ const composer = new Composer(Registry)
 Registry.register("Composer", composer)
 const calendar = new Calendar(Registry)
 Registry.register("Calendar", calendar)
+const settings = new Settings(Registry)
+Registry.register("Settings", settings)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
