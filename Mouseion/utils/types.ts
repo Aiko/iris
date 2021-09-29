@@ -11,7 +11,13 @@ export type MouseionFlags = {
   starred: boolean
 }
 
-export class EmailParticipant {
+export interface EmailParticipantModel {
+  name: string
+  address: string
+  base: string
+}
+
+export class EmailParticipant implements EmailParticipantModel {
   name: string
   address: string
   base: string

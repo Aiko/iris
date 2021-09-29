@@ -5,6 +5,7 @@ import Register from '../managers/register'
 import { LumberjackEmployer, Logger } from '../utils/logger'
 import * as Pantheon from './pantheon'
 import autoBind from 'auto-bind'
+import { IMAPConfig } from '../post-office/types'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,
@@ -64,6 +65,7 @@ const DBContactsUpdateSent = DB?.updateContactSent
 export class PantheonProxy {
   readonly Log: Logger
   readonly API: ChildProcess
+  private readonly user: string
 
   private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
   private readonly listeners: Record<string, SockPuppeteerListener> = {}
@@ -88,6 +90,9 @@ export class PantheonProxy {
     this.API.stdout?.pipe(process.stdout)
     this.API.stderr?.pipe(process.stdout)
 
+    const config = Registry.get('IMAP Config') as IMAPConfig
+    this.user = config.user
+
     //? Parses incoming messages then calls the relevant callbacks and notifies listeners
     this.API.on('message', (m: string) => {
       const s = JSON.parse(m) as SockPuppeteerWaiterParams
@@ -103,7 +108,7 @@ export class PantheonProxy {
   }
 
   async init(dir: string, cursor: number): Promise<Cursor> {
-    return await this.proxy<[string, number], Promise<Cursor>>('init')(dir, cursor)
+    return await this.proxy<[string, number, string], Promise<Cursor>>('init')(dir, cursor, this.user)
   }
 
   private proxy<ParamType extends any[], ReturnPromise extends Promise<any | void>>(action: string, immediate: boolean=true) {

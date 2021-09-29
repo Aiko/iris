@@ -3,7 +3,7 @@ import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
-import { EmailFull, EmailWithEnvelope, EmailWithReferences } from '../utils/types'
+import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences } from '../utils/types'
 import autoBind from 'auto-bind'
 
 // TODO: attachment DB & caching
@@ -84,10 +84,19 @@ enum DBState {
   Corrupt
 }
 
+
+const clone = (m: EmailParticipant): EmailParticipantModel => ({
+  name: m.name,
+  address: m.address,
+  base: m.base
+});
+const cloneN = (ms: EmailParticipant[]) => ms.map(clone);;
+
 export class DB {
   readonly dir: string
   readonly stores: Record<DBModels, Datastore>
   private cursor: number
+  user: string
 
   private path(part: string) {
     return path.join(this.dir, part)
@@ -107,10 +116,11 @@ export class DB {
     return this.cursor
   }
 
-  constructor(dir: string, cursor: number) {
+  constructor(dir: string, cursor: number, user: string) {
     this.cursor = cursor
     this.dir = dir
     this.dir = this.path("db")
+    this.user = user
     this.stores = {
       Message: new Datastore({
         filename: this.path("Message"),
@@ -336,6 +346,11 @@ export interface MessageModel {
   seen: boolean
   starred: boolean
   subject: string
+  from: EmailParticipantModel
+  to: EmailParticipantModel[]
+  cc: EmailParticipantModel[]
+  bcc: EmailParticipantModel[]
+  recipients: EmailParticipantModel[]
   timestamp: Date
   locations: MessageLocation[]
 }
@@ -351,6 +366,11 @@ class Message implements MessageModel {
   subject: string
   timestamp: Date
   locations: MessageLocation[]
+  from: EmailParticipantModel
+  to: EmailParticipantModel[]
+  cc: EmailParticipantModel[]
+  bcc: EmailParticipantModel[]
+  recipients: EmailParticipantModel[]
 
   private state: DBState = DBState.New
 
@@ -366,6 +386,11 @@ class Message implements MessageModel {
     this.subject = data.subject
     this.timestamp = new Date(data.timestamp)
     this.locations = data.locations
+    this.from = clone(data.from)
+    this.to = cloneN(data.to)
+    this.cc = cloneN(data.cc)
+    this.bcc = cloneN(data.bcc)
+    this.recipients = cloneN(data.recipients)
     autoBind(this)
   }
 
@@ -378,6 +403,11 @@ class Message implements MessageModel {
       starred: this.starred,
       subject: this.subject,
       timestamp: this.timestamp,
+      from: this.from,
+      to: this.to,
+      cc: this.cc,
+      bcc: this.bcc,
+      recipients: this.recipients,
       locations: this.locations.map((m: MessageLocation) => {
         const { folder, uid } = m
         return { folder, uid }
@@ -414,7 +444,7 @@ class Message implements MessageModel {
         (this.state == DBState.New) ? "does not exist." : "is corrupted."
     )
     const {
-      tid, seen, starred, subject, timestamp, locations
+      tid, seen, starred, subject, timestamp, locations, from, to, cc, bcc, recipients
     } = shadow
     this.tid = tid
     this.seen = seen
@@ -422,6 +452,11 @@ class Message implements MessageModel {
     this.subject = subject
     this.timestamp = timestamp
     this.locations = locations
+    this.from = from
+    this.to = to
+    this.cc = cc
+    this.bcc = bcc
+    this.recipients = recipients
   }
 
   save({force=false} ={}): Promise<MessageModel | DBError> {
@@ -434,7 +469,8 @@ class Message implements MessageModel {
             mids: [],
             date: this.timestamp,
             cursor: this.db.getCursor(),
-            folder: ''
+            folder: '',
+            participants: []
           })
           await t.save()
           this.tid = t.tid
@@ -468,8 +504,6 @@ class Message implements MessageModel {
 
           return s(await this.shadow())
         })
-
-
       }
     })
   }
@@ -640,6 +674,7 @@ export interface ThreadModel {
   //! ^ as long as sync interval > 3s it'll take 20+ years for this to be outdated
   folder: string //? core foldeer for thread
   tid: string
+  participants: EmailParticipantModel[]
 }
 
 class Thread implements ThreadModel {
@@ -651,6 +686,7 @@ class Thread implements ThreadModel {
   cursor: number = 0
   folder: string
   tid: string
+  participants: EmailParticipantModel[]
 
   private state: DBState = DBState.New
 
@@ -674,6 +710,7 @@ class Thread implements ThreadModel {
     this.cursor = data.cursor
     this.folder = data.folder
     this.tid = data.tid
+    this.participants = cloneN(data.participants)
     autoBind(this)
   }
 
@@ -684,7 +721,8 @@ class Thread implements ThreadModel {
       date: this.date,
       cursor: this.cursor,
       folder: this.folder,
-      tid: this.tid
+      tid: this.tid,
+      participants: cloneN(this.participants)
     }
   }
 
@@ -752,7 +790,7 @@ class Thread implements ThreadModel {
     })
   }
 
-  /** Calibrates the date & folder of the thread (or deletes it from DB if it has no MIDs) */
+  /** Calibrates the date & folder & participants of the thread (or deletes it from DB if it has no MIDs) */
   async calibrate({
     save=true,
     updateCursor=true
@@ -803,9 +841,39 @@ class Thread implements ThreadModel {
     //? means don't show it in the inbox UI
     this.folder = board
 
+    await this.getParticipants(messages)
+
     if (updateCursor) this.cursor = this.db.getCursor()
 
     if (save) await this.save()
+  }
+
+  private async getParticipants(messages: MessageModel[]) {
+    const _this = this
+    const participantAddresses = new Set()
+    this.participants = messages.map(({ from, recipients, locations }): EmailParticipantModel[] => {
+      const people = [from, ...recipients]
+      //? try to detect a forwarding address
+      const forwardAddress = ((): string | null => {
+        //? if we weren't the sender
+        if (_this.db.user != from.address) return null;
+        //? ok but if we WERE the sender
+        //! FIXME: this is a HORRIBLE way to check if its the sent folder
+        if (locations.filter(({ folder }) => folder.includes('Sent')).length > 0) return from.address
+        //? if we weren't a recipient
+        const _recipients = recipients.map(({ address }) => address)
+        if (_recipients.includes(_this.db.user)) return null
+        //! does not check the "received" headerline
+        return null
+      })()
+      const others = people.filter(({ address }) =>
+        (address != _this.db.user) &&
+        (address != forwardAddress) &&
+        !(participantAddresses.has(address))
+      )
+      others.map(({ address }) => participantAddresses.add(address))
+      return others
+    }).flat()
   }
 
   //? Utility methods to work with messages

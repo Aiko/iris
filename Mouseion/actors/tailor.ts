@@ -39,6 +39,7 @@ export default class Tailor {
   private readonly boardrulesQ: BoardRulesQueue
   private readonly internal_use: boolean
   private readonly operator: Operator
+  private readonly user: string
 
   constructor(Registry: Register, opts: {
     internal_use: boolean
@@ -51,6 +52,7 @@ export default class Tailor {
     this.folders = Registry.get('Folders') as Folders
     const config = Registry.get('IMAP Config') as IMAPConfig
     this.provider = config.provider || ''
+    this.user = config.user
     this.contactQ = Registry.get('Contacts Queue') as ContactsQueue
     this.boardrulesQ = Registry.get('Board Rules Queue') as BoardRulesQueue
     this.internal_use = opts.internal_use
@@ -112,6 +114,11 @@ export default class Tailor {
           timestamp: new Date(email.M.envelope.date),
           subject: email.M.envelope.cleanSubject,
           tid: local_message.tid,
+          from: email.M.envelope.from,
+          to: email.M.envelope.to,
+          cc: email.M.envelope.cc,
+          bcc: email.M.envelope.bcc,
+          recipients: email.M.envelope.recipients
         }
         await this.pantheon.db.messages.add(m)
         return local_message.tid
@@ -218,7 +225,12 @@ export default class Tailor {
         timestamp: new Date(email.M.envelope.date),
         subject: email.M.envelope.cleanSubject,
         tid: '', //? allow auto-generation
-      }
+        from: email.M.envelope.from,
+        to: email.M.envelope.to,
+        cc: email.M.envelope.cc,
+        bcc: email.M.envelope.bcc,
+        recipients: email.M.envelope.recipients
+    }
       await this.pantheon.db.messages.add(m)
       const added_message = await this.pantheon.db.messages.find.mid(MID)
       if (added_message) TID = added_message.tid
@@ -235,6 +247,11 @@ export default class Tailor {
         timestamp: new Date(email.M.envelope.date),
         subject: email.M.envelope.cleanSubject,
         tid: TID,
+        from: email.M.envelope.from,
+        to: email.M.envelope.to,
+        cc: email.M.envelope.cc,
+        bcc: email.M.envelope.bcc,
+        recipients: email.M.envelope.recipients
       }
       await this.pantheon.db.messages.add(m)
     }
@@ -269,14 +286,16 @@ export default class Tailor {
       const messages = await this.pantheon.db.threads.messages(TID)
       if (messages.length <= 0) continue;
       const subject = messages[0].subject
+      const participants = thread.participants.map(({ address }) => address)
 
-      const same_subject_messages = await this.pantheon.db.messages.find.subject(subject)
+      const same_subject_messages = (await this.pantheon.db.messages.find.subject(subject))
       if (!same_subject_messages) continue;
 
       const subjectTIDs: Set<string> = new Set()
       const WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
-      same_subject_messages.forEach(({ timestamp, tid }) => {
+      same_subject_messages.forEach(({ timestamp, tid, recipients, from }) => {
+        const people = [from, ...recipients]
         timestamp = new Date(timestamp)
         //? ignore ourselves
         if (tid == TID) return;
@@ -286,6 +305,9 @@ export default class Tailor {
         if (timestamp > date) return;
         //? ignore anything too old
         if (Math.abs(date.valueOf() - timestamp.valueOf()) > 16 * WEEK_MS) return;
+        //? ignore anything that doesn't share participants
+        const sharedParticipants = people.filter(({ address }) => participants.includes(address))
+        if (sharedParticipants.length < 1) return;
         //? add TID
         subjectTIDs.add(tid)
       })
