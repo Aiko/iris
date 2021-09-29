@@ -80,7 +80,8 @@ export default class Engine {
     lookup: this.mailbox.pantheon.db.contacts.search
   }
   boardRules = {
-    addRule: this.mailbox.boardrulesQ.addRule,
+    add: this.mailbox.boardrulesQ.addRule,
+    list: this.mailbox.boardrulesQ.listRules,
     queue: this.mailbox.boardrulesQ.queue,
     consume: this.mailbox.boardrulesQ.consume,
   }

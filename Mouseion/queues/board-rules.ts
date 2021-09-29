@@ -69,6 +69,10 @@ export default class BoardRulesQueue implements MessageQueue {
     return true
   }
 
+  async listRules() {
+    return JSON.parse(JSON.stringify(this.rules))
+  }
+
   constructor(Registry: Register) {
     this.meta = Registry.get("Metadata Storage") as Storage
     this.pantheon = Registry.get("Pantheon") as PantheonProxy

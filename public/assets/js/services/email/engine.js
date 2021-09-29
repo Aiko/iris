@@ -111,6 +111,12 @@ const Engine = port => {
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)
     },
+    boardRules: {
+      add: async rule => await proxy('boardRules.add')(rule).catch(console.error),
+      list: async () => await proxy('boardRules.list')().catch(console.error),
+      queue: async (...mids) => await proxy('boardRules.queue')(...mids).catch(console.error),
+      consume: async () => await proxy('boardRules.consume')().catch(console.error)
+    },
     triggers: {
       shoot: async event => await proxy('triggers.shoot')(event).catch(console.error)
     },
