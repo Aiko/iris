@@ -284,8 +284,9 @@ export default class Tailor {
 
       const date = new Date(thread.date)
       const messages = await this.pantheon.db.threads.messages(TID)
-      if (messages.length <= 0) continue;
+      if (messages.length <= 3) continue; //? ignore short threads
       const subject = messages[0].subject
+      if (subject == "No Subject") continue; //? ignore empty subject threads
       const participants = thread.participants.map(({ address }) => address)
 
       const same_subject_messages = (await this.pantheon.db.messages.find.subject(subject))
