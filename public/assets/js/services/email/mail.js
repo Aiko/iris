@@ -422,12 +422,12 @@ const mailapi = {
       // info(...MAILAPI_TAG, "Performing client sync.")
       // await this.syncOp()
       //! experimental: instead, pop cache
-      this.threads = await Satellite.load("threads") || {}
+      this.threads = await Satellite.load(this.currentMailbox + "threads") || {}
       this.boards.map(async (board, i) => {
-        this.boards[i].tids = ((await Satellite.load("emails/" + board.name)) || [])
+        this.boards[i].tids = ((await Satellite.load(this.currentMailbox + "emails/" + board.name)) || [])
       })
-      this.inbox = await Satellite.load("emails/inbox") || []
-      this.fullInbox = await Satellite.load("emails/fullInbox") || []
+      this.inbox = await Satellite.load(this.currentMailbox + "emails/inbox") || []
+      this.fullInbox = await Satellite.load(this.currentMailbox + "emails/fullInbox") || []
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
 
@@ -708,10 +708,10 @@ const mailapi = {
       success(...MAILAPI_TAG, "SYNCOP - computed full inbox:", performance.now() - t0)
 
       //? Cache
-      this.boards.map(board => Satellite.store("emails/" + board.name, board.tids))
-      Satellite.store("emails/inbox", this.inbox)
-      Satellite.store("emails/fullInbox", this.fullInbox)
-      Satellite.store("threads", this.threads)
+      this.boards.map(board => Satellite.store(this.currentMailbox + "emails/" + board.name, board.tids))
+      Satellite.store(this.currentMailbox + "emails/inbox", this.inbox)
+      Satellite.store(this.currentMailbox + "emails/fullInbox", this.fullInbox)
+      Satellite.store(this.currentMailbox + "threads", this.threads)
 
       this.syncing = false
       release()
