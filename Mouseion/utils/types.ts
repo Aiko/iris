@@ -24,6 +24,7 @@ export class EmailParticipant implements EmailParticipantModel {
   constructor(participant: EmailParticipantRaw) {
     this.name = participant.name || "No Sender"
     this.address = participant.address || "hidden@"
+    if (this.address != "hidden@" && this.name == "No Sender") this.name = this.address
     this.base = this.address.replace(/\+.*(?=@)/gim, '')
     autoBind(this)
   }
