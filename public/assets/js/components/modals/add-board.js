@@ -11,7 +11,7 @@ Vue.component('add-board-modal', {
   },
   methods: {
     async addBoard () {
-      info(...MODALS_TAG, 'Making a new board with title:', this.name)
+      info(...FLOW_TAG, 'Making a new board with title:', this.name)
       await this.$root.boardCreate(this.name)
       this.close()
     },

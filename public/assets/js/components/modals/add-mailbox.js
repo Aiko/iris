@@ -98,11 +98,11 @@ Vue.component('add-mailbox-modal', {
     async saveConfig () {
       this.loading = true
       if (!(await this.testIMAP())) {
-        window.error(...MODALS_TAG, 'IMAP test failed.')
+        window.error(...FLOW_TAG, 'IMAP test failed.')
         return (this.loading = false)
       }
       if (!(await this.testSMTP())) {
-        window.error(...MODALS_TAG, 'SMTP test failed.')
+        window.error(...FLOW_TAG, 'SMTP test failed.')
         return (this.loading = false)
       }
       Object.assign(app.imapConfig, this.imapConfig)
