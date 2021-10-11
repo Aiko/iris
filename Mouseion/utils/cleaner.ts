@@ -419,7 +419,8 @@ export default class Janitor {
         size: attachment.size ?? 0,
         content: attachment.content ?? Buffer.from([]),
         cid: attachment.cid ?? '',
-        related: attachment.related ?? false
+        related: attachment.related ?? false,
+        checksum: attachment.checksum ?? ''
       }
     })
 
