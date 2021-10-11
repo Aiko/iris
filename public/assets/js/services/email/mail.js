@@ -846,16 +846,30 @@ const mailapi = {
           const strategy = (thread.originFolder == this.folders.special.inbox) ? this.engine.manage.copy : this.engine.manage.move;
 
           //? perform the movement
-          await strategy(threadLoc.folder, threadLoc.uid, thread.folder)
+          const destUID = await strategy(threadLoc.folder, threadLoc.uid, thread.folder)
 
-          //? we don't need the result UID and we don't manage failures
+          if (!destUID) {
+            console.error("Did not receive destination UID. Changes will correct in the next sync.")
+          } else {
+            //? find the email with the threadLoc
+            thread.emails = thread.emails.map(email => {
+              email.locations = email.locations.map(location => {
+                if (location.folder == threadLoc.folder && location.uid == threadLoc.uid) {
+                  location.folder = thread.folder
+                  location.uid = destUID
+                }
+                return location
+              })
+              return email
+            })
+          }
           //? if it failed it will reflect in next backend sync
           //? otherwise the thread will simply be updated in the next backend sync
 
           info(...MAILAPI_TAG, "Moved thread", tid, "from", thread.originFolder, "to", thread.folder)
 
           //? reset the thread state
-          _this.saveThread(thread, reset=true)
+          _this.saveThread(thread, reset=!!destUID)
           _this.movers.delete(tid)
         }
 
