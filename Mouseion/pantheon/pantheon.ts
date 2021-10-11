@@ -3,19 +3,35 @@ import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
-import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences } from '../utils/types'
+import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
 import autoBind from 'auto-bind'
 
 // TODO: attachment DB & caching
 
-type CacheLevels = "L1" | "L2" | "L3" | "L3b"
+type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
 interface CacheBinding<T> {
   cache: (key: string, data: T) => Promise<void>
   check: (key: string) => Promise<T | false>
 }
 
+interface MouseionParsedWithEmbeddedAttachment extends Omit<MouseionParsed, "attachments"> {
+  attachments: string[]
+}
+
+interface EmailFullWithEmbeddedAttachment extends Omit<EmailFull, "parsed"> {
+  parsed: MouseionParsedWithEmbeddedAttachment
+}
+const isEmailFullWithEmbeddedAttachment = (email: any):email is EmailFullWithEmbeddedAttachment =>
+!!(email?.parsed?.attachments?.length > -1);;
+
+interface EmbeddedMouseionAttachment extends MouseionAttachment {
+  author: EmailParticipant
+  date: Date
+}
+
 export class Cache {
   readonly dir: string
+  readonly db: DB
   readonly paths: Record<CacheLevels, string>
   readonly caches: Record<CacheLevels, Storage>
 
@@ -30,12 +46,12 @@ export class Cache {
   envelope: CacheBinding<EmailWithEnvelope>
   headers: CacheBinding<EmailWithReferences>
   content: CacheBinding<EmailFull>
-  full: CacheBinding<EmailFull>
 
-  constructor(dir: string) {
+  constructor(dir: string, db: DB) {
     this.dir = dir
     this.dir = this.path('cache')
 
+    this.db = db
 
     process.title = "Mouseion - Pantheon: " + this.dir
 
@@ -44,13 +60,15 @@ export class Cache {
       L2: this.path('L2'),
       L3: this.path('L3'),
       L3b: this.path('L3b'),
+      ATT: this.path('ATT')
     }
 
     this.caches = {
       L1: this.storage("L1"),
       L2: this.storage("L2"),
       L3: this.storage("L3"),
-      L3b: this.storage("L3b")
+      L3b: this.storage("L3b"),
+      ATT: this.storage("ATT")
     }
 
     //? we need to promisify methods as SP only uses promises
@@ -64,13 +82,55 @@ export class Cache {
     this.envelope = promisify<EmailWithEnvelope>(this.caches.L1)
     this.headers = promisify<EmailWithReferences>(this.caches.L2)
     this.content = promisify<EmailFull>(this.caches.L3b)
-    this.full = promisify<EmailFull>(this.caches.L3)
 
     autoBind(this)
   }
+
+  private async fullCache(mid: string, email: EmailFull): Promise<void> {
+    const promises: Promise<any>[] = []
+    const attachments = email.parsed.attachments.map(
+      (attachment: MouseionAttachment): EmbeddedMouseionAttachment => {
+        const author = email.M.envelope.from
+        return {
+          ...attachment,
+          date: new Date(),
+          author
+        }
+      }
+    ).map(attachment => {
+      //? Cache files
+      const filepath = attachment.checksum || (mid + "/" + attachment.filename)
+      promises.push(this.caches.ATT.cache(filepath, attachment))
+
+      //? Save to DB
+      promises.push(Attachment.fromEmbeddedMouseionAttachment(this.db, attachment, filepath))
+
+      return filepath
+    })
+    const cidEmail: EmailFullWithEmbeddedAttachment = ((): EmailFullWithEmbeddedAttachment => {
+      return {...email, parsed: { ...email.parsed, attachments }}
+    })()
+
+    promises.push(this.caches.L3b.cache(mid, cidEmail))
+    await Promise.all(promises)
+  }
+  private async fullCheck(mid: string): Promise<EmailFull | null> {
+    const cidEmail: EmailFullWithEmbeddedAttachment = await this.caches.L3b.check(mid)
+    if (!isEmailFullWithEmbeddedAttachment(cidEmail)) return null;
+    const fps = cidEmail.parsed.attachments
+    const attachments: EmbeddedMouseionAttachment[] = (await Promise.all(fps.map(
+      (fp: string): Promise<EmbeddedMouseionAttachment | null> => this.caches.ATT.check(fp))
+    )).filter(_ => _) as EmbeddedMouseionAttachment[] //! Typescript is dumb so don't remove this force cast
+    return {...cidEmail, parsed: {...cidEmail.parsed, attachments}}
+  }
+  full = {
+    cache: this.fullCache.bind(this),
+    check: this.fullCheck.bind(this)
+  }
+
 }
 
-type DBModels = "Message" | "Thread" | "Contact"
+type DBModels = "Message" | "Thread" | "Contact" | "Attachment"
 
 interface DBError {
   error: string,
@@ -134,6 +194,11 @@ export class DB {
       }),
       Contact: new Datastore({
         filename: this.path("Contact"),
+        autoload: true,
+        timestampData: true
+      }),
+      Attachment: new Datastore({
+        filename: this.path("Attachment"),
         autoload: true,
         timestampData: true
       })
@@ -1014,7 +1079,7 @@ class Contact implements ContactModel {
   //? Call with any prio then immediately save to calculate priority
   constructor(db: DB, data: ContactModel) {
     this.db = db
-    this.ds = this.db.stores.Message
+    this.ds = this.db.stores.Contact
 
     this.email = data.email
     this.name = data.name
@@ -1123,7 +1188,7 @@ class Contact implements ContactModel {
 
   static fromEmail(db: DB, email: string): Promise<Contact | DBError> {
     return new Promise((s, _) => {
-      const ds = db.stores.Message
+      const ds = db.stores.Contact
       ds.findOne({ email }, (err, doc: ContactModel) => {
         if (err || !doc) {
           return s({
@@ -1204,7 +1269,7 @@ class Contact implements ContactModel {
           { name: { $regex: regex } },
           { email: { $regex: regex } },
         ]
-      }).sort({ priority: -1, lastSeen: 1 }).exec((err, docs: ContactModel[]) => {
+      }).sort({ priority: -1, lastSeen: -1 }).exec((err, docs: ContactModel[]) => {
         if (err || !docs) return s({
           error: err ? err.message + err.stack : "Could not find contacts matching the query."
         })
@@ -1214,6 +1279,204 @@ class Contact implements ContactModel {
           return c
         })
         return s(contacts)
+      })
+    })
+  }
+
+}
+
+export interface AttachmentModel extends Omit<EmbeddedMouseionAttachment, "content"> {
+  filepath: string
+}
+
+class Attachment implements AttachmentModel {
+  readonly db: DB
+  readonly ds: Datastore
+
+  readonly filepath: string
+  filename: string
+  contentType: string
+  date: Date
+  size: number
+  cid: string
+  related: boolean
+  checksum: string
+  author: EmailParticipant
+
+  private state: DBState = DBState.New
+
+  //? Call with any prio then immediately save to calculate priority
+  constructor(db: DB, data: AttachmentModel) {
+    this.db = db
+    this.ds = this.db.stores.Attachment
+
+    this.filepath = data.filepath
+    this.filename = data.filename
+    this.contentType = data.contentType
+    this.date = new Date(data.date)
+    this.size = data.size
+    this.cid = data.cid
+    this.related = data.related
+    this.checksum = data.checksum
+    this.author = data.author
+    autoBind(this)
+  }
+
+  /** Utility method to make life easier for the structured clone algorithm */
+  clean(): AttachmentModel {
+    return {
+      filepath: this.filepath,
+      filename: this.filename,
+      contentType: this.contentType,
+      date: this.date,
+      size: this.size,
+      cid: this.cid,
+      related: this.related,
+      checksum: this.checksum,
+      author: this.author
+    }
+  }
+
+  /** Returns the "shadow," essentially what is in the DB */
+  shadow(): Promise<AttachmentModel | DBError> {
+    return new Promise((s, _) => {
+      if (this.state == DBState.New) return s({
+        error: "Tried to find the shadow for a Attachment that has yet to be saved."
+      })
+      this.ds.findOne({ filepath: this.filepath }, (err, doc: AttachmentModel) => {
+        if (err || !doc) {
+          this.state = DBState.Corrupt
+          return s({
+            error: "The shadow for the Attachment no longer exists. Attachment is in a corrupt state."
+          })
+        }
+        this.state = DBState.OK
+        doc.date = new Date(doc.date)
+        return s(doc)
+      })
+    })
+  }
+
+  /** Resets to whatever is in DB */
+  async reset() {
+    const shadow = await this.shadow()
+    if (isDBError(shadow)) throw new Error(shadow.error)
+    if (this.state != DBState.OK) throw new Error(
+      "Tried resetting a Attachment that " +
+        (this.state == DBState.New) ? "does not exist." : "is corrupted."
+    )
+    const {
+      filename, contentType, date, size, cid, related, checksum, author
+    } = shadow
+    this.filename = filename
+    this.contentType = contentType
+    this.date = date
+    this.size = size
+    this.cid = cid
+    this.related = related
+    this.checksum = checksum
+    this.author = author
+  }
+
+  save({force=false} ={}): Promise<AttachmentModel | DBError> {
+    return new Promise(async (s, _) => {
+      const shadow = await this.shadow()
+      if (this.state == DBState.New || (force && this.state == DBState.Corrupt)) {
+        this.ds.insert(this.clean(), async (err, doc: AttachmentModel) => {
+          if (err || !doc) return s({
+            error: err ? (err.message + err.stack) : "Failed to save new/corrupt Attachment."
+          })
+          this.state = DBState.OK
+
+          return s(doc)
+        })
+      } else {
+        if (isDBError(shadow)) return s(shadow)
+
+        this.ds.update({ filepath: this.filepath }, this.clean(), {}, async (err) => {
+          if (err) return s({error: err.message + err.stack})
+
+          return s(await this.shadow())
+        })
+
+      }
+    })
+  }
+
+  purge(): Promise<boolean> {
+    return new Promise(async (s, _) => {
+      const shadow = await this.shadow()
+      if (isDBError(shadow)) return s(false)
+
+      this.ds.remove({ filepath: this.filepath }, {}, (err) => {
+        if (err) return s(false)
+
+        this.state = DBState.Corrupt
+        return s(true)
+      })
+    })
+  }
+
+  static fromFilepath(db: DB, filepath: string): Promise<Attachment | DBError> {
+    return new Promise((s, _) => {
+      const ds = db.stores.Attachment
+      ds.findOne({ filepath }, (err, doc: AttachmentModel) => {
+        if (err || !doc) {
+          return s({
+            error: "An attachment with that email does not exist.",
+            dne: !err
+          })
+        }
+        const a = new Attachment(db, doc)
+        a.state = DBState.OK
+        return s(a)
+      })
+    })
+  }
+
+  static async fromEmbeddedMouseionAttachment(db: DB, fullAttachment: EmbeddedMouseionAttachment, filepath: string): Promise<Attachment | DBError> {
+    let attachment = await this.fromFilepath(db, filepath)
+    if (isDBError(attachment)) {
+      if (attachment.dne) {
+        attachment = new Attachment(db, {
+          filepath,
+          filename: fullAttachment.filename,
+          contentType: fullAttachment.contentType,
+          date: fullAttachment.date,
+          size: fullAttachment.size,
+          cid: fullAttachment.cid,
+          related: fullAttachment.related,
+          checksum: fullAttachment.checksum,
+          author: fullAttachment.author
+        })
+        const saved = await attachment.save()
+        if (isDBError(saved)) return saved
+        else return attachment
+      } else return attachment
+    } else return attachment
+  }
+
+  static search(db: DB, partial: string): Promise<Attachment[] | DBError> {
+    const ds = db.stores.Attachment
+    return new Promise((s, _) => {
+      //? if the search string is short, only search beginning of string
+      const pattern = partial.length <3 ? '^' + partial : partial
+      const regex = new RegExp(pattern, 'gi')
+      ds.find({
+        $or: [
+          { name: { $regex: regex } },
+          { email: { $regex: regex } },
+        ]
+      }).sort({ date: -1 }).exec((err, docs: AttachmentModel[]) => {
+        if (err || !docs) return s({
+          error: err ? err.message + err.stack : "Could not find attachments matching the query."
+        })
+        const attachments: Attachment[] = docs.map(doc => {
+          const a = new Attachment(db, doc)
+          a.state = DBState.OK
+          return a
+        })
+        return s(attachments)
       })
     })
   }

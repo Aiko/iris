@@ -82,6 +82,7 @@ export interface MouseionAttachment {
   content: Buffer
   cid: string
   related: boolean
+  checksum: string
 }
 
 export interface MouseionParsed extends MouseionParsedBase {
@@ -177,5 +178,7 @@ export interface EmailWithPriority extends EmailWithTrackers {
 }
 
 export interface EmailFull extends EmailWithPriority {
-  
+
 }
+
+export const isEmailFull = (email: any):email is EmailFull => !!(email?.parsed?.attachments?.length > -1)

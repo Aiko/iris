@@ -81,8 +81,8 @@ proc.on('message', async (m: string): Promise<any> => {
       case 'init':
         if (cache) return error("Cache already exists.")
         if (db) return error("DB already exists")
-        cache = new Cache(args[0])
         db = new DB(args[0], args[1], args[2])
+        cache = new Cache(args[0], db)
         return success({cursor: db.getCursor()})
       case 'cursor.next':
         return success({cursor: db.nextCursor()})
