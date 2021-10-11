@@ -224,6 +224,7 @@ export interface CopyUIDSetRaw {
 /** Only supports copying 1 message. Do NOT try to rely on this when copying multiple messages. */
 export class CopyUID {
   private _uid: number
+  public uid: number | null
 
   private static isArray(x: any):x is any[] {
     return !!(x.reduceRight)
@@ -253,12 +254,8 @@ export class CopyUID {
 
   constructor(c: CopyUIDSetRaw) {
     this._uid = CopyUID.getUID(c)
+    this.uid = (this._uid > 0) ? this._uid : null
     autoBind(this)
-  }
-
-  get uid():number | null {
-    if (this._uid > 0) return this._uid
-    else return null
   }
 
 }

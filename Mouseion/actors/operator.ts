@@ -197,7 +197,10 @@ export default class Operator {
 
       const destUID: CopyUID = await this.courier.messages.copyMessages(srcFolder, destFolder, '' + uid)
 
-      if (destUID.uid == null) return null
+      if (destUID.uid == null) {
+        console.log(destUID)
+        return null
+      }
 
       message.locations.push({
         folder: destFolder,
@@ -223,7 +226,10 @@ export default class Operator {
 
       const destUID: MoveUID = await this.courier.messages.moveMessages(srcFolder, destFolder, '' + uid)
 
-      if (destUID.uid == null) return null
+      if (destUID.uid == null) {
+        console.log(destUID)
+        return null
+      }
 
       message.locations.push({
         folder: destFolder,
