@@ -1,10 +1,10 @@
-import Storage from '../utils/storage'
+import Storage from '../../Mouseion/utils/storage'
 import { session } from 'electron'
-import SecureCommunications from '../../src/utils/comms'
+import SecureCommunications from '../utils/comms'
 import path from 'path'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
-import Register from './register'
+import Register from '../../Mouseion/managers/register'
 
 export interface Template {
   html: string

@@ -30,6 +30,7 @@ import fetch from 'cross-fetch'
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 ;import Settings from './src/components/settings';
+import CookieCutter from './src/cache/templates';
 ;(async () => { //! Don't remove this -- async function to use await below
 
 
@@ -148,6 +149,8 @@ const dwarfStar = new DwarfStar(Registry, "dwarf-star.json")
 Registry.register("Dwarf Star", dwarfStar)
 const gasGiant = new GasGiant(Registry, "gas-giant")
 Registry.register("Gas Giant", gasGiant)
+const cookieCutter = new CookieCutter(Registry, "cookie-cutter")
+Registry.register("Cookie Cutter", cookieCutter)
 //? Load preferences
 dwarfStar.reset()
 /// //////////////////////////////////////////////////////
