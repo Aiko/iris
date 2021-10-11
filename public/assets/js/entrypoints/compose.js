@@ -33,6 +33,7 @@ const app = new Vue({
     ipc, // IPC communication
     aikoapi, // Aiko API
     window_mgr, // window controls
+    mailapi, // IMAP API
     composer, // SMTP API
     goauth, // Google OAuth
     msoauth, // Microsoft OAuth
@@ -96,7 +97,8 @@ const app = new Vue({
 
     // fetch preferences
     await DwarfStar.sync()
-    const token = DwarfStar.settings().auth.token
+    const settings = DwarfStar.settings()
+    const token = settings.auth.token
 
     // try logging in
     info(...(this.TAG), 'Logging in')
@@ -111,6 +113,12 @@ const app = new Vue({
       await ipcRenderer.invoke('reentry')
       return
     }
+
+    // setup IMAP listeners
+    info(...(this.TAG), 'Initializing IMAP')
+    await this.initIMAP()
+    await this.getEngine()
+    info(...(this.TAG), 'Bound to temporary engine.')
 
     // setup SMTP listeners
     info(...(this.TAG), 'Initializing SMTP')

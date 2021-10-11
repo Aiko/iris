@@ -24,9 +24,12 @@ const GasGiant = (() => {
       })
     )
     if (!success || !data) return null
+    const jsonString = data
+    /*
     const jsonString = decoder.decode(data)
     if (!jsonString) return null
-    else return JSON.parse(JSON.parse(jsonString))
+    */
+    return JSON.parse(jsonString)
   }
 
   const pop = async k => {
@@ -37,9 +40,12 @@ const GasGiant = (() => {
       })
     )
     if (!success || !data) return null
+    const jsonString = data
+    /*
     const jsonString = decoder.decode(data)
     if (!jsonString) return null
-    else return JSON.parse(JSON.parse(jsonString))
+    */
+    return JSON.parse(jsonString)
   }
 
   const kill = async () => {

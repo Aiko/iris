@@ -923,6 +923,8 @@ const mailapi = {
       const TOLERANCE = 5 // # of items above/below rendered additionally
       /* END CONFIG */
 
+      if (!this.$refs.inboxBoard) return;
+
       const { scrollHeight, scrollTop, clientHeight } = this.$refs.inboxBoard
 
       const scrollAmount = scrollTop

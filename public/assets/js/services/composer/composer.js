@@ -84,7 +84,7 @@ const composer = {
     async loadComposer () {
       const identifier = this.bang
       if (!identifier) return window.error(...COMPOSER_TAG, 'No bang!')
-      const config = await GasGiant.load('composer/' + identifier)
+      const config = await GasGiant.load('composer/' + identifier) //! switch to pop
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
       this.sendTo = config.to || []
