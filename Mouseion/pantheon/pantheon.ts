@@ -88,7 +88,7 @@ export class Cache {
 
   private async fullCache(mid: string, email: EmailFull): Promise<void> {
     const promises: Promise<any>[] = []
-    const attachments = email.parsed.attachments.map(
+    const attachments: string[] = email.parsed.attachments.map(
       (attachment: MouseionAttachment): EmbeddedMouseionAttachment => {
         const author = email.M.envelope.from
         return {
@@ -111,11 +111,11 @@ export class Cache {
       return {...email, parsed: { ...email.parsed, attachments }}
     })()
 
-    promises.push(this.caches.L3b.cache(mid, cidEmail))
+    promises.push(this.caches.L3.cache(mid, cidEmail))
     await Promise.all(promises)
   }
   private async fullCheck(mid: string): Promise<EmailFull | null> {
-    const cidEmail: EmailFullWithEmbeddedAttachment = await this.caches.L3b.check(mid)
+    const cidEmail: EmailFullWithEmbeddedAttachment = await this.caches.L3.check(mid)
     if (!isEmailFullWithEmbeddedAttachment(cidEmail)) return null;
     const fps = cidEmail.parsed.attachments
     const attachments: EmbeddedMouseionAttachment[] = (await Promise.all(fps.map(
