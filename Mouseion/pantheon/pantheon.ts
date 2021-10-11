@@ -389,6 +389,16 @@ export class DB {
     return true
   }
 
+  //*-------------- Utility methods for attachments
+  async findAttachments(searchTerm: string): Promise<AttachmentModel[] | null> {
+    const attachments = await Attachment.search(this, searchTerm)
+    if (isDBError(attachments)) {
+      console.error(attachments.error)
+      return null
+    }
+    return attachments.map(a => a.clean())
+  }
+
 }
 
 export type MessageLocation = {
@@ -1463,10 +1473,8 @@ class Attachment implements AttachmentModel {
       const pattern = partial.length <3 ? '^' + partial : partial
       const regex = new RegExp(pattern, 'gi')
       ds.find({
-        $or: [
-          { name: { $regex: regex } },
-          { email: { $regex: regex } },
-        ]
+        filename: { $regex: regex },
+        related: false
       }).sort({ date: -1 }).exec((err, docs: AttachmentModel[]) => {
         if (err || !docs) return s({
           error: err ? err.message + err.stack : "Could not find attachments matching the query."

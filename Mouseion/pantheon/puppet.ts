@@ -119,6 +119,8 @@ proc.on('message', async (m: string): Promise<any> => {
       case 'db.contacts.update.received': return await attempt(db.updateContactReceived)
       case 'db.contacts.update.sent': return await attempt(db.updateContactSent)
 
+      case 'db.attachments.search': return await attempt(db.findAttachments)
+
       default: return error("Action provided to sock puppet does not match any existing binding.")
     }
 

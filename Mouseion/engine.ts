@@ -79,6 +79,9 @@ export default class Engine {
   contacts = {
     lookup: this.mailbox.pantheon.db.contacts.search
   }
+  attachments = {
+    lookup: this.mailbox.pantheon.db.attachments.search
+  }
   boardRules = {
     add: this.mailbox.boardrulesQ.addRule,
     list: this.mailbox.boardrulesQ.listRules,

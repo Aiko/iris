@@ -61,6 +61,7 @@ const DBThreadsMessages = DB?.threadMessages
 const DBContactsSearch = DB?.findContacts
 const DBContactsUpdateReceived = DB?.updateContactReceived
 const DBContactsUpdateSent = DB?.updateContactSent
+const DBAttachmentsSearch = DB?.findAttachments
 
 export class PantheonProxy {
   readonly Log: Logger
@@ -213,6 +214,9 @@ export class PantheonProxy {
         received: this.proxy<Parameters<typeof DBContactsUpdateReceived>, ReturnType<typeof DBContactsUpdateReceived>>("db.contacts.update.received"),
         sent: this.proxy<Parameters<typeof DBContactsUpdateSent>, ReturnType<typeof DBContactsUpdateSent>>("db.contacts.update.sent"),
       }
+    },
+    attachments: {
+      search: this.proxy<Parameters<typeof DBAttachmentsSearch>, ReturnType<typeof DBAttachmentsSearch>>("db.attachments.search"),
     }
   }
 
