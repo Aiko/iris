@@ -100,6 +100,11 @@ export default class WindowManager {
     this.handler("get fullscreen status", () => updateFullscreenStatus(_this.fullscreened))
   }
 
+  triggerEvent(channel: string, data: any) {
+    if (!this.win) return this.Log.error("Tried to trigger event but window has been destroyed.")
+    this.win.webContents.send(channel, data)
+  }
+
   static newWindow(args: Partial<Electron.BrowserWindowConstructorOptions>) {
     return new BrowserWindow({
       show: false,
