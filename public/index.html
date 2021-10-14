@@ -1,11 +1,4 @@
 <!-- AIKO MAIL, INC. ALL RIGHTS RESERVED -->
-<!-- TODO: Save state of interface (sidebar and boards...) so it stays same on restart (collapsed, not collapsed etc) -->
-<!-- TODO: Make it so that when in 'single email view' we can press down and up arrow to go to next email -->
-<!-- TODO: Somehow autofocus fields like add board modal and invite etc -->
-<!-- TODO: Can we make date 'February 2' instead of 2/2 ? -->
-<!-- TODO: Maybe we implement a right click for some options like m ar as unread etc -->
-<!-- TODO: Add  .pre-delete  for .2 second before deleting .email , just a delete animation-->
-<!-- TODO: Add js to remove all bootstrap animations and to prevent board dropdowns from closing on click (call me)-->
 
 <!DOCTYPE html>
 <html>
@@ -32,29 +25,18 @@
 </head>
 
 <body class="bg">
-  <!-- TODO: If possible, add 'collapsed' when 'zen' is added so that zen doesn't exist without collapsed ever -->
-  <!-- TODO: Add 'Zen Mode' in 'Window' mac menu option teehee -->
 
   <div id="app" :class="{
     'inline-flex': true,
     'collapsed': collapseSidebar
   }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '25') + 'px;'">
 
-    <!--!------------------------------------------------------------->
     <!--? Prestyled themes -->
-    <!--!------------------------------------------------------------->
     <link v-if="isDarkMode" rel="stylesheet" href="assets/css/dark.css">
-
-    <!--!------------------------------------------------------------->
     <!--? User styles -->
-    <!--!------------------------------------------------------------->
     <link rel="stylesheet" href="assets/css/custom.css">
 
-    <!--!------------------------------------------------------------->
     <!--? Loader -->
-    <!--!------------------------------------------------------------->
-    <!-- TODO: MAKE INITIAL LOADER ONLY APPEAR AFTER INBOX IS ADDED SO THAT LOAD TEXT SHOWS ENTIRELY -->
-    <!--* Update: I think this behaviour occurs now, needs testing for verification  -->
     <div id="fixed" class="aiko-loader center-loader">
       <div class="hide-whole"></div>
       <img src="assets/img/logo.svg">
@@ -384,7 +366,6 @@
             <div class="modal-footer">
               <p style="margin-bottom: 0;">You can skip this video once we're done setting up your
                 mailbox.</p>
-              <!-- TODO: SHOW THIS BUTTON ONLY WHEN APP IS READY -->
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip Video</button>
             </div>
           </div>
@@ -392,9 +373,7 @@
       </div>
     </div>
 
-    <!--!------------------------------------------------------------->
-    <!-- ? Control Bar -->
-    <!--!------------------------------------------------------------->
+    <!--? Control Bar -->
     <div :class="{'control-bar': true,'pc': isPC,}" v-if="!isFullScreen">
       <p v-if="isLinux" title="Close" @click="close"></p> <!-- Close ------------------------>
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
@@ -414,32 +393,27 @@
       <!-- Close ---------------->
     </div>
 
-    <!--!------------------------------------------------------------->
-    <!-- ? Sidebar -->
-    <!--!------------------------------------------------------------->
+    <!--? Sidebar -->
     <div class="sidebar">
       <div class="container">
 
-        <!--!------------------------------------------------------------->
-        <!-- ? Mail Menu -->
-        <!--!------------------------------------------------------------->
+        <!--? Mail Section -->
         <div class="row">
 
-          <!--!------------------------------------------------------------->
-          <!-- ? Open Composer Button -->
-          <!--!------------------------------------------------------------->
+          <!--? Open Composer -->
           <a class="sbtn compose-button" @click="openComposer()" id="step6"><img src="assets/icons/sidebar-edit.svg"
               style="margin-right: 6px;"><span>Compose</span></a>
 
-          <!--!------------------------------------------------------------->
-          <!-- ? Email Folders -->
-          <!--!------------------------------------------------------------->
+          <!--? Spaces -->
           <a class="active space-picker home">
+
+            <!--? Home Space -->
             <div class="space">
               <img src="assets/icons/sidebar-home.svg">
               <span>Home <span class="main-count">{{smartPriorityUnread}}</span></span>
             </div>
 
+            <!--? Custom Spaces -->
             <div class="space">
               <img src="assets/icons/sidebar-home.svg">
               <span>ASR</span>
@@ -452,33 +426,20 @@
               </div>
             </div>
 
-            <div class="space">
-              <img src="assets/icons/sidebar-home.svg">
-              <span>Cooley</span>
-              <div class="dropdown custd">
-                <div title="Board options"><img src="assets/icons/board-dots.svg"></div>
-                <div class="dropdown-menu">
-                  <span>Rename</span>
-                  <span class="red">Delete</span>
-                </div>
-              </div>
-            </div>
-
+            <!--? Add New Space -->
             <div class="space">
               <img src="assets/icons/header-plus.svg">
               <span>Add space</span>
             </div>
-
           </a>
 
-
-          <!-- TODO: Outbox only shows when there is actually an email being sent for more than 5 seconds -->
+          <!--? Outbox -->
           <a>
             <img src="assets/icons/out.svg" class="mt0">
             <span class="blue">Outbox <span class="main-count">3</span></span>
           </a>
 
-
+          <!--? Special Folders -->
           <a>
             <img src="assets/icons/sidebar-send.svg" class="sent-fix">
             <span>Sent</span>
@@ -491,7 +452,6 @@
             <img src="assets/icons/sidebar-spam.svg" style="margin-top: -2px !important;">
             <span>Spam <span class="main-count">4</span></span>
           </a>
-          <!-- TODO: only show drafts when there are drafts -->
           <a>
             <img src="assets/icons/sidebar-drafts.svg">
             <span>Drafts</span>
@@ -502,10 +462,7 @@
           </a>
         </div>
 
-
-        <!--!------------------------------------------------------------->
-        <!-- ? Team Menu  TODO: ONLY SHOW THESE WHEN THERE IS AT LEAST 1 MORE TEAM MEMBER -->
-        <!--!------------------------------------------------------------->
+        <!--? Team Section -->
         <div class="row sr2" style="display: none;">
           <div class="search no-mobile sc">
             <img src="assets/icons/header-search.svg">
@@ -528,76 +485,75 @@
 
         </div>
 
-
-        <!--!------------------------------------------------------------->
-        <!-- ? Sidebar Announcements -->
-        <!-- ! Only display one at a time! -->
-        <!--!------------------------------------------------------------->
+        <!--? Interactions Section -->
         <div class="announce sc no-mobile" style="display: none;">
           <h1><span class="blue fw700">Send an invite</span></h1>
           <p>You have 3 VIP invites remaining</p>
           <a target="_blank" class="sbtn">Invite now</a>
           <a target="_blank" class="sbtn-sec">Later</a>
         </div>
-
         <div class="announce sc no-mobile load-sidebar" style="display: none;">
           <h1><span class="blue fw700">Downloading Update</span></h1>
           <p>Do not quit the app during the download.</p>
         </div>
-
         <div class="announce sc no-mobile load-sidebar" style="display: none">
           <h1><span class="blue fw700">Update Ready</span></h1>
           <p>Restart to install.</p>
           <a target="_blank" class="sbtn">Restart Now</a>
         </div>
-
         <div class="announce sc no-mobile" style="display: none;">
           <h1>Version: <span class="blue fw700">ALPHA</span></h1>
           <p>Request features and report issues</p>
           <a target="_blank" class="sbtn">Give feedback</a>
         </div>
 
-
-        <!--!------------------------------------------------------------->
-        <!-- ? Sidebar Footer -->
-        <!--!------------------------------------------------------------->
+        <!--? Footer Section -->
         <div class="row bottom sr3">
+
+          <!--? Collapse Sidebar -->
           <div @click="collapseSidebar = !collapseSidebar" title="Toggle collapse sidebar"
             class="sidebar-collapse no-mobile">
             <img src="assets/icons/sidebar-collapse.svg">
           </div>
+
           <br>
+
+          <!--? Buttons -->
           <div class="set">
-            <a @click="openSettings" title="Settings"><img src="assets/icons/sidebar-settings.svg" width="30"></a>
-            <a title="Documentation" class="no-mobile sc ml10" target="_blank"><img src="assets/icons/sidebar-help.svg"
-                width="30"></a>
+
+            <!--? Open Settings -->
+            <a @click="openSettings" title="Settings">
+              <img src="assets/icons/sidebar-settings.svg" width="30">
+            </a>
+
+            <!--? Open Documentation -->
+            <a title="Documentation" class="no-mobile sc ml10" target="_blank">
+              <img src="assets/icons/sidebar-help.svg" width="30">
+            </a>
+
           </div>
+
         </div>
+
       </div>
     </div>
 
-    <!--!------------------------------------------------------------->
     <!-- ? Main View -->
-    <!--!------------------------------------------------------------->
     <div class="main">
 
-      <!--!------------------------------------------------------------->
-      <!-- ? Toasts -->
-      <!-- TODO: these should disappear after 10s -->
-      <!--!------------------------------------------------------------->
-      <!-- TOAST Invite Sent -->
+      <!--? TOAST Invite Sent -->
       <div class="aiko-toast" style="display: none">
         <p class="textinout">Sending invite</p><a>Undo</a>
         <div class="t-loader"><span></span></div>
       </div>
 
-      <!-- TOAST Connection Lost -->
+      <!--? TOAST Connection Lost -->
       <div class="aiko-toast" style="display: none">
         <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
         <div class="t-loader-red"><span></span></div>
       </div>
 
-      <!-- TOAST IMAP Error -->
+      <!--? TOAST IMAP Error -->
       <div class="aiko-toast" style="display: none;">
         <p class="textinout" style="color: #dc3545 !important">
           We're having issues connecting to your mail provider, but will keep trying.
@@ -605,29 +561,25 @@
         <div class="t-loader-red"><span></span></div>
       </div>
 
-      <!-- TOAST Send Email Error -->
+      <!--? TOAST Send Email Error -->
       <div class="aiko-toast" style="display: none;">
         <p class="textinout" style="color: #dc3545 !important">We were unable to send your message due to network
           issues</p>
         <div class="t-loader-red"><span></span></div>
       </div>
 
-      <!-- TOAST Sending Email -->
+      <!--? TOAST Sending Email -->
       <div class="aiko-toast" style="display: none;">
         <p class="textinout">Sending email</p><a>Undo</a>
         <div class="t-loader"><span></span></div>
       </div>
 
-      <!--!------------------------------------------------------------->
-      <!-- ? Top Bar -->
-      <!--!------------------------------------------------------------->
+      <!--? Top Bar -->
       <div class="header">
         <div class="container">
           <div class="row">
 
-            <!--!------------------------------------------------------------->
             <!-- ? Mailbox Picker -->
-            <!--!------------------------------------------------------------->
             <div class="col-lg-3 col-md-4 col-2">
               <div class="picker">
 
@@ -649,10 +601,7 @@
               </div>
             </div>
 
-
-            <!--!------------------------------------------------------------->
             <!-- ? Search -->
-            <!--!------------------------------------------------------------->
             <div class="col-lg-5 col-md-6 col-6 p0m">
               <div class="search">
                 <img src="assets/icons/header-search.svg"><input type="" name="" placeholder="Search">
@@ -676,26 +625,18 @@
               </div>
             </div>
 
-
-            <!--!------------------------------------------------------------->
             <!-- ? Header Menu -->
-            <!--!------------------------------------------------------------->
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
 
-              <!--!------------------------------------------------------------->
               <!-- ? Open Calendar -->
-              <!--!------------------------------------------------------------->
               <a @click="openCalendar" class="inline" title="Show calendar">
                 <img src="assets/icons/header-calendar.svg">
               </a>
 
-              <!--!------------------------------------------------------------->
               <!-- ? Notifications -->
-              <!--!------------------------------------------------------------->
               <div class="dropdown inline">
                 <a title="Smart notifications">
                   <img src="assets/icons/header-bell.svg">
-                  <!-- TODO: rig notif-count, the badge notification count by the bell-->
                   <span class="notif-count">3</span>
                 </a>
                 <div class="dropdown-menu notif" style="margin-top: 10px">
@@ -742,42 +683,34 @@
                   </div>
                 </div>
               </div>
+
             </div>
+
           </div>
         </div>
       </div>
 
-      <!--!------------------------------------------------------------->
-      <!-- ? Inbox Kanban Boards -->
-      <!--!------------------------------------------------------------->
+      <!--? Inbox Kanban Boards -->
       <div class="boards-container">
-        <!-- TODO: rig settings to add 'zero-lines, one-lines, two-lines, three-lines'  to 'boards'-->
-        <!-- TODO: add 'regular' class  to 'boards' class to make it regular non-board view-->
-        <!-- TODO: add 'no-action-bar' class  to 'boards' class to remove action b ar from all emails-->
         <div :class="{
           'boards': true,
           'two-lines': true,
           'regular': flow.regularView
         }">
 
-          <!--!------------------------------------------------------------->
           <!-- ? Inbox Board (special case) -->
-          <!--!------------------------------------------------------------->
           <div :class="{
             'board': true,
             'inbox': true,
             'load-board': syncing
           }">
 
-            <!--!------------------------------------------------------------->
-            <!-- ? Board Header -->
-            <!--!------------------------------------------------------------->
+            <!-- ? Header -->
             <div class="board-header">
               <div class="container p0">
                 <div class="row" style="display: -webkit-inline-box">
 
-                  <!--!------------------------------------------------------------->
-                  <!-- ? Board Actions -->
+                  <!-- ? Actions Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
                       <a title="Board options"><img src="assets/icons/board-dots.svg"></a>
@@ -792,10 +725,7 @@
                   </div>
 
 
-                  <!--!------------------------------------------------------------->
-                  <!-- ? Boards Sorting & Display Controls -->
-                  <!-- ? TODO: This sorts all boards at once -->
-                  <!--!------------------------------------------------------------->
+                  <!--? Controls Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
                       <a title="Sort and filter emails"><img src="assets/icons/sort.svg"></a>
@@ -812,9 +742,7 @@
                   </div>
 
 
-                  <!--!------------------------------------------------------------->
-                  <!-- ? Force Sync (inbox only) -->
-                  <!--!------------------------------------------------------------->
+                  <!--? Force Sync (inbox only) -->
                   <div class="col-1 cll">
                     <a v-if="backendSyncing" title="Force refresh">
                       <img class="rotating" src="assets/icons/refresh.svg" width="17">
@@ -825,9 +753,7 @@
                   </div>
 
 
-                  <!--!------------------------------------------------------------->
                   <!-- ? Priority/Other Switcher -->
-                  <!--!------------------------------------------------------------->
                   <div class="col-8 text-center exp nowrap" id="step2">
                     <div class="inbox-switch left text-center">
                       <h1 :class="{
@@ -851,14 +777,10 @@
             </div>
 
 
-            <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
-            <!--!------------------------------------------------------------->
             <div v-if="!flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
-              <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
-              <!--!------------------------------------------------------------->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
                 draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
@@ -872,9 +794,7 @@
               </draggable>
 
 
-              <!--!------------------------------------------------------------->
               <!-- ? List Loader -->
-              <!--!------------------------------------------------------------->
               <div class="inbox-more">
                 <p @click="priority = false"><img src="assets/icons/filter-inbox.svg"> <span>Click here to see
                   </span><b>{{otherInbox.length}}</b> filtered
@@ -885,14 +805,10 @@
 
             </div>
 
-            <!--!------------------------------------------------------------->
             <!-- ? Inbox Thread List -->
-            <!--!------------------------------------------------------------->
             <div v-if="flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
-              <!--!------------------------------------------------------------->
               <!-- ? Draggable List -->
-              <!--!------------------------------------------------------------->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="fullInbox" filter=".dont-drag-this"
                 draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
                 :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
@@ -906,9 +822,7 @@
               </draggable>
 
 
-              <!--!------------------------------------------------------------->
               <!-- ? List Loader -->
-              <!--!------------------------------------------------------------->
               <div class="inbox-more">
                 <p @click="priority = false"><img src="assets/icons/filter-inbox.svg"> <span>Click here to see
                   </span><b>{{otherInbox.length}}</b> filtered
@@ -922,15 +836,11 @@
           </div>
 
 
-          <!--!------------------------------------------------------------->
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
-          <!--!------------------------------------------------------------->
           <draggable v-if="!flow.regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
             draggable=".board" ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true"
             :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
-            <!--!------------------------------------------------------------->
             <!-- ? Board Template -->
-            <!--!------------------------------------------------------------->
             <board v-for="slug in boardOrder" :syncing="syncing" :board="resolveBoard(slug)" :slug="slug"
               :seen-filter.camel="seenFilter" inline-template>
 
@@ -940,16 +850,12 @@
                 'thin': board?.thin
               }">
 
-                <!--!------------------------------------------------------------->
                 <!-- ? Board Header -->
-                <!--!------------------------------------------------------------->
                 <div class="board-header board-drag-handle">
                   <div class="container p0">
                     <div class="row">
 
-                      <!--!------------------------------------------------------------->
                       <!-- ? Board Actions -->
-                      <!--!------------------------------------------------------------->
                       <div class="col-2 cll">
                         <div class="dropdown">
                           <a title="Board options"><img src="assets/icons/board-dots.svg"></a>
@@ -1020,9 +926,7 @@
                       </div>
 
 
-                      <!--!------------------------------------------------------------->
                       <!-- ? Board Title (click to thin/thick) -->
-                      <!--!------------------------------------------------------------->
                       <div class="col-8 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" title="Click title to minimize/maximize">
                           {{slug}}
@@ -1048,9 +952,7 @@
                   </div>
                 </div>
 
-                <!--!------------------------------------------------------------->
                 <!-- ? Board Thread List -->
-                <!--!------------------------------------------------------------->
                 <div class="board-body">
 
                   <!--!------------------------------------------------------------->
@@ -1139,6 +1041,7 @@
 
         </div>
       </div>
+
     </div>
 
     <!--!------------------------------------------------------------->
