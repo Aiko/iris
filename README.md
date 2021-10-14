@@ -32,6 +32,17 @@ Maybe:
 - [ ] Undo send
 - [ ] GPT-3 equivalent but mentioning this is for v2
 
+# JINKIES SCOOB, HOW DO I RUN THIS?
+
+```
+npm i -g typescript @vue/cli
+npm i
+npm restart
+```
+
+**PLEASE NOTE: IF YOU RUN `npm start` INSTEAD OF `npm restart` THE APP WILL NOT (RE)COMPILE TYPESCRIPT ASSETS.**
+**YOU WILL HAVE AN OLD VERSION OF THE CODE IF THIS HAPPENS.**
+
 # OH NO's
 
 > I'm on Windows/WSL and when I `npm i` I get all sorts of issues like electron-prebuilt-compile missing and SUID binary not configured and...
