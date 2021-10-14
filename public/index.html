@@ -940,9 +940,7 @@
                         </div>
                       </div>
 
-                      <!--!------------------------------------------------------------->
                       <!-- ? Board Drag Handle -->
-                      <!--!------------------------------------------------------------->
                       <div class="col-2 text-right cll">
                         <!-- ! Testing a UI without this -->
                         <a v-if="false" class="board-drag-handle" title="Drag board"><img
@@ -955,13 +953,10 @@
                 <!-- ? Board Thread List -->
                 <div class="board-body">
 
-                  <!--!------------------------------------------------------------->
                   <!-- ? Draggable List -->
-                  <!--!------------------------------------------------------------->
                   <draggable :id="'aikomail--' + slug" v-if="board" v-model="board.tids" filter=".dont-drag-this"
                     draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
                     :fallback-on-body="true" :fallback-tolerance="5" @start="startMove" @end="moveThread">
-                    <!-- Single Email ---------- add class 'drag' when dragged ------->
                     <thread-card v-for="(tid, i) in board.tids" v-if="(seenFilter == null || thread.seen == seenFilter)"
                       :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
                       :focused-index.camel="focused.index" :view-focused.camel="focused.view"
@@ -969,10 +964,7 @@
                     </thread-card>
                   </draggable>
 
-
-                  <!--!------------------------------------------------------------->
                   <!-- ? Board Empty Helper Text -->
-                  <!--!------------------------------------------------------------->
                   <div class="empty" v-if="board?.tids?.length == 0">
                     <h1>Drag emails here.</h1>
                   </div>
@@ -983,20 +975,13 @@
           </draggable>
 
 
-          <!--!------------------------------------------------------------->
-          <!-- ? Long Board for regular inbox view -->
-          <!--!------------------------------------------------------------->
+          <!-- ? Thread View Pane for Regular View -->
           <div v-if="flow.regularView" class="long-board">
             <regular-view-thread v-if="flow.viewThread && flow.regularView" :thread="flow.viewThread" inline-template>
-              <!--!------------------------------------------------------------->
-              <!-- ? Message List -->
-              <!--!------------------------------------------------------------->
+              <!-- ? Email List -->
               <div class="main-email">
 
-                <!--!------------------------------------------------------------->
                 <!-- ? Datepicker for Schedule Quick Action -->
-                <!-- TODO: move this out -->
-                <!--!------------------------------------------------------------->
                 <div class="modal-dialog modal-md datepick" v-if="false">
                   <div class="modal-content">
                     <div class="modal-reg">
@@ -1019,22 +1004,16 @@
                   </div>
                 </div>
 
-                <!-- TODO: Ruben, make sure shadow light mode not bad-->
-                <!--!------------------------------------------------------------->
                 <!-- ? Thread Messages -->
-                <!--!------------------------------------------------------------->
                 <view-email v-for="(email, i) in fullThread.emails" :email="email" :expanded="i == 0" :key="i"
                   :tid="thread.tid">
                 </view-email>
               </div>
             </regular-view-thread>
-            <!-- copy <div class="main-email"> template here when needed-->
           </div>
 
 
-          <!--!------------------------------------------------------------->
           <!-- ? Add Board Button -->
-          <!--!------------------------------------------------------------->
           <div v-if="!flow.regularView" class="add-board" @click="flow.addBoard = true" id="step3">
             <img src="assets/icons/boards-add.svg">
           </div>
@@ -1044,10 +1023,7 @@
 
     </div>
 
-    <!--!------------------------------------------------------------->
-    <!-- ? Modals -->
-    <!--!------------------------------------------------------------->
-    <!-- MODAL Invite Team Member --------------------------------------->
+    <!--? MODAL Invite Team Member --------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -1096,7 +1072,7 @@
       </div>
     </div>
 
-    <!-- MODAL Upgrade for Quick Actions -->
+    <!--? MODAL Upgrade for Quick Actions -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1121,7 +1097,7 @@
       </div>
     </div>
 
-    <!-- MODAL Upgrade for more mailboxes -->
+    <!--? MODAL Upgrade for more mailboxes -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1147,7 +1123,7 @@
       </div>
     </div>
 
-    <!-- MODAL Upgrade for notifications -->
+    <!--? MODAL Upgrade for notifications -->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -1172,7 +1148,7 @@
       </div>
     </div>
 
-    <!-- MODAL Tutorial Video -->
+    <!--? MODAL Tutorial Video -->
     <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
@@ -1192,7 +1168,7 @@
       </div>
     </tutorial-modal>
 
-    <!-- MODAL View Thread -->
+    <!--? MODAL View Thread -->
     <view-thread v-if="flow.viewThread && !flow.regularView" :thread="flow.viewThread" inline-template>
 
       <div @click.self="close" class="aiko-modal">
@@ -1321,7 +1297,7 @@
       </div>
     </view-thread>
 
-    <!-- MODAL Add Mailbox --------------------------------------->
+    <!--? MODAL Add Mailbox --------------------------------------->
     <add-mailbox-modal v-if="flow.addMailbox" :success="switchMailServer" :googlestrategy="google_addMailbox"
       :msftstrategy="msft_addMailbox" :closable="!(flow.forceAddMailbox)" inline-template>
       <div class="aiko-modal add-mailbox">
@@ -1391,7 +1367,7 @@
       </div>
     </add-mailbox-modal>
 
-    <!-- MODAL Add Board --------------------------------------->
+    <!--? MODAL Add Board --------------------------------------->
     <add-board-modal v-if="flow.addBoard" inline-template>
       <div class="aiko-modal addb" @click.self="close">
         <div class="modal-dialog modal-sm">
@@ -1487,7 +1463,7 @@
       </div>
     </dev-controls>
 
-    <!-- MODAL Board Rules --------------------------------------->
+    <!--? MODAL Board Rules --------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
@@ -1587,7 +1563,7 @@
       </div>
     </div>
 
-    <!-- MODAL Inbox Rules -------------------------------------->
+    <!--? MODAL Inbox Rules -------------------------------------->
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md mw600">
         <div class="modal-content">
@@ -1726,9 +1702,7 @@
   </div>
 
 
-  <!--!------------------------------------------------------------->
-  <!-- ? Thread Card -->
-  <!--!------------------------------------------------------------->
+  <!--? Thread Card -->
   <script type="text/x-template" id="thread-card">
     <!-- TODO: add 'quick-reply' class here when they click quick reply - adds maximum of 137px in height -->
     <div @blur="unfocus" :ref="thread.tid" :key="thread.tid" :tid="thread.tid" :class="{
@@ -1907,9 +1881,7 @@
   </script>
 
 
-  <!--!------------------------------------------------------------->
   <!-- ? View Singular Email -->
-  <!--!------------------------------------------------------------->
   <script type="text/x-template" id="view-email">
     <div :class="{
       'single-email': true,
