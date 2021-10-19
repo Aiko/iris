@@ -16,6 +16,11 @@ Vue.component('board', {
       await Satellite.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
     }
   },
+  data () {
+    return {
+      showActions: false
+    }
+  },
   computed: {
     //! pretty sure we don't need this anymore.
     prettyBoardName () {

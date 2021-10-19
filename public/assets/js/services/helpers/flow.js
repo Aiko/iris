@@ -8,7 +8,9 @@ const flow_mgr = {
       addBoard: false,
       viewThread: null,
       showDev: false,
-      regularView: false
+      regularView: false,
+      showInboxBoardActions: false,
+      showInboxBoardControls: false
     },
   },
   watch: {

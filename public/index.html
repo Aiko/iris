@@ -713,8 +713,8 @@
                   <!-- ? Actions Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
-                      <div class="dropdown-menu">
+                      <a @click.stop.prevent="flow.showInboxBoardActions = true" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                      <div v-clickaway="() => flow.showInboxBoardActions = false" v-if="flow.showInboxBoardActions" class="dropdown-menu show">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
                         <a class="dropdown-item">Mark all as unread</a>
@@ -728,15 +728,15 @@
                   <!--? Controls Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
-                      <div class="dropdown-menu">
+                      <a @click.stop.prevent="flow.showInboxBoardControls = true" title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
+                      <div v-clickaway="() => flow.showInboxBoardControls = false" v-if="flow.showInboxBoardControls" class="dropdown-menu show">
                         <h6 class="dropdown-header">Sort by</h6>
-                        <a class="dropdown-item" @click="sortThreads(true)">Date (newest)</a>
-                        <a class="dropdown-item" @click="sortThreads(false)">Date (oldest)</a>
+                        <a class="dropdown-item" @click.stop.prevent="sortThreads(true)">Date (newest)</a>
+                        <a class="dropdown-item" @click.stop.prevent="sortThreads(false)">Date (oldest)</a>
                         <h6 class="dropdown-header">Display only</h6>
-                        <a @click="seenFilter = null" class="dropdown-item">All</a>
-                        <a @click="seenFilter = false" class="dropdown-item">Unread</a>
-                        <a @click="seenFilter = true" class="dropdown-item">Read</a>
+                        <a @click.stop.prevent="seenFilter = null" class="dropdown-item">All</a>
+                        <a @click.stop.prevent="seenFilter = false" class="dropdown-item">Unread</a>
+                        <a @click.stop.prevent="seenFilter = true" class="dropdown-item">Read</a>
                       </div>
                     </div>
                   </div>
@@ -858,10 +858,10 @@
                       <!-- ? Board Actions -->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
-                          <div class="dropdown-menu">
+                          <a @click.stop.prevent="showActions = true" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                          <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
-                            <a class="dropdown-item">Mark all as read</a>
+                            <a @click.stop.prevent="showActions = true" class="dropdown-item">Mark all as read</a>
                             <a class="dropdown-item">Mark all as unread</a>
 
                             <!-- POTENTIAL COLOR ADD
@@ -2141,6 +2141,7 @@
 
   <!-- TODO: minify all sources into one js file -->
   <!--! common libraries -->
+  <script src="assets/js/common/clickaway.js"></script>
   <script src="assets/js/common/icon-definitions.js"></script>
   <script src="assets/js/services/helpers/icons.js"></script>
   <script src="assets/js/cache/satellite.js"></script>
@@ -2165,7 +2166,7 @@
   <!-- ? Settings -->
   <script src="assets/js/services/settings/settings.js"></script>
   <!--? Modals-->
-  <script src="assets/js/services/helpers/modals.js"></script>
+  <script src="assets/js/services/helpers/flow.js"></script>
   <!--? Shortcuts -->
   <script src="assets/js/services/workers/shortcuts.js"></script>
   <!--? Components -->
