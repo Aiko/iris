@@ -71,6 +71,8 @@ export interface MouseionQuickActions {
   rawResults: any
   classification: string
   context: string
+  overrideText?: string
+  overrideIcon?: string
   scheduling: BabylonScheduling
   otp: string
 }

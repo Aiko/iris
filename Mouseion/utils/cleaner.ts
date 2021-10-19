@@ -60,6 +60,8 @@ import autoBind from 'auto-bind'
 
 type runtime = { runs: number, time: number }
 
+import commonActions from './common-actions'
+
 export default class Janitor {
   private readonly Log: Logger
   private readonly folder: string
@@ -397,6 +399,20 @@ export default class Janitor {
     if (verify_links.length > 0) {
       e.M.quick_actions.context = verify_links[0]
       e.M.quick_actions.classification = 'verify'
+    }
+
+    const commonActionHrefs = Object.keys(commonActions)
+    const common_action_links = links.map(({ text, href }) => {
+      for (const commonActionHref of commonActionHrefs) {
+        if (href.includes(commonActionHref)) return {text, href, commonActionHref}
+      }
+      return null
+    }).filter(_ => _)
+    if (common_action_links.length > 0) {
+      e.M.quick_actions.context = common_action_links[0]!.href
+      e.M.quick_actions.overrideText = commonActions[common_action_links[0]!.commonActionHref]
+      e.M.quick_actions.overrideIcon = "assets/icons/link.svg" // TODO: customize this later
+      e.M.quick_actions.classification = 'override'
     }
 
     return {
