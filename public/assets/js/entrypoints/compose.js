@@ -1,31 +1,4 @@
-const {
-  Editor,
-  EditorContent,
-  EditorMenuBar,
-  EditorMenuBubble
-} = tiptapBuild.tiptap
-const {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  HorizontalRule,
-  OrderedList,
-  BulletList,
-  ListItem,
-  TodoItem,
-  TodoList,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  Underline,
-  History,
-  TrailingNode,
-  Image,
-  Placeholder
-} = tiptapBuild.tiptapExtensions
+const AikoEditor = Grimaldi.default
 
 const app = new Vue({
   el: '#app',
@@ -42,9 +15,7 @@ const app = new Vue({
     VueClickaway.mixin, // Clickaway
   ],
   components: {
-    EditorContent,
-    EditorMenuBar,
-    EditorMenuBubble
+    AikoEditor
   },
   data: {
     TAG: ['%c[COMPOSER MAIN]', 'background-color: #dd00aa; color: #000;'],
@@ -125,9 +96,6 @@ const app = new Vue({
     await this.initSMTP()
     await this.loadComposer()
 
-    info(...(this.TAG), 'Initializing editor (tiptap)')
-    this.makeEditor()
-
     this.calculateComposerHeight()
     success(...(this.TAG), 'Finished initialization.')
     this.loading = false
@@ -139,76 +107,9 @@ const app = new Vue({
     },
     async calculateComposerHeight() {
       await this.$root.$nextTick()
-      const composer = this.$refs['editor']
+      const composer = this.$refs['editor'].$el
       const offset = composer.offsetTop + 66
       composer.style.maxHeight = `calc(100% - ${offset}px)`
-    },
-    makeEditor() {
-      this.editor = new Editor({
-        extensions: [
-          new Blockquote(),
-          new BulletList(),
-          new CodeBlock(),
-          new HardBreak(),
-          new Heading({
-            levels: [1, 2, 3]
-          }),
-          new HorizontalRule(),
-          new ListItem(),
-          new OrderedList(),
-          new TodoItem(),
-          new TodoList(),
-          new Link(),
-          new Bold(),
-          new Code(),
-          new Italic(),
-          new Strike(),
-          new Underline(),
-          new History(),
-          new TrailingNode({
-            node: 'paragraph',
-            notAfter: ['paragraph']
-          }),
-          new Placeholder({
-            emptyEditorClass: 'is-editor-empty',
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: 'Message',
-            showOnlyWhenEditable: true,
-            showOnlyCurrent: true
-          }),
-          new PastableImage(),
-          new Align(),
-          new Emoji(),
-          new Mathematics(),
-          new ParagraphDiv()
-        ],
-        onUpdate: ({
-          getHTML
-        }) => {
-          this.html = getHTML()
-        },
-        content: '<p></p><br><p></p><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>' + (this.quoted ? `<br><blockquote>${this.quoted}</blockquote>` : '')
-      })
-    },
-    showLinkMenu(attrs) {
-      this.log('Showed link menu')
-      this.linkMenuIsActive = true
-      this.linkUrl = attrs.href
-      this.$nextTick(() => {
-        this.$refs.linkInput.focus()
-      })
-    },
-    hideLinkMenu() {
-      this.log('Hid link menu')
-      this.linkUrl = null
-      this.linkMenuIsActive = false
-    },
-    setLinkUrl(command, url) {
-      this.log('Set link to', url)
-      command({
-        href: url
-      })
-      this.hideLinkMenu()
     }
   }
 })
