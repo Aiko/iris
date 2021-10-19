@@ -35,18 +35,18 @@
       <!-- Full Screen ------------------------>
 
       <h1 title="Minimize" @click="minimize">
-        <img src="assets/icons/top-minimize.png" width="10" />
+        <img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10" />
       </h1>
       <!-- Minimize ---------->
       <h1 v-if="!isMaximized" title="Maximize" @click="maximize">
-        <img src="assets/icons/top-expand.png" width="10" />
+        <img :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10" />
       </h1>
       <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize">
-        <img src="assets/icons/top-expand.png" width="10" />
+        <img :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10" />
       </h1>
       <!-- Maximize -->
       <h1 title="Close" @click="close">
-        <img src="assets/icons/top-close.png" width="10" />
+        <img :src="$root.resolveIcon('assets/icons/top-close.png')" width="10" />
       </h1>
       <!-- Close ---------------->
     </div>
@@ -65,7 +65,7 @@
             <a class="naked"><span> Go back and edit</span></a>
           </div>
           <div class="col-sm-6" style="text-align: right; padding: 0;">
-            <a><img src="assets/icons/compose-send.svg" width="20" /><span>
+            <a><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20" /><span>
                 Send anyway</span></a>
           </div>
         </div>
@@ -87,7 +87,7 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.display || chip.value}}</span>
-              <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="To" v-model="term" ref="termInput" />
@@ -112,7 +112,7 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.value}}</span>
-              <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="CC" v-model="term" ref="termInput" />
@@ -138,7 +138,7 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.value}}</span>
-              <img @click="deleteChip(i)" src="assets/icons/grey-x.svg" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="BCC" v-model="term" ref="termInput" />
@@ -194,14 +194,14 @@
                   "
                   type="button"
                 >
-                  <img src="assets/icons/link-3.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/link-3.svg')" />
                 </button>
                 <button
                   class="menububble__button comp-btn"
                   @click="editor.chain().focus().unsetLink().run()"
                   type="button"
                 >
-                  <img src="assets/icons/close-g.png" style="padding: 8px" />
+                  <img :src="$root.resolveIcon('assets/icons/close-g.png')" style="padding: 8px" />
                 </button>
               </div>
 
@@ -217,7 +217,7 @@
                     linkUrl = editor.getAttributes('link').href;
                   "
                 >
-                  <img src="assets/icons/link-3.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/link-3.svg')" />
                 </button>
               </div>
             </bubble-menu>
@@ -231,7 +231,7 @@
                   }"
                   @click="editor.chain().focus().toggleBold().run()"
                 >
-                  <img src="assets/icons/bold.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/bold.svg')" />
                 </a>
                 <a
                   :class="{
@@ -240,7 +240,7 @@
                   }"
                   @click="editor.chain().focus().toggleItalic().run()"
                 >
-                  <img src="assets/icons/italic.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/italic.svg')" />
                 </a>
                 <a
                   :class="{
@@ -249,7 +249,7 @@
                   }"
                   @click="editor.chain().focus().toggleUnderline().run()"
                 >
-                  <img src="assets/icons/underline.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/underline.svg')" />
                 </a>
               </div>
               <div class="comp-sep">
@@ -258,9 +258,9 @@
                     'comp-btn': true,
                   }"
                 >
-                  <img src="assets/icons/badges-attach.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/badges-attach.svg')" />
                 </a>
-                <!-- EMOJI  <a class="comp-btn"><img src="assets/icons/smile.svg"></a> -->
+                <!-- EMOJI  <a class="comp-btn"><img :src="$root.resolveIcon('assets/icons/smile.svg')"></a> -->
               </div>
               <div class="comp-sep">
                 <div class="btn-group dropup">
@@ -270,7 +270,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <a href="#"><img src="assets/icons/t.svg" width="20" /></a>
+                    <a href="#"><img :src="$root.resolveIcon('assets/icons/t.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
                     <a
@@ -312,7 +312,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <a href="#"><img src="assets/icons/align-left.svg" width="20" /></a>
+                    <a href="#"><img :src="$root.resolveIcon('assets/icons/align-left.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
                     <a
@@ -323,7 +323,7 @@
                       @click="editor.chain().focus().setTextAlign('left').run()"
                       href="#"
                     >
-                      <img src="assets/icons/align-left.svg" width="20" />
+                      <img :src="$root.resolveIcon('assets/icons/align-left.svg')" width="20" />
                     </a>
                     <a
                       :class="{
@@ -333,7 +333,7 @@
                       @click="editor.chain().focus().setTextAlign('center').run()"
                       href="#"
                     >
-                      <img src="assets/icons/align-center.svg" width="20" />
+                      <img :src="$root.resolveIcon('assets/icons/align-center.svg')" width="20" />
                     </a>
                     <a
                       :class="{
@@ -343,7 +343,7 @@
                       @click="editor.chain().focus().setTextAlign('right').run()"
                       href="#"
                     >
-                      <img src="assets/icons/align-right.svg" width="20" />
+                      <img :src="$root.resolveIcon('assets/icons/align-right.svg')" width="20" />
                     </a>
                   </div>
                 </div>
@@ -354,7 +354,7 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    <a href="#"><img src="assets/icons/list.svg" width="20" /></a>
+                    <a href="#"><img :src="$root.resolveIcon('assets/icons/list.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
                     <a
@@ -364,7 +364,7 @@
                       }"
                       @click="editor.chain().focus().toggleBulletList().run()"
                       href="#"
-                      ><img src="assets/icons/list.svg" width="20"
+                      ><img :src="$root.resolveIcon('assets/icons/list.svg')" width="20"
                     /></a>
 
                     <a
@@ -374,7 +374,7 @@
                       }"
                       @click="editor.chain().focus().toggleOrderedList().run()"
                       href="#"
-                      ><img src="assets/icons/list-num.svg" width="20"
+                      ><img :src="$root.resolveIcon('assets/icons/list-num.svg')" width="20"
                     /></a>
 
                     <a
@@ -384,7 +384,7 @@
                       }"
                       @click="editor.chain().focus().toggleTaskList().run()"
                       href="#"
-                      ><img src="assets/icons/check-square.svg" width="20"
+                      ><img :src="$root.resolveIcon('assets/icons/check-square.svg')" width="20"
                     /></a>
                   </div>
                 </div>
@@ -397,7 +397,7 @@
                   }"
                   @click="editor.chain().focus().toggleCodeBlock().run()"
                 >
-                  <img src="assets/icons/code.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/code.svg')" />
                 </a>
                 <a
                   :class="{
@@ -406,7 +406,7 @@
                   }"
                   @click="editor.chain().focus().toggleBlockquote().run()"
                 >
-                  <img src="assets/icons/q.svg" />
+                  <img :src="$root.resolveIcon('assets/icons/q.svg')" />
                 </a>
               </div>
 
@@ -415,7 +415,7 @@
               </a>
               <div class="btn-group dropup">
                 <button type="button">
-                  <a><img @click="showInfoModal = true" src="assets/icons/info.svg" width="20" /></a>
+                  <a><img @click="showInfoModal = true" :src="$root.resolveIcon('assets/icons/info.svg')" width="20" /></a>
                 </button>
               </div>
             </div>
@@ -423,7 +423,7 @@
             <div class="aiko-modal" v-if="showInfoModal">
               <div class="modal-dialog modal-md">
                 <div class="modal-content">
-                  <img src="assets/icons/grey-x.svg" @click="showInfoModal = false" class="x-email" />
+                  <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" @click="showInfoModal = false" class="x-email" />
                   <div class="modal-reg">
                     <h1>The most advanced composer ever has a lot to offer.</h1>
                     <br />
@@ -459,7 +459,7 @@
         </aiko-editor>
 
         <div class="compose-bottom">
-          <a @click="sendEmail(html)"><img src="assets/icons/compose-send.svg" width="20" /><span>
+          <a @click="sendEmail(html)"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20" /><span>
               Send</span></a>
           <label class="switch ml20">
             <input type="checkbox" />
@@ -499,7 +499,7 @@
 
               <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
               <a style="margin-top: 25vh; display: block;" target="_blank"><img
-                  src="assets/icons/settings-templates.svg" width="18" style="margin-top: -1px;" />
+                  :src="$root.resolveIcon('assets/icons/settings-templates.svg')" width="18" style="margin-top: -1px;" />
                 <p class="inline"><b>New template</b></p>
 
                 <p>
@@ -513,7 +513,7 @@
             <div class="previous-threads">
               <!-- TODO: This is the attachment area-->
               <h3>Include recent attachment</h3>
-              <a style="margin-top: 25vh; display: block;" target="_blank"><img src="assets/icons/compose-attach.svg"
+              <a style="margin-top: 25vh; display: block;" target="_blank"><img :src="$root.resolveIcon('assets/icons/compose-attach.svg')"
                   width="18" style="margin-top: -1px;" />
                 <p class="inline"><b>Browse</b></p>
                 <p>
@@ -557,7 +557,7 @@
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
           <div class="modal-reg">
             <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
               style="margin-bottom: 15px; margin-top: 10px;" />
@@ -586,7 +586,7 @@
     <div class="aiko-modal" style="display: none;">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
           <div class="modal-reg">
             <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
               style="margin-bottom: 15px; margin-top: 10px;" />
@@ -616,7 +616,7 @@
     <div class="aiko-modal" style="display: none;" id="infoModal">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
-          <img src="assets/icons/grey-x.svg" data-dismiss="modal" class="x-email" />
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
           <div class="modal-reg">
             <h1>The most advanced composer ever has a lot to offer.</h1>
             <br />

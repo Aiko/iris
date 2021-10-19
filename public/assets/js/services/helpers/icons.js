@@ -6,8 +6,8 @@ const icon_mgr = {
       const icon = path.split("/").last()
       const def = window.Icons[icon]
       if (!def) return path;
-      if (this.isDarkMode) return def.dark;
-      return def.light;
+      if (this.isDarkMode) return path.replace(icon, def.dark);
+      return path.replace(icon, def.light);
     }
   }
 }

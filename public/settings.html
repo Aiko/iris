@@ -30,30 +30,30 @@
             <p v-if="isLinux" title="Minimize" @click="minimize"></p> 
             <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p>              
 
-            <h1 title="Minimize" @click="minimize"><img src="assets/icons/top-minimize.png" width="10"></h1>
-            <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img src="assets/icons/top-expand.png"
+            <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10"></h1>
+            <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img :src="$root.resolveIcon('assets/icons/top-expand.png')"
                     width="10">
             </h1>
-            <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img src="assets/icons/top-expand.png"
+            <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img :src="$root.resolveIcon('assets/icons/top-expand.png')"
                     width="10">
             </h1>
-            <h1 title="Close" @click="close"><img src="assets/icons/top-close.png" width="10"></h1>
+            <h1 title="Close" @click="close"><img :src="$root.resolveIcon('assets/icons/top-close.png')" width="10"></h1>
         </div>
         -->
 		<!-- Sidebar --------------------------------------------------->
 		<div class="sidebar settings-sidebar">
 			<div class="container">
 				<div class="row">
-					<a href="#" class="active"><img src="assets/icons/sidebar-home.svg"> <span> Account</span></a>
-					<a href="#"><img src="assets/icons/image.svg"> <span> Appearance</span></a>
-					<a href="#"><img src="assets/icons/settings-team.svg"> <span> Team</span></a>
-					<a href="#"><img src="assets/icons/user-mail.svg"> <span> Unsubscribe</span></a>
-					<a href="#"><img src="assets/icons/settings-templates.svg"> <span> Templates</span></a>
-					<a href="#"><img src="assets/icons/settings-billing.svg"> <span> Billing <span
+					<a href="#" class="active"><img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')"> <span> Account</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/image.svg')"> <span> Appearance</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/settings-team.svg')"> <span> Team</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/user-mail.svg')"> <span> Unsubscribe</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/settings-templates.svg')"> <span> Templates</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/settings-billing.svg')"> <span> Billing <span
 								class="new-pill ml0">New</span></span>
 					</a>
-					<a href="#"><img src="assets/icons/integrations.svg"> <span> Integrations</span></a>
-					<a href="#"><img src="assets/icons/settings-customize.svg"> <span> Settings</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/integrations.svg')"> <span> Integrations</span></a>
+					<a href="#"><img :src="$root.resolveIcon('assets/icons/settings-customize.svg')"> <span> Settings</span></a>
 
 					<!-- TODO: IGNORE FOR ALPHA AND BETA. Add this permanently AFTER Beta-->
 					<div class="version no-mobile" style="display: none;">
@@ -226,7 +226,7 @@
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
-					<h2>Current users <a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>Invite</span></a>
+					<h2>Current users <a href="#" class="s-invite"><img :src="$root.resolveIcon('assets/icons/s-invite.svg')"> <span>Invite</span></a>
 					</h2>
 					<div class="row">
 						<div class="col-8">
@@ -544,7 +544,7 @@
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-reg">
-					<img src="assets/icons/sidebar-invite.svg" width="40" style="margin-bottom: 5px;">
+					<img :src="$root.resolveIcon('assets/icons/sidebar-invite.svg')" width="40" style="margin-bottom: 5px;">
 					<h1>Invite a team member</h1>
 					<h2>Enter their email address</h2>
 					<input type="email" name="" placeholder="Email">
