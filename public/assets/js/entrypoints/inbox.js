@@ -13,6 +13,7 @@ top.app = new Vue({
     shortcuts, // Shortcuts
     calendar, // Calendar API
     settings, // Settings API
+    icon_mgr, // Icon Manager
   ],
   data: {
     TAG: ['%c[MAIN]', 'background-color: #dd00aa; color: #000;'],

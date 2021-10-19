@@ -13,6 +13,7 @@ const app = new Vue({
     oauth, // OAuth Provider
     calendar, // Calendar API
     VueClickaway.mixin, // Clickaway
+    icon_mgr, // Icon Manager
   ],
   components: {
     AikoEditor
