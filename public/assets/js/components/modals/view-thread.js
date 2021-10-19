@@ -29,7 +29,7 @@ Vue.component('view-thread', {
 
     //? fetch avatars
     this.participants = await Promise.all(this.thread.participants.map(async participant => {
-      participant.avatar = await participant.address?.getAvatar()
+      participant.avatar = await participant.address?.getAvatar({})
       return participant
     }))
 

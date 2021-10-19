@@ -73,7 +73,7 @@ const aikoapi = {
         this.profile.period_ends = new Date(this.profile.period_ends)
         this.profile.team.team = await Promise.all(this.profile.team.team.map(async tm => {
           tm.member.created = new Date(tm.member.created)
-          tm.member.avatar = await tm.member.email.getAvatar()
+          tm.member.avatar = await tm.member.email.getAvatar({})
           return tm
         }))
 
