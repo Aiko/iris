@@ -54,13 +54,13 @@ export default class CookieCutter {
     return templates
   }
 
-  async load(id: string): Promise<Template | null> {
+  async load({id,}:{id: string}): Promise<Template | null> {
     const template = await this.storage.load(id).catch(_ => _)
     if (!template) return null
     return template
   }
 
-  async add(entry: TemplateEntry, content: Template): Promise<boolean> {
+  async add({entry, content}: {entry: TemplateEntry, content: Template}): Promise<boolean> {
     const id = entry.id
     const exists = await this.storage.load(id).catch(_ => _)
     if (exists) return false
@@ -71,7 +71,7 @@ export default class CookieCutter {
     return true
   }
 
-  async remove(id: string): Promise<boolean> {
+  async remove({id,}: {id: string}): Promise<boolean> {
     const template = await this.storage.pop(id).catch(_ => _)
     return !!template
   }
