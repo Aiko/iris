@@ -132,7 +132,7 @@ Vue.component('thread-card', {
       await this.$root.engine.manage.read(this.thread.emails[0].folder, this.thread.emails[0].M.envelope.uid)
     },
     //? quick action interactions
-    async openVerify () {
+    async openLink () {
       const tid = this.thread.tid
       if (this.thread.emails[0].M.quick_actions.context) {
         remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)

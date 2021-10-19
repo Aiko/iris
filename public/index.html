@@ -1787,13 +1787,13 @@
               <a v-if="quickaction == 'scheduling'" class="main-action blue">
                 <img src="assets/icons/badges-event-blue.svg"> Schedule
               </a>
-              <a @click.stop.prevent="openVerify" v-if="quickaction == 'verify'" class="main-action blue">
+              <a @click.stop.prevent="openLink" v-if="quickaction == 'verify'" class="main-action blue">
                 <img src="assets/icons/link.svg"> Verify
               </a>
-              <a v-if="quickaction == 'subscribe'" class="main-action blue">
+              <a @click.stop.prevent="openLink" v-if="quickaction == 'subscribe'" class="main-action blue">
                 <img src="assets/icons/link.svg"> Subscribe
               </a>
-              <a v-if="quickaction == 'unsubscribe'" class="main-action red">
+              <a @click.stop.prevent="openLink" v-if="quickaction == 'unsubscribe'" class="main-action red">
                 <img src="assets/icons/options-unsub.svg"> Unsubscribe
               </a>
               <a v-if="quickaction == 'sign_document'" class="main-action blue">
@@ -1809,6 +1809,9 @@
               <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)"
                 class="main-action blue">
                 <img src="assets/icons/link.svg"> Get Code
+              </a>
+              <a @click.stop.prevent="openLink" v-if="quickaction == 'override'" class="main-action blue">
+                <img :src="thread.emails[0].M.quick_actions.overrideIcon"> {{thread.emails[0].M.quick_actions.overrideText}}
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
                 <img src="assets/icons/zap.svg"> Quick Reply <span @click.stop.prevent="quickReplyAll = true"
