@@ -4,6 +4,7 @@ Storyboard:
 - [x] ~Go to aikomail.com~
 - [x] ~Click download~
 - [ ] Sign into app
+- [x] ~Light Mode~
 - [ ] Board explanation
     - [x] ~To-Do and Done~
     - [x] ~Custom boards~
