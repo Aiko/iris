@@ -865,11 +865,16 @@ border-radius: 0;
 .main-action {
 	font-size: 11px;
 	font-weight: 500;
-	padding: 10px 0;
 	letter-spacing: 0.2px;
 	line-height: 28px;
 	white-space: nowrap;
 	text-transform: uppercase;
+	width: 140px;
+    display: inline-block;
+    height: 30px;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 	.email-footer .main-action.blue:hover,
@@ -2261,6 +2266,16 @@ margin-left: -15px;
 	display: none;
 }
 
+.options-qa a{
+	    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0;
+    height: 24px;
+}
+
 .secondary-email .aiko-select {
     background: transparent;
     color: var(--main-color);
@@ -3028,6 +3043,12 @@ unselectable {
 	border-radius: 5px;
 	font-size: 14px;
 	padding: 2px 6px;
+	    font-weight: 400;
+	margin-left: 5px;
+}
+
+.template-edit{
+	height: 300px;
 }
 
 .s-invite img {
@@ -3781,7 +3802,7 @@ padding: 13px;
 .new-pill{
 color: #fff !important;
     background: var(--main-color) !important;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 2px 6px;
     font-size: 11px;
     font-weight: 600;

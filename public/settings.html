@@ -44,7 +44,8 @@
 		<div class="sidebar settings-sidebar">
 			<div class="container">
 				<div class="row">
-					<a href="#" class="active"><img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')"> <span> Account</span></a>
+					<a href="#" class="active"><img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')"> <span>
+							Account</span></a>
 					<a href="#"><img :src="$root.resolveIcon('assets/icons/image.svg')"> <span> Appearance</span></a>
 					<a href="#"><img :src="$root.resolveIcon('assets/icons/settings-team.svg')"> <span> Team</span></a>
 					<a href="#"><img :src="$root.resolveIcon('assets/icons/user-mail.svg')"> <span> Unsubscribe</span></a>
@@ -226,7 +227,8 @@
 				<div class="container" id="Team" style="display: none;">
 					<h1>Team</h1>
 					<br>
-					<h2>Current users <a href="#" class="s-invite"><img :src="$root.resolveIcon('assets/icons/s-invite.svg')"> <span>Invite</span></a>
+					<h2>Current users <a href="#" class="s-invite"><img :src="$root.resolveIcon('assets/icons/s-invite.svg')">
+							<span>Invite</span></a>
 					</h2>
 					<div class="row">
 						<div class="col-8">
@@ -290,12 +292,22 @@
 					</div>
 
 				</div>
-				<div class="container" id="Templates" style="display: none;">
-					<h1>Templates</h1>
+				<div class="container" id="Templates">
+					<h1>Templates<a href="#" class="s-invite"><img src="assets/icons/s-invite.svg"> <span>New
+								Template</span></a></h1>
 					<br>
+					<p>Add templates to write emails faster, they will appear in the sidebar of your composer.</p>
+					<div class="row">
+						<div class="col-3">
+							<p><b>Ruben Touitou </b></p>
+						</div>
+						<div class="col-9">
+
+						</div>
+					</div>
 
 				</div>
-				<div class="container" id="Billing">
+				<div class="container" id="Billing" style="display: none;">
 					<h1>Billing</h1>
 					<br>
 					<h2>Plans <Span style="font-size: 12px;">Cancel anytime, no commitment.</Span></h2>
