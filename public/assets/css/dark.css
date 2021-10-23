@@ -290,14 +290,6 @@ border: none !important;
   transition: 0.2s;
 }
 
-.email-footer img {
-  opacity: 1 !important;
-}
-
-.email-footer img:hover {
-  opacity: 0.8 !important;
-}
-
 .add-board {
   background: var(--main-bg-color) !important;
 }
