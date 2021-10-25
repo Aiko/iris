@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="20px" height="22px" viewBox="0 0 20 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
-    <title>header-bell</title>
+    <title>Artboard</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
-        <g id="header-bell" transform="translate(1.000000, 1.000000)" stroke="#6E80A5" stroke-width="2">
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="header-bell-lt" transform="translate(3.000000, 2.000000)" stroke="#6E80A5" stroke-width="2">
             <path d="M15,6 C15,2.6862915 12.3137085,4.4408921e-16 9,0 C5.6862915,-4.4408921e-16 3,2.6862915 3,6 C3,13 0,15 0,15 L18,15 C18,15 15,13 15,6" id="Shape"></path>
             <path d="M10.73,19 C10.3722022,19.6168043 9.71306861,19.9964563 9,19.9964563 C8.28693139,19.9964563 7.62779776,19.6168043 7.27,19" id="Shape"></path>
         </g>

@@ -382,11 +382,14 @@
       <h5 @click="flow.showDev = true">{{hash.substring(0, 9)}}</h5>
 
 
-      <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10"></h1>
-      <!-- Minimize ---------->
-      <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10">
+      <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10">
       </h1>
-      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10">
+      <!-- Minimize ---------->
+      <h1 v-if="!isMaximized" title="Maximize" @click="maximize"><img
+          :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10">
+      </h1>
+      <h1 v-if="isMaximized" title="Unmaximize" @click="unmaximize"><img
+          :src="$root.resolveIcon('assets/icons/top-expand.png')" width="10">
       </h1>
       <!-- Maximize -->
       <h1 title="Close" @click="close"><img :src="$root.resolveIcon('assets/icons/top-close.png')" width="10"></h1>
@@ -401,7 +404,8 @@
         <div class="row">
 
           <!--? Open Composer -->
-          <a class="sbtn compose-button" @click="openComposer()" id="step6"><img :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')"
+          <a class="sbtn compose-button" @click="openComposer()" id="step6"><img
+              :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')"
               style="margin-right: 6px;"><span>Compose</span></a>
 
           <!--? Spaces -->
@@ -585,7 +589,7 @@
 
                 <!-- Currently loaded mailbox -->
                 <div class="account">
-                  <img :src="avatar"> <span>{{imapConfig?.email}}</span>
+                  <img :src="$root.resolveIcon('assets/icons/avatar.png')"> <span>{{imapConfig?.email}}</span>
                 </div>
 
                 <!-- Other mailboxes -->
@@ -604,7 +608,8 @@
             <!-- ? Search -->
             <div class="col-lg-5 col-md-6 col-6 p0m">
               <div class="search">
-                <img :src="$root.resolveIcon('assets/icons/header-search.svg')"><input type="" name="" placeholder="Search">
+                <img :src="$root.resolveIcon('assets/icons/header-search.svg')"><input type="" name=""
+                  placeholder="Search">
               </div>
               <!-- TODO: Rig search + search dropdown -->
               <div class="search-drop" style="display: none;">
@@ -796,7 +801,8 @@
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see
+                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
+                    here to see
                   </span><b>{{otherInbox.length}}</b> filtered
                   <span>threads</span></p>
                 <div class="load-bottom">
@@ -824,7 +830,8 @@
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see
+                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
+                    here to see
                   </span><b>{{otherInbox.length}}</b> filtered
                   <span>threads</span></p>
                 <div class="load-bottom">
@@ -837,9 +844,9 @@
 
 
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
-          <draggable v-if="!flow.regularView" style="display: inline-flex;" v-model="boardOrder" :group="{name: 'boards'}"
-            draggable=".board" ghost-class="ghost" handle=".board-drag-handle" :force-fallback="true"
-            :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
+          <draggable v-if="!flow.regularView" style="display: inline-flex;" v-model="boardOrder"
+            :group="{name: 'boards'}" draggable=".board" ghost-class="ghost" handle=".board-drag-handle"
+            :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!-- ? Board Template -->
             <board v-for="slug in boardOrder" :syncing="syncing" :board="resolveBoard(slug)" :slug="slug"
               :seen-filter.camel="seenFilter" inline-template>
@@ -1441,12 +1448,14 @@
               <br>
               <br>
               <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
-              <img v-if="imapValid === true" style="filter: invert(1)" :src="$root.resolveIcon('assets/icons/check-circle.svg')">
+              <img v-if="imapValid === true" style="filter: invert(1)"
+                :src="$root.resolveIcon('assets/icons/check-circle.svg')">
               <img v-if="imapValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
               <br>
               <br>
               <a @click="testSMTP" class="btn btn-dark text-white">Test SMTP Connection</a>
-              <img v-if="smtpValid === true" style="filter: invert(1)" :src="$root.resolveIcon('assets/icons/check-circle.svg')">
+              <img v-if="smtpValid === true" style="filter: invert(1)"
+                :src="$root.resolveIcon('assets/icons/check-circle.svg')">
               <img v-if="smtpValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
               <br>
               <br>
@@ -1744,13 +1753,15 @@
             <!--!------------------------------------------------------------->
             <!-- ? Thread indicators -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.emails.length > 1" :src="$root.resolveIcon('assets/icons/thread.svg')" title="Number of emails in this thread">
+            <img v-if="thread.emails.length > 1" :src="$root.resolveIcon('assets/icons/thread.svg')"
+              title="Number of emails in this thread">
             <span class="thread-count" v-if="thread.emails.length > 1">{{thread.emails.length}}</span>
 
             <!--!------------------------------------------------------------->
             <!-- ? Email badges -->
             <!--!------------------------------------------------------------->
-            <img v-if="thread.hasAttachments" :src="$root.resolveIcon('assets/icons/badges-attach.svg')" title="This email has attachments">
+            <img v-if="thread.hasAttachments" :src="$root.resolveIcon('assets/icons/badges-attach.svg')"
+              title="This email has attachments">
             <img v-if="thread.hasTrackers" :src="$root.resolveIcon('assets/icons/badges-tracker.svg')"
               title="Tracker in this email successfully blocked">
             <img v-if="quickaction == 'calendar_invite'" :src="$root.resolveIcon('assets/icons/badges-event.svg')"
@@ -1804,8 +1815,8 @@
               <a v-if="quickaction == 'send_document'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/attach.svg')"> Attach files
               </a>
-              <a @click.stop.prevent="copyOTP" v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp"
-                class="main-action blue">
+              <a @click.stop.prevent="copyOTP"
+                v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/clipboard.svg')"> {{thread.emails[0].M.quick_actions.otp}}
               </a>
               <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)"
@@ -1813,11 +1824,12 @@
                 <img :src="$root.resolveIcon('assets/icons/link.svg')"> Get Code
               </a>
               <a @click.stop.prevent="openLink" v-if="quickaction == 'override'" class="main-action blue">
-                <img :src="thread.emails[0].M.quick_actions.overrideIcon"> {{thread.emails[0].M.quick_actions.overrideText}}
+                <img :src="thread.emails[0].M.quick_actions.overrideIcon">
+                {{thread.emails[0].M.quick_actions.overrideText}}
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
-                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <span @click.stop.prevent="quickReplyAll = true"
-                  class="all">All</span>
+                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <span
+                  @click.stop.prevent="quickReplyAll = true" class="all">All</span>
               </a>
             </div>
 
@@ -1837,15 +1849,18 @@
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
               <a v-if="isRepliedTo" @click.stop.prevent="reply" title="You've replied to this email"><img
                   :src="$root.resolveIcon('assets/icons/options-replied.png')" width="18"></a>
-              <a v-else @click.stop.prevent="reply"><img :src="$root.resolveIcon('assets/icons/options-reply.png')" width="18"></a>
-              <a @click.stop.prevent="replyAll"><img :src="$root.resolveIcon('assets/icons/options-replya.png')" width="18"></a>
-              <a @click.stop.prevent="forward"><img :src="$root.resolveIcon('assets/icons/options-forward.png')" width="15"></a>
-              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img :src="$root.resolveIcon('assets/icons/options-star.svg')"
+              <a v-else @click.stop.prevent="reply"><img :src="$root.resolveIcon('assets/icons/options-reply.png')"
+                  width="18"></a>
+              <a @click.stop.prevent="replyAll"><img :src="$root.resolveIcon('assets/icons/options-replya.png')"
+                  width="18"></a>
+              <a @click.stop.prevent="forward"><img :src="$root.resolveIcon('assets/icons/options-forward.png')"
                   width="15"></a>
-              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img :src="$root.resolveIcon('assets/icons/badges-star.svg')"
-                  width="15"></a>
-              <a @click.stop.prevent="deleteMessage"><img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red"
-                  width="15"></a>
+              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img
+                  :src="$root.resolveIcon('assets/icons/options-star.svg')" width="15"></a>
+              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img
+                  :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="15"></a>
+              <a @click.stop.prevent="deleteMessage"><img :src="$root.resolveIcon('assets/icons/options-trash.svg')"
+                  class="red" width="15"></a>
             </div>
           </div>
         </div>

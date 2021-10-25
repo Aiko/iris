@@ -7,3 +7,4 @@ const SVG2PNG = _svg => {
   const b64 = btoa(xml)
   return 'data:image/svg+xml;base64,' + b64
 }
+window.SVG2PNG = SVG2PNG
