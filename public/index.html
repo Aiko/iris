@@ -713,13 +713,13 @@
                   <!-- ? Actions Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a @click.stop.prevent="flow.showInboxBoardActions = true" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                      <a @click.stop.prevent="flow.showInboxBoardActions = !flow.showInboxBoardActions" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                       <div v-clickaway="() => flow.showInboxBoardActions = false" v-if="flow.showInboxBoardActions" class="dropdown-menu show">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
                         <a class="dropdown-item">Mark all as unread</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item">Board rules</a>
+                        <a @click.stop.prevent="flow.showBoardRules = true; flow.showInboxBoardActions = false" class="dropdown-item">Board rules</a>
                       </div>
                     </div>
                   </div>
@@ -728,7 +728,7 @@
                   <!--? Controls Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a @click.stop.prevent="flow.showInboxBoardControls = true" title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
+                      <a @click.stop.prevent="flow.showInboxBoardControls = !flow.showInboxBoardControls" title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
                       <div v-clickaway="() => flow.showInboxBoardControls = false" v-if="flow.showInboxBoardControls" class="dropdown-menu show">
                         <h6 class="dropdown-header">Sort by</h6>
                         <a class="dropdown-item" @click.stop.prevent="sortThreads(true)">Date (newest)</a>
@@ -858,7 +858,7 @@
                       <!-- ? Board Actions -->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a @click.stop.prevent="showActions = true" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                          <a @click.stop.prevent="showActions = !showActions" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                           <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
                             <a @click.stop.prevent="showActions = true" class="dropdown-item">Mark all as read</a>
@@ -1464,104 +1464,106 @@
     </dev-controls>
 
     <!--? MODAL Board Rules --------------------------------------->
-    <div class="aiko-modal" style="display: none;">
-      <div class="modal-dialog modal-md mw600">
-        <div class="modal-content">
-          <div class="modal-reg">
-            <img :src="$root.resolveIcon('assets/icons/new-board.svg')" width="40" style="margin-bottom: 5px;">
-            <h1><b>[BOARDNAME]</b> board rules</h1>
-            <br>
-            <div class="container-rules">
-              <div class="row margin-auto existing-rules">
-                <div class="col-3">
-                  <p class="margin-auto text-left">if from: </p>
+    <board-rules v-if="flow.showBoardRules" inline-template>
+      <div class="aiko-modal" @click.self="close">
+        <div class="modal-dialog modal-md mw600">
+          <div class="modal-content">
+            <div class="modal-reg">
+              <img :src="$root.resolveIcon('assets/icons/new-board.svg')" width="40" style="margin-bottom: 5px;">
+              <h1>Board Rules</h1>
+              <br>
+              <div class="container-rules">
+                <div class="row margin-auto existing-rules">
+                  <div class="col-3">
+                    <p class="margin-auto text-left">if from: </p>
+                  </div>
+                  <div class="col-3">
+                    <p class="margin-auto blue text-left">ruben@pri.com</p>
+                  </div>
+                  <div class="col-2">
+                    <p class="margin-auto text-left">move to: </p>
+                  </div>
+                  <div class="col-2">
+                    <p class="margin-auto blue">To-Do</p>
+                  </div>
+                  <div class="col-2">
+                    <a class="red margin-auto text-right">Delete</a>
+                  </div>
                 </div>
-                <div class="col-3">
-                  <p class="margin-auto blue text-left">ruben@pri.com</p>
-                </div>
-                <div class="col-2">
-                  <p class="margin-auto text-left">move to: </p>
-                </div>
-                <div class="col-2">
-                  <p class="margin-auto blue">To-Do</p>
-                </div>
-                <div class="col-2">
-                  <a class="red margin-auto text-right">Delete</a>
+
+
+                <div class="row margin-auto existing-rules">
+                  <div class="col-3">
+                    <p class="margin-auto text-left">if from: </p>
+                  </div>
+                  <div class="col-3">
+                    <p class="margin-auto blue text-left">ruben@pri.com</p>
+                  </div>
+                  <div class="col-2">
+                    <p class="margin-auto text-left">move to: </p>
+                  </div>
+                  <div class="col-2">
+                    <p class="margin-auto blue">To-Do</p>
+                  </div>
+                  <div class="col-2">
+                    <a class="red margin-auto text-right">Delete</a>
+                  </div>
                 </div>
               </div>
+              <br>
+              <div class="accordion" id="accordionExample">
+                <div class="card b0">
+                  <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link" type="button">
+                        Add new rule
+                      </button>
+                    </h2>
+                  </div>
+                  <div id="collapseOne" class="collapse">
+                    <div class="row margin-auto existing-rules">
+                      <div class="col-3">
+                        <select class="aiko-select">
+                          <option value="1" selected="selected">If from: </option>
+                          <option value="2">If contains: </option>
+                          <option value="2">If date: </option>
+                          <option value="2">If flagged: </option>
+                          <option value="2">If attcht: </option>
+                          <option value="2">If contains: </option>
+                          <option value="2">If contains: </option>
 
+                        </select>
+                      </div>
 
-              <div class="row margin-auto existing-rules">
-                <div class="col-3">
-                  <p class="margin-auto text-left">if from: </p>
-                </div>
-                <div class="col-3">
-                  <p class="margin-auto blue text-left">ruben@pri.com</p>
-                </div>
-                <div class="col-2">
-                  <p class="margin-auto text-left">move to: </p>
-                </div>
-                <div class="col-2">
-                  <p class="margin-auto blue">To-Do</p>
-                </div>
-                <div class="col-2">
-                  <a class="red margin-auto text-right">Delete</a>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="accordion" id="accordionExample">
-              <div class="card b0">
-                <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
-                  <h2 class="mb-0">
-                    <button class="btn btn-link" type="button">
-                      Add new rule
-                    </button>
-                  </h2>
-                </div>
-                <div id="collapseOne" class="collapse">
-                  <div class="row margin-auto existing-rules">
-                    <div class="col-3">
-                      <select class="aiko-select">
-                        <option value="1" selected="selected">If from: </option>
-                        <option value="2">If contains: </option>
-                        <option value="2">If date: </option>
-                        <option value="2">If flagged: </option>
-                        <option value="2">If attcht: </option>
-                        <option value="2">If contains: </option>
-                        <option value="2">If contains: </option>
+                      <!-- Inside this one will be dynamic depending on previous selection
+                    (text/email/date etc)   --------------------------------------->
+                      <div class="col-3">
+                        <input type="text" name="rulesField" placeholder="Email">
+                      </div>
 
-                      </select>
-                    </div>
-
-                    <!-- Inside this one will be dynamic depending on previous selection
-                  (text/email/date etc)   --------------------------------------->
-                    <div class="col-3">
-                      <input type="text" name="rulesField" placeholder="Email">
-                    </div>
-
-                    <div class="col-2">
-                      <p class="margin-auto text-left">move to: </p>
-                    </div>
-                    <div class="col-2">
-                      <select class="aiko-select">
-                        <option value="1" selected="selected">To-Do</option>
-                        <option value="2">Done</option>
-                      </select>
-                    </div>
-                    <div class="col-2">
-                      <a class="blue margin-auto text-right">Add</a>
+                      <div class="col-2">
+                        <p class="margin-auto text-left">move to: </p>
+                      </div>
+                      <div class="col-2">
+                        <select class="aiko-select">
+                          <option value="1" selected="selected">To-Do</option>
+                          <option value="2">Done</option>
+                        </select>
+                      </div>
+                      <div class="col-2">
+                        <a class="blue margin-auto text-right">Add</a>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              <p style="margin-top: 25px;margin-bottom: 0">Check <a class="blue">Inbox rules</a> to see if emails are being
+                automatically added to this board.</p>
             </div>
-            <p style="margin-top: 25px;margin-bottom: 0">Check <a class="blue">Inbox rules</a> to see if emails ae being
-              automatically added to this board.</p>
           </div>
         </div>
       </div>
-    </div>
+    </board-rules>
 
     <!--? MODAL Inbox Rules -------------------------------------->
     <div class="aiko-modal" style="display: none;">
@@ -2176,6 +2178,7 @@
   <script src="assets/js/components/regular-view-thread.js"></script>
   <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/modals/dev-controls.js"></script>
+  <script src="assets/js/components/modals/board-rules.js"></script>
   <script src="assets/js/components/thread-card.js"></script>
   <script src="assets/js/components/view-email.js"></script>
   <script src="assets/js/components/board.js"></script>
