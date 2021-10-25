@@ -39,6 +39,11 @@ const Icons = {
     light: "attach.svg",
     dark: "attach.svg"
   },
+  "avatar.png": {
+    base: "avatar.png",
+    light: "avatar-lt.png",
+    dark: "avatar.png"
+  },
   "badges-attach.svg": {
     base: "badges-attach.svg",
     light: "badges-attach-lt.svg",
