@@ -279,7 +279,7 @@ Vue.component('board-rules', {
           )
         )
       }
-      await this.$root.engine.boardRules.consume()
+      this.$root.engine.boardRules.consume()
       this.reset()
     }
   }
