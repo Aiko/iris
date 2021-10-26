@@ -281,6 +281,14 @@ Vue.component('board-rules', {
       }
       this.$root.engine.boardRules.consume()
       this.reset()
+    },
+    async queueAll() {
+      const tids = this.$root.fullInbox
+      this.$root.boards.map(b => tids.push(b.tids))
+      const threads = this.$root.resolveThreads(tids).filter(_ => _)
+      const mids = threads.map(thread => thread.mids).flat()
+      this.$root.engine.boardRules.queue(...mids)
+      this.$root.engine.boardRules.consume()
     }
   }
 })

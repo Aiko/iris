@@ -159,7 +159,7 @@ export default class BoardRulesQueue implements MessageQueue {
 
       //? Does the rule apply in part to the email's subject?
       if (conditions.subject) {
-        const match = email.M.envelope.subject.includes(conditions.subject)
+        const match = email.M.envelope.subject.toLowerCase().includes(conditions.subject.toLowerCase())
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }

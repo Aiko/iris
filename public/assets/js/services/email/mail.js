@@ -115,7 +115,7 @@ const mailapi = {
       const priorityInbox = []
       const otherInbox = []
 
-      this.resolveThreads(this.inbox).map(({ tid, priority }) => {
+      this.resolveThreads(this.inbox).filter(_ => _).map(({ tid, priority }) => {
         if (priority) priorityInbox.push(tid)
         else otherInbox.push(tid)
       })
@@ -129,7 +129,7 @@ const mailapi = {
       const priorityInbox = []
       const otherInbox = []
 
-      this.resolveThreads(this.fullInbox).map(({ tid, priority }) => {
+      this.resolveThreads(this.fullInbox).filter(_ => _).map(({ tid, priority }) => {
         if (priority) priorityInbox.push(tid)
         else otherInbox.push(tid)
       })
