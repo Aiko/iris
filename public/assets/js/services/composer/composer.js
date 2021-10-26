@@ -18,7 +18,8 @@ const composer = {
     subject: '',
     quoted: '',
     messageId: '',
-    composerEngine: null
+    composerEngine: null,
+    templates: []
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -99,17 +100,20 @@ const composer = {
         const tryToGetIt = async (that, max_tries=3, try_n=0) => {
           if (try_n >= max_tries) return null;
           info(...COMPOSER_TAG, "Try", try_n+1, "of", max_tries)
-          const cached = await that.composerEngine.api.get.single(that.messageId)
+          const cached = await that.composerEngine.resolve.messages.full(that.messageId)
           if (cached) {
             that.quoted =
+            '<br><br><blockquote style="color: purple">' +
             'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
             ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + (cached.parsed?.html || '[Message was too long to include.]')
+            + '</blockquote>'
           }
           if (!(cached.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
         }
         await tryToGetIt(this)
         console.log(this.quoted)
       }
+      this.$refs.editor.setContent(this.quoted || '<br><br><p>Thanks,</p><p>John Doe</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>')
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {
@@ -394,5 +398,41 @@ ${html}
       info(...COMPOSER_TAG, "Sent email.")
       if (window.location.pathname.includes('compose.html')) this.close()
     },
+    async listTemplates() {
+      this.templates = await this.callIPC(this.ipcTask("list templates", {}))
+    },
+    async addTemplate() {
+      throw new Error("Add template not implemented")
+      /*
+      await app.executeIPC(app.ipcTask("add template", {
+        entry: {
+          title: "Not interested",
+          created: new Date(),
+          uses: 0,
+          id: String.random(8)
+        },
+        content: {
+          html: "<p>Hi {{FIRSTNAME}},</p><p></p><p>Thanks for reaching out. Unfortunately at this time we are not interested in your services/offering. I will reach out to you if the situation changes.</p><p></p><p>Cheers,</p><p>Milky</p>"
+        }
+      }))
+      */
+    },
+    async getTemplate(id) {
+      const template = await this.callIPC(this.ipcTask("get template", {id,}))
+
+      if (this.sendTo?.[0]) {
+        const fname = this.sendTo?.[0].display.split(' ')[0]
+        template.html = template.html.replace("{{FIRSTNAME}}", fname)
+      }
+
+      this.$refs.editor.setContent(
+        this.quoted ?
+        (template.html + this.quoted)
+        : template.html)
+    },
+    async deleteTemplate(id) {
+      await this.callIPC(this.ipcTask("delete template", {id, }))
+      await this.listTemplates()
+    }
   }
 }

@@ -5,6 +5,7 @@ import path from 'path'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
 import Register from '../../Mouseion/managers/register'
+const HTML2Text = require('html-to-text')
 
 export interface Template {
   html: string
@@ -15,6 +16,7 @@ export interface TemplateEntry {
   created: Date
   uses: number
   id: string
+  preview: string
 }
 
 //! FIXME: this should save to drafts
@@ -60,12 +62,20 @@ export default class CookieCutter {
     return template
   }
 
-  async add({entry, content}: {entry: TemplateEntry, content: Template}): Promise<boolean> {
+  async add({entry, content}: {entry: Omit<TemplateEntry, "preview">, content: Template}): Promise<boolean> {
     const id = entry.id
     const exists = await this.storage.load(id).catch(_ => _)
     if (exists) return false
     const templates = await this.list()
-    templates.push(entry)
+    templates.push({
+      ...entry,
+      preview: HTML2Text.fromString(content.html ?? '', {
+        wordwrap: false,
+        hideLinkHrefIfSameAsText: true,
+        ignoreImage: true,
+        unorderedListItemPrefix: ' - '
+      }).substr(0, 200)
+    })
     await this.storage.store("catalog", templates)
     await this.storage.store(id, content)
     return true

@@ -95,6 +95,7 @@ const app = new Vue({
     // setup SMTP listeners
     info(...(this.TAG), 'Initializing SMTP')
     await this.initSMTP()
+    await this.listTemplates()
     await this.loadComposer()
 
     this.calculateComposerHeight()
