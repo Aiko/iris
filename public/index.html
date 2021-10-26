@@ -718,13 +718,16 @@
                   <!-- ? Actions Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a @click.stop.prevent="flow.showInboxBoardActions = !flow.showInboxBoardActions" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
-                      <div v-clickaway="() => flow.showInboxBoardActions = false" v-if="flow.showInboxBoardActions" class="dropdown-menu show">
+                      <a @click.stop.prevent="flow.showInboxBoardActions = !flow.showInboxBoardActions"
+                        title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                      <div v-clickaway="() => flow.showInboxBoardActions = false" v-if="flow.showInboxBoardActions"
+                        class="dropdown-menu show">
                         <h6 class="dropdown-header">Actions</h6>
                         <a class="dropdown-item">Mark all as read</a>
                         <a class="dropdown-item">Mark all as unread</a>
                         <div class="dropdown-divider"></div>
-                        <a @click.stop.prevent="flow.showBoardRules = true; flow.showInboxBoardActions = false" class="dropdown-item">Board rules</a>
+                        <a @click.stop.prevent="flow.showBoardRules = true; flow.showInboxBoardActions = false"
+                          class="dropdown-item">Board rules</a>
                       </div>
                     </div>
                   </div>
@@ -733,8 +736,10 @@
                   <!--? Controls Dropdown -->
                   <div class="col-1 cll">
                     <div class="dropdown">
-                      <a @click.stop.prevent="flow.showInboxBoardControls = !flow.showInboxBoardControls" title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
-                      <div v-clickaway="() => flow.showInboxBoardControls = false" v-if="flow.showInboxBoardControls" class="dropdown-menu show">
+                      <a @click.stop.prevent="flow.showInboxBoardControls = !flow.showInboxBoardControls"
+                        title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
+                      <div v-clickaway="() => flow.showInboxBoardControls = false" v-if="flow.showInboxBoardControls"
+                        class="dropdown-menu show">
                         <h6 class="dropdown-header">Sort by</h6>
                         <a class="dropdown-item" @click.stop.prevent="sortThreads(true)">Date (newest)</a>
                         <a class="dropdown-item" @click.stop.prevent="sortThreads(false)">Date (oldest)</a>
@@ -865,7 +870,8 @@
                       <!-- ? Board Actions -->
                       <div class="col-2 cll">
                         <div class="dropdown">
-                          <a @click.stop.prevent="showActions = !showActions" title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
+                          <a @click.stop.prevent="showActions = !showActions" title="Board options"><img
+                              :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                           <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
                             <a @click.stop.prevent="showActions = true" class="dropdown-item">Mark all as read</a>
@@ -1574,6 +1580,7 @@
                   </div>
                 </div>
               </div>
+              <!--?Bottom text <p style="margin-top: 25px;margin-bottom: 0"></p> ---->
             </div>
           </div>
         </div>
