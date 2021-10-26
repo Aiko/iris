@@ -227,6 +227,20 @@ input:active {
   z-index: 1000;
 }
 
+.email {
+position: relative;
+    background: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+		background: var(--main-bg-color);
+    padding: 8px 13px 0 10px;
+    overflow: hidden;
+}
+.email:hover {
+	 background-color: #f7f7f7;
+}
+
 .x-email {
   position: absolute;
   top: 0;
@@ -774,6 +788,36 @@ pre code {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+.subject {
+	font-size: 14px;
+	color: var(--subject-text-color);
+	margin-bottom: 2px;
+	font-weight: 600;
+	height: 20px;
+	overflow: hidden;
+	width: 100%;
+	text-overflow: ellipsis;
+	margin-top: -1px;
+	white-space: nowrap;
+	letter-spacing: 0.4px;
+}
+.body {
+	font-size: 13px;
+	color: var(--main-text-color);
+	height: 50px;
+	overflow: hidden;
+	line-height: 16px;
+	margin-bottom: 3px;
+	text-overflow: ellipsis;
+	letter-spacing: 0.1px;
+	width: 100%;
+	transition: 0.2s;
+}
+
+.body:hover{
+  height: fit-content !important;
+  transition: .2s;
+}
 
 @keyframes load {
   0% {
@@ -827,8 +871,14 @@ pre code {
   transition: 0.2s;
 }
 
-.tempside .body {
-  height: 50px !important;
+
+.tempside{
+    background: var(--main-bg-color);
+    padding: 8px 13px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    overflow: hidden;
 }
 
 .previous-threads {

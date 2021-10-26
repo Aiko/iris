@@ -87,7 +87,8 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.display || chip.value}}</span>
-              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')"
+                class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="To" v-model="term" ref="termInput" />
@@ -112,7 +113,8 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.value}}</span>
-              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')"
+                class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="CC" v-model="term" ref="termInput" />
@@ -138,7 +140,8 @@
                             'active': activeChip == i
                         }">
               <span>{{chip.value}}</span>
-              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')" class="composer-tag-remove" />
+              <img @click="deleteChip(i)" :src="$root.resolveIcon('assets/icons/grey-x.svg')"
+                class="composer-tag-remove" />
             </div>
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="BCC" v-model="term" ref="termInput" />
@@ -161,62 +164,40 @@
           <div class="compose-body">
             <editor-content class="editor" :editor="editor"></editor-content>
 
-            <bubble-menu
-              class="menububble"
-              :tippy-options="{ duration: 100 }"
-              :editor="editor"
-              v-if="editor"
-            >
+            <bubble-menu class="menububble" :tippy-options="{ duration: 100 }" :editor="editor" v-if="editor">
               <div class="menububble__form" v-if="linkActive">
-                <input
-                  class="menububble__input"
-                  type="text"
-                  v-model="linkUrl"
-                  placeholder="https://"
-                  ref="linkInput"
+                <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput"
                   @keydown.enter="
                     editor
                       .chain()
                       .focus()
                       .setLink({ href: linkUrl, target: '_blank' })
                       .run()
-                  "
-                  @keydown.esc="linkActive = false"
-                />
-                <button
-                  class="menububble__button comp-btn"
-                  @click="
+                  " @keydown.esc="linkActive = false" />
+                <button class="menububble__button comp-btn" @click="
                     editor
                       .chain()
                       .focus()
                       .setLink({ href: linkUrl, target: '_blank' })
                       .run()
-                  "
-                  type="button"
-                >
+                  " type="button">
                   <img :src="$root.resolveIcon('assets/icons/link-3.svg')" />
                 </button>
-                <button
-                  class="menububble__button comp-btn"
-                  @click="editor.chain().focus().unsetLink().run()"
-                  type="button"
-                >
+                <button class="menububble__button comp-btn" @click="editor.chain().focus().unsetLink().run()"
+                  type="button">
                   <img :src="$root.resolveIcon('assets/icons/close-g.png')" style="padding: 8px" />
                 </button>
               </div>
 
               <div v-else>
-                <button
-                  :class="{
+                <button :class="{
                     menububble__button: true,
                     'comp-btn': true,
                     'composer-active': editor.isActive('link'),
-                  }"
-                  @click="
+                  }" @click="
                     linkActive = true;
                     linkUrl = editor.getAttributes('link').href;
-                  "
-                >
+                  ">
                   <img :src="$root.resolveIcon('assets/icons/link-3.svg')" />
                 </button>
               </div>
@@ -224,188 +205,120 @@
 
             <div v-if="editor" class="menubar">
               <div class="comp-sep">
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
                     'composer-active': editor.isActive('bold'),
-                  }"
-                  @click="editor.chain().focus().toggleBold().run()"
-                >
+                  }" @click="editor.chain().focus().toggleBold().run()">
                   <img :src="$root.resolveIcon('assets/icons/bold.svg')" />
                 </a>
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
                     'composer-active': editor.isActive('italic'),
-                  }"
-                  @click="editor.chain().focus().toggleItalic().run()"
-                >
+                  }" @click="editor.chain().focus().toggleItalic().run()">
                   <img :src="$root.resolveIcon('assets/icons/italic.svg')" />
                 </a>
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
                     'composer-active': editor.isActive('underline'),
-                  }"
-                  @click="editor.chain().focus().toggleUnderline().run()"
-                >
+                  }" @click="editor.chain().focus().toggleUnderline().run()">
                   <img :src="$root.resolveIcon('assets/icons/underline.svg')" />
                 </a>
               </div>
               <div class="comp-sep">
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
-                  }"
-                >
+                  }">
                   <img :src="$root.resolveIcon('assets/icons/badges-attach.svg')" />
                 </a>
                 <!-- EMOJI  <a class="comp-btn"><img :src="$root.resolveIcon('assets/icons/smile.svg')"></a> -->
               </div>
               <div class="comp-sep">
                 <div class="btn-group dropup">
-                  <button
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <a href="#"><img :src="$root.resolveIcon('assets/icons/t.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('heading', { level: 1 }),
-                      }"
-                      @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
-                      href="#"
-                      style="padding: 4px 8px !important; margin: auto"
-                      ><span style="font-size: 20px">Heading 1</span></a
-                    >
-                    <a
-                      :class="{
+                      }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" href="#"
+                      style="padding: 4px 8px !important; margin: auto"><span style="font-size: 20px">Heading
+                        1</span></a>
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('heading', { level: 2 }),
-                      }"
-                      @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
-                      href="#"
-                      style="padding: 4px 8px !important; margin: auto"
-                      ><span style="font-size: 18px">Heading 2</span></a
-                    >
-                    <a
-                      :class="{
+                      }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" href="#"
+                      style="padding: 4px 8px !important; margin: auto"><span style="font-size: 18px">Heading
+                        2</span></a>
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('heading', { level: 3 }),
-                      }"
-                      @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
-                      href="#"
-                      style="padding: 4px 8px !important; margin: auto"
-                      ><span style="font-size: 16px">Heading 3</span></a
-                    >
+                      }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" href="#"
+                      style="padding: 4px 8px !important; margin: auto"><span style="font-size: 16px">Heading
+                        3</span></a>
                   </div>
                 </div>
                 <div class="btn-group dropup">
-                  <button
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <a href="#"><img :src="$root.resolveIcon('assets/icons/align-left.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive({ textAlign: 'left' }),
-                      }"
-                      @click="editor.chain().focus().setTextAlign('left').run()"
-                      href="#"
-                    >
+                      }" @click="editor.chain().focus().setTextAlign('left').run()" href="#">
                       <img :src="$root.resolveIcon('assets/icons/align-left.svg')" width="20" />
                     </a>
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive({ textAlign: 'center' }),
-                      }"
-                      @click="editor.chain().focus().setTextAlign('center').run()"
-                      href="#"
-                    >
+                      }" @click="editor.chain().focus().setTextAlign('center').run()" href="#">
                       <img :src="$root.resolveIcon('assets/icons/align-center.svg')" width="20" />
                     </a>
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive({ textAlign: 'right' }),
-                      }"
-                      @click="editor.chain().focus().setTextAlign('right').run()"
-                      href="#"
-                    >
+                      }" @click="editor.chain().focus().setTextAlign('right').run()" href="#">
                       <img :src="$root.resolveIcon('assets/icons/align-right.svg')" width="20" />
                     </a>
                   </div>
                 </div>
                 <div class="btn-group dropup">
-                  <button
-                    type="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
+                  <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <a href="#"><img :src="$root.resolveIcon('assets/icons/list.svg')" width="20" /></a>
                   </button>
                   <div class="dropdown-menu">
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('bulletList'),
-                      }"
-                      @click="editor.chain().focus().toggleBulletList().run()"
-                      href="#"
-                      ><img :src="$root.resolveIcon('assets/icons/list.svg')" width="20"
-                    /></a>
+                      }" @click="editor.chain().focus().toggleBulletList().run()" href="#"><img
+                        :src="$root.resolveIcon('assets/icons/list.svg')" width="20" /></a>
 
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('orderedList'),
-                      }"
-                      @click="editor.chain().focus().toggleOrderedList().run()"
-                      href="#"
-                      ><img :src="$root.resolveIcon('assets/icons/list-num.svg')" width="20"
-                    /></a>
+                      }" @click="editor.chain().focus().toggleOrderedList().run()" href="#"><img
+                        :src="$root.resolveIcon('assets/icons/list-num.svg')" width="20" /></a>
 
-                    <a
-                      :class="{
+                    <a :class="{
                         'dropdown-item': true,
                         'composer-active': editor.isActive('taskList'),
-                      }"
-                      @click="editor.chain().focus().toggleTaskList().run()"
-                      href="#"
-                      ><img :src="$root.resolveIcon('assets/icons/check-square.svg')" width="20"
-                    /></a>
+                      }" @click="editor.chain().focus().toggleTaskList().run()" href="#"><img
+                        :src="$root.resolveIcon('assets/icons/check-square.svg')" width="20" /></a>
                   </div>
                 </div>
               </div>
               <div class="comp-sep">
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
                     'composer-active': editor.isActive('codeBlock'),
-                  }"
-                  @click="editor.chain().focus().toggleCodeBlock().run()"
-                >
+                  }" @click="editor.chain().focus().toggleCodeBlock().run()">
                   <img :src="$root.resolveIcon('assets/icons/code.svg')" />
                 </a>
-                <a
-                  :class="{
+                <a :class="{
                     'comp-btn': true,
                     'composer-active': editor.isActive('blockquote'),
-                  }"
-                  @click="editor.chain().focus().toggleBlockquote().run()"
-                >
+                  }" @click="editor.chain().focus().toggleBlockquote().run()">
                   <img :src="$root.resolveIcon('assets/icons/q.svg')" />
                 </a>
               </div>
@@ -415,7 +328,8 @@
               </a>
               <div class="btn-group dropup">
                 <button type="button">
-                  <a><img @click="showInfoModal = true" :src="$root.resolveIcon('assets/icons/info.svg')" width="20" /></a>
+                  <a><img @click="showInfoModal = true" :src="$root.resolveIcon('assets/icons/info.svg')"
+                      width="20" /></a>
                 </button>
               </div>
             </div>
@@ -423,7 +337,8 @@
             <div class="aiko-modal" v-if="showInfoModal">
               <div class="modal-dialog modal-md">
                 <div class="modal-content">
-                  <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" @click="showInfoModal = false" class="x-email" />
+                  <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" @click="showInfoModal = false"
+                    class="x-email" />
                   <div class="modal-reg">
                     <h1>The most advanced composer ever has a lot to offer.</h1>
                     <br />
@@ -481,171 +396,168 @@
           <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <h3>Reply with a template</h3>
             <div class="previous-threads">
+
               <!-- TODO: This is the template for sidebar templates teehee-->
-              <div @click="getTemplate(template.id)" class="email tempside" v-for="template in templates">
-                <div class="container pr" data-toggle="modal" data-target=".email1">
-                  <div class="row" style="user-select: none;">
-                    <div class="col-8 p0" style="display: inline-flex;">
-                      <p class="subject">{{template.title}}</p>
-                    </div>
-                    <p class="body">
-                      {{template.preview ?? template.id}}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
-              <a v-if="templates.length == 0" style="margin-top: 25vh; display: block;" target="_blank">
-                <img :src="$root.resolveIcon('assets/icons/settings-templates.svg')" width="18" style="margin-top: -1px;" />
-                <p class="inline"><b>New template</b></p>
-
-                <p>
-                  Add email templates in settings to reply to future emails in
-                  one click.
+              <div @click="getTemplate(template.id)" class="tempside" v-for="template in templates">
+                <p class="subject">{{template.title}}</p>
+                <p class="body">
+                  {{template.preview ?? template.id}}
                 </p>
-              </a>
-            </div>
-          </div>
-          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <div class="previous-threads">
-              <!-- TODO: This is the attachment area-->
-              <h3>Include recent attachment</h3>
-              <a style="margin-top: 25vh; display: block;" target="_blank"><img :src="$root.resolveIcon('assets/icons/compose-attach.svg')"
-                  width="18" style="margin-top: -1px;" />
-                <p class="inline"><b>Browse</b></p>
-                <p>
-                  Recent attachments will appear here.
-                </p>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- END Compose View --------------------------------------->
-
-    <!-- START Toast -->
-    <!-- Connection Lost Toast -->
-    <div class="aiko-toast" style="display: none;">
-      <p class="textinout" style="color: #dc3545 !important;">
-        We're having trouble connecting to the internet.
-      </p>
-      <div class="t-loader-red"><span></span></div>
-    </div>
-
-    <!-- IMAP Error Toast -->
-    <div class="aiko-toast" style="display: none;">
-      <p class="textinout" style="color: #dc3545 !important;">
-        We're having issues connecting to your mail provider.
-      </p>
-      <div class="t-loader-red"><span></span></div>
-    </div>
-
-    <!-- Send Email Error Toast -->
-    <div class="aiko-toast" style="display: none;">
-      <p class="textinout" style="color: #dc3545 !important;">
-        We were unable to send your message due to network issues.
-      </p>
-      <div class="t-loader-red"><span></span></div>
-    </div>
-    <!-- END Toast --------------------------------------->
-
-    <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
-    <div class="aiko-modal" style="display: none;">
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-          <div class="modal-reg">
-            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-              style="margin-bottom: 15px; margin-top: 10px;" />
-            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-              style="margin-bottom: 15px; margin-top: 10px;" />
-            <h1>You found a premium feature.</h1>
-            <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200" />
-            <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200" />
-            <br /><br />
-            <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-              Enable <b>email trackers</b> to be notified when your recipient
-              has opened your email.
-            </p>
-            <br />
-            <div class="modal-bottom">
-              <a class="blue">Get Started</a>
-            </div>
-            <p class="ns30"></p>
-            <br />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
-    <div class="aiko-modal" style="display: none;">
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-          <div class="modal-reg">
-            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-              style="margin-bottom: 15px; margin-top: 10px;" />
-            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-              style="margin-bottom: 15px; margin-top: 10px;" />
-            <h1>You found a premium feature.</h1>
-            <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280" />
-            <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280" />
-            <br /><br />
-            <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-              Prepare email templates to reply to future emails in just one
-              click.
-            </p>
-            <br />
-
-            <div class="modal-bottom">
-              <a class="blue">Get Started</a>
-            </div>
-            <p class="ns30"></p>
-            <br />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TODO: Add info to Info modal -->
-    <div class="aiko-modal" style="display: none;" id="infoModal">
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-          <div class="modal-reg">
-            <h1>The most advanced composer ever has a lot to offer.</h1>
-            <br />
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-12">
-                  <span>Markdown: </span>
-                  <span class="bold-c">*Bold*</span>
-                  <span class="italic-c">~Italic~</span>
-                  <span class="code-c">Code</span>
-                  <span class="quotes-c">Quote</span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <span>Code: </span>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <span>Advanced Maths: </span>
-                </div>
               </div>
             </div>
-            <br />
-            <p class="ns30"></p>
-            <br />
+
+            <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
+            <a v-if="templates.length == 0" style="margin-top: 25vh; display: block;" target="_blank">
+              <img :src="$root.resolveIcon('assets/icons/settings-templates.svg')" width="18"
+                style="margin-top: -1px;" />
+              <p class="inline"><b>New template</b></p>
+
+              <p>
+                Add email templates in settings to reply to future emails in
+                one click.
+              </p>
+            </a>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <div class="previous-threads">
+            <!-- TODO: This is the attachment area-->
+            <h3>Include recent attachment</h3>
+            <a style="margin-top: 25vh; display: block;" target="_blank"><img
+                :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
+              <p class="inline"><b>Browse</b></p>
+              <p>
+                Recent attachments will appear here.
+              </p>
+            </a>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- END Compose View --------------------------------------->
+
+  <!-- START Toast -->
+  <!-- Connection Lost Toast -->
+  <div class="aiko-toast" style="display: none;">
+    <p class="textinout" style="color: #dc3545 !important;">
+      We're having trouble connecting to the internet.
+    </p>
+    <div class="t-loader-red"><span></span></div>
+  </div>
+
+  <!-- IMAP Error Toast -->
+  <div class="aiko-toast" style="display: none;">
+    <p class="textinout" style="color: #dc3545 !important;">
+      We're having issues connecting to your mail provider.
+    </p>
+    <div class="t-loader-red"><span></span></div>
+  </div>
+
+  <!-- Send Email Error Toast -->
+  <div class="aiko-toast" style="display: none;">
+    <p class="textinout" style="color: #dc3545 !important;">
+      We were unable to send your message due to network issues.
+    </p>
+    <div class="t-loader-red"><span></span></div>
+  </div>
+  <!-- END Toast --------------------------------------->
+
+  <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+  <div class="aiko-modal" style="display: none;">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+        <div class="modal-reg">
+          <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+            style="margin-bottom: 15px; margin-top: 10px;" />
+          <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+            style="margin-bottom: 15px; margin-top: 10px;" />
+          <h1>You found a premium feature.</h1>
+          <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200" />
+          <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200" />
+          <br /><br />
+          <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+            Enable <b>email trackers</b> to be notified when your recipient
+            has opened your email.
+          </p>
+          <br />
+          <div class="modal-bottom">
+            <a class="blue">Get Started</a>
+          </div>
+          <p class="ns30"></p>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+  <div class="aiko-modal" style="display: none;">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+        <div class="modal-reg">
+          <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+            style="margin-bottom: 15px; margin-top: 10px;" />
+          <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+            style="margin-bottom: 15px; margin-top: 10px;" />
+          <h1>You found a premium feature.</h1>
+          <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280" />
+          <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280" />
+          <br /><br />
+          <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+            Prepare email templates to reply to future emails in just one
+            click.
+          </p>
+          <br />
+
+          <div class="modal-bottom">
+            <a class="blue">Get Started</a>
+          </div>
+          <p class="ns30"></p>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TODO: Add info to Info modal -->
+  <div class="aiko-modal" style="display: none;" id="infoModal">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+        <div class="modal-reg">
+          <h1>The most advanced composer ever has a lot to offer.</h1>
+          <br />
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12">
+                <span>Markdown: </span>
+                <span class="bold-c">*Bold*</span>
+                <span class="italic-c">~Italic~</span>
+                <span class="code-c">Code</span>
+                <span class="quotes-c">Quote</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <span>Code: </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <span>Advanced Maths: </span>
+              </div>
+            </div>
+          </div>
+          <br />
+          <p class="ns30"></p>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
   <!-- END id="app" -------------------------------------------------->
 

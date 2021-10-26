@@ -290,6 +290,10 @@ border: none !important;
   transition: 0.2s;
 }
 
+.archive {
+	background: var(--secondary-bg-color) !important;
+}
+
 .add-board {
   background: var(--main-bg-color) !important;
 }
