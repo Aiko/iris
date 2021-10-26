@@ -640,11 +640,11 @@
 
               <!-- ? Notifications -->
               <div class="dropdown inline">
-                <a title="Smart notifications">
+                <a @click.stop.prevent="flow.showNotifications = !(flow.showNotifications)" title="Smart notifications">
                   <img :src="$root.resolveIcon('assets/icons/header-bell.svg')">
                   <span class="notif-count">3</span>
                 </a>
-                <div class="dropdown-menu notif" style="margin-top: 10px">
+                <div v-if="flow.showNotifications" v-clickaway="() => flow.showNotifications = false" class="dropdown-menu notif show" style="margin-top: 10px">
                   <div class="container">
                     <a>
                       <div class="row">
@@ -1546,7 +1546,7 @@
                       <!-- Inside this one will be dynamic depending on previous selection
                       (text/email/date etc)   --------------------------------------->
                       <div class="col-3" v-if="!(draftCondition.valid)">
-                        <input type="text" name="rulesField" placeholder="...">
+                        <input type="text" name="rulesField" v-model="conditionValue" placeholder="...">
                       </div>
                       <div class="col-3" v-else>
                         <select class="aiko-select" v-model="conditionValue">
@@ -1577,6 +1577,17 @@
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion">
+                <div class="card b0">
+                  <div class="card-header" style="background: var(--main-bg-color);">
+                    <h2 class="mb-0">
+                      <button @click="queueAll" class="btn btn-link" type="button">
+                        Run all rules
+                      </button>
+                    </h2>
                   </div>
                 </div>
               </div>

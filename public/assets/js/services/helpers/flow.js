@@ -11,7 +11,8 @@ const flow_mgr = {
       regularView: false,
       showInboxBoardActions: false,
       showInboxBoardControls: false,
-      showBoardRules: false
+      showBoardRules: false,
+      showNotifications: false
     },
   },
   watch: {
