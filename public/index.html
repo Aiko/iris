@@ -1482,37 +1482,32 @@
               <h1>Board Rules</h1>
               <br>
               <div class="container-rules">
-                <div class="row margin-auto existing-rules">
+                <div class="row margin-auto existing-rules" v-for="rule in rules">
                   <div class="col-3">
-                    <p class="margin-auto text-left">if from: </p>
+                    <p class="margin-auto text-left">{{rule.condition.display}}</p>
                   </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">ruben@pri.com</p>
+                  <div class="col-3" v-if="!(rule.condition.valid)">
+                    <p class="margin-auto blue text-left">"{{rule.condition.value}}"</p>
                   </div>
-                  <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
-                  </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">To-Do</p>
-                  </div>
-                  <div class="col-2">
-                    <a class="red margin-auto text-right">Delete</a>
-                  </div>
-                </div>
-
-
-                <div class="row margin-auto existing-rules">
-                  <div class="col-3">
-                    <p class="margin-auto text-left">if from: </p>
-                  </div>
-                  <div class="col-3">
-                    <p class="margin-auto blue text-left">ruben@pri.com</p>
+                  <div class="col-3" v-else>
+                    <select class="aiko-select" v-model="rule.condition.value" disabled>
+                      <option v-for="option in rule.condition.valid" :value="option.value">
+                        {{option.display}}
+                      </option>
+                    </select>
                   </div>
                   <div class="col-2">
-                    <p class="margin-auto text-left">move to: </p>
+                    <p class="margin-auto text-left">{{rule.action.display}}</p>
                   </div>
-                  <div class="col-2">
-                    <p class="margin-auto blue">To-Do</p>
+                  <div class="col-2" v-if="!(rule.action.valid)">
+                    <p class="margin-auto blue">{{rule.action.value}}</p>
+                  </div>
+                  <div class="col-2" v-else>
+                    <select class="aiko-select" v-model="rule.action.value" disabled>
+                      <option v-for="option in rule.action.valid" :value="option.value">
+                        {{option.display}}
+                      </option>
+                    </select>
                   </div>
                   <div class="col-2">
                     <a class="red margin-auto text-right">Delete</a>
@@ -1520,54 +1515,65 @@
                 </div>
               </div>
               <br>
-              <div class="accordion" id="accordionExample">
+              <div class="accordion">
                 <div class="card b0">
-                  <div class="card-header" id="headingOne" style="background: var(--main-bg-color);">
+                  <div class="card-header" style="background: var(--main-bg-color);">
                     <h2 class="mb-0">
-                      <button class="btn btn-link" type="button">
+                      <button @click="showAddRule = true" class="btn btn-link" type="button">
                         Add new rule
                       </button>
                     </h2>
                   </div>
-                  <div id="collapseOne" class="collapse">
+                  <div :class="{
+                    'collapse': true,
+                    'show': showAddRule
+                  }">
                     <div class="row margin-auto existing-rules">
                       <div class="col-3">
-                        <select class="aiko-select">
-                          <option value="1" selected="selected">If from: </option>
-                          <option value="2">If contains: </option>
-                          <option value="2">If date: </option>
-                          <option value="2">If flagged: </option>
-                          <option value="2">If attcht: </option>
-                          <option value="2">If contains: </option>
-                          <option value="2">If contains: </option>
-
+                        <select class="aiko-select" v-model="condition">
+                          <option v-for="condition in validConditions" :value="condition.value">
+                            {{condition.display}}
+                          </option>
                         </select>
                       </div>
 
                       <!-- Inside this one will be dynamic depending on previous selection
-                    (text/email/date etc)   --------------------------------------->
-                      <div class="col-3">
-                        <input type="text" name="rulesField" placeholder="Email">
+                      (text/email/date etc)   --------------------------------------->
+                      <div class="col-3" v-if="!(draftCondition.valid)">
+                        <input type="text" name="rulesField" placeholder="...">
+                      </div>
+                      <div class="col-3" v-else>
+                        <select class="aiko-select" v-model="conditionValue">
+                          <option v-for="val in draftCondition.valid" :value="val.value">
+                            {{val.display}}
+                          </option>
+                        </select>
                       </div>
 
                       <div class="col-2">
-                        <p class="margin-auto text-left">move to: </p>
-                      </div>
-                      <div class="col-2">
-                        <select class="aiko-select">
-                          <option value="1" selected="selected">To-Do</option>
-                          <option value="2">Done</option>
+                        <select class="aiko-select" v-model="action">
+                          <option v-for="action in validActions" :value="action.value">
+                            {{action.display}}
+                          </option>
                         </select>
                       </div>
-                      <div class="col-2">
+                      <div class="col-2" v-if="!(draftAction.valid)">
+                        <input type="email" name="rulesField" placeholder="Email">
+                      </div>
+                      <div class="col-2" v-else>
+                        <select class="aiko-select" v-model="actionValue">
+                          <option v-for="val in draftAction.valid" :value="val.value">
+                            {{val.display}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="col-2" @click="addRule">
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <p style="margin-top: 25px;margin-bottom: 0">Check <a class="blue">Inbox rules</a> to see if emails are being
-                automatically added to this board.</p>
             </div>
           </div>
         </div>
