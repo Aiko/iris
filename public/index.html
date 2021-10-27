@@ -1208,7 +1208,7 @@
               <!-- ? Datepicker for Schedule Quick Action -->
               <!-- TODO: move this out -->
               <!--!------------------------------------------------------------->
-              <div class="modal-dialog modal-md datepick" v-if="false">
+              <div class="modal-dialog modal-md datepick" v-clickaway="() => scheduleSeed = null" v-if="scheduleSeed">
                 <div class="modal-content">
                   <div class="modal-reg">
                     <h1 class="mt-2">Please change or confirm suggested time.</h1>
@@ -1235,7 +1235,7 @@
               <!-- ? Thread Messages -->
               <!--!------------------------------------------------------------->
               <view-email v-for="(email, i) in fullThread.emails" :email="email" :expanded="i == 0" :key="i"
-                :tid="thread.tid">
+                :tid="thread.tid" :seed-schedule.camel="seedSchedule">
               </view-email>
             </div>
 
@@ -2051,7 +2051,7 @@
           <!-- ? Quick Actions -->
           <!--!------------------------------------------------------------->
           <div class="options-qa">
-            <a v-if="email.M.quick_actions.classification == 'scheduling'">
+            <a @click.stop.prevent="schedule" v-if="email.M.quick_actions.classification == 'scheduling'">
               <h2><img :src="$root.resolveIcon('assets/icons/email-schedule.svg')">Schedule</h2>
             </a>
             <a @click.stop.prevent="openVerify" v-if="email.M.quick_actions.classification == 'verify'">
@@ -2069,8 +2069,17 @@
             <a v-if="email.M.quick_actions.classification == 'send_document'">
               <h2><img :src="$root.resolveIcon('assets/icons/attach.svg')">Attach Files</h2>
             </a>
+            <a v-if="email.M.quick_actions.classification == 'calendar_invite'">
+              <h2><img :src="$root.resolveIcon('assets/icons/badges-event.svg')">Add to Calendar</h2>
+            </a>
             <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
               <h2><img :src="$root.resolveIcon('assets/icons/clipboard.svg')">{{email.M.quick_actions.otp}}</h2>
+            </a>
+            <a @click.stop.prevent="openLink" v-if="email.M.quick_actions.classification == 'override'">
+              <h2>
+              <img :src="email.M.quick_actions.overrideIcon">
+                {{thread.emails[0].M.quick_actions.overrideText}}
+              </h2>
             </a>
           </div>
 
@@ -2107,7 +2116,7 @@
         <!--!------------------------------------------------------------->
         <!-- ? Scheduler Mini-Tool -->
         <!--!------------------------------------------------------------->
-        <div v-if="email.M.quick_actions.classification == 'scheduling'" class="scheduler">
+        <div v-if="false" class="scheduler">
           <p title="Click to change date and time">(new Date(email.M.quick_actions.start)).toNicerDateTime()</p>
           <a>
             <img :src="$root.resolveIcon('assets/icons/event-white.svg')" width="20" />

@@ -7,7 +7,8 @@ Vue.component('view-thread', {
       participants: this.thread.participants.map(participant => {
         participant.avatar = 'assets/img/avatar.png'
         return participant
-      })
+      }),
+      scheduleSeed: null
     }
   },
   async created () {
@@ -60,6 +61,9 @@ Vue.component('view-thread', {
     close () {
       this.$root.flow.viewThread = null
       this.$root.focused.view = false
+    },
+    seedSchedule(email) {
+      this.scheduleSeed = email
     }
   }
 })
