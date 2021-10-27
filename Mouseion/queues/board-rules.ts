@@ -35,6 +35,7 @@ export interface BoardRule {
     text?: string
     quick_action?: string
     subscription?: boolean
+    attachment_name?: string
     attachment_type?: string
   }
   action: [{
@@ -135,31 +136,35 @@ export default class BoardRulesQueue implements MessageQueue {
     const actions:Partial<Record<BoardRuleAction, string | boolean>> = {}
     let valid: boolean = false //? whether to apply
 
+    const strmatch = (str: string, substr: string) =>
+      str.toLowerCase().trim().includes(substr.toLowerCase().trim())
+    ;;
+
     //? Build phase
     for (const { folder, conditions, action } of this.rules) {
       let conditions_met = true
 
       //? Does the rule apply to the email's folder?
-      conditions_met = conditions_met && (folder == email.folder)
+      conditions_met = conditions_met && (folders.includes(folder))
       if (!conditions_met) continue;
 
       //? Does the rule apply to the email's sender?
       if (conditions.from) {
-        const match = (email.M.envelope.from.address == conditions.from)
+        const match = strmatch(email.M.envelope.from.address, conditions.from)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
 
       //? Does the rule apply to any of the email's recipients?
       if (conditions.to) {
-        const match = email.M.envelope.to.filter(({ address }) => address == conditions.to).length > 0
+        const match = email.M.envelope.to.filter(({ address }) => strmatch(address, conditions.to!)).length > 0
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
 
       //? Does the rule apply in part to the email's subject?
       if (conditions.subject) {
-        const match = email.M.envelope.subject.toLowerCase().includes(conditions.subject.toLowerCase())
+        const match = strmatch(email.M.envelope.subject, conditions.subject)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
@@ -180,7 +185,16 @@ export default class BoardRulesQueue implements MessageQueue {
 
       //? Does the rule apply in part to the email's text?
       if (conditions.text) {
-        const match = email.parsed.text.includes(conditions.text)
+        const match = strmatch(email.parsed.text, conditions.text)
+        conditions_met = conditions_met && match
+        if (!conditions_met) continue;
+      }
+
+      //? Does the rule apply in part to the attachment filename?
+      if (conditions.attachment_name) {
+        const match = email.parsed.attachments.filter(
+          ({ filename }) => strmatch(filename, conditions.attachment_name!)
+        ).length > 0
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
@@ -188,7 +202,7 @@ export default class BoardRulesQueue implements MessageQueue {
       //? Does the rule apply in part to the attachment types?
       if (conditions.attachment_type) {
         const match = email.parsed.attachments.filter(
-          ({ contentType }) => contentType.startsWith(conditions.attachment_type || '')
+          ({ contentType }) => strmatch(contentType, conditions.attachment_type!)
         ).length > 0
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
@@ -209,20 +223,33 @@ export default class BoardRulesQueue implements MessageQueue {
       if (actions[BoardRuleActions.Star] != null) {
         const strategy = actions[BoardRuleActions.Star] ? this.operator.star : this.operator.unstar
         await strategy(email.folder, email.M.envelope.uid)
+        this.Log.log("MID", mid, "was", actions[BoardRuleActions.Star] ? "starred" : "unstarred")
       }
       if (actions[BoardRuleActions.Forward]) {
         // TODO: communicate to frontend that it should be marked for forwarding
+        this.Log.warn("MID", mid, "could not be marked for forwarding. NOT IMPLEMENTED")
       }
       if (actions[BoardRuleActions.Move]) {
         const destFolder = actions[BoardRuleActions.Move] as string
         //? Check to see if we actually need to move it
         if (!(folders.includes(destFolder))) {
-          const strategy = inboxLOC ? this.operator.copy : this.operator.move
-          await strategy(
-            inboxLOC?.folder || message.locations[0].folder,
-            inboxLOC?.uid || message.locations[0].uid,
-            destFolder
-          )
+          if (inboxLOC) {
+            //? determine existing boards
+            const _this = this
+            const boards = folders.filter(folder => _this.folders.isBoard(folder))
+            //? copy to new folder
+            await this.operator.copy(inboxLOC.folder, inboxLOC.uid, destFolder)
+            //? if in new board remove from existing boards
+            if (this.folders.isBoard(destFolder)) {
+              for (const board of boards) {
+                const loc = getLocation(message.locations, board)
+                if (!loc) continue;
+                this.operator.delete(board, loc?.uid)
+              }
+            }
+          } else {
+            await this.operator.move(message.locations[0].folder, message.locations[0].uid, destFolder)
+          }
         }
       }
       if (actions[BoardRuleActions.Delete]) {

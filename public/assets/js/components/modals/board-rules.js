@@ -6,13 +6,14 @@ Vue.component('board-rules', {
       draft: {
         folder: "INBOX",
         conditions: {
-          from: null, // exact
-          to: null, // exact
+          from: null, // contains
+          to: null, // contains
           subject: null, // contains
           text: null, // contains
           quick_action: null, // exact
           subscription: null, // exact
-          attachment_type: null // starts with
+          attachment_name: null, // contains
+          attachment_type: null // contains
         },
         action: []
       },
@@ -83,7 +84,11 @@ Vue.component('board-rules', {
           ]
         },
         {
-          display: "attachment:",
+          display: "attachment name:",
+          value: "attachment_name"
+        },
+        {
+          display: "attachment type:",
           value: "attachment_type",
           valid: [
             {
@@ -111,8 +116,8 @@ Vue.component('board-rules', {
               value: "text/"
             },
             {
-              display: "ZIP Archive",
-              value: "application/zip"
+              display: "Archive",
+              value: "zip"
             },
             {
               display: "Font",
@@ -239,6 +244,7 @@ Vue.component('board-rules', {
           text: null,
           quick_action: null,
           subscription: null,
+          attachment_name: null,
           attachment_type: null
         },
         action: []
