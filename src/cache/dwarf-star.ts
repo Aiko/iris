@@ -70,7 +70,6 @@ export default class DwarfStar {
   }
 
   private copy(_: {}={}) {
-    console.log("COPY CREATED")
     return JSON.parse(JSON.stringify(this.settings))
   }
 

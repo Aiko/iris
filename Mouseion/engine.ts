@@ -20,7 +20,7 @@ export default class Engine {
   }
 
   static async init(config: IMAPConfig) {
-    console.log("Initializing engine...")
+    console.log("Initializing engine...".green)
     const mailbox = await Mailbox.load(
       config, 500, 100
     )
