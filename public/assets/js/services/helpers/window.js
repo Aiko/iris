@@ -5,7 +5,7 @@ const window_mgr = {
     windowPrefix: 'INBOX',
     isFullScreen: false,
     isMaximized: true,
-    isDarkMode: true, //window.matchMedia('(prefers-color-scheme: dark)').matches,
+    isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
     isPC: platform == 'win32',
     isMac: platform == 'darwin',
     isLinux: (platform != 'win32' && platform != 'darwin')
