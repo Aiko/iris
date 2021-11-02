@@ -1,0 +1,18 @@
+:root {
+  --main-color: #ff48f0;
+  --main-color-hover: #ff48f0;
+  --main-bg-color: #161b22 !important;
+  --secondary-bg-color: #0d1117 !important;
+  --secondary-bg-color-hover: #1d1c1a !important;
+  --main-text-color: #c9d1d9;
+  --main-text-color-hover: #e7eaec !important;
+  --dark-text: #c9d1d9 !important;
+  --sidebar-item-bg-color: #0d1117 !important;
+  --email-bg-color: #0d1117 !important;
+  --email-hover-bg-color: #101823 !important;
+  --sender-text-color: #c9d1d9 !important;
+  --subject-text-color: #c9d1d9 !important;
+  --main-border: solid 1px #171615 !important;
+  --placeholder-text-color: #5d5d5d !important;
+  --modal-backdrop: #000000b3 !important;
+}

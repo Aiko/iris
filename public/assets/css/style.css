@@ -3512,8 +3512,8 @@ unselectable {
 	transition: 0.2s;
 }
 
-.mw600 {
-	max-width: 600px !important;
+.mw800 {
+	max-width: 800px !important;
 	max-height: 90vh;
 }
 
