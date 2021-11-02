@@ -8,6 +8,7 @@ lerna-debug.log*
 
 # Custom CSS
 public/assets/css/custom.css
+public/assets/css/custom.custom.css
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -101,3 +102,6 @@ cache/*
 
 # Compiled TS dist
 **/dist/*
+
+
+.metals/
