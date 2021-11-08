@@ -445,7 +445,7 @@
           </a>
 
           <!--? Special Folders -->
-          <a>
+          <a @click.stop.prevent="flow.showSent = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-send.svg')" class="sent-fix">
             <span>Sent</span>
           </a>
@@ -1988,14 +1988,12 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Singular Direct Recipient, Collapsed -->
                   <!--!------------------------------------------------------------->
-                  <div v-if="!showSenderInfo && email.M.envelope.to.length <= 1">
+                  <div v-if="!showSenderInfo && email.M.envelope.recipients.length <= 1">
                     <b>From</b>
                     <span>{{email.M.envelope.from.address}}</span>
                     <b>to</b>
-                    <span v-if="email.M.envelope.to.length > 0">{{email.M.envelope.to[0].address}}</span>
+                    <span v-if="email.M.envelope.recipients.length > 0">{{email.M.envelope.recipients[0].address}}</span>
                     <span v-else>undisclosed recipients</span>
-                    <b v-if="email.M.envelope.cc.length > 0">and {{email.M.envelope.cc.length}}
-                      others</b>
                   </div>
 
 
@@ -2006,10 +2004,10 @@
                     <b>From</b>
                     <span>{{email.M.envelope.from.address}}</span>
                     <b>to</b>
-                    <span v-for="to in email.M.envelope.to.slice(0, 2)">{{to.address}}, </span>
-                    <b v-if="email.M.envelope.to.length > 2 || email.M.envelope.cc.length > 0">
+                    <span v-for="to in email.M.envelope.recipients.slice(0, 2)">{{to.address}}</span>
+                    <b v-if="email.M.envelope.recipients.length > 2">
                       and
-                      {{Math.max(email.M.envelope.to.length - 2, 0) + email.M.envelope.cc.length}}
+                      {{Math.max(email.M.envelope.recipients.length - 2, 0)}}
                       others
                     </b>
                   </div>
@@ -2026,17 +2024,17 @@
                     <b>To </b>
                     <span
                       v-for="to in email.M.envelope.to">{{(to.name && (to.name != to.address)) ? '"' + to.name + '" ' : ''}}
-                      {{to.address}},&nbsp;</span>
+                      {{to.address}}</span>
                     <br v-if="email.M.envelope.cc.length > 0">
                     <b v-if="email.M.envelope.cc.length > 0">CC </b>
                     <span
                       v-for="cc in email.M.envelope.cc">{{(cc.name && (cc.name != cc.address)) ? '"' + cc.name + '" ' : ''}}
-                      {{cc.address}},&nbsp;</span>
+                      {{cc.address}}</span>
                     <br v-if="email.M.envelope.bcc.length > 0">
                     <b v-if="email.M.envelope.bcc.length > 0">BCC </b>
                     <span
                       v-for="bcc in email.M.envelope.bcc">{{(bcc.name && (bcc.name != bcc.address)) ? '"' + bcc.name + '" ' : ''}}
-                      {{bcc.address}},&nbsp;</span>
+                      {{bcc.address}}</span>
                   </div>
                 </h2>
               </div>
