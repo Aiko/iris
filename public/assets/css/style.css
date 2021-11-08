@@ -2556,6 +2556,7 @@ transition: .2s;
 }
 .options-qa h2{
 font-size: 11px;
+    line-height: 16px;
     text-transform: uppercase;
 margin: 0;
     padding: 7px 7px 5px 7px;
