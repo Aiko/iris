@@ -28,7 +28,10 @@
 	top: 45%;
 	transform: translateY(-50%);
 }
+*{
+	contain: layout;
 
+}
 /* Main CSS Start */
 html,
 body,
@@ -864,8 +867,8 @@ border-radius: 0;
 
 .main-action {
 	font-size: 11px;
-	font-weight: 500;
-	letter-spacing: 0.2px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
 	line-height: 28px;
 	white-space: nowrap;
 	text-transform: uppercase;
@@ -874,6 +877,7 @@ border-radius: 0;
     height: 30px;
     padding: 0;
     overflow: hidden;
+		opacity: .9;
     text-overflow: ellipsis;
 }
 
@@ -1165,6 +1169,7 @@ width: 18px;
 }
 .space{
 	    margin-bottom: 17px;
+			    contain: unset;
 			transition: .2s;
 }
   .space:hover{
@@ -1426,6 +1431,7 @@ filter: unset !important;
 	padding: 2px 3px 4px 3px;
 	height: 28px;
 	background: var(--secondary-bg-color);
+	    contain: unset;
 }
 
 .search input::placeholder {
@@ -1701,9 +1707,12 @@ position: relative;
 }
 
 .email:hover .extra-actions {
-
 opacity: 1;
 transition: .2s;
+}
+.email:hover .main-action{
+	opacity: 1 !important;
+	transition: .2s;
 }
 
 .chip {
@@ -1916,7 +1925,7 @@ transition: .2s;
 
 .add-board img {
 	margin-top: 45vh;
-	width: 30px;
+	width: 20px;
 	filter: brightness(0.5);
 }
 
@@ -2163,7 +2172,7 @@ margin-left: -15px;
 	color: var(--subject-text-color);
 	font-size: 16px;
 	font-weight: 600;
-	margin-top: 15px;
+	margin-top: 17px;
 	margin-bottom: 0;
 	line-height: 20px;
 }
@@ -2323,6 +2332,7 @@ margin-left: -15px;
 
 .extra-actions{
 	opacity: 0;
+	transition: .2s;
 }
 
 
@@ -2454,7 +2464,8 @@ select.v1 {
 	border-radius: 5px 0 0 0;
 	opacity: 1;
 	text-align: center;
-	margin-bottom: 5px;
+    margin-bottom: -5px;
+    margin-right: -14px;
 	transition: 0.1s;
 }
 
@@ -2533,9 +2544,8 @@ transition: .2s;
 .options-qa {
     position: absolute;
     right: 0;
-    bottom: 0;
-    margin-right: 12px;
-    margin-bottom: 44px;
+    top: 0;
+    margin-top: 27px;
     background: var(--secondary-bg-color);
     border-radius: 5px;
 		transition: .2s;
@@ -2545,7 +2555,8 @@ transition: .2s;
 	transition: .2s;
 }
 .options-qa h2{
-font-size: 13px;
+font-size: 11px;
+    text-transform: uppercase;
 margin: 0;
     padding: 7px 7px 5px 7px;
 color: var(--main-color);
@@ -4050,6 +4061,6 @@ font-weight: 500;
     padding: 0;
 }
 
-.mw-130{
-	    max-width: calc(100% - 130px);
+.mw-140{
+	    max-width: calc(100% - 140px);
 }

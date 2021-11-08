@@ -2046,7 +2046,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject -->
           <!--!------------------------------------------------------------->
-          <div class="row mw-130">
+          <div class="row mw-140">
             <h3>{{email.M.envelope.subject}}</h3>
           </div>
 
@@ -2077,7 +2077,7 @@
               <h2><img :src="$root.resolveIcon('assets/icons/badges-event.svg')">Add to Calendar</h2>
             </a>
             <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
-              <h2><img :src="$root.resolveIcon('assets/icons/clipboard.svg')">{{email.M.quick_actions.otp}}</h2>
+              <h2><img :src="$root.resolveIcon('assets/icons/clipboard.svg')">COPY CODE</h2>
             </a>
             <a @click.stop.prevent="openLink" v-if="email.M.quick_actions.classification == 'override'">
               <h2>
