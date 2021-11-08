@@ -76,6 +76,7 @@ body {
 	user-select: none;
 	/* background-image: url("../img/bg.jpg"); */
 	background-image: url("https://images.unsplash.com/photo-1553775927-a071d5a6a39a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1687&q=80");
+	background-blend-mode: difference;
 }
 
 div.board-body>div:first-child {
