@@ -60,6 +60,12 @@ Vue.component('view-thread', {
       return thread.emails?.[0]
     })(this.fullThread, this.$root.folders.sent)
   },
+  computed: {
+    board() {
+      const folder = this.$root.locThread(this.thread)?.folder ?? "Uncategorized"
+      return folder.replace("[Aiko]/", "")
+    },
+  },
   methods: {
     close () {
       this.$root.flow.viewThread = null

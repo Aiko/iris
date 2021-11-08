@@ -44,6 +44,10 @@ Vue.component('board-rules', {
               value: "scheduling"
             },
             {
+              display: "Add to Calendar",
+              value: "calendar_invite"
+            },
+            {
               display: "Attach Files",
               value: "send_document"
             },
