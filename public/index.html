@@ -1749,7 +1749,7 @@
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
         'just-me': justMe,
-        'quick-reply': showQuickReply || quickReplyAll,
+        'quick-reply': showQuickReply,
         'focus': ($root.regularView && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">
 
@@ -1858,7 +1858,7 @@
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
                 <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <span
-                  @click.stop.prevent="quickReplyAll = true" class="all">All</span>
+                  @click.prevent="quickReplyAll = true" class="all">All</span>
               </a>
             </div>
 
