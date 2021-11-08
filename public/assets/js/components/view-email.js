@@ -231,6 +231,12 @@ Vue.component('view-email', {
       if (this.email.M.quick_actions.context) {
         remote.shell.openExternal(this.email.M.quick_actions.context)
       }
-    }
+    },
+    async printMessage () {
+      const iframe = document.getElementById(this.iframeId)
+      if (iframe) {
+        iframe.contentWindow.print()
+      }
+    },
   },
 })

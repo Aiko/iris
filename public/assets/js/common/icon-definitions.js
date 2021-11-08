@@ -36,7 +36,7 @@ const Icons = {
   },
   "attach.svg": {
     base: "attach.svg",
-    light: "attach.svg",
+    light: "attach-lt.svg",
     dark: "attach.svg"
   },
   "avatar.png": {
@@ -126,7 +126,7 @@ const Icons = {
   },
   "clipboard.svg": {
     base: "clipboard.svg",
-    light: "clipboard.svg",
+    light: "clipboard-lt.svg",
     dark: "clipboard.svg"
   },
   "close-g.png": {
@@ -273,6 +273,11 @@ const Icons = {
     base: "options-forward.png",
     light: "options-forward-lt.png",
     dark: "options-forward.png"
+  },
+  "options-print.svg": {
+    base: "options-print.svg",
+    light: "options-print-lt.svg",
+    dark: "options-print.svg"
   },
   "options-replied.png": {
     base: "options-replied.png",
