@@ -32,6 +32,9 @@
 	contain: layout;
 
 }
+.board-header, .board-header *{
+	    contain: unset !important;
+}
 /* Main CSS Start */
 html,
 body,
@@ -692,9 +695,9 @@ border-radius: 0;
 }
 
 .note {
-    width: calc(100% + 53px);
+    width: calc(100% + 55px);
     position: relative;
-    margin-left: -25px;
+    margin-left: -27px;
     background: #486fff;
     overflow: hidden;
     color: #ffffff !important;
@@ -729,8 +732,8 @@ border-radius: 0;
 .note input {
 	background: transparent;
 	border: none;
-	color: var(--dark-text);
-	padding: 3px 5px 12px;
+	color: #fff !important;
+	padding: 3px 5px 12px 12px;
 	width: calc(100% - 30px);
 }
 
@@ -740,8 +743,8 @@ border-radius: 0;
 }
 
 .thin .note {
-	width: 130px !important;
-	margin-left: -23px !important;
+    width: 132px !important;
+    margin-left: -25px !important;
 }
 
 .header {

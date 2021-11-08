@@ -2095,17 +2095,17 @@
           <div class="options">
             <div class="container">
               <div class="row">
-                <a @click.stop="reply" title="Reply"><img :src="$root.resolveIcon('assets/icons/options-reply.png')" width="20"></a>
+                <a @click.stop="reply" title="Reply"><img :src="$root.resolveIcon('assets/icons/options-reply.png')" width="21"></a>
                 <a @click.stop="replyAll" title="Reply All"><img :src="$root.resolveIcon('assets/icons/options-replya.png')" width="20"></a>
-                <a @click.stop="forward" title="Forward"><img :src="$root.resolveIcon('assets/icons/options-forward.png')" width="20"></a>
+                <a @click.stop="forward" title="Forward"><img :src="$root.resolveIcon('assets/icons/options-forward.png')" width="19"></a>
                 <a title="Star" @click.stop.prevent="starMessage" v-if="!(thread.starred)">
-                  <img :src="$root.resolveIcon('assets/icons/options-star.svg')" width="20">
+                  <img :src="$root.resolveIcon('assets/icons/options-star.svg')" width="19">
                 </a>
                 <a title="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
-                  <img :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="20">
+                  <img :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="19">
                 </a>
                 <a title="Trash" @click.stop.prevent="deleteMessage">
-                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="20"></a>
+                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="17"></a>
               </div>
             </div>
           </div>
