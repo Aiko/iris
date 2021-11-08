@@ -20,7 +20,7 @@ Vue.component('view-email', {
     async email (_) {
       console.log("Loaded email", this.email)
       if (this.email.parsed.html) this.setContent()
-      this.avatar = await this.email.M.envelope.from.address.getAvatar({})
+      this.avatar = await this.email.M.envelope.from.address.getAvatar({ colorPalette: app.colorPalette })
     },
     expanded (_) {
       if (this.email.parsed.html) this.setContent()

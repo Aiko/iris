@@ -112,6 +112,9 @@ video:focus {
 	background-size: cover;
 	background-color: #fff !important;
 }
+.no-filter {
+	filter: none !important;
+}
 
 a,
 a:focus,

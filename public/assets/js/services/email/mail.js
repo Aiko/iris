@@ -229,7 +229,7 @@ const mailapi = {
 
       //? set the current mailbox
       this.currentMailbox = currentEmail
-      this.avatar = await this.currentMailbox.getAvatar({})
+      this.avatar = await this.currentMailbox.getAvatar({ colorPalette: app.colorPalette })
       if (this.avatar == "assets/icons/avatar.png") {
         this.avatar = this.resolveIcon('assets/icons/avatar.png')
       }
@@ -345,7 +345,7 @@ const mailapi = {
 
       //? set it as the current mailbox
       this.currentMailbox = this.imapConfig.email
-      this.avatar = await this.currentMailbox.getAvatar({})
+      this.avatar = await this.currentMailbox.getAvatar({ colorPalette: app.colorPalette })
       if (this.avatar == "assets/icons/avatar.png") {
         this.avatar = this.resolveIcon('assets/icons/avatar.png')
       }

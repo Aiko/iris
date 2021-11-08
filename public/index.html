@@ -24,7 +24,7 @@
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
 </head>
 
-<body class="bg" style="background-image: url('https://images.unsplash.com/photo-1622915416661-1e23dbfc6fb3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2039&q=80') !important;filter: invert(82%) sepia(98%) saturate(163%) hue-rotate(269deg) brightness(110%) contrast(111%) !important;">
+<body class="bg">
 
   <div id="app" :class="{
     'inline-flex': true,
@@ -405,9 +405,12 @@
         <div class="row">
 
           <!--? Open Composer -->
-          <a class="sbtn compose-button" @click="openComposer()" id="step6"><img
-              :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')"
-              style="margin-right: 6px;"><span>Compose</span></a>
+          <a class="sbtn compose-button" @click="openComposer()" id="step6">
+            <img :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')"
+              style="margin-right: 6px;"
+              class="no-filter">
+            <span>Compose</span>
+          </a>
 
           <!--? Spaces -->
           <a class="active space-picker home">
@@ -636,13 +639,13 @@
 
               <!-- ? Open Calendar -->
               <a @click="openCalendar" class="inline" title="Show calendar">
-                <img :src="$root.resolveIcon('assets/icons/header-calendar.svg')">
+                <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-calendar.svg')">
               </a>
 
               <!-- ? Notifications -->
               <div class="dropdown inline">
                 <a @click.stop.prevent="flow.showNotifications = !(flow.showNotifications)" title="Smart notifications">
-                  <img :src="$root.resolveIcon('assets/icons/header-bell.svg')">
+                  <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-bell.svg')">
                   <span class="notif-count">3</span>
                 </a>
                 <div v-if="flow.showNotifications" v-clickaway="() => flow.showNotifications = false"
@@ -2193,6 +2196,8 @@
   <script src="assets/js/third-party/svg2png.js"></script>
   <script src="assets/js/third-party/jdenticon.min.js"></script>
   <script src="assets/js/third-party/boring-avatars.min.js"></script>
+  <script src="assets/js/third-party/colorthief.min.js"></script>
+  <script src="assets/js/third-party/color2filter.min.js"></script>
   <script src="assets/js/third-party/Dwarfhaven.min.js"></script>
 
   <!-- TODO: minify all sources into one js file -->
