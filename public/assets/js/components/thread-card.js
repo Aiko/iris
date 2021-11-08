@@ -42,6 +42,7 @@ Vue.component('thread-card', {
       showQuickReply: false,
       replyText: '',
       quickReplyAll: false,
+      deleting: false
     }
   },
   methods: {
@@ -61,16 +62,20 @@ Vue.component('thread-card', {
       if (!this.thread.syncing) {
         const { folder, uid } = this.$root.locThread(this.thread)
         await this.$root.engine.manage.delete(folder, uid)
-        if (this.slug) {
-          const board = this.$root.boards.filter(({ name }) => name == this.slug)?.[0]
-          if (!board) return window.error("Tried to delete a message from a board that does not exist")
-          const i = this.$root.boards.indexOf(board)
-          this.$root.boards[i].tids.splice(this.index, 1)
-        }
-        else {
-          const i = this.$root.inbox.indexOf(this.thread.tid)
-          this.$root.inbox.splice(i, 1)
-        }
+        const that = this
+        this.deleting = true
+        setTimeout(() => {
+          if (that.slug) {
+            const board = that.$root.boards.filter(({ name }) => name == that.slug)?.[0]
+            if (!board) return window.error("Tried to delete a message from a board that does not exist")
+            const i = that.$root.boards.indexOf(board)
+            that.$root.boards[i].tids.splice(that.index, 1)
+          }
+          else {
+            const i = that.$root.inbox.indexOf(that.thread.tid)
+            that.$root.inbox.splice(i, 1)
+          }
+        }, 200)
       }
     },
     async starMessage () {
