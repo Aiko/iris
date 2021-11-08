@@ -1526,7 +1526,6 @@ filter: unset !important;
 
 .archive img {
 	width: 14px;
-	margin-right: 3px;
 	margin-top: -2px;
 	    margin-left: -1px;
 }
@@ -1557,6 +1556,7 @@ hr {
     height: 100%;
     margin-right: 20px;
     position: relative;
+		contain: size layout;
 }
 
 
@@ -1694,9 +1694,16 @@ position: relative;
 		background: var(--main-bg-color);
     padding: 8px 13px 0 10px;
     overflow: hidden;
+		contain: layout;
 }
 .email:hover {
 	 background-color: #f7f7f7;
+}
+
+.email:hover .extra-actions {
+
+opacity: 1;
+transition: .2s;
 }
 
 .chip {
@@ -2292,6 +2299,7 @@ margin-left: -15px;
 	padding: 3px 4px 6px 1px;
 	margin-left: -4px;
 	margin-top: 4px;
+
 }
 
 .thin .extra-actions a {
@@ -2300,6 +2308,21 @@ margin-left: -15px;
 
 .thin .extra-actions {
 	padding-left: 20px !important;
+	
+}
+.thin .spp{
+	width: 100% !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+.thin .spp{
+	width: 100% !important;
+    padding: 0 !important;
+    text-align: center !important;
+}
+
+.extra-actions{
+	opacity: 0;
 }
 
 

@@ -644,7 +644,8 @@
                   <img :src="$root.resolveIcon('assets/icons/header-bell.svg')">
                   <span class="notif-count">3</span>
                 </a>
-                <div v-if="flow.showNotifications" v-clickaway="() => flow.showNotifications = false" class="dropdown-menu notif show" style="margin-top: 10px">
+                <div v-if="flow.showNotifications" v-clickaway="() => flow.showNotifications = false"
+                  class="dropdown-menu notif show" style="margin-top: 10px">
                   <div class="container">
                     <a>
                       <div class="row">
@@ -1208,8 +1209,7 @@
               <!-- ? Datepicker for Schedule Quick Action -->
               <!-- TODO: move this out -->
               <!--!------------------------------------------------------------->
-              <div class="modal-dialog modal-md datepick"
-                v-clickaway="() => scheduleSeed = null" v-if="scheduleSeed">
+              <div class="modal-dialog modal-md datepick" v-clickaway="() => scheduleSeed = null" v-if="scheduleSeed">
                 <div class="modal-content">
                   <div class="modal-reg">
                     <h1 class="mt-2">Please change or confirm suggested time.</h1>
@@ -1821,7 +1821,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Quick Actions -->
             <!--!------------------------------------------------------------->
-            <div class="col-5 cll cll2 z1">
+            <div class="col-5 cll2 z1 spp">
               <a v-if="quickaction == 'scheduling'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/badges-event-blue.svg')"> Schedule
               </a>
@@ -1873,7 +1873,7 @@
             <!--!------------------------------------------------------------->
             <!-- ? Common Interactions -->
             <!--!------------------------------------------------------------->
-            <div class="col-7 extra-actions cll2">
+            <div class="col-7 extra-actions  cll2 cll">
               <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
               <a v-if="isRepliedTo" @click.stop.prevent="reply" title="You've replied to this email"><img
                   :src="$root.resolveIcon('assets/icons/options-replied.png')" width="18"></a>
