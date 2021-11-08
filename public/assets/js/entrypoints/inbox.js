@@ -37,9 +37,6 @@ top.app = new Vue({
       if (!wasLoading && isLoading) {
         document.getElementById('fixed').style.visibility = 'unset'
       }
-    },
-    zenMode (zen) {
-      if (zen) this.collapseSidebar = true
     }
   },
   async created () {

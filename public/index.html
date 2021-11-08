@@ -28,7 +28,7 @@
 
   <div id="app" :class="{
     'inline-flex': true,
-    'collapsed': collapseSidebar,
+    'collapsed': collapseSidebar || zenMode,
     'zen': zenMode
   }" style="opacity: 0" :style="'padding-top: ' + (isFullScreen ? '0' : '25') + 'px;'">
 
