@@ -335,11 +335,17 @@ input:active {
 .red {
 	color: #dc3545 !important;
 }
+img.red {
+	filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
+}
 .pb15{
 	    padding-bottom: 15px !important;
 }
 .red:hover {
 	color: #b12836 !important;
+}
+img.red:hover {
+	filter: brightness(0) saturate(100%) invert(19%) sepia(36%) saturate(5625%) hue-rotate(338deg) brightness(91%) contrast(87%);
 }
 .radio-cont{
 	padding: 0 1.5rem 0.5rem 1.5rem;

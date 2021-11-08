@@ -1741,7 +1741,6 @@
 
   <!--? Thread Card -->
   <script type="text/x-template" id="thread-card">
-    <!-- TODO: add 'quick-reply' class here when they click quick reply - adds maximum of 137px in height -->
     <div @blur="unfocus" :ref="thread.tid" :key="thread.tid" :tid="thread.tid" :class="{
         'email': true,
         'unread': !(thread.seen),
@@ -1750,6 +1749,7 @@
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
         'just-me': justMe,
+        'quick-reply': showQuickReply || quickReplyAll,
         'focus': ($root.regularView && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">
 
@@ -2106,6 +2106,8 @@
                 </a>
                 <a title="Trash" @click.stop.prevent="deleteMessage">
                   <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="20"></a>
+                <a title="Print" @click.stop.prevent="printMessage">
+                  <img :src="$root.resolveIcon('assets/icons/options-print.svg')" width="20"></a>
               </div>
             </div>
           </div>
