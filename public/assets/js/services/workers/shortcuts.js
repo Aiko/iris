@@ -38,16 +38,26 @@ const shortcuts = {
       }
     })
 
-    hotkeys('ctrl+tab,esc', function (evt, data){
-      switch (data.key) {
-        case 'ctrl+tab':
-          app.priority = !app.priority;
-          break;
-        case 'esc':
-          app.focused.index = -1;
-          break;
-        default: log(data);
-      }
+    hotkeys(
+      [
+        'ctrl+tab', 'ctrl+shift+tab',
+        'esc',
+        'alt+z',
+      ].join(','),
+      function (evt, data) {
+        switch (data.key) {
+          case 'ctrl+tab':
+          case 'ctrl+shift+tab':
+            app.priority = !app.priority;
+            break;
+          case 'esc':
+            app.focused.index = -1;
+            break;
+          case 'alt+z':
+            app.zenMode = !app.zenMode;
+            break;
+          default: log(data);
+        }
     })
   },
   methods: {
