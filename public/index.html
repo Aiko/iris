@@ -2104,10 +2104,10 @@
                 <a title="Unstar" @click.stop.prevent="unstarMessage" v-if="thread.starred">
                   <img :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="19">
                 </a>
-                <a title="Trash" @click.stop.prevent="deleteMessage">
-                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="20"></a>
                 <a title="Print" @click.stop.prevent="printMessage">
                   <img :src="$root.resolveIcon('assets/icons/options-print.svg')" width="20"></a>
+                <a title="Trash" @click.stop.prevent="deleteMessage">
+                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="17"></a>
               </div>
             </div>
           </div>
