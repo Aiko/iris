@@ -2787,7 +2787,7 @@ color: var(--main-color);
 
 .zen .main {
 	width: 100% !important;
-	    margin-top: -5px !important;
+	    margin-top: 15px !important;
 }
 
 .zen .aiko-toast {
