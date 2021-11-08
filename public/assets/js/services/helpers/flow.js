@@ -12,7 +12,8 @@ const flow_mgr = {
       showInboxBoardActions: false,
       showInboxBoardControls: false,
       showBoardRules: false,
-      showNotifications: false
+      showNotifications: false,
+      showSent: false,
     },
   },
   watch: {
@@ -21,6 +22,9 @@ const flow_mgr = {
     },
     'flow.regularView': function (_) {
       this.recalculateHeight()
+    },
+    'flow.showSent': function (_) {
+      remote.shell.openExternal('https://mail.google.com/mail/u/0/#sent')
     },
   },
   methods: {
