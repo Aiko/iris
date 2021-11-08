@@ -341,6 +341,10 @@ input:active {
 img.red {
 	filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
 }
+ img.red-h:hover {
+	filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
+	transition: .2s;
+}
 .pb15{
 	    padding-bottom: 15px !important;
 }
