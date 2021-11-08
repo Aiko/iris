@@ -21,6 +21,7 @@ top.app = new Vue({
     firstTime: true,
     priority: true,
     collapseSidebar: false,
+    zenMode: false,
     hash: '',
     tour: null
   },
@@ -36,6 +37,9 @@ top.app = new Vue({
       if (!wasLoading && isLoading) {
         document.getElementById('fixed').style.visibility = 'unset'
       }
+    },
+    zenMode (zen) {
+      if (zen) this.collapseSidebar = true
     }
   },
   async created () {
