@@ -42,6 +42,7 @@ body,
 .sidebar,
 .main {
 	height: 100%;
+	filter: invert(82%) sepia(98%) saturate(163%) hue-rotate(6deg) brightness(110%) contrast(111%)
 }
 
 .h1,
