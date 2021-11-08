@@ -42,7 +42,6 @@ body,
 .sidebar,
 .main {
 	height: 100%;
-	filter: invert(82%) sepia(98%) saturate(163%) hue-rotate(269deg) brightness(110%) contrast(111%)
 }
 
 .h1,
@@ -74,9 +73,7 @@ p {
 body {
 	overflow: hidden;
 	user-select: none;
-	/* background-image: url("../img/bg.jpg"); */
-	background-image: url("https://images.unsplash.com/photo-1622915416661-1e23dbfc6fb3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2039&q=80");
-	background-blend-mode: difference;
+	background-image: url("../img/bg.jpg");
 }
 
 div.board-body>div:first-child {
