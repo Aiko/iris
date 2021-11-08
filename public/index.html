@@ -1889,8 +1889,8 @@
                   :src="$root.resolveIcon('assets/icons/options-star.svg')" width="15"></a>
               <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img
                   :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="15"></a>
-              <a @click.stop.prevent="deleteMessage"><img :src="$root.resolveIcon('assets/icons/options-trash.svg')"
-                  class="red" width="15"></a>
+              <a @click.stop.prevent="deleteMessage" ><img :src="$root.resolveIcon('assets/icons/options-trash.svg')"
+                  class="red-h" width="15"></a>
             </div>
           </div>
         </div>
@@ -2106,7 +2106,7 @@
                 <a title="Print" @click.stop.prevent="printMessage">
                   <img :src="$root.resolveIcon('assets/icons/options-print.svg')" width="20"></a>
                 <a title="Trash" @click.stop.prevent="deleteMessage">
-                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red" width="17"></a>
+                  <img :src="$root.resolveIcon('assets/icons/options-trash.svg')" class="red-h" width="17"></a>
               </div>
             </div>
           </div>
