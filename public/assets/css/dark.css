@@ -320,7 +320,7 @@ border: none !important;
 }
 .compose-bottom {
 
-    box-shadow: inset 0px 9px 20px 20px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: inset 0px 9px 12px 0px rgba(0, 0, 0, 0.15) !important;
 }
 .bottom {
   border-top: 1px solid var(--secondary-bg-color) !important;
