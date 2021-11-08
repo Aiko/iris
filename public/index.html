@@ -2019,22 +2019,22 @@
                   <!--!------------------------------------------------------------->
                   <div v-if="showSenderInfo" class="more-fromto">
                     <b>From </b>
-                    <span>{{email.M.envelope.from.name ? '"' + email.M.envelope.from.name + '" ' : ''}}
+                    <span>{{(email.M.envelope.from.name && (email.M.envelope.from.name != email.M.envelope.from.address)) ? '"' + email.M.envelope.from.name + '" ' : ''}}
                       {{email.M.envelope.from.address}}</span>
                     <br>
                     <b>To </b>
                     <span
-                      v-for="to in email.M.envelope.to">{{to.name ? '"' + to.name + '" ' : ''}}
+                      v-for="to in email.M.envelope.to">{{(to.name && (to.name != to.address)) ? '"' + to.name + '" ' : ''}}
                       {{to.address}},&nbsp;</span>
                     <br v-if="email.M.envelope.cc.length > 0">
                     <b v-if="email.M.envelope.cc.length > 0">CC </b>
                     <span
-                      v-for="cc in email.M.envelope.cc">{{cc.name ? '"' + cc.name + '" ' : ''}}
+                      v-for="cc in email.M.envelope.cc">{{(cc.name && (cc.name != cc.address)) ? '"' + cc.name + '" ' : ''}}
                       {{cc.address}},&nbsp;</span>
                     <br v-if="email.M.envelope.bcc.length > 0">
                     <b v-if="email.M.envelope.bcc.length > 0">BCC </b>
                     <span
-                      v-for="bcc in email.M.envelope.bcc">{{bcc.name ? '"' + bcc.name + '" ' : ''}}
+                      v-for="bcc in email.M.envelope.bcc">{{(bcc.name && (bcc.name != bcc.address)) ? '"' + bcc.name + '" ' : ''}}
                       {{bcc.address}},&nbsp;</span>
                   </div>
                 </h2>
