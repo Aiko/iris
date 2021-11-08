@@ -61,7 +61,7 @@ Vue.component('thread-card', {
     async deleteMessage () {
       if (!this.thread.syncing) {
         const { folder, uid } = this.$root.locThread(this.thread)
-        await this.$root.engine.manage.delete(folder, uid)
+        this.$root.engine.manage.delete(folder, uid)
         const that = this
         this.deleting = true
         setTimeout(() => {
