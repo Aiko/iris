@@ -34,7 +34,7 @@ const flow_mgr = {
     'flow.showInbox': function (s) {
       if (!s) return;
       this.flow.specialView = false
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showSent = false
       this.flow.showSpam = false
       this.flow.showTrash = false
@@ -44,7 +44,7 @@ const flow_mgr = {
     'flow.showSent': function (s) {
       if (!s) return;
       this.flow.specialView = true
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showInbox = false
       this.flow.showSpam = false
       this.flow.showTrash = false
@@ -54,7 +54,7 @@ const flow_mgr = {
     'flow.showSpam': function (s) {
       if (!s) return;
       this.flow.specialView = true
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showInbox = false
       this.flow.showSent = false
       this.flow.showTrash = false
@@ -64,7 +64,7 @@ const flow_mgr = {
     'flow.showTrash': function (s) {
       if (!s) return;
       this.flow.specialView = true
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showInbox = false
       this.flow.showSent = false
       this.flow.showSpam = false
@@ -74,7 +74,7 @@ const flow_mgr = {
     'flow.showDrafts': function (s) {
       if (!s) return;
       this.flow.specialView = true
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showInbox = false
       this.flow.showSent = false
       this.flow.showSpam = false
@@ -84,7 +84,7 @@ const flow_mgr = {
     'flow.showArchive': function (s) {
       if (!s) return;
       this.flow.specialView = true
-      this.viewThread = null
+      this.flow.viewThread = null
       this.flow.showInbox = false
       this.flow.showSent = false
       this.flow.showSpam = false
