@@ -67,7 +67,7 @@ export default class Forest {
     error:   '[ ERROR ]'.white.bgRed,
     shout:   '[ SHOUT ]'.red.bgCyan,
     success: '[SUCCESS]'.green.bgBlack,
-    warn:    '[ WARN! ]'.yellow.bgBlack,
+    warn:    '[ WARN⚠️ ]'.yellow.bgBlack,
     timer:   '[ TIMER ]'.red.bgWhite
   }
 
