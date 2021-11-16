@@ -340,8 +340,8 @@ export class DB {
     }
     return threads.map(t => t.clean())
   }
-  async findThreadsByLatest(folder: string, {limit=5000, start=0} ={}): Promise<ThreadModel[] | null> {
-    const threads = await Thread.fromLatest(this, folder, {limit, start})
+  async findThreadsByLatest(folder: string, {limit=5000, start=0, loose=false} ={}): Promise<ThreadModel[] | null> {
+    const threads = await Thread.fromLatest(this, folder, {limit, start, loose})
     if (isDBError(threads)) {
       console.error(threads.error)
       return null
@@ -545,6 +545,7 @@ class Message implements MessageModel {
             date: this.timestamp,
             cursor: this.db.getCursor(),
             folder: '',
+            allFolders: [],
             participants: []
           })
           await t.save()
@@ -747,7 +748,8 @@ export interface ThreadModel {
   date: Date
   cursor: number //? similar to "last modified"
   //! ^ as long as sync interval > 3s it'll take 20+ years for this to be outdated
-  folder: string //? core foldeer for thread
+  folder: string //? core folder for thread
+  allFolders: string[] //? other folders for thread
   tid: string
   participants: EmailParticipantModel[]
 }
@@ -760,6 +762,7 @@ class Thread implements ThreadModel {
   date: Date
   cursor: number = 0
   folder: string
+  allFolders: string[]
   tid: string
   participants: EmailParticipantModel[]
 
@@ -784,6 +787,7 @@ class Thread implements ThreadModel {
     this.date = new Date(data.date)
     this.cursor = data.cursor
     this.folder = data.folder
+    this.allFolders = data.allFolders
     this.tid = data.tid
     this.participants = cloneN(data.participants)
     autoBind(this)
@@ -796,6 +800,7 @@ class Thread implements ThreadModel {
       date: this.date,
       cursor: this.cursor,
       folder: this.folder,
+      allFolders: this.allFolders,
       tid: this.tid,
       participants: cloneN(this.participants)
     }
@@ -830,13 +835,14 @@ class Thread implements ThreadModel {
         (this.state == DBState.New) ? "does not exist." : "is corrupted."
     )
     const {
-      mids, date, cursor, folder
+      mids, date, cursor, folder, allFolders
     } = shadow
 
     this.mids = mids.map(_ => _)
     this.date = date
     this.cursor = cursor
     this.folder = folder
+    this.allFolders = allFolders
   }
 
   save({force=false} ={}): Promise<ThreadModel | DBError> {
@@ -915,6 +921,12 @@ class Thread implements ThreadModel {
     //? if folder is still empty string after this,
     //? means don't show it in the inbox UI
     this.folder = board
+
+    const allFolders =
+      [...new Set(messages.map(({ locations }) => locations.map(({ folder }) => folder)).flat())]
+    ;
+    this.allFolders = allFolders
+
 
     await this.getParticipants(messages)
 
@@ -1013,10 +1025,11 @@ class Thread implements ThreadModel {
     })
   }
 
-  static fromLatest(db: DB, folder: string, {limit=5000, start=0} ={}): Promise<Thread[] | DBError> {
+  static fromLatest(db: DB, folder: string, {limit=5000, start=0, loose=false} ={}): Promise<Thread[] | DBError> {
     return new Promise((s, _) => {
       const ds = db.stores.Thread
-      ds.find({ folder, }).sort({ date: -1 }).limit(limit).exec((err, docs: ThreadModel[]) => {
+      const q = loose ? ds.find({ allFolders: folder }) : ds.find({ folder })
+      q.sort({ date: -1 }).limit(limit).exec((err, docs: ThreadModel[]) => {
         if (err || !docs) {
           return s({
             error: err?.message || "Couldn't find Threads in that folder."
