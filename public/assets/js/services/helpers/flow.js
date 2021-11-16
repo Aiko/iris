@@ -9,11 +9,17 @@ const flow_mgr = {
       viewThread: null,
       showDev: false,
       regularView: false,
+      specialView: false,
       showInboxBoardActions: false,
       showInboxBoardControls: false,
       showBoardRules: false,
       showNotifications: false,
+      showInbox: true,
       showSent: false,
+      showSpam: false,
+      showTrash: false,
+      showDrafts: false,
+      showArchive: false,
       useUnsplashBackground: false,
     },
     colorPalette: ["#F6F6F6", "#FFFFFF", "#2B4192", "#486FFF", "#486FFF"]
@@ -25,9 +31,66 @@ const flow_mgr = {
     'flow.regularView': function (_) {
       this.recalculateHeight()
     },
-    'flow.showSent': function (_) {
-      remote.shell.openExternal('https://mail.google.com/mail/u/0/#sent')
+    'flow.showInbox': function (s) {
+      if (!s) return;
+      this.flow.specialView = false
+      this.viewThread = null
+      this.flow.showSent = false
+      this.flow.showSpam = false
+      this.flow.showTrash = false
+      this.flow.showDrafts = false
+      this.flow.showArchive = false
     },
+    'flow.showSent': function (s) {
+      if (!s) return;
+      this.flow.specialView = true
+      this.viewThread = null
+      this.flow.showInbox = false
+      this.flow.showSpam = false
+      this.flow.showTrash = false
+      this.flow.showDrafts = false
+      this.flow.showArchive = false
+    },
+    'flow.showSpam': function (s) {
+      if (!s) return;
+      this.flow.specialView = true
+      this.viewThread = null
+      this.flow.showInbox = false
+      this.flow.showSent = false
+      this.flow.showTrash = false
+      this.flow.showDrafts = false
+      this.flow.showArchive = false
+    },
+    'flow.showTrash': function (s) {
+      if (!s) return;
+      this.flow.specialView = true
+      this.viewThread = null
+      this.flow.showInbox = false
+      this.flow.showSent = false
+      this.flow.showSpam = false
+      this.flow.showDrafts = false
+      this.flow.showArchive = false
+    },
+    'flow.showDrafts': function (s) {
+      if (!s) return;
+      this.flow.specialView = true
+      this.viewThread = null
+      this.flow.showInbox = false
+      this.flow.showSent = false
+      this.flow.showSpam = false
+      this.flow.showTrash = false
+      this.flow.showArchive = false
+    },
+    'flow.showArchive': function (s) {
+      if (!s) return;
+      this.flow.specialView = true
+      this.viewThread = null
+      this.flow.showInbox = false
+      this.flow.showSent = false
+      this.flow.showSpam = false
+      this.flow.showTrash = false
+      this.flow.showDrafts = false
+    }
   },
   methods: {
     async useUnsplashBackground() {

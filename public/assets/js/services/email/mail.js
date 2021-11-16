@@ -89,6 +89,13 @@ const mailapi = {
     //? internal representation of threads
     threads: {}, //* tids[tid] = thread
     inbox: [], //* [tid]
+    special: {
+      sent: [], //* [tid]
+      spam: [], //* [tid]
+      drafts: [], //* [tid]
+      trash: [], //* [tid]
+      archive: [] //* [tid]
+    },
     boardOrder: [], //* [slug]
     boardThiccness: [], //* [slug]
     boards: [], //* { ...board metadata, tids: [tid] }
@@ -172,17 +179,25 @@ const mailapi = {
   computed: {
     smartUnread() {
       return Object.values(this.threads).filter(thread =>
+        thread.allFolders.includes("INBOX") &&
         !(thread.emails[0].M.flags.seen) && //? has to be unread
         (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
       ).length
     },
     smartPriorityUnread() {
       return Object.values(this.threads).filter(thread =>
+        thread.allFolders.includes("INBOX") &&
         !(thread.emails?.[0]?.M.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
         (thread.emails?.[0]?.M.envelope.date.addDays(-40)) //? within last month
       ).length
     },
+    spamUnread() {
+      return Object.values(this.threads).filter(thread =>
+        thread.allFolders.includes(this.folders.spam) &&
+        !(thread.emails[0].M.flags.seen) //? has to be unread
+      ).length
+    }
   },
   created () {
     info(...MAILAPI_TAG, 'Mounted IMAP processor. Please ensure this only ever happens once.')
@@ -380,6 +395,11 @@ const mailapi = {
 
       //? reset the UI
       this.inbox = []
+      this.special.sent = []
+      this.special.drafts = []
+      this.special.trash = []
+      this.special.spam = []
+      this.special.archive = []
       this.boards = []
       info(...MAILAPI_TAG, "Reset UI")
 
@@ -434,6 +454,9 @@ const mailapi = {
       })
       this.inbox = await Satellite.load(this.currentMailbox + "emails/inbox") || []
       this.fullInbox = await Satellite.load(this.currentMailbox + "emails/fullInbox") || []
+      Vue.set(this, 'special',
+        await Satellite.load(this.currentMailbox + "emails/special") || this.special)
+      ;
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
 
@@ -618,6 +641,7 @@ const mailapi = {
       this.backendSyncing = false
       this.syncing = true
       info(...MAILAPI_TAG, "SYNCOP - START")
+
       //? update folders
       this.folders = await this.engine.folders.state()
       const boards = await this.engine.folders.boards()
@@ -645,12 +669,14 @@ const mailapi = {
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
       info(...MAILAPI_TAG, "SYNCOP - synced board metadata")
       let t0 = performance.now()
+
       //? compute local cursor
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
+
       //? fetch updates to inbox
       const max_inbox_updates = Math.max(500, this.inbox.length)
-      const inbox_updates = await this.engine.resolve.threads.latest(this.folders.special.inbox, cursor, limit=max_inbox_updates)
+      const inbox_updates = await this.engine.resolve.threads.latest(this.folders.special.inbox, cursor, {limit: max_inbox_updates})
       //? apply updates to inbox
       if (!inbox_updates) {
         this.syncing = false
@@ -680,7 +706,7 @@ const mailapi = {
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
-        const board_updates = await this.engine.resolve.threads.latest(path, cursor, limit=max_board_updates)
+        const board_updates = await this.engine.resolve.threads.latest(path, cursor, {limit: max_board_updates})
         //? apply updates to board
         const { all, updated } = board_updates
         //? first, anything that is no longer in exists can be dumped
@@ -698,6 +724,94 @@ const mailapi = {
         })
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       }))
+
+      //? fetch updates to special folders
+      ;await (async (cursor) => {
+        const max_sent_updates = Math.max(500, this.special.sent.length)
+        const max_spam_updates = Math.max(500, this.special.spam.length)
+        const max_drafts_updates = Math.max(500, this.special.drafts.length)
+        const max_trash_updates = Math.max(500, this.special.trash.length)
+        const max_archive_updates = Math.max(500, this.special.archive.length)
+        const sent_updates = await this.engine.resolve.threads.latest(this.folders.special.sent, cursor, {limit: max_sent_updates, loose: true})
+        const spam_updates = await this.engine.resolve.threads.latest(this.folders.special.spam, cursor, {limit: max_spam_updates, loose: true})
+        const drafts_updates = await this.engine.resolve.threads.latest(this.folders.special.drafts, cursor, {limit: max_drafts_updates, loose: true})
+        const trash_updates = await this.engine.resolve.threads.latest(this.folders.special.trash, cursor, {limit: max_trash_updates, loose: true})
+        const archive_updates = await this.engine.resolve.threads.latest(this.folders.special.archive, cursor, {limit: max_archive_updates, loose: true})
+        //? apply updates to special folders
+        const sent_all = sent_updates?.all ?? []
+        const sent_updated = sent_updates?.updated ?? []
+        const spam_all = spam_updates?.all ?? []
+        const spam_updated = spam_updates?.updated ?? []
+        const drafts_all = drafts_updates?.all ?? []
+        const drafts_updated = drafts_updates?.updated ?? []
+        const trash_all = trash_updates?.all ?? []
+        const trash_updated = trash_updates?.updated ?? []
+        const archive_all = archive_updates?.all ?? []
+        const archive_updated = archive_updates?.updated ?? []
+        //? first, anything that is no longer in exists can be dumped
+        const sentExistsTIDs = sent_all.map(({ tid }) => tid)
+        const spamExistsTIDs = spam_all.map(({ tid }) => tid)
+        const draftsExistsTIDs = drafts_all.map(({ tid }) => tid)
+        const trashExistsTIDs = trash_all.map(({ tid }) => tid)
+        const archiveExistsTIDs = archive_all.map(({ tid }) => tid)
+        this.special.sent = this.special.sent.filter(tid => sentExistsTIDs.includes(tid))
+        this.special.spam = this.special.spam.filter(tid => spamExistsTIDs.includes(tid))
+        this.special.drafts = this.special.drafts.filter(tid => draftsExistsTIDs.includes(tid))
+        this.special.trash = this.special.trash.filter(tid => trashExistsTIDs.includes(tid))
+        this.special.archive = this.special.archive.filter(tid => archiveExistsTIDs.includes(tid))
+        //? next, process the threads
+        sent_updated.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.special.sent.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.special.sent.unshift(thread.tid) //* unshift because it is in ascending date order
+        })
+        spam_updated.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.special.spam.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.special.spam.unshift(thread.tid) //* unshift because it is in ascending date order
+        })
+        drafts_updated.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.special.drafts.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.special.drafts.unshift(thread.tid) //* unshift because it is in ascending date order
+        })
+        trash_updated.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.special.trash.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.special.trash.unshift(thread.tid) //* unshift because it is in ascending date order
+        })
+        archive_updated.map(thread => {
+          thread = this.saveThread(thread)
+          //? first, determine if we have it locally
+          const local = this.special.archive.includes(thread.tid)
+          //? since we resolve directly, this should update existing emails without us having to
+          //! if you want to force a UI change, can do a stringify-parse set on the tids
+          //? if we don't have it, we need to add it
+          if (!local) this.special.archive.unshift(thread.tid) //* unshift because it is in ascending date order
+        })
+        //? sort the special folders
+        this.special.sent.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.special.spam.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.special.drafts.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.special.trash.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.special.archive.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      })(cursor);
 
       t0 = performance.now()
       info(...MAILAPI_TAG, "SYNCOP - computing full inbox")
@@ -718,6 +832,7 @@ const mailapi = {
       Satellite.store(this.currentMailbox + "emails/inbox", this.inbox)
       Satellite.store(this.currentMailbox + "emails/fullInbox", this.fullInbox)
       Satellite.store(this.currentMailbox + "threads", this.threads)
+      Satellite.store(this.currentMailbox + "emails/special", this.special)
 
       this.syncing = false
       release()
@@ -898,6 +1013,11 @@ const mailapi = {
       ;;
 
       this.inbox.sort(sorter)
+      this.special.sent.sort(sorter)
+      this.special.drafts.sort(sorter)
+      this.special.trash.sort(sorter)
+      this.special.spam.sort(sorter)
+      this.special.archive.sort(sorter)
 
       for (let i = 0; i < this.boards.length; i++)
         this.boards[i].tids.sort(sorter)

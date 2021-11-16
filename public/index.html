@@ -413,10 +413,14 @@
           </a>
 
           <!--? Spaces -->
-          <a class="active space-picker home">
+          <a :class="{
+            'space-picker': true,
+            'home': true,
+            'active': flow.showInbox
+          }">
 
             <!--? Home Space -->
-            <div class="space">
+            <div class="space" @click.stop.prevent="flow.showInbox = true">
               <img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')">
               <span>Home <span class="main-count">{{smartPriorityUnread}}</span></span>
             </div>
@@ -442,29 +446,39 @@
           </a>
 
           <!--? Outbox -->
-          <a>
+          <a v-if="false">
             <img :src="$root.resolveIcon('assets/icons/out.svg')" class="mt0">
             <span class="blue">Outbox <span class="main-count">3</span></span>
           </a>
 
           <!--? Special Folders -->
-          <a @click.stop.prevent="flow.showSent = true">
+          <a :class="{
+            'active': flow.showSent
+          }" @click.stop.prevent="flow.showSent = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-send.svg')" class="sent-fix">
             <span>Sent</span>
           </a>
-          <a>
-            <img :src="$root.resolveIcon('assets/icons/sidebar-star.svg')" class="off-star">
-            <span>Starred</span>
-          </a>
-          <a>
-            <img :src="$root.resolveIcon('assets/icons/sidebar-spam.svg')" style="margin-top: -2px !important;">
-            <span>Spam <span class="main-count">4</span></span>
-          </a>
-          <a>
+          <a :class="{
+            'active': flow.showDrafts
+          }" @click.stop.prevent="flow.showDrafts = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-drafts.svg')">
             <span>Drafts</span>
           </a>
-          <a>
+          <a :class="{
+            'active': flow.showArchive
+          }" @click.stop.prevent="flow.showArchive = true">
+            <img :src="$root.resolveIcon('assets/icons/sidebar-archive.svg')">
+            <span>Archive</span>
+          </a>
+          <a :class="{
+            'active': flow.showSpam
+          }" @click.stop.prevent="flow.showSpam = true">
+            <img :src="$root.resolveIcon('assets/icons/sidebar-spam.svg')" style="margin-top: -2px !important;">
+            <span>Spam <span v-if="spamUnread > 0" class="main-count">{{spamUnread}}</span></span>
+          </a>
+          <a :class="{
+            'active': flow.showTrash
+          }" @click.stop.prevent="flow.showTrash = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-trash.svg')">
             <span>Trash</span>
           </a>
@@ -705,7 +719,7 @@
         <div :class="{
           'boards': true,
           'two-lines': true,
-          'regular': flow.regularView
+          'regular': (flow.regularView || flow.specialView)
         }">
 
           <!-- ? Inbox Board (special case) -->
@@ -793,7 +807,7 @@
 
 
             <!-- ? Inbox Thread List -->
-            <div v-if="!flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="!(flow.regularView || flow.specialView)" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
@@ -822,7 +836,7 @@
             </div>
 
             <!-- ? Inbox Thread List -->
-            <div v-if="flow.regularView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="flow.regularView && !flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="fullInbox" filter=".dont-drag-this"
@@ -850,11 +864,88 @@
 
             </div>
 
+            <!-- ? Inbox Thread List -->
+            <div v-if="flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--sent" v-if="!loading && flow.showSent" v-model="special.sent" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.sent"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--spam" v-if="!loading && flow.showSpam" v-model="special.spam" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.spam"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--drafts" v-if="!loading && flow.showDrafts" v-model="special.drafts" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.drafts"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--trash" v-if="!loading && flow.showTrash" v-model="special.trash" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.trash"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--archive" v-if="!loading && flow.showArchive" v-model="special.archive" filter=".dont-drag-this"
+                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
+                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.archive"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true"
+                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
+                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
+                  :index="i"></thread-card>
+              </draggable>
+
+
+              <!-- ? List Loader -->
+              <div class="inbox-more">
+                <div class="load-bottom">
+                </div>
+              </div>
+
+            </div>
+
           </div>
 
 
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
-          <draggable v-if="!flow.regularView" style="display: inline-flex;" v-model="boardOrder"
+          <draggable v-if="!(flow.regularView || flow.specialView)" style="display: inline-flex;" v-model="boardOrder"
             :group="{name: 'boards'}" draggable=".board" ghost-class="ghost" handle=".board-drag-handle"
             :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!-- ? Board Template -->
@@ -994,8 +1085,8 @@
 
 
           <!-- ? Thread View Pane for Regular View -->
-          <div v-if="flow.regularView" class="long-board">
-            <regular-view-thread v-if="flow.viewThread && flow.regularView" :thread="flow.viewThread" inline-template>
+          <div v-if="(flow.regularView || flow.specialView)" class="long-board">
+            <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)" :thread="flow.viewThread" inline-template>
               <!-- ? Email List -->
               <div class="main-email">
 
@@ -1032,7 +1123,7 @@
 
 
           <!-- ? Add Board Button -->
-          <div v-if="!flow.regularView" class="add-board" @click="flow.addBoard = true" id="step3">
+          <div v-if="!(flow.regularView || flow.specialView)" class="add-board" @click="flow.addBoard = true" id="step3">
             <img :src="$root.resolveIcon('assets/icons/boards-add.svg')">
           </div>
 
@@ -1187,7 +1278,7 @@
     </tutorial-modal>
 
     <!--? MODAL View Thread -->
-    <view-thread v-if="flow.viewThread && !flow.regularView" :thread="flow.viewThread" inline-template>
+    <view-thread v-if="flow.viewThread && !(flow.regularView || flow.specialView)" :thread="flow.viewThread" inline-template>
 
       <div @click.self="close" class="aiko-modal">
 
@@ -1754,7 +1845,7 @@
         'just-me': justMe,
         'quick-reply': showQuickReply,
         'pre-delete': deleting,
-        'focus': ($root.regularView && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
+        'focus': (($root.regularView || $root.specialView) && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">
 
       <!-- ? Card content -->
