@@ -621,14 +621,23 @@ class MultiThreadResolver {
     return plan
   }
 
-  async latest(folder: string, minCursor: number, limit=5000): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[]}> {
-    this.Log.log(folder, "Building thread delta...")
-    const _threads = await this.pantheon.db.threads.find.latest(folder, { limit })
+  async latest(folder: string, minCursor: number, {limit=5000, start=0, loose=false} ={}): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[], msgs?: MessageModel[]}> {
+    this.Log.log(folder.blue, "Building thread delta...")
+    const _threads = await this.pantheon.db.threads.find.latest(folder, { limit, start, loose })
     if (!_threads) {
       this.Log.error(folder.blue, "| threads do not exist in our database.")
       return {all: [], updated: []}
     }
+    if (_threads.length == 0) {
+      this.Log.warn(folder.blue, "| has no threads in the database.")
+      const msgs = (await this.pantheon.db.messages.find.folder(folder, { limit })) ?? []
+      if (msgs.length > 0) {
+        this.Log.error(folder.blue, "| has messages but no threads!")
+      }
+      return {all: [], updated: [], msgs}
+    }
     const threads = _threads.filter(({ cursor }) => cursor > minCursor)
+    this.Log.log(folder.blue, "| has", threads.length, "threads to process.")
 
     const messages: MessageModel[] = []
     for (const thread of threads) {
@@ -644,7 +653,7 @@ class MultiThreadResolver {
       if (threads.length > 0) this.Log.warn(folder, "Latest TIDs do not have messages?")
       return {all: _threads, updated: []}
     }
-    this.Log.log(folder, "Built shallow delta...")
+    this.Log.log(folder.blue, "Built shallow delta...")
 
     const have: Resolved<EmailFull>[] = []
     const need: MessageModel[] = []
