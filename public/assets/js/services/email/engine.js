@@ -95,7 +95,13 @@ const Engine = port => {
         headers: async TID => await proxy('resolve.thread.headers')(TID).catch(console.error),
       },
       threads: {
-        latest: async (folder, minCursor, limit=5000) => await proxy('resolve.threads.latest')(folder, minCursor, limit).catch(console.error),
+        latest: async (folder, minCursor, {
+          limit=5000,
+          start=0,
+          loose=false
+        } ={}) => await proxy('resolve.threads.latest')(folder, minCursor, {
+          limit, start, loose
+        }).catch(console.error),
       }
     },
     manage: {
