@@ -93,11 +93,13 @@ const flow_mgr = {
     }
   },
   methods: {
-    async useUnsplashBackground() {
+    async useCustomBackground(url="") {
       const style = document.createElement('style')
       //? follow the URL and get the redirect URL
-      const url = (await fetch('https://source.unsplash.com/random/1920x1080')).url
-      const color = await image2Color(url, false)
+      if (!url) url = (await fetch('https://source.unsplash.com/random/1920x1080')).url
+      let color = await image2Color(url, app.isDarkMode).catch(console.error)
+      if (!color) color = await image2Color(url, !app.isDarkmode).catch(console.error)
+      if (!color) color = "4b74ff"
       const filter = hex2Filter(color)
       const hexColor = "#" + color;
       this.colorPalette = ["#F6F6F6", "#FFFFFF", hexColor, hexColor]
