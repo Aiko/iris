@@ -406,9 +406,7 @@
 
           <!--? Open Composer -->
           <a class="sbtn compose-button" @click="openComposer()" id="step6">
-            <img :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')"
-              style="margin-right: 6px;"
-              class="no-filter">
+            <img :src="$root.resolveIcon('assets/icons/sidebar-edit.svg')" style="margin-right: 6px;" class="no-filter">
             <span>Compose</span>
           </a>
 
@@ -807,7 +805,8 @@
 
 
             <!-- ? Inbox Thread List -->
-            <div v-if="!(flow.regularView || flow.specialView)" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="!(flow.regularView || flow.specialView)" ref="inboxBoard" @scroll="onScroll" class="board-body"
+              id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
@@ -836,7 +835,8 @@
             </div>
 
             <!-- ? Inbox Thread List -->
-            <div v-if="flow.regularView && !flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="flow.regularView && !flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body"
+              id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="fullInbox" filter=".dont-drag-this"
@@ -868,68 +868,68 @@
             <div v-if="flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
 
               <!-- ? Draggable List -->
-              <draggable id="aikomail--sent" v-if="!loading && flow.showSent" v-model="special.sent" filter=".dont-drag-this"
-                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+              <draggable id="aikomail--sent" v-if="!loading && flow.showSent" v-model="special.sent"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in special.sent"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid" :sort="false" :render="true"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
-                  :index="i"></thread-card>
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
               <!-- ? Draggable List -->
-              <draggable id="aikomail--spam" v-if="!loading && flow.showSpam" v-model="special.spam" filter=".dont-drag-this"
-                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+              <draggable id="aikomail--spam" v-if="!loading && flow.showSpam" v-model="special.spam"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in special.spam"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid" :sort="false" :render="true"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
-                  :index="i"></thread-card>
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
               <!-- ? Draggable List -->
-              <draggable id="aikomail--drafts" v-if="!loading && flow.showDrafts" v-model="special.drafts" filter=".dont-drag-this"
-                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+              <draggable id="aikomail--drafts" v-if="!loading && flow.showDrafts" v-model="special.drafts"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in special.drafts"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid" :sort="false" :render="true"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
-                  :index="i"></thread-card>
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
               <!-- ? Draggable List -->
-              <draggable id="aikomail--trash" v-if="!loading && flow.showTrash" v-model="special.trash" filter=".dont-drag-this"
-                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+              <draggable id="aikomail--trash" v-if="!loading && flow.showTrash" v-model="special.trash"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in special.trash"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid" :sort="false" :render="true"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
-                  :index="i"></thread-card>
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
               <!-- ? Draggable List -->
-              <draggable id="aikomail--archive" v-if="!loading && flow.showArchive" v-model="special.archive" filter=".dont-drag-this"
-                draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
-                :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread" @clone="cloneThread">
+              <draggable id="aikomail--archive" v-if="!loading && flow.showArchive" v-model="special.archive"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
                 <!-- * We leave the slug prop out to indicate that it is in the inbox -->
                 <thread-card v-for="(tid, i) in special.archive"
                   v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
-                  :key="tid" :sort="false" :render="true"
-                  :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
-                  :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply" :thread="threads[tid]"
-                  :index="i"></thread-card>
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
 
@@ -1086,7 +1086,8 @@
 
           <!-- ? Thread View Pane for Regular View -->
           <div v-if="(flow.regularView || flow.specialView)" class="long-board">
-            <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)" :thread="flow.viewThread" inline-template>
+            <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)"
+              :thread="flow.viewThread" inline-template>
               <!-- ? Email List -->
               <div class="main-email">
 
@@ -1123,7 +1124,8 @@
 
 
           <!-- ? Add Board Button -->
-          <div v-if="!(flow.regularView || flow.specialView)" class="add-board" @click="flow.addBoard = true" id="step3">
+          <div v-if="!(flow.regularView || flow.specialView)" class="add-board" @click="flow.addBoard = true"
+            id="step3">
             <img :src="$root.resolveIcon('assets/icons/boards-add.svg')">
           </div>
 
@@ -1278,7 +1280,8 @@
     </tutorial-modal>
 
     <!--? MODAL View Thread -->
-    <view-thread v-if="flow.viewThread && !(flow.regularView || flow.specialView)" :thread="flow.viewThread" inline-template>
+    <view-thread v-if="flow.viewThread && !(flow.regularView || flow.specialView)" :thread="flow.viewThread"
+      inline-template>
 
       <div @click.self="close" class="aiko-modal">
 

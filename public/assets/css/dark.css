@@ -84,7 +84,6 @@ padding-top: 2px !important;
 }
 .space-picker:hover{
 		    box-shadow: none !important;
-            border: var(--main-border) !important;
 }
 
 .inbox-switch .active {
@@ -315,12 +314,11 @@ border: none !important;
   filter: brightness(1.8);
 }
 .sidebar a:hover {
-    background: #272623;
-    transition: 0.2s;
+  background: #272623;
+  transition: 0.2s;
 }
 .compose-bottom {
-
-    box-shadow: inset 0px 9px 12px 0px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: inset 0px 9px 12px 0px rgba(0, 0, 0, 0.15) !important;
 }
 .bottom {
   border-top: 1px solid var(--secondary-bg-color) !important;

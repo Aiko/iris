@@ -1167,7 +1167,6 @@ width: 18px;
 .space-picker:hover{
 	  height: auto !important;
 		background: var(--secondary-bg-color) !important;
-		border: 1px solid #6e80a5;
 		box-shadow: none;
 		transition: .2s;
 }
@@ -1177,7 +1176,6 @@ width: 18px;
 .space-picker{
 	  height: 30px;
 		    padding: 3px 10px 0 9px;
-		border: var(--main-border);
 		transition: .2s;
 }
 .compose-button{
@@ -1802,7 +1800,6 @@ transition: .2s;
     margin: auto;
     z-index: 2;
 		font-weight: 500;
-		margin-top: 1px;
     border-radius: 50px;
     font-size: 12px;
     background: var(--secondary-bg-color);
@@ -2580,7 +2577,7 @@ color: var(--main-color);
 }
 .options-qa img{
     width: 16px;
-    margin-bottom: 2px;
+    margin-bottom: 0.2rem;
     margin-right: 3px;
 }
 
