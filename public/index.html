@@ -1585,7 +1585,7 @@
             <div class="modal-reg">
               <img :src="$root.resolveIcon('assets/icons/new-board.svg')" width="40" style="margin-bottom: 5px;">
               <h1>Board Rules</h1>
-              <br>
+              <p>Board rules sort incoming emails from your inbox into your other boards.</p>
               <div class="container-rules">
                 <div class="row margin-auto existing-rules" v-for="rule in rules">
                   <div class="col-3">
@@ -1622,7 +1622,7 @@
               <br>
               <div class="accordion">
                 <div class="card b0">
-                  <div class="card-header" style="background: var(--main-bg-color);">
+                  <div class="card-header" style="background: var(--secondary-bg-color);">
                     <h2 class="mb-0">
                       <button @click="showAddRule = true" class="btn btn-link" type="button">
                         Add new rule
@@ -1634,6 +1634,9 @@
                     'show': showAddRule
                   }">
                     <div class="row margin-auto existing-rules">
+                      <div class="col-1">
+                        <p>if</p>
+                      </div>
                       <div class="col-3">
                         <select class="aiko-select" v-model="condition">
                           <option v-for="condition in validConditions" :value="condition.value">
@@ -1672,23 +1675,19 @@
                           </option>
                         </select>
                       </div>
-                      <div class="col-2" @click="addRule">
+                      <div class="col-1" @click="addRule">
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="accordion">
-                <div class="card b0">
-                  <div class="card-header" style="background: var(--main-bg-color);">
-                    <h2 class="mb-0">
-                      <button @click="queueAll" class="btn btn-link" type="button">
-                        Run all rules
-                      </button>
-                    </h2>
-                  </div>
-                </div>
+              <hr>
+              <div class="bottom-option">
+                <button @click="queueAll" class="btn btn-link blue" type="button">
+                  Run all rules
+                </button>
+                <p>This will run all board rules on your existing emails.</p>
               </div>
               <!--?Bottom text <p style="margin-top: 25px;margin-bottom: 0"></p> ---->
             </div>

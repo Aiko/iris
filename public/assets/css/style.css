@@ -138,7 +138,7 @@ hr {
 	border: 0;
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
 	position: absolute;
-	width: 130px;
+	width: 100% !important;
 	margin-left: -8px;
 }
 
@@ -2580,11 +2580,54 @@ color: var(--main-color);
     margin-bottom: 0.2rem;
     margin-right: 3px;
 }
+.bottom-option{
+	    margin-top: 23px;
+    text-align: left;
+    margin-bottom: -30px;
+}
+.bottom-option button{
+	padding: 0;
+    margin: 0;
+    margin-bottom: 4px;
+    text-decoration: none;
+}
+.bottom-option p{
+	display: inline;
+}
+.accordion .aiko-select{
 
+	height: 30px;
+	margin: 0 !important;
+}
+.container-rules .aiko-select{
+	    height: 30px;
+			margin-top: 6px;
+}
+.accordion .col-1,.accordion .col-2,.accordion .col-3,.accordion .col-4,.accordion .col-5,.accordion .col-6,.accordion .col-7,.accordion .col-8,.accordion .col-9,.accordion .col-10,.accordion .col-11,.col-12{
+	margin: auto !important;
+	padding-top: 6px;
+}
+.container-rules .col-1,.container-rules .col-2,.container-rules .col-3,.container-rules .col-4,.container-rules .col-5,.container-rules .col-6,.container-rules .col-7,.container-rules .col-8,.container-rules .col-9,.container-rules .col-10,.container-rules .col-11,.container-rules .col-12{
+	margin: auto !important;
+}
+.accordion a{
+	margin-top: -6px;
+    display: block;
+		font-weight: 500;
+}
+.accordion p{
+	margin-bottom: 4px !important;
+}
 .spe {
 	margin-left: 0;
 }
-
+.accordion .existing-rules{
+	    border-radius: 0px 0px 5px 5px !important;
+}
+.accordion .existing-rules:hover{
+	    border-radius: 0px 0px 5px 5px !important;
+			background-color: var(--secondary-bg-color) !important;
+}
 .set {
 	width: 100%;
 	text-align: center;
@@ -3548,11 +3591,11 @@ unselectable {
 .existing-rules {
 	background: var(--secondary-bg-color);
 	border-radius: 5px !important;
-	padding: 10px 0 10px 10px;
+	padding: 0;
 	border-bottom: 2px solid var(--main-bg-color);
 	margin: auto !important;
 	width: 100%;
-	cursor: pointer;
+	height: 52px;
 }
 
 .existing-rules:hover {
@@ -3568,6 +3611,10 @@ unselectable {
 .container-rules {
 	overflow-y: scroll;
 	max-height: 50vh;
+	cursor:initial;
+}
+.accordion hr{
+	width: 100% !important;
 }
 
 .backbtn {
@@ -3610,11 +3657,7 @@ unselectable {
 	box-shadow: inset 0 0 4px 0 #0000001f;
 }
 
-.accordion input {
-	height: 100% !important;
-	margin-top: 0 !important;
-	border: none !important;
-}
+
 
 .modal-bottom a {
 	font-weight: 600 !important;
@@ -3622,9 +3665,11 @@ unselectable {
 }
 
 .accordion input {
-	height: 100%;
-	margin-top: 0 !important;
+	    background: var(--main-bg-color);
+    height: 30px !important;
+	margin: 0 !important;
 	border: none;
+
 	width: 100%;
 	max-width: unset;
 }

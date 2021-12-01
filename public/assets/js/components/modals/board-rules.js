@@ -20,23 +20,23 @@ Vue.component('board-rules', {
       // TODO: swap this out to support multi-condition and multi-action
       validConditions: [
         {
-          display: "if from:",
+          display: "from",
           value: "from",
         },
         {
-          display: "if to:",
+          display: "to:",
           value: "to",
         },
         {
-          display: "subject has:",
+          display: "subject has",
           value: "subject"
         },
         {
-          display: "if contains:",
+          display: "contains",
           value: "text"
         },
         {
-          display: "quick action:",
+          display: "quick action",
           value: "quick_action",
           valid: [
             {
@@ -74,7 +74,7 @@ Vue.component('board-rules', {
           ]
         },
         {
-          display: "priority:",
+          display: "priority",
           value: "subscription",
           valid: [
             {
@@ -88,11 +88,11 @@ Vue.component('board-rules', {
           ]
         },
         {
-          display: "attachment name:",
+          display: "attachment name",
           value: "attachment_name"
         },
         {
-          display: "attachment type:",
+          display: "attachment type",
           value: "attachment_type",
           valid: [
             {
