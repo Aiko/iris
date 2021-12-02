@@ -3622,10 +3622,12 @@ unselectable {
 	max-width: 800px !important;
 	max-height: 90vh;
 }
-
+.btn-link:hover{
+	text-decoration: none !important;
+}
 .container-rules {
 	overflow-y: scroll;
-	max-height: 50vh;
+	    max-height: calc(50vh - 200px);
 	cursor:initial;
 }
 .accordion hr{
