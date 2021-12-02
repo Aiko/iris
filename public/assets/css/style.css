@@ -2637,6 +2637,7 @@ color: var(--main-color);
 }
 .accordion .existing-rules{
 	    border-radius: 0px 0px 5px 5px !important;
+			    margin-top: -3px !important;
 }
 .accordion .existing-rules:hover{
 	    border-radius: 0px 0px 5px 5px !important;
