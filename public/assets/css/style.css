@@ -131,7 +131,21 @@ a:active {
 .search-drop a:hover {
 	color: var(--main-color-hover) !important;
 }
-
+.more-conditions p{
+    z-index: 1111;
+    display: block;
+    background: var(--main-bg-color);
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-size: 11px;
+		border: var(--main-border);
+		cursor: pointer;
+		margin-right: 5px;
+}
+.more-conditions{
+	display: inline-flex;
+    margin: auto;
+}
 hr {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
