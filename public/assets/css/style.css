@@ -389,9 +389,19 @@ img.red:hover {
 .dropdown-menu {
 	border: none !important;
 }
-
+.empty-state{
+	color: var(--main-text-color);
+    position: absolute;
+    font-size: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .thin {
 	width: 150px !important;
+}
+.thin .main-action img{
+	    margin-left: 13px !important;
 }
 
 #collapseOne input{
@@ -984,6 +994,7 @@ border-radius: 0;
 	color: #b7b7b7;
 	font-size: 14px;
 	line-height: 30px;
+	width: 13px;
 	margin-top: -3px !important;
 	margin-left: 10px !important;
 }

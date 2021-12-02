@@ -1086,6 +1086,7 @@
 
           <!-- ? Thread View Pane for Regular View -->
           <div v-if="(flow.regularView || flow.specialView)" class="long-board">
+            <p class="empty-state">No message selected</p>
             <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)"
               :thread="flow.viewThread" inline-template>
               <!-- ? Email List -->
