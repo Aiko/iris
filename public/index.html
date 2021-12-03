@@ -1620,7 +1620,7 @@
                   </div>
                 </div>
               </div>
-              <br>
+              <br><br>
               <div class="accordion">
                 <div class="card b0" style="overflow: visible;">
                   <div class="card-header" style="background: var(--secondary-bg-color);">
@@ -2007,8 +2007,8 @@
                 {{thread.emails[0].M.quick_actions.overrideText}}
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
-                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <span
-                  @click.prevent="quickReplyAll = true" class="all">All</span>
+                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <div
+                  @click.prevent="quickReplyAll = true" class="all">ALL</div>
               </a>
             </div>
 
