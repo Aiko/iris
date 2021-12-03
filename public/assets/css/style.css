@@ -979,6 +979,37 @@ border-radius: 0;
     border-radius: 5px;
     transition: .2s;
 }
+.right-click{
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 180px;
+    background: var(--main-bg-color);
+    box-shadow: 0 1px 9px #0000006e !important;
+    display: inline-grid;
+		padding: 5px 0;
+    border-radius: 5px;
+}
+.right-click span{
+	    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    font-size: 1rem;
+    cursor: pointer;
+		transition: 0.2s;
+}
+.right-click span:hover{
+background-color: var(--secondary-bg-color) !important;
+    transition: 0.2s;
+}
+
+.divider{
+	    border-top: 1px solid var(--secondary-bg-color) !important;
+}
 
 .all:hover::before{
 	background-color: var(--main-color) !important;
