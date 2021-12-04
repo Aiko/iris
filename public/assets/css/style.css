@@ -759,7 +759,7 @@ border-radius: 0;
 }
 
 .thin .note input {
-	padding: 3px 0 5px 3px !important;
+	padding: 3px 0 5px 12px !important;
 }
 
 .thin .subject {
