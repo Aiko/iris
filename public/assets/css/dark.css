@@ -260,9 +260,8 @@ li[data-done="true"]>.todo-checkbox {
   .all::before{
 background-color: var(--main-bg-color);
 border: none !important;
-    content: " ";
+    -webkit-text-fill-color: #fff;
     content: "ALL";
-    /* color: #fff; */
     position: relative;
     padding: 2px 3px;
     margin-right: -24px;

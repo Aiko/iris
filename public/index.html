@@ -397,6 +397,16 @@
       <!-- Close ---------------->
     </div>
 
+    <!-- Right Click 
+    <div class="right-click">
+      <span>Mark as unread</span>
+      <span>Option 2</span>
+      <span>Option 3</span>
+      <div class="divider"></div>
+      <span class="red">Move to trash</span>
+    </div>
+    -->
+
     <!--? Sidebar -->
     <div class="sidebar">
       <div class="container">
@@ -1086,6 +1096,7 @@
 
           <!-- ? Thread View Pane for Regular View -->
           <div v-if="(flow.regularView || flow.specialView)" class="long-board">
+            <p class="empty-state">No message selected</p>
             <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)"
               :thread="flow.viewThread" inline-template>
               <!-- ? Email List -->
@@ -1619,9 +1630,9 @@
                   </div>
                 </div>
               </div>
-              <br>
+              <br><br>
               <div class="accordion">
-                <div class="card b0">
+                <div class="card b0" style="overflow: visible;">
                   <div class="card-header" style="background: var(--secondary-bg-color);">
                     <h2 class="mb-0">
                       <button @click="showAddRule = true" class="btn btn-link" type="button">
@@ -1679,9 +1690,61 @@
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
+
+
+                    <div class="row margin-auto existing-rules">
+                      <div class="col-1">
+                        <p>and</p>
+                      </div>
+                      <div class="col-3">
+                        <select class="aiko-select" v-model="condition">
+                          <option v-for="condition in validConditions" :value="condition.value">
+                            {{condition.display}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <!-- Inside this one will be dynamic depending on previous selection
+                      (text/email/date etc)   --------------------------------------->
+                      <div class="col-3" v-if="!(draftCondition.valid)">
+                        <input type="text" name="rulesField" v-model="conditionValue" placeholder="...">
+                      </div>
+                      <div class="col-3" v-else>
+                        <select class="aiko-select" v-model="conditionValue">
+                          <option v-for="val in draftCondition.valid" :value="val.value">
+                            {{val.display}}
+                          </option>
+                        </select>
+                      </div>
+
+                      <div class="col-2">
+                      </div>
+                      <div class="col-2" v-if="!(draftAction.valid)">
+                        <input type="email" name="rulesField" placeholder="Email">
+                      </div>
+                      <div class="col-2" v-else>
+
+                      </div>
+                      <div class="col-1" @click="addRule">
+                      </div>
+                      <div class="more-conditions">
+                        <p>
+                          <img src="assets/icons/boards-add.svg" width="16">
+                          Add a condition
+                        </p>
+                        <p class="red">
+                          <img src="assets/icons/minus-red.svg" width="10">
+                          Remove condition
+                        </p>
+                      </div>
+                    </div>
+
+
+
                   </div>
                 </div>
               </div>
+              <br>
               <hr>
               <div class="bottom-option">
                 <button @click="queueAll" class="btn btn-link blue" type="button">
@@ -1954,8 +2017,8 @@
                 {{thread.emails[0].M.quick_actions.overrideText}}
               </a>
               <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
-                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <span
-                  @click.prevent="quickReplyAll = true" class="all">All</span>
+                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <div
+                  @click.prevent="quickReplyAll = true" class="all">ALL</div>
               </a>
             </div>
 

@@ -131,7 +131,21 @@ a:active {
 .search-drop a:hover {
 	color: var(--main-color-hover) !important;
 }
-
+.more-conditions p{
+    z-index: 1111;
+    display: block;
+    background: var(--main-bg-color);
+    border-radius: 5px;
+    padding: 2px 5px;
+    font-size: 11px;
+		border: var(--main-border);
+		cursor: pointer;
+		margin-right: 5px;
+}
+.more-conditions{
+	display: inline-flex;
+    margin: auto;
+}
 hr {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
@@ -375,9 +389,19 @@ img.red:hover {
 .dropdown-menu {
 	border: none !important;
 }
-
+.empty-state{
+	color: var(--main-text-color);
+    position: absolute;
+    font-size: 18px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .thin {
 	width: 150px !important;
+}
+.thin .main-action img{
+	    margin-left: 13px !important;
 }
 
 #collapseOne input{
@@ -735,7 +759,7 @@ border-radius: 0;
 }
 
 .thin .note input {
-	padding: 3px 0 5px 3px !important;
+	padding: 3px 0 5px 12px !important;
 }
 
 .thin .subject {
@@ -941,24 +965,55 @@ border-radius: 0;
 .all {
 	padding: 6px 3px;
 	display: none;
+	font-size: 10px;
 	transition: 0.2s;
 }
 .all::before{
-		border: 1px solid var(--subject-text-color);
-    content: " ";
     content: "ALL";
-    /* color: #fff; */
+    background: var(--secondary-bg-color);
+    -webkit-text-fill-color: var(--main-text-color);
     position: relative;
     padding: 2px 3px;
     margin-right: -25px;
     z-index: -1;
     border-radius: 5px;
-		transition: .2s;
+    transition: .2s;
+}
+.right-click{
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    width: 180px;
+    background: var(--main-bg-color);
+    box-shadow: 0 1px 9px #0000006e !important;
+    display: inline-grid;
+		padding: 5px 0;
+    border-radius: 5px;
+}
+.right-click span{
+	    width: 100%;
+    padding: .25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    text-align: inherit;
+    white-space: nowrap;
+    font-size: 1rem;
+    cursor: pointer;
+		transition: 0.2s;
+}
+.right-click span:hover{
+background-color: var(--secondary-bg-color) !important;
+    transition: 0.2s;
+}
+
+.divider{
+	    border-top: 1px solid var(--secondary-bg-color) !important;
 }
 
 .all:hover::before{
 	background-color: var(--main-color) !important;
-	color: #fff !important;
+	-webkit-text-fill-color: #fff !important;
 	transition: 0.2s;
 }
 
@@ -970,6 +1025,7 @@ border-radius: 0;
 	color: #b7b7b7;
 	font-size: 14px;
 	line-height: 30px;
+	width: 13px;
 	margin-top: -3px !important;
 	margin-left: 10px !important;
 }
@@ -2623,6 +2679,7 @@ color: var(--main-color);
 }
 .accordion .existing-rules{
 	    border-radius: 0px 0px 5px 5px !important;
+			    margin-top: -3px !important;
 }
 .accordion .existing-rules:hover{
 	    border-radius: 0px 0px 5px 5px !important;
@@ -3607,10 +3664,12 @@ unselectable {
 	max-width: 800px !important;
 	max-height: 90vh;
 }
-
+.btn-link:hover{
+	text-decoration: none !important;
+}
 .container-rules {
 	overflow-y: scroll;
-	max-height: 50vh;
+	    max-height: calc(50vh - 200px);
 	cursor:initial;
 }
 .accordion hr{
