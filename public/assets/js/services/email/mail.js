@@ -642,6 +642,9 @@ const mailapi = {
       this.syncing = true
       info(...MAILAPI_TAG, "SYNCOP - START")
 
+      const okayletsgo = new Audio('./assets/videos/sync.mp3')
+      okayletsgo.play()
+
       //? update folders
       this.folders = await this.engine.folders.state()
       const boards = await this.engine.folders.boards()
