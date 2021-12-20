@@ -393,9 +393,9 @@ ${mail.html}
         }
       })
 
+      if (window.location.pathname.includes('compose.html')) this.hide()
       const s = await this.callIPC(this.task_SendEmail(mail))
       info(...COMPOSER_TAG, "Sent email.")
-      if (window.location.pathname.includes('compose.html')) this.hide()
       if (window.location.pathname.includes('compose.html')) this.close()
     },
     async listTemplates() {
