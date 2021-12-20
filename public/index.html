@@ -430,7 +430,7 @@
             <!--? Home Space -->
             <div class="space" @click.stop.prevent="flow.showInbox = true">
               <img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')">
-              <span>Home <span class="main-count">{{smartPriorityUnread}}</span></span>
+              <span>Home <span class="main-count">{{smartUnread}}</span></span>
             </div>
 
             <!--? Custom Spaces -->
@@ -1690,57 +1690,6 @@
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
-
-
-                    <div class="row margin-auto existing-rules">
-                      <div class="col-1">
-                        <p>and</p>
-                      </div>
-                      <div class="col-3">
-                        <select class="aiko-select" v-model="condition">
-                          <option v-for="condition in validConditions" :value="condition.value">
-                            {{condition.display}}
-                          </option>
-                        </select>
-                      </div>
-
-                      <!-- Inside this one will be dynamic depending on previous selection
-                      (text/email/date etc)   --------------------------------------->
-                      <div class="col-3" v-if="!(draftCondition.valid)">
-                        <input type="text" name="rulesField" v-model="conditionValue" placeholder="...">
-                      </div>
-                      <div class="col-3" v-else>
-                        <select class="aiko-select" v-model="conditionValue">
-                          <option v-for="val in draftCondition.valid" :value="val.value">
-                            {{val.display}}
-                          </option>
-                        </select>
-                      </div>
-
-                      <div class="col-2">
-                      </div>
-                      <div class="col-2" v-if="!(draftAction.valid)">
-                        <input type="email" name="rulesField" placeholder="Email">
-                      </div>
-                      <div class="col-2" v-else>
-
-                      </div>
-                      <div class="col-1" @click="addRule">
-                      </div>
-                      <div class="more-conditions">
-                        <p>
-                          <img src="assets/icons/boards-add.svg" width="16">
-                          Add a condition
-                        </p>
-                        <p class="red">
-                          <img src="assets/icons/minus-red.svg" width="10">
-                          Remove condition
-                        </p>
-                      </div>
-                    </div>
-
-
-
                   </div>
                 </div>
               </div>
