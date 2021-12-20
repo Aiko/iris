@@ -260,7 +260,7 @@ export default class Janitor {
       rawResults: null,
       results: {},
       classification: '',
-      context: '',
+      context: 'got nothing back from quick actions',
       scheduling: {
         subject: '',
         start: null,
@@ -403,8 +403,9 @@ export default class Janitor {
 
     const commonActionHrefs = Object.keys(commonActions)
     const common_action_links = links.map(({ text, href }) => {
+      href = href.toLowerCase()
       for (const commonActionHref of commonActionHrefs) {
-        if (href.includes(commonActionHref)) return {text, href, commonActionHref}
+        if (href.includes(commonActionHref.toLowerCase())) return {text, href, commonActionHref}
       }
       return null
     }).filter(_ => _)

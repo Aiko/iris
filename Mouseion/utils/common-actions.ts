@@ -5,7 +5,7 @@ export default {
   "docs.google.com/presentation/": "OPEN SLIDES",
   "docs.google.com/spreadsheets/": "OPEN SHEET",
   "docs.google.com/forms/": "OPEN FORM",
-  "docusign.net/MEMBER/": "DOCUSIGN",
+  "docusign.net/member/": "DOCUSIGN",
   "dropbox.com/l/": "OPEN DROPBOX",
   "drive.google.com/file/": "OPEN DRIVE",
   "we.tl/": "OPEN FILE",
