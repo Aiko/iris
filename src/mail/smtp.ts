@@ -24,6 +24,7 @@ export default class CarrierPigeon {
 
   private getTransporter(config: Partial<IMAPConfig>): Mail {
     let transporter: Mail;
+    console.log("Sending using:", config)
     switch(config.provider) {
 
       case "google": transporter = nodemailer.createTransport({
@@ -45,10 +46,14 @@ export default class CarrierPigeon {
       }); break;
 
       case "microsoft": transporter = nodemailer.createTransport({
-        service: "hotmail",
+        host: 'smtp.office365.com',
+        port: 587,
         auth: {
+          type: 'OAuth2',
           user: config.user,
-          pass: config.pass
+          accessToken: config.oauth
+        }, tls: {
+          ciphers : 'SSLv3',
         }
       })
 
@@ -56,9 +61,13 @@ export default class CarrierPigeon {
         host: config.host,
         port: config.port,
         secure: config.secure,
-        auth: {
+        auth: config.pass ? {
           user: config.user,
           pass: config.pass
+        } : {
+          user: config.user,
+          type: 'OAuth2',
+          accessToken: config.oauth
         }
       })
 
@@ -74,7 +83,7 @@ export default class CarrierPigeon {
     const transporter = this.getTransporter(config)
     return await new Promise((s, _) => {
       transporter.sendMail(mail, (error, info) => {
-        if (error) console.error(error)
+        if (error) console.error("Send error:", error)
         else console.log("Sent email to", mail.to)
         ;;error ? s({ error,  }) : s(info);;
       })

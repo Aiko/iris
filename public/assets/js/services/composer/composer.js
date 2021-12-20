@@ -124,7 +124,7 @@ const composer = {
     async sendEmail(html, attachments=[], includeCSS=true) {
       const mail = {}
 
-      const Me = await this.composerEngine.contacts.lookup(this.smtpConfig.email)?.[0]
+      const Me = await (this.engine || this.composerEngine).contacts.lookup(this.smtpConfig.email)?.[0]
       if (Me) mail.from = `${Me.name} <${Me.email}>`
       else mail.from = this.currentMailbox || this.imapConfig?.email || this.smtpConfig?.email
 
