@@ -135,7 +135,7 @@ const composer = {
 
       mail.subject = this.subject || "No Subject"
 
-      mail.html = html ?? this.$refs.editor.html
+      mail.html = html || this.$refs.editor.editor.getHTML()
       if (includeCSS) {
         const styledHTML = `
 <html>
@@ -378,7 +378,7 @@ li[data-done="false"] {
     white-space: pre-wrap !important;
 }
 </style>
-${html}
+${mail.html}
 </body>
 `
         mail.html = styledHTML
@@ -393,9 +393,9 @@ ${html}
         }
       })
 
-      if (window.location.pathname.includes('compose.html')) this.hide()
       const s = await this.callIPC(this.task_SendEmail(mail))
       info(...COMPOSER_TAG, "Sent email.")
+      if (window.location.pathname.includes('compose.html')) this.hide()
       if (window.location.pathname.includes('compose.html')) this.close()
     },
     async listTemplates() {
