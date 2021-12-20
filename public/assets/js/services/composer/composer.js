@@ -135,7 +135,7 @@ const composer = {
 
       mail.subject = this.subject || "No Subject"
 
-      mail.html = html
+      mail.html = html ?? this.$refs.editor.html
       if (includeCSS) {
         const styledHTML = `
 <html>
