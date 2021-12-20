@@ -181,12 +181,13 @@ const mailapi = {
       return Object.values(this.threads).filter(thread =>
         thread.allFolders.includes("INBOX") &&
         !(thread.emails[0].M.flags.seen) && //? has to be unread
+        (thread.priority) && //? priority check
         (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
       ).length
     },
     smartPriorityUnread() {
       return Object.values(this.threads).filter(thread =>
-        thread.allFolders.includes("INBOX") &&
+        thread.folder == "INBOX" &&
         !(thread.emails?.[0]?.M.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
         (thread.emails?.[0]?.M.envelope.date.addDays(-40)) //? within last month
@@ -622,6 +623,9 @@ const mailapi = {
       if (!(updatedBoards.names.includes(slug))) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
       //? add that to the sync set
       await this.engine.sync.add(path)
+      //? conformity is key
+      this.boardOrder = this.boards.map(({ name }) => name).sort((a, b) =>
+        this.boardOrder.indexOf(a) - this.boardOrder.indexOf(b))
       //? create a UI element for it
       this.boards.push({
         name: slug,
@@ -629,8 +633,8 @@ const mailapi = {
         path,
         tids: []
       })
+      this.boardOrder.push(slug)
 
-      this.boardOrder = this.boards.map(({ name }) => name)
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
     },
     ////////////////////////////////////////////!
@@ -643,7 +647,7 @@ const mailapi = {
       info(...MAILAPI_TAG, "SYNCOP - START")
 
       const okayletsgo = new Audio('./assets/videos/sync.mp3')
-      okayletsgo.play()
+      // okayletsgo.play()
 
       //? update folders
       this.folders = await this.engine.folders.state()
@@ -667,7 +671,8 @@ const mailapi = {
           tids: []
         })
 
-        this.boardOrder = this.boards.map(({ name }) => name)
+        this.boardOrder = this.boards.map(({ name }) => name).sort((a, b) =>
+          this.boardOrder.indexOf(a) - this.boardOrder.indexOf(b))
       })
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
       info(...MAILAPI_TAG, "SYNCOP - synced board metadata")
