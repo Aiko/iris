@@ -150,14 +150,16 @@ export default class BoardRulesQueue implements MessageQueue {
 
       //? Does the rule apply to the email's sender?
       if (conditions.from) {
-        const match = strmatch(email.M.envelope.from.address, conditions.from)
+        const match = strmatch(email.M.envelope.from.address, conditions.from) || strmatch(email.M.envelope.from.name, conditions.from)
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
 
       //? Does the rule apply to any of the email's recipients?
       if (conditions.to) {
-        const match = email.M.envelope.to.filter(({ address }) => strmatch(address, conditions.to!)).length > 0
+        const match = email.M.envelope.to.filter(({ address, name }) =>
+          strmatch(address, conditions.to!) || strmatch(name, conditions.to!)
+        ).length > 0
         conditions_met = conditions_met && match
         if (!conditions_met) continue;
       }
