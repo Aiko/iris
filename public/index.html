@@ -838,7 +838,7 @@
                     here to see
                   </span><b>{{otherInbox.length}}</b> filtered
                   <span>threads</span></p>
-                <div class="load-bottom">
+                <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
 
@@ -868,7 +868,7 @@
                     here to see
                   </span><b>{{otherInbox.length}}</b> filtered
                   <span>threads</span></p>
-                <div class="load-bottom">
+                <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
 
@@ -945,7 +945,7 @@
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <div class="load-bottom">
+                <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
 
