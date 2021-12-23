@@ -31,4 +31,5 @@ export default {
   "airbnb.com/messaging/": "OPEN AIRBNB",
   "click-email.godaddy.com/": "OPEN GODADDY",
   "click.e.usa.experian.com/": "OPEN EXPERIAN",
+  "calendly.com/": "OPEN CALENDLY",
 } as Record<string, string>
