@@ -29,8 +29,10 @@ export default class Calendar {
     const mainWindowManager = this.Registry.get("Window Manager") as WindowManager
 
     const win = WindowManager.newWindow({
-      width: mainWindowManager.window?.getBounds().width || 800,
-      height: mainWindowManager.window?.getBounds().height || 600
+      width: 800,
+      height: 600,
+      frame: true,
+      titleBarStyle: "default"
     })
     if (mainWindowManager.window?.isFullScreen()) win.setFullScreen(true)
     this.lock = win
@@ -38,7 +40,32 @@ export default class Calendar {
     this.windowManager = new WindowManager(this.Registry, win, 'calendar-' + bang)
     this.windowManager.window = win
 
-    this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
+    this.windowManager.loadURL("https://outlook.office.com/calendar/")
+    //this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
+    win.webContents.insertCSS(`
+    #app > div > div:nth-child(3) > div:nth-child(1) {
+      display: none;
+    }
+    #app > div > div:nth-child(2) > div:nth-child(1) {
+      display: none;
+    }
+    html[dir=ltr] .ms-Panel {
+      left: 0px !important;
+    }
+    `)
+    win.on("page-title-updated", () => {
+      win.webContents.insertCSS(`
+        #app > div > div:nth-child(3) > div:nth-child(1) {
+          display: none;
+        }
+        #app > div > div:nth-child(2) > div:nth-child(1) {
+          display: none;
+        }
+        html[dir=ltr] .ms-Panel {
+          left: 0px !important;
+        }
+      `)
+    })
 
     win.show()
     win.focus()
