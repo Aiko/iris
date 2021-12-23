@@ -845,6 +845,66 @@ const mailapi = {
       this.syncing = false
       release()
     },
+    async syncOldOp () {
+      const release = await this.syncLock.acquire()
+      this.backendSyncing = false
+      this.syncing = true
+      info(...MAILAPI_TAG, "SYNCOP - START")
+
+      let t0 = performance.now()
+
+      //? compute local cursor
+      const threads = this.inbox
+
+      //? fetch updates to inbox
+      const inbox_old = await this.engine.resolve.threads.latest(this.folders.special.inbox, -1, {
+        limit: 500,
+        start: threads.length
+      })
+      //? apply updates to inbox
+      if (!inbox_old) {
+        this.syncing = false
+        release()
+        return error(...MAILAPI_TAG, "SYNCOP - no older emails received for inbox.")
+      }
+      info(...MAILAPI_TAG, "SYNCOP - fetched older emails for inbox:", performance.now() - t0)
+      t0 = performance.now()
+      const { all } = inbox_old
+      //? first, anything that already exists can be dumped
+      const filtered = all.filter(tid => threads.includes(tid))
+      //? next, process the threads
+      filtered.map(thread => {
+        thread = this.saveThread(thread)
+        //! if you want to force a UI change, can do a stringify-parse set on the tids
+        this.inbox.push(thread.tid) //* push because it is in ascending date order
+      })
+      //? sort the inbox to maintain date invariant
+      this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      success(...MAILAPI_TAG, "SYNCOP - synced old emails for inbox:", performance.now() - t0)
+
+
+      t0 = performance.now()
+      info(...MAILAPI_TAG, "SYNCOP - computing full inbox")
+      //? make the fullInbox
+      this.fullInbox = (that => {
+        const s = []
+        s.push(...that.inbox)
+        that.boards.map(({ tids }) => s.push(...tids))
+        const ms = new Set(s)
+        const os = [...ms]
+        os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        return os
+      })(this)
+      success(...MAILAPI_TAG, "SYNCOP - computed full inbox:", performance.now() - t0)
+
+      //? Cache
+      Satellite.store(this.currentMailbox + "emails/inbox", this.inbox)
+      Satellite.store(this.currentMailbox + "emails/fullInbox", this.fullInbox)
+      Satellite.store(this.currentMailbox + "threads", this.threads)
+
+      this.syncing = false
+      release()
+    },
     async forceSync () {
       if (this.backendSyncing) return false
       this.backendSyncing = true
@@ -1033,21 +1093,17 @@ const mailapi = {
     //? handles scrolling down to fetch more
     onScroll (e) {
       const { target: { scrollTop, clientHeight, scrollHeight } } = e
-      //! TODO: reenable this at some point
-      /*
       if (scrollTop + clientHeight >= scrollHeight - 1000) {
         if (this.seekingInbox) return
         if (this.inbox.emails.length > 2000) return;
         info(...MAILAPI_TAG, 'Fetching more messages')
         this.seekingInbox = true
         const that = this
-        // TODO: this doesnt exist anymore
-        this.getOldMessages().then(() => {
+        this.syncOldOp().then(() => {
           that.seekingInbox = false
           that.onScroll(e)
         })
       }
-      */
       this.recalculateHeight()
     },
     recalculateHeight() {
