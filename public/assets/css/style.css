@@ -1872,14 +1872,18 @@ transition: .2s;
 
 .secondary-count {
     color: var(--main-text-color);
-    background: var(--main-bg-color);
+    background: var(--secondary-bg-color);
     padding: 1px 5px;
     border-radius: 50px;
     font-size: 12px;
     margin-left: 1px;
     display: inline;
-    margin-right: -3px;
+    margin-left: -10px;
     font-weight: 600;
+}
+.inbox .secondary-count {
+    margin-left: 0 !important;
+	  background: var(--main-bg-color) !important;
 }
 
 .nowrap {
