@@ -56,7 +56,13 @@ export default class Sync {
 
   async syncAll() {
     this.Log.log("Starting bulk sync...")
-    await do_in_batch([...this.syncQ], this.SYNC_BATCH_SIZE, this.sync)
+    try {
+      await do_in_batch([...this.syncQ], this.SYNC_BATCH_SIZE, this.sync)
+      return true
+    } catch (e) {
+      this.Log.error("Bulk sync encountered error:", e)
+      return false
+    }
   }
 
   private async sync_existing(folder: string): Promise<number> {
@@ -174,6 +180,7 @@ export default class Sync {
 
     const janitor = await this.custodian.get(folder)
 
+    this.Log.log("Attempting to sync", folder.blue, "...")
     const folderDetails = await this.courier.folders.openFolder(folder)
     const uidNext = folderDetails?.uidNext
     if (!uidNext) return this.Log.error(folder.blue, "| did not provide a UIDNext.");

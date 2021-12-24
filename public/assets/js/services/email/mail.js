@@ -908,7 +908,10 @@ const mailapi = {
       release()
     },
     async forceSync () {
-      if (this.backendSyncing) return false
+      if (this.backendSyncing) {
+        console.error("Backend already syncing.")
+        return false
+      }
       this.backendSyncing = true
       await this.engine.sync.immediate()
     },
