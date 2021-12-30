@@ -187,6 +187,9 @@ export default class Mailbox {
   }
 
   trigger(event: string) {
+
+    this.Log.shout("Event triggered:", event)
+
     switch (event) {
       case "imap-exists":
         this.run()
