@@ -393,6 +393,7 @@ const mailapi = {
         app.backendSyncing = true
       })
       this.engine.on('sync-finished', this.syncOp)
+      this.engine.on('auth-failed', this.forceOAuthRefresh)
       info(...MAILAPI_TAG, "Registered Listeners")
 
       //? reset the UI
