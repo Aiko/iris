@@ -134,6 +134,10 @@ export default class PostOffice {
       await this.client.connect()
     } catch (e) {
       this.Log.error("Could not connect to IMAP server:", e)
+      const msg = (typeof e === "string") ? e.toLowerCase() : (
+        e instanceof Error ? e.message.toLowerCase() : "unknown error"
+      )
+      if (msg.includes("authenticate failed") && this.trigger) this.trigger("auth-failed")
       this.client = null
       return false
     }
