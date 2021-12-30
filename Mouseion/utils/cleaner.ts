@@ -408,10 +408,11 @@ export default class Janitor {
         if (href.includes(commonActionHref.toLowerCase())) return {text, href, commonActionHref}
       }
       return null
-    }).filter(_ => _)
+    }).filter(_ => _).sort((a, b) =>
+      commonActions[b!.commonActionHref].priority - commonActions[a!.commonActionHref].priority)
     if (common_action_links.length > 0) {
       e.M.quick_actions.context = common_action_links[0]!.href
-      e.M.quick_actions.overrideText = commonActions[common_action_links[0]!.commonActionHref]
+      e.M.quick_actions.overrideText = commonActions[common_action_links[0]!.commonActionHref].text
       e.M.quick_actions.overrideIcon = "assets/icons/link.svg" // TODO: customize this later
       e.M.quick_actions.classification = 'override'
     }
