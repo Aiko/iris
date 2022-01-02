@@ -1029,7 +1029,7 @@ class Thread implements ThreadModel {
     return new Promise((s, _) => {
       const ds = db.stores.Thread
       const q = loose ? ds.find({ allFolders: folder }) : ds.find({ folder })
-      q.sort({ date: -1 }).limit(limit).skip(start).exec((err, docs: ThreadModel[]) => {
+      q.sort({ date: -1 }).skip(start).limit(limit).exec((err, docs: ThreadModel[]) => {
         if (err || !docs) {
           return s({
             error: err?.message || "Couldn't find Threads in that folder."
