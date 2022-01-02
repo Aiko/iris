@@ -104,6 +104,7 @@ const mailapi = {
     backendSyncing: false,
     syncing: false,
     seekingInbox: false,
+    reachedEndOfInbox: false,
     movers: new Set(),
     dragging: false,
     visibleMin: 0,
@@ -884,6 +885,14 @@ const mailapi = {
       info(...MAILAPI_TAG, "SYNC OLD OP - ", updated.length, "old emails fetched")
       //? first, anything that already exists can be dumped
       const filtered = updated.filter(tid => !threads.includes(tid))
+
+      if (filtered.length == 0) {
+        this.syncing = false
+        this.reachedEndOfInbox = true
+        release()
+        return success(...MAILAPI_TAG, "SYNC OLD OP - no older emails left in inbox.")
+      }
+
       //? next, process the threads
       filtered.map(thread => {
         thread = this.saveThread(thread)
@@ -1111,6 +1120,7 @@ const mailapi = {
       if (scrollTop + clientHeight >= scrollHeight - 1000) {
         if (this.seekingInbox) return
         if (this.inbox.length > 2000) return;
+        if (this.reachedEndOfInbox) return;
         info(...MAILAPI_TAG, 'Fetching more messages')
         this.seekingInbox = true
         const that = this
