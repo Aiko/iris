@@ -482,6 +482,17 @@ const mailapi = {
         await DwarfStar.save({meta: {firstTime: false}})
       }
     },
+    //? Reconnects to connected mailserver
+    //! NOTE: this assumes the mailserver is currently loaded
+    //! DO NOT use this in place of switchMailServer
+    //! A mailbox loaded via switchMailServer can be reconnected to using this
+    //! Really, don't use this for anything other than auth changes & errors
+    //! Again please note this is NOT the same as the old reconnectToMailServer from Iris2
+    async reconnectToMailServer() {
+      info(...MAILAPI_TAG, "Reconnecting to mail server...")
+
+      await this.callIPC(this.task_RestartEngine(this.imapConfig))
+    },
     ////////////////////////////////////////////!
     //! Utility Methods
     ////////////////////////////////////////////!

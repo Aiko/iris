@@ -73,7 +73,7 @@ const goauth = {
       this.googleConfig.expiry_date = expiry_date
       this.googleConfig.refresh_token = refresh_token
       this.googleConfig.scope = scope
-      await this.google_saveConfig()
+      await this.saveOAuthConfig()
 
       return true
     },
@@ -135,7 +135,7 @@ const goauth = {
         this.googleConfig.id_token = id_token
         this.googleConfig.expiry_date = today.getTime() + (expires_in * 1000)
         this.googleConfig.scope = scope
-        await this.google_saveConfig()
+        await this.saveOAuthConfig()
 
         if (this.reconnectToMailServer) await this.reconnectToMailServer()
       }
@@ -196,7 +196,7 @@ const goauth = {
       this.googleConfig.id_token = id_token
       this.googleConfig.expiry_date = this.googleConfig.expiry_date + (expires_in * 1000)
       this.googleConfig.scope = scope
-      await this.google_saveConfig()
+      await this.saveOAuthConfig()
 
       if (this.reconnectToMailServer) await this.reconnectToMailServer()
     }
