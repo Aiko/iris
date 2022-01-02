@@ -182,23 +182,23 @@ const mailapi = {
     smartUnread() {
       return Object.values(this.threads).filter(thread =>
         thread.allFolders.includes("INBOX") &&
-        !(thread.emails[0].M.flags.seen) && //? has to be unread
+        !(thread.emails?.[0]?.M?.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
-        (thread.emails[0].M.envelope.date.addDays(-40)) //? within last month
+        (thread.emails?.[0]?.M?.envelope.date.addDays(-40)) //? within last month
       ).length
     },
     smartPriorityUnread() {
       return Object.values(this.threads).filter(thread =>
         thread.folder == "INBOX" &&
-        !(thread.emails?.[0]?.M.flags.seen) && //? has to be unread
+        !(thread.emails?.[0]?.M?.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
-        (thread.emails?.[0]?.M.envelope.date.addDays(-40)) //? within last month
+        (thread.emails?.[0]?.M?.envelope.date.addDays(-40)) //? within last month
       ).length
     },
     spamUnread() {
       return Object.values(this.threads).filter(thread =>
-        thread.allFolders.includes(this.folders.spam) &&
-        !(thread.emails[0].M.flags.seen) //? has to be unread
+        thread.allFolders?.includes(this.folders.spam) &&
+        !(thread.emails?.[0]?.M?.flags.seen) //? has to be unread
       ).length
     }
   },

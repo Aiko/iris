@@ -832,8 +832,11 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
+              <div class="empty" v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
+              <div class="empty" v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+                <h1>Scroll here to load more emails.</h1>
               </div>
 
               <!-- ? List Loader -->
@@ -864,8 +867,11 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
+              <div class="empty" v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
+              <div class="empty" v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+                <h1>Scroll here to load more emails.</h1>
               </div>
 
               <!-- ? List Loader -->
