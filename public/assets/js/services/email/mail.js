@@ -857,7 +857,7 @@ const mailapi = {
       Satellite.store(this.currentMailbox + "emails/special", this.special)
 
       this.syncing = false
-      if (this.addingMailbox) {
+      if (this.flow.addingMailbox) {
         this.flow.addingMailbox = false
         if (this.loading) this.loading = false
       }
