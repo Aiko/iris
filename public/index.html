@@ -797,7 +797,7 @@
                         'active': priority
                       }" @click="priority = true" inbox-direction="left">
                         Priority
-                        <div class="secondary-count" title="Unread emails in your inbox">
+                        <div v-if="smartPriorityUnread > 0" class="secondary-count" title="Unread emails in your inbox">
                           {{smartPriorityUnread > 0 ? smartPriorityUnread : '🦭'}}
                         </div>
                       </h1>
@@ -830,14 +830,14 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="priorityInbox.length == 0">
+              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
                 <h1>🎊 You're all caught up! 🥳</h1>
               </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
                 <p @click="priority = false" v-if="priority">
-                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span><b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
                 </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
@@ -862,14 +862,14 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="priorityInbox.length == 0">
+              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
                 <h1>🎊 You're all caught up! 🥳</h1>
               </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
                 <p @click="priority = false" v-if="priority">
-                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span><b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
                 </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
