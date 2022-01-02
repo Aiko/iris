@@ -137,7 +137,14 @@ export default class PostOffice {
       const msg = (typeof e === "string") ? e.toLowerCase() : (
         e instanceof Error ? e.message.toLowerCase() : "unknown error"
       )
-      if (msg.includes("authenticate failed") && this.trigger) this.trigger("auth-failed")
+      // handle all different types of IMAP authentication errors
+      if (
+        (
+          msg.includes("authenticate failed") ||
+          msg.includes("authentication failed") ||
+          msg.includes("invalid credentials")
+        ) && this.trigger
+      ) this.trigger("auth-failed")
       this.client = null
       return false
     }
