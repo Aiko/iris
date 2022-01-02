@@ -11,6 +11,7 @@
     "make:forge": "electron-forge make",
     "publish": "electron-forge publish",
     "start:windows": "%APPDATA%\\npm\\electron-forge start",
+    "restart:windows": "clear; rm -rf dist; tsc; %APPDATA%\\npm\\electron-forge start",
     "package:windows": "%APPDATA%\\npm\\electron-forge package",
     "make:windows": "%APPDATA%\\npm\\electron-forge make",
     "publish:windows": "%APPDATA%\\npm\\electron-forge publish",
@@ -30,7 +31,7 @@
   ],
   "author": {
     "name": "Mr. Seal 🦭",
-    "email": "support@helloaiko.com"
+    "email": "say@helloaiko.com"
   },
   "license": "Proprietary, all rights reserved, no permissions granted.",
   "config": {
@@ -63,19 +64,6 @@
         [
           "@electron-forge/plugin-auto-unpack-natives"
         ]
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "Aiko",
-              "name": "aiko-mail-desktop"
-            },
-            "prerelease": false,
-            "draft": false
-          }
-        }
       ]
     }
   },
