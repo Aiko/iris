@@ -659,7 +659,9 @@
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
 
               <!-- ? Open Calendar -->
-              <a @click="openCalendar" class="inline" title="Show calendar">
+              <a @click="openCalendar"
+                v-if="['outlook', 'exchange', 'microsoft'].includes(imapConfig.provider)"
+                class="inline" title="Show calendar">
                 <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-calendar.svg')">
               </a>
 
