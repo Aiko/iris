@@ -1,33 +1,27 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
-
     "start": "electron-forge start",
     "restart": "clear; rm -rf dist; tsc; electron-forge start",
-
     "package": "electron-forge package",
     "make:forge": "electron-forge make",
     "publish": "electron-forge publish",
-
     "start:windows": "%APPDATA%\\npm\\electron-forge start",
+    "restart:windows": "clear; rm -rf dist; tsc; %APPDATA%\\npm\\electron-forge start",
     "package:windows": "%APPDATA%\\npm\\electron-forge package",
     "make:windows": "%APPDATA%\\npm\\electron-forge make",
     "publish:windows": "%APPDATA%\\npm\\electron-forge publish",
-
     "enable-github": "export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
     "enable-github:windows": "set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
-
     "compile": "tsc",
     "clean": "rm -rf dist",
     "dry": "tsc; rm -rf dist",
     "make": "rm -rf dist; tsc",
-
     "make:icons": "python generate-intermediates.py",
-
     "lint": "echo \"No linting configured\""
   },
   "keywords": [
@@ -37,7 +31,7 @@
   ],
   "author": {
     "name": "Mr. Seal 🦭",
-    "email": "support@helloaiko.com"
+    "email": "say@helloaiko.com"
   },
   "license": "Proprietary, all rights reserved, no permissions granted.",
   "config": {
@@ -70,19 +64,6 @@
         [
           "@electron-forge/plugin-auto-unpack-natives"
         ]
-      ],
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "Aiko",
-              "name": "aiko-mail-desktop"
-            },
-            "prerelease": false,
-            "draft": false
-          }
-        }
       ]
     }
   },

@@ -53,13 +53,13 @@ Hush my dear child, just `npm i electron` in the directory but from `cmd.exe` (c
 ``` bash
 npm uninstall electron
 export npm_config_platform=win32
-npm install electron
+npm install electron@^11.5.0
 unset npm_config_platform
 ```
 
 Also install `@electron-forge/cli` globally (i.e. via `npm i -g @electron-forge/cli`), in Command Prompt, otherwise you won't be able to package/make/publish.
 
-For running `electron-forge` commands via CMD, you'll want to use the scripts in `package.json` that have `-windows` appended to them. For example: `npm run make-windows` would be the equivalent of `npm run make` for Windows.
+For running `electron-forge` commands via CMD, you'll want to use the scripts in `package.json` that have `:windows` appended to them. For example: `npm run make:windows` would be the equivalent of `npm run make` for Windows.
 
 To publish, set GitHub token:
 ```
