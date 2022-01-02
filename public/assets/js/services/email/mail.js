@@ -476,7 +476,7 @@ const mailapi = {
       this.firstTime = DwarfStar.settings().meta.firstTime
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
-      if (controlsLoader) this.loading = false
+      if (controlsLoader && !this.flow.addingMailbox) this.loading = false
       if (this.firstTime) {
         info(...(this.TAG), "This is the user's first open of the app. Running tour...")
         this.tour = runTour()
@@ -857,6 +857,10 @@ const mailapi = {
       Satellite.store(this.currentMailbox + "emails/special", this.special)
 
       this.syncing = false
+      if (this.addingMailbox) {
+        this.flow.addingMailbox = false
+        if (this.loading) this.loading = false
+      }
       release()
     },
     async syncOldOp () {

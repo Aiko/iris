@@ -37,6 +37,7 @@ Vue.component('add-mailbox-modal', {
       if (await this.googlestrategy()) {
         this.success()
         this.closable = true
+        this.$root.flow.addingMailbox = true
         this.close()
       }
     },
@@ -44,6 +45,7 @@ Vue.component('add-mailbox-modal', {
       if (await this.msftstrategy()) {
         this.success()
         this.closable = true
+        this.$root.flow.addingMailbox = true
         this.close()
       }
     },
@@ -109,6 +111,7 @@ Vue.component('add-mailbox-modal', {
       Object.assign(app.smtpConfig, this.smtpConfig)
       this.success()
       this.closable = true
+      this.$root.flow.addingMailbox = true
       this.close()
     },
     async close () {

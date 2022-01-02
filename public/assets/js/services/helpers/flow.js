@@ -5,6 +5,7 @@ const flow_mgr = {
     flow: {
       addMailbox: false,
       forceAddMailbox: false,
+      addingMailbox: false,
       addBoard: false,
       viewThread: null,
       showDev: false,
