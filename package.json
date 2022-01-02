@@ -1,33 +1,26 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.3.0",
+  "version": "3.5.0",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
-
     "start": "electron-forge start",
     "restart": "clear; rm -rf dist; tsc; electron-forge start",
-
     "package": "electron-forge package",
     "make:forge": "electron-forge make",
     "publish": "electron-forge publish",
-
     "start:windows": "%APPDATA%\\npm\\electron-forge start",
     "package:windows": "%APPDATA%\\npm\\electron-forge package",
     "make:windows": "%APPDATA%\\npm\\electron-forge make",
     "publish:windows": "%APPDATA%\\npm\\electron-forge publish",
-
     "enable-github": "export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
     "enable-github:windows": "set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
-
     "compile": "tsc",
     "clean": "rm -rf dist",
     "dry": "tsc; rm -rf dist",
     "make": "rm -rf dist; tsc",
-
     "make:icons": "python generate-intermediates.py",
-
     "lint": "echo \"No linting configured\""
   },
   "keywords": [
@@ -94,6 +87,7 @@
     "auto-bind": "^4.0.0",
     "cheerio": "^1.0.0-rc.3",
     "colors": "^1.4.0",
+    "compromise": "^13.11.4",
     "cross-fetch": "^3.0.6",
     "electron-squirrel-startup": "^1.0.0",
     "electron-updater": "^4.3.5",
