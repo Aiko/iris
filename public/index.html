@@ -799,7 +799,7 @@
                       }" @click="priority = true" inbox-direction="left">
                         Priority
                         <div class="secondary-count" title="Unread emails in your inbox">
-                          {{smartPriorityUnread}}
+                          {{smartPriorityUnread > 0 ? smartPriorityUnread : '🦭'}}
                         </div>
                       </h1>
                       <h1 :class="{
@@ -831,13 +831,15 @@
                   :index="i"></thread-card>
               </draggable>
 
+              <div class="empty" v-if="priorityInbox.length == 0">
+                <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
-                    here to see
-                  </span><b>{{otherInbox.length}}</b> filtered
-                  <span>threads</span></p>
+                <p @click="priority = false" v-if="priority">
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span><b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
@@ -861,13 +863,15 @@
                   :index="i"></thread-card>
               </draggable>
 
+              <div class="empty" v-if="priorityInbox.length == 0">
+                <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
-                    here to see
-                  </span><b>{{otherInbox.length}}</b> filtered
-                  <span>threads</span></p>
+                <p @click="priority = false" v-if="priority">
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span><b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
@@ -875,7 +879,7 @@
             </div>
 
             <!-- ? Inbox Thread List -->
-            <div v-if="flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="flow.specialView" ref="inboxBoard" class="board-body" id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--sent" v-if="!loading && flow.showSent" v-model="special.sent"
@@ -944,10 +948,10 @@
 
 
               <!-- ? List Loader -->
-              <div class="inbox-more">
+              <!-- <div class="inbox-more">
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
-              </div>
+              </div> -->
 
             </div>
 
@@ -980,8 +984,8 @@
                               :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                           <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
-                            <a @click.stop.prevent="showActions = true" class="dropdown-item">Mark all as read</a>
-                            <a class="dropdown-item">Mark all as unread</a>
+                            <!-- <a class="dropdown-item">Mark all as read</a>
+                            <a class="dropdown-item">Mark all as unread</a> -->
 
                             <!-- POTENTIAL COLOR ADD
                             <div class="dropdown-divider"></div>
@@ -1004,14 +1008,11 @@
                             </div>
                             -->
                             <div class="dropdown-divider"></div>
-                            <a v-if="slug != 'Done'" class="dropdown-item">Rename
-                              board</a>
-                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
-                              board</a>
-                            <a class="dropdown-item space-change">
+                            <!-- <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
+                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                            <!-- <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
-                                <!-- TODO: Make sure users HAVE to leave board checked in at least one space so it doesnt disappear in a limbo -->
                                 <span>
                                   <div class="form-check">
                                     <label class="switch">
@@ -1038,7 +1039,7 @@
                                     in at least one space</p>
                                 </span>
                               </div>
-                            </a>
+                            </a> -->
 
                           </div>
                         </div>
@@ -1059,7 +1060,7 @@
                         </div>
                       </div>
                       <div class="col-2 text-right cll">
-
+                        <!-- ? Potential space for board-level integrations -->
                       </div>
                     </div>
                   </div>
