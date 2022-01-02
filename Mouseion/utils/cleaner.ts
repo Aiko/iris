@@ -20,6 +20,7 @@ const Sift = {
 }
 
 import Cheerio from 'cheerio'
+import nlp from 'compromise'
 import AikoAI from 'aikomail-sdk'
 import { performance } from 'perf_hooks'
 import { LumberjackEmployer, Logger } from './logger'
@@ -35,6 +36,7 @@ import {
 import {
   EmailBase,
   EmailParticipant,
+  EmailWithAIMeta,
   EmailWithAttachments,
   EmailWithContent,
   EmailWithEnvelope,
@@ -357,8 +359,37 @@ export default class Janitor {
     }
   }
 
-  private async links(email: EmailRaw): Promise<EmailWithLinks> {
+  private async compromise(email: EmailRaw): Promise<EmailWithAIMeta> {
     const e: EmailWithQA = await this.snips(email)
+
+    const doc = nlp([
+      e.M.envelope.cleanSubject,
+      e.parsed.cleanText //* can change this back to e.parsed.text to include quoted materials
+    ].join(' \n '))
+    const topics: {text: string, count: number}[] = doc.nouns().normalize({
+      possessives: true,
+      plurals: true,
+    }).unique().sort('freq').json({
+      count: true,
+      normal: true,
+      reduced: true,
+      unique: true
+    })
+    const top_topics = topics.slice(0, 50)
+
+    return {
+      ...e,
+      M: {
+        ...e.M,
+        ai_metadata: {
+          topics: top_topics
+        }
+      }
+    }
+  }
+
+  private async links(email: EmailRaw): Promise<EmailWithLinks> {
+    const e: EmailWithAIMeta = await this.compromise(email)
 
     const $ = Cheerio.load(e.parsed.html)
     const links: MouseionLink[] = []

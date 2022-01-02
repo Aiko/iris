@@ -77,6 +77,10 @@ export interface MouseionQuickActions {
   otp: string
 }
 
+export interface MouseionAIMeta {
+  topics: {text: string, count: number}[]
+}
+
 export interface MouseionAttachment {
   filename: string
   contentType: string
@@ -149,13 +153,21 @@ export interface EmailWithQA extends EmailWithSummary {
   M: MQuickActions
 }
 
+export interface MAIMetadata extends MQuickActions {
+  ai_metadata: MouseionAIMeta
+}
+
+export interface EmailWithAIMeta extends EmailWithQA {
+  M: MAIMetadata
+}
+
 export type MouseionLink = {text: string, href: string}
 
-export interface MLinks extends MQuickActions {
+export interface MLinks extends MAIMetadata {
   links: MouseionLink[]
 }
 
-export interface EmailWithLinks extends EmailWithQA {
+export interface EmailWithLinks extends EmailWithAIMeta {
   M: MLinks
 }
 
