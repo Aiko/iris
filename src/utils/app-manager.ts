@@ -53,7 +53,8 @@ export default class AppManager {
       } else _this.Log.error(ret.response)
     })
 
-    this.feed = "" // this.getFeedURL()
+    this.feed = this.getFeedURL()
+    this.Log.shout(`Update feed: ${this.feed}`)
 
     autoBind(this)
   }

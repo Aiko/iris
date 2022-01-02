@@ -47,14 +47,26 @@ export default class PostOffice {
   }
 
   /** Closes a connection */
-  async close() {
-    this.Log.log("Closing client...")
-    if (!this.client) return this.Log.warn("Tried to close a client but the client does not exist/has already been closed")
-    try { await this.client.close() } catch {
-      this.Log.error("A client exists but could not be closed. There is a risk of a memory leak occurring.")
-    }
-    this.client = null
-    return true
+  close() {
+    return new Promise(async s => {
+      this.Log.log("Closing client...")
+      if (!this.client) return this.Log.warn("Tried to close a client but the client does not exist/has already been closed")
+
+      setTimeout(() => {
+        this.Log.error("A client exists but could not be closed (TIMEOUT). There is a risk of a memory leak occurring.")
+        this.client = null
+        s(true)
+      }, 30 * 1000)
+
+      try { await this.client.close() } catch {
+        this.Log.error("A client exists but could not be closed. There is a risk of a memory leak occurring.")
+        this.client = null
+        return s(false)
+      }
+      this.client = null
+      this.Log.success("Client closed.")
+      return s(true)
+    })
   }
 
   /** Forms a new connection
@@ -118,7 +130,24 @@ export default class PostOffice {
 
     //? connx to mailserv
     this.Log.log("Establishing IMAP connection...")
-    await this.client.connect()
+    try {
+      await this.client.connect()
+    } catch (e) {
+      this.Log.error("Could not connect to IMAP server:", e)
+      const msg = (typeof e === "string") ? e.toLowerCase() : (
+        e instanceof Error ? e.message.toLowerCase() : "unknown error"
+      )
+      // handle all different types of IMAP authentication errors
+      if (
+        (
+          msg.includes("authenticate failed") ||
+          msg.includes("authentication failed") ||
+          msg.includes("invalid credentials")
+        ) && this.trigger
+      ) this.trigger("auth-failed")
+      this.client = null
+      return false
+    }
 
     //? register listeners
     const _this = this
@@ -200,7 +229,7 @@ export default class PostOffice {
 
   async openFolder(path: string): Promise<FolderDetails> {
     if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
-    // this.Log.log("Selecting mailbox", path)
+    this.Log.log("Selecting mailbox", path)
     const details = await this.client.selectMailbox(path, {readOnly: false, condstore: true }).catch(this.Log.error) as FolderDetails
     return details
   }

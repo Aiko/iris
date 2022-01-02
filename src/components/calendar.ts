@@ -19,7 +19,7 @@ export default class Calendar {
     autoBind(this)
   }
 
-  private open({bang}: {bang: string}) {
+  private open({bang, provider}: {bang: string, provider: string}) {
     if (this.lock) {
       this.lock.show()
       this.lock.focus()
@@ -40,32 +40,45 @@ export default class Calendar {
     this.windowManager = new WindowManager(this.Registry, win, 'calendar-' + bang)
     this.windowManager.window = win
 
-    this.windowManager.loadURL("https://outlook.office.com/calendar/")
-    //this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
-    win.webContents.insertCSS(`
-    #app > div > div:nth-child(3) > div:nth-child(1) {
-      display: none;
-    }
-    #app > div > div:nth-child(2) > div:nth-child(1) {
-      display: none;
-    }
-    html[dir=ltr] .ms-Panel {
-      left: 0px !important;
-    }
-    `)
-    win.on("page-title-updated", () => {
+    if (provider == 'outlook' || provider == 'exchange' || provider == 'microsoft') {
+      this.windowManager.loadURL("https://outlook.office.com/calendar/")
+      //this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
       win.webContents.insertCSS(`
-        #app > div > div:nth-child(3) > div:nth-child(1) {
-          display: none;
-        }
-        #app > div > div:nth-child(2) > div:nth-child(1) {
-          display: none;
-        }
-        html[dir=ltr] .ms-Panel {
-          left: 0px !important;
-        }
+      #app > div > div:nth-child(3) > div:nth-child(1) {
+        display: none;
+      }
+      #app > div > div:nth-child(2) > div:nth-child(1) {
+        display: none;
+      }
+      html[dir=ltr] .ms-Panel {
+        left: 0px !important;
+      }
       `)
-    })
+      win.on("page-title-updated", () => {
+        win.webContents.insertCSS(`
+          #app > div > div:nth-child(3) > div:nth-child(1) {
+            display: none;
+          }
+          #app > div > div:nth-child(2) > div:nth-child(1) {
+            display: none;
+          }
+          html[dir=ltr] .ms-Panel {
+            left: 0px !important;
+          }
+        `)
+      })
+    }
+    else if (provider == 'google') {
+      this.windowManager.loadURL("https://calendar.google.com/calendar/")
+      win.webContents.insertCSS(`
+      `)
+      win.on("page-title-updated", () => {
+        win.webContents.insertCSS(`
+        `)
+      })
+    } else {
+      this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
+    }
 
     win.show()
     win.focus()

@@ -380,7 +380,7 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5 @click="flow.showDev = true">{{hash.substring(0, 9)}}</h5>
+      <h5 @click="flow.showDev = true">{{hash.substring(0, 30)}}</h5>
 
 
       <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10">
@@ -434,7 +434,7 @@
             </div>
 
             <!--? Custom Spaces -->
-            <div class="space">
+            <!--<div class="space">
               <img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')">
               <span>ASR</span>
               <div class="dropdown custd">
@@ -444,20 +444,20 @@
                   <span class="red">Delete</span>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!--? Add New Space -->
-            <div class="space">
+            <!--<div class="space">
               <img :src="$root.resolveIcon('assets/icons/header-plus.svg')">
               <span>Add space</span>
-            </div>
+            </div>-->
           </a>
 
           <!--? Outbox -->
-          <a v-if="false">
+          <!--<a v-if="false">
             <img :src="$root.resolveIcon('assets/icons/out.svg')" class="mt0">
             <span class="blue">Outbox <span class="main-count">3</span></span>
-          </a>
+          </a>-->
 
           <!--? Special Folders -->
           <a :class="{
@@ -493,7 +493,7 @@
         </div>
 
         <!--? Team Section -->
-        <div class="row sr2" style="display: none;">
+        <!--<div class="row sr2">
           <div class="search no-mobile sc">
             <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
             <input type="" name="" placeholder="Search Team">
@@ -515,7 +515,6 @@
 
         </div>
 
-        <!--? Interactions Section -->
         <div class="announce sc no-mobile" style="display: none;">
           <h1><span class="blue fw700">Send an invite</span></h1>
           <p>You have 3 VIP invites remaining</p>
@@ -535,7 +534,7 @@
           <h1>Version: <span class="blue fw700">ALPHA</span></h1>
           <p>Request features and report issues</p>
           <a target="_blank" class="sbtn">Give feedback</a>
-        </div>
+        </div>-->
 
         <!--? Footer Section -->
         <div class="row bottom sr3">
@@ -552,14 +551,14 @@
           <div class="set">
 
             <!--? Open Settings -->
-            <a @click="openSettings" title="Settings">
+            <!-- <a @click="openSettings" title="Settings">
               <img :src="$root.resolveIcon('assets/icons/sidebar-settings.svg')" width="30">
-            </a>
+            </a> -->
 
             <!--? Open Documentation -->
-            <a title="Documentation" class="no-mobile sc ml10" target="_blank">
+            <!-- <a title="Documentation" class="no-mobile sc ml10" target="_blank">
               <img :src="$root.resolveIcon('assets/icons/sidebar-help.svg')" width="30">
-            </a>
+            </a> -->
 
           </div>
 
@@ -633,10 +632,10 @@
 
             <!-- ? Search -->
             <div class="col-lg-5 col-md-6 col-6 p0m">
-              <div class="search">
+              <!-- <div class="search">
                 <img :src="$root.resolveIcon('assets/icons/header-search.svg')"><input type="" name=""
                   placeholder="Search">
-              </div>
+              </div> -->
               <!-- TODO: Rig search + search dropdown -->
               <div class="search-drop" style="display: none;">
                 <a>
@@ -660,12 +659,14 @@
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
 
               <!-- ? Open Calendar -->
-              <a @click="openCalendar" class="inline" title="Show calendar">
+              <a @click="openCalendar"
+                v-if="['outlook', 'exchange', 'microsoft'].includes(imapConfig.provider)"
+                class="inline" title="Show calendar">
                 <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-calendar.svg')">
               </a>
 
               <!-- ? Notifications -->
-              <div class="dropdown inline">
+              <!-- <div class="dropdown inline">
                 <a @click.stop.prevent="flow.showNotifications = !(flow.showNotifications)" title="Smart notifications">
                   <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-bell.svg')">
                   <span class="notif-count">3</span>
@@ -714,7 +715,7 @@
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
             </div>
 
@@ -750,8 +751,8 @@
                       <div v-clickaway="() => flow.showInboxBoardActions = false" v-if="flow.showInboxBoardActions"
                         class="dropdown-menu show">
                         <h6 class="dropdown-header">Actions</h6>
-                        <a class="dropdown-item">Mark all as read</a>
-                        <a class="dropdown-item">Mark all as unread</a>
+                        <!-- <a class="dropdown-item">Mark all as read</a>
+                        <a class="dropdown-item">Mark all as unread</a> -->
                         <div class="dropdown-divider"></div>
                         <a @click.stop.prevent="flow.showBoardRules = true; flow.showInboxBoardActions = false"
                           class="dropdown-item">Board rules</a>
@@ -798,8 +799,8 @@
                         'active': priority
                       }" @click="priority = true" inbox-direction="left">
                         Priority
-                        <div class="secondary-count" title="Unread emails in your inbox">
-                          {{smartPriorityUnread}}
+                        <div v-if="smartPriorityUnread > 0" class="secondary-count" title="Unread emails in your inbox">
+                          {{smartPriorityUnread > 0 ? smartPriorityUnread : '🦭'}}
                         </div>
                       </h1>
                       <h1 :class="{
@@ -831,13 +832,15 @@
                   :index="i"></thread-card>
               </draggable>
 
+              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
+                <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
-                    here to see
-                  </span><b>{{otherInbox.length}}</b> filtered
-                  <span>threads</span></p>
+                <p @click="priority = false" v-if="priority">
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
@@ -861,13 +864,15 @@
                   :index="i"></thread-card>
               </draggable>
 
+              <div class="empty" v-if="(priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0)">
+                <h1>🎊 You're all caught up! 🥳</h1>
+              </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
-                <p @click="priority = false"><img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click
-                    here to see
-                  </span><b>{{otherInbox.length}}</b> filtered
-                  <span>threads</span></p>
+                <p @click="priority = false" v-if="priority">
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
               </div>
@@ -875,7 +880,7 @@
             </div>
 
             <!-- ? Inbox Thread List -->
-            <div v-if="flow.specialView" ref="inboxBoard" @scroll="onScroll" class="board-body" id="step1">
+            <div v-if="flow.specialView" ref="inboxBoard" class="board-body" id="step1">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--sent" v-if="!loading && flow.showSent" v-model="special.sent"
@@ -944,10 +949,10 @@
 
 
               <!-- ? List Loader -->
-              <div class="inbox-more">
+              <!-- <div class="inbox-more">
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
-              </div>
+              </div> -->
 
             </div>
 
@@ -980,8 +985,8 @@
                               :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                           <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
-                            <a @click.stop.prevent="showActions = true" class="dropdown-item">Mark all as read</a>
-                            <a class="dropdown-item">Mark all as unread</a>
+                            <!-- <a class="dropdown-item">Mark all as read</a>
+                            <a class="dropdown-item">Mark all as unread</a> -->
 
                             <!-- POTENTIAL COLOR ADD
                             <div class="dropdown-divider"></div>
@@ -1004,14 +1009,11 @@
                             </div>
                             -->
                             <div class="dropdown-divider"></div>
-                            <a v-if="slug != 'Done'" class="dropdown-item">Rename
-                              board</a>
-                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete
-                              board</a>
-                            <a class="dropdown-item space-change">
+                            <!-- <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
+                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
+                            <!-- <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
-                                <!-- TODO: Make sure users HAVE to leave board checked in at least one space so it doesnt disappear in a limbo -->
                                 <span>
                                   <div class="form-check">
                                     <label class="switch">
@@ -1038,7 +1040,7 @@
                                     in at least one space</p>
                                 </span>
                               </div>
-                            </a>
+                            </a> -->
 
                           </div>
                         </div>
@@ -1059,7 +1061,7 @@
                         </div>
                       </div>
                       <div class="col-2 text-right cll">
-
+                        <!-- ? Potential space for board-level integrations -->
                       </div>
                     </div>
                   </div>
@@ -1392,7 +1394,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? Related Threads -->
               <!--!------------------------------------------------------------->
-              <h3>Related Conversations</h3>
+              <!-- <h3>Related Conversations</h3>
               <div class="previous-threads sec-sec">
                 <div class="email thread">
                   <div class="container pr">
@@ -1409,7 +1411,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -1545,7 +1547,7 @@
                 <img style="max-width: 190px; margin: auto" src="assets/img/logo.svg">
               </a>
               <br>
-              <br>
+              <br><!--
               <a @click="deleteCache(emails=true)" class="btn btn-warning">Clear Email Cache</a>
               <br>
               <br>
@@ -1556,7 +1558,7 @@
               <br>
               <br>
               <a @click="deleteCache(emails=true, prefs=true, chrome=true)" class="btn btn-danger text-white">Clear ALL
-                Cache</a>
+                Cache</a> -->
               <br>
               <br>
               <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
@@ -1572,6 +1574,9 @@
               <br>
               <br>
               <a @click="testConnection" class="btn btn-light">Test Mail Connection</a>
+              <br>
+              <br>
+              <a href="https://airtable.com/shr8vAG7zMOSSBkaZ" target="_blank" class="btn btn-warning">File Support Ticket</a>
               <br>
               <br>
               <br>

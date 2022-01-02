@@ -81,7 +81,7 @@ const msoauth = {
       this.msftConfig.profile.expiry_date = new Date(Date.now() + profile?.expires_in * 1000)
       this.msftConfig.profile.refresh_token = profile?.refresh_token
       this.msftConfig.profile.scope = profile?.scope
-      await this.msft_saveConfig()
+      await this.saveOAuthConfig()
 
       return true
     },
@@ -148,7 +148,7 @@ const msoauth = {
         this.msftConfig.profile.expiry_date = new Date(Date.now() + profile?.expires_in * 1000)
         this.msftConfig.profile.refresh_token = profile?.refresh_token
         this.msftConfig.profile.scope = profile?.scope
-        await this.msft_saveConfig()
+        await this.saveOAuthConfig()
 
         if (this.reconnectToMailServer) await this.reconnectToMailServer()
       }
@@ -213,7 +213,7 @@ const msoauth = {
       this.msftConfig.profile.expiry_date = new Date(Date.now() + profile?.expires_in * 1000)
       this.msftConfig.profile.refresh_token = profile?.refresh_token
       this.msftConfig.profile.scope = profile?.scope
-      await this.msft_saveConfig()
+      await this.saveOAuthConfig()
 
       if (this.reconnectToMailServer) await this.reconnectToMailServer()
     }

@@ -104,6 +104,7 @@ const mailapi = {
     backendSyncing: false,
     syncing: false,
     seekingInbox: false,
+    reachedEndOfInbox: false,
     movers: new Set(),
     dragging: false,
     visibleMin: 0,
@@ -393,6 +394,7 @@ const mailapi = {
         app.backendSyncing = true
       })
       this.engine.on('sync-finished', this.syncOp)
+      this.engine.on('auth-failed', this.forceOAuthRefresh)
       info(...MAILAPI_TAG, "Registered Listeners")
 
       //? reset the UI
@@ -480,6 +482,17 @@ const mailapi = {
         this.tour = runTour()
         await DwarfStar.save({meta: {firstTime: false}})
       }
+    },
+    //? Reconnects to connected mailserver
+    //! NOTE: this assumes the mailserver is currently loaded
+    //! DO NOT use this in place of switchMailServer
+    //! A mailbox loaded via switchMailServer can be reconnected to using this
+    //! Really, don't use this for anything other than auth changes & errors
+    //! Again please note this is NOT the same as the old reconnectToMailServer from Iris2
+    async reconnectToMailServer() {
+      info(...MAILAPI_TAG, "Reconnecting to mail server...")
+
+      await this.callIPC(this.task_RestartEngine(this.imapConfig))
     },
     ////////////////////////////////////////////!
     //! Utility Methods
@@ -645,7 +658,7 @@ const mailapi = {
       const release = await this.syncLock.acquire()
       this.backendSyncing = false
       this.syncing = true
-      info(...MAILAPI_TAG, "SYNC OLD OP - START")
+      info(...MAILAPI_TAG, "SYNC OP - START")
 
       const okayletsgo = new Audio('./assets/videos/sync.mp3')
       // okayletsgo.play()
@@ -676,7 +689,7 @@ const mailapi = {
           this.boardOrder.indexOf(a) - this.boardOrder.indexOf(b))
       })
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
-      info(...MAILAPI_TAG, "SYNC OLD OP - synced board metadata")
+      info(...MAILAPI_TAG, "SYNC OP - synced board metadata")
       let t0 = performance.now()
 
       //? compute local cursor
@@ -692,7 +705,7 @@ const mailapi = {
         release()
         return error(...MAILAPI_TAG, "SYNCOP - no updates received to inbox.")
       }
-      info(...MAILAPI_TAG, "SYNC OLD OP - fetched updates for inbox:", performance.now() - t0)
+      info(...MAILAPI_TAG, "SYNC OP - fetched updates for inbox:", performance.now() - t0)
       t0 = performance.now()
       const { all, updated } = inbox_updates
       //? first, anything that is no longer in exists can be dumped
@@ -710,7 +723,7 @@ const mailapi = {
       })
       //? sort the inbox to maintain date invariant
       this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-      success(...MAILAPI_TAG, "SYNC OLD OP - synced inbox state:", performance.now() - t0)
+      success(...MAILAPI_TAG, "SYNC OP - synced inbox state:", performance.now() - t0)
 
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
@@ -823,7 +836,7 @@ const mailapi = {
       })(cursor);
 
       t0 = performance.now()
-      info(...MAILAPI_TAG, "SYNC OLD OP - computing full inbox")
+      info(...MAILAPI_TAG, "SYNC OP - computing full inbox")
       //? make the fullInbox
       this.fullInbox = (that => {
         const s = []
@@ -834,7 +847,7 @@ const mailapi = {
         os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
         return os
       })(this)
-      success(...MAILAPI_TAG, "SYNC OLD OP - computed full inbox:", performance.now() - t0)
+      success(...MAILAPI_TAG, "SYNC OP - computed full inbox:", performance.now() - t0)
 
       //? Cache
       this.boards.map(board => Satellite.store(this.currentMailbox + "emails/" + board.name, board.tids))
@@ -854,12 +867,10 @@ const mailapi = {
 
       let t0 = performance.now()
 
-      //? compute local cursor
-      const threads = this.inbox
-
       //? fetch updates to inbox
+      const threads = this.inbox
       const inbox_old = await this.engine.resolve.threads.latest(this.folders.special.inbox, -1, {
-        limit: 500,
+        limit: 200,
         start: threads.length
       })
       //? apply updates to inbox
@@ -870,10 +881,18 @@ const mailapi = {
       }
       info(...MAILAPI_TAG, "SYNC OLD OP - fetched older emails for inbox:", performance.now() - t0)
       t0 = performance.now()
-      const { all } = inbox_old
-      info(...MAILAPI_TAG, "SYNC OLD OP - ", all.length, "old emails fetched")
+      const { updated } = inbox_old
+      info(...MAILAPI_TAG, "SYNC OLD OP - ", updated.length, "old emails fetched")
       //? first, anything that already exists can be dumped
-      const filtered = all.filter(tid => threads.includes(tid))
+      const filtered = updated.filter(tid => !threads.includes(tid))
+
+      if (filtered.length == 0) {
+        this.syncing = false
+        this.reachedEndOfInbox = true
+        release()
+        return success(...MAILAPI_TAG, "SYNC OLD OP - no older emails left in inbox.")
+      }
+
       //? next, process the threads
       filtered.map(thread => {
         thread = this.saveThread(thread)
@@ -908,7 +927,10 @@ const mailapi = {
       release()
     },
     async forceSync () {
-      if (this.backendSyncing) return false
+      if (this.backendSyncing) {
+        console.error("Backend already syncing.")
+        return false
+      }
       this.backendSyncing = true
       await this.engine.sync.immediate()
     },
@@ -1098,13 +1120,14 @@ const mailapi = {
       if (scrollTop + clientHeight >= scrollHeight - 1000) {
         if (this.seekingInbox) return
         if (this.inbox.length > 2000) return;
+        if (this.reachedEndOfInbox) return;
         info(...MAILAPI_TAG, 'Fetching more messages')
-        //this.seekingInbox = true
+        this.seekingInbox = true
         const that = this
-        /*this.syncOldOp().then(() => {
+        this.syncOldOp().then(() => {
           that.seekingInbox = false
           that.onScroll(e)
-        })*/
+        })
       }
       this.recalculateHeight()
     },

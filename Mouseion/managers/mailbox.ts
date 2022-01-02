@@ -187,6 +187,9 @@ export default class Mailbox {
   }
 
   trigger(event: string) {
+
+    this.Log.shout("Event triggered:", event)
+
     switch (event) {
       case "imap-exists":
         this.run()
@@ -205,17 +208,32 @@ export default class Mailbox {
 
   async run() {
     const _this = this
+    this.Log.log("Triggered mailbox run-through...")
     this.lock.acquire(async () => {
+      this.Log.log("Acquired lock for run-through...")
       if (_this.queuedSync) {
         clearTimeout(_this.queuedSync)
         _this.queuedSync = null
       }
 
       try {
-        await _this.courier.network.checkConnect()
+        const imapStatus = await _this.courier.network.checkConnect()
+        this.Log.log("IMAP connection healthy?:", imapStatus)
+        if (!imapStatus) {
+          this.Log.warn("IMAP connection is unhealthy, ending mailbox run early.")
+          _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)
+          return;
+        }
         _this.trigger("sync-started")
 
-        await _this.sync.syncAll()
+        const syncStatus = await _this.sync.syncAll()
+        if (!syncStatus) {
+          this.Log.warn("Bulk sync failed, ending mailbox run early.")
+          this.Log.warn("Due to mailbox run early stopping, some items may be left in the queue.")
+          this.Log.warn("Please note if the app is closed in this state, those items will evaporate.")
+          _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)
+          return;
+        }
 
         await _this.contactsQ.consume()
         await _this.seamstress.phase_2()

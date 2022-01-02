@@ -73,7 +73,9 @@ proc.on('message', async (m: string): Promise<any> => {
         const result = await method(...args)
         return success(result)
       } catch (e) {
-        return error(e)
+        if (typeof e === 'string') return error(e)
+        else if (e instanceof Error) return error(e.message)
+        else return error(JSON.stringify(e))
       }
     }
 
