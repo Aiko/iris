@@ -659,8 +659,7 @@
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
 
               <!-- ? Open Calendar -->
-              <a @click="openCalendar"
-                v-if="['outlook', 'exchange', 'microsoft'].includes(imapConfig.provider)"
+              <a @click="openCalendar" v-if="['outlook', 'exchange', 'microsoft'].includes(imapConfig.provider)"
                 class="inline" title="Show calendar">
                 <img class="no-filter" :src="$root.resolveIcon('assets/icons/header-calendar.svg')">
               </a>
@@ -832,17 +831,20 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+              <div class="empty"
+                v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>🎊 You're all caught up! 🥳</h1>
               </div>
-              <div class="empty" v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+              <div class="empty"
+                v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>Scroll here to load more emails.</h1>
               </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
                 <p @click="priority = false" v-if="priority">
-                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span>
+                  <b>{{otherInbox.length}}</b> filtered <span>threads</span>
                 </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
@@ -867,17 +869,20 @@
                   :index="i"></thread-card>
               </draggable>
 
-              <div class="empty" v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+              <div class="empty"
+                v-if="reachedEndOfInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>🎊 You're all caught up! 🥳</h1>
               </div>
-              <div class="empty" v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
+              <div class="empty"
+                v-if="!reachedEndOfInbox && !seekingInbox && ((priority && priorityInbox.length == 0) || (!priority && otherInbox.length == 0))">
                 <h1>Scroll here to load more emails.</h1>
               </div>
 
               <!-- ? List Loader -->
               <div class="inbox-more">
                 <p @click="priority = false" v-if="priority">
-                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span> <b>{{otherInbox.length}}</b> filtered <span>threads</span>
+                  <img :src="$root.resolveIcon('assets/icons/filter-inbox.svg')"> <span>Click here to see</span>
+                  <b>{{otherInbox.length}}</b> filtered <span>threads</span>
                 </p>
                 <div v-if="seekingInbox" class="load-bottom">
                 </div>
@@ -1569,7 +1574,8 @@
               <a @click="deleteCache({mouseion: true})" class="btn btn-warning">Clear Mouseion</a>
               <br>
               <br>
-              <a @click="deleteCache({composer: true, prefs: true, chrome: true, session: true, mouseion: true})" class="btn btn-danger text-white">
+              <a @click="deleteCache({composer: true, prefs: true, chrome: true, session: true, mouseion: true})"
+                class="btn btn-danger text-white">
                 Clear EVERYTHING
               </a>
               <br>
@@ -1589,7 +1595,8 @@
               <a @click="testConnection" class="btn btn-light">Test Mail Connection</a>
               <br>
               <br>
-              <a href="https://airtable.com/shr8vAG7zMOSSBkaZ" target="_blank" class="btn btn-warning">File Support Ticket</a>
+              <a href="https://airtable.com/shr8vAG7zMOSSBkaZ" target="_blank" class="btn btn-warning">File Support
+                Ticket</a>
               <br>
               <br>
               <br>
@@ -2261,14 +2268,13 @@
         <!-- ? Attachments -->
         <!--!------------------------------------------------------------->
         <div class="attachments" v-if="email.parsed.attachments.length > 0">
-          <br><br>
           <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
             <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
             <img :src="$root.resolveIcon('assets/icons/music.svg')">
             <div class="name">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
-            <a @click="downloadAttachment(i)" class="att-action" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/arrow-down.svg')"></a>
+            <a @click="downloadAttachment(i)" class="att-action aa1" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/download.svg')"></a>
             <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
           </div>
         </div>
