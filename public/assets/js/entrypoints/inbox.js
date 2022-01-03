@@ -94,17 +94,14 @@ top.app = new Vue({
     log (...msg) {
       console.log(...msg)
     },
-    async deleteCache(emails=false, prefs=false, chrome=false) {
-      //! FIXME: this doesn't kill Mouseion's cache
-      if (emails && prefs && chrome) {
-        await ipcRenderer.invoke('clear all cache')
-      }
-      else {
-        if (emails) await GasGiant.kill()
-        if (prefs) await DwarfStar.reset()
-        if (chrome) await Satellite.kill()
-      }
-      if (!prefs) window.location.reload()
+    async deleteCache({composer=false, prefs=false, chrome=false, session=false, mouseion=false}) {
+      if (composer) await GasGiant.kill()
+      if (prefs) await DwarfStar.reset()
+      if (chrome) await Satellite.kill()
+      if (session) await this.callIPC(this.ipcTask("clear all cache", {}))
+      if (mouseion) await this.callIPC(this.ipcTask("please burn the mouseion", {}))
+      //? prevent cache bad state
+      if (!prefs && !(mouseion && !chrome)) window.location.reload()
       else await ipcRenderer.invoke('reentry')
     }
   }

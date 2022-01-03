@@ -1553,18 +1553,25 @@
                 <img style="max-width: 190px; margin: auto" src="assets/img/logo.svg">
               </a>
               <br>
-              <br><!--
-              <a @click="deleteCache(emails=true)" class="btn btn-warning">Clear Email Cache</a>
+              <br>
+              <a @click="deleteCache({composer: true})" class="btn btn-warning">Clear Grimaldi</a>
               <br>
               <br>
-              <a @click="deleteCache(prefs=true)" class="btn btn-warning">Clear Settings</a>
+              <a @click="deleteCache({prefs: true})" class="btn btn-warning">Clear Dwarf Star</a>
               <br>
               <br>
-              <a @click="deleteCache(chrome=true)" class="btn btn-warning">Clear Inbox Cache</a>
+              <a @click="deleteCache({chrome: true})" class="btn btn-warning">Clear Browser Data</a>
               <br>
               <br>
-              <a @click="deleteCache(emails=true, prefs=true, chrome=true)" class="btn btn-danger text-white">Clear ALL
-                Cache</a> -->
+              <a @click="deleteCache({session: true})" class="btn btn-warning">Clear Iris Cache</a>
+              <br>
+              <br>
+              <a @click="deleteCache({mouseion: true})" class="btn btn-warning">Clear Mouseion</a>
+              <br>
+              <br>
+              <a @click="deleteCache({composer: true, prefs: true, chrome: true, session: true, mouseion: true})" class="btn btn-danger text-white">
+                Clear EVERYTHING
+              </a>
               <br>
               <br>
               <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>

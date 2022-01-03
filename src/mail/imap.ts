@@ -164,29 +164,37 @@ export default class Mailman {
   }
 
   private async killMouseion() {
-    const agents = Object.keys(this.engines)
-    await Promise.all(agents.map(async agent => {
-      try {
-        await this.engines[agent].proxy("close")()
-        this.Log.log("Agent 86 has been disposed of.")
-      } catch(_) { }
-      delete this.engines[agent]
-    }))
+    this.Log.shout("KILLING MOUSEION.")
+    try {
+      const agents = Object.keys(this.engines)
+      agents.map(agent => {
+        try {
+          this.engines[agent].proxy("close")()
+          this.Log.log("Agent 86 has been disposed of.")
+        } catch(_) { }
+        delete this.engines[agent]
+      })
 
-    const MDir = (() => {
-      switch (process.platform) {
-        case 'darwin': return path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", "Mouseion"); break
-        case 'win32': return path.join(process.env.APPDATA || "/c/", "Aiko Mail", "Mouseion"); break
-        case 'linux': return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
-        default: return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
-      }
-    })()
+      const MDir = (() => {
+        switch (process.platform) {
+          case 'darwin': return path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", "Mouseion"); break
+          case 'win32': return path.join(process.env.APPDATA || "/c/", "Aiko Mail", "Mouseion"); break
+          case 'linux': return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+          default: return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+        }
+      })()
 
-    await fs.promises.rmdir(MDir)
-    this.Log.log("Goodbye.")
+      this.Log.log("Deleting Mouseion directory...")
 
-    app.relaunch()
-    app.quit()
+      //? delete MDir
+      await fs.promises.rmdir(MDir, { recursive: true })
+      this.Log.log("Goodbye.")
+
+      app.relaunch()
+      app.quit()
+      } catch (e) {
+      this.Log.error("Couldn't kill Mouseion:", e)
+    }
   }
 
 }
