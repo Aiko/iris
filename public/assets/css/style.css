@@ -8,7 +8,7 @@
 	/* Sidebar and Header */
 	--secondary-bg-color: #e7ebf7;
 	/* Control bar and picker and search, etc*/
-	--secondary-bg-color-hover: #efefef;
+	--secondary-bg-color-hover: #dbe4ff;
 	/* Control bar and picker and search, etc*/
 	--main-text-color: #6e80a5;
 	/* Sidebar, body preview, board title */
@@ -1707,7 +1707,7 @@ hr {
     margin-top: 7px;
     margin-left: -3px;
     line-height: 18px;
-    max-width: calc(100% - 120px);
+    max-width: calc(100% - 130px);
     overflow: scroll;
     transition: .2s;
 }
@@ -1831,6 +1831,7 @@ transition: .2s;
 	font-size: 13px;
 	color: var(--main-text-color);
 	text-align: right;
+	font-weight: 500;
 	white-space: nowrap;
 }
 
@@ -2629,11 +2630,12 @@ transition: .2s;
 		transition: .2s;
 }
 .options-qa:hover{
-	background: var(--secondary-bg-color);
+	background: var(--secondary-bg-color-hover);
 	transition: .2s;
 }
 .options-qa h2{
 font-size: 11px;
+font-weight: 600;
     line-height: 16px;
     text-transform: uppercase;
 margin: 0;

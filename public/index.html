@@ -2119,10 +2119,12 @@
                   <!-- ? Singular Direct Recipient, Collapsed -->
                   <!--!------------------------------------------------------------->
                   <div v-if="!showSenderInfo && email.M.envelope.recipients.length <= 1">
-                    <b>From</b>
-                    <span>{{email.M.envelope.from.address}}</span>
-                    <b>to</b>
-                    <span v-if="email.M.envelope.recipients.length > 0">{{email.M.envelope.recipients[0].address}}</span>
+                    From
+                    <span><b>{{email.M.envelope.from.address}}</b></span>
+                    to
+                    <span
+                      v-if="email.M.envelope.recipients.length >
+                      0"><b>{{email.M.envelope.recipients[0].address}}</b></span>
                     <span v-else>undisclosed recipients</span>
                   </div>
 
