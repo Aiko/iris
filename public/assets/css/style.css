@@ -2984,7 +2984,7 @@ line-height: 20px;
     margin-left: 4px;
     max-width: 240px;
     text-overflow: ellipsis;
-    padding-right: 70px;
+    padding-right: 30px;
     overflow: hidden;
 		transition: .2s;
 }
@@ -3000,6 +3000,21 @@ line-height: 20px;
 	margin-right: 4px;
 	right: 0;
 }
+
+.attachment:hover .size {
+	display: none;
+}
+
+.attachment .att-action {
+	visibility: hidden;
+}
+
+.attachment:hover .att-action {
+	visibility: visible;
+	padding-right: 5px;
+}
+
+
 .datepick{
 	z-index: 11;
     position: absolute !important;

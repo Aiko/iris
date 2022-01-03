@@ -213,6 +213,13 @@ Vue.component('view-email', {
         withMessageId=email.M.envelope.mid
       )
     },
+    //? Attachments
+    async downloadAttachment(i) {
+      await this.$root.downloadAttachment(this.email.parsed.attachments[i])
+    },
+    async previewAttachment(i) {
+      await this.$root.previewAttachment(this.email.parsed.attachments[i])
+    },
     //? Quick Actions
     async openVerify () {
       if (this.email.M.quick_actions.context) {

@@ -68,7 +68,7 @@ export class Cache {
       L2: this.storage("L2"),
       L3: this.storage("L3"),
       L3b: this.storage("L3b"),
-      ATT: this.storage("ATT")
+      ATT: new Storage(this.paths["ATT"], {json: false, raw: true})
     }
 
     //? we need to promisify methods as SP only uses promises
@@ -88,7 +88,7 @@ export class Cache {
 
   private async fullCache(mid: string, email: EmailFull): Promise<void> {
     const promises: Promise<any>[] = []
-    const attachments: string[] = email.parsed.attachments.map(
+    const attachments: string[] = await Promise.all(email.parsed.attachments.map(
       (attachment: MouseionAttachment): EmbeddedMouseionAttachment => {
         const author = email.M.envelope.from
         return {
@@ -97,16 +97,22 @@ export class Cache {
           author
         }
       }
-    ).map(attachment => {
+    ).map(async attachment => {
       //? Cache files
-      const filepath = attachment.checksum || (mid + "/" + attachment.filename)
-      promises.push(this.caches.ATT.cache(filepath, attachment))
+      const filepath = await (async () => {
+        const ext = path.extname(attachment.filename)
+        const direct_path = attachment.filename
+        const indirect_path = attachment.checksum + '.' + ext
+        const exists = await this.caches.ATT.has_key(direct_path)
+        return exists ? indirect_path : direct_path
+      })()
+      promises.push(this.caches.ATT.cache(filepath, attachment.content.data))
 
       //? Save to DB
-      promises.push(Attachment.fromEmbeddedMouseionAttachment(this.db, attachment, filepath))
+      promises.push(Attachment.fromEmbeddedMouseionAttachment(this.db, attachment, filepath, this.caches.ATT.dir))
 
       return filepath
-    })
+    }))
     const cidEmail: EmailFullWithEmbeddedAttachment = ((): EmailFullWithEmbeddedAttachment => {
       return {...email, parsed: { ...email.parsed, attachments }}
     })()
@@ -119,8 +125,10 @@ export class Cache {
     if (!isEmailFullWithEmbeddedAttachment(cidEmail)) return null;
     const fps = cidEmail.parsed.attachments
     const attachments: EmbeddedMouseionAttachment[] = (await Promise.all(fps.map(
-      (fp: string): Promise<EmbeddedMouseionAttachment | null> => this.caches.ATT.check(fp))
-    )).filter(_ => _) as EmbeddedMouseionAttachment[] //! Typescript is dumb so don't remove this force cast
+      (fp: string) => Attachment.fromFilepath(this.db, fp)
+    ))).map(att => isDBError(att) ? null : att.clean())
+      .filter(_ => _ as AttachmentModel)
+      .map(att => ({...att, content: { data: Buffer.from([]), type: ""}})) as EmbeddedMouseionAttachment[]
     return {...cidEmail, parsed: {...cidEmail.parsed, attachments}}
   }
   full = {
@@ -1310,6 +1318,7 @@ class Contact implements ContactModel {
 
 export interface AttachmentModel extends Omit<EmbeddedMouseionAttachment, "content"> {
   filepath: string
+  storagePath: string
 }
 
 class Attachment implements AttachmentModel {
@@ -1325,6 +1334,7 @@ class Attachment implements AttachmentModel {
   related: boolean
   checksum: string
   author: EmailParticipant
+  storagePath: string
 
   private state: DBState = DBState.New
 
@@ -1334,6 +1344,7 @@ class Attachment implements AttachmentModel {
     this.ds = this.db.stores.Attachment
 
     this.filepath = data.filepath
+    this.storagePath = data.storagePath
     this.filename = data.filename
     this.contentType = data.contentType
     this.date = new Date(data.date)
@@ -1349,6 +1360,7 @@ class Attachment implements AttachmentModel {
   clean(): AttachmentModel {
     return {
       filepath: this.filepath,
+      storagePath: this.storagePath,
       filename: this.filename,
       contentType: this.contentType,
       date: this.date,
@@ -1457,12 +1469,12 @@ class Attachment implements AttachmentModel {
     })
   }
 
-  static async fromEmbeddedMouseionAttachment(db: DB, fullAttachment: EmbeddedMouseionAttachment, filepath: string): Promise<Attachment | DBError> {
+  static async fromEmbeddedMouseionAttachment(db: DB, fullAttachment: EmbeddedMouseionAttachment, filepath: string, storagePath: string): Promise<Attachment | DBError> {
     let attachment = await this.fromFilepath(db, filepath)
     if (isDBError(attachment)) {
       if (attachment.dne) {
         attachment = new Attachment(db, {
-          filepath,
+          filepath, storagePath,
           filename: fullAttachment.filename,
           contentType: fullAttachment.contentType,
           date: fullAttachment.date,

@@ -2250,6 +2250,21 @@
           <span class="sc-info">This will open the composer</span>
         </div>
 
+        <!--!------------------------------------------------------------->
+        <!-- ? Attachments -->
+        <!--!------------------------------------------------------------->
+        <div class="attachments" v-if="email.parsed.attachments.length > 0">
+          <br><br>
+          <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
+            <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
+            <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
+            <img :src="$root.resolveIcon('assets/icons/music.svg')">
+            <div class="name">{{attachment.filename || 'No Filename'}}</div>
+            <div class="size">{{attachment.size.toFilesize()}}</div>
+            <a @click="downloadAttachment(i)" class="att-action" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/arrow-down.svg')"></a>
+            <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+          </div>
+        </div>
 
         <!--!------------------------------------------------------------->
         <!-- ? Message Loader -->
@@ -2266,20 +2281,6 @@
         <!--!------------------------------------------------------------->
         <iframe scrolling="no" frameborder="no" class="html-content email-iframe" :id="iframeId" src="">
         </iframe>
-
-
-        <!--!------------------------------------------------------------->
-        <!-- ? Attachments -->
-        <!--!------------------------------------------------------------->
-        <div class="attachments" v-if="email.parsed.attachments.length > 0">
-          <div class="attachment" v-for="attachment in email.parsed.attachments" v-if="!(attachment.related)">
-            <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
-            <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
-            <img :src="$root.resolveIcon('assets/icons/music.svg')">
-            <div class="name">{{attachment.filename || 'No Filename'}}</div>
-            <div class="size">{{attachment.size.toFilesize()}}</div>
-          </div>
-        </div>
 
       </div>
     </div>

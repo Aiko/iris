@@ -182,6 +182,7 @@ const mailapi = {
     smartUnread() {
       return Object.values(this.threads).filter(thread =>
         thread.allFolders.includes("INBOX") &&
+        this.inbox.includes(thread.tid) && //? is actually in the inbox
         !(thread.emails?.[0]?.M?.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
         (thread.emails?.[0]?.M?.envelope.date.addDays(-40)) //? within last month
@@ -190,6 +191,7 @@ const mailapi = {
     smartPriorityUnread() {
       return Object.values(this.threads).filter(thread =>
         thread.folder == "INBOX" &&
+        this.inbox.includes(thread.tid) && //? is actually in the inbox
         !(thread.emails?.[0]?.M?.flags.seen) && //? has to be unread
         (thread.priority) && //? priority check
         (thread.emails?.[0]?.M?.envelope.date.addDays(-40)) //? within last month
@@ -218,6 +220,12 @@ const mailapi = {
     },
     task_TestEngine (config) {
       return this.ipcTask('please test a connection', {config,})
+    },
+    task_DownloadAttachment (attachment) {
+      return this.ipcTask('please download an attachment', attachment)
+    },
+    task_PreviewAttachment (attachment) {
+      return this.ipcTask('please preview an attachment', attachment)
     },
     ////////////////////////////////////////////!
     //! IMAP Configuration & Initialization
@@ -944,6 +952,15 @@ const mailapi = {
     async suggestContact(term, limit=5) {
       const results = await this.engine.contacts.lookup(term)
       return results.slice(0, limit)
+    },
+    ////////////////////////////////////////////!
+    //! Attachment Methods
+    ////////////////////////////////////////////!
+    async downloadAttachment(attachment) {
+      await this.callIPC(this.task_DownloadAttachment(attachment))
+    },
+    async previewAttachment(attachment) {
+      await this.callIPC(this.task_PreviewAttachment(attachment))
     },
     ////////////////////////////////////////////!
     //! View Management

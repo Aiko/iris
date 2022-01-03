@@ -4,6 +4,8 @@ import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import SecureCommunications from '../utils/comms'
+import { shell, dialog } from 'electron'
+import fs from 'fs'
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
 
@@ -29,6 +31,8 @@ export default class Mailman {
     this.comms.register("please update engine config", this.updateConfig.bind(this))
     this.comms.register("please get or start the corresponding engine", this.getEngine.bind(this))
     this.comms.register("please test a connection", this.testConnection.bind(this))
+    this.comms.register("please preview an attachment", this.previewAttachment.bind(this))
+    this.comms.register("please download an attachment", this.downloadAttachment.bind(this))
 
     autoBind(this)
   }
@@ -93,6 +97,68 @@ export default class Mailman {
     await testClient.close()
 
     return { valid: true }
+  }
+
+  private async previewAttachment({storagePath, filepath}: {storagePath: string, filepath: string}) {
+    const dir = storagePath
+    const fp = filepath
+    try {
+      const e = await shell.openPath(`${dir}/${fp}`)
+      if (e) {
+        this.Log.error(`Couldn't open ${fp} due to error:`, e)
+        return false
+      }
+      return true
+    } catch (e) {
+      this.Log.error(`Couldn't open ${fp} due to error:`, e)
+      return false
+    }
+  }
+
+  private async downloadAttachment({storagePath, filepath}: {storagePath: string, filepath: string}) {
+    const dir = storagePath
+    const fp = filepath
+    try {
+
+      const downloadFolder = (() => {
+        switch(process.platform) {
+          case "win32": return `${process.env.USERPROFILE}\\Downloads`
+          case "darwin": return `${process.env.HOME}/Downloads`
+          default: return `${process.env.HOME}/Downloads`
+        }
+      })()
+
+      const filename = fp.split("/").pop()
+
+      const { canceled, filePath } = await dialog.showSaveDialog({
+        title: "Save Attachment",
+        defaultPath: `${downloadFolder}/${filename}`,
+        filters: [ //? copilot wrote this so... I hope it works? lol
+          { name: "All Files", extensions: ["*"] },
+          { name: "PDF", extensions: ["pdf"] },
+          { name: "Word", extensions: ["doc", "docx"] },
+          { name: "Excel", extensions: ["xls", "xlsx"] },
+          { name: "PowerPoint", extensions: ["ppt", "pptx"] },
+          { name: "Text", extensions: ["txt"] },
+          { name: "Image", extensions: ["jpg", "jpeg", "png", "gif"] },
+          { name: "Audio", extensions: ["mp3", "wav", "aac"] },
+          { name: "Video", extensions: ["mp4", "avi", "mkv"] }
+        ]
+      })
+
+      if (canceled || !filePath) {
+        this.Log.warn("User cancelled attachment download/no filePath returned.")
+        return false
+      }
+
+      this.Log.shout("Saving file to", filePath)
+      await fs.promises.copyFile(`${dir}/${fp}`, filePath)
+      this.Log.log("Copied:", fp, "->", filePath)
+      return true
+    } catch (e) {
+      this.Log.error(`Couldn't download ${fp} due to error:`, e)
+      return false
+    }
   }
 
 }

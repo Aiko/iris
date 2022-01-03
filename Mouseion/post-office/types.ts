@@ -76,7 +76,10 @@ export interface AttachmentRaw {
   checksum?: string
   size?: number
   headers?: Map<string, string>
-  content?: Buffer
+  content?: {
+    data: Buffer
+    type: string
+  }
   contentId?: string
   cid?: string
   related?: boolean

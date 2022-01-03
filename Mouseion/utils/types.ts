@@ -85,7 +85,10 @@ export interface MouseionAttachment {
   filename: string
   contentType: string
   size: number
-  content: Buffer
+  content: {
+    type: string,
+    data: Buffer
+  }
   cid: string
   related: boolean
   checksum: string

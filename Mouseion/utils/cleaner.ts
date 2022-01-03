@@ -466,7 +466,10 @@ export default class Janitor {
         filename: attachment.filename ?? attachment.fileName ?? '',
         contentType: attachment.contentType ?? '',
         size: attachment.size ?? 0,
-        content: attachment.content ?? Buffer.from([]),
+        content: attachment.content ?? {
+          data: Buffer.from([]),
+          type: ""
+        },
         cid: attachment.cid ?? '',
         related: attachment.related ?? false,
         checksum: attachment.checksum ?? ''
