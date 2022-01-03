@@ -57,7 +57,7 @@ body .fc {
 }
 
 .fc-popover .fc-header .fc-close {
-  cursor: pointer;
+  cursor: default;
   opacity: 0.65;
   font-size: 1.1em;
 }
@@ -131,7 +131,7 @@ hr.fc-divider {
 /* Internal Nav Links
 --------------------------------------------------------------------------------------------------*/
 a[data-goto] {
-  cursor: pointer;
+  cursor: default;
 }
 
 a[data-goto]:hover {
@@ -278,7 +278,7 @@ temporary rendered events).
 
 .fc-event[href],
 .fc-event.fc-draggable {
-  cursor: pointer;
+  cursor: default;
   /* give events with links and draggable events a hand mouse pointer */
 }
 
@@ -500,7 +500,7 @@ tr:first-child>td>.fc-day-grid-event {
 a.fc-more {
   margin: 1px 3px;
   font-size: .85em;
-  cursor: pointer;
+  cursor: default;
   text-decoration: none;
 }
 
@@ -669,7 +669,7 @@ Lots taken from Flatly (MIT): https://bootswatch.com/4/flatly/bootstrap.css
 }
 
 .fc-button:not(:disabled) {
-  cursor: pointer;
+  cursor: default;
 }
 
 .fc-button::-moz-focus-inner {

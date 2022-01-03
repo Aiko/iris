@@ -96,7 +96,7 @@ p {
 }
 
 a {
-  cursor: pointer !important;
+  cursor: default !important;
 }
 
 p {
@@ -149,7 +149,7 @@ input:active {
   margin-bottom: 10px;
   display: inline-flex;
   height: 25px;
-  cursor: pointer !important;
+  cursor: default !important;
   user-select: none;
   -webkit-app-region: drag;
 }
@@ -162,7 +162,7 @@ input:active {
   background: #b0b0b0;
   margin-top: 4px;
   transition: 0.2s;
-  cursor: pointer;
+  cursor: default;
   -webkit-app-region: no-drag;
 }
 
@@ -172,7 +172,7 @@ input:active {
   height: 20px;
   margin-left: 3px;
   margin-top: 0;
-  cursor: pointer;
+  cursor: default;
   -webkit-app-region: no-drag;
   font-size: 20px;
   color: #ffffff73;
@@ -197,7 +197,7 @@ input:active {
 
 .control-bar h1 {
   display: none;
-  cursor: pointer !important;
+  cursor: default !important;
 }
 
 .control-bar:hover p:nth-child(1) {
@@ -233,7 +233,7 @@ input:active {
 position: relative;
     background: #fff;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: default;
     margin-bottom: 15px;
 		background: var(--main-bg-color);
     padding: 8px 13px 0 10px;
@@ -249,7 +249,7 @@ position: relative;
   right: 0;
   width: 25px !important;
   margin: 10px;
-  cursor: pointer;
+  cursor: default;
   z-index: 1;
   transition: 0.2s;
 }
@@ -268,7 +268,7 @@ position: relative;
 
 .slider {
   position: absolute;
-  cursor: pointer;
+  cursor: default;
   top: 0;
   left: 0;
   right: 0;
@@ -472,7 +472,7 @@ input:checked+.slider:before {
 
 .composer-suggestions p {
   font-size: 16px;
-  cursor: pointer;
+  cursor: default;
   margin-bottom: 7px;
   white-space: nowrap;
   transition: 0.2s;
@@ -878,7 +878,7 @@ pre code {
     background: var(--main-bg-color);
     padding: 8px 13px;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: default;
     margin-bottom: 15px;
     overflow: hidden;
 }
@@ -1044,7 +1044,7 @@ pre code {
   padding: 5px;
   border-radius: 5px;
   margin-right: 5px;
-  cursor: pointer;
+  cursor: default;
   transition: 0.2s;
   background: #e6e9f2;
 }
@@ -1105,7 +1105,7 @@ pre code {
   position: absolute;
   right: 0;
   padding: 12px 10px;
-  cursor: pointer;
+  cursor: default;
   transition: 0.2s;
   font-size: 12px;
   color: var(--main-text-color) !important;
@@ -1171,7 +1171,7 @@ pre code {
   padding: 0.2rem 0.5rem;
   margin-right: 0.2rem;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .menubar__button:hover {
@@ -1215,7 +1215,7 @@ pre code {
   background-color: var(--secondary-bg-color);
   padding: 0 6px 0 6px;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: default;
   font-size: 15px;
   border: 1px solid var(--main-text-color);
   white-space: nowrap;
@@ -1324,7 +1324,7 @@ code {
   color: #fff;
   margin-right: 0.2rem;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: default;
   padding: 0;
   z-index: 1000000;
 }
@@ -1405,7 +1405,7 @@ li[data-type="todo_item"] {
   -ms-user-select: none;
   user-select: none;
   -webkit-user-select: none;
-  cursor: pointer;
+  cursor: default;
   border-radius: 0.2em;
   background-color: transparent;
   -webkit-transition: background 0.4s;
