@@ -1707,9 +1707,13 @@ hr {
     line-height: 18px;
     max-width: calc(100% - 150px);
     overflow: scroll;
+		opacity: .8;
     transition: .2s;
 }
-
+.fromto-info:hover {
+		opacity: 1;
+    transition: .2s;
+}
 .more-fromto {
 	font-size: 13px;
 	transition: .2s;
