@@ -4,7 +4,7 @@ import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import SecureCommunications from '../utils/comms'
-import { shell, dialog } from 'electron'
+import { shell, dialog, app } from 'electron'
 import fs from 'fs'
 import path from 'path'
 const EmailJS = require('emailjs-imap-client')
@@ -184,6 +184,9 @@ export default class Mailman {
 
     await fs.promises.rmdir(MDir)
     this.Log.log("Goodbye.")
+
+    app.relaunch()
+    app.quit()
   }
 
 }
