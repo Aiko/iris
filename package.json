@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
@@ -59,6 +59,7 @@
         "osxSign": {
           "identity": "Developer ID Application: Aiko Mail Inc. (79J5DRPGF8)",
           "hardened-runtime": true,
+          "hardenedRuntime": true,
           "entitlements": "entitlements.plist",
           "entitlements-inherit": "entitlements.plist",
           "signature-flags": "library",
@@ -68,6 +69,12 @@
           "CompanyName": "Aiko Mail Inc.",
           "FileDescription": "Aiko Mail - Email powered by AI",
           "OriginalFilename": "Aiko.Mail.exe"
+        },
+        "osxNotarize": {
+          "appBundleId": "com.aiko.iris",
+          "appleId": "priansh@helloaiko.com",
+          "appleIdPassword": "glhy-dtid-nssb-ffnk",
+          "ascProvider": "79J5DRPGF8"
         }
       },
       "makers": [
