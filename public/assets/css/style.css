@@ -3024,10 +3024,8 @@ transition: .2s;
 	margin-top: -2px;
     margin-left: 4px;
 		margin-right: 2px;
-		transition: .2s;
 }
 .att-action img:hover{
-	transition: .2s;
 		opacity: 1 !important;
 }
 
