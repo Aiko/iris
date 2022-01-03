@@ -6,6 +6,7 @@ import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import SecureCommunications from '../utils/comms'
 import { shell, dialog } from 'electron'
 import fs from 'fs'
+import path from 'path'
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
 
@@ -33,6 +34,7 @@ export default class Mailman {
     this.comms.register("please test a connection", this.testConnection.bind(this))
     this.comms.register("please preview an attachment", this.previewAttachment.bind(this))
     this.comms.register("please download an attachment", this.downloadAttachment.bind(this))
+    this.comms.register("please burn the mouseion", this.killMouseion.bind(this))
 
     autoBind(this)
   }
@@ -159,6 +161,29 @@ export default class Mailman {
       this.Log.error(`Couldn't download ${fp} due to error:`, e)
       return false
     }
+  }
+
+  private async killMouseion() {
+    const agents = Object.keys(this.engines)
+    await Promise.all(agents.map(async agent => {
+      try {
+        await this.engines[agent].proxy("close")()
+        this.Log.log("Agent 86 has been disposed of.")
+      } catch(_) { }
+      delete this.engines[agent]
+    }))
+
+    const MDir = (() => {
+      switch (process.platform) {
+        case 'darwin': return path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", "Mouseion"); break
+        case 'win32': return path.join(process.env.APPDATA || "/c/", "Aiko Mail", "Mouseion"); break
+        case 'linux': return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+        default: return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+      }
+    })()
+
+    await fs.promises.rmdir(MDir)
+    this.Log.log("Goodbye.")
   }
 
 }
