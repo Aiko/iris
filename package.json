@@ -37,14 +37,47 @@
   "config": {
     "forge": {
       "packagerConfig": {
+        "name": "Aiko Mail",
+        "executableName": "aiko-mail",
         "icon": "./public/assets/img/icon.icns",
-        "asar": true
+        "asar": true,
+        "appBundleId": "com.aiko.iris",
+        "usageDescription": {
+          "Microphone": "Aiko Mail requires microphone access for certain voice recognition based AI features."
+        },
+        "appCategoryType": "public.app-category.productivity",
+        "protocols": [
+          {
+            "name": "Aiko Mail Launch Protocol",
+            "schemes": ["aiko-mail"]
+          },
+          {
+            "name": "Mailto Protocol",
+            "schemes": ["mailto"]
+          }
+        ],
+        "osxSign": {
+          "identity": "Developer ID Application: Aiko Mail Inc. (79J5DRPGF8)",
+          "hardened-runtime": true,
+          "entitlements": "entitlements.plist",
+          "entitlements-inherit": "entitlements.plist",
+          "signature-flags": "library",
+          "gatekeeper-assess": false
+        },
+        "win32metadata": {
+          "CompanyName": "Aiko Mail Inc.",
+          "FileDescription": "Aiko Mail - Email powered by AI",
+          "OriginalFilename": "Aiko.Mail.exe"
+        }
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "Aiko.Mail",
+            "authors": "Aiko Mail, Inc.",
+            "description": "Aiko Mail - Email powered by AI",
+            "exe": "Aiko.Mail.exe",
             "setupIcon": "./public/assets/img/icon.ico",
             "loadingGif": "./public/assets/img/loading.gif",
             "noDelta": false,
