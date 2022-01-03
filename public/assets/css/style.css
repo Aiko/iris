@@ -1700,14 +1700,12 @@ hr {
 
 .fromto-info {
     font-size: 13px;
-    background: var(--secondary-bg-color);
     padding: 2px 5px;
     border-radius: 5px;
     margin-bottom: 0;
-    margin-top: 7px;
     margin-left: -3px;
     line-height: 18px;
-    max-width: calc(100% - 130px);
+    max-width: calc(100% - 150px);
     overflow: scroll;
     transition: .2s;
 }
@@ -1933,16 +1931,16 @@ transition: .2s;
 
 .email-footer .main-action.ma1:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 
 .email-footer .main-action.red:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 .email-footer .main-action.blue:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 
 .body {

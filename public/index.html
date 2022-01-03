@@ -2121,7 +2121,7 @@
                   <div v-if="!showSenderInfo && email.M.envelope.recipients.length <= 1">
                     From
                     <span><b>{{email.M.envelope.from.address}}</b></span>
-                    to
+                    <br>To
                     <span
                       v-if="email.M.envelope.recipients.length >
                       0"><b>{{email.M.envelope.recipients[0].address}}</b></span>
@@ -2133,15 +2133,15 @@
                   <!-- ? Multiple Direct Recipients, Collapsed -->
                   <!--!------------------------------------------------------------->
                   <div v-if="!showSenderInfo && email.M.envelope.recipients.length > 1">
-                    <b>From</b>
-                    <span>{{email.M.envelope.from.address}}</span>
-                    <b>to</b>
-                    <span v-for="to in email.M.envelope.recipients.slice(0, 2)">{{to.address}}</span>
+                    From
+                    <span><b>{{email.M.envelope.from.address}}</b></span>
+                    <br>To
+                    <span v-for="to in email.M.envelope.recipients.slice(0, 2)"><b>{{to.address}}</b></span>
                     <b v-if="email.M.envelope.recipients.length > 2">
                       and
                       {{Math.max(email.M.envelope.recipients.length - 2, 0)}}
                       others
-                    </b>
+                      </b>
                   </div>
 
 
@@ -2149,14 +2149,14 @@
                   <!-- ? Any Recipient, Expanded -->
                   <!--!------------------------------------------------------------->
                   <div v-if="showSenderInfo" class="more-fromto">
-                    <b>From </b>
-                    <span>{{(email.M.envelope.from.name && (email.M.envelope.from.name != email.M.envelope.from.address)) ? '"' + email.M.envelope.from.name + '" ' : ''}}
-                      {{email.M.envelope.from.address}}</span>
+                    From
+                    <span><b>{{(email.M.envelope.from.name && (email.M.envelope.from.name != email.M.envelope.from.address)) ? '"' + email.M.envelope.from.name + '" ' : ''}}
+                      {{email.M.envelope.from.address}}</b></span>
                     <br>
-                    <b>To </b>
+                    To
                     <span
-                      v-for="to in email.M.envelope.to">{{(to.name && (to.name != to.address)) ? '"' + to.name + '" ' : ''}}
-                      {{to.address}}</span>
+                      v-for="to in email.M.envelope.to"><b>{{(to.name && (to.name != to.address)) ? '"' + to.name + '" ' : ''}}
+                      {{to.address}}</b></span>
                     <br v-if="email.M.envelope.cc.length > 0">
                     <b v-if="email.M.envelope.cc.length > 0">CC </b>
                     <span
