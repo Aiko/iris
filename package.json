@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.5.0",
+  "version": "3.5.2",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
@@ -66,8 +66,7 @@
         },
         "win32metadata": {
           "CompanyName": "Aiko Mail Inc.",
-          "FileDescription": "Aiko Mail - Email powered by AI",
-          "OriginalFilename": "Aiko.Mail.exe"
+          "FileDescription": "Aiko Mail - Email powered by AI"
         }
       },
       "makers": [
@@ -77,7 +76,6 @@
             "name": "Aiko.Mail",
             "authors": "Aiko Mail, Inc.",
             "description": "Aiko Mail - Email powered by AI",
-            "exe": "Aiko.Mail.exe",
             "setupIcon": "./public/assets/img/icon.ico",
             "loadingGif": "./public/assets/img/loading.gif",
             "noDelta": false,
