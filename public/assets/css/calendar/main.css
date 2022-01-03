@@ -63,7 +63,7 @@ head th {
   right: 0;
   margin-top: 55px;
   margin-right: 10px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .control-bar {
@@ -152,7 +152,7 @@ head th {
 
 .fc-bg td {
   border-color: #4e4e4e;
-  cursor: pointer;
+  cursor: default;
   transition: .2s;
 }
 

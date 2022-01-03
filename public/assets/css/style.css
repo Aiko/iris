@@ -6,9 +6,9 @@
 	--main-color-hover: #4366e8;
 	--main-bg-color: #fff;
 	/* Sidebar and Header */
-	--secondary-bg-color: #f1f3f9;
+	--secondary-bg-color: #e7ebf7;
 	/* Control bar and picker and search, etc*/
-	--secondary-bg-color-hover: #efefef;
+	--secondary-bg-color-hover: #dbe4ff;
 	/* Control bar and picker and search, etc*/
 	--main-text-color: #6e80a5;
 	/* Sidebar, body preview, board title */
@@ -22,7 +22,9 @@
 	/* Global placeholder color */
 	--modal-backdrop: #ffffffeb;
 }
-
+*{
+	cursor: default !important;
+}
 /* Global modal backdrop */
 .modal-dialog {
 	top: 45%;
@@ -63,7 +65,7 @@ p {
 }
 
 a {
-	cursor: pointer !important;
+	cursor: default !important;
 }
 
 p {
@@ -98,7 +100,7 @@ video:focus {
 	border-radius: 3px;
 	display: inline-block;
 	    margin-bottom: -3px;
-	cursor: pointer;
+	cursor: default;
 	position: relative;
 }
 .aiko-check:checked {
@@ -139,7 +141,7 @@ a:active {
     padding: 2px 5px;
     font-size: 11px;
 		border: var(--main-border);
-		cursor: pointer;
+		cursor: default;
 		margin-right: 5px;
 }
 .more-conditions{
@@ -295,7 +297,7 @@ input:active {
 	right: 0;
 	width: 25px !important;
 	margin: 10px;
-	cursor: pointer;
+	cursor: default;
 	z-index: 1;
 	transition: 0.2s;
 }
@@ -318,7 +320,7 @@ input:active {
 	z-index: 10;
 	padding: 0 2px;
 	height: 19px;
-	cursor: pointer;
+	cursor: default;
 	background: var(--secondary-bg-color) !important;
 	border-radius: 5px;
 }
@@ -433,7 +435,7 @@ img.red:hover {
 	text-align: center;
 	font-size: 16px;
 	margin-top: 15px;
-	cursor: pointer;
+	cursor: default;
 	transition: 0.2s;
 }
 
@@ -586,7 +588,7 @@ border-radius: 0;
 	margin-bottom: 10px;
 	display: inline-flex;
 	height: 25px;
-	cursor: pointer !important;
+	cursor: default !important;
 	user-select: none;
 	-webkit-app-region: drag;
 }
@@ -608,7 +610,7 @@ border-radius: 0;
 	background: #b0b0b0;
 	margin-top: 4px;
 	transition: 0.2s;
-	cursor: pointer;
+	cursor: default;
 	-webkit-app-region: no-drag;
 }
 .b0{
@@ -616,7 +618,7 @@ border-radius: 0;
 }
 .control-bar h1 {
 	display: none;
-	cursor: pointer !important;
+	cursor: default !important;
 }
 
 .standalone {
@@ -663,7 +665,7 @@ border-radius: 0;
 	height: 20px;
 	margin-left: 3px;
 	margin-top: 0;
-	cursor: pointer;
+	cursor: default;
 	-webkit-app-region: no-drag;
 	font-size: 20px;
 	color: #ffffff73;
@@ -679,7 +681,7 @@ border-radius: 0;
 	background: var(--secondary-bg-color);
 	border: var(--main-border);
 	border-radius: 5px;
-	cursor: pointer;
+	cursor: default;
 	height: 30px;
 	max-width: 250px;
 }
@@ -999,7 +1001,7 @@ border-radius: 0;
     text-align: inherit;
     white-space: nowrap;
     font-size: 1rem;
-    cursor: pointer;
+    cursor: default;
 		transition: 0.2s;
 }
 .right-click span:hover{
@@ -1178,7 +1180,7 @@ width: 18px;
 	text-overflow: ellipsis;
 	border: var(--main-border);
 	border-radius: 5px;
-	cursor: pointer;
+	cursor: default;
 	height: 30px;
 	overflow: hidden;
 	z-index: 2;
@@ -1265,7 +1267,7 @@ filter: unset !important;
 	display: inline-grid;
     width: 0;
 		height: 0;
-		cursor: pointer;
+		cursor: default;
     overflow: hidden;
 		    background: transparent;
     padding: 0 10px 0 10px;
@@ -1449,7 +1451,7 @@ filter: unset !important;
 }
 
 .drop-field div {
-	cursor: pointer;
+	cursor: default;
 	color: var(--main-text-color);
 }
 
@@ -1589,7 +1591,7 @@ filter: unset !important;
 	margin-left: -10px;
 	font-weight: 500;
 	padding: 5px 8px 5px 8px;
-	cursor: pointer;
+	cursor: default;
 	display: inline;
 	transition: 0.2s;
 }
@@ -1641,7 +1643,7 @@ hr {
 	font-size: 17px;
 	display: inline;
 	text-transform: capitalize;
-		cursor: pointer;
+		cursor: default;
 	white-space: nowrap;
 	overflow: hidden;
 	padding: 13px;
@@ -1698,21 +1700,22 @@ hr {
 
 .fromto-info {
     font-size: 13px;
-    background: var(--secondary-bg-color);
     padding: 2px 5px;
     border-radius: 5px;
     margin-bottom: 0;
-    margin-top: 7px;
     margin-left: -3px;
     line-height: 18px;
-    max-width: calc(100% - 120px);
+    max-width: calc(100% - 150px);
     overflow: scroll;
+		opacity: .8;
     transition: .2s;
 }
-
+.fromto-info:hover {
+		opacity: 1;
+    transition: .2s;
+}
 .more-fromto {
 	font-size: 13px;
-	line-height: 19px;
 	transition: .2s;
 }
 
@@ -1765,7 +1768,7 @@ border: 2px solid #486fff !important;
 position: relative;
     background: #fff;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: default;
     margin-bottom: 15px;
 		background: var(--main-bg-color);
     padding: 8px 13px 0 10px;
@@ -1790,7 +1793,7 @@ transition: .2s;
 	padding: 1px 4px;
 	border-radius: 5px;
 	width: max-content;
-	cursor: pointer;
+	cursor: default;
 	margin-right: 5px;
 }
 
@@ -1829,6 +1832,7 @@ transition: .2s;
 	font-size: 13px;
 	color: var(--main-text-color);
 	text-align: right;
+	font-weight: 500;
 	white-space: nowrap;
 }
 
@@ -1930,16 +1934,16 @@ transition: .2s;
 
 .email-footer .main-action.ma1:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 
 .email-footer .main-action.red:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 .email-footer .main-action.blue:hover img {
     filter: brightness(0.7);
-		transition: .1s;
+		transition: .3s;
 }
 
 .body {
@@ -1992,7 +1996,7 @@ transition: .2s;
 	width: 50px;
 	margin-right: 20px;
 	transition: 0.2s;
-	cursor: pointer;
+	cursor: default;
 	box-shadow: 0 0 1px #e8e8e8;
 }
 
@@ -2225,7 +2229,10 @@ margin-left: -15px;
 .email-head {
 	padding: 15px 15px 10px 15px;
 	position: relative;
-	cursor: pointer;
+	cursor: default;
+	    border-bottom: 1px solid #6e80a547;
+
+
 }
 .email-head .container{
 	max-width: unset !important;
@@ -2311,7 +2318,7 @@ margin-left: -15px;
     overflow: scroll;
 }
 .short {
-	cursor: pointer;
+	cursor: default;
 	overflow-y: hidden;
 }
 .short .email-head h3{
@@ -2461,7 +2468,7 @@ select.v1 {
 	height: 47px;
 	overflow: hidden;
 	transition: 0.2s;
-	cursor: pointer;
+	cursor: default;
 }
 
 .hover-name:hover {
@@ -2488,7 +2495,7 @@ select.v1 {
 	padding: 2px 5px;
 	font-size: 10px;
 	font-weight: 600;
-	cursor: pointer;
+	cursor: default;
 	margin-right: 2px;
 	letter-spacing: 0.3px;
 	display: inline;
@@ -2593,7 +2600,7 @@ select.v1 {
     padding: 8px 10px;
     border-radius: 5px;
 		transition: .2s;
-		cursor: pointer;
+		cursor: default;
 		margin: auto;
 }
 .btnrt:hover{
@@ -2624,11 +2631,12 @@ transition: .2s;
 		transition: .2s;
 }
 .options-qa:hover{
-	background: var(--secondary-bg-color);
+	background: var(--secondary-bg-color-hover);
 	transition: .2s;
 }
 .options-qa h2{
 font-size: 11px;
+font-weight: 600;
     line-height: 16px;
     text-transform: uppercase;
 margin: 0;
@@ -2913,11 +2921,11 @@ color: var(--main-color);
 	height: 100% !important;
 }
 
+
 .attachments {
     overflow: scroll;
     width: 100%;
     padding: 10px 10px 3px 10px;
-    margin-top: -10px;
     background: #fff;
 }
 .collapsing {
@@ -2955,7 +2963,7 @@ background: var(--main-color);
     color: #fff;
     font-weight: 500;
     padding: 5px;
-    cursor: pointer;
+    cursor: default;
     display: inline-flex;
     white-space: nowrap;
     position: relative;
@@ -2965,15 +2973,11 @@ background: var(--main-color);
 	box-shadow: 0 4px 6px #00000045;
 	transition: .2s;
 }
-.attachment:hover {
-background: var(--main-color-hover);
-box-shadow: none;
-	transition: .2s;
-}
 
 .attachment img {
 	width: 20px;
 	padding: 1px 1px 2px 1px;
+	margin-top: 1px;
 }
 
 .attachment .name {
@@ -2982,6 +2986,7 @@ line-height: 20px;
     letter-spacing: 0.4px;
     font-size: 14px;
     margin-left: 4px;
+		margin-top: 2px;
     max-width: 240px;
     text-overflow: ellipsis;
     padding-right: 30px;
@@ -2994,7 +2999,7 @@ line-height: 20px;
 	float: right;
 	color: #fff;
 	opacity: 0.7;
-	padding: 2px 2px 1px 2px;
+	padding: 4px 2px 1px 2px;
 	font-size: 12px;
 	position: absolute;
 	margin-right: 4px;
@@ -3005,13 +3010,26 @@ line-height: 20px;
 	display: none;
 }
 
-.attachment .att-action {
-	visibility: hidden;
+.attachment .att-action img{
+opacity: 0;
+transition: .2s;
 }
 
-.attachment:hover .att-action {
-	visibility: visible;
-	padding-right: 5px;
+.attachment:hover .att-action img {
+	opacity: .8;
+	transition: .2s;
+}
+
+.aa1 img{
+	    width: 18px !important;
+}
+.att-action img{
+	margin-top: -2px;
+    margin-left: 4px;
+		margin-right: 2px;
+}
+.att-action img:hover{
+		opacity: 1 !important;
 }
 
 
@@ -3064,7 +3082,7 @@ unselectable {
 	border-radius: 5px;
 	padding: 3px 5px 0 5px;
 	font-weight: 500;
-	cursor: pointer;
+	cursor: default;
 	display: inline-flex;
 	margin-bottom: -10px;
 }
@@ -3077,7 +3095,7 @@ unselectable {
 	border-radius: 5px;
 	padding: 3px 5px 0 5px;
 	font-weight: 500;
-	cursor: pointer;
+	cursor: default;
 	display: inline-flex;
 	margin-bottom: -10px;
 }
@@ -3089,7 +3107,7 @@ unselectable {
 	background: transparent;
 	border-radius: 5px;
 	font-weight: 500;
-	cursor: pointer;
+	cursor: default;
 	display: inline-flex;
 	margin-bottom: -10px;
 }
@@ -3231,7 +3249,7 @@ unselectable {
 	color: var(--main-color);
 	font-weight: 600;
 	font-size: 14px;
-	cursor: pointer;
+	cursor: default;
 }
 
 .settings-main .act:hover {
@@ -3757,7 +3775,7 @@ p.wv{
 } 
 .slider {
 	position: absolute;
-	cursor: pointer;
+	cursor: default;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -3883,7 +3901,7 @@ input:checked+.slider:before {
 	white-space: nowrap;
 	color: var(--dark-text);
 	font-weight: 500;
-	cursor: pointer;
+	cursor: default;
 }
 
 .scheduler a:hover {
@@ -3963,7 +3981,7 @@ height: 330px;
 		box-shadow: 0 6px 13px -10px #7b86a4;
 		position: relative;
 		margin-right: 15px;
-		cursor: pointer;
+		cursor: default;
 }
 .plan:hover{
 transition: .1s;
@@ -4148,7 +4166,7 @@ font-weight: 500;
     border: 0;
     border-radius: 5px;
     color: var(--main-color);
-    cursor: pointer;
+    cursor: default;
     margin-right: .5rem;
         padding: 5px 15px;
     transition: all .5s ease;
@@ -4173,7 +4191,7 @@ font-weight: 500;
     border: none;
     color: hsla(0, 0%, 50.2%, .75);
     font-size: 2em;
-    cursor: pointer;
+    cursor: default;
     font-weight: 400;
     margin: 0;
     padding: 0;

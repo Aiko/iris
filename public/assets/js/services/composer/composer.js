@@ -321,7 +321,7 @@ li[data-type="todo_item"] {
     -ms-user-select: none !important;
     user-select: none !important;
     -webkit-user-select: none !important;
-    cursor: pointer !important;
+    cursor: default !important;
     border-radius: 0.2em !important;
     background-color: transparent !important;
     -webkit-transition: background 0.4s !important;
