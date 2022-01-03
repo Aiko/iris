@@ -247,6 +247,9 @@ li[data-done="true"]>.todo-checkbox {
     transition: background-position 275ms ease;
     text-decoration: none;
 	}
+  .email-head{
+    border: none !important;
+  }
 		 .email-footer .main-action.red{
     background: linear-gradient(to right, #ab2330, #ab2330 50%, #dc3545 50%);
 		    -webkit-background-clip: text;

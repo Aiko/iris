@@ -6,7 +6,7 @@
 	--main-color-hover: #4366e8;
 	--main-bg-color: #fff;
 	/* Sidebar and Header */
-	--secondary-bg-color: #f1f3f9;
+	--secondary-bg-color: #e7ebf7;
 	/* Control bar and picker and search, etc*/
 	--secondary-bg-color-hover: #efefef;
 	/* Control bar and picker and search, etc*/
@@ -2228,6 +2228,9 @@ margin-left: -15px;
 	padding: 15px 15px 10px 15px;
 	position: relative;
 	cursor: default;
+	    border-bottom: 1px solid #6e80a547;
+
+
 }
 .email-head .container{
 	max-width: unset !important;
@@ -2965,11 +2968,6 @@ background: var(--main-color);
     margin-bottom: 7px;
 		margin-right: 7px;
 	box-shadow: 0 4px 6px #00000045;
-	transition: .2s;
-}
-.attachment:hover {
-background: var(--main-color-hover);
-box-shadow: 0 4px 6px #00000000;
 	transition: .2s;
 }
 
