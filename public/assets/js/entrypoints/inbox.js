@@ -95,14 +95,18 @@ top.app = new Vue({
       console.log(...msg)
     },
     async deleteCache({composer=false, prefs=false, chrome=false, session=false, mouseion=false}) {
-      if (composer) await GasGiant.kill()
-      if (prefs) await DwarfStar.reset()
-      if (chrome) await Satellite.kill()
-      if (session) await this.callIPC(this.ipcTask("clear all cache", {}))
-      if (mouseion) await this.callIPC(this.ipcTask("please burn the mouseion", {}))
-      //? prevent cache bad state
-      if (!prefs && !(mouseion && !chrome)) window.location.reload()
-      else await ipcRenderer.invoke('reentry')
+      try {
+        if (composer) await GasGiant.kill()
+        if (prefs) await DwarfStar.reset()
+        if (chrome) await Satellite.kill()
+        if (session) await this.callIPC(this.ipcTask("clear all cache", {}))
+        if (mouseion) await this.callIPC(this.ipcTask("please burn the mouseion", {}))
+        //? prevent cache bad state
+        if (!prefs && !(mouseion && !chrome)) window.location.reload()
+        else await ipcRenderer.invoke('reentry')
+      } catch (e) {
+        window.error(...(this.TAG), e)
+      }
     }
   }
 })

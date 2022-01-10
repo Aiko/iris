@@ -1580,6 +1580,9 @@
               </a>
               <br>
               <br>
+              <a @click="openMouseion" class="btn btn-light">Open Mouseion</a>
+              <br>
+              <br>
               <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
               <img v-if="imapValid === true" style="filter: invert(1)"
                 :src="$root.resolveIcon('assets/icons/check-circle.svg')">
