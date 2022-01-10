@@ -43,6 +43,7 @@ const shortcuts = {
         'ctrl+tab', 'ctrl+shift+tab',
         'esc',
         'alt+z',
+        'ctrl+alt+shift+b',
       ].join(','),
       function (evt, data) {
         switch (data.key) {
@@ -55,6 +56,9 @@ const shortcuts = {
             break;
           case 'alt+z':
             app.zenMode = !app.zenMode;
+            break;
+          case 'ctrl+alt+shift+b':
+            app.useCustomBackground();
             break;
           default: log(data);
         }
