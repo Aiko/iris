@@ -75,7 +75,7 @@ try {
   Log.warn("Developer mode ON - commit #", commit_hash)
 } catch (e) {
   //! FIXME: remove before deployment
-  commit_hash = os.platform() + '-' + app.getVersion() + ': NOT FOR RELEASE!'
+  commit_hash = os.platform() + '-' + app.getVersion() + ':INTERNAL🦭'
   dev = false
   Log.log("Developer mode OFF. Performance will reflect production.")
 }
