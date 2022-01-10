@@ -35,6 +35,7 @@ export default class Mailman {
     this.comms.register("please preview an attachment", this.previewAttachment.bind(this))
     this.comms.register("please download an attachment", this.downloadAttachment.bind(this))
     this.comms.register("please burn the mouseion", this.killMouseion.bind(this))
+    this.comms.register("please open mouseion", this.openMouseion.bind(this))
 
     autoBind(this)
   }
@@ -99,6 +100,18 @@ export default class Mailman {
     await testClient.close()
 
     return { valid: true }
+  }
+
+  private async openMouseion() {
+    const MDir = (() => {
+      switch (process.platform) {
+        case 'darwin': return path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", "Mouseion"); break
+        case 'win32': return path.join(process.env.APPDATA || "/c/", "Aiko Mail", "Mouseion"); break
+        case 'linux': return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+        default: return path.join(process.env.HOME || "~", ".Aiko Mail", "Mouseion"); break
+      }
+    })()
+    await shell.openPath(MDir)
   }
 
   private async previewAttachment({storagePath, filepath}: {storagePath: string, filepath: string}) {
