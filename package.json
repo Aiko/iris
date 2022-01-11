@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
