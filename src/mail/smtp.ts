@@ -7,14 +7,18 @@ import Register from '../../Mouseion/managers/register'
 import { IMAPConfig } from '../../Mouseion/post-office/types'
 import Mail from "nodemailer/lib/mailer"
 import autoBind from "auto-bind"
+import { Logger, LumberjackEmployer } from "../../Mouseion/utils/logger";
 
 export default class CarrierPigeon {
-  private comms: SecureCommunications
+  private readonly comms: SecureCommunications
+  private readonly Log: Logger
 
   constructor(
     Registry: Register
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
+    const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
+    this.Log = Lumberjack("Mailman")
 
     this.comms.register("please send an email", this.send.bind(this))
     this.comms.register("please test SMTP connection", this.test.bind(this))
@@ -24,7 +28,7 @@ export default class CarrierPigeon {
 
   private getTransporter(config: Partial<IMAPConfig>): Mail {
     let transporter: Mail;
-    console.log("Sending using:", config)
+    this.Log.log("Sending using:", config)
     switch(config.provider) {
 
       case "google": transporter = nodemailer.createTransport({
@@ -83,8 +87,8 @@ export default class CarrierPigeon {
     const transporter = this.getTransporter(config)
     return await new Promise((s, _) => {
       transporter.sendMail(mail, (error, info) => {
-        if (error) console.error("Send error:", error)
-        else console.log("Sent email to", mail.to)
+        if (error) this.Log.error("Send error:", error)
+        else this.Log.log("Sent email to", mail.to)
         ;;error ? s({ error,  }) : s(info);;
       })
     })

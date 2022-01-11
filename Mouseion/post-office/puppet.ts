@@ -31,7 +31,7 @@ const perr = (id: string) => (msg: string): boolean => {
     payload: {},
     success: false,
     id
-  })); console.error(msg + '\n', + (new Error))
+  })); Log.error(msg + '\n', + (new Error))
   return ret
 }
 
@@ -77,7 +77,8 @@ proc.on('message', async (m: string): Promise<any> => {
         return success(result)
       } catch (e) {
         Log.error(e)
-        return error(e)
+        if (typeof e === 'string') return error(e)
+        else if (e instanceof Error) return error(e.message)
       }
     }
 

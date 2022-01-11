@@ -3,10 +3,15 @@ import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
+import Forest, { Logger } from '../utils/logger'
 import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
 import autoBind from 'auto-bind'
 
 // TODO: attachment DB & caching
+
+//? Spawn a new Forest to use for the Main process's logs
+const forest = new Forest("logs-pantheon")
+const Lumberjack = forest.Lumberjack
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
 interface CacheBinding<T> {
@@ -34,6 +39,7 @@ export class Cache {
   readonly db: DB
   readonly paths: Record<CacheLevels, string>
   readonly caches: Record<CacheLevels, Storage>
+  readonly Log: Logger
 
   private path(part: string) {
     return path.join(this.dir, part)
@@ -50,6 +56,7 @@ export class Cache {
   constructor(dir: string, db: DB) {
     this.dir = dir
     this.dir = this.path('cache')
+    this.Log = Lumberjack("Pantheon (Cache)")
 
     this.db = db
 
@@ -162,6 +169,7 @@ const cloneN = (ms: EmailParticipant[]) => ms.map(clone);;
 
 export class DB {
   readonly dir: string
+  readonly Log: Logger
   readonly stores: Record<DBModels, Datastore>
   private cursor: number
   user: string
@@ -189,6 +197,7 @@ export class DB {
     this.dir = dir
     this.dir = this.path("db")
     this.user = user
+    this.Log = Lumberjack("Pantheon (DB)")
     this.stores = {
       Message: new Datastore({
         filename: this.path("Message"),
@@ -218,7 +227,7 @@ export class DB {
   async findMessageWithMID(mid: string): Promise<MessageModel | null> {
     const message = await Message.fromMID(this, mid)
     if (isDBError(message)) {
-      if (!(message.dne)) console.error(message.error)
+      if (!(message.dne)) this.Log.error(message.error)
       return null
     }
     return message.clean()
@@ -226,7 +235,7 @@ export class DB {
   async findMessagesInFolder(folder: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
     const messages = await Message.fromFolder(this, folder, {limit})
     if (isDBError(messages)) {
-      console.error(messages.error)
+      this.Log.error(messages.error)
       return null
     }
     return messages.map(m => m.clean())
@@ -235,7 +244,7 @@ export class DB {
     const location: MessageLocation = { folder, uid }
     const message = await Message.fromLocation(this, location)
     if (isDBError(message)) {
-      if (!(message.dne)) console.error(message.error)
+      if (!(message.dne)) this.Log.error(message.error)
       return null
     }
     return message.clean()
@@ -243,7 +252,7 @@ export class DB {
   async findMessagesWithSubject(subject: string, {limit=5000} ={}): Promise<MessageModel[] | null> {
     const messages = await Message.fromSubject(this, subject, {limit})
     if (isDBError(messages)) {
-      console.error(messages.error)
+      this.Log.error(messages.error)
       return null
     }
     return messages.map(m => m.clean())
@@ -315,7 +324,7 @@ export class DB {
   async removeMessage(mid: string): Promise<boolean> {
     const message = await Message.fromMID(this, mid)
     if (isDBError(message)) {
-      console.error(message.error)
+      this.Log.error(message.error)
       return false
     }
     return await message.purge()
@@ -325,7 +334,7 @@ export class DB {
   } ={}): Promise<boolean> {
     const message = await Message.fromLocation(this, {folder, uid})
     if (isDBError(message)) {
-      console.error(message.error)
+      this.Log.error(message.error)
       return false
     }
     return await message.removeLocation({folder, uid}, {purgeIfEmpty})
@@ -335,7 +344,7 @@ export class DB {
   async findThreadWithTID(tid: string): Promise<ThreadModel | null> {
     const thread = await Thread.fromTID(this, tid)
     if (isDBError(thread)) {
-      if (!(thread.dne)) console.error(thread.error)
+      if (!(thread.dne)) this.Log.error(thread.error)
       return null
     }
     return thread.clean()
@@ -343,7 +352,7 @@ export class DB {
   async findThreadsInFolder(folder: string, {limit=5000} ={}): Promise<ThreadModel[] | null> {
     const threads = await Thread.fromFolder(this, folder, {limit})
     if (isDBError(threads)) {
-      console.error(threads.error)
+      this.Log.error(threads.error)
       return null
     }
     return threads.map(t => t.clean())
@@ -351,7 +360,7 @@ export class DB {
   async findThreadsByLatest(folder: string, {limit=5000, start=0, loose=false} ={}): Promise<ThreadModel[] | null> {
     const threads = await Thread.fromLatest(this, folder, {limit, start, loose})
     if (isDBError(threads)) {
-      console.error(threads.error)
+      this.Log.error(threads.error)
       return null
     }
     return threads.map(t => t.clean())
@@ -364,7 +373,7 @@ export class DB {
   } ={}): Promise<MessageModel[]> {
     const thread = await Thread.fromTID(this, tid)
     if (isDBError(thread)) {
-      if (!(thread.dne)) console.error(thread.error)
+      if (!(thread.dne)) this.Log.error(thread.error)
       return []
     }
     const messages = await thread.messages({descending})
@@ -375,7 +384,7 @@ export class DB {
   async findContacts(searchTerm: string): Promise<ContactModel[] | null> {
     const contacts = await Contact.search(this, searchTerm)
     if (isDBError(contacts)) {
-      console.error(contacts.error)
+      this.Log.error(contacts.error)
       return null
     }
     return contacts.map(c => c.clean())
@@ -383,7 +392,7 @@ export class DB {
   async updateContactReceived(email: string, name: string): Promise<boolean> {
     const contact = await Contact.fromReceived(this, email, name)
     if (isDBError(contact)) {
-      console.error(contact.error)
+      this.Log.error(contact.error)
       return false
     }
     return true
@@ -391,7 +400,7 @@ export class DB {
   async updateContactSent(email: string, name: string): Promise<boolean> {
     const contact = await Contact.fromSent(this, email, name)
     if (isDBError(contact)) {
-      console.error(contact.error)
+      this.Log.error(contact.error)
       return false
     }
     return true
@@ -401,7 +410,7 @@ export class DB {
   async findAttachments(searchTerm: string): Promise<AttachmentModel[] | null> {
     const attachments = await Attachment.search(this, searchTerm)
     if (isDBError(attachments)) {
-      console.error(attachments.error)
+      this.Log.error(attachments.error)
       return null
     }
     return attachments.map(a => a.clean())
@@ -888,7 +897,7 @@ class Thread implements ThreadModel {
     if (messages.length == 0) {
       if (save) {
         this.ds.remove({ tid: this.tid }, {}, (err) => {
-          if (err) console.error(err)
+          if (err) this.db.Log.error(err)
         })
       }
       return
@@ -1077,7 +1086,7 @@ class Thread implements ThreadModel {
     }))
 
     for (const result of results) {
-      if (isDBError(result)) console.error(result.error)
+      if (isDBError(result)) db.Log.error(result.error)
     }
 
     return true

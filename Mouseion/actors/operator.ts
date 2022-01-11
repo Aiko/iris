@@ -198,7 +198,7 @@ export default class Operator {
       const destUID: CopyUID = await this.courier.messages.copyMessages(srcFolder, destFolder, '' + uid)
 
       if (destUID.uid == null) {
-        console.log(destUID)
+        this.Log.error(`Failed to copy <folder:${srcFolder}, uid:${uid}> to ${destFolder} due to invalid destUID:`, destUID)
         return null
       }
 
@@ -227,7 +227,7 @@ export default class Operator {
       const destUID: MoveUID = await this.courier.messages.moveMessages(srcFolder, destFolder, '' + uid)
 
       if (destUID.uid == null) {
-        console.log(destUID)
+        this.Log.error(`Failed to move <folder:${srcFolder}, uid:${uid}> to ${destFolder} due to invalid destUID:`, destUID)
         return null
       }
 
@@ -241,7 +241,7 @@ export default class Operator {
       await this.post_op()
       return destUID.uid
     } catch (e) {
-      this.Log.error(`Failed to copy <folder:${srcFolder}, uid:${uid}> to ${destFolder} due to error:`, e)
+      this.Log.error(`Failed to move <folder:${srcFolder}, uid:${uid}> to ${destFolder} due to error:`, e)
       await this.post_op(false)
       return null
     }

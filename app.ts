@@ -14,6 +14,7 @@ import { app, session } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
 import SecureCommunications from './src/utils/comms'
+import Roots from './src/utils/roots'
 import WindowManager from './src/utils/window-manager'
 import DwarfStar from './src/cache/dwarf-star'
 import GasGiant from './src/cache/gas-giant'
@@ -39,12 +40,6 @@ import CookieCutter from './src/cache/templates';
 /// //////////////////////////////////////////////////////
 //? Create our Registry for global state
 const Registry = new Register()
-
-//? Spawn a new Forest to use for the Main process's logs
-const forest = new Forest("logs-main-process")
-const Lumberjack = forest.Lumberjack
-Registry.register("Lumberjack", Lumberjack)
-const Log = Lumberjack("App")
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
@@ -60,6 +55,24 @@ Registry.register("Communications", comms)
 /// //////////////////////////////////////////////////////
 
 
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+//? Roots (for logging but at the highest level)
+const roots = new Roots("logs-roots", Registry)
+Registry.register("Roots", roots)
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+
+
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
+//? Spawn a new Forest to use for the Main process's logs
+const forest = new Forest("logs-main-process")
+const Lumberjack = forest.Lumberjack
+Registry.register("Lumberjack", Lumberjack)
+const Log = Lumberjack("App")
+/// //////////////////////////////////////////////////////
+/// //////////////////////////////////////////////////////
 
 
 /// //////////////////////////////////////////////////////

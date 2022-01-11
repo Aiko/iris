@@ -33,6 +33,9 @@ Vue.component('dev-controls', {
     async openMouseion() {
       await this.$root.callIPC(this.$root.ipcTask('please open mouseion', {}))
     },
+    async getLogs() {
+      await this.$root.callIPC(this.$root.ipcTask('please get the logs', {}))
+    },
     async close() {
       this.$root.flow.showDev = false
     }

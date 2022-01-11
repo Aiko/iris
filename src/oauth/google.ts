@@ -9,10 +9,12 @@ import { google } from 'googleapis'
 import { OAuth2Client } from "google-auth-library"
 import { Request } from 'express-serve-static-core'
 import WindowManager from "../utils/window-manager"
+import { Logger, LumberjackEmployer } from "../../Mouseion/utils/logger"
 
 export default class GOauth {
 
   private readonly comms: SecureCommunications
+  private readonly Log: Logger
   private readonly client: OAuth2Client
   private readonly windowManager: WindowManager
   private tmpListener: ((code: string) => void | any) | null = null
@@ -24,6 +26,8 @@ export default class GOauth {
     private scopes: string[]
   ) {
     this.comms = Registry.get("Communications") as SecureCommunications
+    const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
+    this.Log = Lumberjack("Mailman")
     this.windowManager = Registry.get("Window Manager") as WindowManager
 
     if (!scopes.includes("profile")) scopes.push("profile")
@@ -45,7 +49,7 @@ export default class GOauth {
     const code: string = codeParam ? (typeof codeParam == "string" ? codeParam : "") : ""
     this.windowManager.focus()
     if (this.tmpListener) return this.tmpListener(code)
-    else return console.error("OAuth code was not caught by listener.")
+    else return this.Log.error("OAuth code was not caught by listener.")
   }
 
 

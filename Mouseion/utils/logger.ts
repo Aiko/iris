@@ -3,6 +3,8 @@ import 'colors'
 import crypto from 'crypto'
 import path from 'path'
 import Storage from './storage'
+import WebSocket from 'ws'
+import sleep from './sleep'
 
 /** Generates a string timestamp of the current date/time */
 export const Timestamp = (): string => {
@@ -62,6 +64,8 @@ export default class Forest {
   readonly dir: string;
   readonly storage: Storage;
   readonly id: string;
+  private readonly roots: WebSocket
+
   static readonly prefixes = {
     log:     '[  LOG  ]'.black.bgWhite,
     error:   '[ ERROR ]'.white.bgRed,
@@ -96,6 +100,8 @@ export default class Forest {
 
     //? randomly generate some "probably unique" identifier
     this.id = crypto.randomBytes(6).toString('hex')
+    const socket = new WebSocket('ws://localhost:4159')
+    this.roots = socket
 
     console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
     autoBind(this)
@@ -103,8 +109,10 @@ export default class Forest {
 
   logger(prefix: string, label: string, ...msg: any[]): void {
     const identifier = Identifier(prefix, label)
+    let e: Error | null = null
     if (prefix == Forest.prefixes.error) {
-      console.log(identifier, ...msg, new Error) //? dumps trace
+      e = new Error("(stack trace pin)")
+      console.log(identifier, ...msg, e) //? dumps trace
     } else if (prefix == Forest.prefixes.shout) {
       console.log(identifier, ...(msg.map(m => m.toString().red.bgCyan)))
     } else {
@@ -113,7 +121,16 @@ export default class Forest {
 
     //? remove color escape sequences and dump to log
     const uncolored_msg: string = msg.map((m: string): string => JSON.stringify(m)?.stripColors).join(' ')
-    this.storage.append(this.id, `${identifier?.stripColors} ${uncolored_msg}\n`)
+    const clean_msg: string = e ? `${identifier?.stripColors} ${uncolored_msg}\ne\n` : `${identifier?.stripColors} ${uncolored_msg}\n`
+    this.storage.append(this.id, clean_msg)
+    this.sendToRoots(clean_msg)
+  }
+
+  async sendToRoots(msg: string, max_tries=10): Promise<void> {
+    for(let i = 0; i < max_tries; i++) {
+      if (this.roots.readyState === 1) return (this.roots.send(msg))
+      await sleep(200)
+    }
   }
 
   Lumberjack = (label: string): Logger => new UnemployedLumberjack(label, this)
