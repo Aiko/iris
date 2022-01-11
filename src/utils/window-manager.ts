@@ -7,7 +7,7 @@ import SecureCommunications from './comms'
 export default class WindowManager {
   private fullscreened: boolean = false
   private readonly Log: Logger
-  private quitting: boolean = false
+  public quitting: boolean = false
 
   constructor(
     private readonly Registry: Register,

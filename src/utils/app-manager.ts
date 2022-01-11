@@ -52,6 +52,7 @@ export default class AppManager {
       })
 
       if (ret.response === 0) {
+        _this.windowManager.quitting = true
         autoUpdater.quitAndInstall()
       } else _this.Log.error(ret.response)
     })
