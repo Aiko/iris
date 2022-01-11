@@ -121,7 +121,7 @@ export default class Forest {
 
     //? remove color escape sequences and dump to log
     const uncolored_msg: string = msg.map((m: string): string => JSON.stringify(m)?.stripColors).join(' ')
-    const clean_msg: string = e ? `${identifier?.stripColors} ${uncolored_msg}\n${e}\n` : `${identifier?.stripColors} ${uncolored_msg}\n`
+    const clean_msg: string = e ? `${identifier?.stripColors} ${uncolored_msg}\n${e.stack}\n` : `${identifier?.stripColors} ${uncolored_msg}\n`
     this.storage.append(this.id, clean_msg)
     this.sendToRoots(clean_msg)
   }
