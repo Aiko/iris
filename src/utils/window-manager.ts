@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind'
-import { ipcMain, shell, powerMonitor, BrowserWindow } from 'electron'
+import { ipcMain, shell, powerMonitor, BrowserWindow, app } from 'electron'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import Register from '../../Mouseion/managers/register'
 import SecureCommunications from './comms'
@@ -7,11 +7,13 @@ import SecureCommunications from './comms'
 export default class WindowManager {
   private fullscreened: boolean = false
   private readonly Log: Logger
+  private quitting: boolean = false
 
   constructor(
     private readonly Registry: Register,
     private win: BrowserWindow | null,
     private readonly hash='',
+    private closable=true,
   ) {
     const _this = this
     const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
@@ -83,9 +85,21 @@ export default class WindowManager {
     this.win.on("maximize", () => updateMaximizedStatus(true))
     this.win.on("unmaximize", () => updateMaximizedStatus(false))
 
+    app.on("before-quit", e => _this.quitting = true)
+    this.win.on("close", (e) => {
+      _this.Log.log(e)
+      if (!this.closable && !this.quitting) {
+        _this.Log.log("Preventing window from closing (hiding instead).")
+        e.preventDefault()
+        _this.win?.hide()
+        return false
+      }
+    })
+
     powerMonitor.on("resume", () => {
       try {
-        if (_this.win) _this.win.reload()
+        //? I don't think the below is necessary anymore.
+        // if (_this.win) _this.win.reload()
       } catch (e) {
         _this.Log.error(e)
       }

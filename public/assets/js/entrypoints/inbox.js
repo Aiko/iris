@@ -89,11 +89,6 @@ top.app = new Vue({
     console.timeEnd('APP STARTUP')
     this.loading = false // let mail.js decide when to kill loader
     this.switchMailServer() // load mailserver
-    window.onbeforeunload = (e) => {
-      info(...(this.TAG), 'Hiding instead of closing.')
-      app.hide()
-      e.returnValue = false
-    }
   },
   methods: {
     log (...msg) {

@@ -106,7 +106,7 @@ Registry.register("user agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
 //? Window controls for the main window
 Log.log("Initializing Window Manager.")
 
-const windowManager = new WindowManager(Registry, null, "INBOX")
+const windowManager = new WindowManager(Registry, null, "INBOX", false)
 Registry.register("Window Manager", windowManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
