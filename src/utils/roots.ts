@@ -61,8 +61,8 @@ export default class Roots {
 
   log(msg: string) {
     this.storage.append(this.id, msg)
-    if (msg.includes("[ERROR]")) {
-      throw new Error(msg)
+    if (msg.includes("[ ERROR ]")) {
+      throw new Error(msg.split("[ ERROR ]")[1])
     }
   }
 
