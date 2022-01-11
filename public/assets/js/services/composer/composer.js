@@ -113,7 +113,8 @@ const composer = {
         await tryToGetIt(this)
         console.log(this.quoted)
       }
-      this.$refs.editor.setContent(this.quoted || '<br><br><p>Thanks,</p><p>John Doe</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>')
+      const name = (await app.suggestContact(app.imapConfig.user))?.[0]?.name ?? ""
+      this.$refs.editor.setContent(this.quoted || `<br><br><p>Thanks,</p><p>${name}</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>`)
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {
