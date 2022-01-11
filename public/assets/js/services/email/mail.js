@@ -669,7 +669,7 @@ const mailapi = {
       info(...MAILAPI_TAG, "SYNC OP - START")
 
       const okayletsgo = new Audio('./assets/videos/sync.mp3')
-      // okayletsgo.play()
+      if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
 
       //? update folders
       this.folders = await this.engine.folders.state()
