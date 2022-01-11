@@ -35,8 +35,11 @@ export default class AppManager {
     const _this = this
     autoUpdater.on("error", _this.Log.error)
     autoUpdater.on("checking-for-update", () => _this.Log.log("Checking for updates..."))
+    autoUpdater.on("update-available", () => _this.Log.log("Update available! Downloading..."))
     autoUpdater.on("update-not-available", () => _this.Log.success("App is up to date."))
     autoUpdater.on("update-downloaded", () => _this.Log.success("Downloaded update. Pending installation."))
+    // @ts-ignore: This exists and is just not typed properly
+    autoUpdater.on("download-progress", (progressObj) => _this.Log.log(`Downloading update... ${progressObj.percent}%`))
 
     autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
       // TODO: replace w/ modal
