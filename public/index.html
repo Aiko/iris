@@ -380,9 +380,6 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5 @click="flow.showDev = true">{{hash.substring(0, 30)}}</h5>
-
-
       <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10">
       </h1>
       <!-- Minimize ---------->
@@ -1947,85 +1944,7 @@
             {{thread.emails[0].M.summary.text}}</p>
         </div>
 
-        <!--!------------------------------------------------------------->
-        <!-- ? Card Footer -->
-        <!--!------------------------------------------------------------->
-        <div class="email-footer dont-drag-this" style="user-select: none;" id="step5">
-          <div class="row">
-            <!--!------------------------------------------------------------->
-            <!-- ? Quick Actions -->
-            <!--!------------------------------------------------------------->
-            <div class="col-5 cll2 z1 spp">
-              <a v-if="quickaction == 'scheduling'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/badges-event-blue.svg')"> Schedule
-              </a>
-              <a @click.stop.prevent="openLink" v-if="quickaction == 'verify'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/link.svg')"> Verify
-              </a>
-              <a @click.stop.prevent="openLink" v-if="quickaction == 'subscribe'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/link.svg')"> Subscribe
-              </a>
-              <a @click.stop.prevent="openLink" v-if="quickaction == 'unsubscribe'" class="main-action red">
-                <img :src="$root.resolveIcon('assets/icons/options-unsub.svg')"> Unsubscribe
-              </a>
-              <a v-if="quickaction == 'sign_document'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/sign.svg')"> Sign
-              </a>
-              <a v-if="quickaction == 'send_document'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/attach.svg')"> Attach files
-              </a>
-              <a v-if="quickaction == 'calendar_invite'" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/badges-event-blue.svg')"> Add to Calendar
-              </a>
-              <a @click.stop.prevent="copyOTP"
-                v-if="quickaction == 'confirm_code' && thread.emails[0].M.quick_actions.otp" class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/clipboard.svg')"> {{thread.emails[0].M.quick_actions.otp}}
-              </a>
-              <a @click="viewMessage" v-if="quickaction == 'confirm_code' && !(thread.emails[0].M.quick_actions.otp)"
-                class="main-action blue">
-                <img :src="$root.resolveIcon('assets/icons/link.svg')"> Get Code
-              </a>
-              <a @click.stop.prevent="openLink" v-if="quickaction == 'override'" class="main-action blue">
-                <img :src="thread.emails[0].M.quick_actions.overrideIcon">
-                {{thread.emails[0].M.quick_actions.overrideText}}
-              </a>
-              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
-                <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <div
-                  @click.prevent="quickReplyAll = true" class="all">ALL</div>
-              </a>
-            </div>
-
-            <!--!------------------------------------------------------------->
-            <!-- ? Sync Indicator -->
-            <!--!------------------------------------------------------------->
-            <div v-if="thread.syncing" class="col-5 sync-message">
-              <a class="main-action ma1" title="Waiting for your email provider">
-                <img :src="$root.resolveIcon('assets/icons/refresh.svg')" class="rotating ml5"> Syncing
-              </a>
-            </div>
-
-            <!--!------------------------------------------------------------->
-            <!-- ? Common Interactions -->
-            <!--!------------------------------------------------------------->
-            <div class="col-7 extra-actions  cll2 cll">
-              <!-- TODO: Once email has been replied to, change below to 'options-replied.png'-->
-              <a v-if="isRepliedTo" @click.stop.prevent="reply" title="You've replied to this email"><img
-                  :src="$root.resolveIcon('assets/icons/options-replied.png')" width="18"></a>
-              <a v-else @click.stop.prevent="reply"><img :src="$root.resolveIcon('assets/icons/options-reply.png')"
-                  width="18"></a>
-              <a @click.stop.prevent="replyAll"><img :src="$root.resolveIcon('assets/icons/options-replya.png')"
-                  width="18"></a>
-              <a @click.stop.prevent="forward"><img :src="$root.resolveIcon('assets/icons/options-forward.png')"
-                  width="15"></a>
-              <a @click.stop.prevent="starMessage" v-if="!(thread.starred)"><img
-                  :src="$root.resolveIcon('assets/icons/options-star.svg')" width="15"></a>
-              <a @click.stop.prevent="unstarMessage" v-if="thread.starred"><img
-                  :src="$root.resolveIcon('assets/icons/badges-star.svg')" width="15"></a>
-              <a @click.stop.prevent="deleteMessage" ><img :src="$root.resolveIcon('assets/icons/options-trash.svg')"
-                  class="red-h" width="15"></a>
-            </div>
-          </div>
-        </div>
+        
 
         <!--!------------------------------------------------------------->
         <!-- ? Quick Actions -QUICK REPLY-->
