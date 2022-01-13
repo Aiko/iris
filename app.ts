@@ -1,12 +1,6 @@
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Imports
-import * as Sentry from '@sentry/electron'
-//? We use Sentry for security.
-//! Sentry should be the first thing to load in the entire app.
-// TODO: should also track environment
-// TODO: bug reports, managed updates, etc. for electron
-Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import child_process from 'child_process'

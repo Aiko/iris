@@ -230,18 +230,6 @@ export default class Janitor {
       text: preview.join(' ')
     }
 
-    if (!e.M.subscription.subscribed && this.useAiko) {
-      const t0 = performance.now()
-      const summary = await AikoAI.summarize(e.parsed.cleanText, SUMMARY_LENGTH).catch(this.Log.error)
-      if (summary?.[0]) d = {
-        sentences: summary,
-        text: summary.join(' ')
-      }
-      const t1 = performance.now()
-      this.runtimes['summarizer'].runs++
-      this.runtimes['summarizer'].time += t1 - t0
-    }
-
     if (d.sentences.length == 0) {
       d.sentences = e.parsed.sentences.slice(0, SUMMARY_LENGTH)
       d.text = d.sentences.join(' ')
@@ -256,111 +244,8 @@ export default class Janitor {
     }
   }
 
-  private async snips(email: EmailRaw): Promise<EmailWithQA> {
-    const e: EmailWithSummary = await this.summarize(email)
-    const d: MouseionQuickActions = {
-      rawResults: null,
-      results: {},
-      classification: '',
-      context: 'got nothing back from quick actions',
-      scheduling: {
-        subject: '',
-        start: null,
-        end: null
-      },
-      otp: ''
-    }
-
-    const ret = () => ({
-      ...e,
-      M: {
-        ...e.M,
-        quick_actions: d
-      }
-    })
-
-    if (e.M.subscription.subscribed || !this.useAiko) return ret()
-
-    const t0 = performance.now()
-
-    //? if you want to allow testing more of an email then enable the below
-    /*
-      let test_sentences = []
-      const short_sentences = e.parsed.sentences.filter(s => s.length < 196 && s.length > 16)
-      if (short_sentences.length <= 10) test_sentences.push(...short_sentences)
-      else test_sentences.push(...(e.M.summary.sentences))
-    */
-    const test_sentences = [...(e.M.summary.sentences)]
-
-    //? we skip choking sentences at this time
-    //? instead, the choke dataset was included when developing the QA model
-
-    const results = await AikoAI.quick_actions(test_sentences).catch(this.Log.error)
-    if (!results) return ret()
-    d.rawResults = JSON.parse(JSON.stringify(results))
-    if (isError(results)) return ret()
-    d.results = results
-
-    //? we define an order of precedence for quick actions
-    //* closer to end of array <=> higher precedence
-    const intent_ranking = [
-      'confirm_code',
-      'send_document',
-      'scheduling'
-    ] // TODO: intent type in aikomail-sdk should be a union of string literals
-    const Rank = (i: string) => i ? intent_ranking.indexOf(i) : -1
-
-    //? determine the dominant quick action
-    test_sentences.forEach(sentence => {
-      const result = results[sentence]
-      if (!result?.intent) return
-      if (result.confidence < 0.5) return
-
-      //? Rule #1: only update classification if intent (not-strictly) outranks current intent
-      //? Rule #2: Aggregate knowledge on sentences w/ same intent, later takes precedence
-      if (Rank(result.intent) >= Rank(d.classification)) {
-        d.classification = result.intent
-        d.context = result.context
-
-        if (result.intent == 'scheduling' && result.scheduling) {
-          d.scheduling.subject = d.scheduling.subject ?? result.scheduling.subject
-          d.scheduling.start = d.scheduling.start ?? result.scheduling.start
-          d.scheduling.end = d.scheduling.end ?? result.scheduling.end
-        }
-
-        if (result.intent == 'confirm_code' && !d.otp) {
-          let code = result.entities.filter(entity => entity.subtype == 'code')?.[0]?.value ?? ''
-
-          if (!code) code = /\b[0-9A-Z]{5,12}\b/g.exec(e.parsed.text)?.[0] || ''
-
-          if (code) {
-            code = code.trim()
-            if (/\b/.test(code)) {
-              const maybeCode = code.split(/\b/gim).filter(fragment => /^[0-9A-Z]{4,20}$/.test(fragment))?.[0] || ''
-              if (maybeCode) code = maybeCode
-            }
-            d.otp = code
-          }
-
-        }
-      }
-    })
-
-    const t1 = performance.now()
-    this.runtimes['snips'].runs++
-    this.runtimes['snips'].time += t1 - t0
-
-    return {
-      ...e,
-      M: {
-        ...e.M,
-        quick_actions: d
-      }
-    }
-  }
-
   private async compromise(email: EmailRaw): Promise<EmailWithAIMeta> {
-    const e: EmailWithQA = await this.snips(email)
+    const e: EmailWithSummary = await this.summarize(email)
 
     const doc = nlp([
       e.M.envelope.cleanSubject,
@@ -381,6 +266,18 @@ export default class Janitor {
       ...e,
       M: {
         ...e.M,
+        quick_actions: {
+          rawResults: null,
+          results: {},
+          classification: '',
+          context: 'nothing yet',
+          scheduling: {
+            subject: '',
+            start: null,
+            end: null
+          },
+          otp: ''
+        },
         ai_metadata: {
           topics: top_topics
         }
