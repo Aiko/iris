@@ -485,11 +485,6 @@ const mailapi = {
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
       if (controlsLoader && !this.flow.addingMailbox) this.loading = false
-      if (this.firstTime) {
-        info(...(this.TAG), "This is the user's first open of the app. Running tour...")
-        this.tour = runTour()
-        await DwarfStar.save({meta: {firstTime: false}})
-      }
     },
     //? Reconnects to connected mailserver
     //! NOTE: this assumes the mailserver is currently loaded
@@ -868,6 +863,11 @@ const mailapi = {
       if (this.flow.addingMailbox) {
         this.flow.addingMailbox = false
         if (this.loading) this.loading = false
+        if (this.firstTime) {
+          info(...(this.TAG), "This is the user's first open of the app. Running tour...")
+          this.tour = runTour()
+          await DwarfStar.save({meta: {firstTime: false}})
+        }
       }
       release()
     },

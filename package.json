@@ -15,8 +15,6 @@
     "package:windows": "%APPDATA%\\npm\\electron-forge package",
     "make:windows": "%APPDATA%\\npm\\electron-forge make",
     "publish:windows": "%APPDATA%\\npm\\electron-forge publish",
-    "enable-github": "export GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
-    "enable-github:windows": "set GITHUB_TOKEN=c4da6d8b5243d14d57e29c4afb2f91083cc6f0a1",
     "compile": "tsc",
     "clean": "rm -rf dist",
     "dry": "tsc; rm -rf dist",
@@ -38,7 +36,7 @@
     "forge": {
       "packagerConfig": {
         "name": "Aiko Mail",
-        "executableName": "aiko-mail",
+        "executableName": "Aiko Mail",
         "icon": "./public/assets/img/icon.icns",
         "asar": true,
         "appBundleId": "com.aiko.iris",
@@ -75,7 +73,25 @@
           "appleId": "priansh@helloaiko.com",
           "appleIdPassword": "glhy-dtid-nssb-ffnk",
           "ascProvider": "79J5DRPGF8"
-        }
+        },
+        "ignore": [
+          "**/node_modules/**",
+          "*.ts",
+          "*.tsx",
+          "*.md",
+          "*.MD",
+          ".gitignore",
+          "*.plist",
+          "*.py",
+          "*.-lock.json",
+          "test-app.js",
+          "**/out/**",
+          ".vscode/**",
+          "**/tsconfig.json",
+          "**/tsconfig.app.json",
+          "**/tsconfig.spec.json",
+          "**/tsconfig.e2e.json"
+        ]
       },
       "makers": [
         {
