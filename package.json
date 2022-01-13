@@ -90,7 +90,8 @@
           "**/tsconfig.json",
           "**/tsconfig.app.json",
           "**/tsconfig.spec.json",
-          "**/tsconfig.e2e.json"
+          "**/tsconfig.e2e.json",
+          ".git/**"
         ]
       },
       "makers": [
