@@ -1,7 +1,7 @@
 {
   "name": "aiko-mail",
   "productName": "Aiko Mail",
-  "version": "3.5.9",
+  "version": "3.5.11",
   "description": "Aiko Mail - Email powered by AI",
   "main": "dist/app.js",
   "scripts": {
@@ -75,23 +75,13 @@
           "ascProvider": "79J5DRPGF8"
         },
         "ignore": [
-          "**/node_modules/**",
-          "*.ts",
-          "*.tsx",
-          "*.md",
-          "*.MD",
-          ".gitignore",
-          "*.plist",
-          "*.py",
-          "*.-lock.json",
+          ".*\\.md",
+          ".*\\.MD",
+          ".*\\.py",
           "test-app.js",
-          "**/out/**",
-          ".vscode/**",
-          "**/tsconfig.json",
-          "**/tsconfig.app.json",
-          "**/tsconfig.spec.json",
-          "**/tsconfig.e2e.json",
-          ".git/**"
+          "out/.*",
+          "\\.vscode/.*",
+          "\\.git/.*"
         ]
       },
       "makers": [
@@ -118,7 +108,8 @@
           "config": {
             "format": "ULFO",
             "icon": "./public/assets/img/icon.icns",
-            "name": "Aiko Mail"
+            "name": "Aiko Mail",
+            "background": "./public/assets/img/dragtoinstall.png"
           }
         }
       ],
