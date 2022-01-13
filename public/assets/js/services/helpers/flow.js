@@ -9,7 +9,7 @@ const flow_mgr = {
       addBoard: false,
       viewThread: null,
       showDev: false,
-      regularView: false,
+      regularView: true,
       specialView: false,
       showInboxBoardActions: false,
       showInboxBoardControls: false,

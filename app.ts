@@ -194,7 +194,7 @@ Registry.register("Settings", settings)
 //? App Manager tool that handles updates
 Log.log("Initializing App Manager.")
 
-const appManager = new AppManager(Registry, dev ? "Dev" : "Stable")
+const appManager = new AppManager(Registry, "LTS")
 Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
@@ -205,7 +205,7 @@ Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Entry script for the main window
-const GLOBAL_DISABLE_AUTH=true //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
+const GLOBAL_DISABLE_AUTH=false //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
 
 const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
   const signed_in = dwarfStar.settings.auth.authenticated
