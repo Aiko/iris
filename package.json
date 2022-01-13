@@ -75,8 +75,8 @@
           "ascProvider": "79J5DRPGF8"
         },
         "ignore": [
-          ".*.ts",
-          ".*.tsx",
+          "src/*.ts",
+          "Mouseion/*.ts",
           ".*.md",
           ".*.MD",
           ".gitignore",
@@ -115,7 +115,7 @@
             "format": "ULFO",
             "icon": "./public/assets/img/icon.icns",
             "name": "Aiko Mail",
-            "background": "dmg-installer.png"
+            "background": "./public/assets/img/dragtoinstall.png"
           }
         }
       ],
