@@ -376,61 +376,6 @@
         <div class="compose-bottom">
           <a @click="sendEmail('')"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20" /><span>
               Send</span></a>
-          <label class="switch ml20">
-            <input type="checkbox" />
-            <span class="slider round eye"></span>
-          </label>
-          <p class="inline ml5 track-open-label">Track email open</p>
-        </div>
-      </div>
-      <div class="secondary-email" style="padding: 0;">
-        <nav>
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active nav1" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-              aria-controls="nav-home" aria-selected="true">Templates</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-              aria-controls="nav-profile" aria-selected="false">Attachments</a>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <h3>Reply with a template</h3>
-            <div class="previous-threads">
-
-              <!-- TODO: This is the template for sidebar templates teehee-->
-              <div @click="getTemplate(template.id)" class="tempside" v-for="template in templates">
-                <p class="subject">{{template.title}}</p>
-                <p class="body">
-                  {{template.preview ?? template.id}}
-                </p>
-              </div>
-            </div>
-
-            <!-- TODO: This is the empty state 'no template' teehee the link should go to template tab in settings-->
-            <a v-if="templates.length == 0" style="margin-top: 25vh; display: block;" target="_blank">
-              <img :src="$root.resolveIcon('assets/icons/settings-templates.svg')" width="18"
-                style="margin-top: -1px;" />
-              <p class="inline"><b>New template</b></p>
-
-              <p>
-                Add email templates in settings to reply to future emails in
-                one click.
-              </p>
-            </a>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="previous-threads">
-            <!-- TODO: This is the attachment area-->
-            <h3>Include recent attachment</h3>
-            <a style="margin-top: 25vh; display: block;" target="_blank"><img
-                :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
-              <p class="inline"><b>Browse</b></p>
-              <p>
-                Recent attachments will appear here.
-              </p>
-            </a>
-          </div>
         </div>
       </div>
     </div>
