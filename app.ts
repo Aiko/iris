@@ -126,6 +126,32 @@ const goauth = new GOAuth(
   ['https://mail.google.com']
 )
 Registry.register("Google OAuth", goauth)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const msoauth = new MSOAuth(
   Registry,
   '65b77461-4950-4abb-b571-ad129d9923a3',
