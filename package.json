@@ -75,7 +75,6 @@
           "ascProvider": "79J5DRPGF8"
         },
         "ignore": [
-          "node_modules/.*",
           ".*.ts",
           ".*.tsx",
           ".*.md",
@@ -115,7 +114,8 @@
           "config": {
             "format": "ULFO",
             "icon": "./public/assets/img/icon.icns",
-            "name": "Aiko Mail"
+            "name": "Aiko Mail",
+            "background": "dmg-installer.png"
           }
         }
       ],
