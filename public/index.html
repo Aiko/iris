@@ -2103,44 +2103,6 @@
             <h3>{{email.M.envelope.subject}}</h3>
           </div>
 
-
-          <!--!------------------------------------------------------------->
-          <!-- ? Quick Actions -->
-          <!--!------------------------------------------------------------->
-          <div class="options-qa">
-            <a @click.stop.prevent="schedule" v-if="email.M.quick_actions.classification == 'scheduling'">
-              <h2><img :src="$root.resolveIcon('assets/icons/email-schedule.svg')">Schedule</h2>
-            </a>
-            <a @click.stop.prevent="openVerify" v-if="email.M.quick_actions.classification == 'verify'">
-              <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Verify</h2>
-            </a>
-            <a v-if="email.M.quick_actions.classification == 'subscribe'">
-              <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Subscribe</h2>
-            </a>
-            <a v-if="email.M.quick_actions.classification == 'unsubscribe'">
-              <h2 class="red"><img :src="$root.resolveIcon('assets/icons/options-unsub.svg')">Unsubscribe</h2>
-            </a>
-            <a v-if="email.M.quick_actions.classification == 'sign_document'">
-              <h2><img :src="$root.resolveIcon('assets/icons/sign.svg')">Sign</h2>
-            </a>
-            <a v-if="email.M.quick_actions.classification == 'send_document'">
-              <h2><img :src="$root.resolveIcon('assets/icons/attach.svg')">Attach Files</h2>
-            </a>
-            <a v-if="email.M.quick_actions.classification == 'calendar_invite'">
-              <h2><img :src="$root.resolveIcon('assets/icons/email-schedule.svg')">Add to Calendar</h2>
-            </a>
-            <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
-              <h2><img :src="$root.resolveIcon('assets/icons/clipboard.svg')">COPY CODE</h2>
-            </a>
-            <a @click.stop.prevent="openLink" v-if="email.M.quick_actions.classification == 'override'">
-              <h2>
-              <img :src="email.M.quick_actions.overrideIcon">
-                {{thread.emails[0].M.quick_actions.overrideText}}
-              </h2>
-            </a>
-          </div>
-
-
           <!--!------------------------------------------------------------->
           <!-- ? Message Interactions -->
           <!--!------------------------------------------------------------->
@@ -2191,7 +2153,7 @@
         <!--!------------------------------------------------------------->
         <!-- ? Attachments -->
         <!--!------------------------------------------------------------->
-        <div class="attachments" v-if="email.parsed.attachments.length > 0">
+        <div class="attachments" v-if="false">
           <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
             <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->

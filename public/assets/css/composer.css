@@ -648,7 +648,7 @@ pre code {
 .main-email {
   height: 100%;
   background: var(--secondary-bg-color);
-  width: calc(100% - 300px);
+  width: calc(100%);
   box-shadow: 14px -2px 10px -20px rgba(0, 0, 0, 0.15);
   z-index: 1;
   position: relative;
