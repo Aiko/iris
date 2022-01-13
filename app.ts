@@ -205,7 +205,7 @@ Registry.register("App Manager", appManager)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Entry script for the main window
-const GLOBAL_DISABLE_AUTH=false //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
+const GLOBAL_DISABLE_AUTH=true //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
 
 const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
   const signed_in = dwarfStar.settings.auth.authenticated
