@@ -4,7 +4,7 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import child_process from 'child_process'
-import { app, session } from 'electron'
+import { app, session, dialog } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
 import SecureCommunications from './src/utils/comms'
@@ -26,6 +26,13 @@ import fetch from 'cross-fetch'
 /// //////////////////////////////////////////////////////
 ;import Settings from './src/components/settings';
 import CookieCutter from './src/cache/templates';
+
+//! kill error popups. ugh. so fucking annoying
+dialog.showErrorBox = function(title, content) {
+  console.log(`${title}\n${content}`);
+};
+
+
 ;(async () => { //! Don't remove this -- async function to use await below
 
 
