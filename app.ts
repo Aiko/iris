@@ -10,7 +10,7 @@ Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sent
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import child_process from 'child_process'
-import { app, session } from 'electron'
+import { app, session, dialog } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
 import SecureCommunications from './src/utils/comms'
@@ -71,6 +71,8 @@ const forest = new Forest("logs-main-process")
 const Lumberjack = forest.Lumberjack
 Registry.register("Lumberjack", Lumberjack)
 const Log = Lumberjack("App")
+//! kill error popups. ugh. so fucking annoying
+dialog.showErrorBox = (title, content) => Log.warn(`Main process encountered an error. ${title}: ${content}`)
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 
