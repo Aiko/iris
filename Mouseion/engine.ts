@@ -1,5 +1,4 @@
 import autoBind from "auto-bind";
-import { LoginTicket } from "google-auth-library";
 import Mailbox from "./managers/mailbox";
 import { IMAPConfig } from "./post-office/types";
 import { Logger, LumberjackEmployer } from "./utils/logger";
@@ -103,6 +102,7 @@ export default class Engine {
     resolve: this.resolve,
     manage: this.manage,
     contacts: this.contacts,
+    attachments: this.attachments,
     trigger: this.trigger,
     boardRules: this.boardRules
   }

@@ -72,7 +72,9 @@ proc.on('message', async (m: string): Promise<any> => {
         return success(result)
       } catch (e) {
         Log.error(e)
-        return error(e)
+        if (typeof e === 'string') return error(e)
+        else if (e instanceof Error) return error(e.message)
+        else return error(JSON.stringify(e))
       }
     }
 
@@ -81,8 +83,12 @@ proc.on('message', async (m: string): Promise<any> => {
       case 'init':
         if (cache) return error("Cache already exists.")
         if (db) return error("DB already exists")
-        db = new DB(args[0], args[1], args[2])
-        cache = new Cache(args[0], db)
+        const dbLog = Lumberjack("Pantheon (DB)")
+        const cacheLog = Lumberjack("Pantheon (Cache)")
+        db = new DB(args[0], args[1], args[2], dbLog)
+        dbLog.success("DB initialized.")
+        cache = new Cache(args[0], db, cacheLog)
+        cacheLog.success("Cache initialized.")
         return success({cursor: db.getCursor()})
       case 'cursor.next':
         return success({cursor: db.nextCursor()})

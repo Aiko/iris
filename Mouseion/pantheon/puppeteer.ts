@@ -89,7 +89,7 @@ export class PantheonProxy {
       stdio: ['pipe', 'pipe', 'pipe', 'ipc']
     })
     this.API.stdout?.pipe(process.stdout)
-    this.API.stderr?.pipe(process.stdout)
+    this.API.stderr?.pipe(process.stderr)
 
     const config = Registry.get('IMAP Config') as IMAPConfig
     this.user = config.user

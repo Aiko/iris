@@ -98,18 +98,24 @@ export default class SockPuppet {
           const success = sksucc(id)
           const error = skerr(id)
 
+          Log.log("Taking action:", action)
+
           const attempt = async (method: (...xs: any) => Promise<any> | any) => {
             try {
               const result = await method(...args)
               return success(result)
             } catch (e) {
               Log.error(e, new Error())
-              return error(e)
+              if (typeof e === 'string') return error(e)
+              else if (e instanceof Error) return error(e.message)
+              else return error(JSON.stringify(e))
             }
           }
 
           const method = this.API[action]
-          if (!method) return("Action provided does not match any existing binding.")
+          if (!method) return ws.send(JSON.stringify({
+            error: "Action provided does not match any existing binding: " + action,
+          }))
 
           return await attempt(method)
         } catch (e) {

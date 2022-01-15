@@ -3,15 +3,9 @@ import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
-import Forest, { Logger } from '../utils/logger'
+import Forest, { Logger, LumberjackEmployer } from '../utils/logger'
 import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
 import autoBind from 'auto-bind'
-
-// TODO: attachment DB & caching
-
-//? Spawn a new Forest to use for the Main process's logs
-const forest = new Forest("logs-pantheon")
-const Lumberjack = forest.Lumberjack
 
 type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
 interface CacheBinding<T> {
@@ -53,10 +47,10 @@ export class Cache {
   headers: CacheBinding<EmailWithReferences>
   content: CacheBinding<EmailFull>
 
-  constructor(dir: string, db: DB) {
+  constructor(dir: string, db: DB, l: Logger) {
     this.dir = dir
     this.dir = this.path('cache')
-    this.Log = Lumberjack("Pantheon (Cache)")
+    this.Log = l
 
     this.db = db
 
@@ -192,12 +186,12 @@ export class DB {
     return this.cursor
   }
 
-  constructor(dir: string, cursor: number, user: string) {
+  constructor(dir: string, cursor: number, user: string, l: Logger) {
     this.cursor = cursor
     this.dir = dir
     this.dir = this.path("db")
     this.user = user
-    this.Log = Lumberjack("Pantheon (DB)")
+    this.Log = l
     this.stores = {
       Message: new Datastore({
         filename: this.path("Message"),

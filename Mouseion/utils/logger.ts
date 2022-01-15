@@ -64,7 +64,7 @@ export default class Forest {
   readonly dir: string;
   readonly storage: Storage;
   readonly id: string;
-  private readonly roots: WebSocket
+  private readonly roots?: WebSocket
 
   static readonly prefixes = {
     log:     '[  LOG  ]'.black.bgWhite,
@@ -100,8 +100,12 @@ export default class Forest {
 
     //? randomly generate some "probably unique" identifier
     this.id = crypto.randomBytes(6).toString('hex')
-    const socket = new WebSocket('ws://localhost:4159')
-    this.roots = socket
+    try {
+      const socket = new WebSocket('ws://localhost:4159')
+      this.roots = socket
+    } catch (e) {
+      console.error(e)
+    }
 
     console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
     autoBind(this)
@@ -127,6 +131,7 @@ export default class Forest {
   }
 
   async sendToRoots(msg: string, max_tries=10): Promise<void> {
+    if (!(this.roots)) return;
     for(let i = 0; i < max_tries; i++) {
       if (this.roots.readyState === 1) return (this.roots.send(msg))
       await sleep(200)
