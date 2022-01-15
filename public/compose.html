@@ -227,7 +227,7 @@
               <div class="comp-sep">
                 <a :class="{
                     'comp-btn': true,
-                  }">
+                  }" @click="$root.attachFiles()">
                   <img :src="$root.resolveIcon('assets/icons/badges-attach.svg')" />
                 </a>
                 <!-- EMOJI  <a class="comp-btn"><img :src="$root.resolveIcon('assets/icons/smile.svg')"></a> -->
@@ -423,12 +423,19 @@
           <div class="previous-threads">
             <!-- TODO: This is the attachment area-->
             <h3>Include recent attachment</h3>
-            <a style="margin-top: 25vh; display: block;" target="_blank"><img
-                :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
+            <a style="margin-top: 25vh; display: block;" target="_blank">
+              <img :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
               <p class="inline"><b>Browse</b></p>
-              <p>
+              <input type="text" v-model="attachmentTerm" />
+              <p v-if="recentAttachments.length == 0">
                 Recent attachments will appear here.
               </p>
+              <div v-else class="tempside" v-for="attachment in recentAttachments">
+                <p class="subject">{{attachment}}</p>
+                <p class="body">
+                  placeholder
+                </p>
+              </div>
             </a>
           </div>
         </div>

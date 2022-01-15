@@ -117,6 +117,9 @@ const Engine = port => {
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)
     },
+    attachments: {
+      lookup: async partial => await proxy('attachments.lookup')(partial).catch(console.error)
+    },
     boardRules: {
       add: async rule => await proxy('boardRules.add')(rule).catch(console.error),
       list: async () => await proxy('boardRules.list')().catch(console.error),

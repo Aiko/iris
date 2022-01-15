@@ -408,11 +408,13 @@ export class DB {
 
   //*-------------- Utility methods for attachments
   async findAttachments(searchTerm: string): Promise<AttachmentModel[] | null> {
+    this.Log.log("Searching for attachments matching:", searchTerm)
     const attachments = await Attachment.search(this, searchTerm)
     if (isDBError(attachments)) {
       this.Log.error(attachments.error)
       return null
     }
+    this.Log.log("Found", attachments.length, "matching attachments.")
     return attachments.map(a => a.clean())
   }
 

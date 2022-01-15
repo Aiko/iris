@@ -19,10 +19,21 @@ const composer = {
     quoted: '',
     messageId: '',
     composerEngine: null,
-    templates: []
+    templates: [],
+    recentAttachments: [],
+    attachmentTerm: '',
+    attachments: [],
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
+  },
+  watch: {
+    async attachmentTerm(term) {
+      const engine = this.composerEngine ?? this.engine
+      if (!engine) return console.warn("No engine to search for attachments.")
+      if (!term) this.recentAttachments = await engine.attachments.lookup("")
+      else this.recentAttachments = await engine.attachments.lookup(term)
+    }
   },
   methods: {
     async initSMTP () {
@@ -122,7 +133,7 @@ const composer = {
         config: this.smtpConfig
       })
     },
-    async sendEmail(html, attachments=[], includeCSS=true) {
+    async sendEmail(html, fwAttachments=[], includeCSS=true) {
       const mail = {}
 
       const Me = await (this.engine || this.composerEngine).contacts.lookup(this.smtpConfig.email)?.[0]
@@ -386,13 +397,17 @@ ${mail.html}
       }
       mail.generateTextFromHTML = true
 
-      mail.attachments = attachments.map(attachment => {
+      //! TODO: work this out (attaching files already in the thread)
+      /*
+      mail.attachments = fwAttachments.map(attachment => {
         return {
           filename: attachment.name,
           contentType: attachment.type,
           path: attachment.data
         }
       })
+      */
+      mail.attachments = this.attachments.map(({filename, path}) => ({filename, path}))
 
       if (window.location.pathname.includes('compose.html')) this.hide()
       const s = await this.callIPC(this.task_SendEmail(mail))
@@ -434,6 +449,18 @@ ${mail.html}
     async deleteTemplate(id) {
       await this.callIPC(this.ipcTask("delete template", {id, }))
       await this.listTemplates()
+    },
+    task_AttachFiles() {
+      return this.ipcTask('please attach a file', {})
+    },
+    async attachFiles() {
+      const files = await this.callIPC(this.task_AttachFiles())
+      if (files) {
+        this.attachments.push(...(files.map(filepath => ({
+          filename: filepath.split('/').pop(),
+          path: filepath
+        }))))
+      }
     }
   }
 }
