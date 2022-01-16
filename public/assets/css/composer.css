@@ -1564,6 +1564,7 @@ transition: .2s;
 	max-width: 500px;
 	z-index: 1;
 	position: relative;
+  margin-bottom: 15px;
 }
 .search img {
 	width: 21px;
@@ -1584,4 +1585,7 @@ transition: .2s;
 
 .search input::placeholder {
 	color: var(--main-text-color);
+}
+.tempside .body{
+  height: unset !important;
 }
