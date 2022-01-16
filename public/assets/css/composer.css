@@ -882,6 +882,10 @@ pre code {
     margin-bottom: 15px;
     overflow: hidden;
 }
+.tempside:hover{
+  margin-bottom: 13px;
+    border: var(--main-border);
+}
 
 .previous-threads {
   overflow: scroll;
