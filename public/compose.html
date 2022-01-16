@@ -439,14 +439,18 @@
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
             <div class="previous-threads">
               <!-- TODO: This is the attachment area-->
-              <h3>Include recent attachment</h3>
-              <a style="margin-top: 25vh; display: block;" target="_blank">
-                <img :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
-                <p class="inline"><b>Browse</b></p>
-                <input type="text" v-model="attachmentTerm" />
+              <h3>Include recently used attachment</h3>
+              <a style="display: block;" target="_blank">
+
+                <div class="search">
+                  <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
+                  <input type="text" v-model="attachmentTerm" placeholder="Search Attachments" />
+                </div>
                 <p v-if="recentAttachments.length == 0">
-                  Recent attachments will appear here.
+
                 </p>
+
+
                 <div v-else class="tempside" v-for="attachment in recentAttachments">
                   <p class="subject">{{attachment}}</p>
                   <p class="body">

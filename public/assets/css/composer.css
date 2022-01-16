@@ -1555,3 +1555,33 @@ transition: .2s;
 .att-action img:hover{
 		opacity: 1 !important;
 }
+.search {
+	border-radius: 5px;
+	padding: 0 7px 0 7px;
+	border: var(--main-border);
+	height: 30px;
+	background: var(--main-bg-color);
+	max-width: 500px;
+	z-index: 1;
+	position: relative;
+}
+.search img {
+	width: 21px;
+	margin-top: -1px;
+}
+.search input {
+    width: calc(100% - 26px);
+    border-radius: 5px;
+    border: none;
+    color: var(--dark-text);
+    font-weight: 400;
+    font-size: 14px;
+    padding: 2px 3px 4px 3px;
+    height: 28px;
+    background: var(--main-bg-color);
+    contain: unset;
+}
+
+.search input::placeholder {
+	color: var(--main-text-color);
+}
