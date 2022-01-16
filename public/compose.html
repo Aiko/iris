@@ -162,8 +162,19 @@
         <!-- TODO: this compose-body div needs to be 100% MINUS the height of all above elements combined, so it is never taller than full height -->
         <aiko-editor ref="editor" inline-template>
           <div class="compose-body">
+            <!-- TODO: Rig attachments here, and attachment trash button -->
+            <div class="attachments" v-if="attachments?.length > 0">
+              <div class="attachment" v-for="attachment in attachments">
+                <img :src="$root.resolveIcon('assets/icons/music.svg')">
+                <div class="name">{{attachment.filename || 'No Filename'}}</div>
+                <div class="size">{{attachment.size.toFilesize()}}</div>
+                <a class="att-action" alt="Preview attachment"><img
+                    :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+                <a class="att-action aa1" alt="Preview attachment"><img
+                    :src="$root.resolveIcon('assets/icons/options-trash.svg')"></a>
+              </div>
+            </div>
             <editor-content class="editor" :editor="editor"></editor-content>
-
             <bubble-menu class="menububble" :tippy-options="{ duration: 100 }" :editor="editor" v-if="editor">
               <div class="menububble__form" v-if="linkActive">
                 <input class="menububble__input" type="text" v-model="linkUrl" placeholder="https://" ref="linkInput"
@@ -370,6 +381,12 @@
                 </div>
               </div>
             </div>
+
+
+
+
+
+
           </div>
         </aiko-editor>
 
@@ -418,153 +435,153 @@
               </p>
             </a>
           </div>
-        </div>
-        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="previous-threads">
-            <!-- TODO: This is the attachment area-->
-            <h3>Include recent attachment</h3>
-            <a style="margin-top: 25vh; display: block;" target="_blank">
-              <img :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
-              <p class="inline"><b>Browse</b></p>
-              <input type="text" v-model="attachmentTerm" />
-              <p v-if="recentAttachments.length == 0">
-                Recent attachments will appear here.
-              </p>
-              <div v-else class="tempside" v-for="attachment in recentAttachments">
-                <p class="subject">{{attachment}}</p>
-                <p class="body">
-                  placeholder
+
+          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="previous-threads">
+              <!-- TODO: This is the attachment area-->
+              <h3>Include recent attachment</h3>
+              <a style="margin-top: 25vh; display: block;" target="_blank">
+                <img :src="$root.resolveIcon('assets/icons/compose-attach.svg')" width="18" style="margin-top: -1px;" />
+                <p class="inline"><b>Browse</b></p>
+                <input type="text" v-model="attachmentTerm" />
+                <p v-if="recentAttachments.length == 0">
+                  Recent attachments will appear here.
                 </p>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- END Compose View --------------------------------------->
-
-  <!-- START Toast -->
-  <!-- Connection Lost Toast -->
-  <div class="aiko-toast" style="display: none;">
-    <p class="textinout" style="color: #dc3545 !important;">
-      We're having trouble connecting to the internet.
-    </p>
-    <div class="t-loader-red"><span></span></div>
-  </div>
-
-  <!-- IMAP Error Toast -->
-  <div class="aiko-toast" style="display: none;">
-    <p class="textinout" style="color: #dc3545 !important;">
-      We're having issues connecting to your mail provider.
-    </p>
-    <div class="t-loader-red"><span></span></div>
-  </div>
-
-  <!-- Send Email Error Toast -->
-  <div class="aiko-toast" style="display: none;">
-    <p class="textinout" style="color: #dc3545 !important;">
-      We were unable to send your message due to network issues.
-    </p>
-    <div class="t-loader-red"><span></span></div>
-  </div>
-  <!-- END Toast --------------------------------------->
-
-  <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
-  <div class="aiko-modal" style="display: none;">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-        <div class="modal-reg">
-          <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-            style="margin-bottom: 15px; margin-top: 10px;" />
-          <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-            style="margin-bottom: 15px; margin-top: 10px;" />
-          <h1>You found a premium feature.</h1>
-          <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200" />
-          <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200" />
-          <br /><br />
-          <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-            Enable <b>email trackers</b> to be notified when your recipient
-            has opened your email.
-          </p>
-          <br />
-          <div class="modal-bottom">
-            <a class="blue">Get Started</a>
-          </div>
-          <p class="ns30"></p>
-          <br />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
-  <div class="aiko-modal" style="display: none;">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-        <div class="modal-reg">
-          <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
-            style="margin-bottom: 15px; margin-top: 10px;" />
-          <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
-            style="margin-bottom: 15px; margin-top: 10px;" />
-          <h1>You found a premium feature.</h1>
-          <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280" />
-          <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280" />
-          <br /><br />
-          <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
-            Prepare email templates to reply to future emails in just one
-            click.
-          </p>
-          <br />
-
-          <div class="modal-bottom">
-            <a class="blue">Get Started</a>
-          </div>
-          <p class="ns30"></p>
-          <br />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TODO: Add info to Info modal -->
-  <div class="aiko-modal" style="display: none;" id="infoModal">
-    <div class="modal-dialog modal-md">
-      <div class="modal-content">
-        <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
-        <div class="modal-reg">
-          <h1>The most advanced composer ever has a lot to offer.</h1>
-          <br />
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-12">
-                <span>Markdown: </span>
-                <span class="bold-c">*Bold*</span>
-                <span class="italic-c">~Italic~</span>
-                <span class="code-c">Code</span>
-                <span class="quotes-c">Quote</span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <span>Code: </span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-sm-12">
-                <span>Advanced Maths: </span>
-              </div>
+                <div v-else class="tempside" v-for="attachment in recentAttachments">
+                  <p class="subject">{{attachment}}</p>
+                  <p class="body">
+                    placeholder
+                  </p>
+                </div>
+              </a>
             </div>
           </div>
-          <br />
-          <p class="ns30"></p>
-          <br />
         </div>
       </div>
     </div>
-  </div>
+    <!-- END Compose View --------------------------------------->
+
+    <!-- START Toast -->
+    <!-- Connection Lost Toast -->
+    <div class="aiko-toast" style="display: none;">
+      <p class="textinout" style="color: #dc3545 !important;">
+        We're having trouble connecting to the internet.
+      </p>
+      <div class="t-loader-red"><span></span></div>
+    </div>
+
+    <!-- IMAP Error Toast -->
+    <div class="aiko-toast" style="display: none;">
+      <p class="textinout" style="color: #dc3545 !important;">
+        We're having issues connecting to your mail provider.
+      </p>
+      <div class="t-loader-red"><span></span></div>
+    </div>
+
+    <!-- Send Email Error Toast -->
+    <div class="aiko-toast" style="display: none;">
+      <p class="textinout" style="color: #dc3545 !important;">
+        We were unable to send your message due to network issues.
+      </p>
+      <div class="t-loader-red"><span></span></div>
+    </div>
+    <!-- END Toast --------------------------------------->
+
+    <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px; margin-top: 10px;" />
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+              style="margin-bottom: 15px; margin-top: 10px;" />
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-track-black.png" width="200" />
+            <img v-if="!isDarkMode" src="assets/img/u-track-white.png" width="200" />
+            <br /><br />
+            <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+              Enable <b>email trackers</b> to be notified when your recipient
+              has opened your email.
+            </p>
+            <br />
+            <div class="modal-bottom">
+              <a class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Rig UPGRADE MODAL - TEMPLATES TEEHEE -->
+    <div class="aiko-modal" style="display: none;">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+          <div class="modal-reg">
+            <img v-if="isDarkMode" src="assets/img/logo-white.svg" width="140"
+              style="margin-bottom: 15px; margin-top: 10px;" />
+            <img v-if="!isDarkMode" src="assets/img/logo.svg" width="140"
+              style="margin-bottom: 15px; margin-top: 10px;" />
+            <h1>You found a premium feature.</h1>
+            <img v-if="isDarkMode" src="assets/img/u-template-black.png" width="280" />
+            <img v-if="!isDarkMode" src="assets/img/u-template-white.png" width="280" />
+            <br /><br />
+            <p style="max-width: 300px; margin: auto; margin-bottom: 10px;">
+              Prepare email templates to reply to future emails in just one
+              click.
+            </p>
+            <br />
+
+            <div class="modal-bottom">
+              <a class="blue">Get Started</a>
+            </div>
+            <p class="ns30"></p>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TODO: Add info to Info modal -->
+    <div class="aiko-modal" style="display: none;" id="infoModal">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <img :src="$root.resolveIcon('assets/icons/grey-x.svg')" data-dismiss="modal" class="x-email" />
+          <div class="modal-reg">
+            <h1>The most advanced composer ever has a lot to offer.</h1>
+            <br />
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-12">
+                  <span>Markdown: </span>
+                  <span class="bold-c">*Bold*</span>
+                  <span class="italic-c">~Italic~</span>
+                  <span class="code-c">Code</span>
+                  <span class="quotes-c">Quote</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span>Code: </span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span>Advanced Maths: </span>
+                </div>
+              </div>
+            </div>
+            <br />
+            <p class="ns30"></p>
+            <br />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <!-- END id="app" -------------------------------------------------->
 
