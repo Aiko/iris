@@ -3172,12 +3172,10 @@ unselectable {
 
 .add-mailbox .modal-reg img {
 	width: 100%;
-	max-width: 190px;
-	border: solid 1px #e4e4e4;
+	max-width: 250px;
 	margin-bottom: 20px;
 	border-radius: 5px;
 	padding: 5px 30px;
-	background: #fff;
 }
 
 .add-2 {
