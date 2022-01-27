@@ -276,9 +276,18 @@ export class DB {
       }
 
       if (overwrite) {
-        message.tid = m.tid
-        message.seen = m.seen
-        message.starred = m.starred
+        if (message.tid != m.tid) {
+          message.tid = m.tid
+          message.audit_log.push("changed thread to " + m.tid)
+        }
+        if (message.seen != m.seen) {
+          message.seen = m.seen
+          message.audit_log.push("changed seen status to " + m.seen)
+        }
+        if (message.starred != m.starred) {
+          message.starred = m.starred
+          message.audit_log.push("changed starred status to " + m.starred)
+        }
       }
 
       const saved = await message.save()
@@ -304,8 +313,14 @@ export class DB {
     const message = await Message.fromMID(this, mid)
     if (isDBError(message)) return false
 
-    if (seen != null) message.seen = seen
-    if (starred != null) message.starred = starred
+    if (seen != null && message.seen != seen) {
+      message.seen = seen
+      message.audit_log.push("changed seen status to " + seen)
+    }
+    if (starred != null && message.starred != starred) {
+      message.starred = starred
+      message.audit_log.push("changed starred status to " + starred)
+    }
     if (tid != null) {
       const changed = await message.changeThread(tid)
       if (!changed) return false
@@ -321,6 +336,7 @@ export class DB {
       this.Log.error(message.error)
       return false
     }
+    message.audit_log.push("removing message (direct call)")
     return await message.purge()
   }
   async removeMessageLocation(folder: string, uid: string | number, {
@@ -441,6 +457,7 @@ export interface MessageModel {
   recipients: EmailParticipantModel[]
   timestamp: Date
   locations: MessageLocation[]
+  audit_log: string[]
 }
 
 class Message implements MessageModel {
@@ -459,6 +476,7 @@ class Message implements MessageModel {
   cc: EmailParticipantModel[]
   bcc: EmailParticipantModel[]
   recipients: EmailParticipantModel[]
+  audit_log: string[]
 
   private state: DBState = DBState.New
 
@@ -479,6 +497,7 @@ class Message implements MessageModel {
     this.cc = cloneN(data.cc)
     this.bcc = cloneN(data.bcc)
     this.recipients = cloneN(data.recipients)
+    this.audit_log = data.audit_log
     autoBind(this)
   }
 
@@ -500,6 +519,7 @@ class Message implements MessageModel {
         const { folder, uid } = m
         return { folder, uid }
       }),
+      audit_log: this.audit_log
     }
   }
 
@@ -559,7 +579,8 @@ class Message implements MessageModel {
             cursor: this.db.getCursor(),
             folder: '',
             allFolders: [],
-            participants: []
+            participants: [],
+            audit_log: ["created new thread with tid " + this.tid]
           })
           await t.save()
           this.tid = t.tid
@@ -638,6 +659,7 @@ class Message implements MessageModel {
     if (!(t1.removeMessage(this.mid))) return false
 
     this.tid = tid
+    this.audit_log.push("changed parent thread to " + tid)
     const m2 = await this.save()
     if (isDBError(m2)) return false
 
@@ -654,12 +676,16 @@ class Message implements MessageModel {
   }
   async addLocation(m: MessageLocation, {overwrite=false} ={}) {
     if (this.isInFolder(m.folder)) {
-      if (overwrite) this.locations = this.locations.map(L => {
-        if (L.folder == m.folder) L.uid = m.uid
-        return L
-      })
+      if (overwrite) {
+        this.locations = this.locations.map(L => {
+          if (L.folder == m.folder) L.uid = m.uid
+          return L
+        })
+        this.audit_log.push("overwrote location for " + m.folder + " with " + m.uid)
+      }
     } else {
       this.locations.push(m)
+      this.audit_log.push("added location for " + m.folder + " with " + m.uid)
     }
     return this.save()
   }
@@ -672,6 +698,7 @@ class Message implements MessageModel {
     if (!location) return false
     if (!(location.uid == m.uid)) return false
     this.locations = this.locations.filter(L => !sameLocation(L, m))
+    this.audit_log.push("removed location for " + m.folder + " with " + m.uid)
     if (purgeIfEmpty && this.locations.length == 0) return await this.purge()
     if (isDBError(await this.save())) return false
     await this.calibrateThread()
@@ -765,6 +792,7 @@ export interface ThreadModel {
   allFolders: string[] //? other folders for thread
   tid: string
   participants: EmailParticipantModel[]
+  audit_log: string[]
 }
 
 class Thread implements ThreadModel {
@@ -778,6 +806,7 @@ class Thread implements ThreadModel {
   allFolders: string[]
   tid: string
   participants: EmailParticipantModel[]
+  audit_log: string[]
 
   private state: DBState = DBState.New
 
@@ -803,6 +832,7 @@ class Thread implements ThreadModel {
     this.allFolders = data.allFolders
     this.tid = data.tid
     this.participants = cloneN(data.participants)
+    this.audit_log = data.audit_log
     autoBind(this)
   }
 
@@ -815,7 +845,8 @@ class Thread implements ThreadModel {
       folder: this.folder,
       allFolders: this.allFolders,
       tid: this.tid,
-      participants: cloneN(this.participants)
+      participants: cloneN(this.participants),
+      audit_log: this.audit_log
     }
   }
 
@@ -892,6 +923,7 @@ class Thread implements ThreadModel {
     const messages = await this.messages()
     if (messages.length == 0) {
       if (save) {
+        this.audit_log.push("deleted thread because it has no messages")
         this.ds.remove({ tid: this.tid }, {}, (err) => {
           if (err) this.db.Log.error(err)
         })
@@ -900,7 +932,11 @@ class Thread implements ThreadModel {
     }
 
     //? set the date to the newest date (first message)
-    this.date = messages[0].timestamp
+    const date = messages[0].timestamp
+    if (this.date != date) {
+      this.date = date
+      this.audit_log.push("changed date to " + date.toISOString())
+    }
 
     //? determine the UI board a thread belongs to
     let board = ''
@@ -938,8 +974,18 @@ class Thread implements ThreadModel {
     const allFolders =
       [...new Set(messages.map(({ locations }) => locations.map(({ folder }) => folder)).flat())]
     ;
-    this.allFolders = allFolders
-
+    allFolders.map(folder => {
+      if (!this.allFolders.includes(folder)) {
+        this.allFolders.push(folder)
+        this.audit_log.push("added folder " + folder)
+      }
+    })
+    this.allFolders.map(folder => {
+      if (!allFolders.includes(folder)) {
+        this.allFolders.splice(this.allFolders.indexOf(folder), 1)
+        this.audit_log.push("removed folder " + folder)
+      }
+    })
 
     await this.getParticipants(messages)
 
@@ -951,7 +997,7 @@ class Thread implements ThreadModel {
   private async getParticipants(messages: MessageModel[]) {
     const _this = this
     const participantAddresses = new Set()
-    this.participants = messages.map(({ from, recipients, locations }): EmailParticipantModel[] => {
+    const participants = messages.map(({ from, recipients, locations }): EmailParticipantModel[] => {
       const people = [from, ...recipients]
       //? try to detect a forwarding address
       const forwardAddress = ((): string | null => {
@@ -974,6 +1020,32 @@ class Thread implements ThreadModel {
       others.map(({ address }) => participantAddresses.add(address))
       return others
     }).flat()
+    participants.map(participant => {
+      const exists = this.participants.find(({ address }) => address == participant.address)
+      if (!exists) {
+        this.participants.push(participant)
+        this.audit_log.push("added participant " + participant.address + " with name " + participant.name)
+      } else {
+        const i = this.participants.indexOf(exists)
+        if (exists.name != participant.name) {
+          exists.name = participant.name
+          this.audit_log.push("changed participant name for " + participant.address + " to " + participant.name)
+        }
+        if (exists.base != participant.base) {
+          exists.base = participant.base
+          this.audit_log.push("changed participant base name for " + participant.address + " to " + participant.base)
+        }
+        // update element in array
+        this.participants[i] = exists
+      }
+    })
+    this.participants.map(participant => {
+      const exists = participants.find(({ address }) => address == participant.address)
+      if (!exists) {
+        this.participants.splice(this.participants.indexOf(participant), 1)
+        this.audit_log.push("removed participant " + participant.address)
+      }
+    })
   }
 
   //? Utility methods to work with messages
@@ -998,6 +1070,7 @@ class Thread implements ThreadModel {
   async removeMessage(mid: string): Promise<boolean> {
     if (!this.hasMID(mid)) return false
     this.mids = this.mids.filter(m => m != mid)
+    this.audit_log.push("removed message " + mid)
     await this.calibrate()
     return true
   }
@@ -1067,17 +1140,20 @@ class Thread implements ThreadModel {
 
     const immigrants = eul.clean().mids
     eul.mids = []
+    eul.audit_log.push("disowned all messages for merge")
     await eul.calibrate()
 
     //? grant visas
     const visa_holders = immigrants.filter(immigrant => !(gap.hasMID(immigrant)))
     visa_holders.map(mid => gap.mids.push(mid))
+    gap.audit_log.push("added messages: " + visa_holders)
     await gap.calibrate()
 
     const results:(MessageModel | DBError)[] = await Promise.all(visa_holders.map(async mid => {
       const message = await Message.fromMID(db, mid)
       if (isDBError(message)) return message
       message.tid = gap.tid //? can't use .changeThread because eul is deleted
+      message.audit_log.push("changed thread (MERGE) to " + gap.tid)
       return await message.save()
     }))
 
@@ -1097,6 +1173,7 @@ export interface ContactModel {
   received: number
   lastSeen: Date
   priority: number
+  audit_log: string[]
 }
 
 class Contact implements ContactModel {
@@ -1109,6 +1186,7 @@ class Contact implements ContactModel {
   received: number
   lastSeen: Date
   priority: number
+  audit_log: string[]
 
   private state: DBState = DBState.New
 
@@ -1123,6 +1201,7 @@ class Contact implements ContactModel {
     this.received = data.received
     this.lastSeen = new Date(data.lastSeen)
     this.priority = data.priority
+    this.audit_log = data.audit_log
     autoBind(this)
   }
 
@@ -1140,7 +1219,8 @@ class Contact implements ContactModel {
       sent: this.sent,
       received: this.received,
       lastSeen: this.lastSeen,
-      priority: this.priority
+      priority: this.priority,
+      audit_log: this.audit_log
     }
   }
 
@@ -1241,6 +1321,8 @@ class Contact implements ContactModel {
 
   static async fromEmailOrCreate(db: DB, email: string, name: string): Promise<Contact | DBError> {
     let contact = await this.fromEmail(db, email)
+    if (name.includes('@')) name = name.toLowerCase()
+    else name = name.charAt(0).toUpperCase() + name.slice(1)
     if (isDBError(contact)) {
       if (contact.dne) {
         contact = new Contact(db, {
@@ -1248,13 +1330,21 @@ class Contact implements ContactModel {
           received: 0,
           sent: 0,
           priority: -1,
-          lastSeen: new Date()
+          lastSeen: new Date(),
+          audit_log: ["created new contact with email " + email + " and name " + name]
         })
         const saved = await contact.save()
         if (isDBError(saved)) return saved
         else return contact
       } else return contact
-    } else return contact
+    } else {
+      if (contact.name != name && !(name.includes('@'))) {
+        contact.audit_log.push("changed name to " + name)
+        contact.name = name
+        await contact.save()
+      }
+      return contact
+    }
   }
 
   //! Sanitizes input as this is client facing
@@ -1269,7 +1359,6 @@ class Contact implements ContactModel {
 
     contact.received += 1
     contact.lastSeen = new Date()
-    contact.name = name || contact.name || ''
 
     const saved = await contact.save()
     if (isDBError(saved)) return saved
@@ -1287,7 +1376,6 @@ class Contact implements ContactModel {
 
     contact.sent += 1
     contact.lastSeen = new Date()
-    contact.name = name || contact.name || ''
 
     const saved = await contact.save()
     if (isDBError(saved)) return saved

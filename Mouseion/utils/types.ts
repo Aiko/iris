@@ -101,6 +101,7 @@ export interface MouseionParsed extends MouseionParsedBase {
 export interface EmailBase {
   raw: EmailRawBase
   folder: string
+  audit_log: string[]
 }
 
 export interface MFlags {

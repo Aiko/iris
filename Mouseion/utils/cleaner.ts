@@ -84,7 +84,8 @@ export default class Janitor {
   async base(email: EmailRawBase): Promise<EmailBase> {
     return {
       raw: email,
-      folder: this.folder
+      folder: this.folder,
+      audit_log: []
     }
   }
 
