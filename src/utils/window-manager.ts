@@ -119,7 +119,9 @@ export default class WindowManager {
     this.win.webContents.send(channel, data)
   }
 
-  static newWindow(args: Partial<Electron.BrowserWindowConstructorOptions>) {
+  static newWindow(args: Partial<Electron.BrowserWindowConstructorOptions>, {
+    spellcheck=false
+  } ={}) {
     return new BrowserWindow({
       show: false,
       frame: process.platform == 'darwin',
@@ -128,6 +130,7 @@ export default class WindowManager {
       webPreferences: {
         enableRemoteModule: true, //! FIXME: you know this is bad...
         nodeIntegration: true, //! FIXME: migrate fully to websockets
+        spellcheck,
       },
       icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png',
       ...args

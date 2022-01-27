@@ -25,7 +25,7 @@ export default class Composer {
   private open({bang}: {bang: string}) {
     const win = WindowManager.newWindow({
       height: 600, width: 800
-    })
+    }, {spellcheck: true})
 
     const windowManager = new WindowManager(this.Registry, win, 'composer-' + bang)
     windowManager.window = win
