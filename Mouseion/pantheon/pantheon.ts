@@ -349,6 +349,21 @@ export class DB {
     }
     return await message.removeLocation({folder, uid}, {purgeIfEmpty})
   }
+  async messageAuditLog(mid: string, log: string): Promise<string[]> {
+    //? add to message audit log and save
+    const message = await Message.fromMID(this, mid)
+    if (isDBError(message)) {
+      this.Log.error(message.error)
+      return []
+    }
+    message.audit_log.push(log)
+    const saved = await message.save()
+    if (isDBError(saved)) {
+      this.Log.error(saved.error)
+      return message.audit_log
+    }
+    return message.audit_log
+  }
 
   //*-------------- Utility methods for threads
   async findThreadWithTID(tid: string): Promise<ThreadModel | null> {
@@ -388,6 +403,21 @@ export class DB {
     }
     const messages = await thread.messages({descending})
     return messages.map(message => message.clean())
+  }
+  async threadAuditLog(tid: string, log: string): Promise<string[]> {
+    //? add to thread audit log and save
+    const thread = await Thread.fromTID(this, tid)
+    if (isDBError(thread)) {
+      this.Log.error(thread.error)
+      return []
+    }
+    thread.audit_log.push(log)
+    const saved = await thread.save()
+    if (isDBError(saved)) {
+      this.Log.error(saved.error)
+      return thread.audit_log
+    }
+    return thread.audit_log
   }
 
   //*-------------- Utility methods for contacts

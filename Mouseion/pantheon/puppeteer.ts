@@ -53,11 +53,13 @@ const DBMessagesAdd = DB?.addMessage
 const DBMessagesUpdate = DB?.updateMessage
 const DBMessagesPurgeAll = DB?.removeMessage
 const DBMessagesPurgeLocation = DB?.removeMessageLocation
+const DBMessagesAuditLog = DB?.messageAuditLog
 const DBThreadsFindTID = DB?.findThreadWithTID
 const DBThreadsFindLatest = DB?.findThreadsByLatest
 const DBThreadsFindFolder = DB?.findThreadsInFolder
 const DBThreadsMerge = DB?.mergeThreads
 const DBThreadsMessages = DB?.threadMessages
+const DBThreadsAuditLog = DB?.threadAuditLog
 const DBContactsSearch = DB?.findContacts
 const DBContactsUpdateReceived = DB?.updateContactReceived
 const DBContactsUpdateSent = DB?.updateContactSent
@@ -197,7 +199,8 @@ export class PantheonProxy {
       purge: {
         all: this.proxy<Parameters<typeof DBMessagesPurgeAll>, ReturnType<typeof DBMessagesPurgeAll>>("db.messages.purge.all"),
         location: this.proxy<Parameters<typeof DBMessagesPurgeLocation>, ReturnType<typeof DBMessagesPurgeLocation>>("db.messages.purge.location"),
-      }
+      },
+      audit_log: this.proxy<Parameters<typeof DBMessagesAuditLog>, ReturnType<typeof DBMessagesAuditLog>>("db.messages.audit_log"),
     },
     threads: {
       find: {
@@ -207,6 +210,7 @@ export class PantheonProxy {
       },
       merge: this.proxy<Parameters<typeof DBThreadsMerge>, ReturnType<typeof DBThreadsMerge>>("db.threads.merge"),
       messages: this.proxy<Parameters<typeof DBThreadsMessages>, ReturnType<typeof DBThreadsMessages>>("db.threads.messages"),
+      audit_log: this.proxy<Parameters<typeof DBThreadsAuditLog>, ReturnType<typeof DBThreadsAuditLog>>("db.threads.audit_log"),
     },
     contacts: {
       search: this.proxy<Parameters<typeof DBContactsSearch>, ReturnType<typeof DBContactsSearch>>("db.contacts.search"),
