@@ -427,6 +427,10 @@ class ThreadResolver {
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
         await this.pantheon.cache.full.cache(MID, email)
+        const maybeEmail = await this.pantheon.cache.full.check(MID)
+        if (!maybeEmail) {
+          audit_log.push(`[fetch] tried to do a refresh off of full cache, failed`)
+        } else email = maybeEmail
         const content: any = JSON.parse(JSON.stringify(email))
         content.parsed.attachments = content.parsed.attachments.map((attachment: any) => {
           attachment.content = Buffer.from([])
