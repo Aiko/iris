@@ -37,10 +37,12 @@ type Resolved<T extends EmailBase> = T & {
   locations: MessageLocation[],
   mid: MessageID,
   tid: string,
-  timestamp: Date
+  timestamp: Date,
+  db_audit_log: string[]
 }
 type ResolvedThread<T extends EmailBase> = ThreadModel & {
-  emails: Resolved<T>[]
+  emails: Resolved<T>[],
+  resolver_audit_log: string[]
 }
 const resolve = <T extends EmailWithEnvelope>(email: T, message: MessageModel): Resolved<T> => {
   email = Janitor.storage<T>(email)
@@ -49,19 +51,21 @@ const resolve = <T extends EmailWithEnvelope>(email: T, message: MessageModel): 
     locations: message.locations,
     mid: message.mid,
     tid: message.tid,
-    timestamp: new Date(message.timestamp)
+    timestamp: new Date(message.timestamp),
+    db_audit_log: message.audit_log
   }
   return resolved
 }
-const resolveThread = <T extends EmailWithEnvelope>(emails: Resolved<T>[], thread: ThreadModel) => {
+const resolveThread = <T extends EmailWithEnvelope>(emails: Resolved<T>[], thread: ThreadModel, audit_log: string[]) => {
   emails = emails.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
   const resolved: ResolvedThread<T> = {
     ...thread,
     emails,
+    resolver_audit_log: audit_log
   }
   return resolved
 }
-const resolveThreads = <T extends EmailWithEnvelope>(emails: Resolved<T>[], threads: ThreadModel[]) => {
+const resolveThreads = <T extends EmailWithEnvelope>(emails: Resolved<T>[], threads: ThreadModel[], audit_logs: {[tid: string]: string[]}) => {
   const tids: string[] = []
   const tid2email: Record<string, Resolved<T>[]> = {}
   const tid2thread: Record<string, ThreadModel> = {}
@@ -76,7 +80,7 @@ const resolveThreads = <T extends EmailWithEnvelope>(emails: Resolved<T>[], thre
   }
   const resolvedThreads: ResolvedThread<T>[] = []
   for (const tid of tids) {
-    const resolvedThread = resolveThread<T>(tid2email[tid], tid2thread[tid])
+    const resolvedThread = resolveThread<T>(tid2email[tid], tid2thread[tid], audit_logs[tid] || ["error: no audit log found"])
     resolvedThread.date = new Date(resolvedThread.date)
     resolvedThreads.push(resolvedThread)
   }
@@ -292,8 +296,10 @@ class ThreadResolver {
     autoBind(this)
   }
 
-  plan(need: MessageModel[], thread: ThreadModel): FetchPlan {
+  plan(need: MessageModel[], thread: ThreadModel): {plan: FetchPlan, audit_log: string[]} {
     const plan: FetchPlan = {}
+
+    const audit_log: string[] = []
 
     const plot = (location: MessageLocation, message: MessageModel) => {
       const folder = location.folder
@@ -315,25 +321,45 @@ class ThreadResolver {
 
       //? First, try the thread's main folder
       loc = getLocation(message.locations, thread.folder)
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_log.push("[plan] message was in thread's main folder")
+        continue;
+      }
 
       //? Next, look for a shortcut
       loc = message.locations.filter(({ folder }) => !!(plan[folder]))?.[0]
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_log.push("[plan] message was in a folder we are already planning to fetch")
+        continue;
+      }
 
       //? Then, try the inbox
       loc = getLocation(message.locations, this.folders.inbox() || '')
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_log.push("[plan] message was in inbox")
+        continue;
+      }
 
       //? Lastly, try the sent folder
       loc = getLocation(message.locations, this.folders.sent() || '')
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_log.push("[plan] message was in sent")
+        continue;
+      }
 
       //? If all else fails just add the first folder
       loc = message.locations[0]
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_log.push("[plan] using first location as fallback")
+        continue;
+      }
     }
-    return plan
+    return {plan, audit_log}
   }
 
   async full(TID: string): Promise<ResolvedThread<EmailFull> | null> {
@@ -347,15 +373,18 @@ class ThreadResolver {
       this.Log.warn("TID", TID, "does not have messages?")
       return null
     }
+    const audit_log: string[] = ["found thread and messages in db"]
 
     const have: Resolved<EmailFull>[] = []
     const need: MessageModel[] = []
     await Promise.all(messages.map(async message => {
       const email = await this.pantheon.cache.full.check(message.mid) || null
       if (!email) {
+        audit_log.push(`did not have cache entry for message ${message.mid}`)
         need.push(message)
         return
       }
+      audit_log.push(`found cache entry for message ${message.mid}`)
       email.M.flags.seen = message.seen
       email.M.flags.starred = message.starred
       const resolved = resolve<EmailFull>(email, message)
@@ -363,7 +392,9 @@ class ThreadResolver {
     }))
 
     //? Build plan
-    const plan = this.plan(need, thread)
+    const Plan = this.plan(need, thread)
+    const { plan } = Plan
+    audit_log.push(...Plan.audit_log)
 
     //? Execute plan
     const folders = Object.keys(plan)
@@ -384,12 +415,14 @@ class ThreadResolver {
         cids: false,
         limit: uids.length
       })
+      audit_log.push(`[fetch] got ${raw_emails.length} messages from ${folder}`)
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("FULL - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
+        audit_log.push(`[fetch] resolved ${message.mid}`)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
@@ -409,7 +442,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailFull>(emails, thread)
+    return resolveThread<EmailFull>(emails, thread, audit_log)
   }
 
   async content(TID: string): Promise<ResolvedThread<EmailFull> | null> {
@@ -423,6 +456,7 @@ class ThreadResolver {
       this.Log.warn("TID", TID, "does not have messages?")
       return null
     }
+    const audit_log: string[] = ["found thread and messages in db"]
 
     const have: Resolved<EmailFull>[] = []
     const need: MessageModel[] = []
@@ -430,8 +464,10 @@ class ThreadResolver {
       const email = await this.pantheon.cache.content.check(message.mid) || null
       if (!email) {
         need.push(message)
+        audit_log.push(`did not have cache entry for message ${message.mid}`)
         return
       }
+      audit_log.push(`found cache entry for message ${message.mid}`)
       email.M.flags.seen = message.seen
       email.M.flags.starred = message.starred
       const resolved = resolve<EmailFull>(email, message)
@@ -439,7 +475,9 @@ class ThreadResolver {
     }))
 
     //? Build plan
-    const plan = this.plan(need, thread)
+    const Plan = this.plan(need, thread)
+    const { plan } = Plan
+    audit_log.push(...Plan.audit_log)
 
     //? Execute plan, using attachment level fetching anyways
     const folders = Object.keys(plan)
@@ -460,12 +498,14 @@ class ThreadResolver {
         cids: false,
         limit: uids.length
       })
+      audit_log.push(`[fetch] got ${raw_emails.length} messages from ${folder}`)
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("CONTENT - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailFull>(email, message)
+        audit_log.push(`[fetch] resolved ${message.mid}`)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
@@ -485,7 +525,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailFull>(emails, thread)
+    return resolveThread<EmailFull>(emails, thread, audit_log)
   }
 
   async headers(TID: string): Promise<ResolvedThread<EmailWithReferences> | null> {
@@ -499,15 +539,18 @@ class ThreadResolver {
       this.Log.warn("TID", TID, "does not have messages?")
       return null
     }
+    const audit_log: string[] = ["found thread and messages in db"]
 
     const have: Resolved<EmailWithReferences>[] = []
     const need: MessageModel[] = []
     await Promise.all(messages.map(async message => {
       const email = await this.pantheon.cache.headers.check(message.mid) || null
       if (!email) {
+        audit_log.push(`did not have cache entry for message ${message.mid}`)
         need.push(message)
         return
       }
+      audit_log.push(`found cache entry for message ${message.mid}`)
       email.M.flags.seen = message.seen
       email.M.flags.starred = message.starred
       const resolved = resolve<EmailWithReferences>(email, message)
@@ -515,7 +558,9 @@ class ThreadResolver {
     }))
 
     //? Build plan
-    const plan = this.plan(need, thread)
+    const Plan = this.plan(need, thread)
+    const { plan } = Plan
+    audit_log.push(...Plan.audit_log)
 
     //? Execute plan
     const folders = Object.keys(plan)
@@ -533,12 +578,14 @@ class ThreadResolver {
         markAsSeen: false,
         limit: uids.length
       })
+      audit_log.push(`[fetch] got ${raw_emails.length} messages from ${folder}`)
 
       const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.headers)
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("HEADERS - Something went wrong in populating the lookup table.")
         const resolved = resolve<EmailWithReferences>(email, message)
+        audit_log.push(`[fetch] resolved ${message.mid}`)
         have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
@@ -549,7 +596,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailWithReferences>(emails, thread)
+    return resolveThread<EmailWithReferences>(emails, thread, audit_log)
   }
 
 }
@@ -572,8 +619,13 @@ class MultiThreadResolver {
     autoBind(this)
   }
 
-  plan(need: MessageModel[], threads: ThreadModel[]): FetchPlan {
+  plan(need: MessageModel[], threads: ThreadModel[]): {plan: FetchPlan, audit_logs: {[tid: string]: string[]}} {
     const plan: FetchPlan = {}
+    const audit_logs: {[tid: string]: string[]} = {}
+
+    for (const thread of threads) {
+      audit_logs[thread.tid] = []
+    }
 
     const plot = (location: MessageLocation, message: MessageModel) => {
       const folder = location.folder
@@ -600,25 +652,45 @@ class MultiThreadResolver {
 
       //? First, try the thread's main folder
       loc = getLocation(message.locations, thread.folder)
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_logs[thread.tid].push(`[plan] message ${message.mid} was in thread's main folder`)
+        continue;
+      }
 
       //? Next, look for a shortcut
       loc = message.locations.filter(({ folder }) => !!(plan[folder]))?.[0]
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_logs[thread.tid].push(`[plan] message ${message.mid} was in a folder we are already planning to fetch`)
+        continue;
+      }
 
       //? Then, try the inbox
       loc = getLocation(message.locations, this.folders.inbox() || '')
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_logs[thread.tid].push(`[plan] message ${message.mid} was in inbox`)
+        continue;
+      }
 
       //? Lastly, try the sent folder
       loc = getLocation(message.locations, this.folders.sent() || '')
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_logs[thread.tid].push(`[plan] message ${message.mid} was in sent`)
+        continue;
+      }
 
       //? If all else fails just add the first folder
       loc = message.locations[0]
-      if (loc) { plot(loc, message); continue; }
+      if (loc) {
+        plot(loc, message);
+        audit_logs[thread.tid].push(`[plan] message ${message.mid} is using first location as fallback`)
+        continue;
+      }
     }
-    return plan
+    return {plan, audit_logs}
   }
 
   async latest(folder: string, minCursor: number, {limit=5000, start=0, loose=false} ={}): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[], msgs?: MessageModel[]}> {
@@ -639,15 +711,19 @@ class MultiThreadResolver {
     const threads = _threads.filter(({ cursor }) => cursor > minCursor)
     this.Log.log(folder.blue, "| has", threads.length, "threads to process.")
 
+    const audit_logs: {[tid: string]: string[]} = {}
+
     const messages: MessageModel[] = []
     for (const thread of threads) {
+      audit_logs[thread.tid] = []
       const msgs = await this.pantheon.db.threads.messages(thread.tid)
       if (!msgs || msgs.length == 0) {
         this.Log.warn(folder, "TID", thread.tid, "does not have messages?")
         continue;
       }
-      //! we only push the latest 3 messages as that's all we're concerned with
-      messages.push(...(msgs.slice(0, 3)))
+      //! we only push the latest 10 messages as that's all we're concerned with
+      messages.push(...(msgs.slice(0, 10)))
+      audit_logs[thread.tid].push(`assembled ${messages.length} messages`)
     }
     if (messages.length == 0) {
       if (threads.length > 0) this.Log.warn(folder, "Latest TIDs do not have messages?")
@@ -657,25 +733,34 @@ class MultiThreadResolver {
 
     const have: Resolved<EmailFull>[] = []
     const need: MessageModel[] = []
-    const rtCheck: number[] = []
+    const rtCheck: number[] = [] //? runtimes of cache checks
+
     await Promise.all(messages.map(async message => {
       const t0 = performance.now()
       const email = await this.pantheon.cache.content.check(message.mid) || null
       rtCheck.push(performance.now() - t0)
       if (!email) {
         need.push(message)
+        audit_logs[message.tid].push(`message ${message.mid} is NOT cached`)
         return
       }
       email.M.flags.seen = message.seen
       email.M.flags.starred = message.starred
       const resolved = resolve<EmailFull>(email, message)
       have.push(resolved)
+      audit_logs[message.tid].push(`already have message ${message.mid}`)
     }))
     this.Log.log(folder, "Built partial deep thread delta.")
     this.Log.log(folder, "Check avg time:", rtCheck.reduce((a, b) => a + b) / rtCheck.length, rtCheck)
 
     //? Build plan
-    const plan = this.plan(need, threads)
+    const Plan = this.plan(need, threads)
+    const { plan } = Plan
+    for (const thread of threads) {
+      if (Plan.audit_logs[thread.tid]?.length > 0) {
+        audit_logs[thread.tid].push(...(Plan.audit_logs[thread.tid]))
+      }
+    }
     this.Log.log(folder, "Assembled fetch plan...")
 
     //? Execute plan
@@ -712,6 +797,7 @@ class MultiThreadResolver {
         if (!message) return; //* there will be extras due to the way we construct sequences
         const resolved = resolve<EmailFull>(email, message)
         have.push(resolved)
+        audit_logs[message.tid].push(`resolved message ${message.mid}`)
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
         await this.pantheon.cache.full.cache(MID, email)
@@ -730,7 +816,7 @@ class MultiThreadResolver {
     }
     this.Log.log(folder, "Completed deep thread delta.")
 
-    const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads)
+    const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads, audit_logs)
     return {all: _threads, updated: resolved}
   }
 
