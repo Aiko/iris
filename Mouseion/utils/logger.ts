@@ -67,6 +67,7 @@ class UnemployedLumberjack implements Logger {
     const start = this.timers[label]
     if (!start) this._log(Forest.prefixes.warn)('No timer found for', label)
     else this._log(Forest.prefixes.timer)(label, ':', now - start, 'ms')
+    delete this.timers[label]
   }
 
 }

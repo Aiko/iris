@@ -73,7 +73,7 @@ export default class Sync {
       this.Log.warn(folder.blue, "| has no messages in the local database.")
       return 0;
     }
-    this.Log.log(folder.blue, "| has", messages.length, "messages in the local database.")
+    this.Log.log("[SYNC-EXISTING]", folder.blue, "| has", messages.length, "messages in the local database.")
 
     const uidSet: Set<number> = new Set()
     messages.forEach(message => {
@@ -83,12 +83,17 @@ export default class Sync {
     const uids = [...uidSet].sort((a, b) => a - b)
 
     if (uids.length > 0) {
-      this.Log.log(folder.blue, "| syncing local UIDs.")
+      this.Log.log("[SYNC-EXISTING]", folder.blue, "| syncing local UIDs.")
 
+      this.Log.time("[SYNC-EXISTING]", folder.blue, "| fetching remote UIDs.")
       const raw_emails = await this.courier.messages.listMessagesWithFlags(folder, sequence(uids), {
         limit: 5000
       })
+      this.Log.timeEnd("[SYNC-EXISTING]", folder.blue, "| fetching remote UIDs.")
+
+      this.Log.time("[SYNC-EXISTING]", folder.blue, "| parsing remote UIDs.")
       const emails = await Promise.all(raw_emails.map(raw_email => janitor.flags(raw_email)))
+      this.Log.timeEnd("[SYNC-EXISTING]", folder.blue, "| parsing remote UIDs.")
 
       //? wow a lookup table what is this a coding interview question?
       const lookup: Record<number, EmailWithFlags> = {}
@@ -109,12 +114,12 @@ export default class Sync {
 
         if (!email) {
           //? email has been removed from location, reflect locally
-          this.Log.warn(folder.blue, "| MID", message.mid, "has been removed from this folder.")
+          this.Log.warn("[SYNC-EXISTING]", folder.blue, "| MID", message.mid, "has been removed from this folder.")
           await this.pantheon.db.messages.purge.location(folder, uid)
           this.tailor.unity(message.tid)
         } else if (email.M.flags.deleted) {
           //? email has been deleted, purge locally
-          this.Log.warn(folder.blue, "| MID", message.mid, "has been deleted.")
+          this.Log.warn("[SYNC-EXISTING]", folder.blue, "| MID", message.mid, "has been deleted.")
           await this.pantheon.db.messages.purge.all(message.mid)
           this.tailor.unity(message.tid)
         } else {
@@ -128,10 +133,10 @@ export default class Sync {
         }
       }))
 
-      this.Log.success(folder.blue, "| synced", uids.length, "messages for flags/existence.")
+      this.Log.success("[SYNC-EXISTING]", folder.blue, "| synced", uids.length, "messages for flags/existence.")
       return uids[uids.length - 1];
     } else {
-      this.Log.warn(folder.blue, "| did not resolve to local UIDs.")
+      this.Log.warn("[SYNC-EXISTING]", folder.blue, "| did not resolve to local UIDs.")
       return 0;
     }
   }
@@ -147,16 +152,20 @@ export default class Sync {
     const uidHeaderLimit = uidFullLimit - LIMIT_HEADER_EMAILS
 
     const uidMin = Math.max(uidLatest, uidHeaderLimit)
-    this.Log.warn(folder, "| is behind by too many messages, lazy syncing", uidFullLimit - uidMin, "emails.")
+    this.Log.warn("[SYNC-LAZY]", folder.blue, "| is behind by too many messages, lazy syncing", uidFullLimit - uidMin, "emails.")
 
+    this.Log.time("[SYNC-LAZY]", folder.blue, "| fetching remote headers.")
     const raw_emails = await this.courier.messages.listMessagesWithHeaders(folder, `${uidMin}:${uidFullLimit+1}`, {
       markAsSeen: false, parse: true, limit: LIMIT_HEADER_EMAILS
     })
+    this.Log.timeEnd("[SYNC-LAZY]", folder.blue, "| fetching remote headers.")
 
+    this.Log.time("[SYNC-LAZY]", folder.blue, "| parsing remote headers.")
     const emails = await Promise.all(raw_emails.map(raw_email => janitor.headers(raw_email)))
+    this.Log.timeEnd("[SYNC-LAZY]", folder.blue, "| parsing remote headers.")
 
     await do_in_batch(emails, this.THREAD_BATCH_SIZE, async email => {
-      if (!(email.M.envelope.mid)) return this.Log.error("Message is missing MID.")
+      if (!(email.M.envelope.mid)) return this.Log.error("[SYNC-LAZY]", folder.blue, "Message is missing MID.")
       /**
         *!FIXME: using shalow threading causes a situation:
         *? right now, below line will assign a tid but not do refs
@@ -173,17 +182,17 @@ export default class Sync {
   }
 
   async sync(folder: string) {
-    this.Log.time(folder.blue, "| Completed sync cycle.")
+    this.Log.time("[SYNC]", folder.blue, "| Completed sync cycle.")
 
     //? Increment cursor
     await this.meta.store('cursor', await this.pantheon.cursor.next())
 
     const janitor = await this.custodian.get(folder)
 
-    this.Log.log("Attempting to sync", folder.blue, "...")
+    this.Log.log("[SYNC]", "Attempting to sync", folder.blue, "...")
     const folderDetails = await this.courier.folders.openFolder(folder)
     const uidNext = folderDetails?.uidNext
-    if (!uidNext) return this.Log.error(folder.blue, "| did not provide a UIDNext.");
+    if (!uidNext) return this.Log.error("[SYNC]", folder.blue, "| did not provide a UIDNext.");
 
     const uidLatest = (await this.sync_existing(folder)) + 1
 
@@ -192,19 +201,24 @@ export default class Sync {
     if (uidLatest < uidFullLimit) await this.sync_lazy(folder, uidLatest, uidFullLimit)
 
     const uidMin = Math.max(uidLatest, uidFullLimit)
-    this.Log.log(folder.blue, "| Fetching full new messages in range", `${uidMin}:${uidNext}`)
+    this.Log.log("[SYNC]", folder.blue, "| Fetching full new messages in range", `${uidMin}:${uidNext}`)
 
+    this.Log.time("[SYNC]", folder.blue, "| fetching remote in full.")
     const raw_emails = await this.courier.messages.listMessagesFull(folder, `${uidMin}:${uidNext}`, {
       bodystructure: true, parse: true,
       markAsSeen: false, limit: LIMIT_FULL_EMAILS,
       attachments: false, cids: true, //? feel free to negate these last two and cache immediately
     })
+    this.Log.timeEnd("[SYNC]", folder.blue, "| fetching remote in full.")
 
+    this.Log.time("[SYNC]", folder.blue, "| parsing remote in full.")
     const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
-    this.Log.success(folder.blue, "| Received", emails.length, "new emails.")
+    this.Log.timeEnd("[SYNC]", folder.blue, "| parsing remote in full.")
+
+    this.Log.success("[SYNC]", folder.blue, "| Received", emails.length, "new emails.")
 
     await do_in_batch(emails, this.THREAD_BATCH_SIZE, async email => {
-      if (!(email.M.envelope.mid)) return this.Log.error("Message is missing MID.")
+      if (!(email.M.envelope.mid)) return this.Log.error("[SYNC]", folder.blue, "Message is missing MID.")
 
       await this.tailor.phase_1(email, {
         deepThreading: true
@@ -226,7 +240,7 @@ export default class Sync {
       await this.pantheon.cache.envelope.cache(mid, partial)
     })
 
-    return this.Log.timeEnd(folder.blue, "| Completed sync cycle.")
+    return this.Log.timeEnd("[SYNC]", folder.blue, "| Completed sync cycle.")
   }
 
 }
