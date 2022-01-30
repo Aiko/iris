@@ -5,6 +5,7 @@ import path from 'path'
 import Storage from './storage'
 import WebSocket from 'ws'
 import sleep from './sleep'
+import { performance } from 'perf_hooks'
 
 /** Generates a string timestamp of the current date/time */
 export const Timestamp = (): string => {
@@ -38,6 +39,9 @@ export interface Logger {
 class UnemployedLumberjack implements Logger {
   readonly label: string
   readonly forest: Forest
+
+  private timers: {[key: string]: number} = {}
+
   constructor(label: string, forest: Forest) {
     this.label = label
     this.forest = forest
@@ -53,8 +57,17 @@ class UnemployedLumberjack implements Logger {
   warn = this._log(Forest.prefixes.warn).bind(this)
 
   //! Timing functions will not appear in logs (intentional)
-  time = (..._: any[]) => console.time([Forest.prefixes.timer, this.label, ..._].join(' '))
-  timeEnd = (..._: any[]) => console.timeEnd([Forest.prefixes.timer, this.label, ..._].join(' '))
+  time = (..._: any[]) => {
+    const label: string = [Forest.prefixes.timer, this.label, ..._].join(' ')
+    this.timers[label] = performance.now()
+  }
+  timeEnd = (..._: any[]) => {
+    const now = performance.now()
+    const label = [Forest.prefixes.timer, this.label, ..._].join(' ')
+    const start = this.timers[label]
+    if (!start) this._log(Forest.prefixes.warn)('No timer found for', label)
+    else this._log(Forest.prefixes.timer)(label, ':', now - start, 'ms')
+  }
 
 }
 export type LumberjackEmployer = (label: string) => Logger
