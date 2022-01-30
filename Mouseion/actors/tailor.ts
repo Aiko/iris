@@ -91,7 +91,7 @@ export default class Tailor {
     return found
   }
 
-  private async thread_reference(email: EmailWithReferences, referenceMID: MessageID, existingTID=''): Promise<string> {
+  private async thread_reference(email: EmailWithReferences, referenceMID: MessageID, existingTID='', audit_log: string[]=[]): Promise<string> {
     const local_message = await this.pantheon.db.messages.find.mid(referenceMID)
     if (local_message) {
       //? If the reference exists locally, we work with existing threads
@@ -118,7 +118,8 @@ export default class Tailor {
           to: email.M.envelope.to,
           cc: email.M.envelope.cc,
           bcc: email.M.envelope.bcc,
-          recipients: email.M.envelope.recipients
+          recipients: email.M.envelope.recipients,
+          audit_log: [...audit_log, "creating message as part of threading references", "creating new thread for message as there is no running thread to merge references into"]
         }
         await this.pantheon.db.messages.add(m)
         return local_message.tid
@@ -130,7 +131,10 @@ export default class Tailor {
       if (email.M.envelope.mid == referenceMID) return existingTID
 
       const archive = this.folders.archive()
-      if (archive) found = await this.fetch_reference(referenceMID, archive, email)
+      if (archive) {
+        found = await this.fetch_reference(referenceMID, archive, email)
+        audit_log.push("found reference in archive")
+      }
 
       //? GMail uses archive as All Mail, so there is no need to search anything other than that
       if (this.provider != 'google' && !found) {
@@ -141,18 +145,27 @@ export default class Tailor {
         //! 3. Trash
 
         const sent = this.folders.sent()
-        if (sent) found = await this.fetch_reference(referenceMID, sent, email)
+        if (sent) {
+          found = await this.fetch_reference(referenceMID, sent, email)
+          audit_log.push("found reference in sent")
+        }
         if (!found) {
           const inbox = await this.folders.inbox()
-          if (inbox) found = await this.fetch_reference(referenceMID, inbox, email)
+          if (inbox) {
+            found = await this.fetch_reference(referenceMID, inbox, email)
+            audit_log.push("found reference in inbox")
+          }
           if (!found) {
             const trash = await this.folders.trash()
-            if (trash) found = await this.fetch_reference(referenceMID, trash, email)
+            if (trash) {
+              found = await this.fetch_reference(referenceMID, trash, email)
+              audit_log.push("found reference in trash")
+            }
           }
         }
       }
 
-      if (found) return await this.thread_reference(email, referenceMID, existingTID)
+      if (found) return await this.thread_reference(email, referenceMID, existingTID, audit_log)
       return existingTID
     }
   }
@@ -184,6 +197,7 @@ export default class Tailor {
       local_message.seen = email.M.flags.seen
       local_message.starred = email.M.flags.starred
       local_message.timestamp = new Date(email.M.envelope.date)
+      local_message.audit_log.push("[phase 1] message was queued for threading, but already existed and was updated instead")
       await this.pantheon.db.messages.add(local_message, {
         overwrite: true
       })
@@ -229,8 +243,9 @@ export default class Tailor {
         to: email.M.envelope.to,
         cc: email.M.envelope.cc,
         bcc: email.M.envelope.bcc,
-        recipients: email.M.envelope.recipients
-    }
+        recipients: email.M.envelope.recipients,
+        audit_log: ["[phase 1] email could not fit into any existing thread, forming a new message & thread instead"]
+      }
       await this.pantheon.db.messages.add(m)
       const added_message = await this.pantheon.db.messages.find.mid(MID)
       if (added_message) TID = added_message.tid
@@ -251,7 +266,8 @@ export default class Tailor {
         to: email.M.envelope.to,
         cc: email.M.envelope.cc,
         bcc: email.M.envelope.bcc,
-        recipients: email.M.envelope.recipients
+        recipients: email.M.envelope.recipients,
+        audit_log: ["[phase 1] email fits nicely into existing thread, adding message and setting thread to existing TID"]
       }
       await this.pantheon.db.messages.add(m)
     }
@@ -273,52 +289,63 @@ export default class Tailor {
 
   async phase_2() {
     this.Log.time("Phase 2")
-    const mergedTIDs: Set<string> = new Set() //? wOW DynAMiC PRoGrAmmInG ?!
+
+    // const mergedTIDs: Set<string> = new Set() //? wOW DynAMiC PRoGrAmmInG ?!
+    // const mergedMIDs: {[subject: string]: Set<string>} = {}
+
+    const thread_logger = this.pantheon.db.threads.audit_log
+    const msg_logger = this.pantheon.db.messages.audit_log
+
+
     while (this.p2_queue.length > 0) {
       const TID = this.p2_queue.pop()
       if (!TID) continue;
-      if (mergedTIDs.has(TID)) continue;
+      // if (mergedTIDs.has(TID)) continue;
 
       const thread = await this.pantheon.db.threads.find.tid(TID)
       if (!thread) continue;
+      const thread_log = (m: string) => thread_logger(TID, m)
+
+      thread_log("[phase 2] checking thread for same-subject merge")
 
       const date = new Date(thread.date)
       const messages = await this.pantheon.db.threads.messages(TID)
-      if (messages.length <= 3) continue; //? ignore short threads
-      const subject = messages[0].subject
-      if (subject == "No Subject") continue; //? ignore empty subject threads
       const participants = thread.participants.map(({ address }) => address)
 
-      const same_subject_messages = (await this.pantheon.db.messages.find.subject(subject))
-      if (!same_subject_messages) continue;
+      for (const message of messages) {
+        const msg_log = (m: string) => msg_logger(message.mid, m)
+        const subject = message.subject
+        if (subject == "No Subject") {
+          msg_log("[phase 2] message has no subject, skipping")
+          return;
+        }
+        const same_subject_messages = (await this.pantheon.db.messages.find.subject(subject))
+        if (!same_subject_messages) continue;
 
-      const subjectTIDs: Set<string> = new Set()
-      const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+        const mergeCandidates: Set<string> = new Set()
+        const WEEK_MS = 1000 * 60 * 60 * 24 * 7;
+        same_subject_messages.forEach(({ tid, timestamp, recipients, from }) => {
+          const people = [from, ...recipients].map(({ address }) => address)
+          timestamp = new Date(timestamp)
+          //? ignore ourselves
+          if (tid == TID) return;
+          //? ignore anything newer
+          if (timestamp > date) return;
+          //? ignore anything too old
+          if (Math.abs(date.valueOf() - timestamp.valueOf()) > 16 * WEEK_MS) return;
+          //? ignore anything that doesn't share participants
+          const sharedParticipants = people.filter(addy => participants.includes(addy))
+          if (sharedParticipants.length < 1) return;
+          //? add TID
+          mergeCandidates.add(tid)
+        })
 
-      same_subject_messages.forEach(({ timestamp, tid, recipients, from }) => {
-        const people = [from, ...recipients]
-        timestamp = new Date(timestamp)
-        //? ignore ourselves
-        if (tid == TID) return;
-        //? ignore merged threads
-        if (mergedTIDs.has(tid)) return;
-        //? ignore anything newer
-        if (timestamp > date) return;
-        //? ignore anything too old
-        if (Math.abs(date.valueOf() - timestamp.valueOf()) > 16 * WEEK_MS) return;
-        //? ignore anything that doesn't share participants
-        const sharedParticipants = people.filter(({ address }) => participants.includes(address))
-        if (sharedParticipants.length < 1) return;
-        //? add TID
-        subjectTIDs.add(tid)
-      })
-
-      for (const tid of subjectTIDs) {
-        //? merge each same subject thread into our current thread
-        await this.pantheon.db.threads.merge(tid, TID)
-        mergedTIDs.add(tid)
+        for (const tid of mergeCandidates) {
+          thread_log(`[phase 2] merging thread ${tid} into ${TID} based off of subject!`)
+          await this.pantheon.db.threads.merge(tid, TID)
+          // mergedTIDs.add(tid)
+        }
       }
-
     }
     this.Log.timeEnd("Phase 2")
   }
