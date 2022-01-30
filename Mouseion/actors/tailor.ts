@@ -320,7 +320,10 @@ export default class Tailor {
           return;
         }
         const same_subject_messages = (await this.pantheon.db.messages.find.subject(subject))
-        if (!same_subject_messages) continue;
+        if (!same_subject_messages) {
+          msg_log("[phase 2] no other messages with same subject, skipping")
+          continue;
+        }
 
         const mergeCandidates: Set<string> = new Set()
         const WEEK_MS = 1000 * 60 * 60 * 24 * 7;
@@ -352,6 +355,10 @@ export default class Tailor {
 
   async phase_3() {
     this.Log.time("Phase 3")
+
+    const thread_logger = this.pantheon.db.threads.audit_log
+    const msg_logger = this.pantheon.db.messages.audit_log
+
     const unitedTIDs: Set<string> = new Set()
     while (this.p3_queue.length > 0) {
       const TID = this.p3_queue.pop()
@@ -360,6 +367,7 @@ export default class Tailor {
 
       const thread = await this.pantheon.db.threads.find.tid(TID)
       if (!thread) continue;
+      const thread_log = (m: string) => thread_logger(TID, m)
 
       const messages = await this.pantheon.db.threads.messages(TID, {
         descending: false
@@ -369,27 +377,38 @@ export default class Tailor {
       const board = thread.folder
       if (!(this.folders.isBoard(board))) {
         unitedTIDs.add(TID)
+        thread_log("[phase 3] thread is not in a board, skipping")
         continue;
       }
+      thread_log(`[phase 3] detected thread is in board ${board}`)
 
       //? ensure all messages are in the board on mailserver
       for (const message of messages) {
+        const msg_log = (m: string) => msg_logger(message.mid, m)
         const folders = message.locations.map(({ folder }) => folder)
         const inbox = this.folders.inbox()
         if (!inbox) continue;
         const inboxLOC = getLocation(message.locations, inbox)
-        if (!inboxLOC) continue;
+        if (!inboxLOC) {
+          msg_log("[phase 3] message is not in inbox, skipping")
+          continue;
+        }
 
         const boards = folders.filter(folder => this.folders.isBoard(folder))
-        if (boards.length == 1 && boards[0] == board) continue;
+        if (boards.length == 1 && boards[0] == board) {
+          msg_log("[phase 3] message is already in master board exclusively, skipping")
+          continue;
+        }
 
         this.Log.log("Uniting thread message with MID", message.mid)
+        msg_log("[phase 3] message is not in master board exclusively, uniting...")
 
         //? it must be in the main board exclusively
         if (boards.length > 1) {
           //? delete message from all other boards
           for (const { folder, uid } of message.locations) {
             if (this.folders.isBoard(folder) && folder != board) {
+              msg_log(`[phase 3] deleting message from ${folder} to preserve unity`)
               await this.operator.delete(folder, uid)
             }
           }
@@ -397,6 +416,7 @@ export default class Tailor {
 
         //? it must be in the main board
         if (!(boards.includes(board))) {
+          msg_log(`[phase 3] adding message to master board ${board}`)
           await this.operator.copy(inboxLOC.folder, inboxLOC.uid, board)
         }
       }
