@@ -85,7 +85,8 @@ export default class Janitor {
     return {
       raw: email,
       folder: this.folder,
-      audit_log: []
+      audit_log: [],
+      cache_location: "L1"
     }
   }
 

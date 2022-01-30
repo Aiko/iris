@@ -4,10 +4,9 @@ import path from 'path'
 import Datastore from 'nedb'
 import Storage from '../utils/storage'
 import Forest, { Logger, LumberjackEmployer } from '../utils/logger'
-import { EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
+import { CacheLevels, EmailBase, EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
 import autoBind from 'auto-bind'
 
-type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
 interface CacheBinding<T> {
   cache: (key: string, data: T) => Promise<void>
   check: (key: string) => Promise<T | false>
@@ -73,16 +72,19 @@ export class Cache {
     }
 
     //? we need to promisify methods as SP only uses promises
-    const promisify = <T>(fn: Storage): CacheBinding<T> => {
+    const cachify = <T extends EmailBase>(fn: Storage, canonical_level: CacheLevels): CacheBinding<T> => {
       return {
-        cache: (key: string, value: T) => fn.cache(key, value),
+        cache: (key: string, value: T) => {
+          value.cache_location = canonical_level
+          return fn.cache(key, value)
+        },
         check: (key: string): Promise<T | false> => fn.check(key)
       }
     }
 
-    this.envelope = promisify<EmailWithEnvelope>(this.caches.L1)
-    this.headers = promisify<EmailWithReferences>(this.caches.L2)
-    this.content = promisify<EmailFull>(this.caches.L3b)
+    this.envelope = cachify<EmailWithEnvelope>(this.caches.L1, "L1")
+    this.headers = cachify<EmailWithReferences>(this.caches.L2, "L2")
+    this.content = cachify<EmailFull>(this.caches.L3b, "L3b")
 
     autoBind(this)
   }
@@ -117,6 +119,8 @@ export class Cache {
     const cidEmail: EmailFullWithEmbeddedAttachment = ((): EmailFullWithEmbeddedAttachment => {
       return {...email, parsed: { ...email.parsed, attachments }}
     })()
+
+    cidEmail.cache_location = "L3"
 
     promises.push(this.caches.L3.cache(mid, cidEmail))
     await Promise.all(promises)

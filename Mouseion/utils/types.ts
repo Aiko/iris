@@ -3,6 +3,8 @@ import { BabylonResult, BabylonScheduling, EnhancedBabylonResult } from 'aikomai
 import autoBind from 'auto-bind'
 import { EmailParticipantRaw, EmailRaw, EmailRawBase, MessageID } from '../post-office/types'
 
+export type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
+
 //? Mouseion Types
 
 export type MouseionFlags = {
@@ -102,6 +104,7 @@ export interface EmailBase {
   raw: EmailRawBase
   folder: string
   audit_log: string[]
+  cache_location: CacheLevels
 }
 
 export interface MFlags {
