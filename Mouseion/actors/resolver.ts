@@ -421,9 +421,6 @@ class ThreadResolver {
       await Promise.all(emails.map(async email => {
         const message = lookup[email.M.envelope.mid]
         if (!message) return this.Log.error("FULL - Something went wrong in populating the lookup table.")
-        const resolved = resolve<EmailFull>(email, message)
-        audit_log.push(`[fetch] resolved ${message.mid}`)
-        have.push(resolved)
         email = JSON.parse(JSON.stringify(email))
         const MID = message.mid
         await this.pantheon.cache.full.cache(MID, email)
@@ -431,6 +428,9 @@ class ThreadResolver {
         if (!maybeEmail) {
           audit_log.push(`[fetch] tried to do a refresh off of full cache, failed`)
         } else email = maybeEmail
+        const resolved = resolve<EmailFull>(email, message)
+        audit_log.push(`[fetch] resolved ${message.mid}`)
+        have.push(resolved)
         const content: any = JSON.parse(JSON.stringify(email))
         content.parsed.attachments = content.parsed.attachments.map((attachment: any) => {
           attachment.content = Buffer.from([])
@@ -743,6 +743,10 @@ class MultiThreadResolver {
       const t0 = performance.now()
       const email = await this.pantheon.cache.content.check(message.mid) || null
       rtCheck.push(performance.now() - t0)
+      if (!audit_logs[message.tid]) {
+        this.Log.warn(`TID ${message.tid} does not need to be resolved but has backwards pointer.`)
+        audit_logs[message.tid] = ["TID is not needed... wtf?"]
+      }
       if (!email) {
         need.push(message)
         audit_logs[message.tid].push(`message ${message.mid} is NOT cached`)

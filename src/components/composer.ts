@@ -4,6 +4,7 @@ import Register from '../../Mouseion/managers/register'
 import autoBind from 'auto-bind'
 import { dialog } from 'electron'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
+import writeGood from "write-good"
 
 export default class Composer {
   private readonly comms: SecureCommunications
@@ -18,6 +19,7 @@ export default class Composer {
 
     this.comms.register("please open the composer", this.open.bind(this))
     this.comms.register("please attach a file", this.getAttachment.bind(this))
+    this.comms.register("please check my writing", this.getSuggestions.bind(this))
 
     autoBind(this)
   }
@@ -70,6 +72,11 @@ export default class Composer {
 
     this.Log.shout("Attaching:", filePaths)
     return filePaths
+  }
+
+  private async getSuggestions({text, opts}: { text: string, opts?: writeGood.Options }) {
+    const suggestions = writeGood(text, opts)
+    return suggestions
   }
 
 }

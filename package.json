@@ -47,11 +47,15 @@
         "protocols": [
           {
             "name": "Aiko Mail Launch Protocol",
-            "schemes": ["aiko-mail"]
+            "schemes": [
+              "aiko-mail"
+            ]
           },
           {
             "name": "Mailto Protocol",
-            "schemes": ["mailto"]
+            "schemes": [
+              "mailto"
+            ]
           }
         ],
         "osxSign": {
@@ -152,6 +156,7 @@
     "nodemailer-plugin-inline-base64": "^2.1.1",
     "planer": "^1.1.1",
     "request": "^2.88.0",
+    "write-good": "^1.0.8",
     "ws": "^7.2.5"
   },
   "devDependencies": {
@@ -169,6 +174,7 @@
     "@types/nedb": "^1.8.12",
     "@types/nodemailer": "^6.4.4",
     "@types/request": "^2.48.7",
+    "@types/write-good": "^1.0.1",
     "@types/ws": "^7.4.7",
     "electron": "^11.5.0"
   }

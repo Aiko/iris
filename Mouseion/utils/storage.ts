@@ -57,8 +57,15 @@ class Storage {
 
   /** Stores data into the relevant file for a key, stringifying it if need be */
   async store(key: string, data: any): Promise<void> {
-    if (!this.raw) key = Storage.clean_key(key)
+    if (!(this.raw)) key = Storage.clean_key(key)
     const fp: string = (this.raw) ? `${this.dir}/${key}` : this.filepath(key)
+    if (this.raw && fp.includes("/")) {
+      //? make the relevant directories in the path to avoid errors
+      const dirs = fp.split("/")
+      dirs.pop()
+      const dir = dirs.join("/")
+      await fs2.ensureDir(dir)
+    }
     await fs2.ensureFile(fp)
     await fs.promises.writeFile(fp, this.json ? JSON.stringify(data) : (
       this.raw ? Buffer.from(data) : data
@@ -69,7 +76,11 @@ class Storage {
   async has_key(key: string): Promise<boolean> {
     if (!this.raw) key = Storage.clean_key(key)
     const fp: string = (this.raw) ? `${this.dir}/${key}` : this.filepath(key)
-    return fs.promises.access(fp).then(_ => true).catch(_ => false)
+    try {
+      return fs.promises.access(fp).then(_ => true).catch(_ => false)
+    } catch {
+      return false
+    }
   }
 
   /** Loads data for a relevant key, parsing it if need be */

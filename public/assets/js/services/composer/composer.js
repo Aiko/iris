@@ -461,6 +461,13 @@ ${mail.html}
           path: filepath
         }))))
       }
+    },
+    task_ProofRead(text, opts) {
+      return this.ipcTask('please check my writing', {text, opts})
+    },
+    async proofread() {
+      const suggestions = await this.callIPC(this.task_ProofRead(this.$refs.editor.editor.getHTML(), {}))
+      info(...COMPOSER_TAG, suggestions)
     }
   }
 }

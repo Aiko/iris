@@ -29,7 +29,7 @@ export default class Sync {
   constructor(Registry: Register,
     private readonly AI_BATCH_SIZE: number,
     private readonly THREAD_BATCH_SIZE: number,
-    private readonly SYNC_BATCH_SIZE: number=1
+    private readonly SYNC_BATCH_SIZE: number=5
   ) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Sync')

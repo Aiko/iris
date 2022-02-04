@@ -90,40 +90,59 @@ export class Cache {
   }
 
   private async fullCache(mid: string, email: EmailFull): Promise<void> {
-    const promises: Promise<any>[] = []
-    const attachments: string[] = await Promise.all(email.parsed.attachments.map(
-      (attachment: MouseionAttachment): EmbeddedMouseionAttachment => {
-        const author = email.M.envelope.from
-        return {
-          ...attachment,
-          date: new Date(),
-          author
+    try {
+      const promises: Promise<any>[] = []
+      const _this = this
+      const attachments: string[] = await Promise.all(email.parsed.attachments.map(
+        (attachment: MouseionAttachment): EmbeddedMouseionAttachment => {
+          const author = email.M.envelope.from
+          return {
+            ...attachment,
+            date: new Date(),
+            author
+          }
         }
-      }
-    ).map(async attachment => {
-      //? Cache files
-      const filepath = await (async () => {
-        const ext = path.extname(attachment.filename)
-        const direct_path = attachment.filename
-        const indirect_path = attachment.checksum + '.' + ext
-        const exists = await this.caches.ATT.has_key(direct_path)
-        return exists ? indirect_path : direct_path
+      ).map(async attachment => {
+        //? Cache files
+        const filepath = await (async () => {
+          try {
+            const ext = path.extname(attachment.filename)
+            const direct_path = email.M.envelope.mid + "/" + attachment.filename
+            const indirect_path = email.M.envelope.mid + "/" + (attachment.checksum || "NOCHECKSUMNOFILENAME") + '.' + ext
+            const exists = attachment.filename ? (await this.caches.ATT.has_key(direct_path)) : false
+            return exists ? indirect_path : direct_path
+          } catch (e) {
+            if (e instanceof Error) {
+              _this.Log.error(e.message, e.stack)
+            } else if (typeof e === "string") {
+              _this.Log.error(e)
+            } else _this.Log.error(e)
+            return "brokenpipe"
+          }
+        })()
+
+        promises.push(this.caches.ATT.cache(filepath, attachment.content.data).catch(e => _this.Log.error("wtf?", filepath, e)))
+
+        //? Save to DB
+        promises.push(Attachment.fromEmbeddedMouseionAttachment(this.db, attachment, filepath, this.caches.ATT.dir))
+
+        return filepath
+      }))
+      const cidEmail: EmailFullWithEmbeddedAttachment = ((): EmailFullWithEmbeddedAttachment => {
+        return {...email, parsed: { ...email.parsed, attachments }}
       })()
-      promises.push(this.caches.ATT.cache(filepath, attachment.content.data))
 
-      //? Save to DB
-      promises.push(Attachment.fromEmbeddedMouseionAttachment(this.db, attachment, filepath, this.caches.ATT.dir))
+      cidEmail.cache_location = "L3"
 
-      return filepath
-    }))
-    const cidEmail: EmailFullWithEmbeddedAttachment = ((): EmailFullWithEmbeddedAttachment => {
-      return {...email, parsed: { ...email.parsed, attachments }}
-    })()
-
-    cidEmail.cache_location = "L3"
-
-    promises.push(this.caches.L3.cache(mid, cidEmail))
-    await Promise.all(promises)
+      promises.push(this.caches.L3.cache(mid, cidEmail))
+      await Promise.all(promises)
+    } catch (e) {
+      if (e instanceof Error) {
+        this.Log.error(e.message, e.stack)
+      } else if (typeof e === "string") {
+        this.Log.error(e)
+      } else this.Log.error(e)
+    }
   }
   private async fullCheck(mid: string): Promise<EmailFull | null> {
     const cidEmail: EmailFullWithEmbeddedAttachment = await this.caches.L3.check(mid)
