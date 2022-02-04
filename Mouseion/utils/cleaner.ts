@@ -436,7 +436,6 @@ export default class Janitor {
 
     const commonActionHrefs = Object.keys(commonActions)
     const common_action_links = links.map(({ text, href }) => {
-      href = href.toLowerCase()
       for (const commonActionHref of commonActionHrefs) {
         if (href.includes(commonActionHref.toLowerCase())) return {text, href, commonActionHref}
       }
