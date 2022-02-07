@@ -51,6 +51,7 @@ export default class CarrierPigeon {
 
       case "microsoft": transporter = nodemailer.createTransport({
         host: 'smtp.office365.com',
+        secure: false,
         port: 587,
         auth: {
           type: 'OAuth2',
@@ -88,9 +89,9 @@ export default class CarrierPigeon {
     return await new Promise((s, _) => {
       this.Log.log("Sending email to", mail.to)
       transporter.sendMail(mail, (error, info) => {
-        if (error) this.Log.error("Send error:", error)
+        if (error) this.Log.error("Send error:", error, info)
         else this.Log.log("Sent email to", mail.to)
-        ;;error ? s({ error,  }) : s(info);;
+        ;;error ? s({ error, info }) : s(info);;
       })
     })
   }
