@@ -791,7 +791,7 @@
 
 
                   <!-- ? Priority/Other Switcher -->
-                  <div class="col-8 text-center exp nowrap" id="step2">
+                  <div v-if="!(flow.specialView)" class="col-8 text-center exp nowrap" id="step2">
                     <div class="inbox-switch left text-center">
                       <h1 :class="{
                         'inbox1': true,
