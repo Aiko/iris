@@ -86,6 +86,7 @@ export default class CarrierPigeon {
   private async send({mail, config}: {mail: any, config: Partial<IMAPConfig>}) {
     const transporter = this.getTransporter(config)
     return await new Promise((s, _) => {
+      this.Log.log("Sending email to", mail.to)
       transporter.sendMail(mail, (error, info) => {
         if (error) this.Log.error("Send error:", error)
         else this.Log.log("Sent email to", mail.to)
