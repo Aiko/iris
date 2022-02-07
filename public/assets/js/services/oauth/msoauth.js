@@ -54,7 +54,7 @@ const msoauth = {
         this.imapConfig.oauth = xoauth
         this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
-        this.imapConfig.provider = 'outlook'
+        this.imapConfig.provider = 'microsoft'
         this.imapConfig.secure = true
         await this.saveIMAPConfig()
       }
@@ -67,7 +67,7 @@ const msoauth = {
         this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = user_profile.userPrincipalName
         this.smtpConfig.pass = ''
-        this.smtpConfig.provider = 'outlook'
+        this.smtpConfig.provider = 'microsoft'
         this.smtpConfig.secure = true
         await this.saveSMTPConfig()
       }
@@ -122,7 +122,7 @@ const msoauth = {
           this.imapConfig.user = user_profile.userPrincipalName
           this.imapConfig.pass = ''
           this.imapConfig.secure = true // gmail uses self signed certs
-          this.imapConfig.provider = 'outlook'
+          this.imapConfig.provider = 'microsoft'
           await this.saveIMAPConfig()
         }
 
@@ -134,7 +134,7 @@ const msoauth = {
           this.smtpConfig.oauth = xoauth
           this.smtpConfig.user = user_profile.userPrincipalName
           this.smtpConfig.pass = ''
-          this.smtpConfig.provider = 'outlook'
+          this.smtpConfig.provider = 'microsoft'
           this.smtpConfig.secure = true
           await this.saveSMTPConfig()
         }
@@ -187,7 +187,7 @@ const msoauth = {
         this.imapConfig.user = user_profile.userPrincipalName
         this.imapConfig.pass = ''
         this.imapConfig.secure = true // gmail uses self signed certs
-        this.imapConfig.provider = 'outlook'
+        this.imapConfig.provider = 'microsoft'
         await this.saveIMAPConfig()
       }
 
@@ -199,7 +199,7 @@ const msoauth = {
         this.smtpConfig.oauth = xoauth
         this.smtpConfig.user = user_profile.userPrincipalName
         this.smtpConfig.pass = ''
-        this.smtpConfig.provider = 'outlook'
+        this.smtpConfig.provider = 'microsoft'
         this.smtpConfig.secure = true
         await this.saveSMTPConfig()
       }
