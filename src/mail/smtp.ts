@@ -60,7 +60,7 @@ export default class CarrierPigeon {
         }, tls: {
           ciphers : 'SSLv3',
         }
-      })
+      }); break;
 
       default: transporter = nodemailer.createTransport({
         host: config.host,
