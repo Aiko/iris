@@ -7,6 +7,18 @@ Vue.component('dev-controls', {
       smtpValid: null,
     }
   },
+  computed: {
+    efficiency: function() {
+      const emails = (new Set([...(this.$root.priorityInbox), ...(this.$root.boards.filter(({ name }) => name != "Done").flatMap(board => board.tids))])).size
+      const eff = 1 - (emails / this.$root.fullInbox.length)
+      return (eff * 100).toFixed(2)
+    },
+    time: function() {
+      const emails = (new Set([...(this.$root.priorityInbox), ...(this.$root.boards.filter(({ name }) => name != "Done").flatMap(board => board.tids))])).size
+      const reduction = this.$root.fullInbox.length - emails
+      return (reduction * 1.1 * 60).secondsToTimestring();
+    }
+  },
   methods: {
     async testIMAP () {
       this.imapValid = null

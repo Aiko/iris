@@ -1079,14 +1079,14 @@
                 </div>
 
                 <!-- ? Board Thread List -->
-                <div class="board-body">
+                <div class="board-body" :ref="'board-'+slug" @scroll="onScroll">
 
                   <!-- ? Draggable List -->
                   <draggable :id="'aikomail--' + slug" v-if="board" v-model="board.tids" filter=".dont-drag-this"
                     draggable=".email" ghost-class="ghost" :group="{name: 'emails'}" :force-fallback="true"
                     :fallback-on-body="true" :fallback-tolerance="5" @start="startMove" @end="moveThread">
                     <thread-card v-for="(tid, i) in board.tids" v-if="(seenFilter == null || thread.seen == seenFilter)"
-                      :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                      :key="tid" :sort="false" :render="i >= visibleMin && visibleMax >= i" :focused-folder.camel="focused.folder"
                       :focused-index.camel="focused.index" :view-focused.camel="focused.view"
                       :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i" :slug="slug">
                     </thread-card>
@@ -1299,6 +1299,43 @@
       </div>
     </tutorial-modal>
 
+    <!--!------------------------------------------------------------->
+    <!-- ? Datepicker for Schedule Quick Action -->
+    <!--!------------------------------------------------------------->
+    <schedule-modal v-if="flow.scheduleSeed" inline-template>
+      <div class="aiko-modal" @click.self="close">
+        <div class="modal-dialog modal-md datepick">
+          <!--!------------------------------------------------------------->
+          <!-- ? ESCAPE TIP -->
+          <!-- TODO: Make Modal exitable by  ESC-->
+          <!--!------------------------------------------------------------->
+          <p class="esc-tip">press <b>ESC</b></p>
+
+          <div class="modal-content">
+            <div class="modal-reg">
+              <h1 class="mt-2">Please change or confirm suggested time.</h1>
+              <h2 class="mt-3 mb-2"><b>{{scheduleText}}</b></h2>
+              <input type="datetime-local" v-model="scheduleTime">
+              <br>
+              <!--
+              <label class="switch mr-1 mt-2">
+                <input v-model="scheduleToCalendar" type="checkbox" />
+                <span class="slider round cal"></span>
+              </label>
+              <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p>
+              -->
+              <br><br><br>
+              <div class="modal-bottom">
+                <a class="blue" @click="compose">Compose</a>
+              </div>
+              <p class="ns30"></p>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </schedule-modal>
+
     <!--? MODAL View Thread -->
     <view-thread v-if="flow.viewThread && !(flow.regularView || flow.specialView)" :thread="flow.viewThread"
       inline-template>
@@ -1323,38 +1360,12 @@
             <!--!------------------------------------------------------------->
             <div class="main-email">
 
-              <!--!------------------------------------------------------------->
-              <!-- ? Datepicker for Schedule Quick Action -->
-              <!-- TODO: move this out -->
-              <!--!------------------------------------------------------------->
-              <div class="modal-dialog modal-md datepick" v-clickaway="() => scheduleSeed = null" v-if="scheduleSeed">
-                <div class="modal-content">
-                  <div class="modal-reg">
-                    <h1 class="mt-2">Please change or confirm suggested time.</h1>
-                    <h2 class="mt-3 mb-2"><b>{{scheduleText}}</b></h2>
-                    <input type="datetime-local" v-model="scheduleTime">
-                    <br>
-                    <label class="switch mr-1 mt-2">
-                      <input v-model="scheduleToCalendar" type="checkbox" />
-                      <span class="slider round cal"></span>
-                    </label>
-                    <p style="max-width: 300px;margin: auto;display: inline;">Add event to my calendar</p>
-                    <br><br><br>
-                    <div class="modal-bottom">
-                      <a class="blue">Compose</a>
-                    </div>
-                    <p class="ns30"></p>
-                    <br>
-                  </div>
-                </div>
-              </div>
-
               <!-- TODO: Ruben, make sure shadow light mode not bad-->
               <!--!------------------------------------------------------------->
               <!-- ? Thread Messages -->
               <!--!------------------------------------------------------------->
               <view-email v-for="(email, i) in fullThread.emails" :email="email" :expanded="i == 0" :key="i"
-                :tid="thread.tid" :seed-schedule.camel="seedSchedule">
+                :tid="thread.tid">
               </view-email>
             </div>
 
@@ -1558,6 +1569,7 @@
                 <img style="max-width: 190px; margin: auto" src="assets/img/logo.svg">
               </a>
               <br>
+              <span>IR: {{efficiency}}% ({{time}})</span>
               <br>
               <a @click="deleteCache({prefs: true})" class="btn btn-warning">Clear Dwarf Star</a>
               <br>
@@ -1956,7 +1968,7 @@
             <!-- ? Quick Actions -->
             <!--!------------------------------------------------------------->
             <div class="col-5 cll2 z1 spp">
-              <a v-if="quickaction == 'scheduling'" class="main-action blue">
+              <a @click.stop.prevent="schedule" v-if="quickaction == 'scheduling'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/badges-event-blue.svg')"> Schedule
               </a>
               <a @click.stop.prevent="openLink" v-if="quickaction == 'verify'" class="main-action blue">
@@ -2121,13 +2133,13 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Singular Direct Recipient, Collapsed -->
                   <!--!------------------------------------------------------------->
-                  <div v-if="!showSenderInfo && email.M.envelope.recipients.length <= 1">
+                  <div class="single-recipient" v-if="!showSenderInfo && email.M.envelope.recipients.length <= 1">
                     From
                     <span><b>{{email.M.envelope.from.address}}</b></span>
                     <br>To
-                    <span
-                      v-if="email.M.envelope.recipients.length >
-                      0"><b>{{email.M.envelope.recipients[0].address}}</b></span>
+                    <span v-if="email.M.envelope.recipients.length > 0">
+                      <b>{{email.M.envelope.recipients[0].address}}</b>
+                    </span>
                     <span v-else>undisclosed recipients</span>
                   </div>
 
@@ -2135,16 +2147,18 @@
                   <!--!------------------------------------------------------------->
                   <!-- ? Multiple Direct Recipients, Collapsed -->
                   <!--!------------------------------------------------------------->
-                  <div v-if="!showSenderInfo && email.M.envelope.recipients.length > 1">
+                  <div class="two-recipients" v-if="!showSenderInfo && email.M.envelope.recipients.length > 1">
                     From
                     <span><b>{{email.M.envelope.from.address}}</b></span>
                     <br>To
-                    <span v-for="to in email.M.envelope.recipients.slice(0, 2)"><b>{{to.address}}</b></span>
-                    <b v-if="email.M.envelope.recipients.length > 2">
-                      and
-                      {{Math.max(email.M.envelope.recipients.length - 2, 0)}}
-                      others
+                    <span v-for="to in email.M.envelope.recipients.slice(0, 2)">
+                      <b>{{to.address}}</b>
+                    </span>
+                    <span>
+                      <b v-if="email.M.envelope.recipients.length > 2">
+                        and {{Math.max(email.M.envelope.recipients.length - 2, 0)}} others
                       </b>
+                    </span>
                   </div>
 
 
@@ -2369,6 +2383,7 @@
   <script src="assets/js/components/modals/add-board.js"></script>
   <script src="assets/js/components/modals/dev-controls.js"></script>
   <script src="assets/js/components/modals/board-rules.js"></script>
+  <script src="assets/js/components/modals/schedule.js"></script>
   <script src="assets/js/components/thread-card.js"></script>
   <script src="assets/js/components/view-email.js"></script>
   <script src="assets/js/components/board.js"></script>

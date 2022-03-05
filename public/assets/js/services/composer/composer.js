@@ -71,7 +71,8 @@ const composer = {
       withBCC=[],
       withSubject='',
       withQuoted='',
-      withMessageId=''
+      withMessageId='',
+      withContent=''
     ) {
       const config = {
         smtp: this.smtpConfig,
@@ -80,6 +81,7 @@ const composer = {
         bcc: withBCC,
         subject: withSubject,
         quoted: withQuoted,
+        content: withContent,
         msgId: withMessageId,
         enginePort: this.engine?.port,
       }
@@ -104,10 +106,11 @@ const composer = {
       this.sendBCC = config.bcc || []
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
+      const content = config.content
       this.messageId = config.msgId || ''
       this.composerEngine = Engine(config.enginePort)
       if (this.messageId && !this.quoted) {
-        info(...COMPOSER_TAG, "Trying to fetch message for composer.")
+        info(...COMPOSER_TAG, "Trying to fetch message for composer", this.messageId)
         const tryToGetIt = async (that, max_tries=3, try_n=0) => {
           if (try_n >= max_tries) return null;
           info(...COMPOSER_TAG, "Try", try_n+1, "of", max_tries)
@@ -119,13 +122,22 @@ const composer = {
             ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + (cached.parsed?.html || '[Message was too long to include.]')
             + '</blockquote>'
           }
-          if (!(cached.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
+          if (!(cached?.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
         }
         await tryToGetIt(this)
         console.log(this.quoted)
       }
       const name = (await app.suggestContact(app.imapConfig.user))?.[0]?.name ?? ""
-      this.$refs.editor.setContent(this.quoted || `<br><br><p>Thanks,</p><p>${name}</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a>`)
+      const toName = this.sendTo.length > 2 ? "all" :
+        this.sendTo.length > 1 ? this.sendTo.map(x =>
+          (x.display || x.value.split("@")[0].capitalize().replace(/_|\./g, " ")).split(" ")[0]
+        ).join(" and ") :
+        this.sendTo.length > 0 ? this.sendTo[0].display || this.sendTo[0].value.split("@")[0].capitalize() :
+        ""
+      ;;
+      if (content)
+        this.$refs.editor.setContent(`Hi${toName ? ' ' + toName : ''},<br><br>${content}<br><p>Thanks,</p><p>${name}</p><br><a href="https://helloaiko.com">Sent with Aiko Mail</a><br>` + (this.quoted ? `${this.quoted}<br>` : ""))
+      else this.$refs.editor.setContent(this.quoted || `Hi${toName ? ' ' + toName : ''},<br><br><br><p>Thanks,</p><p>${name}</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a><br>`)
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {

@@ -8,10 +8,6 @@ Vue.component('view-thread', {
         participant.avatar = 'assets/img/avatar.png'
         return participant
       }),
-      scheduleSeed: null,
-      scheduleText: null,
-      scheduleTime: new Date(),
-      scheduleToCalendar: false,
     }
   },
   async created () {
@@ -70,16 +66,6 @@ Vue.component('view-thread', {
     close () {
       this.$root.flow.viewThread = null
       this.$root.focused.view = false
-    },
-    seedSchedule(email) {
-      this.scheduleTime = new Date(email.M.quick_actions.scheduling?.start ?? (new Date()))
-      this.scheduleTime.setMinutes(this.scheduleTime.getMinutes() - this.scheduleTime.getTimezoneOffset())
-      this.scheduleTime = this.scheduleTime.toISOString().slice(0, 16)
-      this.scheduleText = email.M.quick_actions.scheduling?.subject ||
-        email.M.quick_actions.context ||
-        this.scheduleTime.toNicerDateTime()
-      ;;
-      this.scheduleSeed = email
     }
   }
 })

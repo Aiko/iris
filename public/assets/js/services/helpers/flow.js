@@ -121,6 +121,6 @@ const flow_mgr = {
       }
       `
       document.body.appendChild(style)
-    }
+    },
   }
 }

@@ -1,5 +1,5 @@
 Vue.component('view-email', {
-  props: ['email', 'expanded', 'tid', 'seedSchedule'],
+  props: ['email', 'expanded', 'tid'],
   template: '#view-email',
   data () {
     return {
@@ -230,9 +230,6 @@ Vue.component('view-email', {
       if (this.email.M.quick_actions.otp) {
         window.copy(this.email.M.quick_actions.otp)
       }
-    },
-    async schedule () {
-      this.seedSchedule(this.email)
     },
     async openLink () {
       if (this.email.M.quick_actions.context) {

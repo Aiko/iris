@@ -149,6 +149,15 @@ Vue.component('thread-card', {
         window.copy(this.thread.emails[0].M.quick_actions.otp)
       }
     },
+    async schedule () {
+      info(...FLOW_TAG, 'Opening schedule modal with message')
+      const email = this.thread.emails[0]
+      info(...FLOW_TAG, 'Cleaning message for schedule modal')
+      email.parsed = null
+      email.raw = null
+      info(...FLOW_TAG, 'Setting schedule modal messag')
+      this.$root.flow.scheduleSeed = email
+    },
     //? interaction button methods
     async reply() {
       /*
