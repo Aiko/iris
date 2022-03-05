@@ -32,4 +32,5 @@ export default {
   "click-email.godaddy.com/": {text: "OPEN GODADDY", priority: 0},
   "click.e.usa.experian.com/": {text: "OPEN EXPERIAN", priority: 0},
   "calendly.com/": {text: "OPEN CALENDLY", priority: 1},
+  "airtable.com/tbl": {text: "OPEN AIRTABLE", priority: 0},
 } as Record<string, {text: string, priority: number}>
