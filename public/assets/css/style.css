@@ -1723,6 +1723,10 @@ hr {
 	color: var(--dark-text);
 }
 
+.fromto-info span:nth-child(4)::before {
+	content: ", ";
+}
+
 .syncing {
 	opacity: 0.7;
 	cursor: wait !important;
