@@ -77,6 +77,37 @@ export default class Operator {
     }
   }
 
+  private async getMessages(folder: string, uids: string[]): Promise<MessageModel[]> {
+    const janitor = await this.custodian.get(folder)
+    const messages = await Promise.all(uids.map(async (uid) => {
+      let message = await this.pantheon.db.messages.find.uid(folder, uid)
+      if (message) return message
+      else {
+        this.Log.warn(`Did not have <folder:${folder}, uid:${uid}> locally, fetching from mailserver.`)
+        const email_raw = (await this.courier.messages.listMessagesWithHeaders(folder, '' + uid))?.[0]
+
+        if (!email_raw) {
+          this.Log.error(`Unable to find <folder:${folder}, uid:${uid}> on the mailserver.`)
+          return null
+        }
+
+        const email = await janitor.headers(email_raw)
+        if (!(email.M.envelope.mid)) {
+          this.Log.error(`When fetching <folder:${folder}, uid:${uid}>, got an envelope without an MID.`)
+          return null
+        }
+
+        await this.tailor.phase_1(email)
+
+        await this.pantheon.cache.envelope.cache(email.M.envelope.mid, email)
+        await this.pantheon.cache.headers.cache(email.M.envelope.mid, email)
+
+        return await this.pantheon.db.messages.find.uid(folder, uid)
+      }
+    }))
+    return messages.filter(_ => _) as MessageModel[]
+  }
+
   async star(folder: string, uid: string | number): Promise<boolean> {
     try {
       await this.pre_op()
@@ -247,9 +278,52 @@ export default class Operator {
     }
   }
 
+  async moveMultiple(srcFolder: string, uids: string[] | string, destFolder: string): Promise<number | null> {
+    try {
+      await this.pre_op()
+
+      if (typeof uids == 'string') {
+        const destUID: MoveUID = await this.courier.messages.moveMessages(srcFolder, destFolder, uids)
+        if (destUID.uid == null) {
+          this.Log.error(`Failed to move <folder:${srcFolder}, uids:${uids}> to ${destFolder} due to invalid destUIDs:`, destUID)
+          return null
+        }
+
+        await this.post_op()
+        return destUID.uid
+
+      } else {
+        const messages = await this.getMessages(srcFolder, uids)
+        if (!messages) return null
+
+        const destUID: MoveUID = await this.courier.messages.moveMessages(srcFolder, destFolder, uids.join(","))
+
+        if (destUID.uid == null) {
+          this.Log.error(`Failed to move <folder:${srcFolder}, uids:${uids}> to ${destFolder} due to invalid destUIDs:`, destUID)
+          return null
+        }
+
+        await this.post_op()
+        return destUID.uid
+      }
+    }
+    catch (e) {
+      this.Log.error(`Failed to move <folder:${srcFolder}, uids:${uids}> to ${destFolder} due to error:`, e)
+      await this.post_op(false)
+      return null
+    }
+  }
+
+
   async archive(folder: string, uid: string | number): Promise<number | null> {
     const archive = this.folders.archive()
     if (archive) return await this.move(folder, uid, archive)
+    return null
+  }
+
+  async archiveMultiple(folder: string, uids: string[]): Promise<number | null> {
+    const archive = this.folders.archive()
+    if (archive) return await this.moveMultiple(folder, uids, archive)
     return null
   }
 
