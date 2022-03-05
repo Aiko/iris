@@ -36,13 +36,15 @@ const msoauth = {
 
       info(...(MSOAUTH_TAG), 'Fetching profile.')
       const user_profile = await (
-        await fetch('https://graph.microsoft.com/v1.0/me', {
+        await fetch('https://graph.microsoft.com/v1.0/me?$select=displayName,givenName,businessPhones,id,jobTitle,userPrincipalName,mail,mobilePhone,officeLocation,preferredLanguage,surname,proxyAddresses', {
           "method": "GET",
           "headers": {
             "Authorization": `Bearer ${profile.access_token}`
           }
         })
       ).json()
+
+      console.log(user_profile)
 
       const xoauth = email.access_token
 
@@ -103,13 +105,15 @@ const msoauth = {
 
         info(...(MSOAUTH_TAG), 'Fetching profile.')
         const user_profile = await (
-          await fetch('https://graph.microsoft.com/v1.0/me', {
+          await fetch('https://graph.microsoft.com/v1.0/me?$select=displayName,givenName,businessPhones,id,jobTitle,userPrincipalName,mail,mobilePhone,officeLocation,preferredLanguage,surname,proxyAddresses', {
             "method": "GET",
             "headers": {
               "Authorization": `Bearer ${profile.access_token}`
             }
           })
         ).json()
+
+        console.log(user_profile)
 
         const xoauth = email.access_token
 
@@ -168,13 +172,14 @@ const msoauth = {
 
       info(...(MSOAUTH_TAG), 'Fetching profile.')
       const user_profile = await (
-        await fetch('https://graph.microsoft.com/v1.0/me', {
+        await fetch('https://graph.microsoft.com/v1.0/me?$select=displayName,givenName,businessPhones,id,jobTitle,userPrincipalName,mail,mobilePhone,officeLocation,preferredLanguage,surname,proxyAddresses', {
           "method": "GET",
           "headers": {
             "Authorization": `Bearer ${profile.access_token}`
           }
         })
       ).json()
+      console.log(user_profile)
 
       const xoauth = email.access_token
 
