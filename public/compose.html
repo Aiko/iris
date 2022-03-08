@@ -93,7 +93,8 @@
             <input @click="unfocus(false)" :style="activeChip > -1 ? 'caret-color: transparent' : ''" type="text"
               class="composer-single-field-input" placeholder="To" v-model="term" ref="termInput" />
             <div :style="'left: 0; top: ' + height + 'px'" v-if="focused && term" class="composer-suggestions">
-              <p @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
+              <p>Press comma, space or tab to complete</p>
+              <p v-if="suggestions.length > 0" @click="activeSuggestion = i; completeChipWithSuggest()" :class="{
                                     'active': i == activeSuggestion
                                 }" v-for="(suggestion, i) in suggestions">
                 <span>{{suggestion.name}} </span> {{suggestion.email}}
