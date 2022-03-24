@@ -144,6 +144,9 @@ a:active {
 		cursor: default;
 		margin-right: 5px;
 }
+.more-conditions p:hover{
+    filter: brightness(0.9);
+}
 .more-conditions{
 	display: inline-flex;
     margin: auto;
