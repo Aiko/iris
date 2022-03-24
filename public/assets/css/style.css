@@ -35,6 +35,12 @@
 .board-header, .board-header *{
 	    contain: unset !important;
 }
+
+.board-header a{
+	   position: relative;
+    display: inline-block;
+    z-index: 1;
+}
 /* Main CSS Start */
 html,
 body,
@@ -4226,6 +4232,12 @@ font-weight: 500;
 .mw-140{
 	    max-width: calc(100% - 140px);
 }
+
+
+
+
+
+
 
 
 
