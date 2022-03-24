@@ -1,4 +1,5 @@
 /* AIKO MAIL INC. ALL RIGHTS RESERVED. */
+
 /* Color Declarations */
 :root {
 	--main-color: #486fff;
@@ -24,15 +25,12 @@
 }
 *{
 	cursor: default !important;
+	contain: layout;
 }
 /* Global modal backdrop */
 .modal-dialog {
 	top: 45%;
 	transform: translateY(-50%);
-}
-*{
-	contain: layout;
-
 }
 .board-header, .board-header *{
 	    contain: unset !important;
@@ -3537,7 +3535,9 @@ unselectable {
 	    font-size: 14px;
     font-weight: 500;
 }
-
+.aiko-option{
+	background-color: #fff !important;
+}
 .t-loader {
 	bottom: 0;
 	position: absolute;
@@ -4226,3 +4226,15 @@ font-weight: 500;
 .mw-140{
 	    max-width: calc(100% - 140px);
 }
+
+
+
+
+
+
+
+
+
+
+
+
