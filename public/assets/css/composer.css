@@ -473,7 +473,7 @@ input:checked+.slider:before {
 .composer-suggestions p {
   font-size: 16px;
   cursor: default;
-  margin-bottom: 7px;
+  margin-bottom: 5px;
   white-space: nowrap;
   transition: 0.2s;
   padding: 2px 5px;
@@ -481,6 +481,16 @@ input:checked+.slider:before {
   text-overflow: ellipsis;
   width: 100%;
   overflow: hidden;
+}
+
+.composer-suggestions p:nth-child(1){
+	font-size: 13px;
+    opacity: .5;
+    margin-bottom: -1px !important;
+    margin-bottom: 1px !important;
+}
+.composer-suggestions p:nth-child(1):hover{
+	background-color: transparent !important;
 }
 
 .composer-suggestions p span {
