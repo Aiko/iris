@@ -2026,7 +2026,7 @@ transition: .2s;
 	width: 85% !important;
 	max-width: unset !important;
 	height: 85%;
-	margin-top: 3% !important;
+	margin-top: 5% !important;
 	margin-bottom: 0 !important;
 }
 
@@ -2153,7 +2153,6 @@ transition: .2s;
 	height: 100%;
 	background: var(--secondary-bg-color);
 	width: calc(100% - 300px);
-
 	z-index: 1;
 	position: relative;
 	border-radius: 5px;
@@ -2162,13 +2161,15 @@ transition: .2s;
 }
 
 .esc-tip {
-	position: absolute;
-	right: 0;
-	top: 0;
-	margin-right: -65px;
-	margin-top: 13px;
-	font-size: 10px;
-	text-align: center;
+position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 0;
+    margin-top: -40px;
+    font-size: 14px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    text-align: center;
 }
 
 .secondary-email {
@@ -2401,6 +2402,35 @@ margin-left: -15px;
 	margin-top: 4px;
 
 }
+.thinnest {
+	width: 30px;
+    overflow: hidden;
+}
+.thinnest .cll{
+	display: none;
+}
+.thinnest h1{
+	    writing-mode: vertical-rl;
+    padding: 0 0 0 17px;
+		transition: .2s;
+}
+.thinnest .email .container{
+	visibility: hidden;
+}
+.thinnest .board-body{
+	padding: 1px 5px 0 4px;
+}
+.thinnest .starred{
+	    padding: 8px 9px 0 10px;
+}
+.thinnest .unread{
+	    padding: 8px 9px 0 10px;
+}
+.thinnest .just-me{
+	    padding: 8px 9px 0 10px;
+}
+
+
 
 .thin .extra-actions a {
 	padding: 3px 3px 6px 0;

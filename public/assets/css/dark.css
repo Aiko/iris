@@ -185,7 +185,7 @@ body {
 }
 
 .load-board::before {
-  background: #b0b0b0 !important;
+  background: #b0b0b047 !important;
 }
 .load-sidebar::before {
   background: #b0b0b0 !important;
