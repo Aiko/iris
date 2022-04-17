@@ -243,4 +243,29 @@ export default class Sync {
     return this.Log.timeEnd("[SYNC]", folder.blue, "| Completed sync cycle.")
   }
 
+  async sync10TEC(folder: string) {
+    this.Log.time("[SYNC 10TEC]", folder.blue, "| Completed sync cycle.")
+
+    this.Log.log("[SYNC 10TEC]", "Attempting to sync", folder.blue, "...")
+    const folderDetails = await this.courier.folders.openFolder(folder)
+    const uidNext = folderDetails?.uidNext
+    if (!uidNext) return this.Log.error("[SYNC 10TEC]", folder.blue, "| did not provide a UIDNext.");
+
+    const LIMIT_FULL_EMAILS = 10000
+    const uidFullLimit = uidNext - LIMIT_FULL_EMAILS + 1
+
+    const uidMin = Math.max(1, uidFullLimit)
+    this.Log.log("[SYNC 10TEC]", folder.blue, "| Fetching full new messages in range", `${uidMin}:${uidNext}`)
+
+    this.Log.time("[SYNC 10TEC]", folder.blue, "| fetching remote in full.")
+    const raw_emails = await this.courier.messages.listMessagesFull(folder, `${uidMin}:${uidNext}`, {
+      bodystructure: true, parse: true,
+      markAsSeen: false, limit: LIMIT_FULL_EMAILS,
+      attachments: true, cids: false,
+    })
+    this.Log.timeEnd("[SYNC 10TEC]", folder.blue, "| fetching remote in full.")
+    this.Log.timeEnd("[SYNC 10TEC]", folder.blue, "| Completed sync cycle.")
+    return true
+  }
+
 }
