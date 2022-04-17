@@ -107,8 +107,8 @@ export class Cache {
         const filepath = await (async () => {
           try {
             const ext = path.extname(attachment.filename)
-            const direct_path = email.M.envelope.mid + "/" + attachment.filename
-            const indirect_path = email.M.envelope.mid + "/" + (attachment.checksum || "NOCHECKSUMNOFILENAME") + '.' + ext
+            const direct_path = Storage.clean_key(email.M.envelope.mid) + "/" + attachment.filename.slice(-86)
+            const indirect_path = Storage.clean_key(email.M.envelope.mid).substring(0, 86) + "/" + (attachment.checksum || "NOCHECKSUMNOFILENAME").substring(0, 86) + '.' + ext
             const exists = attachment.filename ? (await this.caches.ATT.has_key(direct_path)) : false
             return exists ? indirect_path : direct_path
           } catch (e) {
