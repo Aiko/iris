@@ -22,6 +22,7 @@ const flow_mgr = {
       showDrafts: false,
       showArchive: false,
       useUnsplashBackground: false,
+      scheduleSeed: null,
     },
     colorPalette: ["#F6F6F6", "#FFFFFF", "#2B4192", "#486FFF", "#486FFF"]
   },

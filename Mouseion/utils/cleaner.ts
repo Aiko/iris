@@ -395,11 +395,26 @@ export default class Janitor {
 
     const $ = Cheerio.load(e.parsed.html)
     const links: MouseionLink[] = []
+    const rich_actions: any[] = []
     $('a').each(function () {
       const href = $(this).attr('href') ?? ''
       const text = $(this).text() ?? ''
       if (href) links.push({ href, text })
     })
+    const maybeParse = (t: string) => {
+      try {
+        return JSON.parse(t)
+      } catch {
+        return null
+      }
+    }
+    $('script').each(function () {
+      const type = $(this).attr('type') ?? ''
+      if (!type.includes('ld+json')) return;
+      const def = maybeParse($(this).html() ?? 'null')
+      if (def) rich_actions.push(def)
+    })
+
 
     //? link intents will always override ai intents
     //? this is intended, ai intents are x% confidence, link intents are guarantees
@@ -445,6 +460,13 @@ export default class Janitor {
     if (common_action_links.length > 0) {
       e.M.quick_actions.context = common_action_links[0]!.href
       e.M.quick_actions.overrideText = commonActions[common_action_links[0]!.commonActionHref].text
+      e.M.quick_actions.overrideIcon = "assets/icons/link.svg" // TODO: customize this later
+      e.M.quick_actions.classification = 'override'
+    }
+
+    if (rich_actions.length > 0) {
+      e.M.quick_actions.context = JSON.stringify(rich_actions)
+      e.M.quick_actions.overrideText = "SPECIAL ACTION"
       e.M.quick_actions.overrideIcon = "assets/icons/link.svg" // TODO: customize this later
       e.M.quick_actions.classification = 'override'
     }
