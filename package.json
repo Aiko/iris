@@ -6,7 +6,7 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "electron-forge start",
-    "restart": "clear; rm -rf dist; tsc; electron-forge start",
+    "restart": "clear; rm -rf dist; echo Cleared compilation cache; tsc; echo Compiled app; electron-forge start",
     "package": "electron-forge package",
     "make:forge": "electron-forge make",
     "publish": "electron-forge publish",

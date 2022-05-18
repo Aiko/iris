@@ -88,7 +88,7 @@ export default class WindowManager {
     app.on("before-quit", e => _this.quitting = true)
     this.win.on("close", (e) => {
       _this.Log.log(e)
-      if (!this.closable && !this.quitting && process.platform != "win32") {
+      if (!this.closable && !this.quitting && process.platform == "darwin") {
         _this.Log.log("Preventing window from closing (hiding instead).")
         e.preventDefault()
         _this.win?.hide()
