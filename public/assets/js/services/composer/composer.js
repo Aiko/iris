@@ -145,6 +145,40 @@ const composer = {
         config: this.smtpConfig
       })
     },
+    async maeve() {
+      this.$root.loading = true
+      const bullets = this.$refs.editor.editor.getText().split("\n").filter(l => l.length > 3).map(text => "-" + text).join("<BR>")
+      const s = await fetch("https://babylon.aiko.email/inference/maeve/emails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({prompt: bullets})
+      })
+      const d = await s.json()
+      const name = (await app.suggestContact(app.imapConfig.user))?.[0]?.name ?? ""
+      const toName = this.sendTo.length > 2 ? "all" :
+        this.sendTo.length > 1 ? this.sendTo.map(x =>
+          (x.display || x.value.split("@")[0].capitalize().replace(/_|\./g, " ")).split(" ")[0]
+        ).join(" and ") :
+        this.sendTo.length > 0 ? this.sendTo[0].display || this.sendTo[0].value.split("@")[0].capitalize() :
+        ""
+      ;;
+      const firstName = name.split(" ")[0]
+      const lastName = name.split(" ")?.[1] ?? ""
+      const templated = d.result
+        .replace("<GREETING>", "Hi")
+        .replace("<TO>", toName)
+        .replace("<FIRSTNAME>", firstName)
+        .replace("<LASTNAME>", lastName)
+        .replace("<FULLNAME>", name)
+        .replace("<COMPANY>", "Aiko Mail")
+        .replace(/\<BR\>/g, "<br><br>")
+        .replace("<SALUTATION>", "Cheers,")
+        .replace("<SIGNATURE>", "<b>Priansh Shah</b><br>Founder, Aiko Mail<br>(201) 214-6697")
+      this.$refs.editor.setContent(templated)
+      this.$root.loading = false
+    },
     async sendEmail(html, fwAttachments=[], includeCSS=true) {
       const mail = {}
 

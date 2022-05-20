@@ -104,6 +104,9 @@ const Icons = {
     light: "bold-lt.svg",
     dark: "bold.svg"
   },
+  "brain.svg": {
+    base: "brain.svg",
+  },
   "cal.svg": {
     base: "cal.svg",
     light: "cal-lt.svg",
