@@ -53,7 +53,7 @@ class Storage {
   static clean_key = (key: string): string => key.replace(/[^A-z0-9/\-_]/g, '').substr(0, 86)
 
   //? Creates the correct filepath for a cleaned key, taking into account JSON settings
-  private filepath = (key: string): string => `${this.dir}/${key}.${this.json ? 'json' : 'log'}`
+  private filepath = (key: string): string => `${this.dir}/${key}`.substr(0, 122) + `.${this.json ? 'json' : 'log'}`
 
   /** Stores data into the relevant file for a key, stringifying it if need be */
   async store(key: string, data: any): Promise<void> {
