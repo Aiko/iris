@@ -285,6 +285,7 @@ class ThreadResolver {
   private readonly custodian: Custodian
   private readonly courier: PostOfficeProxy
   private readonly folders: Folders
+  private readonly ENABLE_AUDITING: boolean
 
   constructor(Registry: Register, private readonly AI_BATCH_SIZE: number) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
@@ -293,6 +294,7 @@ class ThreadResolver {
     this.custodian = Registry.get('Custodian') as Custodian
     this.courier = Registry.get('Courier') as PostOfficeProxy
     this.folders = Registry.get('Folders') as Folders
+    this.ENABLE_AUDITING = Registry.get('ENABLE_AUDITING')
     autoBind(this)
   }
 
@@ -359,7 +361,7 @@ class ThreadResolver {
         continue;
       }
     }
-    return {plan, audit_log}
+    return {plan, audit_log: this.ENABLE_AUDITING ? audit_log : []}
   }
 
   async full(TID: string): Promise<ResolvedThread<EmailFull> | null> {
@@ -446,7 +448,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailFull>(emails, thread, audit_log)
+    return resolveThread<EmailFull>(emails, thread, this.ENABLE_AUDITING ? audit_log : [])
   }
 
   async content(TID: string): Promise<ResolvedThread<EmailFull> | null> {
@@ -529,7 +531,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailFull>(emails, thread, audit_log)
+    return resolveThread<EmailFull>(emails, thread, this.ENABLE_AUDITING ? audit_log : [])
   }
 
   async headers(TID: string): Promise<ResolvedThread<EmailWithReferences> | null> {
@@ -600,7 +602,7 @@ class ThreadResolver {
     }
 
     const emails = have.sort((a, b) => b.M.envelope.date.valueOf() - a.M.envelope.date.valueOf())
-    return resolveThread<EmailWithReferences>(emails, thread, audit_log)
+    return resolveThread<EmailWithReferences>(emails, thread, this.ENABLE_AUDITING ? audit_log : [])
   }
 
 }
@@ -612,6 +614,7 @@ class MultiThreadResolver {
   private readonly custodian: Custodian
   private readonly courier: PostOfficeProxy
   private readonly folders: Folders
+  private readonly ENABLE_AUDITING: boolean
 
   constructor(Registry: Register, private readonly AI_BATCH_SIZE: number) {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
@@ -620,6 +623,7 @@ class MultiThreadResolver {
     this.custodian = Registry.get('Custodian') as Custodian
     this.courier = Registry.get('Courier') as PostOfficeProxy
     this.folders = Registry.get('Folders') as Folders
+    this.ENABLE_AUDITING = Registry.get('ENABLE_AUDITING') as boolean
     autoBind(this)
   }
 
@@ -694,7 +698,7 @@ class MultiThreadResolver {
         continue;
       }
     }
-    return {plan, audit_logs}
+    return {plan, audit_logs: this.ENABLE_AUDITING ? audit_logs : {}}
   }
 
   async latest(folder: string, minCursor: number, {limit=5000, start=0, loose=false} ={}): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[], msgs?: MessageModel[]}> {
@@ -824,7 +828,7 @@ class MultiThreadResolver {
     }
     this.Log.log(folder, "Completed deep thread delta.")
 
-    const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads, audit_logs)
+    const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads, this.ENABLE_AUDITING ? audit_logs : {})
     return {all: _threads, updated: resolved}
   }
 

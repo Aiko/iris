@@ -64,6 +64,7 @@ export default class Mailbox {
 
     //? Registry
     const Registry: Register = new Register()
+    Registry.register("ENABLE_AUDITING", false)
     Registry.register("Lumberjack", Lumberjack)
     Registry.register("Registry", Registry)
     Log.success("Instantiated Registry")

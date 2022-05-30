@@ -40,6 +40,7 @@ export default class Tailor {
   private readonly internal_use: boolean
   private readonly operator: Operator
   private readonly user: string
+  private readonly ENABLE_AUDITING: boolean
 
   constructor(Registry: Register, opts: {
     internal_use: boolean
@@ -57,6 +58,7 @@ export default class Tailor {
     this.boardrulesQ = Registry.get('Board Rules Queue') as BoardRulesQueue
     this.internal_use = opts.internal_use
     this.operator = Registry.get('Cypher') as Operator
+    this.ENABLE_AUDITING = Registry.get('ENABLE_AUDITING') as boolean
     autoBind(this)
   }
 
@@ -119,7 +121,7 @@ export default class Tailor {
           cc: email.M.envelope.cc,
           bcc: email.M.envelope.bcc,
           recipients: email.M.envelope.recipients,
-          audit_log: [...audit_log, "creating message as part of threading references", "creating new thread for message as there is no running thread to merge references into"]
+          audit_log: this.ENABLE_AUDITING ? [...audit_log, "creating message as part of threading references", "creating new thread for message as there is no running thread to merge references into"] : []
         }
         await this.pantheon.db.messages.add(m)
         return local_message.tid
@@ -165,7 +167,7 @@ export default class Tailor {
         }
       }
 
-      if (found) return await this.thread_reference(email, referenceMID, existingTID, audit_log)
+      if (found) return await this.thread_reference(email, referenceMID, existingTID, this.ENABLE_AUDITING ? audit_log : [])
       return existingTID
     }
   }
@@ -244,7 +246,7 @@ export default class Tailor {
         cc: email.M.envelope.cc,
         bcc: email.M.envelope.bcc,
         recipients: email.M.envelope.recipients,
-        audit_log: ["[phase 1] email could not fit into any existing thread, forming a new message & thread instead"]
+        audit_log: this.ENABLE_AUDITING ? ["[phase 1] email could not fit into any existing thread, forming a new message & thread instead"] : []
       }
       await this.pantheon.db.messages.add(m)
       const added_message = await this.pantheon.db.messages.find.mid(MID)
@@ -267,7 +269,7 @@ export default class Tailor {
         cc: email.M.envelope.cc,
         bcc: email.M.envelope.bcc,
         recipients: email.M.envelope.recipients,
-        audit_log: ["[phase 1] email fits nicely into existing thread, adding message and setting thread to existing TID"]
+        audit_log: this.ENABLE_AUDITING ? ["[phase 1] email fits nicely into existing thread, adding message and setting thread to existing TID"] : []
       }
       await this.pantheon.db.messages.add(m)
     }
@@ -293,8 +295,8 @@ export default class Tailor {
     // const mergedTIDs: Set<string> = new Set() //? wOW DynAMiC PRoGrAmmInG ?!
     // const mergedMIDs: {[subject: string]: Set<string>} = {}
 
-    const thread_logger = this.pantheon.db.threads.audit_log
-    const msg_logger = this.pantheon.db.messages.audit_log
+    const thread_logger = this.ENABLE_AUDITING ? this.pantheon.db.threads.audit_log: async (mid: string, log: string) => []
+    const msg_logger = this.ENABLE_AUDITING ? this.pantheon.db.messages.audit_log : async (mid: string, log: string) => []
 
 
     while (this.p2_queue.length > 0) {
@@ -356,8 +358,8 @@ export default class Tailor {
   async phase_3() {
     this.Log.time("Phase 3")
 
-    const thread_logger = this.pantheon.db.threads.audit_log
-    const msg_logger = this.pantheon.db.messages.audit_log
+    const thread_logger = this.ENABLE_AUDITING ? this.pantheon.db.threads.audit_log: async (mid: string, log: string) => []
+    const msg_logger = this.ENABLE_AUDITING ? this.pantheon.db.messages.audit_log : async (mid: string, log: string) => []
 
     const unitedTIDs: Set<string> = new Set()
     while (this.p3_queue.length > 0) {

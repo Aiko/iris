@@ -7,6 +7,8 @@ import Forest, { Logger, LumberjackEmployer } from '../utils/logger'
 import { CacheLevels, EmailBase, EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
 import autoBind from 'auto-bind'
 
+const SAVE_AUDIT_LOG_TO_DB = false;
+
 interface CacheBinding<T> {
   cache: (key: string, data: T) => Promise<void>
   check: (key: string) => Promise<T | false>
@@ -572,7 +574,7 @@ class Message implements MessageModel {
         const { folder, uid } = m
         return { folder, uid }
       }),
-      audit_log: this.audit_log
+      audit_log:  SAVE_AUDIT_LOG_TO_DB ? this.audit_log : []
     }
   }
 
@@ -605,7 +607,7 @@ class Message implements MessageModel {
         (this.state == DBState.New) ? "does not exist." : "is corrupted."
     )
     const {
-      tid, seen, starred, subject, timestamp, locations, from, to, cc, bcc, recipients
+      tid, seen, starred, subject, timestamp, locations, from, to, cc, bcc, recipients, audit_log
     } = shadow
     this.tid = tid
     this.seen = seen
@@ -618,6 +620,7 @@ class Message implements MessageModel {
     this.cc = cc
     this.bcc = bcc
     this.recipients = recipients
+    this.audit_log = audit_log
   }
 
   save({force=false} ={}): Promise<MessageModel | DBError> {
@@ -633,7 +636,7 @@ class Message implements MessageModel {
             folder: '',
             allFolders: [],
             participants: [],
-            audit_log: ["created new thread with tid " + this.tid]
+            audit_log: SAVE_AUDIT_LOG_TO_DB ? ["created new thread with tid " + this.tid] : []
           })
           await t.save()
           this.tid = t.tid
@@ -899,7 +902,7 @@ class Thread implements ThreadModel {
       allFolders: this.allFolders,
       tid: this.tid,
       participants: cloneN(this.participants),
-      audit_log: this.audit_log
+      audit_log:  SAVE_AUDIT_LOG_TO_DB ? this.audit_log : []
     }
   }
 
@@ -932,7 +935,7 @@ class Thread implements ThreadModel {
         (this.state == DBState.New) ? "does not exist." : "is corrupted."
     )
     const {
-      mids, date, cursor, folder, allFolders
+      mids, date, cursor, folder, allFolders, audit_log
     } = shadow
 
     this.mids = mids.map(_ => _)
@@ -940,6 +943,7 @@ class Thread implements ThreadModel {
     this.cursor = cursor
     this.folder = folder
     this.allFolders = allFolders
+    this.audit_log = audit_log
   }
 
   save({force=false} ={}): Promise<ThreadModel | DBError> {
@@ -1273,7 +1277,7 @@ class Contact implements ContactModel {
       received: this.received,
       lastSeen: this.lastSeen,
       priority: this.priority,
-      audit_log: this.audit_log
+      audit_log:  SAVE_AUDIT_LOG_TO_DB ? this.audit_log : []
     }
   }
 
@@ -1306,13 +1310,14 @@ class Contact implements ContactModel {
         (this.state == DBState.New) ? "does not exist." : "is corrupted."
     )
     const {
-      name, sent, received, lastSeen, priority
+      name, sent, received, lastSeen, priority, audit_log
     } = shadow
     this.name = name
     this.sent = sent
     this.received = received
     this.lastSeen = lastSeen
     this.priority = priority
+    this.audit_log = audit_log
   }
 
   save({force=false} ={}): Promise<ContactModel | DBError> {
