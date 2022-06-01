@@ -30,12 +30,12 @@ top.app = new Vue({
       if (wasLoading && isLoading) return
       if (wasLoading && !isLoading) {
         setTimeout(() => {
-          document.getElementById('fixed').style.visibility = 'hidden'
+          document.getElementById('fixed').style.display = 'none'
         }, 300)
         return
       }
       if (!wasLoading && isLoading) {
-        document.getElementById('fixed').style.visibility = 'unset'
+        document.getElementById('fixed').style.display = 'unset'
       }
     }
   },
