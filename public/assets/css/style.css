@@ -105,7 +105,7 @@ video:focus {
   -webkit-appearance: none !important;
   background-color: #fff;
   border: var(--main-border);
-  box-shadow: 0 1px 2px 0px #486fff94;
+  box-shadow: 0 1px 2px 0 #486fff94;
   padding: 7px !important;
   border-radius: 3px;
   display: inline-block;
@@ -976,6 +976,7 @@ img.red:hover {
 .email-footer .main-action.ma1 {
   background: linear-gradient(to right, #4b5c80, #4b5c80 50%, var(--main-text-color) 50%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% 100%;
   background-position: 100%;
@@ -986,6 +987,7 @@ img.red:hover {
 .email-footer .main-action.blue {
   background: linear-gradient(to right, #2e49ab, #2a4abd 50%, var(--main-color) 50%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% 100%;
   background-position: 100%;
@@ -996,6 +998,7 @@ img.red:hover {
 .email-footer .main-action.red {
   background: linear-gradient(to right, #ab2330, #ab2330 50%, #dc3545 50%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   background-size: 200% 100%;
   background-position: 100%;
@@ -2862,12 +2865,12 @@ select.v1 {
 }
 
 .accordion .existing-rules {
-  border-radius: 0px 0px 5px 5px !important;
+  border-radius: 0 0 5px 5px !important;
   margin-top: -3px !important;
 }
 
 .accordion .existing-rules:hover {
-  border-radius: 0px 0px 5px 5px !important;
+  border-radius: 0 0 5px 5px !important;
   background-color: var(--secondary-bg-color) !important;
 }
 
@@ -3114,8 +3117,6 @@ select.v1 {
   float: right;
   margin-right: -9px;
 }
-
-
 
 .space:hover .custd {
   visibility: visible;
@@ -4184,7 +4185,6 @@ input:checked+.slider:before {
 .plan p {
   display: table;
   margin-bottom: 5px !important;
-  margin-bottom: 20px;
 }
 
 .plan {

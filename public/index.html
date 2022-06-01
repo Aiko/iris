@@ -11,13 +11,13 @@
   <title>Inbox</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <!-- ? Base CSS -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.min.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
   <!-- ? jQuery -->
   <script src="assets/js/third-party/jquery.min.js"></script>
   <script>
-    window.jQuery = window.$ = require('jquery') // the things I do for Ruben
+    window.jQuery = window.$ = require('jquery') // the things I do for Milky
   </script>
   <!--? Using unsafe eval for Vue but if there comes a day when we aren't you are welcome to the below CSP -->
   <!--<meta http-equiv="Content-Security-Policy"
@@ -2106,8 +2106,15 @@
         <!--!------------------------------------------------------------->
         <!-- ? Message Loader -->
         <!--!------------------------------------------------------------->
-        <div v-if="!(email.parsed) || loading" class="load-bottom">
-          <p>Loading content</p>
+        <div v-if="!(email.parsed) || loading" class="aiko-loading">
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+
         </div>
 
 

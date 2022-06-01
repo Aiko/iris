@@ -136,8 +136,8 @@ const composer = {
         ""
       ;;
       if (content)
-        this.$refs.editor.setContent(`Hi${toName ? ' ' + toName : ''},<br><br>${content}<br><p>Thanks,</p><p>${name}</p><br><a href="https://helloaiko.com">Sent with Aiko Mail</a><br>` + (this.quoted ? `${this.quoted}<br>` : ""))
-      else this.$refs.editor.setContent(this.quoted || `Hi${toName ? ' ' + toName : ''},<br><br><br><p>Thanks,</p><p>${name}</p><br><br><a href="https://helloaiko.com">Sent with Aiko Mail</a><br>`)
+        this.$refs.editor.setContent(`Hi${toName ? ' ' + toName : ''},<br><br>${content}<br><p>Thanks,</p><p>${name}</p><br><a href="https://aikomail.com">Sent with Aiko Mail</a><br>` + (this.quoted ? `${this.quoted}<br>` : ""))
+      else this.$refs.editor.setContent(this.quoted || `Hi${toName ? ' ' + toName : ''},<br><br><br><p>Thanks,</p><p>${name}</p><br><br><a href="https://aikomail.com">Sent with Aiko Mail</a><br>`)
     },
     task_SendEmail (mail) {
       return this.ipcTask('please send an email', {
