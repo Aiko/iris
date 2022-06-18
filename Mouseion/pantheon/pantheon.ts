@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import fs2 from 'fs-extra'
 import path from 'path'
-import Datastore from 'nedb'
+import Datastore from '@seald-io/nedb'
 import Storage from '../utils/storage'
 import Forest, { Logger, LumberjackEmployer } from '../utils/logger'
 import { CacheLevels, EmailBase, EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
@@ -641,7 +641,7 @@ class Message implements MessageModel {
           await t.save()
           this.tid = t.tid
         }
-        this.ds.insert(this.clean(), async (err, doc: MessageModel) => {
+        this.ds.insert({...(this.clean()), audit_log: ["NEW: " + new Date()]}, async (err, doc: MessageModel) => {
           if (err || !doc) return s({
             error: err ? (err.message + err.stack) : "Failed to save new/corrupt Message."
           })
@@ -658,7 +658,7 @@ class Message implements MessageModel {
       } else {
         if (isDBError(shadow)) return s(shadow)
 
-        this.ds.update({ mid: this.mid }, this.clean(), {}, async (err) => {
+        this.ds.update({ mid: this.mid }, {...(this.clean()), audit_log: ["OLD: " + new Date()]}, {}, async (err) => {
           if (err) return s({error: err.message + err.stack})
 
           const t = await this.thread()
