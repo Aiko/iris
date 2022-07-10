@@ -5,7 +5,7 @@ import Register from "../managers/register"
 import { MessageModel } from "../pantheon/pantheon"
 import { PantheonProxy } from "../pantheon/puppeteer"
 import { PostOfficeProxy } from "../post-office/puppeteer"
-import { CopyUID, MoveUID } from "../post-office/types"
+import { CopyUID, MoveUID, SearchQuery } from "../post-office/types"
 import { Logger, LumberjackEmployer } from "../utils/logger"
 import retry from "../utils/retry"
 import Storage from "../utils/storage"
@@ -325,6 +325,22 @@ export default class Operator {
     const archive = this.folders.archive()
     if (archive) return await this.moveMultiple(folder, uids, archive)
     return null
+  }
+
+  async searchMessages(folder: string, query: string): Promise<MessageModel[]> {
+    try {
+      await this.pre_op()
+      const q = new SearchQuery()
+      q.term(query)
+      const uids = await this.courier.messages.searchMessages(folder, q.compile())
+      this.Log.log(`${uids.length} search results for '${query}' in ${folder}:`, uids)
+      await this.post_op()
+      return await this.getMessages(folder, uids.map(uid => '' + uid))
+    } catch (e) {
+      this.Log.error(`Failed to search <folder:${folder}> due to error:`, e)
+      await this.post_op(false)
+      return []
+    }
   }
 
   // TODO: use retry here

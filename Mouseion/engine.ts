@@ -76,6 +76,7 @@ export default class Engine {
     delete: this.mailbox.link.delete,
     moveMultiple: this.mailbox.link.moveMultiple,
     archiveMultiple: this.mailbox.link.archiveMultiple,
+    search: this.mailbox.link.searchMessages
   }
   contacts = {
     lookup: this.mailbox.pantheon.db.contacts.search
