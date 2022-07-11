@@ -1,13 +1,5 @@
 const MAILAPI_TAG = ['%c[MAIL API]', 'background-color: #ffdddd; color: #000;']
 
-/*
-? * TODO: this is what i have left:
-* - get emails and display them (both initially and on sync hooks)
-* - refactoring the view email modal and etc
-* - fixing any artifacts in composer
-* - the remaining features (search, templates, ai autocomplete)
-*/
-
 const SyncLock = (() => {
   let _lock = {
     holder: null,
