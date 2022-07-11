@@ -10,6 +10,9 @@ import { Logger, LumberjackEmployer } from "../utils/logger"
 import retry from "../utils/retry"
 import Storage from "../utils/storage"
 import autoBind from 'auto-bind'
+import sequence from "../utils/sequence"
+import do_in_batch from "../utils/do-in-batch"
+import Resolver from "./resolver"
 export default class Operator {
   private readonly Log: Logger
   private readonly pantheon: PantheonProxy
@@ -19,6 +22,7 @@ export default class Operator {
   private readonly auto_increment_cursor: boolean
   private readonly meta: Storage
   private readonly tailor: Tailor
+  private readonly resolver: Resolver
 
   constructor(private readonly Registry: Register, {
     auto_increment_cursor=false,
@@ -31,6 +35,7 @@ export default class Operator {
     this.custodian = Registry.get('Custodian') as Custodian
     this.folders = Registry.get('Folders') as Folders
     this.meta = Registry.get('Metadata Storage') as Storage
+    this.resolver = Registry.get('Resolver') as Resolver
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Operator')
     this.auto_increment_cursor = auto_increment_cursor
@@ -106,6 +111,58 @@ export default class Operator {
       }
     }))
     return messages.filter(_ => _) as MessageModel[]
+  }
+
+  private async getMessagesFull(folder: string, uids: string[]) {
+    const janitor = await this.custodian.get(folder)
+    const have: MessageModel[] = []
+    const need: string[] = []
+    await Promise.all(uids.map(async uid => {
+      const message = await this.pantheon.db.messages.find.uid(folder, uid)
+      if (message) have.push(message)
+      else need.push(uid)
+    }))
+
+    //? fetch any messages we are missing locally
+    if (need.length > 0) {
+      this.Log.warn(`Had ${have.length} messages locally, but need ${need.length} more.`)
+      const seq = sequence(need)
+      const raw_emails = await this.courier.messages.listMessagesFull(folder, seq, {
+        bodystructure: true,
+        parse: true,
+        markAsSeen: false,
+        attachments: true,
+        cids: false,
+        limit: uids.length
+      })
+      const emails = await do_in_batch(raw_emails, 500, janitor.full)
+      await Promise.all(emails.map(async email => {
+        await this.tailor.phase_1(email)
+        email = JSON.parse(JSON.stringify(email))
+        const MID = email.M.envelope.mid
+        await this.pantheon.cache.full.cache(MID, email)
+        const content: any = JSON.parse(JSON.stringify(email))
+        content.parsed.attachments = content.parsed.attachments.map((attachment: any) => {
+          attachment.content = Buffer.from([])
+          return attachment
+        })
+        await this.pantheon.cache.content.cache(MID, content)
+        const partial: any = JSON.parse(JSON.stringify(content))
+        partial.parsed = null
+        await this.pantheon.cache.headers.cache(MID, partial)
+        await this.pantheon.cache.envelope.cache(MID, partial)
+        const message = await this.pantheon.db.messages.find.mid(MID)
+        if (!message) {
+          this.Log.error(`Unable to find <folder:${folder}, mid:${MID}> after fetch-store.`)
+          return;
+        }
+        have.push(message)
+      }))
+    }
+
+    const tids = [...new Set(have.map(message => message.tid))]
+    const threads = await this.resolver.multithread.byTIDs(tids)
+    return threads
   }
 
   async star(folder: string, uid: string | number): Promise<boolean> {
@@ -327,17 +384,19 @@ export default class Operator {
     return null
   }
 
-  async searchMessages(folder: string, query: string): Promise<MessageModel[]> {
+  async searchMessages(folder: string, query: string, page=1) {
     try {
       await this.pre_op()
       const q = new SearchQuery()
       q.term(query)
       const uids = await this.courier.messages.searchMessages(folder, q.compile())
       this.Log.log(`${uids.length} search results for '${query}' in ${folder}:`, uids)
-      // limit to 50 results
-      const ret = uids.slice(0, 50)
+      // limit to most recent page, 50 messages per page
+      const start = -50 * page
+      const end = -50 * (page - 1)
+      const ret = uids.slice(start, end < 0 ? end : uids.length)
       await this.post_op()
-      return await this.getMessages(folder, ret.map(uid => '' + uid))
+      return await this.getMessagesFull(folder, ret.map(uid => '' + uid))
     } catch (e) {
       this.Log.error(`Failed to search <folder:${folder}> due to error:`, e)
       await this.post_op(false)

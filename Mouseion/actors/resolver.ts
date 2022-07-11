@@ -701,6 +701,134 @@ class MultiThreadResolver {
     return {plan, audit_logs: this.ENABLE_AUDITING ? audit_logs : {}}
   }
 
+  async byTIDs(tids: string[]): Promise<ResolvedThread<EmailFull>[]> {
+    const folder = "BY TIDs"
+    this.Log.log(folder.blue, "Building thread delta...")
+    const _threads = await Promise.all(tids.map(async tid => this.pantheon.db.threads.find.tid(tid)))
+    if (!_threads) {
+      this.Log.error(folder.blue, "| threads do not exist in our database.")
+      return []
+    }
+    if (_threads.length == 0) {
+      this.Log.warn(folder.blue, "| has no threads in the database.")
+      return []
+    }
+    const threads = _threads.filter(thread => !!thread) as ThreadModel[]
+    this.Log.log(folder.blue, "| has", threads.length, "threads to process.")
+
+    const audit_logs: {[tid: string]: string[]} = {}
+
+    const messages: MessageModel[] = []
+    for (const thread of threads) {
+      audit_logs[thread.tid] = []
+      const msgs = await this.pantheon.db.threads.messages(thread.tid)
+      if (!msgs || msgs.length == 0) {
+        this.Log.warn(folder, "TID", thread.tid, "does not have messages?")
+        continue;
+      }
+      //! we only push the latest 10 messages as that's all we're concerned with
+      messages.push(...(msgs.slice(0, 10)))
+      audit_logs[thread.tid].push(`assembled ${messages.length} messages`)
+    }
+    if (messages.length == 0) {
+      if (threads.length > 0) this.Log.warn(folder, "Latest TIDs do not have messages?")
+      return []
+    }
+    this.Log.log(folder.blue, "Built shallow delta...")
+
+    const have: Resolved<EmailFull>[] = []
+    const need: MessageModel[] = []
+    const rtCheck: number[] = [] //? runtimes of cache checks
+
+    await Promise.all(messages.map(async message => {
+      const t0 = performance.now()
+      const email = await this.pantheon.cache.content.check(message.mid) || null
+      rtCheck.push(performance.now() - t0)
+      if (!audit_logs[message.tid]) {
+        this.Log.warn(`TID ${message.tid} does not need to be resolved but has backwards pointer.`)
+        audit_logs[message.tid] = ["TID is not needed... wtf?"]
+      }
+      if (!email) {
+        need.push(message)
+        audit_logs[message.tid].push(`message ${message.mid} is NOT cached`)
+        return
+      }
+      email.M.flags.seen = message.seen
+      email.M.flags.starred = message.starred
+      const resolved = resolve<EmailFull>(email, message)
+      have.push(resolved)
+      audit_logs[message.tid].push(`already have message ${message.mid}`)
+    }))
+    this.Log.log(folder, "Built partial deep thread delta.")
+    this.Log.log(folder, "Check avg time:", rtCheck.reduce((a, b) => a + b) / rtCheck.length, rtCheck)
+
+    //? Build plan
+    const Plan = this.plan(need, threads)
+    const { plan } = Plan
+    for (const thread of threads) {
+      if (Plan.audit_logs[thread.tid]?.length > 0) {
+        audit_logs[thread.tid].push(...(Plan.audit_logs[thread.tid]))
+      }
+    }
+    this.Log.log(folder, "Assembled fetch plan...")
+
+    //? Execute plan
+    const folders = Object.keys(plan)
+    const Folder = folder
+    for (const folder of folders) {
+      const janitor = await this.custodian.get(folder)
+
+      //? Populate lookup table
+      const lookup: Record<string | number, MessageModel> = {}
+      const uids = plan[folder].map(({ uid, message }) => {
+        lookup[message.mid] = message
+        return uid
+      })
+
+      const count = uids.length
+      this.Log.time(Folder, "Fetched", count, "relevant emails from", folder)
+      const raw_emails = await this.courier.messages.listMessagesFull(folder, sequence(uids), {
+        bodystructure: true,
+        parse: true,
+        markAsSeen: false,
+        attachments: true,
+        cids: false,
+        limit: uids.length
+      })
+      this.Log.timeEnd(Folder, "Fetched", count, "relevant emails from", folder)
+
+
+      const emails = await do_in_batch(raw_emails, this.AI_BATCH_SIZE, janitor.full)
+      await Promise.all(emails.map(async email => {
+        const _MID = email.M.envelope.mid
+        if (!_MID) return this.Log.warn(Folder, "LATEST - cannot check lookup table without qualifying MID for email in", folder)
+        const message = lookup[email.M.envelope.mid]
+        if (!message) return; //* there will be extras due to the way we construct sequences
+        const resolved = resolve<EmailFull>(email, message)
+        have.push(resolved)
+        audit_logs[message.tid].push(`resolved message ${message.mid}`)
+        email = JSON.parse(JSON.stringify(email))
+        const MID = message.mid
+        await this.pantheon.cache.full.cache(MID, email)
+        const content: any = JSON.parse(JSON.stringify(email))
+        content.parsed.attachments = content.parsed.attachments.map((attachment: any) => {
+          attachment.content = Buffer.from([])
+          return attachment
+        })
+        await this.pantheon.cache.content.cache(MID, content)
+        const partial: any = JSON.parse(JSON.stringify(content))
+        partial.parsed = null
+        await this.pantheon.cache.headers.cache(MID, partial)
+        await this.pantheon.cache.envelope.cache(MID, partial)
+      }))
+
+    }
+    this.Log.log(folder, "Completed deep thread delta.")
+
+    const resolved: ResolvedThread<EmailFull>[] = resolveThreads<EmailFull>(have, threads, this.ENABLE_AUDITING ? audit_logs : {})
+    return resolved
+  }
+
   async latest(folder: string, minCursor: number, {limit=5000, start=0, loose=false} ={}): Promise<{all: ThreadModel[], updated: ResolvedThread<EmailFull>[], msgs?: MessageModel[]}> {
     this.Log.log(folder.blue, "Building thread delta...")
     const _threads = await this.pantheon.db.threads.find.latest(folder, { limit, start, loose })

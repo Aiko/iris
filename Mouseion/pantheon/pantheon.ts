@@ -572,7 +572,7 @@ class Message implements MessageModel {
       recipients: this.recipients,
       locations: this.locations.map((m: MessageLocation) => {
         const { folder, uid } = m
-        return { folder, uid }
+        return { folder, uid: "" + uid } // enforce string format
       }),
       audit_log:  SAVE_AUDIT_LOG_TO_DB ? this.audit_log : []
     }
@@ -803,7 +803,7 @@ class Message implements MessageModel {
     return new Promise((s, _) => {
       const ds = db.stores.Message
       ds.findOne({ locations: {
-        $elemMatch: { folder, uid }
+        $elemMatch: { folder, uid: "" + uid } // enforce string
       } }, (err, doc: MessageModel) => {
         if (err || !doc) {
           return s({
