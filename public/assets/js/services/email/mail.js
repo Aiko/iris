@@ -94,7 +94,8 @@ const mailapi = {
       spam: [], //* [tid]
       drafts: [], //* [tid]
       trash: [], //* [tid]
-      archive: [] //* [tid]
+      archive: [], //* [tid]
+      search: [], //* [tid]
     },
     boardOrder: [], //* [slug]
     boardThiccness: [], //* [slug]
@@ -106,6 +107,8 @@ const mailapi = {
     lastSync: new Date(),
     seekingInbox: false,
     reachedEndOfInbox: false,
+    searching: false,
+    searchFolder: "INBOX",
     movers: new Set(),
     dragging: false,
     visibleMin: 0,
@@ -752,6 +755,7 @@ const mailapi = {
         this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
       }))
 
+
       //? fetch updates to special folders
       ;await (async (cursor) => {
         const max_sent_updates = Math.max(500, this.special.sent.length)
@@ -1142,6 +1146,21 @@ const mailapi = {
 
       for (let i = 0; i < this.boards.length; i++)
         this.boards[i].tids.sort(sorter)
+    },
+    async search(query) {
+      this.searchFolder = this.folderForView
+      this.searching = true
+      this.special.search = []
+      this.flow.showSearch = true
+      const searchResults = await this.engine.manage.search(this.searchFolder, query)
+      searchResults.map(thread => {
+        thread = this.saveThread(thread)
+        const local = this.special.search.includes(thread.tid)
+        if (!local) this.special.search.unshift(thread.tid)
+      })
+      this.special.search.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      this.recalculateHeight()
+      this.searching = false
     },
     //? handles scrolling down to fetch more
     onScroll (e) {

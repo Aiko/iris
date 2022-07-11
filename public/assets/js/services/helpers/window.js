@@ -43,6 +43,9 @@ const window_mgr = {
       } catch (e) {
         window.close()
       }
+    },
+    async find () {
+      await ipcRenderer.invoke(this.windowPrefix + ': please find in window')
     }
   }
 }

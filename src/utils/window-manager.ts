@@ -24,6 +24,7 @@ export default class WindowManager {
     this.handler("fullscreen window", () => _this.setFullScreen(true))
     this.handler("close window", () => _this.close())
     this.handler("hide window", () => _this.hide())
+    this.handler("find in window", () => this.findInWindow())
 
     autoBind(this)
   }
@@ -42,6 +43,7 @@ export default class WindowManager {
   close() { if (this.win) this.win.close() }
   hide() { if (this.win) this.win.hide() }
   focus() { if (this.win) { this.win.show(); this.win.focus() }}
+  findInWindow() { if (this.win) this.win.webContents.findInPage("") }
 
   set window(win: BrowserWindow | null) {
     this.win = win

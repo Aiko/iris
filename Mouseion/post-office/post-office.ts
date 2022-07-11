@@ -54,7 +54,6 @@ export default class PostOffice {
 
       setTimeout(() => {
         this.Log.error("A client exists but could not be closed (TIMEOUT). There is a risk of a memory leak occurring.")
-        this.client = null
         s(true)
       }, 30 * 1000)
 

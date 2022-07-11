@@ -168,7 +168,7 @@
           <a :class="{
             'space-picker': true,
             'home': true,
-            'active': flow.showInbox
+            'active': flow.showInbox || flow.titleForView == 'Inbox'
           }">
 
             <!--? Home Space -->
@@ -205,31 +205,31 @@
 
           <!--? Special Folders -->
           <a :class="{
-            'active': flow.showSent
+            'active': flow.showSent || flow.titleForView == 'Sent'
           }" @click.stop.prevent="flow.showSent = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-send.svg')" class="sent-fix">
             <span>Sent</span>
           </a>
           <a :class="{
-            'active': flow.showDrafts
+            'active': flow.showDrafts || flow.titleForView == 'Drafts'
           }" @click.stop.prevent="flow.showDrafts = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-drafts.svg')">
             <span>Drafts</span>
           </a>
           <a :class="{
-            'active': flow.showArchive
+            'active': flow.showArchive || flow.titleForView == 'Archive'
           }" @click.stop.prevent="flow.showArchive = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-archive.svg')">
             <span>Archive</span>
           </a>
           <a :class="{
-            'active': flow.showSpam
+            'active': flow.showSpam || flow.titleForView == 'Spam'
           }" @click.stop.prevent="flow.showSpam = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-spam.svg')" style="margin-top: -2px !important;">
             <span>Spam <span v-if="spamUnread > 0" class="main-count">{{spamUnread}}</span></span>
           </a>
           <a :class="{
-            'active': flow.showTrash
+            'active': flow.showTrash || flow.titleForView == 'Trash'
           }" @click.stop.prevent="flow.showTrash = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-trash.svg')">
             <span>Trash</span>
@@ -378,7 +378,7 @@
             <div class="col-lg-5 col-md-6 col-6 p0m">
               <div class="search">
                 <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
-                <input type="" name=""  placeholder="Search">
+                <input @keyup.enter="search(flow.searchTerm)" v-model="flow.searchTerm" type="text" name="" placeholder="Search">
               </div>
               <!-- TODO: Rig search + search dropdown -->
               <div v-if="false" class="search-drop">
@@ -487,7 +487,7 @@
                 <div class="row" style="display: -webkit-inline-box">
 
                   <!-- ? Actions Dropdown -->
-                  <div class="col-1 cll">
+                  <div class="col-1 cll" v-if="!(flow.specialView)">
                     <div class="dropdown">
                       <a @click.stop.prevent="flow.showInboxBoardActions = !flow.showInboxBoardActions"
                         title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
@@ -504,7 +504,7 @@
 
 
                   <!--? Controls Dropdown -->
-                  <div class="col-1 cll">
+                  <div class="col-1 cll" v-if="!(flow.specialView)">
                     <div class="dropdown">
                       <a @click.stop.prevent="flow.showInboxBoardControls = !flow.showInboxBoardControls"
                         title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
@@ -550,6 +550,11 @@
                         'active': !priority
                       }" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
+                  </div>
+
+                  <!-- ? Title for Special Views -->
+                  <div v-if="flow.specialView" class="col-8 text-center p0 exp margin-auto nowrap">
+                    <h1>{{titleForView}}</h1>
                   </div>
 
                 </div>
@@ -701,6 +706,21 @@
                   :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--search" v-if="!loading && flow.showSearch" v-model="special.search"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.search"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
+              </draggable>
+              <div class="empty" v-if="searching">
+                <h1>🔎 Searching...</h1>
+              </div>
 
               <!-- ? List Loader -->
               <!-- <div class="inbox-more">
