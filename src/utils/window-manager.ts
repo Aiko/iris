@@ -25,6 +25,7 @@ export default class WindowManager {
     this.handler("close window", () => _this.close())
     this.handler("hide window", () => _this.hide())
     this.handler("find in window", () => this.findInWindow())
+    this.handler("focus window", () => this.focus())
 
     autoBind(this)
   }

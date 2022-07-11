@@ -46,6 +46,9 @@ const window_mgr = {
     },
     async find () {
       await ipcRenderer.invoke(this.windowPrefix + ': please find in window')
+    },
+    async focus () {
+      await ipcRenderer.invoke(this.windowPrefix + ': please focus window')
     }
   }
 }

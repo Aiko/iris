@@ -88,11 +88,13 @@ try {
                   .toString()
                   .trim()
   dev = true
+  app.setAppUserModelId("Aiko Mail (Dev)")
   Log.warn("Developer mode ON - commit #", commit_hash)
 } catch (e) {
   //! FIXME: remove before deployment
   commit_hash = os.platform() + '-' + app.getVersion() + ':INTERNAL'
   dev = false
+  app.setAppUserModelId("Aiko Mail (Beta)")
   Log.log("Developer mode OFF. Performance will reflect production.")
 }
 Registry.register("commit hash", commit_hash)

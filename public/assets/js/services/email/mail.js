@@ -104,7 +104,7 @@ const mailapi = {
     syncLock: SyncLock(),
     backendSyncing: false,
     syncing: false,
-    lastSync: new Date(),
+    lastSync: null,
     seekingInbox: false,
     reachedEndOfInbox: false,
     searching: false,
@@ -115,6 +115,7 @@ const mailapi = {
     visibleMax: 500,
     priority: true,
     seenFilter: null,
+    notifications: {},
     //? smaller lists for priority and other to optimize the UI
     priorityInbox: [],
     otherInbox: [],
@@ -665,6 +666,7 @@ const mailapi = {
       this.backendSyncing = false
       this.syncing = true
       info(...MAILAPI_TAG, "SYNC OP - START")
+      const firstSync = !(this.lastSync)
       this.lastSync = new Date()
       this.flow.showConnectionError = false
 
@@ -721,13 +723,29 @@ const mailapi = {
       this.inbox = this.inbox.filter(tid => existsTIDs.includes(tid))
       //? next, process the threads
       updated.map(thread => {
-        thread = this.saveThread(thread)
         //? first, determine if we have it locally
         const local = this.inbox.includes(thread.tid)
         //? since we resolve directly, this should update existing emails without us having to
+        if (local) {
+          //? check if the # of emails has increased
+          const old_thread = this.resolveThread(thread.tid)
+          thread = this.saveThread(thread)
+          if (old_thread.emails.length < thread.emails.length) {
+            if (!firstSync) {
+              this.notify(thread.emails[0])
+            }
+          }
+        }
         //! if you want to force a UI change, can do a stringify-parse set on the tids
         //? if we don't have it, we need to add it
-        if (!local) this.inbox.unshift(thread.tid) //* unshift because it is in ascending date order
+        if (!local) {
+          thread = this.saveThread(thread)
+          this.inbox.unshift(thread.tid) //* unshift because it is in ascending date order
+          if (!firstSync) {
+            //? trigger Notifications
+            this.notify(thread.emails[0])
+          }
+        }
       })
       //? sort the inbox to maintain date invariant
       this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
@@ -954,8 +972,10 @@ const mailapi = {
     },
     async checkSync () {
       // check if last sync was older than 5 minutes ago
+      if (!(this.lastSync)) return;
       if (this.lastSync.getTime() < Date.now() - 5 * 60 * 1000) {
-        await this.forceOAuthRefresh()
+        await this.checkOAuthTokens()
+        await this.reconnectToMailServer()
       }
     },
     ////////////////////////////////////////////!
@@ -1124,6 +1144,16 @@ const mailapi = {
 
       this.recalculateHeight()
     },
+    //? open thread
+    async openThread (tid) {
+      const thread = this.resolveThread(tid)
+      if (!thread) return error(...MAILAPI_TAG, "The thread that was opened has a TID that cannot be resolved.")
+      thread.seen = true
+      thread.emails[0].M.flags.seen = true
+      this.saveThread(thread, reset=false)
+      this.flow.viewThread = thread
+      await this.engine.manage.read(thread.emails[0].folder, thread.emails[0].M.envelope.uid)
+    },
     //? call this method after reordering boards to save the order
     async reorderBoards () {
       // this.boardOrder = this.boards.map(({ name }) => name)
@@ -1247,6 +1277,62 @@ const mailapi = {
         }
       }
     },
+    notify(email) {
+      if (email.M.envelope.from.address === this.currentMailbox) return;
+      if (!(email.M.priority)) return;
+      //window.registration.showNotification(`${email.M.envelope.subject}`, {
+      const notification = new Notification(`${email.M.envelope.subject}`, {
+        body: `${email.M.envelope.from.name}: ${email.M.summary.text}`,
+        tag: email.M.envelope.mid,
+        // badge: ??,
+        // data: ??,
+        // icon: ??,
+        // image: ??,
+        lang: 'en',
+        renotify: true,
+        requireInteraction: true,
+        silent: false,
+        timestamp: email.M.envelope.date.getTime(),
+        vibrate: [200, 100, 200, 100, 200, 100, 200],
+        /*actions: [
+          {
+            action: 'view',
+            title: 'View',
+          },
+          {
+            action: 'archive',
+            title: 'Archive',
+            icon: 'assets/icons/sidebar-archive-lt.svg'
+          }
+        ]*/
+      })
+      notification.onclick = () => {
+        info(...MAILAPI_TAG, 'Notification clicked for email', email.M.envelope.mid)
+        app.openThread(email.tid)
+        app.focus()
+        app.maximize()
+      }
+      /*
+      this.notifications[email.M.envelope.mid] = action => {
+        if (!action) action = 'view'
+
+        switch (action) {
+          case 'view':
+            app.openThread(email.tid)
+            app.focus()
+            break;
+          case 'archive':
+            // TODO
+            break;
+          default:
+            error(`Unknown action clicked: '${action}'`)
+            app.openThread(email.tid)
+            app.focus()
+            break;
+        }
+      }
+      */
+    },
   }
 }
 
@@ -1263,4 +1349,10 @@ window.setInterval(() => {
 window.setInterval(() => {
   app.checkSync()
 }, 30 * 1000)
-Notification.requestPermission()
+;(async () => {
+  window.registration = await navigator.serviceWorker.register('assets/js/services/workers/service-worker.js')
+  const channel = new BroadcastChannel('notify-messages')
+  channel.addEventListener('message', ({action, mid}) => {
+    app.notifications[mid](action)
+  })
+})();
