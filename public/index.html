@@ -168,7 +168,7 @@
           <a :class="{
             'space-picker': true,
             'home': true,
-            'active': flow.showInbox || flow.rootView == 'Inbox'
+            'active': flow.showInbox || rootView == 'Inbox'
           }">
 
             <!--? Home Space -->
@@ -205,31 +205,31 @@
 
           <!--? Special Folders -->
           <a :class="{
-            'active': flow.showSent || flow.rootView == 'Sent'
+            'active': flow.showSent || rootView == 'Sent'
           }" @click.stop.prevent="flow.showSent = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-send.svg')" class="sent-fix">
             <span>Sent</span>
           </a>
           <a :class="{
-            'active': flow.showDrafts || flow.rootView == 'Drafts'
+            'active': flow.showDrafts || rootView == 'Drafts'
           }" @click.stop.prevent="flow.showDrafts = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-drafts.svg')">
             <span>Drafts</span>
           </a>
           <a :class="{
-            'active': flow.showArchive || flow.rootView == 'Archive'
+            'active': flow.showArchive || rootView == 'Archive'
           }" @click.stop.prevent="flow.showArchive = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-archive.svg')">
             <span>Archive</span>
           </a>
           <a :class="{
-            'active': flow.showSpam || flow.rootView == 'Spam'
+            'active': flow.showSpam || rootView == 'Spam'
           }" @click.stop.prevent="flow.showSpam = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-spam.svg')" style="margin-top: -2px !important;">
             <span>Spam <span v-if="spamUnread > 0" class="main-count">{{spamUnread}}</span></span>
           </a>
           <a :class="{
-            'active': flow.showTrash || flow.rootView == 'Trash'
+            'active': flow.showTrash || rootView == 'Trash'
           }" @click.stop.prevent="flow.showTrash = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-trash.svg')">
             <span>Trash</span>
