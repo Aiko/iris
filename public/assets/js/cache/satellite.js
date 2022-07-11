@@ -18,6 +18,10 @@ const Satellite = (() => {
   }
 
   const kill = tinyStore.clear
+  const del = async k => {
+    const key = makeKey(k)
+    await tinyStore.removeItem(key)
+  }
 
-  return { store, load, kill }
+  return { store, load, kill, del }
 })()

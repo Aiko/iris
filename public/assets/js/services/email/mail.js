@@ -460,14 +460,14 @@ const mailapi = {
       // info(...MAILAPI_TAG, "Performing client sync.")
       // await this.syncOp()
       //! experimental: instead, pop cache
-      this.threads = await Satellite.load(this.currentMailbox + "threads") || {}
+      this.threads = await Satellite.load(this.currentMailbox + ":threads") || {}
       this.boards.map(async (board, i) => {
-        this.boards[i].tids = ((await Satellite.load(this.currentMailbox + "emails/" + board.name)) || [])
+        this.boards[i].tids = ((await Satellite.load(this.currentMailbox + ":emails/" + board.name)) || [])
       })
-      this.inbox = await Satellite.load(this.currentMailbox + "emails/inbox") || []
-      this.fullInbox = await Satellite.load(this.currentMailbox + "emails/fullInbox") || []
+      this.inbox = await Satellite.load(this.currentMailbox + ":emails/inbox") || []
+      this.fullInbox = await Satellite.load(this.currentMailbox + ":emails/fullInbox") || []
       Vue.set(this, 'special',
-        await Satellite.load(this.currentMailbox + "emails/special") || this.special)
+        await Satellite.load(this.currentMailbox + ":emails/special") || this.special)
       ;
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
@@ -663,6 +663,7 @@ const mailapi = {
       this.syncing = true
       info(...MAILAPI_TAG, "SYNC OP - START")
       this.lastSync = new Date()
+      this.flow.showConnectionError = false
 
       const okayletsgo = new Audio('./assets/videos/sync.mp3')
       if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
@@ -854,11 +855,11 @@ const mailapi = {
       success(...MAILAPI_TAG, "SYNC OP - computed full inbox:", performance.now() - t0)
 
       //? Cache
-      this.boards.map(board => Satellite.store(this.currentMailbox + "emails/" + board.name, board.tids))
-      Satellite.store(this.currentMailbox + "emails/inbox", this.inbox)
-      Satellite.store(this.currentMailbox + "emails/fullInbox", this.fullInbox)
-      Satellite.store(this.currentMailbox + "threads", this.threads)
-      Satellite.store(this.currentMailbox + "emails/special", this.special)
+      this.boards.map(board => Satellite.store(this.currentMailbox + ":emails/" + board.name, board.tids))
+      Satellite.store(this.currentMailbox + ":emails/inbox", this.inbox)
+      Satellite.store(this.currentMailbox + ":emails/fullInbox", this.fullInbox)
+      Satellite.store(this.currentMailbox + ":threads", this.threads)
+      Satellite.store(this.currentMailbox + ":emails/special", this.special)
 
       this.syncing = false
       if (this.flow.addingMailbox) {
@@ -1230,8 +1231,15 @@ const mailapi = {
   }
 }
 
+let atom = (new Date()).getTime()
 window.setInterval(() => {
   app.recalculateHeight()
+
+  if ((new Date()).getTime() > (atom + 10000 * 2)) {
+    // clock out of sync
+    window.location.reload()
+  }
+  atom = (new Date()).getTime()
 }, 1000)
 window.setInterval(() => {
   app.checkSync()

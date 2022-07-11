@@ -185,8 +185,12 @@ export default class PostOffice {
         tries--;
       }
     }
-    const _ = await this.client.listMailboxes().catch(this.Log.error) as any
-    return _.children?.length > 0
+    try {
+      const _ = await this.client.listMailboxes().catch(this.Log.error) as any
+      return _?.children?.length > 0
+    } catch (e) {
+      return false
+    }
   }
 
   /** Provides a folder structure object for the user's mailbox */

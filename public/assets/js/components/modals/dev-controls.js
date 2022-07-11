@@ -50,6 +50,20 @@ Vue.component('dev-controls', {
     },
     async close() {
       this.$root.flow.showDev = false
-    }
+    },
+    async clearLocalCache() {
+      const prefix = app.currentMailbox + ":"
+      const keys = [
+        "emails/",
+        "threads/",
+        "emails/inbox",
+        "emails/fullInbox",
+        "emails/special"
+      ]
+      await Promise.all(keys.map(async key => {
+        await Satellite.del(prefix + key)
+      }))
+      window.location.reload()
+    },
   }
 })

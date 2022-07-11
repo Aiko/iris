@@ -327,7 +327,7 @@
       </div>
 
       <!--? TOAST IMAP Error -->
-      <div class="aiko-toast" v-if="showConnectionError">
+      <div class="aiko-toast" v-if="flow.showConnectionError">
         <p class="textinout" style="color: #dc3545 !important">
           We're having issues connecting to your mail provider, but will keep trying. Please check your internet connection.
         </p>
@@ -381,7 +381,7 @@
                 <input type="" name=""  placeholder="Search">
               </div>
               <!-- TODO: Rig search + search dropdown -->
-              <div class="search-drop">
+              <div v-if="false" class="search-drop">
                 <a>
                   <div>Subject contains "<span>Ruben</span>"</div>
                 </a>
@@ -1324,7 +1324,7 @@
               <a @click="deleteCache({prefs: true})" class="btn btn-warning">Clear Dwarf Star</a>
               <br>
               <br>
-              <a @click="deleteCache({chrome: true})" class="btn btn-warning">Clear Browser Data</a>
+              <a @click="clearLocalCache" class="btn btn-warning">Clear Browser Data</a>
               <br>
               <br>
               <a @click="deleteCache({session: true})" class="btn btn-warning">Clear Iris Cache</a>
@@ -1693,7 +1693,7 @@
     <div @blur="unfocus" :ref="thread.tid" :key="thread.tid" :tid="thread.tid" :class="{
         'email': true,
         'unread': !(thread.seen),
-        'zero': !(thread.emails[0].M.summary.sentences.length > 0),
+        'zero': !(thread.emails[0]?.M?.summary?.sentences?.length > 0),
         'syncing': thread.syncing,
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
@@ -1704,7 +1704,7 @@
       }">
 
       <!-- ? Card content -->
-      <div v-if="render !== false" class="container pr" @click="viewMessage">
+      <div v-if="render !== false && thread.emails.length > 0 && thread.emails[0]" class="container pr" @click="viewMessage">
 
         <!--!------------------------------------------------------------->
         <!-- ? Preview latest message -->
@@ -1755,13 +1755,13 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject (cleaned) -->
           <!--!------------------------------------------------------------->
-          <p class="subject">{{thread.emails[0].M.envelope.cleanSubject}}</p>
+          <p class="subject">{{thread.emails[0]?.M?.envelope?.cleanSubject ?? "No subject"}}</p>
 
           <!--!------------------------------------------------------------->
           <!-- ? Summarized Content -->
           <!--!------------------------------------------------------------->
           <p v-if="thread.emails[0].M.summary.sentences.length > 0" class="body" id="step4">
-            {{thread.emails[0].M.summary.text}}</p>
+            {{thread.emails[0]?.M?.summary?.text ?? "No content"}}</p>
         </div>
 
         <!--!------------------------------------------------------------->
