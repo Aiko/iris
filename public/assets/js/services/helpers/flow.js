@@ -135,7 +135,16 @@ const flow_mgr = {
         const prefix = this.searching ? "Searching" : "Results from"
         return prefix + " " + this.viewFromFolder(this.searchFolder)
       }
-    }
+    },
+    rootView: function () {
+      if (this.flow.showInbox) return 'Inbox'
+      if (this.flow.showSent) return 'Sent'
+      if (this.flow.showSpam) return 'Spam'
+      if (this.flow.showTrash) return 'Trash'
+      if (this.flow.showDrafts) return 'Drafts'
+      if (this.flow.showArchive) return 'Archive'
+      if (this.flow.showSearch) return this.viewFromFolder(this.searchFolder)
+    },
   },
   methods: {
     viewFromFolder(folder) {
