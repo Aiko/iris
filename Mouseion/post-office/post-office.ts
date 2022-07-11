@@ -168,9 +168,13 @@ export default class PostOffice {
   }
 
   /** Checks connection (& connects if disconnected) */
-  async checkConnect(): Promise<boolean> {
-    if (!(this.client)) {
-      if (!(await this.connect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
+  async checkConnect(force: boolean = false): Promise<boolean> {
+    if (!(this.client) || force) {
+      if (!(await this.connect())) {
+        this.Log.error("Could not connect to the mailserver. Is your internet ok?")
+        this.trigger!("courier-disconnected")
+        return false
+      }
     }
     if (this.connecting) {
       const try_time = 200
@@ -235,6 +239,10 @@ export default class PostOffice {
     if (!(await this.checkConnect())) throw new Error("Could not connect to the mailserver. Is your internet ok?")
     this.Log.log("Selecting mailbox", path)
     const details = await this.client.selectMailbox(path, {readOnly: false, condstore: true }).catch(this.Log.error) as FolderDetails
+    if (!(details?.uidNext)) {
+
+      return details
+    }
     return details
   }
 
