@@ -965,7 +965,9 @@ const mailapi = {
     async checkSync () {
       // check if last sync was older than 5 minutes ago
       if (!(this.lastSync)) return;
+      if (this.flow.showConnectionError) return;
       if (this.lastSync.getTime() < Date.now() - 5 * 60 * 1000) {
+        await this.onIMAPConnectionError()
         await this.checkOAuthTokens()
         await this.reconnectToMailServer()
       }

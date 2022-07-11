@@ -24,7 +24,22 @@ export default class Lock {
 
   async acquire(cb: () => Promise<void>) {
     const id = this.ID()
-    while (this._lock.holder != id) await this._lock.lock;
+    if (this._lock.holder === id) {
+      await new Promise(async s => {
+        let fin = false
+        setTimeout(() => {
+          if (!fin) {
+            console.log("PROMISE LOCK TIMED OUT")
+            s(true)
+          }
+        }, 30 * 1000)
+        while (this._lock.holder != id) {
+          await this._lock.lock;
+          fin = true
+          s(true)
+        }
+      })
+    }
     this._lock.lock = new Promise(async (s, _) => {
       await cb()
       if (this.waiting.length > 0) this._lock.holder = this.waiting.shift() || ""
