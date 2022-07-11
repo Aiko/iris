@@ -143,7 +143,7 @@ export type RawEmail = EmailRawBase | EmailRawWithFlags | EmailRawWithEnvelope |
 //? search queries are AND by default
 export interface SearchQueryRaw {
   unseen?: boolean
-  keyword?: string
+  text?: string
   header?: string[]
   seen?: boolean
   since?: Date
@@ -154,7 +154,7 @@ export interface SearchQueryRaw {
 //? We don't support multi-keyword searches yet because behaviour is inconsistent
 export class SearchQuery {
   private read: boolean | null = null
-  private keyword: string | null = null
+  private text: string | null = null
   private header: string[] | null = null
   private after: Date | null = null
   private or: SearchQuery | null = null
@@ -169,8 +169,8 @@ export class SearchQuery {
     this.read = b
   }
   term(s: string) {
-    if (this.keyword != null) console.log("Warning: overwriting existing search term.".yellow)
-    this.keyword = s
+    if (this.text != null) console.log("Warning: overwriting existing search term.".yellow)
+    this.text = s
   }
   hasHeader(k: string, v: string) {
     if (this.header != null) console.log("Warning: overwriting existing header search.".yellow)
@@ -196,7 +196,7 @@ export class SearchQuery {
       if (this.read) q.seen = true
       else q.unseen = true
     }
-    if (this.keyword != null) q.keyword = this.keyword
+    if (this.text != null) q.text = this.text
     if (this.header != null) q.header = this.header
     if (this.after != null) q.since = this.after
     if (this.or != null) q.or = this.or.compile()

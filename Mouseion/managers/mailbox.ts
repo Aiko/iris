@@ -222,6 +222,7 @@ export default class Mailbox {
         this.Log.log("IMAP connection healthy?:", imapStatus)
         if (!imapStatus) {
           this.Log.warn("IMAP connection is unhealthy, ending mailbox run early.")
+          _this.trigger("courier-disconnected")
           _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)
           return;
         }

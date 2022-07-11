@@ -103,6 +103,7 @@ const mailapi = {
     syncLock: SyncLock(),
     backendSyncing: false,
     syncing: false,
+    lastSync: new Date(),
     seekingInbox: false,
     reachedEndOfInbox: false,
     movers: new Set(),
@@ -324,10 +325,8 @@ const mailapi = {
     //! Handlers & Sinks
     ////////////////////////////////////////////!
     //? A sink method to receive IMAP connection error calls
-    // TODO: should do something on error
     async onIMAPConnectionError () {
-      // NOTE: this is less of a listener and something this module calls
-      // app.toastIMAPError()
+      this.flow.showConnectionError = true
     },
     ////////////////////////////////////////////!
     //! Mailserver Connection
@@ -403,6 +402,7 @@ const mailapi = {
       })
       this.engine.on('sync-finished', this.syncOp)
       this.engine.on('auth-failed', this.forceOAuthRefresh)
+      this.engine.on('courier-disconnected', this.onIMAPConnectionError)
       info(...MAILAPI_TAG, "Registered Listeners")
 
       //? reset the UI
@@ -662,9 +662,10 @@ const mailapi = {
       this.backendSyncing = false
       this.syncing = true
       info(...MAILAPI_TAG, "SYNC OP - START")
+      this.lastSync = new Date()
 
       const okayletsgo = new Audio('./assets/videos/sync.mp3')
-      //if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
+      if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
 
       //? update folders
       this.folders = await this.engine.folders.state()
@@ -946,6 +947,12 @@ const mailapi = {
       this.backendSyncing = true
       await this.engine.sync.immediate()
     },
+    async checkSync () {
+      // check if last sync was older than 5 minutes ago
+      if (this.lastSync.getTime() < Date.now() - 5 * 60 * 1000) {
+        await this.forceOAuthRefresh()
+      }
+    },
     ////////////////////////////////////////////!
     //! Contact Methods
     ////////////////////////////////////////////!
@@ -1226,4 +1233,7 @@ const mailapi = {
 window.setInterval(() => {
   app.recalculateHeight()
 }, 1000)
+window.setInterval(() => {
+  app.checkSync()
+}, 30 * 1000)
 Notification.requestPermission()

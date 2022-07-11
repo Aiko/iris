@@ -334,8 +334,10 @@ export default class Operator {
       q.term(query)
       const uids = await this.courier.messages.searchMessages(folder, q.compile())
       this.Log.log(`${uids.length} search results for '${query}' in ${folder}:`, uids)
+      // limit to 50 results
+      const ret = uids.slice(0, 50)
       await this.post_op()
-      return await this.getMessages(folder, uids.map(uid => '' + uid))
+      return await this.getMessages(folder, ret.map(uid => '' + uid))
     } catch (e) {
       this.Log.error(`Failed to search <folder:${folder}> due to error:`, e)
       await this.post_op(false)

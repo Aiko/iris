@@ -115,6 +115,7 @@ const Engine = port => {
       move: async (srcFolder, srcUID, destFolder) => await proxy('manage.move')(srcFolder, srcUID, destFolder).catch(console.error),
       moveMultiple: async (srcFolder, srcUIDs, destFolder) => await proxy('manage.moveMultiple')(srcFolder, srcUIDs, destFolder).catch(console.error),
       archiveMultiple: async (srcFolder, srcUIDs) => await proxy('manage.archiveMultiple')(srcFolder, srcUIDs).catch(console.error),
+      search: async (folder, query) => await proxy('manage.search')(folder, query).catch(console.error),
     },
     contacts: {
       lookup: async partial => await proxy('contacts.lookup')(partial).catch(console.error)

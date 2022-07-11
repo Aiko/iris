@@ -1577,6 +1577,7 @@ a.main-action:hover {
   height: 28px;
   background: var(--secondary-bg-color);
   contain: unset;
+  float: right;
 }
 
 .search input::placeholder {

@@ -321,15 +321,15 @@
       </div>
 
       <!--? TOAST Connection Lost -->
-      <div class="aiko-toast" style="display: none">
-        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
+      <div class="aiko-toast" v-if="false">
+        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet.</p>
         <div class="t-loader-red"><span></span></div>
       </div>
 
       <!--? TOAST IMAP Error -->
-      <div class="aiko-toast" style="display: none;">
+      <div class="aiko-toast" v-if="showConnectionError">
         <p class="textinout" style="color: #dc3545 !important">
-          We're having issues connecting to your mail provider, but will keep trying.
+          We're having issues connecting to your mail provider, but will keep trying. Please check your internet connection.
         </p>
         <div class="t-loader-red"><span></span></div>
       </div>
