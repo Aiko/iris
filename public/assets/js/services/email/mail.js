@@ -722,7 +722,7 @@ const mailapi = {
           //? check if the # of emails has increased
           const old_thread = this.resolveThread(thread.tid)
           thread = this.saveThread(thread)
-          if (old_thread.emails.length < thread.emails.length) {
+          if (old_thread?.emails?.length < thread.emails.length) {
             if (!firstSync) {
               this.notify(thread.emails[0])
             }
@@ -740,7 +740,7 @@ const mailapi = {
         }
       })
       //? sort the inbox to maintain date invariant
-      this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      this.inbox.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       success(...MAILAPI_TAG, "SYNC OP - synced inbox state:", performance.now() - t0)
 
       //? fetch updates to boards
@@ -762,7 +762,7 @@ const mailapi = {
           //? if we don't have it, we need to add it
           if (!local) this.boards[i].tids.unshift(thread.tid) //* unshift because it is in ascending date order
         })
-        this.boards[i].tids.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.boards[i].tids.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       }))
 
 
@@ -847,11 +847,11 @@ const mailapi = {
           if (!local) this.special.archive.unshift(thread.tid) //* unshift because it is in ascending date order
         })
         //? sort the special folders
-        this.special.sent.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-        this.special.spam.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-        this.special.drafts.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-        this.special.trash.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
-        this.special.archive.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        this.special.sent.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
+        this.special.spam.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
+        this.special.drafts.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
+        this.special.trash.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
+        this.special.archive.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       })(cursor);
 
       t0 = performance.now()
@@ -863,7 +863,7 @@ const mailapi = {
         that.boards.map(({ tids }) => s.push(...tids))
         const ms = new Set(s)
         const os = [...ms]
-        os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        os.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
         return os
       })(this)
       success(...MAILAPI_TAG, "SYNC OP - computed full inbox:", performance.now() - t0)
@@ -928,7 +928,7 @@ const mailapi = {
         this.inbox.push(thread.tid) //* push because it is in ascending date order
       })
       //? sort the inbox to maintain date invariant
-      this.inbox.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      this.inbox.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       success(...MAILAPI_TAG, "SYNC OLD OP - synced old emails for inbox:", performance.now() - t0)
 
 
@@ -941,7 +941,7 @@ const mailapi = {
         that.boards.map(({ tids }) => s.push(...tids))
         const ms = new Set(s)
         const os = [...ms]
-        os.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+        os.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
         return os
       })(this)
       success(...MAILAPI_TAG, "SYNC OLD OP - computed full inbox:", performance.now() - t0)
@@ -1182,7 +1182,7 @@ const mailapi = {
         const local = this.special.search.includes(thread.tid)
         if (!local) this.special.search.unshift(thread.tid)
       })
-      this.special.search.sort((a, b) => this.resolveThread(b).date - this.resolveThread(a).date)
+      this.special.search.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       this.recalculateHeight()
       this.searching = false
     },

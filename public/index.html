@@ -1805,10 +1805,10 @@
               <a @click.stop.prevent="openLink" v-if="quickaction == 'unsubscribe'" class="main-action red">
                 <img :src="$root.resolveIcon('assets/icons/options-unsub.svg')"> Unsubscribe
               </a>
-              <a v-if="quickaction == 'sign_document'" class="main-action blue">
+              <a v-if="false && quickaction == 'sign_document'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/sign.svg')"> Sign
               </a>
-              <a v-if="quickaction == 'send_document'" class="main-action blue">
+              <a v-if="false && quickaction == 'send_document'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/attach.svg')"> Attach files
               </a>
               <a v-if="quickaction == 'calendar_invite'" class="main-action blue">
@@ -2034,19 +2034,19 @@
             <a @click.stop.prevent="openVerify" v-if="email.M.quick_actions.classification == 'verify'">
               <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Verify</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'subscribe'">
+            <a v-if="false && email.M.quick_actions.classification == 'subscribe'">
               <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Subscribe</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'unsubscribe'">
+            <a v-if="false && email.M.quick_actions.classification == 'unsubscribe'">
               <h2 class="red"><img :src="$root.resolveIcon('assets/icons/options-unsub.svg')">Unsubscribe</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'sign_document'">
+            <a v-if="false && email.M.quick_actions.classification == 'sign_document'">
               <h2><img :src="$root.resolveIcon('assets/icons/sign.svg')">Sign</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'send_document'">
+            <a v-if="false && email.M.quick_actions.classification == 'send_document'">
               <h2><img :src="$root.resolveIcon('assets/icons/attach.svg')">Attach Files</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'calendar_invite'">
+            <a v-if="false && email.M.quick_actions.classification == 'calendar_invite'">
               <h2><img :src="$root.resolveIcon('assets/icons/email-schedule.svg')">Add to Calendar</h2>
             </a>
             <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
