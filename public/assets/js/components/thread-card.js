@@ -239,6 +239,8 @@ Vue.component('thread-card', {
       this.$root.sendCC = this.quickReplyAll ? cc : [];
       this.$root.sendBCC = []
       this.$root.subject = 'Re: ' + email.M.envelope.subject
+      this.$root.inReplyTo = email.M.envelope.mid
+      this.$root.references = [email.M.envelope.mid, ...(email.M.envelope.references ?? [])]
 
       this.showQuickReply = false
       this.$root.sendEmail(html)

@@ -23,6 +23,8 @@ const composer = {
     recentAttachments: [],
     attachmentTerm: '',
     attachments: [],
+    inReplyTo: '',
+    references: [],
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -106,6 +108,8 @@ const composer = {
       this.sendBCC = config.bcc || []
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
+      this.inReplyTo = config.inReplyTo || ''
+      this.references = config.references || (this.inReplyTo ? [this.inReplyTo] : [])
       const content = config.content
       this.messageId = config.msgId || ''
       this.composerEngine = Engine(config.enginePort)
