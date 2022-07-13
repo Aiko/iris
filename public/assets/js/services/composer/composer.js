@@ -23,8 +23,8 @@ const composer = {
     recentAttachments: [],
     attachmentTerm: '',
     attachments: [],
-    inReplyTo: '',
-    references: [],
+    sendInReplyTo: '',
+    sendReferences: [],
   },
   created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
@@ -74,7 +74,8 @@ const composer = {
       withSubject='',
       withQuoted='',
       withMessageId='',
-      withContent=''
+      withContent='',
+      withReferences=[]
     ) {
       const config = {
         smtp: this.smtpConfig,
@@ -86,6 +87,8 @@ const composer = {
         content: withContent,
         msgId: withMessageId,
         enginePort: this.engine?.port,
+        inReplyTo: withMessageId,
+        references: withReferences
       }
 
       // cache with randomized identifier
@@ -100,7 +103,7 @@ const composer = {
     async loadComposer () {
       const identifier = this.bang
       if (!identifier) return window.error(...COMPOSER_TAG, 'No bang!')
-      const config = await GasGiant.load('composer/' + identifier) //! switch to pop
+      const config = await GasGiant.load('composer/' + identifier) //! TODO: switch to pop
       if (!config) return window.error(...COMPOSER_TAG, 'Config not found')
       this.smtpConfig = config.smtp
       this.sendTo = config.to || []
@@ -108,8 +111,8 @@ const composer = {
       this.sendBCC = config.bcc || []
       this.subject = config.subject || ''
       this.quoted = config.quoted || ''
-      this.inReplyTo = config.inReplyTo || ''
-      this.references = config.references || (this.inReplyTo ? [this.inReplyTo] : [])
+      this.sendInReplyTo = config.inReplyTo || ''
+      this.sendReferences = config.references || (this.sendInReplyTo ? [this.sendInReplyTo] : [])
       const content = config.content
       this.messageId = config.msgId || ''
       this.composerEngine = Engine(config.enginePort)
@@ -125,6 +128,8 @@ const composer = {
             'On ' + (new Date(cached.M.envelope.date)).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'}) +
             ', ' + cached.M.envelope.from.name + ' <' + cached.M.envelope.from.address + '> wrote:<br><br>' + (cached.parsed?.html || '[Message was too long to include.]')
             + '</blockquote>'
+            that.sendInReplyTo = cached.M.envelope.mid
+            that.sendReferences = [that.sendInReplyTo, ...(cached.M.envelope.references ?? [])]
           }
           if (!(cached?.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
         }
@@ -194,6 +199,8 @@ const composer = {
       mail.cc = this.sendCC.map(recipient => recipient.value)
       mail.bcc = this.sendBCC.map(recipient => recipient.value)
       mail.replyTo = this.currentMailbox
+      mail.inReplyTo = this.sendInReplyTo
+      mail.references = this.sendReferences
 
       mail.subject = this.subject || "No Subject"
 

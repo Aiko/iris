@@ -184,7 +184,8 @@ Vue.component('thread-card', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
       )
     },
     async replyAll() {
@@ -204,7 +205,8 @@ Vue.component('thread-card', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
       )
     },
     async forward() {
@@ -215,7 +217,8 @@ Vue.component('thread-card', {
         withBCC=[],
         withSubject="Fwd: " + email.M.envelope.subject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
       )
     },
     async sendQuickReply() {
@@ -237,7 +240,7 @@ Vue.component('thread-card', {
 
       this.$root.sendTo = this.quickReplyAll ? toAll : to;
       this.$root.sendCC = this.quickReplyAll ? cc : [];
-      this.$root.sendBCC = []
+      this.$root.sendBCC = this.quickReplyAll ? bcc : [];
       this.$root.subject = 'Re: ' + email.M.envelope.subject
       this.$root.inReplyTo = email.M.envelope.mid
       this.$root.references = [email.M.envelope.mid, ...(email.M.envelope.references ?? [])]

@@ -48,7 +48,8 @@ Vue.component('schedule-modal', {
         withSubject="Re: " + email.M.envelope.subject,
         withQuoted='',
         withMessageId=email.M.envelope.mid,
-        withContent=`Thanks for getting back to me! I think ${dateString} would work best for me. Let me know if this works for you.`
+        withContent=`Thanks for getting back to me! I think ${dateString} would work best for me. Let me know if this works for you.`,
+        withReferences=email.M.envelope.references ?? [],
       )
       this.close()
     },

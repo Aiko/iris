@@ -179,7 +179,8 @@ Vue.component('view-email', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.cleanSubject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
       )
     },
     async replyAll() {
@@ -199,7 +200,9 @@ Vue.component('view-email', {
         withBCC=[],
         withSubject="Re: " + email.M.envelope.cleanSubject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
+
       )
     },
     async forward() {
@@ -210,7 +213,8 @@ Vue.component('view-email', {
         withBCC=[],
         withSubject="Fwd: " + email.M.envelope.cleanSubject,
         withQuoted='',
-        withMessageId=email.M.envelope.mid
+        withMessageId=email.M.envelope.mid,
+        withReferences=email.M.envelope.references ?? [],
       )
     },
     //? Attachments
