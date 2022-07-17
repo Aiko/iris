@@ -10,7 +10,7 @@ Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sent
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import child_process from 'child_process'
-import { app, session, dialog } from 'electron'
+import { app, session, dialog, powerSaveBlocker } from 'electron'
 import Register from './Mouseion/managers/register'
 import Forest from './Mouseion/utils/logger'
 import SecureCommunications from './src/utils/comms'
@@ -266,6 +266,8 @@ const init = async () => {
 /// //////////////////////////////////////////////////////
 //? App Lifecycle Hooks
 app.allowRendererProcessReuse = false
+powerSaveBlocker.start('prevent-app-suspension')
+app.commandLine.appendSwitch('disable-renderer-backgrounding')
 
 app.on("ready", init)
 

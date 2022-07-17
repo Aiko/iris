@@ -134,6 +134,7 @@ export default class WindowManager {
         enableRemoteModule: true, //! FIXME: you know this is bad...
         nodeIntegration: true, //! FIXME: migrate fully to websockets
         spellcheck,
+        backgroundThrottling: false,
       },
       icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png',
       ...args
