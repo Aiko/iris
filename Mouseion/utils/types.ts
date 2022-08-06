@@ -100,14 +100,22 @@ export interface MouseionParsed extends MouseionParsedBase {
   attachments: MouseionAttachment[]
 }
 
+export interface MBase {
+  is_spam: boolean
+  is_sent: boolean
+  is_draft: boolean
+  is_trash: boolean
+}
+
 export interface EmailBase {
   raw: EmailRawBase
   folder: string
   audit_log: string[]
   cache_location: CacheLevels
+  M: MBase
 }
 
-export interface MFlags {
+export interface MFlags extends MBase {
   flags: MouseionFlags
 }
 // base flags envelope headers/references full/priority

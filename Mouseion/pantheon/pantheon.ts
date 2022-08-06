@@ -100,7 +100,7 @@ export class Cache {
           const author = email.M.envelope.from
           return {
             ...attachment,
-            date: new Date(),
+            date: new Date(email.M.envelope.date) ?? new Date(),
             author
           }
         }

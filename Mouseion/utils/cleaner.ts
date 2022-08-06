@@ -63,10 +63,12 @@ import autoBind from 'auto-bind'
 type runtime = { runs: number, time: number }
 
 import commonActions from './common-actions'
+import Folders from '../managers/folders'
 
 export default class Janitor {
   private readonly Log: Logger
   private readonly folder: string
+  private readonly folders: Folders
   private readonly useAiko: boolean = false
   private readonly runtimes: Record<string, runtime> = {}
 
@@ -74,6 +76,7 @@ export default class Janitor {
     const Lumberjack = Registry.get('Lumberjack') as LumberjackEmployer
     this.Log = Lumberjack('Janitor')
     this.folder = folder
+    this.folders = Registry.get("Folders") as Folders
     this.useAiko = useAiko
     this.runtimes['content'] = { runs: 0, time: 0 }
     this.runtimes['summarizer'] = { runs: 0, time: 0 }
@@ -86,7 +89,13 @@ export default class Janitor {
       raw: email,
       folder: this.folder,
       audit_log: [],
-      cache_location: "L1"
+      cache_location: "L1",
+      M: {
+        is_draft: this.folders.drafts() == this.folder,
+        is_sent: this.folders.sent() == this.folder,
+        is_trash: this.folders.trash() == this.folder,
+        is_spam: this.folders.spam() == this.folder,
+      }
     }
   }
 
@@ -483,7 +492,7 @@ export default class Janitor {
   private async attachments(email: EmailRaw): Promise<EmailWithAttachments> {
     const e: EmailWithLinks = await this.links(email)
 
-    const raw_attachments: AttachmentRaw[] = email.parsed.attachments || []
+    const raw_attachments: AttachmentRaw[] = e.M.is_spam ? [] : email.parsed.attachments || []
     const attachments: MouseionAttachment[] = raw_attachments.map((attachment: AttachmentRaw): MouseionAttachment => {
       let filename = attachment.filename ?? attachment.fileName ?? ""
       if (!filename && attachment?.contentType && attachment?.contentType?.includes('text/calendar'))

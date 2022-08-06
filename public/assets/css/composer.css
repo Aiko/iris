@@ -727,6 +727,7 @@ pre code {
 .tab-content {
   padding: 0 20px;
   height: calc(100% - 50px);
+  overflow-y: scroll;
 }
 
 .nav-tabs {

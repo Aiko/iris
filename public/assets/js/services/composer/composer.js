@@ -119,6 +119,7 @@ const composer = {
       const content = config.content
       this.messageId = config.msgId || ''
       this.composerEngine = Engine(config.enginePort)
+      this.recentAttachments = await this.composerEngine.attachments.lookup("")
       if (this.messageId && !this.quoted) {
         info(...COMPOSER_TAG, "Trying to fetch message for composer", this.messageId)
         const tryToGetIt = async (that, max_tries=3, try_n=0) => {
@@ -521,6 +522,13 @@ ${mail.html}
           path: filepath
         }))))
       }
+    },
+    async attachRecentAttachment(i) {
+      const attachment = this.recentAttachments[i]
+      if (attachment) this.attachments.push({
+        filename: attachment.filename,
+        path: attachment.storagePath + "/" + attachment.filepath
+      })
     },
     task_ProofRead(text, opts) {
       return this.ipcTask('please check my writing', {text, opts})

@@ -456,7 +456,7 @@
               <a style="display: block;" target="_blank">
                 <p v-if="recentAttachments.length == 0"></p>
 
-                <div v-else class="tempside" v-for="attachment in recentAttachments">
+                <div v-else class="tempside" v-for="(attachment, i) in recentAttachments" @click="attachRecentAttachment(i)">
                   <p class="subject">{{attachment.filename || "No Name"}}</p>
                   <p class="body">
                     by {{attachment.author.name ?? attachment.author.base}} | {{new Date(attachment.date).toNicerDateTime()}}
