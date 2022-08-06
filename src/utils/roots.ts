@@ -59,7 +59,6 @@ export default class Roots {
     })
     this.wss2.on("connection", (ws: WebSocket) => {
       ws.on("message", (m: string) => {
-        console.log("GOT A MESSAGE FROM THE CLIENT")
         try {
           this.log(m)
         } catch (e) {
