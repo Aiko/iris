@@ -163,18 +163,6 @@
         <!-- TODO: this compose-body div needs to be 100% MINUS the height of all above elements combined, so it is never taller than full height -->
         <aiko-editor ref="editor" inline-template>
           <div class="compose-body">
-            <!-- TODO: Rig attachments here, and attachment trash button -->
-            <div class="attachments" v-if="attachments?.length > 0">
-              <div class="attachment" v-for="attachment in attachments">
-                <img :src="$root.resolveIcon('assets/icons/music.svg')">
-                <div class="name">{{attachment.filename || 'No Filename'}}</div>
-                <div class="size">{{attachment.size.toFilesize()}}</div>
-                <a class="att-action" alt="Preview attachment"><img
-                    :src="$root.resolveIcon('assets/icons/track.svg')"></a>
-                <a class="att-action aa1" alt="Preview attachment"><img
-                    :src="$root.resolveIcon('assets/icons/options-trash.svg')"></a>
-              </div>
-            </div>
             <editor-content class="editor" :editor="editor"></editor-content>
             <bubble-menu class="menububble" :tippy-options="{ duration: 100 }" :editor="editor" v-if="editor">
               <div class="menububble__form" v-if="linkActive">
@@ -387,12 +375,21 @@
             </div>
 
 
-
-
-
-
           </div>
         </aiko-editor>
+
+        <!-- TODO: Rig attachments here, and attachment trash button -->
+        <div class="attachments" v-if="$root.attachments?.length > 0">
+          <div class="attachment" v-for="attachment in $root.attachments">
+            <img :src="$root.resolveIcon('assets/icons/music.svg')">
+            <div class="name">{{attachment.filename || 'No Filename'}}</div>
+            <div class="size">{{attachment.size.toFilesize()}}</div>
+            <a class="att-action" alt="Preview attachment"><img
+                :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+            <a class="att-action aa1" alt="Remove attachment"><img
+                :src="$root.resolveIcon('assets/icons/options-trash.svg')"></a>
+          </div>
+        </div>
 
         <div class="compose-bottom">
           <a @click="sendEmail('')"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20" /><span>

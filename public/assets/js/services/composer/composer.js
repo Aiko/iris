@@ -517,9 +517,11 @@ ${mail.html}
     async attachFiles() {
       const files = await this.callIPC(this.task_AttachFiles())
       if (files) {
-        this.attachments.push(...(files.map(filepath => ({
-          filename: filepath.split('/').pop(),
-          path: filepath
+        this.attachments.push(...(files.map(({filePath, size, contentType}) => ({
+          filename: filePath.split('/').pop(),
+          path: filePath, 
+          contentType,
+          size
         }))))
       }
     },
@@ -527,7 +529,9 @@ ${mail.html}
       const attachment = this.recentAttachments[i]
       if (attachment) this.attachments.push({
         filename: attachment.filename,
-        path: attachment.storagePath + "/" + attachment.filepath
+        path: attachment.storagePath + "/" + attachment.filepath,
+        contentType: attachment.contentType ?? "application/octet-stream",
+        size: attachment.size ?? 0
       })
     },
     task_ProofRead(text, opts) {

@@ -5,6 +5,8 @@ import autoBind from 'auto-bind'
 import { dialog } from 'electron'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import writeGood from "write-good"
+import fs from 'fs-extra'
+import mime from 'mime'
 
 export default class Composer {
   private readonly comms: SecureCommunications
@@ -70,8 +72,21 @@ export default class Composer {
       return []
     }
 
+    //? Get the filesize and content type of each file
+    const files = await Promise.all(filePaths.map(async filePath => {
+      const { size, contentType } = await fs.promises.stat(filePath).then(stats => {
+        return {
+          size: stats.size,
+          contentType: mime.lookup(filePath)
+        }
+      })
+      return {
+        size, contentType, filePath
+      }
+    }))
+
     this.Log.shout("Attaching:", filePaths)
-    return filePaths
+    return files
   }
 
   private async getSuggestions({text, opts}: { text: string, opts?: writeGood.Options }) {
