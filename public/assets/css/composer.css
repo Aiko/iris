@@ -1,27 +1,27 @@
 /* Color Declarations */
 :root {
-	--main-color: #486fff;
-	/* Main Aiko accent */
-	--main-color-hover: #4366e8;
-	--main-bg-color: #fff;
-	/* Sidebar and Header */
-	--secondary-bg-color: #f1f3f9;
-	/* Control bar and picker and search, etc*/
-	--secondary-bg-color-hover: #efefef;
-	/* Control bar and picker and search, etc*/
-	--main-text-color: #6e80a5;
-	/* Sidebar, body preview, board title */
-	--main-text-color-hover: #536282;
-	--dark-text: #536282;
-	/* Dropdown titles */
-	--sidebar-item-bg-color: #f1f3f9;
-	/* Active and hover in sidebar */
-	--sender-text-color: #536282;
-	--subject-text-color: #333d50;
-	--main-border: 1px solid #f1f3f9;
-	--placeholder-text-color: #6e80a5;
-	/* Global placeholder color */
-	--modal-backdrop: #f1f3f9bd;
+  --main-color: #486fff;
+  /* Main Aiko accent */
+  --main-color-hover: #4366e8;
+  --main-bg-color: #fff;
+  /* Sidebar and Header */
+  --secondary-bg-color: #f1f3f9;
+  /* Control bar and picker and search, etc*/
+  --secondary-bg-color-hover: #efefef;
+  /* Control bar and picker and search, etc*/
+  --main-text-color: #6e80a5;
+  /* Sidebar, body preview, board title */
+  --main-text-color-hover: #536282;
+  --dark-text: #536282;
+  /* Dropdown titles */
+  --sidebar-item-bg-color: #f1f3f9;
+  /* Active and hover in sidebar */
+  --sender-text-color: #536282;
+  --subject-text-color: #333d50;
+  --main-border: 1px solid #f1f3f9;
+  --placeholder-text-color: #6e80a5;
+  /* Global placeholder color */
+  --modal-backdrop: #f1f3f9bd;
 }
 
 
@@ -32,16 +32,20 @@
   transform: translateY(-50%);
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: var(--placeholder-text-color);
-  opacity: 1; /* Firefox */
+  opacity: 1;
+  /* Firefox */
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
   color: var(--placeholder-text-color);
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+::-ms-input-placeholder {
+  /* Microsoft Edge */
   color: var(--placeholder-text-color);
 }
 
@@ -230,17 +234,18 @@ input:active {
 }
 
 .email {
-position: relative;
-    background: #fff;
-    border-radius: 5px;
-    cursor: default;
-    margin-bottom: 15px;
-		background: var(--main-bg-color);
-    padding: 8px 13px 0 10px;
-    overflow: hidden;
+  position: relative;
+  background: #fff;
+  border-radius: 5px;
+  cursor: default;
+  margin-bottom: 15px;
+  background: var(--main-bg-color);
+  padding: 8px 13px 0 10px;
+  overflow: hidden;
 }
+
 .email:hover {
-	 background-color: #f7f7f7;
+  background-color: #f7f7f7;
 }
 
 .x-email {
@@ -288,7 +293,7 @@ position: relative;
   bottom: 1px;
   background-color: var(--secondary-bg-color);
   border: 1px solid var(--main-color);
-	box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.27);
+  box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.27);
   transition: 0.4s;
 }
 
@@ -483,14 +488,15 @@ input:checked+.slider:before {
   overflow: hidden;
 }
 
-.composer-suggestions p:nth-child(1){
-	font-size: 13px;
-    opacity: .5;
-    margin-bottom: -1px !important;
-    margin-bottom: 1px !important;
+.composer-suggestions p:nth-child(1) {
+  font-size: 13px;
+  opacity: .5;
+  margin-bottom: -1px !important;
+  margin-bottom: 1px !important;
 }
-.composer-suggestions p:nth-child(1):hover{
-	background-color: transparent !important;
+
+.composer-suggestions p:nth-child(1):hover {
+  background-color: transparent !important;
 }
 
 .composer-suggestions p span {
@@ -801,33 +807,35 @@ pre code {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+
 .subject {
-	font-size: 14px;
-	color: var(--subject-text-color);
-	margin-bottom: 2px;
-	font-weight: 600;
-	height: 20px;
-	overflow: hidden;
-	width: 100%;
-	text-overflow: ellipsis;
-	margin-top: -1px;
-	white-space: nowrap;
-	letter-spacing: 0.4px;
-}
-.body {
-	font-size: 13px;
-	color: var(--main-text-color);
-	height: 50px;
-	overflow: hidden;
-	line-height: 16px;
-	margin-bottom: 3px;
-	text-overflow: ellipsis;
-	letter-spacing: 0.1px;
-	width: 100%;
-	transition: 0.2s;
+  font-size: 14px;
+  color: var(--subject-text-color);
+  margin-bottom: 2px;
+  font-weight: 600;
+  height: 20px;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  margin-top: -1px;
+  white-space: nowrap;
+  letter-spacing: 0.4px;
 }
 
-.body:hover{
+.body {
+  font-size: 13px;
+  color: var(--main-text-color);
+  height: 50px;
+  overflow: hidden;
+  line-height: 16px;
+  margin-bottom: 3px;
+  text-overflow: ellipsis;
+  letter-spacing: 0.1px;
+  width: 100%;
+  transition: 0.2s;
+}
+
+.body:hover {
   height: fit-content !important;
   transition: .2s;
 }
@@ -885,17 +893,18 @@ pre code {
 }
 
 
-.tempside{
-    background: var(--main-bg-color);
-    padding: 8px 13px;
-    border-radius: 5px;
-    cursor: default;
-    margin-bottom: 15px;
-    overflow: hidden;
+.tempside {
+  background: var(--main-bg-color);
+  padding: 8px 13px;
+  border-radius: 5px;
+  cursor: default;
+  margin-bottom: 15px;
+  overflow: hidden;
 }
-.tempside:hover{
+
+.tempside:hover {
   margin-bottom: 13px;
-    border: var(--main-border);
+  border: var(--main-border);
 }
 
 .previous-threads {
@@ -1305,12 +1314,12 @@ code {
 }
 
 .composer-tag-remove {
-    width: 20px;
-    margin-right: -6px;
-    padding-bottom: 2px;
-    padding: 6px;
-    margin-bottom: 2px;
-    margin-left: -5px;
+  width: 20px;
+  margin-right: -6px;
+  padding-bottom: 2px;
+  padding: 6px;
+  margin-bottom: 2px;
+  margin-left: -5px;
 }
 
 .editor p,
@@ -1472,135 +1481,143 @@ li[data-done="false"] {
   display: block;
   white-space: pre-wrap;
 }
-.attachments{
-    position: absolute;
-    width: 100%;
-    max-height: 50px;
-    padding: 7px 15px;
-    margin-left: -15px;
-    overflow-y: scroll;
-    z-index: 1;
-    transition: .2s;
-    border-bottom: var(--main-border);
-    background: var(--main-bg-color);
+
+.attachments {
+  position: absolute;
+  width: 100%;
+  padding: 6px 10px 0 10px;
+  height: 50px;
+  display: inline-flex;
+  overflow-y: scroll;
+  z-index: 1;
+  transition: .2s;
+  border-bottom: var(--main-border);
+  background: var(--main-bg-color);
+  box-shadow: inset -4px 0 20px 0 rgba(0, 0, 0, 0.15);
 }
-.attachments:hover{
-max-height: fit-content !important;
-    transition: .2s;
+
+.attachments:hover {
+  max-height: fit-content !important;
+  transition: .2s;
 }
 
 .attachment {
-background: var(--main-color) !important;
-    border-radius: 5px;
-    color: #fff;
-    font-weight: 500;
-    padding: 5px;
-    cursor: default;
-    display: inline-flex;
-    white-space: nowrap;
-    position: relative;
-    width: fit-content;
-    margin-bottom: 7px;
-		margin-right: 7px;
-	box-shadow: 0 4px 6px #00000045;
-	transition: .2s;
+  background: var(--main-color) !important;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+  padding: 5px;
+  cursor: default;
+  display: inline-flex;
+  white-space: nowrap;
+  position: relative;
+  width: fit-content;
+  margin-bottom: 7px;
+  margin-right: 7px;
+  box-shadow: 0 4px 6px #00000045;
+  transition: .2s;
 }
 
 .attachment img {
-	width: 20px;
-	padding: 1px 1px 2px 1px;
-	margin-top: 1px;
+  width: 20px;
+  padding: 1px 1px 2px 1px;
+  margin-top: 1px;
 }
 
 .attachment .name {
-line-height: 20px;
-    font-weight: 400;
-    letter-spacing: 0.4px;
-    font-size: 14px;
-    margin-left: 4px;
-		margin-top: 2px;
-    max-width: 240px;
-    text-overflow: ellipsis;
-    padding-right: 30px;
-    overflow: hidden;
-		transition: .2s;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  font-size: 14px;
+  margin-left: 4px;
+  margin-top: 2px;
+  max-width: 240px;
+  text-overflow: ellipsis;
+  padding-right: 30px;
+  overflow: hidden;
+  transition: .2s;
 }
 
 .attachment .size {
-	text-align: right;
-	float: right;
-	color: #fff;
-	opacity: 0.7;
-	padding: 4px 2px 1px 2px;
-	font-size: 12px;
-	position: absolute;
-	margin-right: 4px;
-	right: 0;
+  text-align: right;
+  float: right;
+  color: #fff;
+  opacity: 0.7;
+  padding: 4px 2px 1px 2px;
+  font-size: 12px;
+  position: absolute;
+  margin-right: 4px;
+  right: 0;
 }
 
 .attachment:hover .size {
-	display: none;
+  display: none;
 }
 
-.attachment .att-action img{
-opacity: 0;
-transition: .2s;
+.attachment .att-action img {
+  opacity: 0;
+  transition: .2s;
 }
 
 .attachment:hover .att-action img {
-	opacity: .8;
-	transition: .2s;
+  opacity: .8;
+  transition: .2s;
 }
 
-.aa1 img{
-	    width: 18px !important;
-      filter: brightness(1.5);
+.aa1 img {
+  width: 18px !important;
+  filter: brightness(1.5);
 }
 
-.aa1 img:hover{
-	    width: 18px !important;
-      filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
+.aa1 img:hover {
+  width: 18px !important;
+  filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
 }
 
-.att-action img{
-	margin-top: -2px;
-    margin-left: 4px;
-		margin-right: 2px;
+.att-action img {
+  margin-top: -2px;
+  margin-left: 4px;
+  margin-right: 2px;
 }
-.att-action img:hover{
-		opacity: 1 !important;
+
+.att-action img:hover {
+  opacity: 1 !important;
 }
+
 .search {
-	border-radius: 5px;
-	padding: 0 7px 0 7px;
-	border: var(--main-border);
-	height: 30px;
-	background: var(--main-bg-color);
-	max-width: 500px;
-	z-index: 1;
-	position: relative;
+  border-radius: 5px;
+  padding: 0 7px 0 7px;
+  border: var(--main-border);
+  height: 30px;
+  background: var(--main-bg-color);
+  max-width: 500px;
+  z-index: 1;
+  position: relative;
   margin-bottom: 15px;
 }
+
 .search img {
-	width: 21px;
-	margin-top: -1px;
+  width: 21px;
+  margin-top: -1px;
 }
+
 .search input {
-    width: calc(100% - 26px);
-    border-radius: 5px;
-    border: none;
-    color: var(--dark-text);
-    font-weight: 400;
-    font-size: 14px;
-    padding: 2px 3px 4px 3px;
-    height: 28px;
-    background: var(--main-bg-color);
-    contain: unset;
+  width: calc(100% - 26px);
+  border-radius: 5px;
+  border: none;
+  color: var(--dark-text);
+  font-weight: 400;
+  font-size: 14px;
+  padding: 2px 3px 4px 3px;
+  height: 28px;
+  background: var(--main-bg-color);
+  contain: unset;
 }
 
 .search input::placeholder {
-	color: var(--main-text-color);
+  color: var(--main-text-color);
 }
-.tempside .body{
+
+.tempside .body {
   height: unset !important;
 }
