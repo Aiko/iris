@@ -44,7 +44,7 @@ const msoauth = {
         })
       ).json()
 
-      console.log(user_profile)
+      info(...(MSOAUTH_TAG), user_profile)
 
       const xoauth = email.access_token
 
@@ -113,7 +113,7 @@ const msoauth = {
           })
         ).json()
 
-        console.log(user_profile)
+        info(...(MSOAUTH_TAG), user_profile)
 
         const xoauth = email.access_token
 
@@ -179,7 +179,7 @@ const msoauth = {
           }
         })
       ).json()
-      console.log(user_profile)
+      info(...(MSOAUTH_TAG), user_profile)
 
       const xoauth = email.access_token
 

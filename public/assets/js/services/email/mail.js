@@ -956,7 +956,7 @@ const mailapi = {
     },
     async forceSync () {
       if (this.backendSyncing) {
-        console.error("Backend already syncing.")
+        window.error("Backend already syncing.")
         return false
       }
       this.backendSyncing = true
@@ -1109,7 +1109,7 @@ const mailapi = {
           const destUID = await strategy(threadLoc.folder, threadLoc.uid, thread.folder)
 
           if (!destUID) {
-            console.error("Did not receive destination UID. Changes will correct in the next sync.")
+            window.error("Did not receive destination UID. Changes will correct in the next sync.")
           } else {
             //? find the email with the threadLoc
             thread.emails = thread.emails.map(email => {
@@ -1334,7 +1334,7 @@ let atom = (new Date()).getTime()
 window.setInterval(() => {
   app.recalculateHeight()
 
-  if ((new Date()).getTime() > (atom + 10000 * 2)) {
+  if ((new Date()).getTime() > (atom + 10000 * 5)) {
     // clock out of sync
     window.location.reload()
   }

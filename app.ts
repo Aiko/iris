@@ -82,8 +82,9 @@ dialog.showErrorBox = (title, content) => Log.warn(`Main process encountered an 
 /// //////////////////////////////////////////////////////
 //? Various "session" variables
 let commit_hash: string, dev: boolean
+/*
 try {
-  commit_hash = child_process
+commit_hash = child_process
                   .execSync("git rev-parse HEAD")
                   .toString()
                   .trim()
@@ -91,12 +92,13 @@ try {
   app.setAppUserModelId("Aiko Mail (Dev)")
   Log.warn("Developer mode ON - commit #", commit_hash)
 } catch (e) {
+*/
   //! FIXME: remove before deployment
   commit_hash = os.platform() + '-' + app.getVersion() + ':INTERNAL'
   dev = false
   app.setAppUserModelId("Aiko Mail (Beta)")
   Log.log("Developer mode OFF. Performance will reflect production.")
-}
+// }
 Registry.register("commit hash", commit_hash)
 Registry.register("dev flag", dev)
 Registry.register("user agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52")

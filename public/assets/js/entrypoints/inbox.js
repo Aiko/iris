@@ -92,7 +92,7 @@ top.app = new Vue({
   },
   methods: {
     log (...msg) {
-      console.log(...msg)
+      info(...(this.TAG), ...msg)
     },
     async deleteCache({composer=false, prefs=false, chrome=false, session=false, mouseion=false}) {
       try {

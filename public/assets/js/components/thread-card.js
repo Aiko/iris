@@ -246,6 +246,7 @@ Vue.component('thread-card', {
       this.$root.references = [email.M.envelope.mid, ...(email.M.envelope.references ?? [])]
 
       this.showQuickReply = false
+      this.replyText = ""
       this.$root.sendEmail(html)
     },
     async focus() {
