@@ -44,6 +44,7 @@ const shortcuts = {
         'esc',
         'alt+z',
         'ctrl+alt+shift+b',
+        'ctrl+alt+shift+k',
       ].join(','),
       function (evt, data) {
         switch (data.key) {
@@ -59,6 +60,9 @@ const shortcuts = {
             break;
           case 'ctrl+alt+shift+b':
             app.useCustomBackground();
+            break;
+          case 'ctrl+alt+shift+k':
+            app.flow.regularView = !app.flow.regularView;
             break;
           default: log(data);
         }
