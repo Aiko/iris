@@ -1875,7 +1875,7 @@
           'dont-drag-this': true
         }">
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
-            v-model="replyText" placeholder="Type a reply, press enter to send." autofocus>
+            v-model="replyText" placeholder="Type a reply and click send." autofocus>
           <a @click.stop="sendQuickReply"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20"></a>
         </div>
 
