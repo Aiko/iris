@@ -97,31 +97,16 @@
         </div>
       </h2>
 
-      <button type="button" class="btn btn-primary wv" style="display: none;">
+      <button type="button" class="btn btn-primary wv">
         Watch a demo
       </button>
-      <p class="wv" style="display: none;">Get familiar with Aiko Mail while you wait.</p>
-      <div class="wistia_responsive_padding wisti">
-        <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;"><iframe
-            src="https://fast.wistia.net/embed/iframe/j1uq8x4ch6?seo=false&videoFoam=true" title="Aiko Mail Demo Video"
-            allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed"
-            name="wistia_embed" msallowfullscreen width="100%" height="100%"></iframe></div>
-      </div>
-      <script src="https://fast.wistia.net/assets/external/E-v1.js" async></script>
-
+      <p class="wv">Get familiar with Aiko Mail while you wait.</p>
       <!-- Modal -->
       <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-body">
-              <div class="wistia_responsive_padding" style="max-width: 300px;padding:56.25% 0 0 0;position:relative;">
-                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-                  <iframe src="https://fast.wistia.net/embed/iframe/j1uq8x4ch6?seo=false&videoFoam=true"
-                    title="Aiko Mail Demo Video" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0"
-                    scrolling="no" class="wistia_embed" name="wistia_embed" msallowfullscreen width="100%"
-                    height="100%"></iframe></div>
-              </div>
-              <script src="https://fast.wistia.net/assets/external/E-v1.js" async></script>
+              <video controls src="assets/videos/initial.mp4" playsinline>
             </div>
             <div class="modal-footer">
               <p style="margin-bottom: 0;">You can skip this video once we're done setting up your
@@ -183,7 +168,7 @@
           <a :class="{
             'space-picker': true,
             'home': true,
-            'active': flow.showInbox
+            'active': flow.showInbox || rootView == 'Inbox'
           }">
 
             <!--? Home Space -->
@@ -220,31 +205,31 @@
 
           <!--? Special Folders -->
           <a :class="{
-            'active': flow.showSent
+            'active': flow.showSent || rootView == 'Sent'
           }" @click.stop.prevent="flow.showSent = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-send.svg')" class="sent-fix">
             <span>Sent</span>
           </a>
           <a :class="{
-            'active': flow.showDrafts
+            'active': flow.showDrafts || rootView == 'Drafts'
           }" @click.stop.prevent="flow.showDrafts = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-drafts.svg')">
             <span>Drafts</span>
           </a>
           <a :class="{
-            'active': flow.showArchive
+            'active': flow.showArchive || rootView == 'Archive'
           }" @click.stop.prevent="flow.showArchive = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-archive.svg')">
             <span>Archive</span>
           </a>
           <a :class="{
-            'active': flow.showSpam
+            'active': flow.showSpam || rootView == 'Spam'
           }" @click.stop.prevent="flow.showSpam = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-spam.svg')" style="margin-top: -2px !important;">
             <span>Spam <span v-if="spamUnread > 0" class="main-count">{{spamUnread}}</span></span>
           </a>
           <a :class="{
-            'active': flow.showTrash
+            'active': flow.showTrash || rootView == 'Trash'
           }" @click.stop.prevent="flow.showTrash = true">
             <img :src="$root.resolveIcon('assets/icons/sidebar-trash.svg')">
             <span>Trash</span>
@@ -336,15 +321,15 @@
       </div>
 
       <!--? TOAST Connection Lost -->
-      <div class="aiko-toast" style="display: none">
-        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet</p>
+      <div class="aiko-toast" v-if="false">
+        <p class="textinout" style="color: #dc3545 !important">We're having trouble connecting to the internet.</p>
         <div class="t-loader-red"><span></span></div>
       </div>
 
       <!--? TOAST IMAP Error -->
-      <div class="aiko-toast" style="display: none;">
+      <div class="aiko-toast" v-if="flow.showConnectionError">
         <p class="textinout" style="color: #dc3545 !important">
-          We're having issues connecting to your mail provider, but will keep trying.
+          We're having issues connecting to your mail provider, but will keep trying. Please check your internet connection.
         </p>
         <div class="t-loader-red"><span></span></div>
       </div>
@@ -391,12 +376,12 @@
 
             <!-- ? Search -->
             <div class="col-lg-5 col-md-6 col-6 p0m">
-              <!-- <div class="search">
-                <img :src="$root.resolveIcon('assets/icons/header-search.svg')"><input type="" name=""
-                  placeholder="Search">
-              </div> -->
+              <div class="search">
+                <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
+                <input @keyup.enter="search(flow.searchTerm)" v-model="flow.searchTerm" type="text" name="" placeholder="Search">
+              </div>
               <!-- TODO: Rig search + search dropdown -->
-              <div class="search-drop" style="display: none;">
+              <div v-if="false" class="search-drop">
                 <a>
                   <div>Subject contains "<span>Ruben</span>"</div>
                 </a>
@@ -416,37 +401,6 @@
 
             <!-- ? Header Menu -->
             <div class="col-lg-4 col-md-2 col-4 text-right side" style="white-space: nowrap;">
-
-              <!-- ? Open Sender Screening -->
-              <div class="inline">
-                <div class="new-sender">New senders
-                  <div class="newsenderlist">
-
-                    <div class="newsender">
-                      <h2 class="sender">prianshshah@gmail.com</h2>
-                      <p class="subject">Welcome to ScamLand!</p>
-                      <a class="main-action blue"><img src="assets/icons/attach.svg"> Approve </a>
-                      <a class="main-action red"><img src="assets/icons/zap.svg"> Block </a>
-                    </div>
-                    <div class="newsender">
-                      <h2 class="sender">prianshshah@gmail.com</h2>
-                      <p class="subject">Welcome to ScamLand!</p>
-                      <a class="main-action blue"><img src="assets/icons/attach.svg"> Approve </a>
-                      <a class="main-action red"><img src="assets/icons/zap.svg"> Block </a>
-                    </div>
-                    <div class="newsender">
-                      <h2 class="sender">prianshshah@gmail.com</h2>
-                      <p class="subject">Welcome to ScamLand!</p>
-                      <a class="main-action blue"><img src="assets/icons/attach.svg"> Approve </a>
-                      <a class="main-action red"><img src="assets/icons/zap.svg"> Block </a>
-                    </div>
-
-                  </div>
-                  <span class="notif-count">3</span>
-                </div>
-              </div>
-
-
 
               <!-- ? Open Calendar -->
               <a @click="openCalendar" v-if="['outlook', 'exchange', 'microsoft'].includes(imapConfig.provider)"
@@ -533,7 +487,7 @@
                 <div class="row" style="display: -webkit-inline-box">
 
                   <!-- ? Actions Dropdown -->
-                  <div class="col-1 cll">
+                  <div class="col-1 cll" v-if="!(flow.specialView)">
                     <div class="dropdown">
                       <a @click.stop.prevent="flow.showInboxBoardActions = !flow.showInboxBoardActions"
                         title="Board options"><img :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
@@ -550,7 +504,7 @@
 
 
                   <!--? Controls Dropdown -->
-                  <div class="col-1 cll">
+                  <div class="col-1 cll" v-if="!(flow.specialView)">
                     <div class="dropdown">
                       <a @click.stop.prevent="flow.showInboxBoardControls = !flow.showInboxBoardControls"
                         title="Sort and filter emails"><img :src="$root.resolveIcon('assets/icons/sort.svg')"></a>
@@ -596,6 +550,11 @@
                         'active': !priority
                       }" @click="priority = false" inbox-direction="right">Others</h1>
                     </div>
+                  </div>
+
+                  <!-- ? Title for Special Views -->
+                  <div v-if="flow.specialView" class="col-8 text-center p0 exp margin-auto nowrap">
+                    <h1>{{rootView}}</h1>
                   </div>
 
                 </div>
@@ -747,6 +706,21 @@
                   :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
 
+              <!-- ? Draggable List -->
+              <draggable id="aikomail--search" v-if="!loading && flow.showSearch" v-model="special.search"
+                filter=".dont-drag-this" draggable=".email" ghost-class="ghost" :group="{name: 'emails'}"
+                :force-fallback="true" :fallback-on-body="true" :fallback-tolerance="5" @end="moveThread"
+                @clone="cloneThread">
+                <!-- * We leave the slug prop out to indicate that it is in the inbox -->
+                <thread-card v-for="(tid, i) in special.search"
+                  v-if="threads[tid] && threads[tid].priority == priority && (seenFilter == null || threads[tid].seen == seenFilter)"
+                  :key="tid" :sort="false" :render="true" :focused-folder.camel="focused.folder"
+                  :focused-index.camel="focused.index" :view-focused.camel="focused.view"
+                  :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
+              </draggable>
+              <div class="empty" v-if="searching">
+                <h1>🔎 Searching...</h1>
+              </div>
 
               <!-- ? List Loader -->
               <!-- <div class="inbox-more">
@@ -1077,7 +1051,7 @@
     </div>
 
     <!--? MODAL Tutorial Video -->
-    <tutorial-modal v-if="false&&firstTime" inline-template>
+    <tutorial-modal v-if="firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -1085,14 +1059,7 @@
               <h1>Welcome to Aiko Mail</h1>
               <h2>Watch this tutorial to get started!</h2>
               <!-- TODO: change this to tutorial video once we have one -->
-              <div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
-                <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-                  <iframe src="https://fast.wistia.net/embed/iframe/j1uq8x4ch6?seo=false&videoFoam=true"
-                    title="Aiko Mail Demo Video" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0"
-                    scrolling="no" class="wistia_embed" name="wistia_embed" msallowfullscreen width="100%"
-                    height="100%"></iframe></div>
-              </div>
-              <script src="https://fast.wistia.net/assets/external/E-v1.js" async></script>
+              <video controls src="assets/videos/"></video>
             </div>
             <br><br>
             <div class="modal-bottom">
@@ -1377,7 +1344,7 @@
               <a @click="deleteCache({prefs: true})" class="btn btn-warning">Clear Dwarf Star</a>
               <br>
               <br>
-              <a @click="deleteCache({chrome: true})" class="btn btn-warning">Clear Browser Data</a>
+              <a @click="clearLocalCache" class="btn btn-warning">Clear Browser Data</a>
               <br>
               <br>
               <a @click="deleteCache({session: true})" class="btn btn-warning">Clear Iris Cache</a>
@@ -1746,7 +1713,7 @@
     <div @blur="unfocus" :ref="thread.tid" :key="thread.tid" :tid="thread.tid" :class="{
         'email': true,
         'unread': !(thread.seen),
-        'zero': !(thread.emails[0].M.summary.sentences.length > 0),
+        'zero': !(thread.emails[0]?.M?.summary?.sentences?.length > 0),
         'syncing': thread.syncing,
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
@@ -1757,7 +1724,7 @@
       }">
 
       <!-- ? Card content -->
-      <div v-if="render !== false" class="container pr" @click="viewMessage">
+      <div v-if="render !== false && thread.emails.length > 0 && thread.emails[0]" class="container pr" @click="viewMessage">
 
         <!--!------------------------------------------------------------->
         <!-- ? Preview latest message -->
@@ -1808,13 +1775,13 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject (cleaned) -->
           <!--!------------------------------------------------------------->
-          <p class="subject">{{thread.emails[0].M.envelope.cleanSubject}}</p>
+          <p class="subject">{{thread.emails[0]?.M?.envelope?.cleanSubject ?? "No subject"}}</p>
 
           <!--!------------------------------------------------------------->
           <!-- ? Summarized Content -->
           <!--!------------------------------------------------------------->
           <p v-if="thread.emails[0].M.summary.sentences.length > 0" class="body" id="step4">
-            {{thread.emails[0].M.summary.text}}</p>
+            {{thread.emails[0]?.M?.summary?.text ?? "No content"}}</p>
         </div>
 
         <!--!------------------------------------------------------------->
@@ -1838,10 +1805,10 @@
               <a @click.stop.prevent="openLink" v-if="quickaction == 'unsubscribe'" class="main-action red">
                 <img :src="$root.resolveIcon('assets/icons/options-unsub.svg')"> Unsubscribe
               </a>
-              <a v-if="quickaction == 'sign_document'" class="main-action blue">
+              <a v-if="false && quickaction == 'sign_document'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/sign.svg')"> Sign
               </a>
-              <a v-if="quickaction == 'send_document'" class="main-action blue">
+              <a v-if="false && quickaction == 'send_document'" class="main-action blue">
                 <img :src="$root.resolveIcon('assets/icons/attach.svg')"> Attach files
               </a>
               <a v-if="quickaction == 'calendar_invite'" class="main-action blue">
@@ -2067,19 +2034,19 @@
             <a @click.stop.prevent="openVerify" v-if="email.M.quick_actions.classification == 'verify'">
               <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Verify</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'subscribe'">
+            <a v-if="false && email.M.quick_actions.classification == 'subscribe'">
               <h2><img :src="$root.resolveIcon('assets/icons/link.svg')">Subscribe</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'unsubscribe'">
+            <a v-if="false && email.M.quick_actions.classification == 'unsubscribe'">
               <h2 class="red"><img :src="$root.resolveIcon('assets/icons/options-unsub.svg')">Unsubscribe</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'sign_document'">
+            <a v-if="false && email.M.quick_actions.classification == 'sign_document'">
               <h2><img :src="$root.resolveIcon('assets/icons/sign.svg')">Sign</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'send_document'">
+            <a v-if="false && email.M.quick_actions.classification == 'send_document'">
               <h2><img :src="$root.resolveIcon('assets/icons/attach.svg')">Attach Files</h2>
             </a>
-            <a v-if="email.M.quick_actions.classification == 'calendar_invite'">
+            <a v-if="false && email.M.quick_actions.classification == 'calendar_invite'">
               <h2><img :src="$root.resolveIcon('assets/icons/email-schedule.svg')">Add to Calendar</h2>
             </a>
             <a @click.stop.prevent="copyOTP" v-if="email.M.quick_actions.classification == 'confirm_code' && email.M.quick_actions.otp">
