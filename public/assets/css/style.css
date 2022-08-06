@@ -2903,7 +2903,7 @@ select.v1 {
 }
 
 .demovid::before {
-  content: "Get familiar with Aiko Mail while you wait.\A Click video to play, double click to enter fullscreen mode.";
+  content: "Get familiar with Aiko Mail while you wait.\A Click video to play,\00a0 double click to enter fullscreen mode.";
   white-space: pre-wrap;
   margin-top: -360px;
   position: absolute;
