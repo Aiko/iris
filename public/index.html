@@ -97,16 +97,19 @@
         </div>
       </h2>
 
-      <button type="button" class="btn btn-primary wv">
+      <button type="button" class="btn btn-primary wv" style="display: none;">
         Watch a demo
       </button>
-      <p class="wv">Get familiar with Aiko Mail while you wait.</p>
+      <p class="wv" style="display: none;">Get familiar with Aiko Mail while you wait.</p>
+      <div class="demovid">
+        <video class="demovid" controls src="https://aikomail.com/img/demo.mp4" playsinline></video>
+      </div>
       <!-- Modal -->
       <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-body">
-              <video controls src="assets/videos/initial.mp4" playsinline>
+
             </div>
             <div class="modal-footer">
               <p style="margin-bottom: 0;">You can skip this video once we're done setting up your
@@ -329,7 +332,8 @@
       <!--? TOAST IMAP Error -->
       <div class="aiko-toast" v-if="flow.showConnectionError">
         <p class="textinout" style="color: #dc3545 !important">
-          We're having issues connecting to your mail provider, but will keep trying. Please check your internet connection.
+          We're having issues connecting to your mail provider, but will keep trying. Please check your internet
+          connection.
         </p>
         <div class="t-loader-red"><span></span></div>
       </div>
@@ -378,7 +382,8 @@
             <div class="col-lg-5 col-md-6 col-6 p0m">
               <div class="search">
                 <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
-                <input @keyup.enter="search(flow.searchTerm)" v-model="flow.searchTerm" type="text" name="" placeholder="Search">
+                <input @keyup.enter="search(flow.searchTerm)" v-model="flow.searchTerm" type="text" name=""
+                  placeholder="Search">
               </div>
               <!-- TODO: Rig search + search dropdown -->
               <div v-if="false" class="search-drop">
@@ -1051,7 +1056,7 @@
     </div>
 
     <!--? MODAL Tutorial Video -->
-    <tutorial-modal v-if="firstTime" inline-template>
+    <tutorial-modal v-if="false&&firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
           <div class="modal-content">
@@ -1059,7 +1064,7 @@
               <h1>Welcome to Aiko Mail</h1>
               <h2>Watch this tutorial to get started!</h2>
               <!-- TODO: change this to tutorial video once we have one -->
-              <video controls src="assets/videos/"></video>
+              <video class="demovid" controls src="https://aikomail.com/img/demo.mp4" playsinline>
             </div>
             <br><br>
             <div class="modal-bottom">

@@ -2880,6 +2880,43 @@ select.v1 {
   text-align: center;
 }
 
+.demovid {
+  width: 100%;
+  max-width: 500px;
+  position: absolute !important;
+  bottom: 0;
+  margin-bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  border-radius: 5px;
+}
+
+.demovid video {
+  border-radius: 5px;
+}
+
+.w-css-reset {
+  width: 100% !important;
+  height: 100% !important;
+
+  border-width: 0px !important;
+}
+
+.demovid::before {
+  content: "Get familiar with Aiko Mail while you wait.\A Click video to play,double click to enter fullscreen mode.";
+  white-space: pre-wrap;
+  margin-top: -360px;
+  position: absolute;
+  color: var(--main-text-color);
+  text-align: center;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -0%);
+  width: 100%;
+  z-index: 1;
+  background: var(--main-bg-color);
+}
+
 .sent-fix {
   width: 18px !important;
   margin-left: -1px !important;
