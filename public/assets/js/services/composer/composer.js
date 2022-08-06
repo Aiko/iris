@@ -134,7 +134,7 @@ const composer = {
           if (!(cached?.parsed?.html)) return await tryToGetIt(that, max_tries, try_n+1)
         }
         await tryToGetIt(this)
-        console.log(this.quoted)
+        info(...COMPOSER_TAG, this.quoted)
       }
       const name = (await app.suggestContact(app.imapConfig.user))?.[0]?.name ?? ""
       const toName = this.sendTo.length > 2 ? "all" :

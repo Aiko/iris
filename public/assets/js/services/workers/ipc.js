@@ -34,7 +34,7 @@ const IPCMiddleware = async (errorHandler, ipcStream) => {
     const { success } = d
     if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), { alg: ['HS256'] })) {
       if (!success) checkError(d.payload, 'Main process did not return success.')
-      if (!d.payload) console.warn(...MAILAPI_TAG, 'IPC payload is empty!')
+      if (!d.payload) info(...MAILAPI_TAG, 'IPC payload is empty!')
       return d.payload
     } else checkError(s, 'JWT token was not valid.')
   }
@@ -116,7 +116,7 @@ const ipc = {
       this.middleware = await IPCMiddleware(this.handleIPCError, this.ipcStream)
     },
     async initIPCNoStream () {
-      console.warn(...IPC_TAG, 'There will be no IPC streaming.')
+      info(...IPC_TAG, 'There will be no IPC streaming.')
       this.middleware = await IPCMiddleware(this.handleIPCError, null)
     },
     async handleIPCError (e) {

@@ -105,7 +105,7 @@ const app = new Vue({
   },
   methods: {
     log(...msg) {
-      console.log(...msg)
+      info(...(this.TAG), ...msg)
     },
     async calculateComposerHeight() {
       await this.$root.$nextTick()
