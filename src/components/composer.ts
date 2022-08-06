@@ -77,7 +77,8 @@ export default class Composer {
       const { size, contentType } = await fs.promises.stat(filePath).then(stats => {
         return {
           size: stats.size,
-          contentType: mime.lookup(filePath)
+          // @ts-ignore
+          contentType: mime.getType(filePath)
         }
       })
       return {
