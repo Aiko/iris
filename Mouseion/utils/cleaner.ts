@@ -110,6 +110,7 @@ export default class Janitor {
       ...e,
       uid: email.uid,
       M: {
+        ...e.M,
         flags: d,
       }
     }
