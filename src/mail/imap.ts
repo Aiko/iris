@@ -115,10 +115,10 @@ export default class Mailman {
   }
 
   private async previewAttachment({storagePath, filepath}: {storagePath: string, filepath: string}) {
-    const dir = storagePath
+    const dir = storagePath ? storagePath + "/" : ""
     const fp = filepath
     try {
-      const e = await shell.openPath(`${dir}/${fp}`)
+      const e = await shell.openPath(`${dir}${fp}`)
       if (e) {
         this.Log.error(`Couldn't open ${fp} due to error:`, e)
         return false
