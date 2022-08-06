@@ -743,6 +743,8 @@ const mailapi = {
       this.inbox.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       success(...MAILAPI_TAG, "SYNC OP - synced inbox state:", performance.now() - t0)
 
+      t0 = performance.now()
+      info(...MAILAPI_TAG, "SYNC OP - fetching updates to boards")
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
@@ -764,8 +766,10 @@ const mailapi = {
         })
         this.boards[i].tids.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       }))
+      success(...MAILAPI_TAG, "SYNC OP - fetched updates for boards:", performance.now() - t0)
 
-
+      t0 = performance.now()
+      info(...MAILAPI_TAG, "SYNC OP - fetching updates to special folders")
       //? fetch updates to special folders
       ;await (async (cursor) => {
         const max_sent_updates = Math.max(500, this.special.sent.length)
@@ -853,6 +857,7 @@ const mailapi = {
         this.special.trash.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
         this.special.archive.sort((a, b) => (this.resolveThread(b)?.date ?? 0)- (this.resolveThread(a)?.date ?? 0))
       })(cursor);
+      success(...MAILAPI_TAG, "SYNC OP - fetched updates for special folders:", performance.now() - t0)
 
       t0 = performance.now()
       info(...MAILAPI_TAG, "SYNC OP - computing full inbox")
