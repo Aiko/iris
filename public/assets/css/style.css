@@ -3706,6 +3706,7 @@ unselectable {
 .tab-content {
   padding: 20px;
   height: calc(100% - 30px);
+  overflow-y: scroll;
 }
 
 .nav-tabs {

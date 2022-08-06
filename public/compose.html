@@ -457,9 +457,9 @@
                 <p v-if="recentAttachments.length == 0"></p>
 
                 <div v-else class="tempside" v-for="attachment in recentAttachments">
-                  <p class="subject">{{attachment}}</p>
+                  <p class="subject">{{attachment.filename || "No Name"}}</p>
                   <p class="body">
-                    placeholder
+                    by {{attachment.author.name ?? attachment.author.base}} | {{new Date(attachment.date).toNicerDateTime()}}
                   </p>
                 </div>
               </a>
@@ -486,15 +486,6 @@
       </p>
       <div class="t-loader-red"><span></span></div>
     </div>
-
-    <!-- Send Email Error Toast -->
-    <div class="aiko-toast" style="display: none;">
-      <p class="textinout" style="color: #dc3545 !important;">
-        We were unable to send your message due to network issues.
-      </p>
-      <div class="t-loader-red"><span></span></div>
-    </div>
-    <!-- END Toast --------------------------------------->
 
     <!-- TODO: Rig UPGRADE MODAL - TRACKER -->
     <div class="aiko-modal" style="display: none;">

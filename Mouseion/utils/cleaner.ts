@@ -485,8 +485,36 @@ export default class Janitor {
 
     const raw_attachments: AttachmentRaw[] = email.parsed.attachments || []
     const attachments: MouseionAttachment[] = raw_attachments.map((attachment: AttachmentRaw): MouseionAttachment => {
+      let filename = attachment.filename ?? attachment.fileName ?? ""
+      if (!filename && attachment?.contentType && attachment?.contentType?.includes('text/calendar'))
+        filename = 'event.ics'
+      ;;
+
+      const testContentType = (contentType?: string) => {
+        if (!contentType) return true;
+        const bad = [
+          'x-amp',
+          'x-apple-asn1',
+          'x-apple-pkcs12',
+          'x-apple-pkcs7-certificates',
+          'x-apple-pkcs7-certreqresp',
+          'x-apple-pkcs7-mime',
+          'x-apple-pkcs7-signature',
+          'x-apple-secure-notes',
+          'x-apple-secure-notes-enc',
+          'x-apple-secure-notes-sig',
+          'signature',
+          'x-pkcs7',
+          'x-x509'
+        ]
+        for (const badType of bad) {
+          if (contentType.includes(badType)) return true
+        }
+        return false;
+      }
+
       return {
-        filename: attachment.filename ?? attachment.fileName ?? '',
+        filename: filename ?? 'No Name.raw',
         contentType: attachment.contentType ?? '',
         size: attachment.size ?? 0,
         content: attachment.content ?? {
@@ -494,7 +522,7 @@ export default class Janitor {
           type: ""
         },
         cid: attachment.cid ?? '',
-        related: attachment.related ?? false,
+        related: (attachment.related || testContentType(attachment.contentType)) ?? false,
         checksum: attachment.checksum ?? ''
       }
     })

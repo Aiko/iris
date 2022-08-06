@@ -26,8 +26,11 @@ const composer = {
     sendInReplyTo: '',
     sendReferences: [],
   },
-  created () {
+  async created () {
     info(...COMPOSER_TAG, 'Mounted composer mixin. Please ensure this only ever happens once.')
+    const engine = this.composerEngine ?? this.engine
+    if (!engine) return console.warn("No engine to search for attachments.")
+    this.recentAttachments = await engine.attachments.lookup("")
   },
   watch: {
     async attachmentTerm(term) {
