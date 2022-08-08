@@ -219,8 +219,8 @@ input:active {
   transition: 0.2s;
 }
 
-.ml20 {
-  margin-left: 20px;
+.ml10 {
+  margin-left: 10px;
 }
 
 .load-page {
@@ -278,24 +278,45 @@ input:active {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--main-bg-color);
+  background-color: var(--secondary-bg-color);
   box-shadow: inset 0 0 4px 0 rgba(0, 0, 0, 0.27);
-  border: 1px solid var(--main-color);
   transition: 0.4s;
+}
+
+.btn-group button {
+  outline: none !important;
+}
+
+.specialdrop {
+  left: 0 !important;
+  margin: 0 !important;
+  right: 0 !important;
+  top: 0 !important;
+  padding: 0 !important;
+  transition: unset !important;
+  margin-top: -10px !important;
+  border-radius: 0 !important;
+  overflow: scroll !important;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 22px;
-  width: 22px;
+  height: 24px;
+  width: 24px;
   left: 2px;
-  bottom: 1px;
+  bottom: 2px;
   background-color: var(--secondary-bg-color);
   border: 1px solid var(--main-color);
-  box-shadow: 0 0 4px 0px rgba(0, 0, 0, 0.27);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.27);
   transition: 0.4s;
 }
+
+.btn-group,
+.btn-group-vertical {
+  position: unset !important;
+}
+
 
 .eye:before {
   background-image: url("../icons/track.svg");
@@ -306,12 +327,9 @@ input:active {
   transition: 0.4s;
 }
 
-input:checked+.slider {
-  background-color: var(--main-color);
-}
 
-input:focus+.slider {
-  box-shadow: 0 0 1px #2196f3;
+input:checked+.slider {
+  background-color: var(--main-color) !important;
 }
 
 input:checked+.s-admin {
@@ -324,11 +342,11 @@ input:checked+.slider:before {
 
 /* Rounded sliders */
 .slider.round {
-  border-radius: 34px;
+  border-radius: 5px;
 }
 
 .slider.round:before {
-  border-radius: 50%;
+  border-radius: 5px;
 }
 
 .fade {
@@ -395,7 +413,8 @@ input:checked+.slider:before {
   position: relative;
   display: inline-block;
   width: 48px;
-  height: 26px;
+  height: 28px;
+  margin-right: 5px;
 }
 
 .switch input {
@@ -643,22 +662,9 @@ pre code {
 }
 
 .menubar {
-  height: 40px;
-  margin-top: 2px;
-  box-shadow: 0 6px 12px -10px #999fb0;
-  border-radius: 5px;
-  background: var(--secondary-bg-color);
-  -webkit-transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
-  transition: visibility 0.2s 0.4s, opacity 0.2s 0.4s;
-  padding: 5px;
-  z-index: 1;
   white-space: nowrap;
-  width: fit-content;
   overflow-x: scroll;
   overflow: visible;
-  position: absolute;
-  bottom: 0;
-  margin-bottom: 80px;
 }
 
 .main-email {
@@ -1011,11 +1017,10 @@ pre code {
 }
 
 .compose-body {
-  padding: 0 15px 60px 15px;
   outline: none;
   color: var(--dark-text);
   height: -webkit-fill-available;
-  max-height: calc(100% - 236px);
+  height: calc(100% - 245px);
   overflow: visible;
   font-size: 16px;
   letter-spacing: 0.3px;
@@ -1023,34 +1028,95 @@ pre code {
 }
 
 .compose-bottom {
-  position: absolute;
-  bottom: 0;
+  position: relative;
+  white-space: nowrap;
+  overflow: visible;
   width: 100%;
-  left: 0;
   background: var(--main-bg-color);
-  padding: 20px 0 12px 20px;
+  padding: 20px 10px 15px 10px;
   box-shadow: inset 0 54px 10px -54px rgba(0, 0, 0, 0.15);
 }
 
-.compose-bottom a:hover {
+.compose-bottom .sendbutton:hover {
   background: var(--main-color-hover);
   color: #fff;
   transition: 0.2s;
 }
 
-.compose-bottom a {
-  height: 40px;
+.colorpick {
+  outline: none;
+  opacity: .8;
+  letter-spacing: .3px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: default;
+  transition: .2s;
+  background: var(--secondary-bg-color);
+  border: none;
   position: relative;
-  padding: 7px 11px 8px 7px;
+  vertical-align: middle;
+  border-style: none;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  opacity: .8;
+  letter-spacing: .3px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: default;
+  transition: .2s;
+  background: var(--secondary-bg-color);
+  position: relative;
+  vertical-align: middle;
+  border-style: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 5px;
+}
+
+.colorpickcontainer {
+  position: relative;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 5px;
+}
+
+.colorpickimg {
+  position: absolute;
+  left: 0;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+.compose-bottom .sendbutton {
+  position: relative;
+  padding: 6px 11px 6px 7px;
   border-radius: 5px;
   font-weight: 500;
   font-size: 14px;
-  margin-top: 5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   background: var(--main-color);
-  transition: 0.2s;
+  transition: .2s;
+}
+
+.compose-bottom .sendbutton img {
+  margin-bottom: 3px;
+  width: 18px;
 }
 
 .nav-tabs .nav-link:hover {
@@ -1062,6 +1128,16 @@ pre code {
   color: #fff !important;
 }
 
+.smlicn {
+  padding: 8px !important;
+}
+
+.btn-group button {
+  border: none !important;
+  background: no-repeat !important;
+  padding: 0 !important;
+}
+
 .comp-btn img {
   width: 30px;
   height: 30px;
@@ -1070,7 +1146,18 @@ pre code {
   margin-right: 5px;
   cursor: default;
   transition: 0.2s;
-  background: #e6e9f2;
+  background: var(--secondary-bg-color);
+}
+
+.comp-btn button {
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 5px;
+  margin-right: 5px;
+  cursor: default;
+  transition: 0.2s;
+  background: var(--secondary-bg-color);
 }
 
 .composer-active img {
@@ -1113,7 +1200,7 @@ pre code {
   display: inherit;
   padding: 0;
   border: none;
-  margin-top: -30px !important;
+  margin-top: -30px;
   margin-left: -65px;
   border-radius: 5px;
   overflow: hidden;
@@ -1150,7 +1237,13 @@ pre code {
 .compose-body .dropdown-item {
   background: var(--secondary-bg-color) !important;
   text-align: center;
-  padding: 8px !important;
+  padding: 2px 8px !important;
+  transition: 0.2s;
+}
+
+.dropdown-menu,
+.dropdown-menu a {
+  background-color: unset !important;
   transition: 0.2s;
 }
 
@@ -1384,12 +1477,13 @@ code {
   display: inline-block;
   margin-right: 5px;
   padding-right: 5px;
+  height: 30px;
 }
 
 .editor {
   height: 100%;
   overflow: scroll;
-  padding-top: 10px;
+  padding: 15px 15px 5px 15px;
 }
 
 .editor p {
@@ -1483,7 +1577,7 @@ li[data-done="false"] {
 }
 
 .attachments {
-  position: absolute;
+  position: relative;
   width: 100%;
   padding: 6px 10px 0 10px;
   height: 50px;
@@ -1493,7 +1587,7 @@ li[data-done="false"] {
   transition: .2s;
   border-bottom: var(--main-border);
   background: var(--main-bg-color);
-  box-shadow: inset -4px 0 20px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: inset -20px 0px 20px 0px rgb(0 0 0 / 4%);
 }
 
 .attachments:hover {
