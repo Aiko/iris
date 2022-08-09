@@ -142,6 +142,11 @@ const Icons = {
     light: "code-lt.svg",
     dark: "code.svg"
   },
+    "chevron-up.svg": {
+    base: "chevron-up.svg",
+    light: "chevron-up-lt.svg",
+    dark: "chevron-up.svg"
+  },
   "compose-attach.svg": {
     base: "compose-attach.svg",
     light: "compose-attach-lt.svg",
@@ -151,6 +156,11 @@ const Icons = {
     base: "compose-send.svg",
     light: "compose-send-lt.svg",
     dark: "compose-send.svg"
+  },
+  "colorpick.png": {
+    base: "colorpick.png",
+    light: "colorpick-lt.png",
+    dark: "colorpick.png"
   },
   "email-schedule.svg": {
     base: "email-schedule.svg",
