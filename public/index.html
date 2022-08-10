@@ -101,7 +101,7 @@
         Watch a demo
       </button>
       <p class="wv" style="display: none;">Get familiar with Aiko Mail while you wait.</p>
-      <div class="demovid">
+      <div class="demovid" v-if="firstTime">
         <video class="demovid" controls src="https://aikomail.com/img/demo.mp4" playsinline></video>
       </div>
       <!-- Modal -->
@@ -384,7 +384,9 @@
                 <img :src="$root.resolveIcon('assets/icons/header-search.svg')">
                 <input @keyup.enter="search(flow.searchTerm)" v-model="flow.searchTerm" type="text" name=""
                   placeholder="Search">
+                <div class="searchtip">press ENTER</div>
               </div>
+
               <!-- TODO: Rig search + search dropdown -->
               <div v-if="false" class="search-drop">
                 <a>
@@ -489,7 +491,7 @@
             <!-- ? Header -->
             <div class="board-header">
               <div class="container p0">
-                <div class="row" style="display: -webkit-inline-box">
+                <div class="row">
 
                   <!-- ? Actions Dropdown -->
                   <div class="col-1 cll" v-if="!(flow.specialView)">
@@ -526,9 +528,9 @@
                     </div>
                   </div>
 
-
                   <!--? Force Sync (inbox only) -->
                   <div class="col-1 cll">
+                    <div v-if="(flow.specialView)" class="adjuster"></div>
                     <a v-if="backendSyncing" title="Force refresh">
                       <img class="rotating" :src="$root.resolveIcon('assets/icons/refresh.svg')" width="17">
                     </a>
@@ -559,6 +561,7 @@
 
                   <!-- ? Title for Special Views -->
                   <div v-if="flow.specialView" class="col-8 text-center p0 exp margin-auto nowrap">
+                    <div v-if="(flow.specialView)" class="adjuster"></div>
                     <h1>{{rootView}}</h1>
                   </div>
 
@@ -723,9 +726,31 @@
                   :focused-index.camel="focused.index" :view-focused.camel="focused.view"
                   :quick-focused.camel="focused.quickReply" :thread="threads[tid]" :index="i"></thread-card>
               </draggable>
-              <div class="empty" v-if="searching">
-                <h1>🔎 Searching...</h1>
+              <div class="empty sempty" v-if="searching">
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
+                <div class="searchload">
+                  <img :src="$root.resolveIcon('assets/img/searchload.png')">
+                </div>
               </div>
+
+
 
               <!-- ? List Loader -->
               <!-- <div class="inbox-more">
@@ -757,24 +782,24 @@
                   <div class="container p0">
                     <div class="row">
 
-                      <!-- ? Board Actions -->
+                      <!-- 
                       <div class="col-2 cll">
                         <div class="dropdown">
                           <a @click.stop.prevent="showActions = !showActions" title="Board options"><img
                               :src="$root.resolveIcon('assets/icons/board-dots.svg')"></a>
                           <div v-if="showActions" v-clickaway="() => showActions = false" class="dropdown-menu show">
                             <h6 class="dropdown-header">Actions</h6>
-                            <!-- <a class="dropdown-item">Mark all as read</a>
+                            <a class="dropdown-item">Mark all as read</a>
 
                             <a class="dropdown-item">Mark all as unread</a> -->
-                            <!-- BOARD WIDTH SELECTION
+                      <!-- BOARD WIDTH SELECTION
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Width</h6>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Normal</a>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Small</a>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Collapsed</a>
                             -->
-                            <!-- POTENTIAL COLOR ADD
+                      <!-- POTENTIAL COLOR ADD
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Color</h6>
                             <div class="radio-cont">
@@ -793,11 +818,12 @@
                               <input class="aiko-check ac7" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
                                 aria-label="...">
                             </div>
-                            -->
-                            <div class="dropdown-divider"></div>
-                            <!-- <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
+
+                        <div class="dropdown-divider"></div>
+                        <a v-if="slug != 'Done'" class="dropdown-item">Rename
+                          board</a>
                             <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
-                            <!-- <a class="dropdown-item space-change">
+                      <!-- <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
                                 <span>
@@ -826,15 +852,16 @@
                                     in at least one space</p>
                                 </span>
                               </div>
-                            </a> -->
+                            </a>
 
                           </div>
                         </div>
                       </div>
+                       -->
 
 
-                      <!-- ? Board Title (click to thin/thick) -->
-                      <div class="col-8 text-center p0 exp margin-auto nowrap">
+                      <!-- ? Board Title (click to thin/thick) change from col-12 to col-8 when we add options -->
+                      <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
                         <h1 @click="board.thin = !board.thin" title="Click title to minimize/maximize">
                           {{slug}}
                         </h1>
@@ -881,7 +908,8 @@
 
           <!-- ? Thread View Pane for Regular View -->
           <div v-if="(flow.regularView || flow.specialView)" class="long-board">
-            <p class="empty-state">No message selected</p>
+            <p class="empty-state" v-if="!searching">No message selected</p>
+            <p class="empty-state" v-if="searching">Searching...</p>
             <regular-view-thread v-if="flow.viewThread && (flow.regularView || flow.specialView)"
               :thread="flow.viewThread" inline-template>
               <!-- ? Email List -->

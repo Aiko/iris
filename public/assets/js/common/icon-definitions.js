@@ -49,6 +49,11 @@ const Icons = {
     light: "badges-attach-lt.svg",
     dark: "badges-attach.svg"
   },
+  "searchload.png": {
+    base: "searchload.png",
+    light: "searchload-lt.png",
+    dark: "searchload.png"
+  },
   "badges-bcc.svg": {
     base: "badges-bcc.svg",
     light: "badges-bcc-lt.svg",
