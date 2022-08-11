@@ -101,6 +101,7 @@ const mailapi = {
     reachedEndOfInbox: false,
     searching: false,
     searchFolder: "INBOX",
+    searchTerm: "",
     movers: new Set(),
     dragging: false,
     visibleMin: 0,
@@ -1181,6 +1182,7 @@ const mailapi = {
       this.searching = true
       this.special.search = []
       this.flow.showSearch = true
+      this.searchTerm = query
       const searchResults = await this.engine.manage.search(this.searchFolder, query)
       searchResults.map(thread => {
         thread = this.saveThread(thread)

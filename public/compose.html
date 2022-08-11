@@ -261,7 +261,6 @@
                 <a :class="{
                     'comp-btn': true,
                     'colorpickcontainer' : true,
-                    'composer-active': editor.isActive('underline'),
                   }">
                   <input type="color" class="colorpick" title="Change text color"
                     @input="editor.chain().focus().setColor($event.target.value).run()"

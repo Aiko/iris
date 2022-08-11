@@ -7,9 +7,9 @@
   --main-color-hover: #4366e8;
   --main-bg-color: #fff;
   /* Sidebar and Header */
-  --secondary-bg-color: #e7ebf7;
+  --secondary-bg-color: #f2f4f9 !important;
   /* Control bar and picker and search, etc*/
-  --secondary-bg-color-hover: #dbe4ff;
+  --secondary-bg-color-hover: #eef0f5;
   /* Control bar and picker and search, etc*/
   --main-text-color: #6e80a5;
   /* Sidebar, body preview, board title */
@@ -85,6 +85,7 @@ body {
   overflow: hidden;
   user-select: none;
   background-image: url("../img/bg.jpg");
+  background-position: bottom;
 }
 
 div.board-body>div:first-child {
@@ -2111,6 +2112,7 @@ hr {
   width: 0;
   margin-left: -1px;
   height: 1px;
+  left: 0;
   z-index: -1;
   position: absolute;
   top: 0;
@@ -4398,6 +4400,19 @@ input:checked+.slider:before {
   z-index: 9997;
 }
 
+.search input:not(:focus)+.searchtip {
+  display: none;
+}
+
+.searchtip {
+  margin-top: -18px;
+  position: absolute;
+  right: 0;
+  color: var(--main-text-color);
+  margin-right: 10px;
+  font-size: 12px;
+}
+
 .shepherd-modal-overlay-container.shepherd-modal-is-visible {
   height: 100vh;
   opacity: .5;
@@ -4534,4 +4549,111 @@ input:checked+.slider:before {
 
 .mw-140 {
   max-width: calc(100% - 140px);
+}
+
+.searchload {
+  -webkit-animation: appear 1500ms infinite ease-out;
+  animation: appear 1500ms infinite ease-out;
+  -webkit-animation-fill-mode: backwards;
+  animation-fill-mode: backwards;
+}
+
+@-webkit-keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0.05;
+  }
+
+  20% {
+    opacity: 0.1;
+  }
+
+  40% {
+    opacity: 0.35;
+  }
+
+  60% {
+    opacity: 0.35;
+  }
+
+  80% {
+    opacity: 0.1;
+  }
+
+  100% {
+    opacity: 0.05;
+  }
+}
+
+.searchload:nth-child(1) {
+  -webkit-animation-delay: 200ms;
+  animation-delay: 200ms;
+}
+
+.searchload:nth-child(2) {
+  -webkit-animation-delay: 300ms;
+  animation-delay: 300ms;
+}
+
+.searchload:nth-child(3) {
+  -webkit-animation-delay: 400ms;
+  animation-delay: 400ms;
+}
+
+.searchload:nth-child(4) {
+  -webkit-animation-delay: 500ms;
+  animation-delay: 500ms;
+}
+
+.searchload:nth-child(5) {
+  -webkit-animation-delay: 600ms;
+  animation-delay: 600ms;
+}
+
+.searchload:nth-child(6) {
+  -webkit-animation-delay: 700ms;
+  animation-delay: 700ms;
+}
+
+.searchload:nth-child(7) {
+  -webkit-animation-delay: 800ms;
+  animation-delay: 800ms;
+}
+
+.searchload {
+  height: 130px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.searchload img {
+  width: 100% !important;
+  border-radius: 5px;
+}
+
+.sempty {
+  background: transparent !important;
+  height: 0 !important;
+  padding: 0 !important;
+}
+
+.adjuster+a {
+  margin-left: 10px;
+}
+
+.adjuster+h1 {
+  margin-left: -30px;
 }

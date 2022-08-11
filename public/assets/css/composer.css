@@ -5,9 +5,9 @@
   --main-color-hover: #4366e8;
   --main-bg-color: #fff;
   /* Sidebar and Header */
-  --secondary-bg-color: #f1f3f9;
+  --secondary-bg-color: #f2f4f9 !important;
   /* Control bar and picker and search, etc*/
-  --secondary-bg-color-hover: #efefef;
+  --secondary-bg-color-hover: #eef0f5;
   /* Control bar and picker and search, etc*/
   --main-text-color: #6e80a5;
   /* Sidebar, body preview, board title */
