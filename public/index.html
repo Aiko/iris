@@ -749,6 +749,10 @@
                   <img :src="$root.resolveIcon('assets/img/searchload.png')">
                 </div>
               </div>
+              <div class="empty"
+                v-if="flow.showSearch && !searching && (special.search.length === 0)">
+                <h1>No results for "{{searchTerm}}"</h1>
+              </div>
 
 
 
