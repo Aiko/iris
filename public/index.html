@@ -782,7 +782,7 @@
                   <div class="container p0">
                     <div class="row">
 
-                      <!-- 
+                      <!-- Board actions
                       <div class="col-2 cll">
                         <div class="dropdown">
                           <a @click.stop.prevent="showActions = !showActions" title="Board options"><img
@@ -791,15 +791,17 @@
                             <h6 class="dropdown-header">Actions</h6>
                             <a class="dropdown-item">Mark all as read</a>
 
-                            <a class="dropdown-item">Mark all as unread</a> -->
-                      <!-- BOARD WIDTH SELECTION
+                            <a class="dropdown-item">Mark all as unread</a>
+                      -->
+                            <!-- Board width
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Width</h6>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Normal</a>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Small</a>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Collapsed</a>
                             -->
-                      <!-- POTENTIAL COLOR ADD
+
+                            <!-- Board coloring
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Color</h6>
                             <div class="radio-cont">
@@ -818,12 +820,16 @@
                               <input class="aiko-check ac7" type="radio" name="radioNoLabel" id="radioNoLabel1" value=""
                                 aria-label="...">
                             </div>
+                            -->
 
-                        <div class="dropdown-divider"></div>
-                        <a v-if="slug != 'Done'" class="dropdown-item">Rename
-                          board</a>
-                            <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a> -->
-                      <!-- <a class="dropdown-item space-change">
+                            <!-- Board controls
+                            <div class="dropdown-divider"></div>
+                            <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
+                              <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
+                            -->
+
+                            <!-- Board move to space
+                            <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
                                 <span>
@@ -853,11 +859,12 @@
                                 </span>
                               </div>
                             </a>
-
+                            -->
+                      <!-- Board actions
                           </div>
                         </div>
                       </div>
-                       -->
+                      -->
 
 
                       <!-- ? Board Title (click to thin/thick) change from col-12 to col-8 when we add options -->
