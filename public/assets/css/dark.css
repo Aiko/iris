@@ -203,7 +203,7 @@ body {
 }
 
 .load-board::before {
-  background: #b0b0b0 !important;
+  background: #403e3d !important;
 }
 
 .load-sidebar::before {
@@ -232,7 +232,7 @@ li[data-done="true"]>.todo-checkbox {
 }
 
 .fromto-info {
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.13);
+  box-shadow: inset 0 0 20px 1px rgb(0 0 0 / 38%);
 }
 
 .email {
