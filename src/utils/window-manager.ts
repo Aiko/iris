@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind'
-import { ipcMain, shell, powerMonitor, BrowserWindow, app } from 'electron'
+import { ipcMain, shell, powerMonitor, BrowserWindow, app, nativeTheme } from 'electron'
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import Register from '../../Mouseion/managers/register'
 import SecureCommunications from './comms'
@@ -113,6 +113,12 @@ export default class WindowManager {
       shell.openExternal(url)
     })
 
+    //? Detect when OS color scheme changes.
+    nativeTheme.on("updated", () => {
+      _this.Log.shout("OS color scheme changed.")
+      _this.triggerEvent(_this.hash + ': please update color scheme', {})
+    })
+
     ipcMain.removeHandler(this.hash + ": please get fullscreen status")
     this.handler("get fullscreen status", () => updateFullscreenStatus(_this.fullscreened))
   }
@@ -129,7 +135,7 @@ export default class WindowManager {
       show: false,
       frame: process.platform == 'darwin',
       titleBarStyle: 'hidden',
-      backgroundColor: '#312f2e',
+      backgroundColor: nativeTheme.shouldUseDarkColors ? '#312f2e' : '#ffffff',
       webPreferences: {
         enableRemoteModule: true, //! FIXME: you know this is bad...
         nodeIntegration: true, //! FIXME: migrate fully to websockets

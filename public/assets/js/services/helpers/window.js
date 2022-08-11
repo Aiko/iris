@@ -16,8 +16,13 @@ const window_mgr = {
         (_, status) => app.isFullScreen = status)
       ipcRenderer.on(this.windowPrefix + ': please maximized status changed',
         (_, status) => app.isMaximized = status)
-
       ipcRenderer.invoke(this.windowPrefix + ': please get fullscreen status')
+
+      ipcRenderer.on(this.windowPrefix + ': please update color scheme',
+        () => this.updateColorScheme())
+    },
+    async updateColorScheme () {
+      this.isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
     },
     // why use IPC here?
     // because we dont want everything to freeze

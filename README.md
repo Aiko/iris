@@ -1,38 +1,5 @@
 # VIDEO TRACKLIST
 
-Storyboard:
-- [x] ~Go to aikomail.com~
-- [x] ~Click download~
-- [x] ~Sign into app~
-- [x] ~Light Mode~
-- [ ] Board explanation
-    - [x] ~To-Do and Done~
-    - [x] ~Custom boards~
-    - [ ] Board Rules
-    - [x] ~Drag and Drop~
-- [x] ~Priority/Other and Unsubscribe demo~
-- [ ] Summarizer
-    - [x] ~Summary in email card demo~
-    - [ ] Highlight in-email
-- [ ] Quick Actions
-    - [ ] Schedule
-    - [ ] Sign Document
-    - [ ] ~Quick Reply~
-- [ ] Compose
-    - [x] ~Smart Contacts~
-    - [x] ~Supercharged Composer~
-    - [ ] Smart Compose
-    - [ ] Templates
-    - [ ] Recent Attachments
-- [ ] In-app notifications
-    - [ ] Priansh opened email
-- [ ] Native Notifications
-    - [ ] Copy 2fa code
-
-Maybe:
-- [ ] Undo send
-- [ ] GPT-3 equivalent but mentioning this is for v2
-
 # JINKIES SCOOB, HOW DO I RUN THIS?
 
 ```
