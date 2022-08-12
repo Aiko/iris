@@ -499,7 +499,7 @@ img.red:hover {
   font-size: 16px !important;
   line-height: 27px;
   margin-bottom: 0;
-  padding-top: 3px;
+  padding-top: 1px;
 }
 
 .inbox-switch .inbox2 {
@@ -513,7 +513,7 @@ img.red:hover {
   transition: 0.2s;
   line-height: 27px;
   margin-bottom: 0;
-  padding-top: 3px;
+  padding-top: 1px;
 }
 
 .inbox-switch .active {
