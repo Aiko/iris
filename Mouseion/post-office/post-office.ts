@@ -144,6 +144,7 @@ export default class PostOffice {
           msg.includes("invalid credentials")
         ) && this.trigger
       ) this.trigger("auth-failed")
+      else this.trigger!("courier-disconnected")
       this.client = null
       return false
     }
