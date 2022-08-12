@@ -22,9 +22,18 @@ export default class Lock {
     return id
   }
 
+  async lock(cb: () => Promise<void>) {
+    this._lock.lock = new Promise(async (s, _) => {
+      await cb()
+      if (this.waiting.length > 0) this._lock.holder = this.waiting.shift() || ""
+      else this._lock.holder = ""
+      s()
+    })
+  }
+
   async acquire(cb: () => Promise<void>) {
     const id = this.ID()
-    if (this._lock.holder === id) {
+    if (this._lock.holder !== id) {
       await new Promise(async s => {
         let fin = false
         setTimeout(() => {
@@ -40,12 +49,7 @@ export default class Lock {
         }
       })
     }
-    this._lock.lock = new Promise(async (s, _) => {
-      await cb()
-      if (this.waiting.length > 0) this._lock.holder = this.waiting.shift() || ""
-      else this._lock.holder = ""
-      s()
-    })
+    this.lock(cb)
     await this._lock.lock;
   }
 
