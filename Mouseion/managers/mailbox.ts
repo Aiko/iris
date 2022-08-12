@@ -250,6 +250,7 @@ export default class Mailbox {
       }
 
       _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)
+      _this.Log.success("Releasing lock.")
     })
   }
 
