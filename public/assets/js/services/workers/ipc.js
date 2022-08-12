@@ -1,9 +1,5 @@
 // NOTE: this mixin should be loaded first before anything else!!
 
-const { ipcRenderer, remote } = require('electron')
-window.ipcRenderer = ipcRenderer
-window.remote = remote
-
 const IPCMiddleware = async (errorHandler, ipcStream) => {
   const checkError = (e, msg) => {
     if (e) {

@@ -1,11 +1,8 @@
-import { BrowserWindow, shell, app } from "electron"
-import remote from "@electron/remote"
-import URL from 'url'
+import { shell } from "electron"
 import request from 'request'
 import Register from "../../Mouseion/managers/register"
 import SecureCommunications from "../utils/comms"
 import autoBind from "auto-bind"
-const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
 import { google } from 'googleapis'
 import { OAuth2Client } from "google-auth-library"
 import { Request } from 'express-serve-static-core'
@@ -73,52 +70,6 @@ export default class GOauth {
       this.tmpListener = finish
 
       shell.openExternal(url)
-
-      //! Below doesn't work currently as Google has removed Electron as a trusted browser
-      /*
-      const win = new BW({
-        useContentSize: true,
-        fullscreen: false
-      })
-
-      _this.client.on("tokens", tokens => {
-        s(tokens)
-        win.removeAllListeners("close")
-        win.close()
-      })
-
-      win.loadURL(url, {
-        userAgent: this.Registry.get("user agent") as string
-      })
-
-      win.on("closed", () => {
-        return s({ error: 'User closed the Google login window' })
-      })
-
-      win.webContents.on("did-navigate", (_, newURL) => {
-        const parsed = URL.parse(newURL, true)
-        if (parsed.query.error) {
-          s({ error: parsed.query.error_description })
-          win.removeAllListeners('close')
-          win.close()
-        }
-
-        const auth_code = <string> (parsed.query.code || parsed.query.approvalCode)
-        if (auth_code) finish(auth_code)
-      })
-
-      win.on("page-title-updated", () => {
-        const title = win.getTitle()
-        if (title.startsWith("Denied")) {
-          s({ error: `The request was denied with title: "${title}"` })
-          win.removeAllListeners('close')
-          win.close()
-        } else if (title.startsWith("Success")) {
-          const auth_code = title.split(/[ =]/)[2]
-          finish(auth_code)
-        }
-      })
-      */
     })
   }
 

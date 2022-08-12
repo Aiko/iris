@@ -1,3 +1,5 @@
+const WINDOW_TAG = ['%c[WINDOW]', 'background-color: #ff99ff; color: #000;']
+
 const window_mgr = {
   data: {
     windowPrefix: 'INBOX',
@@ -8,23 +10,15 @@ const window_mgr = {
     isMac: platform == 'darwin',
     isLinux: (platform != 'win32' && platform != 'darwin')
   },
-  created() {
-    ipcRenderer.invoke(this.windowPrefix + ": please get the platform").then(this.updatePlatform)
-  },
   methods: {
-    async updatePlatform(platform) {
-      this.isPC = platform == 'win32'
-      this.isMac = platform == 'darwin'
-      this.isLinux = (platform != 'win32' && platform != 'darwin')
-    },
     async initWindowControls () {
-      ipcRenderer.on(this.windowPrefix + ': please fullscreen status changed',
+      window.api.ipcHandler(this.windowPrefix + ': please fullscreen status changed',
         (_, status) => app.isFullScreen = status)
-      ipcRenderer.on(this.windowPrefix + ': please maximized status changed',
+      window.api.ipcHandler(this.windowPrefix + ': please maximized status changed',
         (_, status) => app.isMaximized = status)
       ipcRenderer.invoke(this.windowPrefix + ': please get fullscreen status')
 
-      ipcRenderer.on(this.windowPrefix + ': please update color scheme',
+      window.api.ipcHandler(this.windowPrefix + ': please update color scheme',
         () => this.updateColorScheme())
     },
     async updateColorScheme () {

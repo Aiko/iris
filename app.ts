@@ -267,7 +267,6 @@ const init = async () => {
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? App Lifecycle Hooks
-app.allowRendererProcessReuse = false
 powerSaveBlocker.start('prevent-app-suspension')
 app.commandLine.appendSwitch('disable-renderer-backgrounding')
 
