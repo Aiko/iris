@@ -1,5 +1,3 @@
-const { platform } = remote.require('./app.js')
-
 const window_mgr = {
   data: {
     windowPrefix: 'INBOX',
@@ -10,7 +8,15 @@ const window_mgr = {
     isMac: platform == 'darwin',
     isLinux: (platform != 'win32' && platform != 'darwin')
   },
+  created() {
+    ipcRenderer.invoke(this.windowPrefix + ": please get the platform").then(this.updatePlatform)
+  },
   methods: {
+    async updatePlatform(platform) {
+      this.isPC = platform == 'win32'
+      this.isMac = platform == 'darwin'
+      this.isLinux = (platform != 'win32' && platform != 'darwin')
+    },
     async initWindowControls () {
       ipcRenderer.on(this.windowPrefix + ': please fullscreen status changed',
         (_, status) => app.isFullScreen = status)

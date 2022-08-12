@@ -26,6 +26,7 @@ export default class WindowManager {
     this.handler("hide window", () => _this.hide())
     this.handler("find in window", () => this.findInWindow())
     this.handler("focus window", () => this.focus())
+    this.handler("get the platform", () => process.platform)
 
     autoBind(this)
   }
@@ -108,9 +109,9 @@ export default class WindowManager {
       }
     })
 
-    this.win.webContents.on("new-window", (event, url) => {
-      event.preventDefault()
-      shell.openExternal(url)
+    this.win.webContents.setWindowOpenHandler(details => {
+      shell.openExternal(details.url)
+      return { action: "deny" }
     })
 
     //? Detect when OS color scheme changes.
@@ -137,12 +138,12 @@ export default class WindowManager {
       titleBarStyle: 'hidden',
       backgroundColor: nativeTheme.shouldUseDarkColors ? '#312f2e' : '#ffffff',
       webPreferences: {
-        enableRemoteModule: true, //! FIXME: you know this is bad...
         nodeIntegration: true, //! FIXME: migrate fully to websockets
         spellcheck,
         backgroundThrottling: false,
       },
       icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png',
+      roundedCorners: true,
       ...args
     })
   }

@@ -1,4 +1,5 @@
-import { remote, BrowserWindow, shell, app } from "electron"
+import { BrowserWindow, shell, app } from "electron"
+import remote from "@electron/remote"
 import URL from 'url'
 import request from 'request'
 import Register from "../../Mouseion/managers/register"

@@ -227,7 +227,7 @@ Vue.component('view-email', {
     //? Quick Actions
     async openVerify () {
       if (this.email.M.quick_actions.context) {
-        remote.shell.openExternal(this.email.M.quick_actions.context)
+        window.open(this.email.M.quick_actions.context)
       }
     },
     async copyOTP () {
@@ -237,7 +237,7 @@ Vue.component('view-email', {
     },
     async openLink () {
       if (this.email.M.quick_actions.context) {
-        remote.shell.openExternal(this.email.M.quick_actions.context)
+        window.open(this.email.M.quick_actions.context)
       }
     },
     async printMessage () {

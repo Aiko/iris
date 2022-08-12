@@ -140,7 +140,7 @@ Vue.component('thread-card', {
     async openLink () {
       const tid = this.thread.tid
       if (this.thread.emails[0].M.quick_actions.context) {
-        remote.shell.openExternal(this.thread.emails[0].M.quick_actions.context)
+        window.open(this.thread.emails[0].M.quick_actions.context)
       }
     },
     async copyOTP () {

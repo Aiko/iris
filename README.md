@@ -20,7 +20,7 @@ Hush my dear child, just `npm i electron` in the directory but from `cmd.exe` (c
 ``` bash
 npm uninstall electron
 export npm_config_platform=win32
-npm install electron@^11.5.0
+npm install electron@^20.0.0
 unset npm_config_platform
 ```
 
