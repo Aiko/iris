@@ -522,6 +522,7 @@ const mailapi = {
       thread.date = new Date(thread.date)
       thread.emails = thread.emails.map(email => {
         email.M.envelope.date = new Date(email.M.envelope.date)
+        email.raw = undefined
         return email
       })
       if (reset) {
@@ -609,6 +610,14 @@ const mailapi = {
       //? next, update the threads global object so any UI updates can resolve
       Vue.set(this.threads, thread.tid, thread)
       return thread
+    },
+    //? process a thread for caching
+    cacheThread (thread) {
+      thread.emails = thread.emails.map(email => {
+        email.raw = undefined
+        return email
+      })
+      return email
     },
     //? find the representative location of a thread (location of newest email of thread in its originFolder)
     locThread ({ emails, originFolder }) {
