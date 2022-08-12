@@ -746,8 +746,7 @@
                   <img :src="$root.resolveIcon('assets/img/searchload.png')">
                 </div>
               </div>
-              <div class="empty"
-                v-if="flow.showSearch && !searching && (special.search.length === 0)">
+              <div class="empty" v-if="flow.showSearch && !searching && (special.search.length === 0)">
                 <h1>No results for "{{searchTerm}}"</h1>
               </div>
 
@@ -1755,8 +1754,8 @@
         'syncing': thread.syncing,
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
-        'just-me': justMe,
         'quick-reply': showQuickReply,
+        'just-me': justMe,
         'pre-delete': deleting,
         'focus': (($root.regularView || $root.specialView) && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">

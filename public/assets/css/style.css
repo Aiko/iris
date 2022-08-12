@@ -4401,7 +4401,8 @@ input:checked+.slider:before {
 }
 
 .search input:not(:focus)+.searchtip {
-  display: none;
+  opacity: 0;
+  transition: .2s;
 }
 
 .searchtip {
@@ -4411,6 +4412,7 @@ input:checked+.slider:before {
   color: var(--main-text-color);
   margin-right: 10px;
   font-size: 12px;
+  transition: .2s;
 }
 
 .shepherd-modal-overlay-container.shepherd-modal-is-visible {
