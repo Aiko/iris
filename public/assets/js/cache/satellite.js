@@ -5,6 +5,11 @@ const Satellite = (() => {
     name: 'ko-quick-access'
   })
 
+  const keys = async () => {
+    const keys = await tinyStore.keys()
+    return keys.filter(key => key.startsWith('aiko-mail:'))
+  }
+
   const makeKey = k => 'aiko-mail:' + k
 
   const store = async (k, obj) => {
@@ -23,5 +28,5 @@ const Satellite = (() => {
     await tinyStore.removeItem(key)
   }
 
-  return { store, load, kill, del }
+  return { store, load, kill, del, keys, tinyStore }
 })()
