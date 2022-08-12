@@ -2412,6 +2412,11 @@ hr {
   overflow: scroll;
 }
 
+.mh240-temp {
+  max-height: calc(100% - 13px);
+  overflow: scroll;
+}
+
 .short {
   cursor: default;
   overflow-y: hidden;

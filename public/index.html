@@ -16,6 +16,9 @@
   <link rel="stylesheet" href="assets/css/loader.css">
   <!-- ? jQuery -->
   <script src="assets/js/third-party/jquery.min.js"></script>
+  <script>
+    window.jQuery = window.$ = require('jquery') // the things I do for Milky
+  </script>
   <!--? Using unsafe eval for Vue but if there comes a day when we aren't you are welcome to the below CSP -->
   <!--<meta http-equiv="Content-Security-Policy"
       content="default-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' data: 'unsafe-inline'; connect-src *">-->
@@ -300,9 +303,9 @@
             </a> -->
 
             <!--? Open Documentation -->
-            <!-- <a title="Documentation" class="no-mobile sc ml10" target="_blank">
+            <a title="Documentation" class="no-mobile sc ml10">
               <img :src="$root.resolveIcon('assets/icons/sidebar-help.svg')" width="30">
-            </a> -->
+            </a>
 
           </div>
 
@@ -793,7 +796,7 @@
 
                             <a class="dropdown-item">Mark all as unread</a>
                       -->
-                            <!-- Board width
+                      <!-- Board width
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Width</h6>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Normal</a>
@@ -801,7 +804,7 @@
                             <a class="dropdown-item" @click="board.thin = !board.thin">Collapsed</a>
                             -->
 
-                            <!-- Board coloring
+                      <!-- Board coloring
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Color</h6>
                             <div class="radio-cont">
@@ -822,13 +825,13 @@
                             </div>
                             -->
 
-                            <!-- Board controls
+                      <!-- Board controls
                             <div class="dropdown-divider"></div>
                             <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
                               <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                             -->
 
-                            <!-- Board move to space
+                      <!-- Board move to space
                             <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
@@ -1188,7 +1191,9 @@
               <!--!------------------------------------------------------------->
               <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
               <!--!------------------------------------------------------------->
-              <div class="secondary-head mh240" v-if="thread.participants.length > 0">
+
+              <!-- TODO: once we add related threads to sidebar, make sure to remove "-temp" to class below -->
+              <div class="secondary-head mh240-temp" v-if="thread.participants.length > 0">
                 <h3>Participants</h3>
                 <div class="container">
 
@@ -1755,7 +1760,6 @@
         'dont-drag-this': thread.syncing,
         'starred': thread.starred,
         'quick-reply': showQuickReply,
-        'just-me': justMe,
         'pre-delete': deleting,
         'focus': (($root.regularView || $root.specialView) && $root.flow.viewThread) ? ($root.flow.viewThread?.tid == thread.tid) : false
       }">
@@ -2242,6 +2246,7 @@
   <script src="assets/js/services/composer/composer.js"></script>
   <!--? Calendar -->
   <script src="assets/js/services/calendar/calendar.js"></script>
+  <script src="assets/js/services/Documentation/demovideo.js"></script>
   <!-- ? Settings -->
   <script src="assets/js/services/settings/settings.js"></script>
   <!--? Modals-->

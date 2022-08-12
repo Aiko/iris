@@ -672,9 +672,6 @@ const mailapi = {
       this.lastSync = new Date()
       this.flow.showConnectionError = false
 
-      const okayletsgo = new Audio('./assets/videos/sync.mp3')
-      if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
-
       //? update folders
       this.folders = await this.engine.folders.state()
       const boards = await this.engine.folders.boards()
