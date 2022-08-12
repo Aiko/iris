@@ -3,6 +3,7 @@ import { ipcMain, shell, powerMonitor, BrowserWindow, app, nativeTheme } from 'e
 import { Logger, LumberjackEmployer } from '../../Mouseion/utils/logger'
 import Register from '../../Mouseion/managers/register'
 import SecureCommunications from './comms'
+import path from 'path'
 
 export default class WindowManager {
   private fullscreened: boolean = false
@@ -26,6 +27,7 @@ export default class WindowManager {
     this.handler("hide window", () => _this.hide())
     this.handler("find in window", () => this.findInWindow())
     this.handler("focus window", () => this.focus())
+    this.handler("get the platform", () => process.platform)
 
     autoBind(this)
   }
@@ -108,9 +110,9 @@ export default class WindowManager {
       }
     })
 
-    this.win.webContents.on("new-window", (event, url) => {
-      event.preventDefault()
-      shell.openExternal(url)
+    this.win.webContents.setWindowOpenHandler(details => {
+      shell.openExternal(details.url)
+      return { action: "deny" }
     })
 
     //? Detect when OS color scheme changes.
@@ -131,18 +133,20 @@ export default class WindowManager {
   static newWindow(args: Partial<Electron.BrowserWindowConstructorOptions>, {
     spellcheck=false
   } ={}) {
+    console.log(path.join(__dirname, './public/assets/js/common/preload.js'))
     return new BrowserWindow({
       show: false,
       frame: process.platform == 'darwin',
       titleBarStyle: 'hidden',
       backgroundColor: nativeTheme.shouldUseDarkColors ? '#312f2e' : '#ffffff',
       webPreferences: {
-        enableRemoteModule: true, //! FIXME: you know this is bad...
         nodeIntegration: true, //! FIXME: migrate fully to websockets
         spellcheck,
         backgroundThrottling: false,
+        preload: path.join(__dirname, 'preload.js'),
       },
       icon: process.platform == 'darwin' ? './public/assets/img/icon.png' : './public/assets/img/app-icon/square-icon-shadow.png',
+      roundedCorners: true,
       ...args
     })
   }

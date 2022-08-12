@@ -1,10 +1,9 @@
-import { remote, BrowserWindow } from "electron"
+import { BrowserWindow } from "electron"
 import URL from 'url'
 import request from 'request'
 import Register from "../../Mouseion/managers/register"
 import SecureCommunications from "../utils/comms"
 import autoBind from "auto-bind"
-const BW = process.type === 'renderer' ? remote.BrowserWindow : BrowserWindow
 
 export default class MSOauth {
 
@@ -39,7 +38,7 @@ export default class MSOauth {
       if (login_hint) params.push(`login_hint=${login_hint}`)
       const url = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + params.join('&')
 
-      const win = new BW({
+      const win = new BrowserWindow({
         useContentSize: true,
         fullscreen: false
       })

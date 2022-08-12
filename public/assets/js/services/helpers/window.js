@@ -1,4 +1,4 @@
-const { platform } = remote.require('./app.js')
+const WINDOW_TAG = ['%c[WINDOW]', 'background-color: #ff99ff; color: #000;']
 
 const window_mgr = {
   data: {
@@ -12,13 +12,13 @@ const window_mgr = {
   },
   methods: {
     async initWindowControls () {
-      ipcRenderer.on(this.windowPrefix + ': please fullscreen status changed',
+      window.api.ipcHandler(this.windowPrefix + ': please fullscreen status changed',
         (_, status) => app.isFullScreen = status)
-      ipcRenderer.on(this.windowPrefix + ': please maximized status changed',
+      window.api.ipcHandler(this.windowPrefix + ': please maximized status changed',
         (_, status) => app.isMaximized = status)
       ipcRenderer.invoke(this.windowPrefix + ': please get fullscreen status')
 
-      ipcRenderer.on(this.windowPrefix + ': please update color scheme',
+      window.api.ipcHandler(this.windowPrefix + ': please update color scheme',
         () => this.updateColorScheme())
     },
     async updateColorScheme () {
