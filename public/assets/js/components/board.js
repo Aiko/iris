@@ -1,12 +1,12 @@
 Vue.component('board', {
   props: ['board', 'slug', 'syncing', 'seenFilter'],
   watch: {
-    'board.thin': async function(_) {
+    'board.width': async function(_) {
       const board = this.$root.resolveBoard(this.board.name)
       if (!board) return;
       const i = this.$root.boards.indexOf(board)
 
-      this.$root.boards[i].thin = this.board.thin
+      this.$root.boards[i].width = this.board.width
 
       await Satellite.store(this.$root.imapConfig.email + ':boards', this.$root.boards)
     }
