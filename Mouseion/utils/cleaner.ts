@@ -373,7 +373,7 @@ export default class Janitor {
 
   private async compromise(email: EmailRaw): Promise<EmailWithAIMeta> {
     const e: EmailWithQA = await this.snips(email)
-
+    /*
     const doc = nlp([
       e.M.envelope.cleanSubject,
       e.parsed.cleanText //* can change this back to e.parsed.text to include quoted materials
@@ -387,7 +387,8 @@ export default class Janitor {
       reduced: true,
       unique: true
     })
-    const top_topics = topics.slice(0, 50)
+    */
+    const top_topics: {text: string, count: number}[] = []// topics.slice(0, 50)
 
     return {
       ...e,
