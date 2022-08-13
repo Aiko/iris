@@ -171,8 +171,8 @@
             'active': flow.showInbox || rootView == 'Inbox'
           }">
 
-            <!--? Home Space -->
-            <div class="space" @click.stop.prevent="flow.showInbox = true">
+            <!--? TODO: Home Space - add class="space" to this div when we start doing spaces-->
+            <div  @click.stop.prevent="flow.showInbox = true">
               <img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')">
               <span>Home <span class="main-count">{{smartUnread}}</span></span>
             </div>
@@ -1788,7 +1788,7 @@
             <h2 class="sender" @click="debug" v-if="!justMe">
               {{thread.participants.slice(0, 3).map(({ name, address }) => name || address).join(', ')}}
             </h2>
-            <h2 class="sender" @click="debug" v-if="justMe">
+            <h2 class="sender" @click="debug" v-if="justMe" title="You sent this email to yourself">
               Me
             </h2>
 
@@ -1872,9 +1872,9 @@
                 <img :src="thread.emails[0].M.quick_actions.overrideIcon">
                 {{thread.emails[0].M.quick_actions.overrideText}}
               </a>
-              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1">
+              <a @click.stop.prevent="showQuickReply = true" v-if="!quickaction" class="main-action ma1" title="Click here to compose a reply to this email">
                 <img :src="$root.resolveIcon('assets/icons/zap.svg')"> Quick Reply <div
-                  @click.prevent="quickReplyAll = true" class="all">ALL</div>
+                  @click.prevent="quickReplyAll = true" class="all" title="Click here to Reply All">ALL</div>
               </a>
             </div>
 
@@ -1919,8 +1919,8 @@
           'dont-drag-this': true
         }">
           <input @keydown.esc.stop.prevent="unfocus" @click.stop="focus" ref="quickreply" @blur="unfocus"
-            v-model="replyText" placeholder="Type a reply and click send." autofocus>
-          <a @click.stop="sendQuickReply"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20"></a>
+            v-model="replyText" placeholder="Type a reply and click send." autofocus title="Type your email here, and click send.">
+          <a @click.stop="sendQuickReply" title="Click to send your quick reply now"><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20"></a>
         </div>
 
         <!--!------------------------------------------------------------->
