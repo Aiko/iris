@@ -1911,17 +1911,19 @@ hr {
 }
 
 .main-count {
-  color: var(--main-color);
-  padding: 2px 8px;
-  margin: auto;
-  z-index: 2;
-  font-weight: 500;
-  border-radius: 50px;
-  font-size: 12px;
-  background: var(--secondary-bg-color);
-  text-align: center;
-  position: absolute;
-  right: 0;
+    color: var(--main-color);
+    padding: 1px 5px;
+    margin: auto;
+    z-index: 2;
+    font-weight: 500;
+    margin-top: 2px;
+    margin-right: -10px;
+    border-radius: 5px;
+    font-size: 12px;
+    background: var(--secondary-bg-color);
+    text-align: center;
+    position: absolute;
+    right: 0;
 }
 
 .user-list {
@@ -1933,8 +1935,8 @@ hr {
 .secondary-count {
   color: var(--main-text-color);
   background: var(--secondary-bg-color);
-  padding: 1px 5px;
-  border-radius: 50px;
+  padding: 2px 5px;
+  border-radius: 5px;
   font-size: 12px;
   margin-left: 1px;
   display: inline;
@@ -2465,7 +2467,10 @@ hr {
 .thinnest {
   width: 30px;
   overflow: visible;
-      margin-right: 10px !important;
+  margin-right: 10px !important;
+  border-radius: 5px;
+  background: transparent !important;
+  box-shadow: none;
 }
 
 .thinnest .cll {
@@ -2480,7 +2485,7 @@ writing-mode: vertical-rl;
     margin-top: -15px;
     transition: .2s;
     text-align: left;
-    height: 155px !important;
+    height: 153px !important;
 }
 .thinnest .board-width-picker{
       position: absolute;
@@ -2489,30 +2494,45 @@ writing-mode: vertical-rl;
     margin-left: 6px;
 }
 .thinnest .secondary-count{
-  display: none;
+position: absolute;
+    bottom: 0;
+    right: 0;
+        padding: 3px 0;
+    width: 30px;
+    margin-left: px;
+    margin-bottom: -10px;
+    border-radius: 0 0 5px 5px;
+        border: 2px solid var(--main-bg-color);
+        transition: .2s;
 }
-.thinnest .email .container {
-  visibility: hidden;
+.thinnest .secondary-count:hover{
+      opacity: .8;
+      transition: .2s;
+}
+.thinnest .email {
+  pointer-events: none;
+  display: none;
 }
 .thinnest .archive{
   display: none;
 }
 
 .thinnest .board-body {
-  padding: 1px 5px 0 4px;
+  padding: 0;
+    width: 40px;
+    margin-left: -5px;
+    margin-top: -150px;
+    pointer-events: none;
+}
+.thinnest .board-header{
+  background: #f8f9faab;
+    border-radius: 5px;
 }
 
 .thinnest .starred {
   padding: 8px 9px 0 10px;
 }
 
-.thinnest .unread {
-  padding: 8px 9px 0 10px;
-}
-
-.thinnest .just-me {
-  padding: 8px 9px 0 10px;
-}
 
 .thin .extra-actions a {
   padding: 3px 3px 6px 0;
@@ -4624,11 +4644,10 @@ input:checked+.slider:before {
   margin-left: -30px;
 }
 .board-width-picker {
-  width: 76px;
   box-shadow: 0 0 10px #00000078 !important;
-  height: 22px;
   background: var(--main-bg-color);
   border-radius: 5px;
+  padding: 0 3px 2px 0;
   margin-top: -25px;
   display: inline-flex;
   position: absolute;
@@ -4650,26 +4669,29 @@ input:checked+.slider:before {
   height: 18px;
   margin-top: 2px;
   border-radius: 3px;
+  font-size: 15px;
+  text-align: center;
 }
 
 .board-width-picker div:hover {
   background-color: var(--main-text-color);
+  color: var(--modal-backdrop);
   transition: .2s;
 }
 
-.board-width-picker div:nth-child(1) {
-  width: 30px;
+.board-width-picker div:nth-child(3) {
+  width: 33px;
   margin-left: 3px;
 }
 
 .board-width-picker div:nth-child(2) {
-  width: 19px;
-  margin-left: 4px;
+  width: 23px;
+  margin-left: 3px;
 }
 
-.board-width-picker div:nth-child(3) {
-  width: 13px;
-  margin-left: 4px;
+.board-width-picker div:nth-child(1) {
+width: 17px;
+    margin-left: 3px;
 }
 .regular .single-email{
   height: 100%;

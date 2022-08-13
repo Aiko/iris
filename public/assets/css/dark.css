@@ -124,9 +124,17 @@ body {
 }
 
 .board {
-  box-shadow: 0 0 15px #00000024 !important;
-  background: var(--main-bg-color) !important;
+  box-shadow: 0 0 15px #00000024;
+  background: var(--main-bg-color);
   border: none !important;
+}
+.thinnest{
+  box-shadow: none !important;
+}
+
+.thinnest .board-header{
+  background: var(--main-bg-color) !important;
+    border-radius: 5px;
 }
 
 .dropdown-menu,
