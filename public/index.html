@@ -11,7 +11,7 @@
   <title>Inbox</title>
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <!-- ? Base CSS -->
-  <link rel="stylesheet" href="assets/css/style.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <link rel="stylesheet" href="assets/css/loader.css">
   <!-- ? jQuery -->
@@ -793,7 +793,7 @@
 
                             <a class="dropdown-item">Mark all as unread</a>
                       -->
-                            <!-- Board width
+                      <!-- Board width
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Width</h6>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Normal</a>
@@ -801,7 +801,7 @@
                             <a class="dropdown-item" @click="board.thin = !board.thin">Collapsed</a>
                             -->
 
-                            <!-- Board coloring
+                      <!-- Board coloring
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Color</h6>
                             <div class="radio-cont">
@@ -822,13 +822,13 @@
                             </div>
                             -->
 
-                            <!-- Board controls
+                      <!-- Board controls
                             <div class="dropdown-divider"></div>
                             <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
                               <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                             -->
 
-                            <!-- Board move to space
+                      <!-- Board move to space
                             <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
@@ -869,7 +869,13 @@
 
                       <!-- ? Board Title (click to thin/thick) change from col-12 to col-8 when we add options -->
                       <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
-                        <h1 @click="board.thin = !board.thin" title="Click title to minimize/maximize">
+                        <h1 class="board-width-trigger" title="Click title to minimize/maximize">
+                          <div class="board-width-picker">
+                            <div title="Large" @click="board.thin = false"></div>
+                            <div title="Small" @click="board.thin = true"></div>
+                            <!-- Eventually need to add class thinnest when this is clicked -->
+                            <div title="Collapsed" @click="board.thin = true"></div>
+                          </div>
                           {{slug}}
                         </h1>
                         <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in board">
