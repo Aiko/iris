@@ -1549,7 +1549,7 @@ width: 21px;
   color: var(--dark-text);
   font-weight: 400;
   font-size: 14px;
-  padding: 2px 3px 4px 3px;
+  padding: 2px 3px 2px 3px;
   height: 28px;
   background: var(--secondary-bg-color);
   contain: unset;
@@ -2033,8 +2033,8 @@ hr {
   border-left: 3px solid #ffc107 !important;
 }
 
-.just-me {
-  border-left: 3px solid #3dff5d !important;
+.just-me .sender{
+  color: #00ac1d !important;
 }
 
 .boards-container {
