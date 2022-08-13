@@ -28,5 +28,27 @@ const Satellite = (() => {
     await tinyStore.removeItem(key)
   }
 
-  return { store, load, kill, del, keys, tinyStore }
+  //? Migration steps for older versions of Satellite
+  migration = async () => {
+    await app.reprocessThreads()
+    const emailPrefix = app.imapConfig.email
+    const k_old = s => emailPrefix + s
+    await del(k_old("emails/inbox"))
+    await del(k_old("emails/fullInbox"))
+    await del(k_old("threads"))
+  }
+
+  //? Audit the size of keys in Satellite
+  audit = async () => {
+    const keys = await tinyStore.keys()
+    const sizes = Object.fromEntries(await Promise.all(keys.map(async key => {
+        key = key.replace("aiko-mail:", "")
+        const data = await Satellite.load(key)
+        const size = JSON.stringify(data).length.toFilesize()
+        return [key, size]
+    })))
+    return sizes
+  }
+
+  return { store, load, kill, del, keys, tinyStore, version: 2, migration, audit }
 })()

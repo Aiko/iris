@@ -206,7 +206,7 @@ const mailapi = {
       ).length
     }
   },
-  created () {
+  async created () {
     info(...MAILAPI_TAG, 'Mounted IMAP processor. Please ensure this only ever happens once.')
   },
   methods: {
@@ -476,6 +476,17 @@ const mailapi = {
       //? start your engines!
       await DwarfStar.sync()
       this.firstTime = DwarfStar.settings().meta.firstTime
+
+      const satellite_version = +(await Satellite.load("satellite-version") ?? "0")
+      info(...MAILAPI_TAG, 'Local satellite version:', satellite_version)
+      if (Satellite.version < satellite_version) error(...MAILAPI_TAG, 'The loaded Satellite is older than the one last used.')
+      if (Satellite.version > satellite_version) {
+        info(...MAILAPI_TAG, 'Satellite is out of date. Updating...')
+        await Satellite.migration()
+        await Satellite.store("satellite-version", Satellite.version)
+        success(...MAILAPI_TAG, 'Satellite updated to', Satellite.version)
+      }
+
       info(...MAILAPI_TAG, "Starting engine sync.")
       await this.engine.sync.immediate()
       if (controlsLoader && !this.flow.addingMailbox) this.loading = false
@@ -520,6 +531,10 @@ const mailapi = {
       thread.emails = thread.emails.map(email => {
         email.M.envelope.date = new Date(email.M.envelope.date)
         email.raw = undefined
+        email.parsed.html = ""
+        email.parsed.text = ""
+        email.parsed.cleanText = ""
+        email.parsed.sentences = email.parsed.sentences?.slice(0, 5) ?? []
         return email
       })
       if (reset) {
@@ -607,6 +622,13 @@ const mailapi = {
       //? next, update the threads global object so any UI updates can resolve
       Vue.set(this.threads, thread.tid, thread)
       return thread
+    },
+    //? reprocess all threads
+    async reprocessThreads () {
+      for (const tid of Object.keys(this.threads)) {
+        this.saveThread(this.threads[tid], false)
+      }
+      await Satellite.store(this.currentMailbox + ":threads", this.threads)
     },
     //? process a thread for caching
     cacheThread (thread) {
@@ -953,9 +975,9 @@ const mailapi = {
       success(...MAILAPI_TAG, "SYNC OLD OP - computed full inbox:", performance.now() - t0)
 
       //? Cache
-      Satellite.store(this.currentMailbox + "emails/inbox", this.inbox)
-      Satellite.store(this.currentMailbox + "emails/fullInbox", this.fullInbox)
-      Satellite.store(this.currentMailbox + "threads", this.threads)
+      Satellite.store(this.currentMailbox + ":emails/inbox", this.inbox)
+      Satellite.store(this.currentMailbox + ":emails/fullInbox", this.fullInbox)
+      Satellite.store(this.currentMailbox + ":threads", this.threads)
 
       this.syncing = false
       release()
