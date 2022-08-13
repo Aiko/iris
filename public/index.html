@@ -764,11 +764,11 @@
 
 
           <!-- ? Container for the other boards (draggable so you can adjust board order) -->
-          <draggable v-if="!(flow.regularView || flow.specialView)" style="display: inline-flex;" v-model="boardOrder"
+          <draggable v-if="!(flow.regularView || flow.specialView)" style="display: inline-flex;" v-model="boards"
             :group="{name: 'boards'}" draggable=".board" ghost-class="ghost" handle=".board-drag-handle"
             :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!-- ? Board Template -->
-            <board v-for="slug in boardOrder" :syncing="syncing" :board="resolveBoard(slug)" :slug="slug"
+            <board v-for="board in boards" :title="JSON.stringify(resolveBoard(board.name))" :syncing="syncing" :board="resolveBoard(board.name)" :slug="board.name"
               :seen-filter.camel="seenFilter" inline-template>
 
               <div :class="{

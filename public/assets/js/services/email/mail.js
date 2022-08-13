@@ -89,8 +89,6 @@ const mailapi = {
       archive: [], //* [tid]
       search: [], //* [tid]
     },
-    boardOrder: [], //* [slug]
-    boardThiccness: [], //* [slug]
     boards: [], //* { ...board metadata, tids: [tid] }
     //? some state/ui management
     syncLock: SyncLock(),
@@ -427,45 +425,37 @@ const mailapi = {
         })
       })
 
-      //? restore thinness to boards
-      this.boardThiccness = await Satellite.load(this.imapConfig.email + ':board-thiccness') || []
-      this.boardThiccness.map(slug => {
-        const board = this.boards.filter(({ name }) => name == slug)?.[0]
-        if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
-        const i = this.boards.indexOf(board)
-        this.boards[i].thin = true
-      })
-      info(...MAILAPI_TAG, "Computed Board Thiccness.")
-
-      //? sort the local boards
-      this.boardOrder = await Satellite.load(this.imapConfig.email + ':board-order') || []
-      const tmp_boards = JSON.parse(JSON.stringify(this.boards))
-      const tmp2_boards = []
-      this.boardOrder.map(slug => {
-        const board = tmp_boards.filter(({ name }) => name == slug)?.[0]
-        if (!board) return warn(...MAILAPI_TAG, "The", slug, "board no longer exists and will be removed from board order.")
-        const i = tmp_boards.indexOf(board)
-        tmp2_boards.push(...(tmp_boards.splice(i, 1)))
-      })
-      tmp2_boards.push(...tmp_boards)
-      Vue.set(this, 'boards', tmp2_boards)
-      this.boardOrder = this.boards.map(({ name }) => name)
-      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
-      info(...MAILAPI_TAG, "Sorted local boards.")
-
       //? sync client
       // info(...MAILAPI_TAG, "Performing client sync.")
       // await this.syncOp()
       //! experimental: instead, pop cache
       this.threads = await Satellite.load(this.currentMailbox + ":threads") || {}
-      this.boards.map(async (board, i) => {
-        this.boards[i].tids = ((await Satellite.load(this.currentMailbox + ":emails/" + board.name)) || [])
-      })
       this.inbox = await Satellite.load(this.currentMailbox + ":emails/inbox") || []
       this.fullInbox = await Satellite.load(this.currentMailbox + ":emails/fullInbox") || []
       Vue.set(this, 'special',
         await Satellite.load(this.currentMailbox + ":emails/special") || this.special)
       ;
+      //? restore board metadata
+      const boardMetadata = await Satellite.load(this.imapConfig.email + ":boards") || []
+      info(...MAILAPI_TAG, "Loaded board metadata:", boardMetadata)
+      boardMetadata.map(board => {
+        const index = this.boards.findIndex(b => b.name == board.name)
+        if (index > -1) {
+          this.boards[index].thin = board.thin
+          this.boards[index].tids = board.tids
+          info(...MAILAPI_TAG, "Restored board metadata:", board)
+        }
+      })
+      //? sort boards to be in the same order as the board metadata
+      const tmp = this.boards.sort((a, b) => {
+        const aIndex = boardMetadata.findIndex(board => board.name == a.name)
+        const bIndex = boardMetadata.findIndex(board => board.name == b.name)
+        return aIndex - bIndex
+      })
+      this.boards = JSON.parse(JSON.stringify(tmp))
+      await Satellite.store(this.imapConfig.email + ':boards', this.boards)
+      success(...MAILAPI_TAG, "Restored all boards metadata.")
+
 
       if (controlsLoader && this.inbox.length > 0) this.loading = false
 
@@ -646,9 +636,6 @@ const mailapi = {
       if (!(updatedBoards.names.includes(slug))) return error(...MAILAPI_TAG, "Tried to create board with slug", slug, "but failed to create the matching folder.")
       //? add that to the sync set
       await this.engine.sync.add(path)
-      //? conformity is key
-      this.boardOrder = this.boards.map(({ name }) => name).sort((a, b) =>
-        this.boardOrder.indexOf(a) - this.boardOrder.indexOf(b))
       //? create a UI element for it
       this.boards.push({
         name: slug,
@@ -656,9 +643,7 @@ const mailapi = {
         path,
         tids: []
       })
-      this.boardOrder.push(slug)
-
-      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':boards', this.boards)
     },
     ////////////////////////////////////////////!
     //! Syncing with Backend
@@ -693,11 +678,8 @@ const mailapi = {
           path: boards.paths[slug],
           tids: []
         })
-
-        this.boardOrder = this.boards.map(({ name }) => name).sort((a, b) =>
-          this.boardOrder.indexOf(a) - this.boardOrder.indexOf(b))
       })
-      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':boards', this.boards)
       info(...MAILAPI_TAG, "SYNC OP - synced board metadata")
       let t0 = performance.now()
 
@@ -705,7 +687,7 @@ const mailapi = {
       if (this.imapConfig.user.includes("ruben")) sync.play()
 
       //? compute local cursor
-      const cursors = Object.values(this.threads).map(({ cursor }) => cursor)
+      const cursors = Object.values(this.threads).filter(({ tid }) => this.inbox.includes(tid)).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
 
       //? fetch updates to inbox
@@ -758,7 +740,9 @@ const mailapi = {
       //? fetch updates to boards
       await Promise.all(this.boards.map(async ({ path, tids }, i) => {
         const max_board_updates = Math.max(1000, tids.length)
-        const board_updates = await this.engine.resolve.threads.latest(path, cursor, {limit: max_board_updates})
+        const board_cursors = Object.values(this.threads).filter(({ tid }) => tids.includes(tid)).map(({ cursor }) => cursor)
+        const board_cursor = Math.max(...board_cursors, -1)
+        const board_updates = await this.engine.resolve.threads.latest(path, board_cursor, {limit: max_board_updates})
         //? apply updates to board
         const { all, updated } = board_updates
         //? first, anything that is no longer in exists can be dumped
@@ -884,7 +868,7 @@ const mailapi = {
       success(...MAILAPI_TAG, "SYNC OP - computed full inbox:", performance.now() - t0)
 
       //? Cache
-      this.boards.map(board => Satellite.store(this.currentMailbox + ":emails/" + board.name, board.tids))
+      Satellite.store(this.currentMailbox + ":boards", this.boards)
       Satellite.store(this.currentMailbox + ":emails/inbox", this.inbox)
       Satellite.store(this.currentMailbox + ":emails/fullInbox", this.fullInbox)
       Satellite.store(this.currentMailbox + ":threads", this.threads)
@@ -1165,8 +1149,7 @@ const mailapi = {
     },
     //? call this method after reordering boards to save the order
     async reorderBoards () {
-      // this.boardOrder = this.boards.map(({ name }) => name)
-      await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
+      await Satellite.store(this.imapConfig.email + ':boards', this.boards)
     },
     //? sorts all threads across inbox and boards in ascending/descending order
     async sortThreads(newest=true) {

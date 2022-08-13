@@ -7,13 +7,8 @@ Vue.component('board', {
       const i = this.$root.boards.indexOf(board)
 
       this.$root.boards[i].thin = this.board.thin
-      if (this.board.thin) {
-        this.$root.boardThiccness.push(board.name)
-      } else {
-        this.$root.boardThiccness = this.$root.boardThiccness.filter(n => n != board.name)
-      }
 
-      await Satellite.store(this.$root.imapConfig.email + ':board-thiccness', this.$root.boardThiccness)
+      await Satellite.store(this.$root.imapConfig.email + ':boards', this.$root.boards)
     }
   },
   data () {
@@ -26,13 +21,13 @@ Vue.component('board', {
   computed: {
     //! pretty sure we don't need this anymore.
     prettyBoardName () {
-      return this.board.name.replace('[Aiko Mail]/', '')
+      return this.board?.name.replace('[Aiko Mail]/', '')
     },
     unread () {
-      return this.$root.resolveThreads(this.board.tids || []).filter(({ seen }) => !seen).length
+      return this.$root.resolveThreads(this.board?.tids || []).filter(_ => _).filter(({ seen }) => !seen).length
     },
     slug () {
-      return this.board.name
+      return this.board?.name
     }
   },
   methods: {
