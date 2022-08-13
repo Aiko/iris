@@ -501,55 +501,7 @@ img.red:hover {
   transition: .2s;
   line-height: 27px;
   margin-bottom: 0;
-  padding-top: 1px;
-}
-
-.board-width-picker {
-  width: 76px;
-  box-shadow: 0 0 10px #00000078 !important;
-  height: 22px;
-  background: var(--main-bg-color);
-  border-radius: 5px;
-  margin-top: -25px;
-  display: inline-flex;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0%);
-}
-
-.board-width-trigger .board-width-picker {
-  visibility: hidden;
-}
-
-.board-width-trigger:hover .board-width-picker {
-  visibility: visible;
-}
-
-.board-width-picker div {
-  background: var(--secondary-bg-color);
-  height: 18px;
-  margin-top: 2px;
-  border-radius: 3px;
-}
-
-.board-width-picker div:hover {
-  background-color: var(--main-text-color);
-  transition: .2s;
-}
-
-.board-width-picker div:nth-child(1) {
-  width: 30px;
-  margin-left: 3px;
-}
-
-.board-width-picker div:nth-child(2) {
-  width: 19px;
-  margin-left: 4px;
-}
-
-.board-width-picker div:nth-child(3) {
-  width: 13px;
-  margin-left: 4px;
+  padding-top: 3px;
 }
 
 .inbox-switch .active {

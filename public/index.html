@@ -300,9 +300,9 @@
             </a> -->
 
             <!--? Open Documentation -->
-            <!-- <a title="Documentation" class="no-mobile sc ml10" target="_blank">
+            <a title="Documentation" class="no-mobile sc ml10">
               <img :src="$root.resolveIcon('assets/icons/sidebar-help.svg')" width="30">
-            </a> -->
+            </a>
 
           </div>
 
@@ -1194,7 +1194,9 @@
               <!--!------------------------------------------------------------->
               <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
               <!--!------------------------------------------------------------->
-              <div class="secondary-head mh240" v-if="thread.participants.length > 0">
+
+              <!-- TODO: once we add related threads to sidebar, make sure to remove "-temp" to class below -->
+              <div class="secondary-head mh240-temp" v-if="thread.participants.length > 0">
                 <h3>Participants</h3>
                 <div class="container">
 
