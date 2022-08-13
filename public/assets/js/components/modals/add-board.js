@@ -6,7 +6,7 @@ Vue.component('add-board-modal', {
   },
   computed: {
     validBoard () {
-      return !(this.$root.boardOrder.includes(this.name))
+      return !(this.$root.boards.map(({name}) => name).includes(this.name))
     }
   },
   methods: {
