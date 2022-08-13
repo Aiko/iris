@@ -672,9 +672,6 @@ const mailapi = {
       this.lastSync = new Date()
       this.flow.showConnectionError = false
 
-      const okayletsgo = new Audio('./assets/videos/sync.mp3')
-      if (this.imapConfig.user.includes("ruben")) okayletsgo.play()
-
       //? update folders
       this.folders = await this.engine.folders.state()
       const boards = await this.engine.folders.boards()
@@ -703,6 +700,9 @@ const mailapi = {
       await Satellite.store(this.imapConfig.email + ':board-order', this.boardOrder)
       info(...MAILAPI_TAG, "SYNC OP - synced board metadata")
       let t0 = performance.now()
+
+      const sync = new Audio('./assets/videos/sync.mp3')
+      if (this.imapConfig.user.includes("ruben")) sync.play()
 
       //? compute local cursor
       const cursors = Object.values(this.threads).map(({ cursor }) => cursor)

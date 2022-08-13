@@ -300,9 +300,9 @@
             </a> -->
 
             <!--? Open Documentation -->
-            <!-- <a title="Documentation" class="no-mobile sc ml10" target="_blank">
+            <a title="Documentation" class="no-mobile sc ml10">
               <img :src="$root.resolveIcon('assets/icons/sidebar-help.svg')" width="30">
-            </a> -->
+            </a>
 
           </div>
 
@@ -793,7 +793,7 @@
 
                             <a class="dropdown-item">Mark all as unread</a>
                       -->
-                            <!-- Board width
+                      <!-- Board width
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Width</h6>
                             <a class="dropdown-item" @click="board.thin = !board.thin">Normal</a>
@@ -801,7 +801,7 @@
                             <a class="dropdown-item" @click="board.thin = !board.thin">Collapsed</a>
                             -->
 
-                            <!-- Board coloring
+                      <!-- Board coloring
                             <div class="dropdown-divider"></div>
                             <h6 class="dropdown-header">Board Color</h6>
                             <div class="radio-cont">
@@ -822,13 +822,13 @@
                             </div>
                             -->
 
-                            <!-- Board controls
+                      <!-- Board controls
                             <div class="dropdown-divider"></div>
                             <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
                               <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                             -->
 
-                            <!-- Board move to space
+                      <!-- Board move to space
                             <a class="dropdown-item space-change">
                               Show in spaces:
                               <div class="space-select">
@@ -1188,7 +1188,9 @@
               <!--!------------------------------------------------------------->
               <!-- ? Contact Information (probably move this to message header and replace with reply, reply all, etc) -->
               <!--!------------------------------------------------------------->
-              <div class="secondary-head mh240" v-if="thread.participants.length > 0">
+
+              <!-- TODO: once we add related threads to sidebar, make sure to remove "-temp" to class below -->
+              <div class="secondary-head mh240-temp" v-if="thread.participants.length > 0">
                 <h3>Participants</h3>
                 <div class="container">
 
