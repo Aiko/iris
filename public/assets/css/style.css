@@ -1508,8 +1508,9 @@ a.main-action:hover {
 }
 
 .search img {
-  width: 21px;
-  margin-top: -1px;
+width: 21px;
+    margin-top: 4px;
+    float: left;
 }
 
 .sidebar .search {
@@ -1542,7 +1543,7 @@ a.main-action:hover {
 }
 
 .search input {
-  width: calc(100% - 21px);
+  width: calc(100% - 100px);
   border-radius: 5px;
   border: none;
   color: var(--dark-text);
@@ -1552,7 +1553,6 @@ a.main-action:hover {
   height: 28px;
   background: var(--secondary-bg-color);
   contain: unset;
-  float: right;
 }
 
 .search input::placeholder {
@@ -1757,6 +1757,7 @@ hr {
   overflow: scroll;
   opacity: .8;
   transition: .2s;
+      box-shadow: inset 0 0 7px 1px rgb(0 0 0 / 11%);
 }
 
 .fromto-info:hover {
@@ -4352,7 +4353,7 @@ input:checked+.slider:before {
 }
 
 .searchtip {
-  margin-top: -18px;
+  margin-top: -23px;
   position: absolute;
   right: 0;
   color: var(--main-text-color);
@@ -4604,4 +4605,55 @@ input:checked+.slider:before {
 
 .adjuster+h1 {
   margin-left: -30px;
+}
+.board-width-picker {
+  width: 76px;
+  box-shadow: 0 0 10px #00000078 !important;
+  height: 22px;
+  background: var(--main-bg-color);
+  border-radius: 5px;
+  margin-top: -25px;
+  display: inline-flex;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.board-width-trigger .board-width-picker {
+  visibility: hidden;
+}
+
+.board-width-trigger:hover .board-width-picker {
+  visibility: visible;
+}
+
+.board-width-picker div {
+  background: var(--secondary-bg-color);
+  box-shadow: inset 0 0 3px 1px rgb(0 0 0 / 11%);
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 3px;
+}
+
+.board-width-picker div:hover {
+  background-color: var(--main-text-color);
+  transition: .2s;
+}
+
+.board-width-picker div:nth-child(1) {
+  width: 30px;
+  margin-left: 3px;
+}
+
+.board-width-picker div:nth-child(2) {
+  width: 19px;
+  margin-left: 4px;
+}
+
+.board-width-picker div:nth-child(3) {
+  width: 13px;
+  margin-left: 4px;
+}
+.regular .single-email{
+  height: 100%;
 }

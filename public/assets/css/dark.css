@@ -48,11 +48,11 @@
 
 .inbox-switch .inbox2 {
   box-shadow: none;
+      padding-top: 0 !important;
 }
 
 .inbox-switch .inbox1 {
   box-shadow: none;
-  padding-top: 2px !important;
 }
 
 .attachment {
@@ -69,7 +69,7 @@
 }
 
 .inbox-switch .inbox2 {
-  padding-top: 2px !important;
+      padding-top: 0 !important;
 }
 
 .space:hover {
@@ -233,6 +233,10 @@ li[data-done="true"]>.todo-checkbox {
 
 .fromto-info {
   box-shadow: inset 0 0 20px 1px rgb(0 0 0 / 38%);
+}
+
+.board-width-picker div {
+  box-shadow: none !important;
 }
 
 .email {
