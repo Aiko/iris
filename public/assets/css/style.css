@@ -1681,7 +1681,7 @@ hr {
   width: 300px;
   border-radius: 5px 5px 0 0;
   height: 100%;
-  margin-right: 20px;
+  margin-right: 10px;
   position: relative;
   contain: size layout;
 }
@@ -2464,21 +2464,38 @@ hr {
 
 .thinnest {
   width: 30px;
-  overflow: hidden;
+  overflow: visible;
+      margin-right: 10px !important;
 }
 
 .thinnest .cll {
   display: none;
 }
-
-.thinnest h1 {
-  writing-mode: vertical-rl;
-  padding: 0 0 0 17px;
-  transition: .2s;
+.thinnest .empty{
+  display: none;
 }
-
+.thinnest h1 {
+writing-mode: vertical-rl;
+    padding: 15px 24px 0 24px;
+    margin-top: -15px;
+    transition: .2s;
+    text-align: left;
+    height: 155px !important;
+}
+.thinnest .board-width-picker{
+      position: absolute;
+    z-index: 11111;
+    writing-mode: horizontal-tb;
+    margin-left: 6px;
+}
+.thinnest .secondary-count{
+  display: none;
+}
 .thinnest .email .container {
   visibility: hidden;
+}
+.thinnest .archive{
+  display: none;
 }
 
 .thinnest .board-body {
