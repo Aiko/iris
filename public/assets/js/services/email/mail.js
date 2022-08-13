@@ -57,6 +57,12 @@ const SyncLock = (() => {
   }
 })
 
+const BoardWidth = {
+  REGULAR: "regular",
+  THIN: "thin",
+  NARROW: "narrow"
+}
+
 const mailapi = {
   data: {
     //? the engine model
@@ -419,7 +425,7 @@ const mailapi = {
         const path = boards.paths[slug]
         this.boards.push({
           name: slug,
-          thin: false,
+          width: BoardWidth.REGULAR,
           path,
           tids: []
         })
@@ -441,7 +447,8 @@ const mailapi = {
       boardMetadata.map(board => {
         const index = this.boards.findIndex(b => b.name == board.name)
         if (index > -1) {
-          this.boards[index].thin = board.thin
+          // TODO: in next release, remove migration logic
+          this.boards[index].width = board.width || (board.thin ? BoardWidth.THIN : BoardWidth.REGULAR)
           this.boards[index].tids = board.tids
           info(...MAILAPI_TAG, "Restored board metadata:", board)
         }
@@ -639,7 +646,7 @@ const mailapi = {
       //? create a UI element for it
       this.boards.push({
         name: slug,
-        thin: false,
+        width: BoardWidth.REGULAR,
         path,
         tids: []
       })
@@ -674,7 +681,7 @@ const mailapi = {
         //? if it doesn't exist locally we need to create the UI element for it
         this.boards.push({
           name: slug,
-          thin: false,
+          width: BoardWidth.REGULAR,
           path: boards.paths[slug],
           tids: []
         })

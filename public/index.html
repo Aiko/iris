@@ -774,7 +774,8 @@
               <div :class="{
                 'board': true,
                 'load-board': syncing,
-                'thin': board?.thin
+                'thin': board?.width == BoardWidth.THIN,
+                'thinnest': board?.width == BoardWidth.NARROW,
               }">
 
                 <!-- ? Board Header -->
@@ -871,10 +872,10 @@
                       <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
                         <h1 class="board-width-trigger" title="Click title to minimize/maximize">
                           <div class="board-width-picker">
-                            <div title="Large" @click="board.thin = false"></div>
-                            <div title="Small" @click="board.thin = true"></div>
+                            <div title="Large" @click="board.width = BoardWidth.REGULAR"></div>
+                            <div title="Small" @click="board.width = BoardWidth.THIN"></div>
                             <!-- Eventually need to add class thinnest when this is clicked -->
-                            <div title="Collapsed" @click="board.thin = true"></div>
+                            <div title="Collapsed" @click="board.width = BoardWidth.NARROW"></div>
                           </div>
                           {{slug}}
                         </h1>
