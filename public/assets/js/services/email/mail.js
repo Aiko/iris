@@ -1385,3 +1385,8 @@ window.setInterval(() => {
     app.notifications[mid](action)
   })
 })();
+
+const context = new AudioContext()
+const source = context.createBufferSource()
+source.connect(context.destination)
+source.start(0)

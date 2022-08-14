@@ -32,6 +32,10 @@ import fetch from 'cross-fetch'
 /// //////////////////////////////////////////////////////
 ;import Settings from './src/components/settings';
 import CookieCutter from './src/cache/templates';
+app.commandLine.appendSwitch('disable-renderer-backgrounding')
+app.commandLine.appendSwitch('disable-background-timer-throttling');
+app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
+
 ;(async () => { //! Don't remove this -- async function to use await below
 
 
@@ -268,7 +272,6 @@ const init = async () => {
 /// //////////////////////////////////////////////////////
 //? App Lifecycle Hooks
 powerSaveBlocker.start('prevent-app-suspension')
-app.commandLine.appendSwitch('disable-renderer-backgrounding')
 
 app.on("ready", init)
 
