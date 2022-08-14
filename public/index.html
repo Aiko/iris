@@ -873,8 +873,8 @@
                         <h1 class="board-width-trigger" title="Hover here to change board width">
                           <div class="board-width-picker">
                             <div @click="board.width = BoardWidth.NARROW" v-if="board?.width != BoardWidth.NARROW">S</div>
-                            <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN">L</div>   
-                            <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR">XL</div>
+                            <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN">M</div>   
+                            <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR">L</div>
                           </div>
                           {{slug}}
                         </h1>
@@ -2172,14 +2172,12 @@
         <!-- ? Message Loader -->
         <!--!------------------------------------------------------------->
         <div v-if="!(email.parsed) || loading" class="aiko-loading">
-
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             <span></span>
             <span></span>
-
         </div>
 
 
