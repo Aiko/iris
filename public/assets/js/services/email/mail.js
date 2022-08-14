@@ -720,9 +720,6 @@ const mailapi = {
       info(...MAILAPI_TAG, "SYNC OP - synced board metadata")
       let t0 = performance.now()
 
-      const sync = new Audio('./assets/videos/sync.mp3')
-      if (this.imapConfig.user.includes("ruben")) sync.play()
-
       //? compute local cursor
       const cursors = Object.values(this.threads).filter(({ tid }) => this.inbox.includes(tid)).map(({ cursor }) => cursor)
       const cursor = Math.max(...cursors, -1)
