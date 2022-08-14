@@ -471,19 +471,19 @@
       </div>
 
       <!--? Inbox Kanban Boards -->
-      <div class="boards-container">
+      <div class="boards-container" title="">
         <div :class="{
           'boards': true,
           'two-lines': true,
           'regular': (flow.regularView || flow.specialView)
-        }">
+        }" title="">
 
           <!-- ? Inbox Board (special case) -->
           <div :class="{
             'board': true,
             'inbox': true,
             'load-board': syncing
-          }">
+          }" title="">
 
             <!-- ? Header -->
             <div class="board-header">
@@ -569,7 +569,7 @@
 
             <!-- ? Inbox Thread List -->
             <div v-if="!(flow.regularView || flow.specialView)" ref="inboxBoard" @scroll="onScroll" class="board-body"
-              id="step1">
+              id="step1" title="">
 
               <!-- ? Draggable List -->
               <draggable id="aikomail--inbox" v-if="!loading" v-model="inbox" filter=".dont-drag-this"
@@ -768,7 +768,7 @@
             :group="{name: 'boards'}" draggable=".board" ghost-class="ghost" handle=".board-drag-handle"
             :force-fallback="true" :fallback-on-body="true" @end="reorderBoards" :fallback-tolerance="5">
             <!-- ? Board Template -->
-            <board v-for="board in boards" :title="JSON.stringify(resolveBoard(board.name))" :syncing="syncing" :board="resolveBoard(board.name)" :slug="board.name"
+            <board v-for="board in boards" :syncing="syncing" :board="resolveBoard(board.name)" :slug="board.name"
               :seen-filter.camel="seenFilter" inline-template>
 
               <div :class="{
@@ -776,7 +776,7 @@
                 'load-board': syncing,
                 'thin': board?.width == BoardWidth.THIN,
                 'thinnest': board?.width == BoardWidth.NARROW,
-              }">
+              }" title="">
 
                 <!-- ? Board Header -->
                 <div class="board-header board-drag-handle">
@@ -872,9 +872,15 @@
                       <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
                         <h1 class="board-width-trigger" title="Hover here to change board width">
                           <div class="board-width-picker">
+<<<<<<< Updated upstream
                             <div @click="board.width = BoardWidth.NARROW" v-if="board?.width != BoardWidth.NARROW">S</div>
                             <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN">L</div>   
                             <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR">XL</div>
+=======
+                            <div @click="board.width = BoardWidth.NARROW" v-if="board?.width != BoardWidth.NARROW" title="Small board">S</div>
+                            <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN" title="Medium board">M</div>   
+                            <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR" title="Large board">L</div>
+>>>>>>> Stashed changes
                           </div>
                           {{slug}}
                         </h1>
@@ -904,12 +910,12 @@
                       :key="tid" :sort="false" :render="i >= visibleMin && visibleMax >= i"
                       :focused-folder.camel="focused.folder" :focused-index.camel="focused.index"
                       :view-focused.camel="focused.view" :quick-focused.camel="focused.quickReply"
-                      :thread="threads[tid]" :index="i" :slug="slug">
+                      :thread="threads[tid]" :index="i" :slug="slug" title="">
                     </thread-card>
                   </draggable>
 
                   <!-- ? Board Empty Helper Text -->
-                  <div class="empty" v-if="board?.tids?.length == 0">
+                  <div class="empty" v-if="board?.tids?.length == 0" title="Drag email sfrom other boards into this one">
                     <h1>Drag emails here.</h1>
                   </div>
                 </div>

@@ -1694,7 +1694,7 @@ hr {
   cursor: default;
   white-space: nowrap;
   overflow: hidden;
-  padding: 13px;
+  padding: 20px 20px 0 20px;
   text-overflow: ellipsis;
   max-width: calc(100% - 45px);
 }
@@ -2481,17 +2481,16 @@ hr {
 }
 .thinnest h1 {
 writing-mode: vertical-rl;
-    padding: 15px 24px 0 24px;
-    margin-top: -15px;
-    transition: .2s;
-    text-align: left;
-    height: 153px !important;
+  padding: 15px 24px 0 24px;
+  margin-top: -15px;
+  transition: .2s;
+text-align: left;
 }
+
 .thinnest .board-width-picker{
       position: absolute;
     z-index: 11111;
     writing-mode: horizontal-tb;
-    margin-left: 6px;
 }
 .thinnest .secondary-count{
 position: absolute;
@@ -2499,8 +2498,6 @@ position: absolute;
     right: 0;
         padding: 3px 0;
     width: 30px;
-    margin-left: px;
-    margin-bottom: -10px;
     border-radius: 0 0 5px 5px;
         border: 2px solid var(--main-bg-color);
         transition: .2s;
@@ -2527,8 +2524,12 @@ position: absolute;
 .thinnest .board-header{
   background: #f8f9faab;
     border-radius: 5px;
+    height: 185px !important;
+    position: relative;
 }
-
+.thinnest .board-header .row, .thinnest .board-header .container, .thinnest .board-header .exp{
+  position: unset;
+}
 .thinnest .starred {
   padding: 8px 9px 0 10px;
 }
