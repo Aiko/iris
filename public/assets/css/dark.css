@@ -118,11 +118,15 @@ body {
 .center-loader {
   background: var(--main-bg-color) !important;
 }
-
+.add-mailbox .modal-reg img {
+border: none;
+}
 .board .dropdown-menu.show {
   box-shadow: 0 1px 9px #0000006e !important;
 }
-
+.load-board::after{
+  background-color: #434343;
+}
 .board {
   box-shadow: 0 0 15px #00000024;
   background: var(--main-bg-color);
