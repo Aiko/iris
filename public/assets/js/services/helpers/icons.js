@@ -8,6 +8,11 @@ const icon_mgr = {
       if (!def) return path;
       if (this.isDarkMode) return path.replace(icon, def.dark);
       return path.replace(icon, def.light);
+    },
+    resolveIconForExtension(filename) {
+      const ext = filename.split(".").last()
+      const svgIcon = ext2SVGIcon(ext)
+      return this.resolveIcon('assets/icons/' + svgIcon)
     }
   }
 }

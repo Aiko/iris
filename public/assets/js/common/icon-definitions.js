@@ -1,9 +1,4 @@
 const Icons = {
-  ".DS_Store": {
-    base: ".DS_Store",
-    light: ".DS_Store",
-    dark: ".DS_Store"
-  },
   "admin.svg": {
     base: "admin.svg",
     light: "admin-lt.svg",
@@ -48,11 +43,6 @@ const Icons = {
     base: "badges-attach.svg",
     light: "badges-attach-lt.svg",
     dark: "badges-attach.svg"
-  },
-  "searchload.png": {
-    base: "searchload.png",
-    light: "searchload-lt.png",
-    dark: "searchload.png"
   },
   "badges-bcc.svg": {
     base: "badges-bcc.svg",
@@ -111,6 +101,8 @@ const Icons = {
   },
   "brain.svg": {
     base: "brain.svg",
+    light: "brain.svg",
+    dark: "brain.svg"
   },
   "cal.svg": {
     base: "cal.svg",
@@ -132,6 +124,11 @@ const Icons = {
     light: "check-square-lt.svg",
     dark: "check-square.svg"
   },
+  "chevron-up.svg": {
+    base: "chevron-up.svg",
+    light: "chevron-up-lt.svg",
+    dark: "chevron-up.svg"
+  },
   "clipboard.svg": {
     base: "clipboard.svg",
     light: "clipboard-lt.svg",
@@ -142,15 +139,20 @@ const Icons = {
     light: "close-g-lt.png",
     dark: "close-g.png"
   },
+  "close-red.png": {
+    base: "close-red.png",
+    light: "close-red.png",
+    dark: "close-red.png"
+  },
   "code.svg": {
     base: "code.svg",
     light: "code-lt.svg",
     dark: "code.svg"
   },
-    "chevron-up.svg": {
-    base: "chevron-up.svg",
-    light: "chevron-up-lt.svg",
-    dark: "chevron-up.svg"
+  "colorpick.png": {
+    base: "colorpick.png",
+    light: "colorpick-lt.png",
+    dark: "colorpick.png"
   },
   "compose-attach.svg": {
     base: "compose-attach.svg",
@@ -162,10 +164,10 @@ const Icons = {
     light: "compose-send-lt.svg",
     dark: "compose-send.svg"
   },
-  "colorpick.png": {
-    base: "colorpick.png",
-    light: "colorpick-lt.png",
-    dark: "colorpick.png"
+  "download.svg": {
+    base: "download.svg",
+    light: "download.svg",
+    dark: "download.svg"
   },
   "email-schedule.svg": {
     base: "email-schedule.svg",
@@ -181,6 +183,61 @@ const Icons = {
     base: "event-white.svg",
     light: "event-white-lt.svg",
     dark: "event-white.svg"
+  },
+  "exchange.png": {
+    base: "exchange.png",
+    light: "exchange.png",
+    dark: "exchange.png"
+  },
+  "file-archive.svg": {
+    base: "file-archive.svg",
+    light: "file-archive.svg",
+    dark: "file-archive.svg"
+  },
+  "file-audio.svg": {
+    base: "file-audio.svg",
+    light: "file-audio.svg",
+    dark: "file-audio.svg"
+  },
+  "file-code.svg": {
+    base: "file-code.svg",
+    light: "file-code.svg",
+    dark: "file-code.svg"
+  },
+  "file-doc.svg": {
+    base: "file-doc.svg",
+    light: "file-doc.svg",
+    dark: "file-doc.svg"
+  },
+  "file-file.svg": {
+    base: "file-file.svg",
+    light: "file-file.svg",
+    dark: "file-file.svg"
+  },
+  "file-img.svg": {
+    base: "file-img.svg",
+    light: "file-img.svg",
+    dark: "file-img.svg"
+  },
+  "file-pdf.svg": {
+    base: "file-pdf.svg",
+    light: "file-pdf.svg",
+    dark: "file-pdf.svg"
+  },
+  "file-ppt.svg": {
+    base: "file-ppt.svg",
+    light: "file-ppt.svg",
+    dark: "file-ppt.svg"
+  },
+  "file-sheet.svg": {
+    base: "file-sheet.svg",
+    light: "file-sheet.svg",
+    dark: "file-sheet.svg"
+  },
+  "file-video.svg": {
+    base: "file-video.svg",
+    light: "file-video.svg",
+    dark: "file-video.svg"
   },
   "filter-inbox.svg": {
     base: "filter-inbox.svg",
@@ -222,6 +279,11 @@ const Icons = {
     light: "header-user-lt.svg",
     dark: "header-user.svg"
   },
+  "icon.sketch": {
+    base: "icon.sketch",
+    light: "icon.sketch",
+    dark: "icon.sketch"
+  },
   "image.svg": {
     base: "image.svg",
     light: "image-lt.svg",
@@ -261,6 +323,11 @@ const Icons = {
     base: "list.svg",
     light: "list-lt.svg",
     dark: "list.svg"
+  },
+  "minus-red.svg": {
+    base: "minus-red.svg",
+    light: "minus-red.svg",
+    dark: "minus-red.svg"
   },
   "music.svg": {
     base: "music.svg",
