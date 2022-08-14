@@ -407,8 +407,9 @@ const mailapi = {
       this.engine.on('courier-disconnected', async () => {
         warn(...MAILAPI_TAG, "Courier disconnected. Attempting reconnect...")
         this.onIMAPConnectionError()
-        await this.reconnectToMailServer()
-        warn(...MAILAPI_TAG, "Reconnection possible. Attempting sync...")
+        warn(...MAILAPI_TAG, "Forcing fresh engine...")
+        await this.getEngine(force=true)
+        info(...MAILAPI_TAG, "Engine restarted")
         this.engine.sync.immediate()
       })
       info(...MAILAPI_TAG, "Registered Listeners")

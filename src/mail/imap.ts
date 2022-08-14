@@ -56,16 +56,17 @@ export default class Mailman {
 
     if (force) {
       const agent = this.engines[email]
+      this.Log.log("Slaying Agent 86.")
       if (agent) {
         try {
-          await agent.proxy("close")()
-          this.Log.log("Agent 86 has been disposed of.")
+          agent.proxy("close", true)()
         } catch (_) { }
         delete this.engines[email]
+        this.Log.log("Agent 86 has been disposed of.")
       }
     }
 
-    if (this.engines[email]) {
+    if (!force && this.engines[email]) {
       this.Log.log("Agent 86 is already in the field.")
       return this.engines[email].port
     }

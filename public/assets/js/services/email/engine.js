@@ -1,7 +1,15 @@
 //? Client-side engine SockPuppeteer
 
 const Engine = port => {
-  const socket = new WebSocket('ws://localhost:' + port)
+  const socket = (() => {
+    try {
+      return new WebSocket('ws://localhost:' + port)
+    } catch (e) {
+      app.getEngine(force=true)
+      error("Failed to bind to engine.")
+      throw e
+    }
+  })()
   socket.binaryType = 'arraybuffer'
 
   const ensureConnect = () => new Promise((s, _) => {
