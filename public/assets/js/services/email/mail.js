@@ -548,7 +548,7 @@ const mailapi = {
       if (reset) {
         thread.dragging = false
         thread.syncing = false
-        thread.originFolder = thread.folder
+        thread.originFolder = thread.folder || thread.allFolders?.[0] || thread.emails[0]?.folder
         //? compute priority
         thread.priority = (() => {
           for (const email of thread.emails) {
@@ -634,7 +634,7 @@ const mailapi = {
     //? reprocess all threads
     async reprocessThreads () {
       for (const tid of Object.keys(this.threads)) {
-        this.saveThread(this.threads[tid], false)
+        this.saveThread(this.threads[tid], true)
       }
       await Satellite.store(this.currentMailbox + ":threads", this.threads)
     },
