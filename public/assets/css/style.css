@@ -2078,7 +2078,6 @@ hr {
   margin-bottom: 0 !important;
 }
 
-
 .list-item {
   display: inline-block;
   margin-right: 10px;
@@ -2117,6 +2116,7 @@ hr {
   animation: loadBoard 3s infinite ease-in-out;
   width: 0;
   margin-left: -1px;
+  background-color: #ffffffba;
   height: 1px;
   left: 0;
   z-index: -1;
@@ -2984,7 +2984,6 @@ select.v1 {
   }
 }
 
-
 @media all and (max-width:768px) {
   .sidebar {
     width: 45px !important;
@@ -3431,13 +3430,11 @@ unselectable {
 }
 
 .add-mailbox .modal-reg img {
-  width: 100%;
-  max-width: 190px;
-  border: solid 1px #e4e4e4;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  padding: 5px 30px;
-  background: #fff;
+    width: 100%;
+    max-width: 190px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 4px solid var(--secondary-bg-color);
 }
 
 .add-2 {
