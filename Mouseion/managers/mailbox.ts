@@ -246,7 +246,7 @@ export default class Mailbox {
         _this.Log.success("Sync completed.")
         _this.trigger("sync-finished")
       } catch(e) {
-        _this.Log.error(e)
+        _this.Log.error("Mailbox sync error:", e)
       }
 
       _this.queuedSync = setTimeout(_this.run, _this.SYNC_INTERVAL)

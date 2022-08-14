@@ -51,9 +51,10 @@ export default class PostOffice {
     return new Promise(async s => {
       this.Log.log("Closing client...")
       if (!this.client) return this.Log.warn("Tried to close a client but the client does not exist/has already been closed")
+      let closed = false
 
       setTimeout(() => {
-        this.Log.error("A client exists but could not be closed (TIMEOUT). There is a risk of a memory leak occurring.")
+        if (!closed) this.Log.error("A client exists but could not be closed (TIMEOUT). There is a risk of a memory leak occurring.")
         s(true)
       }, 30 * 1000)
 
@@ -63,6 +64,7 @@ export default class PostOffice {
         return s(false)
       }
       this.client = null
+      closed = true
       this.Log.success("Client closed.")
       return s(true)
     })

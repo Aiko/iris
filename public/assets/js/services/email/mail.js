@@ -350,6 +350,7 @@ const mailapi = {
     //* PRECONDITION: assumes imapConfig is your new mailbox
     //! CAUTION: this will switch the entire mailbox, UI-wise.
     async switchMailServer () {
+      const _this = this
       //? grab the lock on loader
       const controlsLoader = !(this.loading)
       if (controlsLoader) this.loading = true
@@ -403,7 +404,13 @@ const mailapi = {
       })
       this.engine.on('sync-finished', this.syncOp)
       this.engine.on('auth-failed', this.forceOAuthRefresh)
-      this.engine.on('courier-disconnected', this.onIMAPConnectionError)
+      this.engine.on('courier-disconnected', async () => {
+        warn(...MAILAPI_TAG, "Courier disconnected. Attempting reconnect...")
+        this.onIMAPConnectionError()
+        await this.reconnectToMailServer()
+        warn(...MAILAPI_TAG, "Reconnection possible. Attempting sync...")
+        this.engine.sync.immediate()
+      })
       info(...MAILAPI_TAG, "Registered Listeners")
 
       //? reset the UI

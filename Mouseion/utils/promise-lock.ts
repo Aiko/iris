@@ -41,7 +41,7 @@ export default class Lock {
             console.log("PROMISE LOCK TIMED OUT")
             s(true)
           }
-        }, 30 * 1000)
+        }, 10 * 1000)
         while (this._lock.holder != id) {
           await this._lock.lock;
           fin = true
