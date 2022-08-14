@@ -2057,9 +2057,9 @@ hr {
   height: 185px;
   width: 30px;
   margin-right: 20px;
-  transition: .2s;
   cursor: default;
   box-shadow: 0 0 1px #e8e8e8;
+  transition: .2s;
 }
 
 .add-board img {
@@ -4700,4 +4700,5 @@ width: 17px;
 }
 .regular .single-email{
   height: 100%;
+      margin: 20px 0 0 20px !important;
 }
