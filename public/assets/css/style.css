@@ -11,7 +11,7 @@
   --subject-text-color: #4b5c80;
   --main-border: 1px solid #6e80a517;
   --placeholder-text-color: #6e80a5;
-  --modal-backdrop: #ffffffad;
+  --modal-backdrop: #878787ad;
 }
 
 * {
@@ -419,6 +419,7 @@ img.red:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  margin-top: -20px;
 }
 
 .thin {
@@ -1748,20 +1749,26 @@ hr {
   display: none !important;
 }
 
+.regular .board{
+  margin-right: 20px;
+}
+
 .fromto-info {
   font-size: 13px;
-  padding: 2px 5px;
+  padding: 3px 10px 3px 5px;
   border-radius: 5px;
   margin-bottom: 0;
   margin-left: -3px;
   line-height: 18px;
-  max-width: calc(100% - 150px);
   overflow: scroll;
-  opacity: .8;
+  opacity: .7;
   transition: .2s;
-      box-shadow: inset 0 0 7px 1px rgb(0 0 0 / 11%);
+    background: var(--secondary-bg-color);
+  border: var(--main-border);
 }
-
+.mt4{
+  margin-top: 4px;
+}
 .fromto-info:hover {
   opacity: 1;
   transition: .2s;
@@ -2049,6 +2056,11 @@ hr {
   overflow-y: hidden;
 }
 
+.thinnest .board-header:hover{
+  background: #f8f9fade;
+  transition: .2s;
+}
+
 .add-board {
   background: var(--main-bg-color);
   border-radius: 5px;
@@ -2063,8 +2075,8 @@ hr {
 }
 
 .add-board img {
-  margin-top: 75px;
-  width: 20px;
+  margin-top: 80px;
+  width: 15px;
   filter: brightness(.5);
 }
 
@@ -2255,6 +2267,7 @@ hr {
   transform: translate(-50%, 0%);
   text-align: center;
   white-space: nowrap;
+  color: #fff;
 }
 
 .secondary-email {
@@ -2374,9 +2387,8 @@ hr {
   margin-top: 2px;
   transition: .2s;
 }
-
-.options img:hover {
-  opacity: .8;
+.options img {
+  padding: 1px;
   transition: .2s;
 }
 
@@ -2407,6 +2419,7 @@ hr {
   position: relative;
   overflow: hidden;
   transition: .1s;
+  background-color: #fff;
 }
 
 .email-view-avatar {
@@ -2563,6 +2576,8 @@ position: absolute;
     border-radius: 5px;
     height: 185px !important;
     position: relative;
+        cursor: unset !important;
+    transition: .2s;
 }
 .thinnest .board-header .row, .thinnest .board-header .container, .thinnest .board-header .exp{
   position: unset;
@@ -2716,7 +2731,7 @@ select.v1 {
 
 .options {
   background: transparent;
-  width: 180px;
+  width: 210px;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -2762,12 +2777,12 @@ select.v1 {
 
 .regular .main-email {
   width: 100%;
-  background: transparent;
+  background: var(--secondary-bg-color);
+  border-radius: 5px 0 0 5px;
 }
 
 .regular .long-board {
   display: unset !important;
-  margin-top: -20px;
 }
 
 .regular .board:not(.inbox) {
@@ -2796,11 +2811,9 @@ select.v1 {
 
 .long-board {
   display: none;
-  margin-left: -21px;
   border-radius: 0;
   height: 100%;
-  box-shadow: 0 0 15px #00000024;
-  width: calc(100% - 299px);
+  width: calc(100% - 300px);
   transition: .2s;
 }
 
@@ -4716,6 +4729,6 @@ width: 17px;
     margin-left: 3px;
 }
 .regular .single-email{
-  height: 100%;
-      margin: 20px 0 0 20px !important;
+    margin: 0 0 20px 0;
+    border-radius: 5px 0 0 5px;
 }

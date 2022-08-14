@@ -139,6 +139,12 @@ border: none;
 .thinnest .board-header{
   background: var(--main-bg-color) !important;
     border-radius: 5px;
+        filter: brightness(1);
+    transition: .2s;
+}
+.thinnest .board-header:hover{
+    filter: brightness(1.2);
+    transition: .2s;
 }
 
 .dropdown-menu,
@@ -233,7 +239,9 @@ border: none;
 li[data-done="true"]>.todo-checkbox {
   background-color: #fff !important;
 }
-
+.esc-tip{
+  color: var(--main-text-color);
+}
 
 .todo-checkbox {
   border: 2px solid #fff !important;
@@ -243,9 +251,6 @@ li[data-done="true"]>.todo-checkbox {
   filter: brightness(1.2) !important;
 }
 
-.fromto-info {
-  box-shadow: inset 0 0 20px 1px rgb(0 0 0 / 38%);
-}
 
 .board-width-picker div {
   box-shadow: none !important;
