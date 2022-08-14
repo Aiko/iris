@@ -1223,11 +1223,14 @@
 
               <!--!------------------------------------------------------------->
               <!-- ? Board Change -->
+              <!--TODO: Remove the  Feature coming soon below when added-->
+
               <!--!------------------------------------------------------------->
               <div class="dark-side">
                 <h4>Current board</h4>
                 <select class="aiko-select">
                   <option>{{board}}</option>
+                  <option>Feature coming soon</option>
                 </select>
               </div>
 
@@ -1982,11 +1985,11 @@
                   <!-- ? Message Badges -->
                   <!--!------------------------------------------------------------->
                   <img v-if="email.parsed?.attachments?.length > 0"
-                    :src="$root.resolveIcon('assets/icons/badges-attach.svg')">
-                  <img v-if="email.M.tracker" :src="$root.resolveIcon('assets/icons/badges-tracker.svg')">
+                    :src="$root.resolveIcon('assets/icons/badges-attach.svg')" title="This email has attachments">
+                  <img v-if="email.M.tracker" :src="$root.resolveIcon('assets/icons/badges-tracker.svg')" title="Tracker in this email successfully blocked">
                   <img v-if="email.M.quick_actions.classification == 'calendar_invite'"
                     :src="$root.resolveIcon('assets/icons/badges-event.svg')">
-                  <img v-if="email.M.envelope.bcc.length > 0" :src="$root.resolveIcon('assets/icons/badges-bcc.svg')">
+                  <img v-if="email.M.envelope.bcc.length > 0" :src="$root.resolveIcon('assets/icons/badges-bcc.svg')"  title="You were BCC'ed">
 
                 </div>
                 <div class="col-4 p0">
@@ -1997,7 +2000,7 @@
               <!--!------------------------------------------------------------->
               <!-- ? More Metadata -->
               <!--!------------------------------------------------------------->
-              <div class="row">
+              <div class="row mt4">
                 <h2 class="fromto-info" @click.stop.prevent="showSenderInfo = !showSenderInfo">
 
                   <!--!------------------------------------------------------------->
