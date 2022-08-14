@@ -1683,7 +1683,7 @@ hr {
   width: 300px;
   border-radius: 5px 5px 0 0;
   height: 100%;
-  margin-right: 10px;
+  margin-right: 15px;
   position: relative;
   contain: size layout;
   transition: .2s;
@@ -2517,7 +2517,6 @@ hr {
 .thinnest {
   width: 30px;
   overflow: visible;
-  margin-right: 10px !important;
   border-radius: 5px;
   background: transparent !important;
   box-shadow: none;
