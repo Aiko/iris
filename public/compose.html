@@ -164,7 +164,7 @@
         <!-- TODO: Rig attachments here, and attachment trash button -->
         <div class="attachments" v-if="$root.attachments?.length > 0">
           <div class="attachment" v-for="attachment in $root.attachments">
-            <img :src="$root.resolveIcon('assets/icons/music.svg')">
+            <img :src="$root.resolveIconForExtension(attachment.filename || 'No Filename')">
             <div class="name">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
             <a class="att-action" alt="Preview attachment"><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
