@@ -2073,6 +2073,7 @@ hr {
     height: 180px;
     position: absolute;
     margin-top: 35px;
+    z-index: 10;
     top: 0;
 }
 
