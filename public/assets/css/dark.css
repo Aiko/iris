@@ -349,7 +349,7 @@ li[data-done="true"]>.todo-checkbox {
   background: var(--main-bg-color) !important;
 }
 
-.options img:hover {
+.options a:hover img{
   filter: brightness(2);
   opacity: 1;
   transition: 0.2s;

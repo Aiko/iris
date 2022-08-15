@@ -778,7 +778,7 @@
                 'thinnest': board?.width == BoardWidth.NARROW,
               }" title="">
 
-              <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW"></div>
+              <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW" @click="board.width = BoardWidth.REGULAR"></div>
 
                 <!-- ? Board Header -->
                 <div class="board-header board-drag-handle">
@@ -824,13 +824,11 @@
                                 aria-label="...">
                             </div>
                             -->
-
                       <!-- Board controls
                             <div class="dropdown-divider"></div>
                             <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
                               <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                             -->
-
                       <!-- Board move to space
                             <a class="dropdown-item space-change">
                               Show in spaces:
@@ -2069,7 +2067,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject -->
           <!--!------------------------------------------------------------->
-          <div class="row mw-140">
+          <div class="row mw-160">
             <h3>{{email.M.envelope.subject}}</h3>
           </div>
 
