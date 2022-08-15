@@ -2061,7 +2061,15 @@ hr {
   background: #f8f9fade;
   transition: .2s;
 }
-
+.maxwh{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+  max-height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
 .hoverzone:hover + .board-header{
   background: #f8f9fade !important;
   transition: .2s;

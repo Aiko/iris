@@ -1356,7 +1356,6 @@
               <br><br>
 
               <div v-if="name && validBoard" class="modal-bottom">
-                <!-- TODO: should automatically open the board rules modal for this board -->
                 <a @click="addBoard">Add</a>
               </div>
 
@@ -1457,7 +1456,7 @@
                     <p class="margin-auto text-left">{{rule.condition.display}}</p>
                   </div>
                   <div class="col-3" v-if="!(rule.condition.valid)">
-                    <p class="margin-auto blue text-left">"{{rule.condition.value}}"</p>
+                    <p class="margin-auto blue text-left maxwh">"{{rule.condition.value}}"</p>
                   </div>
                   <div class="col-3" v-else>
                     <select class="aiko-select" v-model="rule.condition.value" disabled>
