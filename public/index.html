@@ -778,6 +778,8 @@
                 'thinnest': board?.width == BoardWidth.NARROW,
               }" title="">
 
+              <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW"></div>
+
                 <!-- ? Board Header -->
                 <div class="board-header board-drag-handle">
                   <div class="container p0">
@@ -866,7 +868,6 @@
                         </div>
                       </div>
                       -->
-
 
                       <!-- ? Board Title (click to thin/thick) change from col-12 to col-8 when we add options -->
                       <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
@@ -1446,6 +1447,7 @@
     <board-rules v-if="flow.showBoardRules" inline-template>
       <div class="aiko-modal" @click.self="close">
         <div class="modal-dialog modal-md mw800">
+          <p class="esc-tip">Click anywhere outside of this window or <b>press ESC</b> to exit</p>
           <div class="modal-content">
             <div class="modal-reg">
               <img :src="$root.resolveIcon('assets/icons/new-board.svg')" width="40" style="margin-bottom: 5px;">
@@ -1582,7 +1584,7 @@
                       </div>
                       <div class="more-conditions">
                         <p>
-                          <img src="assets/icons/boards-add.svg" width="16">
+                          <img src="assets/icons/boards-add.svg" width="10">
                           Add a condition
                         </p>
                         <p class="red">
@@ -2163,8 +2165,8 @@
           <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
             <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
-            <img :src="$root.resolveIcon('assets/icons/music.svg')">
-            <div class="name">{{attachment.filename || 'No Filename'}}</div>
+            <img :src="$root.resolveIconForExtension(attachment.filename || 'No Filename')">
+            <div class="name" @click="previewAttachment(i)">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
             <a @click="downloadAttachment(i)" class="att-action aa1" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/download.svg')"></a>
             <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>

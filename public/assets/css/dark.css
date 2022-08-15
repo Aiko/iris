@@ -147,6 +147,12 @@ border: none;
     transition: .2s;
 }
 
+.hoverzone:hover + .board-header{
+    filter: brightness(1.2);
+   background: var(--main-bg-color) !important;
+    transition: .2s;
+}
+
 .dropdown-menu,
 .dropdown-menu a {
   background-color: var(--main-bg-color) !important;

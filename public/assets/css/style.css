@@ -1751,6 +1751,7 @@ hr {
 
 .regular .board{
   margin-right: 20px;
+  min-width: 300px;
 }
 
 .fromto-info {
@@ -2059,6 +2060,20 @@ hr {
 .thinnest .board-header:hover{
   background: #f8f9fade;
   transition: .2s;
+}
+
+.hoverzone:hover + .board-header{
+  background: #f8f9fade !important;
+  transition: .2s;
+}
+
+.hoverzone{
+  width: 40px;
+    margin-left: -5px;
+    height: 180px;
+    position: absolute;
+    margin-top: 35px;
+    top: 0;
 }
 
 .add-board {
@@ -2567,6 +2582,7 @@ position: absolute;
   padding: 0;
     width: 40px;
     margin-left: -5px;
+    height: 180px;
     margin-top: -150px;
     pointer-events: none;
 }
@@ -3194,6 +3210,7 @@ select.v1 {
   width: 100%;
   padding: 10px 10px 3px 10px;
   background: #fff;
+  margin-bottom: -1px;
 }
 
 .collapsing {
