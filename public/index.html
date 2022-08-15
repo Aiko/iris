@@ -2161,12 +2161,12 @@
         <div class="attachments" v-if="email.parsed.attachments.length > 0">
           <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
-            <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
             <img :src="$root.resolveIconForExtension(attachment.filename || 'No Filename')">
             <div class="name" @click="previewAttachment(i)">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
             <a @click="downloadAttachment(i)" class="att-action aa1" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/download.svg')"></a>
             <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+            <div class="t-loader"><span></span></div>
           </div>
         </div>
 
