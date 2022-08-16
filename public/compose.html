@@ -51,25 +51,15 @@
       <!-- Close ---------------->
     </div>
 
-    <!-- TODO: Rig Message BAR  + would be nice if we can click out of it too like a suggestion box-->
-    <div class="message-bar" v-if="false">
-      <div class="container" style="user-select: none;">
-        <div class="row">
-          <div class="col-12">
+    <!-- TODO: Rig 'Nosubject are u sure?' and 'Save as draft?' when user typed stuff and closed-->
+    <div class="message-bar" style="user-select: none;" v-if="false">
             <h3>This message has no subject.</h3>
             <p>Are you sure you want to send it?</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
+          <div class="text-right">
             <a class="naked"><span> Go back and edit</span></a>
-          </div>
-          <div class="col-sm-6" style="text-align: right; padding: 0;">
             <a><img :src="$root.resolveIcon('assets/icons/compose-send.svg')" width="20" /><span>
                 Send anyway</span></a>
           </div>
-        </div>
-      </div>
     </div>
 
     <!-- START Compose View -->
