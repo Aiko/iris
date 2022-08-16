@@ -4742,16 +4742,13 @@ input:checked+.slider:before {
 
 .board-width-trigger .board-width-picker {
   visibility: hidden;
-  transition: .2s;
 }
 
 .board-width-trigger:hover .board-width-picker {
   visibility: visible;
-  transition: .2s;
 }
 .clicktoexpand:hover .board-width-picker{
     visibility: visible;
-      transition: .2s;
 }
 
 .board-width-picker div {
