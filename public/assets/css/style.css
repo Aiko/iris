@@ -2557,12 +2557,16 @@ writing-mode: vertical-rl;
   padding: 15px 24px 0 24px;
   margin-top: -15px;
   transition: .2s;
+  z-index: 11;
+  position: relative;
+  overflow: visible;
 text-align: left;
 }
 
 .thinnest .board-width-picker{
       position: absolute;
-    z-index: 11111;
+    z-index: 100;
+    margin-left: -10px;
     writing-mode: horizontal-tb;
 }
 .thinnest .secondary-count{
@@ -4732,12 +4736,22 @@ input:checked+.slider:before {
   transform: translate(-50%, 0%);
 }
 
+.board-width-trigger{
+  z-index: 6;
+}
+
 .board-width-trigger .board-width-picker {
   visibility: hidden;
+  transition: .2s;
 }
 
 .board-width-trigger:hover .board-width-picker {
   visibility: visible;
+  transition: .2s;
+}
+.clicktoexpand:hover .board-width-picker{
+    visibility: visible;
+      transition: .2s;
 }
 
 .board-width-picker div {
