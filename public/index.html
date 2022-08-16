@@ -778,10 +778,11 @@
                 'thinnest': board?.width == BoardWidth.NARROW,
               }" title="">
 
-              <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW" @click="board.width = BoardWidth.REGULAR"></div>
+              <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW"></div>
 
                 <!-- ? Board Header -->
                 <div class="board-header board-drag-handle">
+                  <div class="clicktoexpand" @click="board.width = BoardWidth.REGULAR" v-if="board?.width == BoardWidth.NARROW"></div>
                   <div class="container p0">
                     <div class="row">
 
@@ -877,7 +878,7 @@
                           </div>
                           {{slug}}
                         </h1>
-                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in this board" @click="board.width = BoardWidth.REGULAR">
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in this board">
                           {{unread > 99 ? '99+' : unread}}
                         </div>
                         <div v-if="slug == 'Done'" class="archive" title="Trash entire board">

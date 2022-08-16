@@ -2081,7 +2081,7 @@ hr {
     height: 180px;
     position: absolute;
     margin-top: 35px;
-    z-index: 10;
+    z-index: 4;
     top: 0;
 }
 
@@ -2600,8 +2600,17 @@ position: absolute;
     border-radius: 5px;
     height: 185px !important;
     position: relative;
+    z-index: 5;
         cursor: unset !important;
     transition: .2s;
+}
+.clicktoexpand{
+  width: 40px;
+    margin-left: -10px;
+    height: 190px;
+    position: absolute;
+    z-index: 4;
+    top: 0;
 }
 .thinnest .board-header .row, .thinnest .board-header .container, .thinnest .board-header .exp{
   position: unset;
