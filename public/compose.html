@@ -228,7 +228,7 @@
                     Send</span></a>
 
 
-                <label class="switch ml10" title="Track if your email is opened">
+                <label class="switch ml10" title="Add an email tracker to this email">
                   <input type="checkbox" />
                   <span class="slider round eye"></span>
                 </label>
@@ -257,32 +257,51 @@
                   <img :src="$root.resolveIcon('assets/icons/underline.svg')" />
                 </a>
 
-
-                <a :class="{
-                    'comp-btn': true,
-                    'colorpickcontainer' : true,
-                  }">
-                  <input type="color" class="colorpick" title="Change text color"
-                    @input="editor.chain().focus().setColor($event.target.value).run()"
-                    :value="editor.getAttributes('textStyle').color">
-                  <img :src="$root.resolveIcon('assets/icons/colorpick.png')" class="colorpickimg" />
-                </a>
-
-
               </div>
               <div class="comp-sep">
                 <a :class="{
                     'comp-btn': true,
-                  }" @click="$root.attachFiles()">
+                  }" title="Attach a file" @click="$root.attachFiles()">
                   <img :src="$root.resolveIcon('assets/icons/badges-attach.svg')" />
                 </a>
                 <!-- EMOJI  <a class="comp-btn"><img :src="$root.resolveIcon('assets/icons/smile.svg')"></a> -->
               </div>
+              <div class="comp-sep">
+               <a :class="{
+                        
+                        'comp-btn' : true,
+                        'composer-active': editor.isActive('bulletList'),
+                      }" title="Bullet list" @click="editor.chain().focus().toggleBulletList().run()" href="#"><img
+                      :src="$root.resolveIcon('assets/icons/list.svg')" width="20" /></a>
+
+                  <a :class="{
+                        
+                        'comp-btn' : true,
+                        'composer-active': editor.isActive('orderedList'),
+                      }" title="Ordered list" @click="editor.chain().focus().toggleOrderedList().run()" href="#"><img
+                      :src="$root.resolveIcon('assets/icons/list-num.svg')" width="20" /></a>
+
+                  <a :class="{
+                        
+                        'comp-btn' : true,
+                        'composer-active': editor.isActive('taskList'),
+                      }" title="Task list" @click="editor.chain().focus().toggleTaskList().run()" href="#"><img
+                      :src="$root.resolveIcon('assets/icons/check-square.svg')" width="20" /></a>
+                </div>        
+
+
+                  <a :class="{
+                    'comp-btn': true,
+                    
+                    'composer-active': editor.isActive('blockquote'),
+                  }" title="Quote formatting" @click="editor.chain().focus().toggleBlockquote().run()">
+                    <img :src="$root.resolveIcon('assets/icons/q.svg')" />
+                  </a>
 
 
 
               <div class="btn-group dropup">
-                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="More options and extensions">
                   <a href="#" class="comp-btn"><img :src="$root.resolveIcon('assets/icons/chevron-up.svg')" width="20"
                       class="smlicn" /></a>
                 </button>
@@ -312,50 +331,35 @@
                     <img :src="$root.resolveIcon('assets/icons/align-right.svg')" width="20" />
                   </a>
 
-
-
-
                   <a :class="{
                         'dropdown-item': true,
                         'comp-btn' : true,
                         'composer-active': editor.isActive('heading', { level: 3 }),
                       }" @click="editor.chain().focus().toggleHeading({ level: 3 }).run()" href="#"
-                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 16px">Large</span></a>
+                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 16px">Small Title</span></a>
                   <a :class="{
                         'dropdown-item': true,
                         'comp-btn' : true,
                         'composer-active': editor.isActive('heading', { level: 2 }),
                       }" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" href="#"
-                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 18px">Larger</span></a>
+                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 18px">Large Title</span></a>
                   <a :class="{
                         'dropdown-item': true,
                         'comp-btn' : true,
                         'composer-active': editor.isActive('heading', { level: 1 }),
                       }" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" href="#"
-                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 20px">Huge</span></a>
+                    style="padding: 4px 8px !important; margin: auto"><span style="font-size: 20px">Huge Title</span></a>
 
-
-                  <a :class="{
-                        'dropdown-item': true,
-                        'comp-btn' : true,
-                        'composer-active': editor.isActive('bulletList'),
-                      }" @click="editor.chain().focus().toggleBulletList().run()" href="#"><img
-                      :src="$root.resolveIcon('assets/icons/list.svg')" width="20" /></a>
-
-                  <a :class="{
-                        'dropdown-item': true,
-                        'comp-btn' : true,
-                        'composer-active': editor.isActive('orderedList'),
-                      }" @click="editor.chain().focus().toggleOrderedList().run()" href="#"><img
-                      :src="$root.resolveIcon('assets/icons/list-num.svg')" width="20" /></a>
-
-                  <a :class="{
-                        'dropdown-item': true,
-                        'comp-btn' : true,
-                        'composer-active': editor.isActive('taskList'),
-                      }" @click="editor.chain().focus().toggleTaskList().run()" href="#"><img
-                      :src="$root.resolveIcon('assets/icons/check-square.svg')" width="20" /></a>
-
+                                    <a :class="{
+                                      'dropdown-item': true,
+                    'comp-btn': true,
+                    'colorpickcontainer' : true,
+                  }">
+                  <input type="color" class="colorpick" title="Change text color"
+                    @input="editor.chain().focus().setColor($event.target.value).run()"
+                    :value="editor.getAttributes('textStyle').color">
+                  <img :src="$root.resolveIcon('assets/icons/colorpick.png')" class="colorpickimg" />
+                </a>
 
 
                   <a :class="{
@@ -365,19 +369,6 @@
                   }" @click="editor.chain().focus().toggleCodeBlock().run()">
                     <img :src="$root.resolveIcon('assets/icons/code.svg')" />
                   </a>
-
-                  <a :class="{
-                    'comp-btn': true,
-                    'dropdown-item': true,
-                    'composer-active': editor.isActive('blockquote'),
-                  }" @click="editor.chain().focus().toggleBlockquote().run()">
-                    <img :src="$root.resolveIcon('assets/icons/q.svg')" />
-                  </a>
-
-                  <a :class="{
-                        'dropdown-item': true,
-                        'comp-btn' : true,}" href="#"><img @click="maeve" src="assets/icons/brain.svg"
-                      width="20" /></a>
 
                   <a :class="{
                         'dropdown-item': true,
