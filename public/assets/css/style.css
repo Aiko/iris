@@ -2424,6 +2424,10 @@ hr {
   overflow-x: hidden;
 }
 
+.single-email .options-qa{
+  display: none;
+}
+
 .w65 {
   width: 65px;
   transition: .1s;

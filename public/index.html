@@ -2166,7 +2166,7 @@
             <div class="name" @click="previewAttachment(i)">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
             <a @click="downloadAttachment(i)" class="att-action aa1" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/download.svg')"></a>
-            <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+            <a @click="previewAttachment(i)" class="att-action" title="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
             <div class="t-loader"><span></span></div>
           </div>
         </div>
