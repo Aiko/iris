@@ -1828,6 +1828,130 @@ hr {
   display: none;
 }
 
+.show-on-hover{
+  user-select: none;
+    height: 100%;
+    position: absolute;
+    width: 25px;
+    overflow: hidden;
+    background: var(--secondary-bg-color);
+    right: 0;
+    bottom: 0;
+    padding: 20px 0 0 5px;
+    border-radius: 0 5px 5px 0;
+    transition: .2s;
+}
+.show-on-hover:hover{
+  transition: .2s;
+      box-shadow: -20px 0 20px -10px #0000001f;
+      width: 50%;
+}
+.hide-on-hover{
+      writing-mode: vertical-rl;
+    white-space: nowrap;
+    position: absolute;
+    background: var(--secondary-bg-color);
+    width: 25px;
+    left: 0;
+    z-index: 1;
+    top: 0;
+    height: 100%;
+    margin: 0;
+    line-height: unset;
+transition: .2s;
+}
+.support-btn-orange::before{
+    content: "";
+    padding: 0 9px;
+    background: #ffc107;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid var(--secondary-bg-color);
+    margin-right: 5px;
+}
+.support-btn-red::before{
+    content: "";
+    padding: 0 9px;
+    background: #dc3545;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid var(--secondary-bg-color);
+    margin-right: 5px;
+}
+.support-btn::before{
+    content: "";
+    padding: 0 9px;
+    background: var(--main-bg-color);
+    border-radius: 50%;
+    position: relative;
+    margin-right: 5px;
+    border: 2px solid var(--secondary-bg-color);
+}
+.h440{
+      height: 440px;
+}
+.support-container{
+  text-align: left;
+    display: grid;
+    margin-left: 30px;
+}
+.support-btn, .support-btn-orange, .support-btn-red{
+color: var(--main-text-color) !important;
+padding: 4px 6px;
+position: relative;
+transition: .2s;
+}
+
+
+.spex{
+      border-radius: 5px !important;
+    border: 2px solid var(--secondary-bg-color);
+}
+
+.suppcont{
+text-align: left;
+    width: 100%;
+    max-width: 400px;
+    margin-left: 30px;
+}
+    .support-btn-orange:hover{
+    background: #ffc107;
+    color: #5e4804 !important;
+        border-radius: 5px 0 0 5px;
+    padding: 4px 6px;
+    transition: .2s;
+}
+.support-container img{
+  filter: invert(1);
+    position: absolute;
+    left: 0;
+    margin-left: 4px;
+}
+.support-btn-red:hover{
+    background: #dc3545;
+        border-radius: 5px 0 0 5px;
+   color: #58030b !important;
+    padding: 4px 6px;
+    transition: .2s;
+}
+.support-btn:hover{
+    background: var(--main-bg-color);
+        border-radius: 5px 0 0 5px;
+    color: var(--dark-text) !important;
+    padding: 4px 6px;
+    transition: .2s;
+}
+
+
+.hide-on-hover img{
+      width: 18px;
+    margin-bottom: 5px;
+    margin-left: -8px;
+}
+.show-on-hover:hover .hide-on-hover{
+    line-height: 100px;
+transition: .2s;
+}
 .email {
   position: relative;
   background: #fff;
@@ -2415,7 +2539,29 @@ hr {
   padding: 1px;
   transition: .2s;
 }
-
+.version-hov{
+  position: absolute;
+    color: var(--main-color);
+    font-size: 13px;
+    margin-top: 0;
+    background: var(--secondary-bg-color);
+    width: 100%;
+    left: 0;
+    padding: 7px;
+    border-radius: 5px;
+  opacity: 0;
+  transition: .2s;
+  z-index: 1;
+}
+.version-hov-h{
+      z-index: 2;
+    position: relative;
+}
+.version-hov-h:hover~.version-hov{
+      margin-top: -75px;
+      opacity: 1;
+       transition: .2s;
+}
 .single-email {
   background: var(--main-bg-color);
   border-radius: 5px;
@@ -4196,6 +4342,8 @@ input:checked+.slider:before {
   -o-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
 }
+
+
 
 .scheduler {
   z-index: 1;

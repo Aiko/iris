@@ -181,7 +181,10 @@ border: none;
   box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.27);
   transition: 0.4s;
 }
-
+.show-on-hover:hover{
+  transition: .2s;
+      box-shadow: -20px 0px 20px -10px #00000099;
+}
 .inbox-switch {
   border: 2px solid var(--secondary-bg-color);
 }
