@@ -1872,6 +1872,23 @@ transition: .2s;
 .darkcolor{
   color: var(--dark-text) !important;
 }
+.suppbtn{
+  font-weight: 500;
+    background: var(--main-color);
+    color: #fff !important;
+    border-radius: 5px;
+    padding: 4px 7px;
+    transition: .2s;
+}
+.suppbtn img{
+width: 15px;
+    margin-top: -3px;
+    filter: brightness(10);
+}
+.suppbtn:hover{
+    background: var(--main-color-hover);
+    transition: .2s;
+}
 .support-btn-red::before{
     content: "";
     padding: 0 9px;
@@ -1903,12 +1920,6 @@ color: var(--main-text-color) !important;
 padding: 4px 6px;
 position: relative;
 transition: .2s;
-}
-
-
-.spex{
-      border-radius: 5px !important;
-    border: 2px solid var(--secondary-bg-color);
 }
 
 .suppcont{
