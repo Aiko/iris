@@ -1869,6 +1869,9 @@ transition: .2s;
     border: 2px solid var(--secondary-bg-color);
     margin-right: 5px;
 }
+.darkcolor{
+  color: var(--dark-text) !important;
+}
 .support-btn-red::before{
     content: "";
     padding: 0 9px;
