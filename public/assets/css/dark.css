@@ -147,6 +147,12 @@ border: none;
     transition: .2s;
 }
 
+.hoverzone:hover + .board-header{
+    filter: brightness(1.2);
+   background: var(--main-bg-color) !important;
+    transition: .2s;
+}
+
 .dropdown-menu,
 .dropdown-menu a {
   background-color: var(--main-bg-color) !important;
@@ -175,7 +181,10 @@ border: none;
   box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.27);
   transition: 0.4s;
 }
-
+.show-on-hover:hover{
+  transition: .2s;
+      box-shadow: -20px 0px 20px -10px #00000099;
+}
 .inbox-switch {
   border: 2px solid var(--secondary-bg-color);
 }
@@ -343,7 +352,7 @@ li[data-done="true"]>.todo-checkbox {
   background: var(--main-bg-color) !important;
 }
 
-.options img:hover {
+.options a:hover img{
   filter: brightness(2);
   opacity: 1;
   transition: 0.2s;

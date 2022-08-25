@@ -124,9 +124,6 @@
       <p v-if="isLinux" title="Minimize" @click="minimize"></p> <!-- Minimize ------------------------>
       <p v-if="isLinux" title="Full Screen" @click="fullscreen"></p> <!-- Full Screen ------------------------>
 
-      <h5 @click="flow.showDev = true">{{hash.substring(0, 30)}}</h5>
-
-
       <h1 title="Minimize" @click="minimize"><img :src="$root.resolveIcon('assets/icons/top-minimize.png')" width="10">
       </h1>
       <!-- Minimize ---------->
@@ -172,7 +169,7 @@
           }">
 
             <!--? TODO: Home Space - add class="space" to this div when we start doing spaces-->
-            <div  @click.stop.prevent="flow.showInbox = true">
+            <div @click.stop.prevent="flow.showInbox = true">
               <img :src="$root.resolveIcon('assets/icons/sidebar-home.svg')">
               <span>Home <span class="main-count">{{smartUnread}}</span></span>
             </div>
@@ -279,6 +276,13 @@
           <p>Request features and report issues</p>
           <a target="_blank" class="sbtn">Give feedback</a>
         </div>-->
+
+        <div class="announce sc no-mobile">
+          <h1 class="version-hov-h">Version: <span class="blue fw700">BETA</span></h1>
+          <div class="version-hov" @click="flow.showDev = true">{{hash.substring(0, 30)}}</div>
+          <p>Request features and report issues</p>
+          <a class="sbtn" @click="flow.showDev = true" @click="flow.showDev = true">Give feedback</a>
+        </div>
 
         <!--? Footer Section -->
         <div class="row bottom sr3">
@@ -778,8 +782,12 @@
                 'thinnest': board?.width == BoardWidth.NARROW,
               }" title="">
 
+                <div class="hoverzone" v-if="board?.width == BoardWidth.NARROW"></div>
+
                 <!-- ? Board Header -->
                 <div class="board-header board-drag-handle">
+                  <div class="clicktoexpand" @click="board.width = BoardWidth.REGULAR"
+                    v-if="board?.width == BoardWidth.NARROW"></div>
                   <div class="container p0">
                     <div class="row">
 
@@ -822,13 +830,11 @@
                                 aria-label="...">
                             </div>
                             -->
-
                       <!-- Board controls
                             <div class="dropdown-divider"></div>
                             <a v-if="slug != 'Done'" class="dropdown-item">Rename board</a>
                               <a v-if="slug != 'Done'" class="dropdown-item red" style="color: #dc3545 !important">Delete board</a>
                             -->
-
                       <!-- Board move to space
                             <a class="dropdown-item space-change">
                               Show in spaces:
@@ -867,18 +873,21 @@
                       </div>
                       -->
 
-
                       <!-- ? Board Title (click to thin/thick) change from col-12 to col-8 when we add options -->
                       <div class="col-lg-12 text-center p0 exp margin-auto nowrap">
                         <h1 class="board-width-trigger" title="Hover here to change board width">
                           <div class="board-width-picker">
-                            <div @click="board.width = BoardWidth.NARROW" v-if="board?.width != BoardWidth.NARROW" title="Small board">S</div>
-                            <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN" title="Medium board">M</div>   
-                            <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR" title="Large board">L</div>
+                            <div @click="board.width = BoardWidth.NARROW" v-if="board?.width != BoardWidth.NARROW"
+                              title="Small board">S</div>
+                            <div @click="board.width = BoardWidth.THIN" v-if="board?.width != BoardWidth.THIN"
+                              title="Medium board">M</div>
+                            <div @click="board.width = BoardWidth.REGULAR" v-if="board?.width != BoardWidth.REGULAR"
+                              title="Large board">L</div>
                           </div>
                           {{slug}}
                         </h1>
-                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count" title="Unread emails in this board" @click="board.width = BoardWidth.REGULAR">
+                        <div v-if="unread > 0 && slug != 'Done'" class="secondary-count"
+                          title="Unread emails in this board">
                           {{unread > 99 ? '99+' : unread}}
                         </div>
                         <div v-if="slug == 'Done'" class="archive" title="Trash entire board">
@@ -909,7 +918,8 @@
                   </draggable>
 
                   <!-- ? Board Empty Helper Text -->
-                  <div class="empty" v-if="board?.tids?.length == 0" title="Drag email sfrom other boards into this one">
+                  <div class="empty" v-if="board?.tids?.length == 0"
+                    title="Drag email sfrom other boards into this one">
                     <h1>Drag emails here.</h1>
                   </div>
                 </div>
@@ -1357,7 +1367,6 @@
               <br><br>
 
               <div v-if="name && validBoard" class="modal-bottom">
-                <!-- TODO: should automatically open the board rules modal for this board -->
                 <a @click="addBoard">Add</a>
               </div>
 
@@ -1380,72 +1389,80 @@
     <dev-controls v-if="flow.showDev" :delete-cache.camel="deleteCache" inline-template>
       <div style="z-index: 9999" class="aiko-modal" @click.self="close">
         <div class="modal-dialog modal-md">
+          <p class="esc-tip">Click anywhere outside of this window or <b>press ESC</b> to exit</p>
           <div class="modal-content">
-            <div class="modal-reg">
-              <h1>Developer Controls</h1>
-              <a>
-                <img style="max-width: 190px; margin: auto" src="assets/img/logo.svg">
-              </a>
-              <br>
-              <span>IR: {{efficiency}}% ({{time}})</span>
-              <br>
-              <a @click="deleteCache({prefs: true})" class="btn btn-warning">Clear Dwarf Star</a>
-              <br>
-              <br>
-              <a @click="clearLocalCache" class="btn btn-warning">Clear Browser Data</a>
-              <br>
-              <br>
-              <a @click="deleteCache({session: true})" class="btn btn-warning">Clear Iris Cache</a>
-              <br>
-              <br>
-              <a @click="deleteCache({mouseion: true})" class="btn btn-warning">Clear Mouseion</a>
-              <br>
-              <br>
-              <a @click="deleteCache({composer: true, prefs: true, chrome: true, session: true, mouseion: true})"
-                class="btn btn-danger text-white">
-                Clear EVERYTHING
-              </a>
-              <br>
-              <br>
-              <a @click="openMouseion" class="btn btn-light">Open Mouseion</a>
-              <br>
-              <br>
-              <a @click="testIMAP" class="btn btn-dark text-white">Test IMAP Connection</a>
-              <img v-if="imapValid === true" style="filter: invert(1)"
-                :src="$root.resolveIcon('assets/icons/check-circle.svg')">
-              <img v-if="imapValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
-              <br>
-              <br>
-              <a @click="testSMTP" class="btn btn-dark text-white">Test SMTP Connection</a>
-              <img v-if="smtpValid === true" style="filter: invert(1)"
-                :src="$root.resolveIcon('assets/icons/check-circle.svg')">
-              <img v-if="smtpValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
-              <br>
-              <br>
-              <a @click="testConnection" class="btn btn-light">Test Mail Connection</a>
-              <br>
-              <br>
-              <a @click="getLogs" class="btn btn-light">Get Logs</a>
-              <br>
-              <br>
-              <a href="https://airtable.com/shr8vAG7zMOSSBkaZ" target="_blank" class="btn btn-warning">File Support
-                Ticket</a>
-              <br>
-              <br>
-              <br>
+            <div class="modal-reg overflow-h h440">
+              <div class="suppcont">
+                <a>
+                  <img style="max-width: 170px; margin: auto" src="assets/img/bugsn.png">
+                </a>
+                <br><br>
+                <h1><span class="darkcolor">Step 1</span> - Download the "logs" file</h1>
+                <p>Logs are files telling us which errors happen at what time.<br>You can skip this step if this is a
+                  feature request</p>
+                <a @click="getLogs" class="suppbtn"><img src="assets/icons/download.svg"> Download Logs</a>
+                <br><br><br>
+                <h1><span class="darkcolor">Step 2</span> - File a bug report / feature request</h1>
+                <p>This button will open a link in your browser, you can upload the downloaded logs file there</p>
+                <a class="suppbtn" href="https://airtable.com/shr8vAG7zMOSSBkaZ" target="_blank"><img
+                    src="assets/icons/link.svg"> Open
+                  the form</a>
+              </div>
+
+              <div class="show-on-hover" style="user-select: none;">
+                <h1 class="hide-on-hover"> <img :src="$root.resolveIcon('assets/icons/header-settings.svg')"
+                    class="rotating">Show
+                  developer
+                  controls</h1>
+                <a>
+                  <img style="max-width: 170px; margin: auto" src="assets/img/devcon.png">
+                </a>
+                <br><br>
+                <span>IR: {{efficiency}}% ({{time}})</span>
+                <br><br>
+
+
+                <div class="support-container">
+                  <a @click="deleteCache({prefs: true})" class="support-btn-orange">Clear Dwarf Star</a>
+                  <a @click="clearLocalCache" class="support-btn-orange">Clear Browser Data</a>
+                  <a @click="deleteCache({session: true})" class="support-btn-orange">Clear Iris Cache</a>
+                  <a @click="deleteCache({mouseion: true})" class="support-btn-orange">Clear Mouseion</a>
+                  <a @click="deleteCache({composer: true, prefs: true, chrome: true, session: true, mouseion: true})"
+                    class="support-btn-red">
+                    Clear EVERYTHING
+                  </a>
+                  <a @click="openMouseion" class="support-btn">Open Mouseion</a>
+                  <a @click="testIMAP" class="support-btn">Test IMAP Connection
+                    <img v-if="imapValid === true" style="filter: invert(1)"
+                      :src="$root.resolveIcon('assets/icons/check-circle.svg')">
+                    <img v-if="imapValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
+                  </a>
+
+                  <a @click="testSMTP" class="support-btn">Test SMTP Connection
+                    <img v-if="smtpValid === true" style="filter: invert(1)"
+                      :src="$root.resolveIcon('assets/icons/check-circle.svg')">
+                    <img v-if="smtpValid === false" :src="$root.resolveIcon('assets/icons/x-white.svg')">
+                  </a>
+
+                  <a @click="testConnection" class="support-btn">Test Mail Connection</a>
+                </div>
+
+              </div>
             </div>
-            <div class="modal-bottom text-center">
-              <a @click="close">Close</a>
-            </div>
+
           </div>
         </div>
       </div>
     </dev-controls>
 
+
+
+
     <!--? MODAL Board Rules --------------------------------------->
     <board-rules v-if="flow.showBoardRules" inline-template>
       <div class="aiko-modal" @click.self="close">
         <div class="modal-dialog modal-md mw800">
+          <p class="esc-tip">Click anywhere outside of this window or <b>press ESC</b> to exit</p>
           <div class="modal-content">
             <div class="modal-reg">
               <img :src="$root.resolveIcon('assets/icons/new-board.svg')" width="40" style="margin-bottom: 5px;">
@@ -1457,7 +1474,7 @@
                     <p class="margin-auto text-left">{{rule.condition.display}}</p>
                   </div>
                   <div class="col-3" v-if="!(rule.condition.valid)">
-                    <p class="margin-auto blue text-left">"{{rule.condition.value}}"</p>
+                    <p class="margin-auto blue text-left maxwh">"{{rule.condition.value}}"</p>
                   </div>
                   <div class="col-3" v-else>
                     <select class="aiko-select" v-model="rule.condition.value" disabled>
@@ -1544,7 +1561,7 @@
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
-
+                      <!--
                     <div class="row margin-auto existing-rules">
                       <div class="col-1">
                         <p>and</p>
@@ -1557,8 +1574,8 @@
                         </select>
                       </div>
 
-                      <!-- Inside this one will be dynamic depending on previous selection
-                      (text/email/date etc)   --------------------------------------->
+                       Inside this one will be dynamic depending on previous selection
+                      (text/email/date etc)  
                       <div class="col-3" v-if="!(draftCondition.valid)">
                         <input type="text" name="rulesField" v-model="conditionValue" placeholder="...">
                       </div>
@@ -1582,7 +1599,7 @@
                       </div>
                       <div class="more-conditions">
                         <p>
-                          <img src="assets/icons/boards-add.svg" width="16">
+                          <img src="assets/icons/boards-add.svg" width="10">
                           Add a condition
                         </p>
                         <p class="red">
@@ -1591,6 +1608,7 @@
                         </p>
                       </div>
                     </div>
+                    -->
 
 
                   </div>
@@ -2067,7 +2085,7 @@
           <!--!------------------------------------------------------------->
           <!-- ? Subject -->
           <!--!------------------------------------------------------------->
-          <div class="row mw-140">
+          <div class="row mw-160">
             <h3>{{email.M.envelope.subject}}</h3>
           </div>
 
@@ -2162,12 +2180,12 @@
         <div class="attachments" v-if="email.parsed.attachments.length > 0">
           <div :title="attachment.filename || 'No Filename'" class="attachment" v-for="(attachment, i) in email.parsed.attachments" v-if="!(attachment.related)">
             <!-- TODO: map attachment.contentType (MIMEtype) to icon -->
-            <!-- TODO: add name of attachment to title="" tag so they can hover and see full long name -->
             <img :src="$root.resolveIconForExtension(attachment.filename || 'No Filename')">
-            <div class="name">{{attachment.filename || 'No Filename'}}</div>
+            <div class="name" @click="previewAttachment(i)">{{attachment.filename || 'No Filename'}}</div>
             <div class="size">{{attachment.size.toFilesize()}}</div>
             <a @click="downloadAttachment(i)" class="att-action aa1" title="Download attachment" ><img :src="$root.resolveIcon('assets/icons/download.svg')"></a>
-            <a @click="previewAttachment(i)" class="att-action" alt="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+            <a @click="previewAttachment(i)" class="att-action" title="Preview attachment" ><img :src="$root.resolveIcon('assets/icons/track.svg')"></a>
+            <div class="t-loader"><span></span></div>
           </div>
         </div>
 
