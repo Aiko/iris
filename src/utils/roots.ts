@@ -90,7 +90,7 @@ export default class Roots {
     })()
     const log_dest = `${downloadFolder}/aiko-mail-${this.id}.log`
     await fs.promises.copyFile(`${this.storage.dir}/${this.id}.log`, log_dest)
-    await shell.showItemInFolder(log_dest)
+    await shell.showItemInFolder(path.normalize(log_dest))
   }
 
 }
