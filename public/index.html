@@ -94,28 +94,15 @@
         </div>
       </h2>
 
-      <button type="button" class="btn btn-primary wv" style="display: none;">
+      <a type="button" class="btn btn-primary wv" href="https://aikomail.com/intro" target="_blank">
         Watch a demo
-      </button>
-      <p class="wv" style="display: none;">Get familiar with Aiko Mail while you wait.</p>
+      </a>
+      <p class="wv">Get familiar with Aiko Mail while you wait.</p>
+      <!--
       <div class="demovid" v-if="firstTime">
         <video class="demovid" controls src="https://aikomail.com/img/demo.mp4" playsinline></video>
       </div>
-      <!-- Modal -->
-      <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-              <p style="margin-bottom: 0;">You can skip this video once we're done setting up your
-                mailbox.</p>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Skip Video</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      -->
     </div>
 
     <!--? Control Bar -->
@@ -1106,7 +1093,7 @@
       </div>
     </div>
 
-    <!--? MODAL Tutorial Video -->
+    <!--
     <tutorial-modal v-if="false && firstTime" inline-template>
       <div class="aiko-modal">
         <div class="modal-dialog modal-md">
@@ -1114,7 +1101,6 @@
             <div class="modal-reg">
               <h1>Welcome to Aiko Mail</h1>
               <h2>Watch this tutorial to get started!</h2>
-              <!-- TODO: change this to tutorial video once we have one -->
               <video class="demovid" controls src="https://aikomail.com/img/demo.mp4" playsinline>
             </div>
             <br><br>
@@ -1125,6 +1111,7 @@
         </div>
       </div>
     </tutorial-modal>
+    ? MODAL Tutorial Video -->
 
     <!--!------------------------------------------------------------->
     <!-- ? Datepicker for Schedule Quick Action -->
@@ -1561,7 +1548,7 @@
                         <a class="blue margin-auto text-right">Add</a>
                       </div>
                     </div>
-                      <!--
+                    <!--
                     <div class="row margin-auto existing-rules">
                       <div class="col-1">
                         <p>and</p>
