@@ -239,6 +239,11 @@ export class DB {
         timestampData: true
       })
     }
+    this.stores.Message.ensureIndexAsync({ fieldName: "mid" })
+    this.stores.Thread.ensureIndexAsync({ fieldName: "tid" })
+    this.stores.Contact.ensureIndexAsync({ fieldName: "email" })
+    this.stores.Message.ensureIndexAsync({ fieldName: "tid" })
+    this.stores.Contact.ensureIndexAsync({ fieldName: "name" })
     autoBind(this)
   }
 
@@ -500,8 +505,8 @@ export const getLocation = (locations: MessageLocation[], folder: string): Messa
 }
 
 export interface MessageModel {
-  mid: string
-  tid: string
+  mid: string //? Index; unique=true
+  tid: string //? Index
   seen: boolean
   starred: boolean
   subject: string
@@ -846,7 +851,7 @@ export interface ThreadModel {
   //! ^ as long as sync interval > 3s it'll take 20+ years for this to be outdated
   folder: string //? core folder for thread
   allFolders: string[] //? other folders for thread
-  tid: string
+  tid: string //? Index; unique=true
   participants: EmailParticipantModel[]
   audit_log: string[]
 }
@@ -1224,8 +1229,8 @@ class Thread implements ThreadModel {
 }
 
 export interface ContactModel {
-  name: string
-  email: string
+  name: string //? Index
+  email: string //? Index; unique=true
   sent: number
   received: number
   lastSeen: Date
