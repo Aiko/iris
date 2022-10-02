@@ -1,4 +1,4 @@
-import { MessageID } from "../post-office/types";
+import type { MessageID } from "@Mouseion/post-office/types";
 
 export default interface MessageQueue {
   readonly pending: MessageID[]

@@ -9,19 +9,21 @@
 //?          is present in that board/inbox. (Generally used for board unity)
 //! Note: Phase 2 and 3 are NOT successive, and their queues are fulfilled by Phase 1.
 
-import Custodian from "../managers/cleaners";
-import Folders from "../managers/folders";
-import Register from "../managers/register";
-import { getLocation, MessageModel } from "../pantheon/pantheon";
-import { PantheonProxy } from "../pantheon/puppeteer";
-import { PostOfficeProxy } from "../post-office/puppeteer";
-import { IMAPConfig, MessageID, SearchQuery } from "../post-office/types";
-import BoardRulesQueue from "../queues/board-rules";
-import ContactsQueue from "../queues/contacts";
-import Janitor from "../utils/cleaner";
-import { Logger, LumberjackEmployer } from "../utils/logger";
-import Operator from "./operator";
-import { EmailWithReferences } from "../utils/types";
+import type Custodian from "@Mouseion/managers/cleaners";
+import type Folders from "@Mouseion/managers/folders";
+import type Register from "@Mouseion/managers/register";
+import type { MessageModel } from "@Mouseion/pantheon/pantheon";
+import { getLocation } from "@Mouseion/pantheon/pantheon";
+import type { PantheonProxy } from "@Mouseion/pantheon/puppeteer";
+import type { PostOfficeProxy } from "@Mouseion/post-office/puppeteer";
+import type { IMAPConfig, MessageID } from "@Mouseion/post-office/types";
+import { SearchQuery } from "@Mouseion/post-office/types";
+import type BoardRulesQueue from "@Mouseion/queues/board-rules";
+import type ContactsQueue from "@Mouseion/queues/contacts";
+import type Janitor from "@Mouseion/utils/cleaner";
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger";
+import type Operator from "@Mouseion/actors/operator";
+import type { EmailWithReferences } from "@Mouseion/utils/types";
 import autoBind from 'auto-bind'
 
 export default class Tailor {

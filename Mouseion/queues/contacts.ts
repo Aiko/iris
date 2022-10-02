@@ -1,13 +1,12 @@
-import Folders from "../managers/folders";
-import Register from "../managers/register";
-import { getLocation } from "../pantheon/pantheon";
-import { PantheonProxy } from "../pantheon/puppeteer";
-import { IMAPConfig, MessageID } from "../post-office/types";
+import type Folders from "@Mouseion/managers/folders";
+import type Register from "@Mouseion/managers/register";
+import { getLocation } from "@Mouseion/pantheon/pantheon";
+import type { PantheonProxy } from "@Mouseion/pantheon/puppeteer";
+import type { IMAPConfig, MessageID } from "@Mouseion/post-office/types";
 import Janitor from "../utils/cleaner";
-import { Logger, LumberjackEmployer } from "../utils/logger";
-import Operator from "../actors/operator";
-import { EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
-import MessageQueue from "./MessageQueue";
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger";
+import type { EmailWithEnvelope } from "@Mouseion/utils/types";
+import type MessageQueue from "@Mouseion/queues/MessageQueue";
 import autoBind from "auto-bind";
 
 export default class ContactsQueue implements MessageQueue {

@@ -1,20 +1,22 @@
 //? Resolves database models to their cache equivalents
 
-import Custodian from "../managers/cleaners";
-import Folders from "../managers/folders";
-import Register from "../managers/register";
-import { getLocation, MessageLocation, MessageModel, ThreadModel } from "../pantheon/pantheon";
-import { PantheonProxy } from "../pantheon/puppeteer";
-import { PostOfficeProxy } from "../post-office/puppeteer";
-import { EmailWithEnvelopeRaw, MessageID } from "../post-office/types";
-import Janitor from "../utils/cleaner";
-import do_in_batch from "../utils/do-in-batch";
-import { Logger, LumberjackEmployer } from "../utils/logger";
-import sequence from "../utils/sequence";
-import { EmailBase, EmailFull, EmailWithEnvelope, EmailWithReferences } from "../utils/types";
-import Tailor from "./tailor";
+import type Custodian from "@Mouseion/managers/cleaners";
+import type Folders from "@Mouseion/managers/folders";
+import type Register from "@Mouseion/managers/register";
+import { getLocation } from "@Mouseion/pantheon/pantheon"
+import type { MessageLocation, MessageModel, ThreadModel } from "@Mouseion/pantheon/pantheon";
+import type { PantheonProxy } from "@Mouseion/pantheon/puppeteer";
+import type { PostOfficeProxy } from "@Mouseion/post-office/puppeteer";
+import type { EmailWithEnvelopeRaw, MessageID } from "@Mouseion/post-office/types";
+import Janitor from "@Mouseion/utils/cleaner";
+import do_in_batch from "@Mouseion/utils/do-in-batch";
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger";
+import sequence from "@Mouseion/utils/sequence";
+import type { EmailBase, EmailFull, EmailWithEnvelope, EmailWithReferences } from "@Mouseion/utils/types";
 import autoBind from 'auto-bind'
 import { performance } from "perf_hooks"
+
+
 export default class Resolver {
 
   private readonly Log: Logger

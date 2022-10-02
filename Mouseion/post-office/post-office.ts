@@ -1,13 +1,29 @@
-import batchMap from '../utils/do-in-batch'
-import { Logger } from '../utils/logger'
-import sleep from '../utils/sleep'
-
+import batchMap from '@Mouseion/utils/do-in-batch'
+import type { Logger } from '@Mouseion/utils/logger'
+import sleep from '@Mouseion/utils/sleep'
 const EmailJS = require('emailjs-imap-client')
 const Client = EmailJS.default
 const simpleParser = require('mailparser').simpleParser
 import autoBind from 'auto-bind'
-
-import { AttachmentRaw, CopyUID, CopyUIDSetRaw, EmailParsedRaw, EmailRaw, EmailRawBase, EmailRawWithEnvelope, EmailRawWithFlags, EmailRawWithHeaders, FlagsMod, FolderDetails, FolderMetadata, IMAPConfig, MoveUID, RawEmail, SearchQuery, SearchQueryRaw } from './types'
+import type {
+  AttachmentRaw,
+  CopyUIDSetRaw,
+  EmailRaw,
+  EmailRawBase,
+  EmailRawWithEnvelope,
+  EmailRawWithFlags,
+  EmailRawWithHeaders,
+  FlagsMod,
+  FolderDetails,
+  FolderMetadata,
+  IMAPConfig,
+  RawEmail,
+  SearchQueryRaw
+} from '@Mouseion/post-office/types'
+import {
+  CopyUID,
+  MoveUID
+} from '@Mouseion/post-office/types'
 
 type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)
 

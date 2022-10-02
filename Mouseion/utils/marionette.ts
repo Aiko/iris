@@ -1,7 +1,7 @@
 import WebSocket from 'ws'
 import net from 'net'
-import Forest from './logger'
-import { LumberjackEmployer, Logger } from './logger'
+import Forest from '@Mouseion/utils/logger'
+import type { LumberjackEmployer, Logger } from '@Mouseion/utils/logger'
 import autoBind from 'auto-bind'
 const forest: Forest = new Forest('logs-marionette')
 const Lumberjack: LumberjackEmployer = forest.Lumberjack

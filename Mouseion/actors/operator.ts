@@ -1,18 +1,19 @@
-import Tailor from "./tailor"
-import Custodian from "../managers/cleaners"
-import Folders from "../managers/folders"
-import Register from "../managers/register"
-import { MessageModel } from "../pantheon/pantheon"
-import { PantheonProxy } from "../pantheon/puppeteer"
-import { PostOfficeProxy } from "../post-office/puppeteer"
-import { CopyUID, MoveUID, SearchQuery } from "../post-office/types"
-import { Logger, LumberjackEmployer } from "../utils/logger"
-import retry from "../utils/retry"
-import Storage from "../utils/storage"
+import type Tailor from "@Mouseion/actors/tailor"
+import type Custodian from "@Mouseion/managers/cleaners"
+import type Folders from "@Mouseion/managers/folders"
+import type Register from "@Mouseion/managers/register"
+import type { MessageModel } from "@Mouseion/pantheon/pantheon"
+import type { PantheonProxy } from "@Mouseion/pantheon/puppeteer"
+import type { PostOfficeProxy } from "@Mouseion/post-office/puppeteer"
+import { CopyUID, MoveUID, SearchQuery } from "@Mouseion/post-office/types"
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger"
+import type Storage from "@Mouseion/utils/storage"
 import autoBind from 'auto-bind'
-import sequence from "../utils/sequence"
-import do_in_batch from "../utils/do-in-batch"
-import Resolver from "./resolver"
+import sequence from "@Mouseion/utils/sequence"
+import do_in_batch from "@Mouseion/utils/do-in-batch"
+import type Resolver from "@Mouseion/actors/resolver"
+
+
 export default class Operator {
   private readonly Log: Logger
   private readonly pantheon: PantheonProxy
@@ -24,7 +25,7 @@ export default class Operator {
   private readonly tailor: Tailor
   private readonly resolver: Resolver
 
-  constructor(private readonly Registry: Register, {
+  constructor(Registry: Register, {
     auto_increment_cursor=false,
     internal_use=false
   } ={}) {

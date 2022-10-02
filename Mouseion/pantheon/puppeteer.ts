@@ -1,11 +1,11 @@
 import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
-import Register from '../managers/register'
-import { LumberjackEmployer, Logger } from '../utils/logger'
+import type Register from '@Mouseion/managers/register'
+import type { LumberjackEmployer, Logger } from '@Mouseion/utils/logger'
 import * as Pantheon from './pantheon'
 import autoBind from 'auto-bind'
-import { IMAPConfig } from '../post-office/types'
+import type { IMAPConfig } from '@Mouseion/post-office/types'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,

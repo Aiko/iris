@@ -1,7 +1,7 @@
-import { PostOfficeProxy } from "../post-office/puppeteer"
-import { FolderMetadata } from "../post-office/types"
-import { Logger, LumberjackEmployer } from "../utils/logger"
-import Register from "./register"
+import type { PostOfficeProxy } from "@Mouseion/post-office/puppeteer"
+import type { FolderMetadata } from "@Mouseion/post-office/types"
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger"
+import type Register from "@Mouseion/managers/register"
 import autoBind from 'auto-bind'
 
 type SpecialFolder =

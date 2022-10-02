@@ -2,9 +2,9 @@ import autoBind from 'auto-bind'
 import 'colors'
 import crypto from 'crypto'
 import path from 'path'
-import Storage from './storage'
+import Storage from '@Mouseion/utils/storage'
 import WebSocket from 'ws'
-import sleep from './sleep'
+import sleep from '@Mouseion/utils/sleep'
 import { performance } from 'perf_hooks'
 
 /** Generates a string timestamp of the current date/time */

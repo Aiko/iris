@@ -1,10 +1,19 @@
 import crypto from 'crypto'
-import fs2 from 'fs-extra'
 import path from 'path'
 import Datastore from '@seald-io/nedb'
-import Storage from '../utils/storage'
-import Forest, { Logger, LumberjackEmployer } from '../utils/logger'
-import { CacheLevels, EmailBase, EmailFull, EmailParticipant, EmailParticipantModel, EmailWithEnvelope, EmailWithReferences, MouseionAttachment, MouseionParsed } from '../utils/types'
+import Storage from '@Mouseion/utils/storage'
+import type { Logger  } from '@Mouseion/utils/logger'
+import type {
+  CacheLevels,
+  EmailBase,
+  EmailFull,
+  EmailParticipant,
+  EmailParticipantModel,
+  EmailWithEnvelope,
+  EmailWithReferences,
+  MouseionAttachment,
+  MouseionParsed
+} from '@Mouseion/utils/types'
 import autoBind from 'auto-bind'
 
 const SAVE_AUDIT_LOG_TO_DB = false;

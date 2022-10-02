@@ -1,6 +1,6 @@
-import Engine from './engine';
-import { IMAPConfig } from './post-office/types';
-import Marionette from './utils/marionette'
+import Engine from '@Mouseion/engine';
+import type { IMAPConfig } from '@Mouseion/post-office/types';
+import Marionette from '@Mouseion/utils/marionette'
 
 if (!process.send) console.error("Process was spawned without IPC and is now likely in a BAD state.")
 

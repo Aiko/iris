@@ -1,12 +1,12 @@
 //? This is a standalone Pantheon IPC server adherent to Aiko SockPuppet standards
 
-import Forest from '../utils/logger'
-import { LumberjackEmployer, Logger } from '../utils/logger'
+import Forest from '@Mouseion/utils/logger'
+import type { LumberjackEmployer, Logger } from '@Mouseion/utils/logger'
 const forest: Forest = new Forest('logs-pantheon')
 const Lumberjack: LumberjackEmployer = forest.Lumberjack
 const Log: Logger = Lumberjack('Pantheon')
 
-import { DB, Cache } from './pantheon'
+import { DB, Cache } from '@Mouseion/pantheon/pantheon'
 
 let cache: Cache;
 let db: DB;

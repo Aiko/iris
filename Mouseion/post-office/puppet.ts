@@ -1,12 +1,12 @@
 //? This is a standalone Post Office IPC server adherent to Aiko SockPuppet standards
 
-import Forest from '../utils/logger'
-import { LumberjackEmployer, Logger } from '../utils/logger'
+import Forest from '@Mouseion/utils/logger'
+import type { LumberjackEmployer, Logger } from '@Mouseion/utils/logger'
 const forest: Forest = new Forest('logs-post-office')
 const Lumberjack: LumberjackEmployer = forest.Lumberjack
 const Log: Logger = Lumberjack('Post Office')
 
-import PostOffice from './post-office'
+import PostOffice from '@Mouseion/post-office/post-office'
 
 const courier = new PostOffice(Log)
 

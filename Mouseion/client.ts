@@ -2,7 +2,7 @@ import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
 import autoBind from 'auto-bind'
-import { IMAPConfig } from './post-office/types'
+import type { IMAPConfig } from '@Mouseion/post-office/types'
 
 type SockPuppeteerWaiterParams = {
   success: boolean,

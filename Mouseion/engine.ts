@@ -1,8 +1,8 @@
 import autoBind from "auto-bind";
-import Mailbox from "./managers/mailbox";
-import { IMAPConfig } from "./post-office/types";
-import { Logger, LumberjackEmployer } from "./utils/logger";
-import sleep from "./utils/sleep";
+import Mailbox from "@Mouseion/managers/mailbox";
+import type { IMAPConfig } from "@Mouseion/post-office/types";
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger";
+import sleep from "@Mouseion/utils/sleep";
 
 //? Mostly the core API
 //! FIXME: this will break stratify until we fix it

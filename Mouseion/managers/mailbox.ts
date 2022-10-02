@@ -1,20 +1,22 @@
-import { IMAPConfig } from "../post-office/types";
-import Register from "./register";
-import Forest from "../utils/logger"
-import { LumberjackEmployer, Logger } from "../utils/logger"
-import Storage from "../utils/storage";
+import type { IMAPConfig } from "@Mouseion/post-office/types";
+import Register from "@Mouseion/managers/register";
+import Forest from "@Mouseion/utils/logger"
+import type { LumberjackEmployer, Logger } from "@Mouseion/utils/logger"
+import Storage from "@Mouseion/utils/storage";
 import path from "path"
-import { PostOfficeProxy } from "../post-office/puppeteer";
-import { Cursor, PantheonProxy } from "../pantheon/puppeteer";
-import Folders from "./folders";
-import Custodian from "./cleaners";
-import ContactsQueue from "../queues/contacts";
-import Tailor from "../actors/tailor";
-import Operator from "../actors/operator";
-import BoardRulesQueue, { BoardRule } from "../queues/board-rules";
-import Resolver from "../actors/resolver";
-import Sync from "../actors/sync";
-import Lock from "../utils/promise-lock";
+import { PostOfficeProxy } from "@Mouseion/post-office/puppeteer";
+import { PantheonProxy } from "@Mouseion/pantheon/puppeteer";
+import type { Cursor } from "@Mouseion/pantheon/puppeteer";
+import Folders from "@Mouseion/managers/folders";
+import Custodian from "@Mouseion/managers/cleaners";
+import ContactsQueue from "@Mouseion/queues/contacts";
+import Tailor from "@Mouseion/actors/tailor";
+import Operator from "@Mouseion/actors/operator";
+import BoardRulesQueue from "@Mouseion/queues/board-rules";
+import type { BoardRule } from "@Mouseion/queues/board-rules";
+import Resolver from "@Mouseion/actors/resolver";
+import Sync from "@Mouseion/actors/sync";
+import Lock from "@Mouseion/utils/promise-lock";
 import autoBind from 'auto-bind'
 
 type Trigger = ((ev: string) => void) | ((ev: string) => Promise<void>)

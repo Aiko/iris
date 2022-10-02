@@ -102,6 +102,6 @@ cache/*
 
 # Compiled TS dist
 **/dist/*
-
+**/build/*
 
 .metals/

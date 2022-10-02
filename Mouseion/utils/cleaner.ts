@@ -23,19 +23,19 @@ import Cheerio from 'cheerio'
 import nlp from 'compromise'
 import AikoAI from 'aikomail-sdk'
 import { performance } from 'perf_hooks'
-import { LumberjackEmployer, Logger } from './logger'
-import Register from '../managers/register'
-import {
+import type { LumberjackEmployer, Logger } from '@Mouseion/utils/logger'
+import type Register from '@Mouseion/managers/register'
+import type {
   AttachmentRaw,
   EmailRaw,
   EmailRawBase,
   EmailRawWithEnvelope,
   EmailRawWithFlags,
   EmailRawWithHeaders
-} from '../post-office/types'
-import {
+} from '@Mouseion/post-office/types'
+import { EmailParticipant } from "@Mouseion/utils/types"
+import type {
   EmailBase,
-  EmailParticipant,
   EmailWithAIMeta,
   EmailWithAttachments,
   EmailWithContent,
@@ -56,14 +56,14 @@ import {
   MouseionReferences,
   MouseionSubscription,
   MouseionSummary
-} from './types'
+} from '@Mouseion/utils/types'
 import { isError } from 'aikomail-sdk/dist/ai/types'
 import autoBind from 'auto-bind'
 
 type runtime = { runs: number, time: number }
 
-import commonActions from './common-actions'
-import Folders from '../managers/folders'
+import commonActions from '@Mouseion/utils/common-actions'
+import type Folders from '@Mouseion/managers/folders'
 
 export default class Janitor {
   private readonly Log: Logger

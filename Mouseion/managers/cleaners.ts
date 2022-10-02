@@ -1,7 +1,7 @@
-import Janitor from "../utils/cleaner"
-import { Logger, LumberjackEmployer } from "../utils/logger"
-import Folders from "./folders"
-import Register from "./register"
+import Janitor from "@Mouseion/utils/cleaner"
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger"
+import type Folders from "@Mouseion/managers/folders"
+import type Register from "@Mouseion/managers/register"
 import autoBind from 'auto-bind'
 
 export default class Custodian {

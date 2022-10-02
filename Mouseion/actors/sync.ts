@@ -1,19 +1,19 @@
 //? Built to spec of RFC 4549
 
-import Custodian from "../managers/cleaners";
-import Folders from "../managers/folders";
-import Register from "../managers/register";
-import { getLocation } from "../pantheon/pantheon";
-import { PantheonProxy } from "../pantheon/puppeteer";
-import { PostOfficeProxy } from "../post-office/puppeteer";
-import do_in_batch from "../utils/do-in-batch";
-import { Logger, LumberjackEmployer } from "../utils/logger";
-import Lock from "../utils/promise-lock";
-import sequence from "../utils/sequence";
-import Storage from "../utils/storage";
-import { EmailWithFlags } from "../utils/types";
-import Tailor from "./tailor";
+import type Custodian from "@Mouseion/managers/cleaners";
+import type Folders from "@Mouseion/managers/folders";
+import type Register from "@Mouseion/managers/register";
+import { getLocation } from "@Mouseion/pantheon/pantheon";
+import type { PantheonProxy } from "@Mouseion/pantheon/puppeteer";
+import type { PostOfficeProxy } from "@Mouseion/post-office/puppeteer";
+import do_in_batch from "@Mouseion/utils/do-in-batch";
+import type { Logger, LumberjackEmployer } from "@Mouseion/utils/logger";
+import sequence from "@Mouseion/utils/sequence";
+import type Storage from "@Mouseion/utils/storage";
+import type { EmailWithFlags } from "@Mouseion/utils/types";
+import type Tailor from "@Mouseion/actors/tailor";
 import autoBind from 'auto-bind'
+
 
 export default class Sync {
 

@@ -1,7 +1,15 @@
 import AikoAI from 'aikomail-sdk'
-import { BabylonResult, BabylonScheduling, EnhancedBabylonResult } from 'aikomail-sdk/dist/ai/types'
+import type {
+  BabylonResult,
+  BabylonScheduling,
+  EnhancedBabylonResult
+} from 'aikomail-sdk/dist/ai/types'
 import autoBind from 'auto-bind'
-import { EmailParticipantRaw, EmailRaw, EmailRawBase, MessageID } from '../post-office/types'
+import type {
+  EmailParticipantRaw,
+  EmailRawBase,
+  MessageID
+} from '@Mouseion/post-office/types'
 
 export type CacheLevels = "L1" | "L2" | "L3" | "L3b" | "ATT"
 

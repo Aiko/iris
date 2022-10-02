@@ -1,0 +1,53 @@
+/* Base Variables */
+
+:root {
+  /* Brand color */
+  --primary-color: #486fff;
+  --primary-color-hover: #4366e8;
+
+  /* Background colors (Application, elements and windows) */
+  --primary-background-color: #312f2e;
+  --secondary-background-color: #21201d;
+
+  /* Fonts */
+  --primary-font: "Roboto";
+  --primary-font-color: #a8a8a8;
+  --strong-font-color: #ffffff;
+  --body-font-size: 15px;
+
+  /* Buttons */
+  --btn-font-size: 14px;
+  --btn-font-weight: 500;
+
+  /* Border Radius */
+  --primary-border-radius: 5px;
+
+  /* Changes the color fo all icons */
+  --icon-filter: invert(68%) sepia(6%) saturate(3%) hue-rotate(351deg) brightness(96%) contrast(95%);
+
+  /* Shadows */
+  --sidebar-shadow: 3px 50px 10px #00000040;
+  --header-shadow: 8px 1px 10px #0000002e;
+  --board-shadow: 0 0 15px #00000024;
+}
+
+@media screen and (prefers-color-scheme: light) {
+
+  /* Light theme Variables */
+  :root {
+    /* Brand color */
+    --primary-color: #486fff;
+    --primary-color-hover: #4366e8;
+
+    /* Background colors (Application, elements and windows) */
+    --primary-background-color: #000000;
+    --secondary-background-color: #171719;
+
+    /* Fonts */
+    --primary-font-color: #a8a8a8;
+    --strong-font-color: #ffffff;
+
+    /* Changes the color fo all icons */
+    --icon-filter: invert(68%) sepia(6%) saturate(3%) hue-rotate(351deg) brightness(96%) contrast(95%);
+  }
+}
