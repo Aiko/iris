@@ -49,6 +49,11 @@ a {
   transition: .2s;
 }
 
+a:hover {
+  background: var(--primary-background-color-hover);
+  transition: .2s;
+}
+
 .active {
   background: var(--secondary-background-color);
 }

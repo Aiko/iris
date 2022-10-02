@@ -2,17 +2,25 @@
 @import "./variables.css";
 
 * {
-  cursor: default;
+  cursor: default !important;
 }
 
 html,
-body,
-#app {
+body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--primary-background-color);
+  background-color: var(--secondary-background-color);
+  display: inline-flex;
+}
+
+#app {
+  margin-top: 28px;
+  width: 100%;
+  height: calc(100% - 28px);
+  padding: 0;
+  background-color: var(--secondary-background-color);
   display: inline-flex;
 }
 

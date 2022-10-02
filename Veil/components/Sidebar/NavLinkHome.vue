@@ -13,17 +13,53 @@ defineProps({
 
 
 <template>
-  <a :class="active ? 'active' : ''">
-    <img src="@Veil/assets/icons/sidebar/home.svg" class="icon" alt="Home" />
-    {{text}}
-    <span class="count">
-      99+
-    </span>
-  </a>
+  <div class="home-picker">
+
+    <a :class="active ? 'active' : ''" title="All your inboxes">
+      <img src="@Veil/assets/icons/sidebar/home.svg" class="icon" />
+      {{text}}
+      <span class="count">
+        99+
+      </span>
+    </a>
+
+    <a :class="active ? 'active' : ''" title="Custom space">
+      <img src="@Veil/assets/icons/sidebar/home.svg" class="icon" />
+      Space
+      <span class="count">
+        99+
+      </span>
+    </a>
+
+    <a :class="active ? 'active' : ''" title="ruben@helloaiko.com (3)">
+      ruben@helloaiko.com
+    </a>
+
+    <a :class="active ? 'active' : ''" title="rubencharlestouitou@gmail.com (33)">
+      rubencharlestouitou@gmail.com
+    </a>
+
+
+  </div>
 </template>
 
 <style scoped>
-a {
+.home-picker {
+  width: 100%;
+  display: grid;
+  height: 38px;
+  overflow: hidden;
+
+}
+
+.home-picker:hover {
+  height: fit-content;
+  background: var(--secondary-background-color);
+  border-radius: var(--primary-border-radius);
+  margin-top: 3px;
+}
+
+.home-picker a {
   width: 100%;
   position: relative;
   padding: 4px 4px 4px 6px;
@@ -36,7 +72,18 @@ a {
   height: 30px;
   margin-bottom: 5px;
   letter-spacing: .3px;
-  transition: .2s;
+}
+
+.home-picker a:hover {
+  background: var(--primary-background-color-hover);
+}
+
+.home-picker:hover a:first-child {
+  margin-top: 0;
+}
+
+.home-picker:hover a:last-child {
+  margin-bottom: 0;
 }
 
 .active {

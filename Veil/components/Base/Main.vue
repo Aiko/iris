@@ -5,7 +5,11 @@ import Home from '@Veil/views/Home.vue';
 
 <template>
   <div class="main">
+
+    <!--Header now has Search and toasts-->
     <Header />
+
+    <!--Current page, default is Home-->
     <Home />
   </div>
 </template>
