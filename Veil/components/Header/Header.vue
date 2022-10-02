@@ -13,9 +13,9 @@ import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
 
 <style scoped>
 .header {
+  position: relative;
   height: 50px;
   width: 100%;
-  box-shadow: var(--header-shadow);
   border-left: 2px solid var(--secondary-background-color);
   padding: 10px 10px 10px 20px;
   display: inline-flex;

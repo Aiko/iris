@@ -6,7 +6,7 @@ import Home from '@Veil/views/Home.vue';
 <template>
   <div class="main">
     <Header />
-    <Home />
+    <Home regular />
   </div>
 </template>
 

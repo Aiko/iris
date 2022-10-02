@@ -1,15 +1,23 @@
 <script lang="ts" setup>
 import Board from "@Veil/components/Home/Board.vue";
 import AddBoard from "@Veil/components/Home/AddBoard.vue";
+import SideEmail from "@Veil/components/Home/SideEmail.vue";
 
+defineProps({
+  regular: {
+    type: Boolean,
+    required: false
+  }
+})
 </script>
 
 <template>
   <div class="home">
     <div class="boards">
       <Board inbox />
-      <Board />
-      <AddBoard />
+      <Board v-if="!regular" />
+      <AddBoard v-if="!regular" />
+      <SideEmail v-if="regular" />
     </div>
   </div>
 </template>
