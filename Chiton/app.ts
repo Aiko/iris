@@ -29,6 +29,7 @@ import CookieCutter from '@Chiton/cache/templates'
 
 import { ElectronBlocker } from '@cliqz/adblocker-electron'
 import fetch from 'cross-fetch'
+import * as child_process from 'child_process';
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 app.commandLine.appendSwitch('disable-renderer-backgrounding')
@@ -83,24 +84,18 @@ dialog.showErrorBox = (title, content) => Log.warn(`Main process encountered an 
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Various "session" variables
-let commit_hash: string, dev: boolean
-/*
-try {
-commit_hash = child_process
-                  .execSync("git rev-parse HEAD")
-                  .toString()
-                  .trim()
-  dev = true
-  app.setAppUserModelId("Aiko Mail (Dev)")
-  Log.warn("Developer mode ON - commit #", commit_hash)
-} catch (e) {
-*/
-  //! FIXME: remove before deployment
-  commit_hash = os.platform() + '-' + app.getVersion() + ':INTERNAL'
-  dev = false
+const dev = process.env.NODE_ENV === 'dev';
+const commit_hash: string = (() => {
+  if (dev) {
+    const commit_hash = child_process.execSync('git rev-parse HEAD').toString().trim()
+    app.setAppUserModelId("Aiko Mail (Dev)")
+    Log.warn("Developer mode ON - commit #", commit_hash)
+    return commit_hash
+  }
   app.setAppUserModelId("Aiko Mail (Beta)")
   Log.log("Developer mode OFF. Performance will reflect production.")
-// }
+  return os.platform() + '-' + app.getVersion()
+})()
 Registry.register("commit hash", commit_hash)
 Registry.register("dev flag", dev)
 Registry.register("user agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52")
@@ -223,7 +218,7 @@ const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
     Log.success("User is signed in, loading their inbox.")
     //! FIXME: before deployment, remove commit_hash from url below
     Log.shout("ENV:", process.env.NODE_ENV)
-    if (process.env.NODE_ENV==="dev") {
+    if (dev) {
       windowManager.loadURL('http://localhost:4160/#' + commit_hash);
       windowManager.window!.webContents.openDevTools();
     } else {
