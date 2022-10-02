@@ -7,12 +7,17 @@ defineProps({
   enabled: {
     type: Boolean,
     required: false
+  },
+  href: {
+    type: String,
+    required: false
   }
 })
 </script>
 
 <template>
-  <a :class="enabled ? '' : 'disabled'" v-if="text != 'Trash all'">{{text}}</a>
+  <a :class="enabled ? '' : 'disabled'" v-if="text != 'Trash all' && (href == '' || href == null)">{{text}}</a>
+  <a :class="enabled ? '' : 'disabled'" v-if="href != '' || href != null" :href="href" target="_blank">{{text}}</a>
   <a :class="enabled ? '' : 'disabled'" v-if="text == 'Trash all'"><img src="@Veil/assets/icons/Home/trash.svg" />
     {{text}}</a>
 </template>

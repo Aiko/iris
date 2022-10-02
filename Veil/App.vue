@@ -5,7 +5,12 @@ import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue";
 </script>
 
 <template>
+  <!--Full Screen Loader-->
   <LoaderScreen v-if="false" />
+
+  <!--Sidebar-->
   <Sidebar />
+
+  <!--Main content right of sidebar-->
   <Main />
 </template>
