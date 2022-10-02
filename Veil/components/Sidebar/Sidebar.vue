@@ -16,8 +16,9 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
       <NavLink text="Trash" />
     </div>
     <div class="bottom">
-      <a><img src="@Veil/assets/icons/Header/calendar.svg" class="icon" /></a>
-      <a><img src="@Veil/assets/icons/Header/settings.svg" class="icon" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/calendar.svg" class="icon" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/settings.svg" class="icon" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/documentation.svg" class="icon docu" /></a>
     </div>
   </div>
 </template>
@@ -46,17 +47,23 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   position: absolute;
   bottom: 0;
   left: 0;
-  margin-left: 20px;
 }
 
 .bottom a {
   background: var(--secondary-background-color);
   padding: 3px 5px 7px 5px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--primary-border-radius);
   margin-left: 10px;
 }
 
 .bottom img {
   width: 20px;
+}
+
+.docu {
+
+  padding: 5px;
 }
 </style>
