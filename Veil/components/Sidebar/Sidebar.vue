@@ -32,6 +32,17 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   box-shadow: var(--sidebar-shadow);
   z-index: 1;
   border-top-right-radius: var(--primary-border-radius);
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 .compose {
@@ -47,6 +58,7 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   position: absolute;
   bottom: 0;
   left: 0;
+  background: var(--primary-background-color);
 }
 
 .bottom a {
