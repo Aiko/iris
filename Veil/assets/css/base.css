@@ -2,7 +2,7 @@
 @import "./variables.css";
 
 * {
-  cursor: default;
+  cursor: default !important;
 }
 
 html,

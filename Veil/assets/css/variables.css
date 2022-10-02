@@ -9,6 +9,9 @@
   --primary-background-color: #312f2e;
   --secondary-background-color: #21201d;
 
+  --primary-background-color-hover: #272623;
+  --secondary-background-color-hover: #21201d;
+
   /* Fonts */
   --primary-font: "Roboto";
   --primary-font-color: #a8a8a8;
@@ -40,7 +43,7 @@
     --primary-color-hover: #4366e8;
 
     /* Background colors (Application, elements and windows) */
-    --primary-background-color: #000000;
+    --primary-background-color: #fff;
     --secondary-background-color: #171719;
 
     /* Fonts */
