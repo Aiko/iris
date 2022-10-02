@@ -14,10 +14,28 @@ defineProps({
 <template>
   <div class="board">
     <div class="board-header">
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/dots.svg" class="icon" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/sort.svg" class="icon" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/refresh.svg" class="icon" /></a>
+
+
+      <a v-if="inbox"><img src="@Veil/assets/icons/Home/dots.svg" class="icon" width="28" /></a>
+      <a v-if="inbox"><img src="@Veil/assets/icons/Home/sort.svg" class="icon" width="24" /></a>
+      <a v-if="inbox"><img src="@Veil/assets/icons/Home/refresh.svg" class="icon" width="24" /></a>
+
+
       <h1 v-if="!inbox">Title</h1>
+      <div class="options" v-if="!inbox">
+        <div class="size">
+          <p>Board size</p>
+          <ButtonSecondary text="S" enabled class="btn" />
+          <ButtonSecondary text="M" enabled class="btn" />
+          <ButtonSecondary text="L" enabled class="btn" />
+        </div>
+        <div class="option">
+          <p>Move all emails to trash</p>
+          <ButtonSecondary text="Trash all" enabled class="btn" />
+        </div>
+      </div>
+
+
       <div class="switch" v-if="inbox">
         <div class="tab active">
           Priority
@@ -59,8 +77,9 @@ defineProps({
 .board-header {
   height: 50px;
   width: 100%;
-  padding: 10px;
+  padding: 10px 0;
   display: inline-block;
+  text-align: center;
 }
 
 .board-header h1 {
@@ -70,15 +89,37 @@ defineProps({
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
-  padding: 20px 20px 0 20px;
+  padding: 0 10px 0 10px;
   text-overflow: ellipsis;
   max-width: calc(100% - 45px);
+  z-index: 2;
+  position: relative;
+}
+
+.board-header h1:hover~.options {
+  display: unset !important;
+}
+
+.options:hover {
+  display: unset !important;
+}
+
+.options {
+  display: none;
+  background: var(--secondary-background-color);
+}
+
+.size p,
+.option p {
+  margin: 0;
+  font-size: 13px;
+  margin-bottom: 2px;
+  margin-top: 10px;
 }
 
 .board-header img {
-  width: 24px;
-  padding: 0 6px 0 0;
-  margin-right: 2px;
+  padding: 3px;
+  margin-right: 5px;
 }
 
 .board-body {
@@ -94,6 +135,7 @@ defineProps({
   border-radius: var(--primary-border-radius);
   overflow: hidden;
   border: 2px solid var(--secondary-background-color);
+  margin-left: 5px;
 }
 
 .board .tab {
@@ -123,5 +165,10 @@ defineProps({
 
 .active .count {
   background: var(--primary-background-color);
+}
+
+.board-header .btn {
+  font-size: 12px;
+  margin-top: -4px;
 }
 </style>

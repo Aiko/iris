@@ -7,7 +7,7 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 <template>
   <div class="sidebar">
     <div class="top">
-      <ButtonPrimary text="Compose" />
+      <ButtonPrimary text="Compose" class="compose" />
       <NavLinkHome text="Home" active />
       <NavLink text="Sent" />
       <NavLink text="Drafts" />
@@ -30,6 +30,11 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   padding: 8px;
   box-shadow: var(--sidebar-shadow);
   z-index: 1;
+  border-top-right-radius: var(--primary-border-radius);
+}
+
+.compose {
+  margin-top: 0;
 }
 
 .sidebar .top {

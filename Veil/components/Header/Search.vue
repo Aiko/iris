@@ -12,6 +12,7 @@ input {
   padding: 9px 11px 9px 5px;
   background: var(--secondary-background-color);
   border: none;
+  width: 100%;
 }
 
 img {
