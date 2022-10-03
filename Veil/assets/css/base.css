@@ -95,6 +95,10 @@ p {
   color: var(--strong-font-color);
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 button {
   outline: none !important;
 }
