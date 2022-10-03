@@ -2,10 +2,17 @@
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import NavLink from '@Veil/components/Sidebar/NavLink.vue';
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
+import { ref } from '@vue/reactivity';
+
+let collapsed = ref(false)
+const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
 </script>
 
 <template>
-  <div class="sidebar">
+  <div :class="{
+    'sidebar': true,
+    'collapsed': collapsed,
+  }">
     <div class="top">
       <ButtonPrimary text="Compose" class="compose" />
       <NavLinkHome text="Home" active />
@@ -16,12 +23,12 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
       <NavLink text="Trash" />
     </div>
     <div class="bottom">
-      <div class="sidebar-collapse" title="Collapse sidebar">
+      <div class="sidebar-collapse" title="Collapse sidebar" @click="toggleSidebarCollapse">
         <img src="@Veil/assets/icons/Sidebar/sidebar-collapse.svg" class="icon" />
       </div>
-      <a><img src="@Veil/assets/icons/Sidebar/calendar.svg" class="icon" /></a>
-      <a><img src="@Veil/assets/icons/Sidebar/settings.svg" class="icon" /></a>
-      <a><img src="@Veil/assets/icons/Sidebar/documentation.svg" class="icon docu" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/calendar.svg" class="icon" alt="Calendar" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/settings.svg" class="icon" alt="Settings" /></a>
+      <a><img src="@Veil/assets/icons/Sidebar/documentation.svg" class="icon docu" alt="Documentation" /></a>
     </div>
   </div>
 </template>
@@ -53,7 +60,9 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   right: 0;
   top: 0;
   margin-top: -10px;
-  margin-right: -7px;
+  margin-right: -14px;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
   z-index: 1;
   padding: 0 2px;
   height: 19px;
@@ -82,6 +91,31 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
   display: grid;
 }
 
+.sidebar.collapsed {
+  width: 46px;
+}
+
+.sidebar.collapsed .sidebar-collapse {
+  margin-right: -8px;
+}
+
+.sidebar.collapsed .top a {
+  width: 30px;
+  overflow: hidden;
+}
+
+
+
+.sidebar.collapsed .bottom {
+  display: inline-grid;
+}
+
+.sidebar.collapsed .bottom a {
+  margin-bottom: 10px;
+  margin-left: 8px;
+  padding: 1px 5px 7px 6px;
+}
+
 .bottom {
   margin-bottom: 20px;
   position: absolute;
@@ -94,15 +128,15 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 
 .bottom a {
   background: var(--secondary-background-color);
-  padding: 3px 5px 7px 5px;
+  padding: 4px 5px 7px 5px;
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 10px;
+  margin-left: 11px;
 }
 
 .bottom img {
-  width: 20px;
+  width: 18px;
 }
 
 .docu {

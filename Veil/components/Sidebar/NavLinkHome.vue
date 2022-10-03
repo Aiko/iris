@@ -52,6 +52,10 @@ defineProps({
 
 }
 
+.sidebar.collapsed .count {
+  display: none !important;
+}
+
 .home-picker:hover {
   height: fit-content;
   background: var(--secondary-background-color);
