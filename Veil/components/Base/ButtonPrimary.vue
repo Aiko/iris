@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-defineProps<{
-  text?: string
-}>()
 </script>
 
 <template>
   <a>
-    <img src="@Veil/assets/icons/sidebar/compose.svg" v-if="text == 'Compose'" alt="Compose a new message" />
-    {{text}}
+    <slot></slot>
   </a>
 </template>
 

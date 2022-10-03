@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity';
+import Icon from "@Veil/components/Base/Icon.vue";
+
 let quickReply = ref(false)
 </script>
 
@@ -26,25 +28,36 @@ let quickReply = ref(false)
     <div class="quick-reply">
       <input placeholder="Type reply here" @focusout="quickReply = false" autofocus />
       <div class="send" title="Send reply" @click="quickReply = false">
-        <img src="@Veil/assets/icons/Home/sent.svg" />
+        <Icon name="sent" color="grey" />
       </div>
     </div>
     <div class="bottom">
       <div class="quick-action">
 
 
-        <span @focus="quickReply = true" tabindex="0"><img src="@Veil/assets/icons/Home/zap.svg" />
+        <span @focus="quickReply = true" tabindex="0">
+          <Icon name="zap" color="grey" />
           <div class="text" htext="Quick Reply">Quick Reply</div>
         </span>
 
 
       </div>
       <div class="actions">
-        <span><img src="@Veil/assets/icons/Home/reply.svg" /></span>
-        <span><img src="@Veil/assets/icons/Home/reply-all.svg" /></span>
-        <span><img src="@Veil/assets/icons/Home/forward.png" /></span>
-        <span><img src="@Veil/assets/icons/Home/star.svg" /></span>
-        <span><img src="@Veil/assets/icons/Home/trash2.svg" /></span>
+        <span>
+          <Icon name="reply" color="grey" />
+        </span>
+        <span>
+          <Icon name="reply-all" color="grey" />
+        </span>
+        <span>
+          <Icon name="forward" color="grey" />
+        </span>
+        <span>
+          <Icon name="star" color="grey" />
+        </span>
+        <span>
+          <Icon name="trash" color="grey" />
+        </span>
       </div>
     </div>
   </div>

@@ -3,6 +3,7 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import NavLink from '@Veil/components/Sidebar/NavLink.vue';
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 import { collapsed } from '@Veil/state/UI'
+import Icon from '@Veil/components/Base/Icon.vue'
 
 const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
 </script>
@@ -13,21 +14,40 @@ const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
     'collapsed': collapsed,
   }">
     <div class="top">
-      <ButtonPrimary text="Compose" class="compose" />
+      <ButtonPrimary>
+        <Icon name="compose" color="white" />Compose
+      </ButtonPrimary>
       <NavLinkHome text="Home" active />
-      <NavLink text="Sent" />
-      <NavLink text="Drafts" />
-      <NavLink text="Archive" />
-      <NavLink text="Spam" />
-      <NavLink text="Trash" />
+      <NavLink>
+        <Icon name="sent" color="grey" />Sent
+      </NavLink>
+      <NavLink>
+        <Icon name="drafts" color="grey" />Drafts
+      </NavLink>
+
+      <NavLink>
+        <Icon name="archive" color="grey" />Archive
+      </NavLink>
+      <NavLink>
+        <Icon name="spam" color="grey" />Spam
+      </NavLink>
+      <NavLink>
+        <Icon name="trash" color="grey" />Trash
+      </NavLink>
     </div>
     <div class="bottom">
       <div class="sidebar-collapse" title="Collapse sidebar" @click="toggleSidebarCollapse">
-        <img src="@Veil/assets/icons/Sidebar/sidebar-collapse.svg" class="icon" />
+        <Icon name="sidebar-collapse" color="grey" />
       </div>
-      <a><img src="@Veil/assets/icons/Sidebar/calendar.svg" class="icon" alt="Calendar" /></a>
-      <a><img src="@Veil/assets/icons/Sidebar/settings.svg" class="icon" alt="Settings" /></a>
-      <a><img src="@Veil/assets/icons/Sidebar/documentation.svg" class="icon docu" alt="Documentation" /></a>
+      <a>
+        <Icon name="calendar" color="grey" />
+      </a>
+      <a>
+        <Icon name="settings" color="grey" />
+      </a>
+      <a>
+        <Icon name="documentation" color="grey" class="docu" />
+      </a>
     </div>
   </div>
 </template>
@@ -140,6 +160,12 @@ const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
 
 .docu {
 
-  padding: 5px;
+  padding: 4px;
+}
+
+.top a img {
+  width: 17px;
+  margin-right: 7px;
+  margin-top: -3px;
 }
 </style>

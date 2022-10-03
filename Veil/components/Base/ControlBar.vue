@@ -14,7 +14,7 @@
   left: 0;
   width: 100%;
   background: var(--secondary-bg-color);
-  z-index: 1000000000;
+  z-index: 100;
   margin-bottom: 10px;
   display: inline-flex;
   height: 28px;

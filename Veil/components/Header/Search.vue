@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-
+import Icon from '@Veil/components/Base/Icon.vue'
 </script>
 
 <template>
-  <img src="@Veil/assets/icons/Header/search.svg" alt="Search" class="icon" />
+  <Icon name="search" color="grey" />
   <input type="text" placeholder="Search" />
   <p>Press ENTER to search</p>
 </template>

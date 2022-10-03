@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
+import Icon from "@Veil/components/Base/Icon.vue"
 defineProps<{
   inbox?: boolean
 }>()
@@ -11,9 +12,15 @@ defineProps<{
     <div class="board-header">
 
 
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/dots.svg" class="icon" width="28" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/sort.svg" class="icon" width="24" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/refresh.svg" class="icon" width="24" /></a>
+      <a v-if="inbox">
+        <Icon name="dots" color="grey" class="t8" />
+      </a>
+      <a v-if="inbox">
+        <Icon name="sort" color="grey" />
+      </a>
+      <a v-if="inbox">
+        <Icon name="refresh" color="grey" />
+      </a>
 
 
       <h1 v-if="!inbox">Title</h1>
@@ -26,7 +33,10 @@ defineProps<{
         </div>
         <div class="option">
           <p>Move all emails to trash</p>
-          <ButtonSecondary text="Trash all" enabled class="btn" />
+          <ButtonSecondary lass="btn">
+            <Icon name="trash" color="blue" />
+            Trash all
+          </ButtonSecondary>
         </div>
       </div>
 
@@ -151,6 +161,7 @@ defineProps<{
 .board-header img {
   padding: 3px;
   margin-right: 3px;
+  width: 25px;
 }
 
 .board-header a:first-of-type img {
@@ -208,5 +219,9 @@ defineProps<{
 .board-header .btn {
   font-size: 12px;
   margin-top: -4px;
+}
+
+.top .t8 {
+  widows: 28px;
 }
 </style>

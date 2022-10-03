@@ -8,20 +8,13 @@ defineProps<{
 
 <template>
   <a :class="active ? 'active' : ''">
-    <img src="@Veil/assets/icons/sidebar/sent.svg" v-if="text == 'Sent'" class="icon" alt="Sent" />
-    <img src="@Veil/assets/icons/sidebar/drafts.svg" v-if="text == 'Drafts'" class="icon" alt="Drafts" />
-    <img src="@Veil/assets/icons/sidebar/archive.svg" v-if="text == 'Archive'" class="icon" alt="Archive" />
-    <img src="@Veil/assets/icons/sidebar/spam.svg" v-if="text == 'Spam'" class="icon" alt="Spam" />
-    <img src="@Veil/assets/icons/sidebar/trash.svg" v-if="text == 'Trash'" class="icon" alt="Trash" />
-    {{text}}
-
 
     <!-- TODO: Number here for unread
     <span class="count">
       3
     </span>
     -->
-
+    <slot></slot>
 
   </a>
 </template>
@@ -52,11 +45,6 @@ a:hover {
   background: var(--secondary-background-color);
 }
 
-img {
-  width: 17px;
-  margin-right: 3px;
-  margin-top: -3px;
-}
 
 .count {
   float: right;

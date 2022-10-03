@@ -1,16 +1,10 @@
 <script lang="ts" setup>
-defineProps<{
-  text?: string
-  enabled?: boolean
-  href?: string
-}>()
 </script>
 
 <template>
-  <a :class="enabled ? '' : 'disabled'" v-if="text != 'Trash all' && (href == '' || href == null)">{{text}}</a>
-  <a :class="enabled ? '' : 'disabled'" v-if="href != '' || href != null" :href="href" target="_blank">{{text}}</a>
-  <a :class="enabled ? '' : 'disabled'" v-if="text == 'Trash all'"><img src="@Veil/assets/icons/Home/trash.svg" />
-    {{text}}</a>
+  <a>
+    <slot></slot>
+  </a>
 </template>
 
 <style scoped>
@@ -32,20 +26,5 @@ a:hover {
   background-color: var(--main-background-color);
   border: 1px solid var(--primary-color);
   transition: .2s;
-}
-
-.disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-.icon {
-  width: 22px;
-}
-
-img {
-  width: 13px;
-  padding: 0;
-  margin-top: -3px;
 }
 </style>

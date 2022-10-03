@@ -1,9 +1,10 @@
 <script lang="ts" setup>
+import Icon from "@Veil/components/Base/Icon.vue"
 </script>
 
 <template>
   <div class="add-board">
-    <img src="@Veil/assets/icons/home/plus.svg" alt="Add a board" />
+    <Icon name="plus" color="grey" />
   </div>
 </template>
 

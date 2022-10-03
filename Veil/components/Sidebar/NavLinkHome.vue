@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Icon from '@Veil/components/Base/Icon.vue'
 defineProps<{
   text?: string
   active?: boolean
@@ -10,7 +11,7 @@ defineProps<{
   <div class="home-picker">
 
     <a :class="active ? 'active' : ''" title="All your inboxes">
-      <img src="@Veil/assets/icons/sidebar/home.svg" class="icon" />
+      <Icon name="home" color="grey" />
       {{text}}
       <span class="count">
         99+
@@ -18,7 +19,7 @@ defineProps<{
     </a>
 
     <a :class="active ? 'active' : ''" title="Custom space">
-      <img src="@Veil/assets/icons/sidebar/home.svg" class="icon" />
+      <Icon name="home" color="grey" />
       Space
       <span class="count">
         99+
