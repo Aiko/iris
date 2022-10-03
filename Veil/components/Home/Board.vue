@@ -55,6 +55,19 @@ defineProps({
     </div>
     <div class="board-body">
       <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+      <EmailCard />
+
     </div>
   </div>
 </template>
