@@ -1,18 +1,9 @@
 <script lang="ts" setup>
-defineProps({
-  text: {
-    type: String,
-    required: false
-  },
-  enabled: {
-    type: Boolean,
-    required: false
-  },
-  href: {
-    type: String,
-    required: false
-  }
-})
+defineProps<{
+  text?: string
+  enabled?: boolean
+  href?: string
+}>()
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Toast from "@Veil/components/Header/Toast.vue";
 
 </script>

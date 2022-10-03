@@ -3,6 +3,7 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import NavLink from '@Veil/components/Sidebar/NavLink.vue';
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 import { collapsed } from '@Veil/state/UI'
+
 const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
 </script>
 

@@ -1,14 +1,9 @@
 <script lang="ts" setup>
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
-
-
-defineProps({
-  inbox: {
-    type: Boolean,
-    required: false
-  }
-})
+defineProps<{
+  inbox?: boolean
+}>()
 </script>
 
 <template>
@@ -22,7 +17,7 @@ defineProps({
 
 
       <h1 v-if="!inbox">Title</h1>
-      <div class="options" v-if="!inbox">
+      <div v-if="!inbox" class="options">
         <div class="size">
           <p>Board size</p>
           <ButtonSecondary text="S" enabled class="btn" />

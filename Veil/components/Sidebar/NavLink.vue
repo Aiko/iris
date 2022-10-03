@@ -1,14 +1,8 @@
 <script lang="ts" setup>
-defineProps({
-  text: {
-    type: String,
-    required: false
-  },
-  active: {
-    type: Boolean,
-    required: false,
-  }
-})
+defineProps<{
+  text?: string
+  active?: boolean
+}>()
 </script>
 
 
