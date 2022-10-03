@@ -38,7 +38,11 @@ let quickReply = ref(false)
         <span @focus="quickReply = true" tabindex="0"><img src="@Veil/assets/icons/Home/zap.svg" />Quick Reply</span>
       </div>
       <div class="actions">
-        reply
+        <span><img src="@Veil/assets/icons/Home/reply.svg" /></span>
+        <span><img src="@Veil/assets/icons/Home/reply-all.svg" /></span>
+        <span><img src="@Veil/assets/icons/Home/forward.png" /></span>
+        <span><img src="@Veil/assets/icons/Home/star.svg" /></span>
+        <span><img src="@Veil/assets/icons/Home/trash2.svg" /></span>
       </div>
     </div>
 
@@ -116,6 +120,7 @@ let quickReply = ref(false)
 .email-card .bottom {
   box-shadow: inset 5px 22px 40px -20px #00000073 !important;
   user-select: none;
+  display: flex;
   width: calc(100% + 20px);
   height: 27px;
   margin-left: -10px;
@@ -124,7 +129,7 @@ let quickReply = ref(false)
   margin-top: 2px;
 }
 
-.email-card .bottom span {
+.email-card .bottom .quick-action span {
   color: var(--primary-font-color);
   font-size: 11px;
   font-weight: 600;
@@ -141,7 +146,7 @@ let quickReply = ref(false)
   text-overflow: ellipsis;
 }
 
-.email-card .bottom span img {
+.email-card .bottom .quick-action span img {
   height: 15px;
   margin-top: -3px !important;
   margin-right: 3px !important;
@@ -204,5 +209,24 @@ let quickReply = ref(false)
 .email-card .send img {
   width: 17px;
   margin-bottom: 6px;
+}
+
+.email-card .actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.email-card .actions span {
+  padding: 3px;
+  margin-left: 3px;
+  margin-top: 4px;
+}
+
+.email-card .actions span img {
+  margin-top: 1px;
+  transition: .2s;
+  opacity: 1;
+  margin-top: 2px;
+  height: 15px;
 }
 </style>
