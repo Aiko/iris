@@ -153,6 +153,10 @@ defineProps<{
   margin-right: 3px;
 }
 
+.board-header a:first-of-type img {
+  margin-left: -15px;
+}
+
 .board-body {
   padding: 1px 10px 0 10px;
   overflow-y: scroll;

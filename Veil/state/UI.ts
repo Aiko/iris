@@ -1,5 +1,8 @@
-//! User Interface Variables
+// User Interface Variables
 import { ref } from '@vue/reactivity';
 
-//! Sidebar collapse state
+// Sidebar collapse state
 export let collapsed = ref(false)
+
+// Fullscreen State
+export let isFullScreen = ref(false)
