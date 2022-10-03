@@ -16,7 +16,8 @@
   --primary-font: "Roboto";
   --primary-font-color: #a8a8a8;
   --strong-font-color: #ffffff;
-  --body-font-size: 15px;
+  --body-font-size: 14px;
+  --small-font-size: 14px;
 
   /* Buttons */
   --btn-font-size: 14px;
