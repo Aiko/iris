@@ -3,7 +3,7 @@ import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 defineProps<{
-  inbox?: boolean
+  isInbox?: boolean
 }>()
 </script>
 
@@ -11,20 +11,19 @@ defineProps<{
   <div class="board">
     <div class="board-header">
 
-
-      <a v-if="inbox">
+      <a v-if="isInbox">
         <Icon name="dots" color="grey" class="t8" />
       </a>
-      <a v-if="inbox">
+      <a v-if="isInbox">
         <Icon name="sort" color="grey" />
       </a>
-      <a v-if="inbox">
+      <a v-if="isInbox">
         <Icon name="refresh" color="grey" />
       </a>
 
 
-      <h1 v-if="!inbox">Title</h1>
-      <div v-if="!inbox" class="options">
+      <h1 v-if="!isInbox">Title</h1>
+      <div v-if="!isInbox" class="options">
         <div class="size">
           <p>Board size</p>
           <ButtonSecondary text="S" enabled class="btn" />
@@ -41,7 +40,7 @@ defineProps<{
       </div>
 
 
-      <div class="switch" v-if="inbox">
+      <div class="switch" v-if="isInbox">
         <div class="tab active">
           Priority
           <div class="count">

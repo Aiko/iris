@@ -2,16 +2,16 @@
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import NavLink from '@Veil/components/Sidebar/NavLink.vue';
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
-import { collapsed } from '@Veil/state/UI'
+import { isSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 
-const toggleSidebarCollapse = () => collapsed.value = !(collapsed.value)
+const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollapsed.value)
 </script>
 
 <template>
   <div :class="{
     'sidebar': true,
-    'collapsed': collapsed,
+    'collapsed': isSidebarCollapsed,
   }">
     <div class="top">
       <ButtonPrimary>
