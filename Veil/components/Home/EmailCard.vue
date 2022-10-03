@@ -222,10 +222,15 @@ let quickReply = ref(false)
   margin-top: 4px;
 }
 
+.email-card:hover .actions span img {
+  opacity: 1;
+  transition: .2s;
+}
+
 .email-card .actions span img {
   margin-top: 1px;
   transition: .2s;
-  opacity: 1;
+  opacity: 0;
   margin-top: 2px;
   height: 15px;
 }
