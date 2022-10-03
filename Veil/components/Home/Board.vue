@@ -130,13 +130,16 @@ defineProps({
 
 .board-header img {
   padding: 3px;
-  margin-right: 5px;
+  margin-right: 3px;
 }
 
 .board-body {
-  height: 100%;
+  padding: 1px 10px 0 10px;
   overflow-y: scroll;
-  padding: 0 15px;
+  height: calc(100% - 51px);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  position: relative;
 }
 
 .board .switch {
