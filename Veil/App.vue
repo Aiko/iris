@@ -3,7 +3,7 @@ import Sidebar from "@Veil/components/Sidebar/Sidebar.vue";
 import Main from "@Veil/components/Base/Main.vue";
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue";
 import ControlBar from "@Veil/components/Base/ControlBar.vue";
-import { isFullScreen } from '@Veil/state/UI'
+import { isFullScreen } from '@Veil/state/sections'
 </script>
 
 <template>
