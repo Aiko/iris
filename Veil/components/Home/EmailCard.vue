@@ -249,10 +249,6 @@ let quickReply = ref(false)
   filter: brightness(1.5);
 }
 
-
-
-
-
 .email-card .bottom .quick-action span {
   position: relative;
   cursor: pointer;

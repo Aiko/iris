@@ -124,6 +124,18 @@ defineProps({
   display: unset !important;
 }
 
+.board-header .options {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  /* margin-top: 2px; */
+  border-radius: var(--primary-border-radius);
+  /* margin-left: 2px; */
+  border: 3px solid var(--primary-background-color);
+  box-shadow: 11px 14px 10px #00000040;
+}
+
 .options:hover {
   display: unset !important;
 }
