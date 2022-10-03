@@ -21,7 +21,7 @@
     </div>
     <div class="bottom">
       <div class="quick-action">
-        <span>Quick Reply</span>
+        <span><img src="@Veil/assets/icons/Home/zap.svg" />Quick Reply</span>
       </div>
       <div class="actions">
         reply
@@ -111,7 +111,7 @@
 }
 
 .email-card .bottom span {
-  color: var(--primary-color);
+  color: var(--primary-font-color);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: .1px;
@@ -125,5 +125,11 @@
   overflow: hidden;
   opacity: .9;
   text-overflow: ellipsis;
+}
+
+.email-card .bottom span img {
+  height: 15px;
+  margin-top: -3px !important;
+  margin-right: 3px !important;
 }
 </style>
