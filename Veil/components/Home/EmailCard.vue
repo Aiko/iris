@@ -21,7 +21,7 @@
     </div>
     <div class="bottom">
       <div class="quick-action">
-        Quick Reply
+        <span>Quick Reply</span>
       </div>
       <div class="actions">
         reply
@@ -40,7 +40,7 @@
   margin-bottom: 15px;
   width: 100%;
   background: var(--secondary-background-color);
-  padding: 8px 13px 0 10px;
+  padding: 8px 10px 0 10px;
   overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
@@ -102,10 +102,28 @@
 .email-card .bottom {
   box-shadow: inset 5px 22px 40px -20px #00000073 !important;
   user-select: none;
-  width: 283px;
+  width: calc(100% + 20px);
   height: 27px;
-  margin-left: -25px;
+  margin-left: -10px;
   border-radius: 0 0 5px 5px;
+  padding: 0 10px;
   margin-top: 2px;
+}
+
+.email-card .bottom span {
+  color: var(--primary-color);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1px;
+  line-height: 28px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  width: 140px;
+  display: inline-block;
+  height: 30px;
+  padding: 0;
+  overflow: hidden;
+  opacity: .9;
+  text-overflow: ellipsis;
 }
 </style>
