@@ -23,19 +23,21 @@ let quickReply = ref(false)
       Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
       actually see all of it and scroll through its very nice
     </div>
-
-
     <div class="quick-reply">
-      <input placeholder="Type reply here" @focusout="quickReply = false" focus />
+      <input placeholder="Type reply here" @focusout="quickReply = false" autofocus />
       <div class="send" title="Send reply" @click="quickReply = false">
         <img src="@Veil/assets/icons/Home/sent.svg" />
       </div>
     </div>
-
-
     <div class="bottom">
       <div class="quick-action">
-        <span @focus="quickReply = true" tabindex="0"><img src="@Veil/assets/icons/Home/zap.svg" />Quick Reply</span>
+
+
+        <span @focus="quickReply = true" tabindex="0"><img src="@Veil/assets/icons/Home/zap.svg" />
+          <div class="text" htext="Quick Reply">Quick Reply</div>
+        </span>
+
+
       </div>
       <div class="actions">
         <span><img src="@Veil/assets/icons/Home/reply.svg" /></span>
@@ -45,7 +47,6 @@ let quickReply = ref(false)
         <span><img src="@Veil/assets/icons/Home/trash2.svg" /></span>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -62,6 +63,13 @@ let quickReply = ref(false)
   overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
+  transition: .2s;
+}
+
+.email-card:hover {
+  filter: brightness(0.9);
+  box-shadow: none;
+  transition: .2s;
 }
 
 .email-card .top {
@@ -148,7 +156,7 @@ let quickReply = ref(false)
 
 .email-card .bottom .quick-action span img {
   height: 15px;
-  margin-top: -3px !important;
+  margin-top: 6px !important;
   margin-right: 3px !important;
 }
 
@@ -233,5 +241,56 @@ let quickReply = ref(false)
   opacity: 0;
   margin-top: 2px;
   height: 15px;
+  transition: .2s;
+}
+
+.email-card .actions span img:hover {
+  transition: .2s;
+  filter: brightness(1.5);
+}
+
+
+
+
+
+.email-card .bottom .quick-action span {
+  position: relative;
+  cursor: pointer;
+  display: inline-flex;
+  height: 27px;
+  transition: .2s;
+}
+
+.text {
+  color: var(--primary-font-color);
+}
+
+.text::before {
+  content: attr(htext);
+  position: absolute;
+  filter: brightness(1.5);
+  width: 0;
+  overflow: hidden;
+  transition: 0.6s;
+}
+
+.email-card .bottom .quick-action span::before {
+  content: "";
+  width: 0%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: 0.6s;
+}
+
+.email-card .bottom .quick-action span:hover img {
+  filter: brightness(1.5);
+  transition: .2s;
+}
+
+.email-card .bottom .quick-action span:hover .text::before,
+.email-card .bottom .quick-action span:hover::before {
+  width: 100%;
 }
 </style>

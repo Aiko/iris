@@ -87,12 +87,12 @@ p {
 
 ::-moz-selection {
   background: var(--primary-color);
-  color: var(--primary-background-color);
+  color: var(--strong-font-color);
 }
 
 ::selection {
   background: var(--primary-color);
-  color: var(--primary-background-color);
+  color: var(--strong-font-color);
 }
 
 button {
