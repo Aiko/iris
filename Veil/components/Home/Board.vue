@@ -2,7 +2,7 @@
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 defineProps<{
-  inbox?: boolean
+  isInbox?: boolean
 }>()
 </script>
 
@@ -11,13 +11,13 @@ defineProps<{
     <div class="board-header">
 
 
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/dots.svg" class="icon" width="28" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/sort.svg" class="icon" width="24" /></a>
-      <a v-if="inbox"><img src="@Veil/assets/icons/Home/refresh.svg" class="icon" width="24" /></a>
+      <a v-if="isInbox"><img src="@Veil/assets/icons/Home/dots.svg" class="icon" width="28" /></a>
+      <a v-if="isInbox"><img src="@Veil/assets/icons/Home/sort.svg" class="icon" width="24" /></a>
+      <a v-if="isInbox"><img src="@Veil/assets/icons/Home/refresh.svg" class="icon" width="24" /></a>
 
 
-      <h1 v-if="!inbox">Title</h1>
-      <div v-if="!inbox" class="options">
+      <h1 v-if="!isInbox">Title</h1>
+      <div v-if="!isInbox" class="options">
         <div class="size">
           <p>Board size</p>
           <ButtonSecondary text="S" enabled class="btn" />
@@ -31,7 +31,7 @@ defineProps<{
       </div>
 
 
-      <div class="switch" v-if="inbox">
+      <div class="switch" v-if="isInbox">
         <div class="tab active">
           Priority
           <div class="count">

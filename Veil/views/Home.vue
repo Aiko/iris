@@ -14,7 +14,7 @@ defineProps<{
     <div class="boards">
 
       <!--Boards are normal unless they have 'inbox' attribute-->
-      <Board inbox />
+      <Board is-inbox />
 
       <!--Work in progress: 'Regular' will be regular non-kanban view-->
       <Board v-if="!regular" />
