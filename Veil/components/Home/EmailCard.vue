@@ -1,15 +1,19 @@
 <script lang="ts" setup>
-
+import { ref } from '@vue/reactivity';
+let quickReply = ref(false)
 </script>
 
 <template>
-  <div class="email-card">
+  <div :class="{
+    'qr': quickReply,
+    'email-card': true,
+  }">
     <div class="row">
       <div class="col-8 p0 sender">
         Ruben Touitou from Aiko Mail
       </div>
       <div class="col-4 p0 date">
-        Yesterday 9:36PM
+        9:36PM
       </div>
     </div>
     <div class="subject">
@@ -19,9 +23,19 @@
       Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
       actually see all of it and scroll through its very nice
     </div>
+
+
+    <div class="quick-reply">
+      <input placeholder="Type reply here" @focusout="quickReply = false" focus />
+      <div class="send" title="Send reply" @click="quickReply = false">
+        <img src="@Veil/assets/icons/Home/sent.svg" />
+      </div>
+    </div>
+
+
     <div class="bottom">
       <div class="quick-action">
-        <span><img src="@Veil/assets/icons/Home/zap.svg" />Quick Reply</span>
+        <span @focus="quickReply = true" tabindex="0"><img src="@Veil/assets/icons/Home/zap.svg" />Quick Reply</span>
       </div>
       <div class="actions">
         reply
@@ -131,5 +145,64 @@
   height: 15px;
   margin-top: -3px !important;
   margin-right: 3px !important;
+}
+
+.email-card .quick-reply {
+  box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+  user-select: none;
+  width: 100%;
+  display: none;
+  height: 27px;
+  margin-left: -10px;
+  border-radius: 0 0 5px 5px;
+  padding: 0 10px;
+  margin-top: 2px;
+  background: var(--secondary-background-color);
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+}
+
+.email-card .quick-reply input {
+  background: transparent;
+  border: none;
+  width: calc(100% - 20px);
+  cursor: text !important;
+  padding-bottom: 2px;
+}
+
+.email-card .send {
+  width: 30px;
+  display: inline;
+  background: var(--primary-background-color);
+  border: 1px solid var(--secondary-background-color);
+  padding: 5px;
+  height: 27px;
+  position: absolute;
+  right: 0;
+  border-bottom-right-radius: var(--primary-border-radius);
+  transition: .2s;
+}
+
+.email-card.qr .quick-reply {
+  display: unset;
+}
+
+.email-card.qr .preview {
+  overflow: scroll;
+  height: fit-content;
+  max-height: 100px;
+}
+
+
+
+.email-card .send:hover {
+  background: var(--primary-background-color-hover);
+  transition: .2s;
+}
+
+.email-card .send img {
+  width: 17px;
+  margin-bottom: 6px;
 }
 </style>
