@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import Header from '@Veil/components/Header/Header.vue';
 import Home from '@Veil/views/Home.vue';
-import { sidebarIsCollapsed } from '@Veil/state/sections'
+import { isSidebarCollapsed } from '@Veil/state/sections'
 
 </script>
 
 <template>
   <div :class="{
     'main': true,
-    'collapsed-sidebar': sidebarIsCollapsed,
+    'collapsed-sidebar': isSidebarCollapsed,
   }">
 
     <!--Header now has Search and toasts-->
