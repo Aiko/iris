@@ -28,6 +28,22 @@
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
 }
 
+.loader.blue div {
+  background: var(--primary-color) !important;
+}
+
+.loader.red div {
+  background: #d0021c !important;
+}
+
+.loader.grey div {
+  background: var(--primary-font-color) !important;
+}
+
+.loader.gray div {
+  background: var(--primary-font-color) !important;
+}
+
 .loader div:nth-child(1) {
   left: 8px;
   animation: loader1 0.6s infinite;

@@ -163,10 +163,14 @@ textarea {
   color: #d0021c !important;
 }
 
+.red {
+  color: #d0021c !important;
+}
+
 .primarycolor {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
 
 .bodycolor {
-  color: var(--primary-font-color);
+  color: var(--primary-font-color) !important;
 }

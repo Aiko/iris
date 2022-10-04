@@ -1,25 +1,55 @@
 <script lang="ts" setup>
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
+import Loader from "../Base/Loader.vue";
+import ButtonPrimary from "../Base/ButtonPrimary.vue";
 
 </script>
 
 <template>
 
-  <!--TOAST No internet-->
-  <a class="error" v-if="true">
-    <Icon name="no-internet" color="red" /> We were
-    unable to send your message due to network
-    issues
+  <!-- TOAST Sending Email -->
+  <a class="primarycolor" v-if="false">
+    <Icon name="sent" color="blue" />
+    Sending email...
+    <ButtonPrimary>Undo</ButtonPrimary>
   </a>
 
-  <!--TOAST Email Sent-->
-  <a v-if="false"><img src="@Veil/assets/icons/Header/sent.svg" alt="Search" class="icon" /> Email sent.
-    <ButtonSecondary text="Undo" enabled />
+  <!-- TOAST Invite Sent -->
+  <a class="primarycolor" v-if="false">
+    <Icon name="invite" color="blue" />
+    Sending invite...
+    <ButtonPrimary>Undo</ButtonPrimary>
+  </a>
+
+  <!-- TOAST Connection Lost -->
+  <a class="red" v-if="false">
+    <Icon name="no-internet" color="red" />
+    We're having trouble connecting to the internet.
+  </a>
+
+  <!-- TOAST IMAP Error -->
+  <a class="red" v-if="false">
+    <Icon name="no-internet" color="red" />
+    We're having issues connecting to your mail provider.
+  </a>
+
+  <!-- TOAST Send Email Error -->
+  <a class="red" v-if="false">
+    <Icon name="no-internet" color="red" />
+    We were unable to send your message due to network issues
   </a>
 
 </template>
 
 <style scoped>
+img {
+  width: 20px;
+  margin-right: 5px;
+}
 
+a {
+  margin-left: 5px;
+  font-weight: 500;
+}
 </style>
