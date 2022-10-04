@@ -56,6 +56,7 @@ h4,
 p {
   color: var(--primary-font-color);
   cursor: default;
+  user-select: none;
 }
 
 @media (max-width:576px) {
@@ -173,4 +174,12 @@ textarea {
 
 .bodycolor {
   color: var(--primary-font-color) !important;
+}
+
+.modal-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
 }
