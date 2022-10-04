@@ -146,12 +146,18 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
 }
 
 .bottom a {
-  background: var(--secondary-background-color);
+  background: var(--primary-background-color);
   padding: 4px 5px 7px 5px;
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
   margin-left: 11px;
+  transition: .2s;
+}
+
+.bottom a:hover {
+  background: var(--primary-background-color-hover);
+  transition: .2s;
 }
 
 .bottom img {
