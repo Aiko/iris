@@ -157,6 +157,10 @@ defineProps<{
   margin-top: 10px;
 }
 
+.option a img {
+  width: 20px;
+}
+
 .board-header img {
   padding: 3px;
   margin-right: 3px;

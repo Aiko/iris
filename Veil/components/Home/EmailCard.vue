@@ -35,9 +35,29 @@ let quickReply = ref(false)
       <div class="quick-action">
 
 
-        <span @focus="quickReply = true" tabindex="0">
+        <!--QUICK ACTIONS BUTTONS-->
+        <!--QUICK REPLY-->
+        <span @focus="quickReply = true" tabindex="0" v-if="true">
           <Icon name="zap" color="grey" />
-          <div class="text" htext="Quick Reply">Quick Reply</div>
+          <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
+        </span>
+
+        <!--OPEN SPECIFIC APP, REPLACE APP BY APP NAME-->
+        <span v-if="false">
+          <Icon name="link" color="blue" />
+          <div class="text primarycolor" htext="Open App">Open App</div>
+        </span>
+
+        <!--COPY CODE-->
+        <span v-if="false">
+          <Icon name="copy" color="blue" />
+          <div class="text primarycolor" htext="Copy Code">Copy Code</div>
+        </span>
+
+        <!--SCHEDULE-->
+        <span v-if="false">
+          <Icon name="calendar" color="blue" />
+          <div class="text primarycolor" htext="Schedule">Schedule</div>
         </span>
 
 
@@ -270,14 +290,10 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
-.text {
-  color: var(--primary-font-color);
-}
-
 .text::before {
   content: attr(htext);
   position: absolute;
-  filter: brightness(1.5);
+  filter: brightness(0.7);
   width: 0;
   overflow: hidden;
   transition: 0.6s;
@@ -294,7 +310,12 @@ let quickReply = ref(false)
 }
 
 .email-card .bottom .quick-action span:hover img {
-  filter: brightness(1.5);
+  opacity: .7;
+  transition: .2s;
+}
+
+.email-card .bottom .quick-action span img {
+  opacity: 1;
   transition: .2s;
 }
 

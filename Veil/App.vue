@@ -20,4 +20,5 @@ import { isLoading } from '@Veil/state/sections'
 
   <!--Main content right of sidebar-->
   <Main />
+
 </template>

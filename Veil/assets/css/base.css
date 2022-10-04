@@ -162,3 +162,11 @@ textarea {
 .error {
   color: #d0021c !important;
 }
+
+.primarycolor {
+  color: var(--primary-color);
+}
+
+.bodycolor {
+  color: var(--primary-font-color);
+}
