@@ -2,11 +2,7 @@
 import Board from "@Veil/components/Home/Board.vue";
 import AddBoard from "@Veil/components/Home/AddBoard.vue";
 import SideEmail from "@Veil/components/Home/SideEmail.vue";
-
-defineProps<{
-  regular?: boolean
-}>()
-
+import { isRegularView } from '@Veil/state/sections';
 </script>
 
 <template>
@@ -17,9 +13,10 @@ defineProps<{
       <Board is-inbox />
 
       <!--Work in progress: 'Regular' will be regular non-kanban view-->
-      <Board v-if="!regular" />
-      <AddBoard v-if="!regular" />
-      <SideEmail v-if="regular" />
+      <Board v-if="!isRegularView" />
+      <AddBoard v-if="!isRegularView" />
+      <SideEmail v-if="isRegularView" />
+
     </div>
   </div>
 </template>
