@@ -323,4 +323,11 @@ let quickReply = ref(false)
 .email-card .bottom .quick-action span:hover::before {
   width: 100%;
 }
+
+.email-card .row {
+  width: 100%;
+  margin-left: 0px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>

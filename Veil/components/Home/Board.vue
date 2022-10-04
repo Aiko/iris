@@ -1,17 +1,22 @@
 <script lang="ts" setup>
+import { ref } from '@vue/reactivity';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 defineProps<{
   isInbox?: boolean
 }>()
+
+let showBoardDots = ref(false)
+const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 </script>
 
 <template>
+  <!--TODO: Add small medium large to 'board' based on width option-->
   <div class="board">
     <div class="board-header">
 
-      <a v-if="isInbox">
+      <a :class="{ 'dot': !isInbox }" @focus="toggleBoardDots" @focusout="toggleBoardDots" tabindex="0">
         <Icon name="dots" color="grey" class="t8" />
       </a>
       <a v-if="isInbox">
@@ -23,18 +28,23 @@ defineProps<{
 
 
       <h1 v-if="!isInbox">Title</h1>
-      <div v-if="!isInbox" class="options">
-        <div class="size">
+      <div class="options" v-if="showBoardDots">
+        <div class="size" v-if="!isInbox">
           <p>Board size</p>
           <ButtonSecondary text="S" enabled class="btn" />
           <ButtonSecondary text="M" enabled class="btn" />
           <ButtonSecondary text="L" enabled class="btn" />
         </div>
-        <div class="option">
-          <p>Move all emails to trash</p>
+        <div class="option" v-if="!isInbox">
+          <p>Move all emails</p>
           <ButtonSecondary lass="btn">
-            <Icon name="trash" color="blue" />
             Trash all
+          </ButtonSecondary>
+        </div>
+        <div class="option" v-if="isInbox">
+          <p>Manage board rules</p>
+          <ButtonSecondary lass="btn">
+            Board rules
           </ButtonSecondary>
         </div>
       </div>
@@ -91,10 +101,16 @@ defineProps<{
   transition: .2s;
 }
 
+.dot {
+  position: absolute;
+  left: 0;
+  margin-left: 20px;
+}
+
 .board-header {
   height: 50px;
   width: 100%;
-  padding: 10px 0;
+  padding: 15px 0;
   display: inline-block;
   text-align: center;
   -webkit-touch-callout: none;
@@ -110,6 +126,70 @@ defineProps<{
   user-select: none;
 }
 
+.medium {
+  width: 150px;
+}
+
+.medium .email-card {
+  padding: 6px 6px 0 6px;
+}
+
+.small {
+  width: 30px;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.small .dot {
+  display: none;
+}
+
+.small .email-card {
+  pointer-events: none;
+  display: none;
+}
+
+.small .board-header {
+  border-radius: var(--primary-border-radius);
+  background: var(--primary-background-color);
+  height: 185px !important;
+  position: relative;
+  z-index: 5;
+  cursor: unset !important;
+  filter: brightness(1);
+  transition: .2s;
+}
+
+.small .board-header:hover {
+  filter: brightness(1.2);
+  transition: .2s;
+}
+
+.small h1 {
+  writing-mode: vertical-rl;
+  padding: 15px 10px 0 10px;
+  margin-top: -15px;
+  transition: .2s;
+  z-index: 11;
+  position: relative;
+  overflow: visible;
+  text-align: left;
+  max-width: 100% !important;
+  margin-top: 0;
+  margin-left: 5px;
+}
+
+.small .board-body {
+  padding: 0;
+  width: 40px;
+  margin-left: -5px;
+  height: 180px;
+  margin-top: -150px;
+  pointer-events: none;
+
+
+}
+
 .board-header h1 {
   text-align: center;
   font-size: 17px;
@@ -117,36 +197,28 @@ defineProps<{
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
-  padding: 0 10px 0 10px;
+  padding: 0 10px 20px 10px;
   text-overflow: ellipsis;
   max-width: calc(100% - 45px);
-  z-index: 2;
   position: relative;
 }
 
-.board-header h1:hover~.options {
-  display: unset !important;
-}
 
 .board-header .options {
   position: absolute;
   z-index: 1;
   top: 0;
   left: 0;
-  /* margin-top: 2px; */
+  display: inline-flex;
+  width: 100%;
   border-radius: var(--primary-border-radius);
-  /* margin-left: 2px; */
   border: 3px solid var(--primary-background-color);
   box-shadow: 11px 14px 10px #00000040;
-}
-
-.options:hover {
-  display: unset !important;
-}
-
-.options {
-  display: none;
   background: var(--secondary-background-color);
+}
+
+.board-header .options div {
+  padding: 0 10px 5px 10px;
 }
 
 .size p,
@@ -183,6 +255,7 @@ defineProps<{
 .board .switch {
   display: inline-flex;
   height: 35px;
+  margin-top: -5px;
   color: var(--primary-font-color);
   border-radius: var(--primary-border-radius);
   overflow: hidden;
