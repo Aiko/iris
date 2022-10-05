@@ -14,7 +14,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
     'collapsed': isSidebarCollapsed,
   }">
     <div class="top">
-      <ButtonPrimary>
+      <ButtonPrimary href="composer">
         <Icon name="compose" color="white" class="special" />Compose
       </ButtonPrimary>
       <NavLinkHome text="Home" active />
@@ -155,7 +155,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 11px;
+  margin-left: 12px;
   transition: .2s;
 }
 

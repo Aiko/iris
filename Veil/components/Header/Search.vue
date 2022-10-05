@@ -40,6 +40,7 @@ input {
   background-color: transparent;
   width: 100%;
   cursor: text !important;
+  letter-spacing: .4px;
 }
 
 img {

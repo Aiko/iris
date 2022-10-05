@@ -120,7 +120,7 @@ let quickReply = ref(false)
 }
 
 .email-card:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.2);
   box-shadow: none;
   transition: .2s;
 }
@@ -353,13 +353,13 @@ let quickReply = ref(false)
 .thread-count span {
   height: 11px;
   border-radius: var(--primary-border-radius);
-  margin-top: px;
+  position: relative;
   width: fit-content;
   color: var(--main-text-color);
   margin-left: -8px;
   font-size: 10px;
   padding: 0 0px 1px 1px;
-  FONT-WEIGHT: 600;
+  font-weight: 600;
   line-height: 10px;
   background: var(--secondary-background-color);
 }

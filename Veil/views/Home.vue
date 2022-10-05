@@ -9,10 +9,11 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue';
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
+import Composer from './Composer.vue';
 </script>
 
 <template>
-  <div class="home">
+  <div class="home" v-if="true">
     <div class="boards">
 
       <!--Boards are normal unless they have 'inbox' attribute-->
