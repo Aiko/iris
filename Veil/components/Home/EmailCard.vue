@@ -77,19 +77,19 @@ let quickReply = ref(false)
         </span>
       </div>
       <div class="actions">
-        <span>
+        <span title="Reply">
           <Icon name="reply" color="grey" />
         </span>
-        <span>
+        <span title="Reply all">
           <Icon name="reply-all" color="grey" />
         </span>
-        <span>
+        <span title="Forward">
           <Icon name="forward" color="grey" />
         </span>
-        <span>
+        <span title="Star">
           <Icon name="star" color="grey" />
         </span>
-        <span>
+        <span title="Trash">
           <Icon name="trash" color="grey" />
         </span>
       </div>
