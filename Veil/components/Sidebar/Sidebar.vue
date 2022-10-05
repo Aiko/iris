@@ -128,8 +128,6 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   overflow: hidden;
 }
 
-
-
 .sidebar.collapsed .bottom {
   display: inline-grid;
 }
