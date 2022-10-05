@@ -94,6 +94,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   position: relative;
   contain: size layout;
   box-shadow: var(--board-shadow);
+  display: inline-table;
   border: none !important;
   transition: .2s;
 }

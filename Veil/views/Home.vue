@@ -52,8 +52,8 @@ import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
 }
 
 .home .boards {
-  overflow: visible;
+  overflow-x: visible;
   display: inline-flex;
-  width: 100%;
+  padding-right: 20px;
 }
 </style>
