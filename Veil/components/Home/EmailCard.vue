@@ -12,14 +12,30 @@ let quickReply = ref(false)
   }">
     <div class="row">
       <div class="col-8 p0 sender">
-        Ruben Touitou from Aiko Mail
+        Sender
+        <div class="thread-count" title="Thread count">
+          <Icon name="thread" color="grey" />
+          <span>4</span>
+        </div>
+        <div class="attachment" title="Email has attachment(s)">
+          <Icon name="attachment" color="grey" />
+        </div>
+        <div class="bcc" title="You were BCC'ed">
+          <Icon name="bcc" color="grey" />
+        </div>
+        <div class="tracker">
+          <Icon name="tracker" color="grey" title="One or more trackers blocked from tracking you" />
+        </div>
+        <div class="event">
+          <Icon name="calendar" color="grey" title="Email has event" />
+        </div>
       </div>
-      <div class="col-4 p0 date">
-        9:36PM
+      <div class="col-4 p0 date" title="Time received">
+        Time
       </div>
     </div>
     <div class="subject">
-      Meeting request from rubentouitou.com
+      Subject
     </div>
     <div class="preview">
       Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
@@ -120,6 +136,7 @@ let quickReply = ref(false)
   margin-bottom: 0;
   letter-spacing: .4px;
   font-weight: 500;
+  display: inline-flex;
 }
 
 .email-card .date {
@@ -329,5 +346,33 @@ let quickReply = ref(false)
   margin-left: 0px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.thread-count span {
+  height: 11px;
+  border-radius: var(--primary-border-radius);
+  margin-top: px;
+  width: fit-content;
+  color: var(--main-text-color);
+  margin-left: -8px;
+  font-size: 10px;
+  padding: 0 0px 1px 1px;
+  FONT-WEIGHT: 600;
+  line-height: 10px;
+  background: var(--secondary-background-color);
+}
+
+
+.bcc img {
+  height: 15px;
+  margin-left: 4px;
+}
+
+.event img,
+.attachment img,
+.tracker img,
+.thread-count img {
+  height: 16px;
+  margin-left: 4px;
 }
 </style>
