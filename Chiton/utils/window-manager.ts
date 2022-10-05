@@ -138,7 +138,7 @@ export default class WindowManager {
       show: false,
       frame: process.platform == 'darwin',
       titleBarStyle: 'hidden',
-      backgroundColor: nativeTheme.shouldUseDarkColors ? '#312f2e' : '#ffffff',
+      backgroundColor: nativeTheme.shouldUseDarkColors ? '#0c0e13' : '#ffffff',
       webPreferences: {
         nodeIntegration: true, //! FIXME: migrate fully to websockets
         spellcheck,
