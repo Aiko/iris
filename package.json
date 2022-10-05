@@ -135,6 +135,7 @@
     }
   },
   "dependencies": {
+    "@aiko/dwarfhaven": "^2.0.0",
     "@cliqz/adblocker-electron": "^1.20.2",
     "@seald-io/nedb": "^3.0.0",
     "@sentry/electron": "^2.0.4",
@@ -198,5 +199,8 @@
     "electron": "^20.0.0",
     "tsc-alias": "^1.7.0",
     "vite": "^3.0.9"
-  }
+  },
+  "bundleDependencies": [
+    "@aiko/dwarfhaven"
+  ]
 }

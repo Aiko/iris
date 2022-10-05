@@ -6,7 +6,14 @@ This repository houses the core desktop application, nicknamed Iris.
 
 ### Prerequisites
 
-You need Typescript:
+First, you'll need to authenticate with GitHub Packages. Create a [personal access token here](https://github.com/settings/tokens), with at least the `read:packages` scope.
+
+Then, run: `npm login --registry=https://npm.pkg.github.com` from a Terminal.
+- username: your GitHub username
+- password: the token you created
+- email address: your GitHub email
+
+Next, you need Typescript:
 
 ```
 npm add -g typescript @vue/cli
