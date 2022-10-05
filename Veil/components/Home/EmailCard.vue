@@ -75,8 +75,6 @@ let quickReply = ref(false)
           <Icon name="calendar" color="blue" />
           <div class="text primarycolor" htext="Schedule">Schedule</div>
         </span>
-
-
       </div>
       <div class="actions">
         <span>
@@ -263,8 +261,6 @@ let quickReply = ref(false)
   max-height: 100px;
 }
 
-
-
 .email-card .send:hover {
   background: var(--primary-background-color-hover);
   transition: .2s;
@@ -300,19 +296,9 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
-@media screen and (prefers-color-scheme: dark) {
-  .email-card .actions span img:hover {
-    transition: .2s;
-    filter: brightness(1.5);
-  }
-}
-
-@media screen and (prefers-color-scheme: light) {
-
-  .email-card .actions span img:hover {
-    transition: .2s;
-    opacity: .7;
-  }
+.email-card .actions span img:hover {
+  transition: .2s;
+  opacity: .7;
 }
 
 .email-card .bottom .quick-action span {

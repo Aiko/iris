@@ -23,8 +23,6 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
           <Icon name="refresh" color="grey" />
         </a>
       </div>
-
-
       <h1 v-if="!isInbox">Title</h1>
       <div class="options" v-if="showBoardDots">
         <div class="size" v-if="!isInbox">
@@ -47,15 +45,11 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
         </div>
         <div class="option" v-if="isInbox">
           <p>Sort emails</p>
-
           <ButtonSecondary lass="btn">Date (Newest first)</ButtonSecondary>
           <ButtonSecondary lass="btn">Date (Oldest first)</ButtonSecondary>
           <ButtonSecondary lass="btn">Unread First</ButtonSecondary>
-
         </div>
       </div>
-
-
       <div class="switch" v-if="isInbox">
         <div class="tab active">
           Priority
@@ -70,8 +64,6 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
           </div>
         </div>
       </div>
-
-
     </div>
     <div class="board-body">
       <EmailCard />
@@ -87,7 +79,6 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
       <EmailCard />
       <EmailCard />
       <EmailCard />
-
     </div>
   </div>
 </template>
@@ -225,13 +216,26 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 }
 
 .board-header .options div {
-  padding: 0 5px 5px 5px;
+  padding: 0 5px 10px 5px;
 }
 
 .size {
   text-align: left;
   white-space: nowrap;
   margin-right: 10px;
+}
+
+.medium .options {
+  display: inline-table;
+  padding: 0;
+  margin: 0;
+  margin-left: -12px;
+}
+
+.medium .option {
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .size p,
