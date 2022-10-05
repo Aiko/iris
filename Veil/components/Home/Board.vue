@@ -29,13 +29,13 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
       <div class="options" v-if="showBoardDots">
         <div class="size" v-if="!isInbox">
           <p>Board size</p>
-          <ButtonSecondary text="S" enabled class="btn" />
-          <ButtonSecondary text="M" enabled class="btn" />
-          <ButtonSecondary text="L" enabled class="btn" />
+          <ButtonSecondary class="btn">Small</ButtonSecondary>
+          <ButtonSecondary class="btn">Medium</ButtonSecondary>
+          <ButtonSecondary class="btn">Large</ButtonSecondary>
         </div>
         <div class="option" v-if="!isInbox">
           <p>Move all emails</p>
-          <ButtonSecondary lass="btn">
+          <ButtonSecondary class="btn">
             Trash all
           </ButtonSecondary>
         </div>
@@ -225,19 +225,25 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 }
 
 .board-header .options div {
-  padding: 0 10px 5px 10px;
+  padding: 0 5px 5px 5px;
+}
+
+.size {
+  text-align: left;
+  white-space: nowrap;
+  margin-right: 10px;
 }
 
 .size p,
 .option p {
-  margin: 0;
   font-size: 13px;
   margin-bottom: 2px;
   margin-top: 10px;
+  margin-left: 5px;
 }
 
 .option {
-  width: 48%;
+  width: 50%;
   text-align: left;
 }
 
