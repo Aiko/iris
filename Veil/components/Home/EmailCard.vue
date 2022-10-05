@@ -120,7 +120,7 @@ let quickReply = ref(false)
 }
 
 .email-card:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.2);
   box-shadow: none;
   transition: .2s;
 }
