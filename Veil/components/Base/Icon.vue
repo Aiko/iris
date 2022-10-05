@@ -6,7 +6,7 @@ defineProps<{
 </script>
 
 <template>
-  <img :src="'@Veil/assets/icons/' + name + '.svg'" :class="color" />
+  <img :src="'Veil/assets/icons/' + name + '.svg'" :class="color" />
 </template>
 
 <style scoped>

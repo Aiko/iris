@@ -27,10 +27,12 @@ defineProps<{
     </a>
 
     <a :class="active ? 'active' : ''" title="ruben@helloaiko.com (3)">
+      <Icon name="home" color="grey" />
       ruben@helloaiko.com
     </a>
 
     <a :class="active ? 'active' : ''" title="rubencharlestouitou@gmail.com (33)">
+      <Icon name="home" color="grey" />
       rubencharlestouitou@gmail.com
     </a>
 
@@ -43,11 +45,7 @@ defineProps<{
   width: 100%;
   display: grid;
   overflow: hidden;
-}
-
-.home-picker {
   height: 38px;
-  transition: .2s;
 }
 
 .sidebar.collapsed .count {
@@ -58,11 +56,13 @@ defineProps<{
   background: var(--secondary-background-color);
   border-radius: var(--primary-border-radius);
   margin-top: 3px;
-}
-
-.home-picker:hover {
   height: fit-content;
-  transition: .2s;
+  overflow: visible;
+  width: max-content;
+  border: 3px solid var(--primary-background-color);
+  z-index: 1;
+  margin-top: 40px;
+  position: absolute;
 }
 
 .home-picker a {
