@@ -9,7 +9,7 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue';
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
-import Composer from './Composer.vue';
+import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
 </script>
 
 <template>
@@ -35,6 +35,10 @@ import Composer from './Composer.vue';
       <ModalBoardRules />
     </Modal>
 
+    <Modal size="large" v-if="false">
+      <ModalEmail />
+    </Modal>
+
   </div>
 </template>
 
@@ -48,8 +52,8 @@ import Composer from './Composer.vue';
 }
 
 .home .boards {
-  overflow: visible;
+  overflow-x: visible;
   display: inline-flex;
-  width: 100%;
+  padding-right: 20px;
 }
 </style>

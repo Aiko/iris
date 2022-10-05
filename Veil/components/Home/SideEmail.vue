@@ -20,6 +20,8 @@ import Email from "@Veil/components/Email/Email.vue";
   box-shadow: var(--board-shadow);
   border: none !important;
   border-top-right-radius: 0;
+  padding: 10px 10px 0 10px;
+  overflow: scroll;
   transition: .2s;
 }
 </style>

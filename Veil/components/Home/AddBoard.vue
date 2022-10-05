@@ -20,6 +20,7 @@ import Icon from "@Veil/components/Base/Icon.vue"
   border: none !important;
   text-align: center;
   opacity: .6;
+  display: inline-table;
   transition: .2s;
 }
 

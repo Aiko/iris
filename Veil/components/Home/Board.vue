@@ -3,6 +3,7 @@ import { ref } from '@vue/reactivity';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
+import Empty from "@Veil/components/Home/Empty.vue"
 defineProps<{
   isInbox?: boolean
 }>()
@@ -67,18 +68,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
     </div>
     <div class="board-body">
       <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
-      <EmailCard />
+      <Empty message="Drag emails here" />
     </div>
   </div>
 </template>
@@ -94,6 +84,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   position: relative;
   contain: size layout;
   box-shadow: var(--board-shadow);
+  display: inline-table;
   border: none !important;
   transition: .2s;
 }
