@@ -21,7 +21,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
           <Icon name="dots" color="grey" class="t8" />
         </a>
         <a v-if="isInbox">
-          <Icon name="refresh" color="grey" />
+          <Icon name="refresh" color="grey" class="refresh" />
         </a>
       </div>
       <h1 v-if="!isInbox">Title</h1>
@@ -53,15 +53,15 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
       </div>
       <div class="switch" v-if="isInbox">
         <div class="tab active">
-          Priority
+          Priority Inbox
           <div class="count">
-            99+
+            7
           </div>
         </div>
         <div class="tab">
           Others
           <div class="count">
-            4
+            99+
           </div>
         </div>
       </div>
@@ -247,13 +247,8 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 }
 
 .board-header img {
-  padding: 3px;
-  margin-right: 3px;
-  width: 25px;
-}
-
-.board-header a:first-of-type img {
-  margin-left: -15px;
+  padding: 7px 1px;
+  width: 23px;
 }
 
 .board-body {
@@ -282,12 +277,14 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   display: inline-flex;
   padding: 3px 5px 3px 7px;
   opacity: .5;
+  letter-spacing: .2px;
   transition: .2s;
 }
 
 .board .switch .active {
   background-color: var(--secondary-background-color);
   opacity: 1;
+  font-weight: 500;
   transition: .2s;
 }
 
@@ -314,12 +311,17 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 
 .top .t8 {
   widows: 28px;
+  margin-left: -15px;
 }
 
 .acont {
   position: absolute;
   left: 0;
-  margin-left: 20px;
-  margin-top: -1px;
+  margin-left: 5px;
+  margin-top: -5px;
+}
+
+.refresh {
+  width: 22px !important;
 }
 </style>

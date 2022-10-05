@@ -42,9 +42,12 @@ defineProps<{
 .home-picker {
   width: 100%;
   display: grid;
-  height: 38px;
   overflow: hidden;
+}
 
+.home-picker {
+  height: 38px;
+  transition: .2s;
 }
 
 .sidebar.collapsed .count {
@@ -52,10 +55,14 @@ defineProps<{
 }
 
 .home-picker:hover {
-  height: fit-content;
   background: var(--secondary-background-color);
   border-radius: var(--primary-border-radius);
   margin-top: 3px;
+}
+
+.home-picker:hover {
+  height: fit-content;
+  transition: .2s;
 }
 
 .home-picker a {
@@ -75,6 +82,7 @@ defineProps<{
 
 .home-picker a:hover {
   background: var(--primary-background-color-hover);
+  border-radius: 0;
 }
 
 .home-picker:hover a:first-child {
