@@ -15,16 +15,14 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   <!--TODO: Add small medium large to 'board' based on width option-->
   <div class="board">
     <div class="board-header">
-
-      <a :class="{ 'dot': !isInbox }" @focus="toggleBoardDots" @focusout="toggleBoardDots" tabindex="0">
-        <Icon name="dots" color="grey" class="t8" />
-      </a>
-      <a v-if="isInbox">
-        <Icon name="sort" color="grey" />
-      </a>
-      <a v-if="isInbox">
-        <Icon name="refresh" color="grey" />
-      </a>
+      <div class="acont">
+        <a :class="{ 'dot': !isInbox }" @focus="toggleBoardDots" @focusout="toggleBoardDots" tabindex="0">
+          <Icon name="dots" color="grey" class="t8" />
+        </a>
+        <a v-if="isInbox">
+          <Icon name="refresh" color="grey" />
+        </a>
+      </div>
 
 
       <h1 v-if="!isInbox">Title</h1>
@@ -46,6 +44,14 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
           <ButtonSecondary lass="btn">
             Board rules
           </ButtonSecondary>
+        </div>
+        <div class="option" v-if="isInbox">
+          <p>Sort emails</p>
+
+          <ButtonSecondary lass="btn">Date (Newest first)</ButtonSecondary>
+          <ButtonSecondary lass="btn">Date (Oldest first)</ButtonSecondary>
+          <ButtonSecondary lass="btn">Unread First</ButtonSecondary>
+
         </div>
       </div>
 
@@ -104,13 +110,14 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 .dot {
   position: absolute;
   left: 0;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 .board-header {
   height: 50px;
   width: 100%;
-  padding: 15px 0;
+  padding: 18px 0;
+  overflow: hidden;
   display: inline-block;
   text-align: center;
   -webkit-touch-callout: none;
@@ -229,6 +236,11 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   margin-top: 10px;
 }
 
+.option {
+  width: 48%;
+  text-align: left;
+}
+
 .option a img {
   width: 20px;
 }
@@ -254,13 +266,15 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 
 .board .switch {
   display: inline-flex;
+  position: absolute;
+  right: 0;
+  margin-right: 10px;
   height: 35px;
   margin-top: -5px;
   color: var(--primary-font-color);
   border-radius: var(--primary-border-radius);
   overflow: hidden;
   border: 2px solid var(--secondary-background-color);
-  margin-left: 5px;
 }
 
 .board .tab {
@@ -299,5 +313,12 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 
 .top .t8 {
   widows: 28px;
+}
+
+.acont {
+  position: absolute;
+  left: 0;
+  margin-left: 20px;
+  margin-top: -1px;
 }
 </style>
