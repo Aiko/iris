@@ -21,6 +21,7 @@ import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
 
       <!--Work in progress: 'isRegular' will be regular non-kanban view-->
       <Board v-if="!isRegularView" />
+
       <AddBoard v-if="!isRegularView" />
       <SideEmail v-if="isRegularView" />
     </div>
