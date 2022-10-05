@@ -249,6 +249,12 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 .board-header img {
   padding: 7px 1px;
   width: 23px;
+  transition: .2s;
+}
+
+.board-header img:hover {
+  opacity: .6;
+  transition: .2s;
 }
 
 .board-body {
