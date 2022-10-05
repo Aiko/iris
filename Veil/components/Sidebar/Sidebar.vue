@@ -15,7 +15,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   }">
     <div class="top">
       <ButtonPrimary>
-        <Icon name="compose" color="white" />Compose
+        <Icon name="compose" color="white" class="special" />Compose
       </ButtonPrimary>
       <NavLinkHome text="Home" active />
       <NavLink>
@@ -118,6 +118,11 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   margin-right: -8px;
 }
 
+.sidebar.collapsed .special {
+  margin-right: 10px !important;
+  margin-left: -2px !important;
+}
+
 .sidebar.collapsed .top a {
   width: 30px;
   overflow: hidden;
@@ -142,7 +147,6 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   padding-top: 20px;
   bottom: 0;
   left: 0;
-  background: var(--primary-background-color);
 }
 
 .bottom a {

@@ -42,7 +42,6 @@ import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
   width: 100%;
   overflow-x: scroll;
   height: calc(100% - 50px);
-  background-color: var(--secondary-background-color);
   padding-left: 20px;
   display: inline-flex;
 }

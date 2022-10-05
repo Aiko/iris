@@ -16,12 +16,22 @@ body {
 }
 
 #app {
-  margin-top: 28px;
   width: 100%;
-  height: calc(100% - 28px);
-  padding: 0;
+  height: 100%;
+  padding: 28px 0 0 0;
   background-color: var(--secondary-background-color);
   display: inline-flex;
+}
+
+@media screen and (prefers-color-scheme: light) {
+  #app {
+    overflow: hidden;
+    user-select: none;
+    background-image: url(@Veil/assets/img/bg.jpg);
+    background-color: transparent;
+    background-position: top;
+    background-size: cover;
+  }
 }
 
 section {
@@ -186,4 +196,21 @@ textarea {
 
 .p0 {
   padding: 0;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: var(--primary-font-color);
+  opacity: 1;
+  /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--primary-font-color);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--primary-font-color);
 }

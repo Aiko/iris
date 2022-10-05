@@ -16,10 +16,8 @@ import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
   position: relative;
   height: 50px;
   width: 100%;
-  border-left: 2px solid var(--secondary-background-color);
   padding: 10px 10px 10px 20px;
   display: inline-flex;
-  background: var(--secondary-background-color);
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;

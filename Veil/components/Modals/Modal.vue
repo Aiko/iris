@@ -90,4 +90,11 @@ h1 {
   z-index: 100;
   backdrop-filter: blur(5px) !important;
 }
+
+@media screen and (prefers-color-scheme: light) {
+
+  .modal {
+    background: var(--modal-special-background);
+  }
+}
 </style>

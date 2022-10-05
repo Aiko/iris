@@ -3,16 +3,41 @@ import Icon from '@Veil/components/Base/Icon.vue'
 </script>
 
 <template>
-  <Icon name="search" color="grey" />
-  <input type="text" placeholder="Search" />
-  <p>Press ENTER to search</p>
+  <div class="search">
+    <Icon name="search" color="grey" />
+    <input type="text" placeholder="Search" />
+    <p>Press ENTER to search</p>
+  </div>
 </template>
 
 <style scoped>
+.search {
+  display: inline-flex;
+  width: 100%;
+}
+
+@media screen and (prefers-color-scheme: light) {
+  .search {
+    background: var(--primary-background-color);
+    border-radius: var(--primary-border-radius);
+    padding-left: 10px;
+  }
+
+
+
+  .search p {
+    right: 0;
+    margin-top: 17px;
+    margin-left: 0;
+    margin-right: 30px;
+    z-index: 11;
+  }
+}
+
 input {
   padding: 9px 11px 9px 5px;
-  background: var(--secondary-background-color);
   border: none;
+  background-color: transparent;
   width: 100%;
   cursor: text !important;
 }

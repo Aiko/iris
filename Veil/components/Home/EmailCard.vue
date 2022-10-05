@@ -115,6 +115,12 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
+@media screen and (prefers-color-scheme: light) {
+  .email-card:hover {
+    filter: brightness(0.97) !important;
+  }
+}
+
 .email-card:hover {
   filter: brightness(0.9);
   box-shadow: none;
@@ -176,7 +182,7 @@ let quickReply = ref(false)
 }
 
 .email-card .bottom {
-  box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+  box-shadow: var(--email-bottom-shadow);
   user-select: none;
   display: flex;
   width: calc(100% + 20px);
@@ -211,7 +217,7 @@ let quickReply = ref(false)
 }
 
 .email-card .quick-reply {
-  box-shadow: inset 5px 22px 40px -20px #00000073 !important;
+  box-shadow: var(--email-bottom-shadow);
   user-select: none;
   width: 100%;
   display: none;
@@ -294,9 +300,19 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
-.email-card .actions span img:hover {
-  transition: .2s;
-  filter: brightness(1.5);
+@media screen and (prefers-color-scheme: dark) {
+  .email-card .actions span img:hover {
+    transition: .2s;
+    filter: brightness(1.5);
+  }
+}
+
+@media screen and (prefers-color-scheme: light) {
+
+  .email-card .actions span img:hover {
+    transition: .2s;
+    opacity: .7;
+  }
 }
 
 .email-card .bottom .quick-action span {

@@ -23,11 +23,15 @@ defineProps<{
 }
 
 .grey {
-  filter: none;
+  filter: var(--icon-filter);
 }
 
 .gray {
-  filter: none;
+  filter: var(--icon-filter);
+}
+
+.normal {
+  filter: var(--icon-filter);
 }
 
 .white {
