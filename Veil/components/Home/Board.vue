@@ -53,7 +53,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
       </div>
       <div class="switch" v-if="isInbox">
         <div class="tab active">
-          Priority Inbox
+          Priority
           <div class="count">
             7
           </div>
@@ -246,7 +246,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 }
 
 .board-header img {
-  padding: 7px 1px;
+  padding: 7px 0px;
   width: 23px;
   transition: .2s;
 }
@@ -327,6 +327,6 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 }
 
 .refresh {
-  width: 22px !important;
+  width: 20px !important;
 }
 </style>
