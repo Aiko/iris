@@ -26,6 +26,10 @@ p {
   background: var(--secondary-background-color);
   padding: 1px 5px;
   border-radius: var(--primary-border-radius);
+  white-space: nowrap;
+  width: calc(100% - 140px);
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .control-bar {
