@@ -1,6 +1,17 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity';
 import Icon from "@Veil/components/Base/Icon.vue";
+import { infoContent } from '@Veil/state/sections'
+
+
+// Information variables for 'EmailCard' component
+let infoThreadCount = 'Number of emails in this thread'
+let infoAttachment = 'This email has attachment(s)'
+let infoBCC = 'You were BCC ed'
+let infoTracker = 'One or more trackers blocked from tracking you'
+let infoEvent = 'Email contains an event'
+let infoQuickReply = 'Reply to this email right from the homescreen'
+
 
 let quickReply = ref(false)
 </script>
@@ -13,21 +24,21 @@ let quickReply = ref(false)
     <div class="row">
       <div class="col-8 p0 sender">
         Sender
-        <div class="thread-count" title="Thread count">
+        <div class="thread-count" @mouseover="infoContent = infoThreadCount" @mouseleave="infoContent = ''">
           <Icon name="thread" color="normal" />
           <span>4</span>
         </div>
-        <div class="attachment" title="Email has attachment(s)">
+        <div class="attachment" @mouseover="infoContent = infoAttachment" @mouseleave="infoContent = ''">
           <Icon name="attachment" color="normal" />
         </div>
-        <div class="bcc" title="You were BCC'ed">
+        <div class="bcc" title="You were BCC'ed" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
           <Icon name="bcc" color="normal" />
         </div>
-        <div class="tracker">
+        <div class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
           <Icon name="tracker" color="normal" title="One or more trackers blocked from tracking you" />
         </div>
-        <div class="event">
-          <Icon name="calendar" color="normal" title="Email has event" />
+        <div class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
+          <Icon name="calendar" color="normal" />
         </div>
       </div>
       <div class="col-4 p0 date" title="Time received">
@@ -53,7 +64,8 @@ let quickReply = ref(false)
 
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
-        <span @focus="quickReply = true" tabindex="0" v-if="true">
+        <span @focus="quickReply = true" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
+          @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
         </span>
