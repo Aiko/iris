@@ -4,6 +4,14 @@ import NavLink from '@Veil/components/Sidebar/NavLink.vue';
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 import { isSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
+import { infoContent } from '@Veil/state/sections'
+
+
+// Information variables for 'Sidebar' component
+let infoCollapse = 'Toggle sidebar collapse'
+let infoDocumentation = 'Open documentation'
+let infoSettings = 'Open settings'
+let infoCalendar = 'Open calendar'
 
 const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollapsed.value)
 </script>
@@ -36,16 +44,17 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       </NavLink>
     </div>
     <div class="bottom">
-      <div class="sidebar-collapse" title="Collapse sidebar" @click="toggleSidebarCollapse">
+      <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
+        @mouseleave="infoContent = ''">
         <Icon name="sidebar-collapse" color="normal" />
       </div>
-      <a>
+      <a @mouseover="infoContent = infoCalendar" @mouseleave="infoContent = ''">
         <Icon name="calendar" color="normal" />
       </a>
-      <a>
+      <a @mouseover="infoContent = infoSettings" @mouseleave="infoContent = ''">
         <Icon name="settings" color="normal" />
       </a>
-      <a>
+      <a @mouseover="infoContent = infoDocumentation" @mouseleave="infoContent = ''">
         <Icon name="documentation" color="normal" class="docu" />
       </a>
     </div>
