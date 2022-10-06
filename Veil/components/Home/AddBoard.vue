@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue"
+import { infoContent } from '@Veil/state/sections'
+
+
+// Information variables for 'AddBoard' component
+let infoAddBoard = 'Add a new board'
 </script>
 
 <template>
-  <div class="add-board">
+  <div class="add-board" @mouseover="infoContent = infoAddBoard" @mouseleave="infoContent = ''">
     <Icon name="plus" color="normal" />
   </div>
 </template>
