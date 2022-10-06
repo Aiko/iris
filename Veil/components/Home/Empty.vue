@@ -8,7 +8,7 @@ defineProps<{
 <template>
   <div class="empty">
     <div class="middle">
-      <Icon name="drag" color="grey" />
+      <Icon name="drag" color="normal" />
       <p>{{message}}</p>
     </div>
   </div>

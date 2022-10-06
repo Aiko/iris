@@ -4,12 +4,18 @@ import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 import Empty from "@Veil/components/Home/Empty.vue"
+import { infoContent } from '@Veil/state/sections'
+
 defineProps<{
   isInbox?: boolean
 }>()
 
 let showBoardDots = ref(false)
 const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
+
+// Information variables for 'Board' component
+let infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
+let infoBoardRules = 'Board rules let you automatically sort emails into existing boards based on content, type, sender...'
 </script>
 
 <template>
@@ -18,10 +24,10 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
     <div class="board-header">
       <div class="acont">
         <a :class="{ 'dot': !isInbox }" @focus="toggleBoardDots" @focusout="toggleBoardDots" tabindex="0">
-          <Icon name="dots" color="grey" class="t8" />
+          <Icon name="dots" color="normal" class="t8" />
         </a>
         <a v-if="isInbox">
-          <Icon name="refresh" color="grey" class="refresh" />
+          <Icon name="refresh" color="normal" class="refresh" />
         </a>
       </div>
       <h1 v-if="!isInbox">Title</h1>
@@ -40,9 +46,11 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
         </div>
         <div class="option" v-if="isInbox">
           <p>Manage board rules</p>
-          <ButtonSecondary lass="btn">
+          <ButtonSecondary lass="btn" @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
             Board rules
           </ButtonSecondary>
+          <Info title="Spaces"
+            text="Create custom spaces to separate different topics, you can decide to displace certain boards in only certain Spaces. For example, a 'Travel' Space with boards 'Flights' and 'Hotels'." />
         </div>
         <div class="option" v-if="isInbox">
           <p>Sort emails</p>
@@ -51,7 +59,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
           <ButtonSecondary lass="btn">Unread First</ButtonSecondary>
         </div>
       </div>
-      <div class="switch" v-if="isInbox">
+      <div class="switch" v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
           Priority
           <div class="count">
@@ -197,6 +205,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
   z-index: 1;
   top: 0;
   left: 0;
+  overflow: visible;
   display: inline-flex;
   width: 100%;
   border-radius: var(--primary-border-radius);
@@ -239,6 +248,7 @@ const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 .option {
   width: 50%;
   text-align: left;
+  overflow: visible;
 }
 
 .option a img {

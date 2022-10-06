@@ -12,3 +12,6 @@ export let isRegularView = ref(false)
 
 // Regular View State
 export let isLoading = ref(false)
+
+// Global Tooltip Content (Experimental)
+export let infoContent = ref('')

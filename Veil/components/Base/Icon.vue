@@ -6,10 +6,18 @@ defineProps<{
 </script>
 
 <template>
-  <img :src="'Veil/assets/icons/' + name + '.svg'" :class="color" />
+  <img :src="'Veil/assets/icons/' + name + '.svg'" :class="color" draggable="false" />
 </template>
 
 <style scoped>
+img {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
 .blue {
   filter: invert(42%) sepia(35%) saturate(9051%) hue-rotate(215deg) brightness(97%) contrast(90%);
 }

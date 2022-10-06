@@ -14,20 +14,20 @@ let quickReply = ref(false)
       <div class="col-8 p0 sender">
         Sender
         <div class="thread-count" title="Thread count">
-          <Icon name="thread" color="grey" />
+          <Icon name="thread" color="normal" />
           <span>4</span>
         </div>
         <div class="attachment" title="Email has attachment(s)">
-          <Icon name="attachment" color="grey" />
+          <Icon name="attachment" color="normal" />
         </div>
         <div class="bcc" title="You were BCC'ed">
-          <Icon name="bcc" color="grey" />
+          <Icon name="bcc" color="normal" />
         </div>
         <div class="tracker">
-          <Icon name="tracker" color="grey" title="One or more trackers blocked from tracking you" />
+          <Icon name="tracker" color="normal" title="One or more trackers blocked from tracking you" />
         </div>
         <div class="event">
-          <Icon name="calendar" color="grey" title="Email has event" />
+          <Icon name="calendar" color="normal" title="Email has event" />
         </div>
       </div>
       <div class="col-4 p0 date" title="Time received">
@@ -44,7 +44,7 @@ let quickReply = ref(false)
     <div class="quick-reply">
       <input placeholder="Type reply here" @focusout="quickReply = false" autofocus />
       <div class="send" title="Send reply" @click="quickReply = false">
-        <Icon name="sent" color="grey" />
+        <Icon name="sent" color="normal" />
       </div>
     </div>
     <div class="bottom">
@@ -54,7 +54,7 @@ let quickReply = ref(false)
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
         <span @focus="quickReply = true" tabindex="0" v-if="true">
-          <Icon name="zap" color="grey" />
+          <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
         </span>
 
@@ -78,19 +78,19 @@ let quickReply = ref(false)
       </div>
       <div class="actions">
         <span title="Reply">
-          <Icon name="reply" color="grey" />
+          <Icon name="reply" color="normal" />
         </span>
         <span title="Reply all">
-          <Icon name="reply-all" color="grey" />
+          <Icon name="reply-all" color="normal" />
         </span>
         <span title="Forward">
-          <Icon name="forward" color="grey" />
+          <Icon name="forward" color="normal" />
         </span>
         <span title="Star">
-          <Icon name="star" color="grey" />
+          <Icon name="star" color="normal" />
         </span>
         <span title="Trash">
-          <Icon name="trash" color="grey" />
+          <Icon name="trash" color="normal" />
         </span>
       </div>
     </div>
@@ -140,8 +140,10 @@ let quickReply = ref(false)
   margin-bottom: 0;
   letter-spacing: .4px;
   font-weight: 500;
+  user-select: none;
   display: inline-flex;
 }
+
 
 .email-card .date {
   color: var(--primary-font-color);

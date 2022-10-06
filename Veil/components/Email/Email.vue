@@ -37,22 +37,22 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
           </div>
           <div class="actions">
             <span title="Reply">
-              <Icon name="reply" color="grey" />
+              <Icon name="reply" color="normal" />
             </span>
             <span title="Reply all">
-              <Icon name="reply-all" color="grey" />
+              <Icon name="reply-all" color="normal" />
             </span>
             <span title="Forward">
-              <Icon name="forward" color="grey" />
+              <Icon name="forward" color="normal" />
             </span>
             <span title="Star">
-              <Icon name="star" color="grey" />
+              <Icon name="star" color="normal" />
             </span>
             <span title="Print">
-              <Icon name="print" color="grey" />
+              <Icon name="print" color="normal" />
             </span>
             <span title="Trash">
-              <Icon name="trash" color="grey" />
+              <Icon name="trash" color="normal" />
             </span>
           </div>
         </div>

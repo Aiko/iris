@@ -4,7 +4,7 @@ import Icon from "@Veil/components/Base/Icon.vue"
 
 <template>
   <div class="add-board">
-    <Icon name="plus" color="grey" />
+    <Icon name="plus" color="normal" />
   </div>
 </template>
 

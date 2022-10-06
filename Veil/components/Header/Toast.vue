@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
-import Loader from "../Base/Loader.vue";
-import ButtonPrimary from "../Base/ButtonPrimary.vue";
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 
 </script>
 

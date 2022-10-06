@@ -19,34 +19,34 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       </ButtonPrimary>
       <NavLinkHome text="Home" active />
       <NavLink>
-        <Icon name="sent" color="grey" />Sent
+        <Icon name="sent" color="normal" />Sent
       </NavLink>
       <NavLink>
-        <Icon name="drafts" color="grey" />Drafts
+        <Icon name="drafts" color="normal" />Drafts
       </NavLink>
 
       <NavLink>
-        <Icon name="archive" color="grey" />Archive
+        <Icon name="archive" color="normal" />Archive
       </NavLink>
       <NavLink>
-        <Icon name="spam" color="grey" />Spam
+        <Icon name="spam" color="normal" />Spam
       </NavLink>
       <NavLink>
-        <Icon name="trash" color="grey" />Trash
+        <Icon name="trash" color="normal" />Trash
       </NavLink>
     </div>
     <div class="bottom">
       <div class="sidebar-collapse" title="Collapse sidebar" @click="toggleSidebarCollapse">
-        <Icon name="sidebar-collapse" color="grey" />
+        <Icon name="sidebar-collapse" color="normal" />
       </div>
       <a>
-        <Icon name="calendar" color="grey" />
+        <Icon name="calendar" color="normal" />
       </a>
       <a>
-        <Icon name="settings" color="grey" />
+        <Icon name="settings" color="normal" />
       </a>
       <a>
-        <Icon name="documentation" color="grey" class="docu" />
+        <Icon name="documentation" color="normal" class="docu" />
       </a>
     </div>
   </div>

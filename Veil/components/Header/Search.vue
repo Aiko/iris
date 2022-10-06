@@ -4,7 +4,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
 
 <template>
   <div class="search">
-    <Icon name="search" color="grey" />
+    <Icon name="search" color="normal" />
     <input type="text" placeholder="Search" />
     <p>Press ENTER to search</p>
   </div>

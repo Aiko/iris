@@ -1,39 +1,59 @@
 <script lang="ts" setup>
 import Icon from '@Veil/components/Base/Icon.vue'
+import { infoContent } from '@Veil/state/sections'
 defineProps<{
   text?: string
   active?: boolean
 }>()
+
+// Information variables for 'NavLinkHome' component
+let infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in only certain Spaces.'
 </script>
 
 
 <template>
   <div class="home-picker">
 
-    <a :class="active ? 'active' : ''" title="All your inboxes">
-      <Icon name="home" color="grey" />
+    <a :class="active ? 'active' : ''">
+      <Icon name="home" color="normal" />
       {{text}}
       <span class="count">
         99+
       </span>
     </a>
 
-    <a :class="active ? 'active' : ''" title="Custom space">
-      <Icon name="home" color="grey" />
+    <a :class="active ? 'active' : ''">
+      <Icon name="home" color="normal" />
       Space
       <span class="count">
         99+
       </span>
     </a>
 
-    <a :class="active ? 'active' : ''" title="ruben@helloaiko.com (3)">
+    <a :class="active ? 'active' : ''">
       <img src="@Veil/assets/img/user.png" />
       ruben@helloaiko.com
+      <span class="count">
+        99+
+      </span>
     </a>
 
-    <a :class="active ? 'active' : ''" title="rubencharlestouitou@gmail.com (33)">
+    <a :class="active ? 'active' : ''">
       <img src="@Veil/assets/img/user.png" />
       rubencharlestouitou@gmail.com
+      <span class="count">
+        99+
+      </span>
+    </a>
+    <hr />
+    <a @mouseover="infoContent = infoSpaces" @mouseleave="infoContent = ''">
+      <Icon name="settings" color="normal" />
+      Add/Remove a Space
+    </a>
+
+    <a>
+      <Icon name="settings" color="normal" />
+      Add/Remove an email address
     </a>
 
 
@@ -68,6 +88,15 @@ defineProps<{
   position: absolute;
 }
 
+hr {
+  margin: 0;
+  background: var(--primary-background-color);
+}
+
+.home-picker:hover .count {
+  margin-left: 10px;
+}
+
 .home-picker:hover+.spaceholder {
   height: 38px;
 }
@@ -82,12 +111,14 @@ defineProps<{
   margin-top: 3px;
   white-space: nowrap;
   overflow: hidden;
+  overflow-y: visible;
   height: 30px;
   margin-bottom: 5px;
   letter-spacing: .3px;
 }
 
 .home-picker a:hover {
+  overflow: visible;
   background: var(--primary-background-color-hover);
   border-radius: 0;
 }
