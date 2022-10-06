@@ -135,7 +135,7 @@
     }
   },
   "dependencies": {
-    "@aiko/dwarfhaven": "^2.0.0",
+    "@aiko/dwarfhaven": "^2.1.0",
     "@cliqz/adblocker-electron": "^1.20.2",
     "@seald-io/nedb": "^3.0.0",
     "@sentry/electron": "^2.0.4",

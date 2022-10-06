@@ -2,7 +2,14 @@
 import Header from '@Veil/components/Header/Header.vue';
 import Home from '@Veil/views/Home.vue';
 import { isSidebarCollapsed } from '@Veil/state/sections'
+import Logger from '@Veil/services/roots'
 
+const Log = new Logger("Main", {
+  bgColor: "#ff99ff",
+  fgColor: "#000000",
+})
+
+Log.success("Mounted application.")
 </script>
 
 <template>
@@ -10,11 +17,7 @@ import { isSidebarCollapsed } from '@Veil/state/sections'
     'main': true,
     'collapsed-sidebar': isSidebarCollapsed,
   }">
-
-    <!--Header now has Search and toasts-->
     <Header />
-
-    <!--Current page, default is Home-->
     <Home />
   </div>
 </template>
