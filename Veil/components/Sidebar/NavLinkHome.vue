@@ -27,15 +27,18 @@ defineProps<{
     </a>
 
     <a :class="active ? 'active' : ''" title="ruben@helloaiko.com (3)">
-      <Icon name="home" color="grey" />
+      <img src="@Veil/assets/img/user.png" />
       ruben@helloaiko.com
     </a>
 
     <a :class="active ? 'active' : ''" title="rubencharlestouitou@gmail.com (33)">
-      <Icon name="home" color="grey" />
+      <img src="@Veil/assets/img/user.png" />
       rubencharlestouitou@gmail.com
     </a>
 
+
+  </div>
+  <div class="spaceholder">
 
   </div>
 </template>
@@ -55,14 +58,18 @@ defineProps<{
 .home-picker:hover {
   background: var(--secondary-background-color);
   border-radius: var(--primary-border-radius);
-  margin-top: 3px;
   height: fit-content;
   overflow: visible;
   width: max-content;
   border: 3px solid var(--primary-background-color);
+  border-left: none;
   z-index: 1;
-  margin-top: 40px;
+  margin-top: 38px;
   position: absolute;
+}
+
+.home-picker:hover+.spaceholder {
+  height: 38px;
 }
 
 .home-picker a {

@@ -22,6 +22,7 @@ defineProps<{
   background: var(--secondary-background-color);
   border-radius: var(--primary-border-radius);
   position: relative;
+  user-select: none;
 }
 
 .middle {
