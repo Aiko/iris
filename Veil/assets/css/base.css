@@ -1,9 +1,6 @@
 @import'./bootstrap.min.css';
 @import "./variables.css";
 
-* {
-  cursor: default !important;
-}
 
 html,
 body {

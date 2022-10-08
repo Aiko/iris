@@ -16,6 +16,6 @@ export let isLoading = ref(false)
 // Global Tooltip Content (Experimental)
 export let infoContent = ref('')
 
-// Global Tooltip Content (Experimental)
+// Composer Sidebar Collapse
 export let isComposerSidebarCollapsed = ref(true)
 

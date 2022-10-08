@@ -5,26 +5,26 @@ import Icon from "../Base/Icon.vue";
 
 <template>
   <div class="composer-options">
-    <ButtonSecondary>
-      <Icon name="close" color="normal" />
+    <ButtonSecondary active>
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="close" color="normal" />
+      <Icon name="sidebar-collapse" color="normal" />
     </ButtonSecondary>
   </div>
 </template>
@@ -33,8 +33,14 @@ import Icon from "../Base/Icon.vue";
 .composer-options {
   height: 60px;
   width: 100%;
-  padding: 10px;
-  background: var(--primary-background-color);
+  padding: 16px 10px 10px 10px;
+  margin-left: 10px;
+  height: 60px;
+  width: calc(100% - 20px);
+  border-radius: var(--primary-border-radius);
+  background: var(--secondary-background-color);
+  overflow-x: scroll;
+  white-space: nowrap;
 }
 
 a {

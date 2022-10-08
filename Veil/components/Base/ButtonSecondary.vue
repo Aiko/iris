@@ -1,8 +1,14 @@
 <script lang="ts" setup>
+defineProps<{
+  active?: boolean
+}>()
 </script>
 
 <template>
-  <a>
+  <a :class="{
+    'button': true,
+    'active': active,
+  }">
     <slot></slot>
   </a>
 </template>
@@ -25,6 +31,12 @@ a {
 a:hover {
   background-color: var(--main-background-color);
   border: 1px solid var(--primary-color);
+  transition: .2s;
+}
+
+.active {
+  background-color: var(--main-background-color) !important;
+  border: 1px solid var(--primary-color) !important;
   transition: .2s;
 }
 </style>

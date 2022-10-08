@@ -50,7 +50,7 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 
 .bottom {
   height: 60px;
-  padding: 10px;
+  padding: 17px 10px 10px 10px;
   background: var(--primary-background-color);
 }
 
@@ -58,6 +58,7 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 .left {
   width: calc(100% - 300px);
   position: relative;
+  background: var(--primary-background-color);
   height: 100%;
   transition: .2s;
 }
@@ -83,6 +84,8 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
   text-orientation: mixed;
   margin: 0;
   margin-left: 4px;
+  cursor: pointer;
+  height: 100%;
 }
 
 .open img {
@@ -115,5 +118,6 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 
 .bottom a {
   margin-right: 10px;
+  padding: 10px 15px;
 }
 </style>
