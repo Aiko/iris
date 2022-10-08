@@ -4,7 +4,7 @@ import { infoContent } from '@Veil/state/sections'
 
 
 // Information variables for 'AddBoard' component
-let infoAddBoard = 'Add a new board'
+const infoAddBoard = 'Add a new board'
 </script>
 
 <template>

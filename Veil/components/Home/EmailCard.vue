@@ -5,12 +5,12 @@ import { infoContent } from '@Veil/state/sections'
 
 
 // Information variables for 'EmailCard' component
-let infoThreadCount = 'Number of emails in this thread'
-let infoAttachment = 'This email has attachment(s)'
-let infoBCC = 'You were BCC ed'
-let infoTracker = 'One or more trackers blocked from tracking you'
-let infoEvent = 'Email contains an event'
-let infoQuickReply = 'Reply to this email right from the homescreen'
+const infoThreadCount = 'Number of emails in this thread'
+const infoAttachment = 'This email has attachment(s)'
+const infoBCC = 'You were BCC ed'
+const infoTracker = 'One or more trackers blocked from tracking you'
+const infoEvent = 'Email contains an event'
+const infoQuickReply = 'Reply to this email right from the homescreen'
 
 
 let quickReply = ref(false)

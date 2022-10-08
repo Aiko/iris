@@ -8,10 +8,10 @@ import { infoContent } from '@Veil/state/sections'
 
 
 // Information variables for 'Sidebar' component
-let infoCollapse = 'Toggle sidebar collapse'
-let infoDocumentation = 'Open documentation'
-let infoSettings = 'Open settings'
-let infoCalendar = 'Open calendar'
+const infoCollapse = 'Toggle sidebar collapse'
+const infoDocumentation = 'Open documentation'
+const infoSettings = 'Open settings'
+const infoCalendar = 'Open calendar'
 
 const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollapsed.value)
 </script>
@@ -22,7 +22,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
     'collapsed': isSidebarCollapsed,
   }">
     <div class="top">
-      <ButtonPrimary href="composer">
+      <ButtonPrimary href="/composer" target="_blank">
         <Icon name="compose" color="white" class="special" />Compose
       </ButtonPrimary>
       <NavLinkHome text="Home" active />

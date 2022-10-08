@@ -7,7 +7,7 @@ defineProps<{
 }>()
 
 // Information variables for 'NavLinkHome' component
-let infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in only certain Spaces.'
+const infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in only certain Spaces.'
 </script>
 
 

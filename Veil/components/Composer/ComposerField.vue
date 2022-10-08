@@ -7,7 +7,7 @@ const props = defineProps<{
 <template>
   <div class="composer-field">
     <input :placeholder="props.placeholder" />
-    <div class="suggestions">
+    <div class="suggestions" v-if="false">
       <div>Ruben Touitou</div>
       <div>Ruben Touitou</div>
       <div>Ruben Touitou</div>

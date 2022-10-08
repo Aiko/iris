@@ -14,8 +14,8 @@ let showBoardDots = ref(false)
 const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
 
 // Information variables for 'Board' component
-let infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
-let infoBoardRules = 'Board rules let you automatically sort emails into existing boards based on content, type, sender...'
+const infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
+const infoBoardRules = 'Board rules let you automatically sort emails into existing boards based on content, type, sender...'
 </script>
 
 <template>
