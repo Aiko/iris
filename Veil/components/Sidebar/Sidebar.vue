@@ -32,7 +32,6 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       <NavLink>
         <Icon name="drafts" color="normal" />Drafts
       </NavLink>
-
       <NavLink>
         <Icon name="archive" color="normal" />Archive
       </NavLink>

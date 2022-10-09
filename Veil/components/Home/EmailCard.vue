@@ -12,6 +12,12 @@ const infoTracker = 'One or more trackers blocked from tracking you'
 const infoEvent = 'Email contains an event'
 const infoQuickReply = 'Reply to this email right from the homescreen'
 
+const infoReply = 'Reply to this email'
+const infoReplyAll = 'Reply to all participants in this email'
+const infoForward = 'Forward this email'
+const infoStar = 'Star this email'
+const infoTrash = 'Move this email to the trash'
+
 
 let quickReply = ref(false)
 </script>
@@ -20,6 +26,7 @@ let quickReply = ref(false)
   <div :class="{
     'qr': quickReply,
     'email-card': true,
+    'unread': true,
   }">
     <div class="row">
       <div class="col-8 p0 sender">
@@ -31,17 +38,17 @@ let quickReply = ref(false)
         <div class="attachment" @mouseover="infoContent = infoAttachment" @mouseleave="infoContent = ''">
           <Icon name="attachment" color="normal" />
         </div>
-        <div class="bcc" title="You were BCC'ed" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
+        <div class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
           <Icon name="bcc" color="normal" />
         </div>
         <div class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
-          <Icon name="tracker" color="normal" title="One or more trackers blocked from tracking you" />
+          <Icon name="tracker" color="normal" />
         </div>
         <div class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
           <Icon name="calendar" color="normal" />
         </div>
       </div>
-      <div class="col-4 p0 date" title="Time received">
+      <div class="col-4 p0 date">
         Time
       </div>
     </div>
@@ -89,19 +96,20 @@ let quickReply = ref(false)
         </span>
       </div>
       <div class="actions">
-        <span title="Reply">
+        <span @mouseover="infoContent = infoReply" @mouseleave="infoContent = ''">
           <Icon name="reply" color="normal" />
         </span>
-        <span title="Reply all">
+        <span @mouseover="infoContent = infoReplyAll" @mouseleave="infoContent = ''">
           <Icon name="reply-all" color="normal" />
         </span>
-        <span title="Forward">
+        <span @mouseover="infoContent = infoForward" @mouseleave="infoContent = ''">
           <Icon name="forward" color="normal" />
         </span>
-        <span title="Star">
+        <span @mouseover="infoContent = infoStar" @mouseleave="infoContent = ''">
           <Icon name="star" color="normal" />
+          <Icon name="starred" color="normal" v-if="false" />
         </span>
-        <span title="Trash">
+        <span @mouseover="infoContent = infoTrash" @mouseleave="infoContent = ''">
           <Icon name="trash" color="normal" />
         </span>
       </div>
@@ -123,6 +131,16 @@ let quickReply = ref(false)
   font-size: var(--body-font-size);
   contain: layout;
   transition: .2s;
+}
+
+.unread {
+  border-left: 3px solid var(--primary-color);
+  padding: 8px 10px 0 7px;
+}
+
+.starred {
+  border-left: 3px solid #ffbf07;
+  padding: 8px 10px 0 7px;
 }
 
 @media screen and (prefers-color-scheme: light) {

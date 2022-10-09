@@ -18,4 +18,3 @@ export let infoContent = ref('')
 
 // Composer Sidebar Collapse
 export let isComposerSidebarCollapsed = ref(true)
-

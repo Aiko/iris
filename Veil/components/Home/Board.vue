@@ -20,7 +20,8 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 </script>
 
 <template>
-  <!--TODO: Add small medium large to 'board' based on width option-->
+  <!--TODO: Add small medium large to 'board' based on width option -->
+  <!--TODO: loading to 'board' based on if loading -->
   <div class="board">
     <div class="board-header">
       <div class="acont">
@@ -97,13 +98,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 <style scoped>
 .board {
   width: 300px;
-  height: 100%;
   background: var(--primary-background-color);
   border-radius: var(--primary-border-radius) var(--primary-border-radius) 0 0;
   height: 100%;
   margin-right: 15px;
   position: relative;
-  contain: size layout;
   box-shadow: var(--board-shadow);
   border: none !important;
   transition: .2s;
@@ -308,6 +307,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 .board .tab {
   display: inline-flex;
+  background-color: var(--primary-background-color);
   padding: 3px 5px 3px 7px;
   opacity: .5;
   letter-spacing: .2px;
@@ -356,5 +356,55 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 .refresh {
   width: 20px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@property --rotate {
+  syntax: "<angle>";
+  initial-value: 132deg;
+  inherits: false;
+}
+
+.loading::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: var(--primary-border-radius);
+  width: 100%;
+  margin: 0 auto;
+  background-image: linear-gradient(var(--primary-background-color) 10%, var(--secondary-background-color));
+  opacity: 1;
+  transition: opacity .5s;
+  animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    height: 0%;
+    opacity: .5;
+  }
+
+  100% {
+    height: 150%;
+    opacity: 0;
+  }
 }
 </style>

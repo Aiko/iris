@@ -4,9 +4,6 @@ import AddBoard from "@Veil/components/Home/AddBoard.vue";
 import SideEmail from "@Veil/components/Home/SideEmail.vue";
 import { isRegularView } from '@Veil/state/sections';
 import Modal from '@Veil/components/Modals/Modal.vue';
-import Icon from '@Veil/components/Base/Icon.vue';
-import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
-import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue';
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
 import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
@@ -21,7 +18,6 @@ import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
 
       <!--Work in progress: 'isRegular' will be regular non-kanban view-->
       <Board v-if="!isRegularView" />
-
       <AddBoard v-if="!isRegularView" />
       <SideEmail v-if="isRegularView" />
     </div>

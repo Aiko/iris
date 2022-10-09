@@ -15,7 +15,7 @@ Log.success("Mounted application.")
 <template>
   <div :class="{
     'main': true,
-    'collapsed-sidebar': isSidebarCollapsed,
+    'collapsed-sidebar': isSidebarCollapsed
   }">
     <Header />
     <Home />
