@@ -88,6 +88,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   right: 0;
   top: 0;
   margin-top: -10px;
+  cursor: pointer !important;
   margin-right: -14px;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
