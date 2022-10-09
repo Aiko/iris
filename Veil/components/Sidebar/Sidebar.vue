@@ -8,7 +8,8 @@ import { infoContent } from '@Veil/state/sections'
 
 
 // Information variables for 'Sidebar' component
-const infoCollapse = 'Toggle sidebar collapse'
+// TODO: detect if mac or pc and change CMD to CTRL
+const infoCollapse = 'Toggle sidebar collapse (CMD + S)'
 const infoDocumentation = 'Open documentation'
 const infoSettings = 'Open settings'
 const infoCalendar = 'Open calendar'
