@@ -18,3 +18,8 @@ export let infoContent = ref('')
 
 // Composer Sidebar Collapse
 export let isComposerSidebarCollapsed = ref(true)
+
+// Composer Sidebar Collapse
+export let isEmailSidebarCollapsed = ref(true)
+
+

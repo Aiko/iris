@@ -5,7 +5,7 @@ import ComposerOptions from '@Veil/components/Composer/ComposerOptions.vue';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import { isComposerSidebarCollapsed } from '@Veil/state/sections'
-import Icon from '../components/Base/Icon.vue'
+import Icon from '@Veil/components/Base/Icon.vue'
 
 
 const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isComposerSidebarCollapsed.value)

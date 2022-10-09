@@ -34,7 +34,6 @@ defineProps<{
   width: 100%;
   height: 100%;
   border-radius: var(--primary-border-radius);
-  padding: 20px;
   box-shadow: var(--modal-shadow);
   overflow: visible;
 }
@@ -60,7 +59,11 @@ defineProps<{
 }
 
 .content {
-  text-align: center;
+  border-radius: var(--primary-border-radius);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 h1 {
