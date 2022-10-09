@@ -27,7 +27,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
 
   .search p {
     right: 0;
-    margin-top: 17px;
+    margin-top: 12px;
     margin-left: 0;
     margin-right: 30px;
     z-index: 11;

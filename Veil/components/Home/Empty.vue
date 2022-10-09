@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import Icon from "@Veil/components/Base/Icon.vue";
-defineProps<{
-  message?: string
-}>()
 </script>
 
 <template>
   <div class="empty">
     <div class="middle">
-      <Icon name="drag" color="normal" />
-      <p>{{message}}</p>
+      <slot></slot>
     </div>
   </div>
 </template>
@@ -23,13 +18,10 @@ defineProps<{
   border-radius: var(--primary-border-radius);
   position: relative;
   user-select: none;
+  margin-bottom: 15px;
 }
 
 .middle {
   margin-top: 5px;
-}
-
-.middle p {
-  margin-top: 2px;
 }
 </style>

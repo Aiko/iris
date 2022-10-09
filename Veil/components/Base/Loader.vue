@@ -15,14 +15,13 @@
   display: inline-block;
   position: relative;
   width: 80px;
-  height: 49px;
+  height: 15px;
 }
 
 .loader div {
   position: absolute;
-  top: 33px;
-  width: 13px;
-  height: 13px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: var(--primary-color);
   animation-timing-function: cubic-bezier(0, 1, 1, 0);

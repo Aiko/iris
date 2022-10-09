@@ -5,6 +5,7 @@ import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 import Empty from "@Veil/components/Home/Empty.vue"
 import { infoContent } from '@Veil/state/sections'
+import Loader from '../Base/Loader.vue'
 
 defineProps<{
   isInbox?: boolean
@@ -76,7 +77,19 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
     </div>
     <div class="board-body">
       <EmailCard />
-      <Empty message="Drag emails here" />
+      <Empty>
+        <Icon name="drag" color="normal" />
+        <p class="mt-2">Drag emails here</p>
+      </Empty>
+
+      <Empty>
+        <Loader class="mt-4" />
+        <p class="mb-2 mt-2">Loading more emails</p>
+        <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
+
+      </Empty>
+
+
     </div>
   </div>
 </template>
@@ -94,6 +107,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   box-shadow: var(--board-shadow);
   border: none !important;
   transition: .2s;
+}
+
+.empty img {
+  width: 20px;
+  margin-top: 5px;
 }
 
 .dot {
