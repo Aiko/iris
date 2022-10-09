@@ -27,6 +27,8 @@ let quickReply = ref(false)
     'qr': quickReply,
     'email-card': true,
     'unread': true,
+    'starred': false,
+    'selected': false,
   }">
     <div class="row">
       <div class="col-8 p0 sender">
@@ -133,14 +135,22 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
+.selected {
+  border: 2px solid var(--primary-color);
+  padding: 6px 6px 0 8px !important;
+  transition: .2s;
+}
+
 .unread {
   border-left: 3px solid var(--primary-color);
   padding: 8px 10px 0 7px;
+  transition: .2s;
 }
 
 .starred {
   border-left: 3px solid #ffbf07;
   padding: 8px 10px 0 7px;
+  transition: .2s;
 }
 
 @media screen and (prefers-color-scheme: light) {
@@ -260,6 +270,18 @@ let quickReply = ref(false)
   position: absolute;
   bottom: 0;
   z-index: 1;
+}
+
+.email-card.unread .quick-reply {
+  width: calc(100% + 3px);
+}
+
+.email-card.starred .quick-reply {
+  width: calc(100% + 3px);
+}
+
+.email-card.selected .quick-reply {
+  width: calc(100% + 4px);
 }
 
 .email-card .quick-reply input {
