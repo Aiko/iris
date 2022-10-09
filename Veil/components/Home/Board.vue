@@ -303,6 +303,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   border-radius: var(--primary-border-radius);
   overflow: hidden;
   border: 2px solid var(--secondary-background-color);
+  cursor: pointer;
 }
 
 .board .tab {
@@ -311,6 +312,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   padding: 3px 5px 3px 7px;
   opacity: .5;
   letter-spacing: .2px;
+  transition: .2s;
+}
+
+.board .tab:hover {
+  opacity: 1;
   transition: .2s;
 }
 
@@ -356,6 +362,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 .refresh {
   width: 20px !important;
+  margin-left: 5px;
 }
 
 

@@ -133,6 +133,7 @@ let quickReply = ref(false)
   font-size: var(--body-font-size);
   contain: layout;
   transition: .2s;
+  cursor: pointer;
 }
 
 .selected {
@@ -334,6 +335,7 @@ let quickReply = ref(false)
   padding: 3px;
   margin-left: 3px;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 .email-card:hover .actions span img {
