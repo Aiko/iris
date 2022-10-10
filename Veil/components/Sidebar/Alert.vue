@@ -29,4 +29,10 @@
   padding-left: 5px;
   padding-right: 0;
 }
+
+@media only screen and (max-height: 510px) {
+  .alert {
+    display: none;
+  }
+}
 </style>
