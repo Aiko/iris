@@ -167,6 +167,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   padding-top: 20px;
   bottom: 0;
   left: 0;
+  background: var(--primary-background-color);
 }
 
 .bottom a {

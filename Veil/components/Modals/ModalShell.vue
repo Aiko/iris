@@ -38,7 +38,7 @@ defineProps<{
   height: fit-content;
   border-radius: var(--primary-border-radius);
   box-shadow: var(--modal-shadow);
-  overflow: scroll;
+  overflow: visible;
 }
 
 .small {
