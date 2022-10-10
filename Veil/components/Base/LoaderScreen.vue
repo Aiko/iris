@@ -42,10 +42,6 @@ import ButtonSecondary from "./ButtonSecondary.vue";
   margin-bottom: 50px;
 }
 
-.info {
-  margin-top: 25px;
-}
-
 .loader-screen img {
   width: 200px;
   margin: auto;
