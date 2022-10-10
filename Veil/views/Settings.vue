@@ -5,6 +5,7 @@ import NavLink from '@Veil/components/Sidebar/NavLink.vue'
 import Alert from '@Veil/components/Sidebar/Alert.vue'
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue'
 import Icon from '@Veil/components/Base/Icon.vue'
+import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
 
 enum Pane {
   Account,
@@ -73,6 +74,28 @@ let selectedPane = ref(Pane.Account)
         <p>Name</p>
         <input placeholder="Name" value="Ruben Touitou" />
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
+
+        <p>Primary email address (used to sign in to Aiko Mail)</p>
+        <input placeholder="Primary email" value="Ruben@aikomail.com" />
+        <ButtonSecondary class="save">Send verification</ButtonSecondary>
+
+        <p>Mailboxes (other email addresses)</p>
+        <div class="mailbox">
+          <span>ruben@milky.com</span>
+          <ButtonSecondary class="save">Remove</ButtonSecondary>
+        </div>
+        <div class="mailbox">
+          <span>ruben@milky.com</span>
+          <ButtonSecondary class="save">Remove</ButtonSecondary>
+        </div>
+        <div class="mailbox">
+          <span>ruben@milky.com</span>
+          <ButtonSecondary class="save">Remove</ButtonSecondary>
+        </div>
+
+        <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
+
+
       </div>
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
@@ -147,6 +170,14 @@ let selectedPane = ref(Pane.Account)
   margin-left: 10px;
 }
 
+span {
+  color: var(--primary-font-color);
+}
+
+.mailbox {
+  padding: 15px;
+}
+
 .pane h2 {
   font-size: 20px;
 }
@@ -163,7 +194,7 @@ input {
   max-width: 250px;
   border-radius: var(--primary-border-radius);
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 9px;
   margin-bottom: 10px;
   color: var(--strong-font-color);
   background: var(--secondary-background-color);
@@ -190,7 +221,7 @@ input:active+a {
 
 .content p {
   margin-bottom: 0;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .special {
