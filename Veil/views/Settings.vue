@@ -1,55 +1,55 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
-import { isRegularView, selectedModal, Modal } from '@Veil/state/sections'
+import { selectedModal, Modal } from '@Veil/state/sections'
 import NavLink from '@Veil/components/Sidebar/NavLink.vue'
 import Alert from '@Veil/components/Sidebar/Alert.vue'
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
 import Icon from '@Veil/components/Base/Icon.vue'
 
 enum Pane {
-  AddBoard,
-  AddMailbox,
-  AddSpace,
-  BoardRules,
-  Email,
-  Feedback,
-  Upgrade,
-  Settings,
-  None,
+  Account,
+  Appearance,
+  Team,
+  Spaces,
+  Unsubscribe,
+  Templates,
+  Billing,
+  Integrations,
+  Others
 }
 
-let selectedPane = ref(Pane.None)
+let selectedPane = ref(Pane.Account)
 </script>
 
 <template>
   <div class="settings" v-if="true">
     <div class="sidebar">
       <h1>Settings</h1>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Account">
         <Icon name="user" color="normal" class="special" />Account
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Appearance">
         <Icon name="image" color="normal" />Appearance
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Team">
         <Icon name="team" color="normal" />Team
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Spaces">
         <Icon name="home" color="normal" />Spaces
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Unsubscribe">
         <Icon name="unsubscribe" color="normal" />Unsubscribe
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Templates">
         <Icon name="templates" color="normal" />Templates
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Billing">
         <Icon name="billing" color="normal" />Billing
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Integrations">
         <Icon name="integrations" color="normal" />Integrations
       </NavLink>
-      <NavLink>
+      <NavLink @click="selectedPane = Pane.Others">
         <Icon name="settings2" color="normal" />Others
       </NavLink>
 
@@ -67,9 +67,34 @@ let selectedPane = ref(Pane.None)
     </div>
 
     <div class="content">
-      <div class="pane">
+      <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
       </div>
+      <div class="pane" v-if="selectedPane == Pane.Appearance">
+        <h1>Appearance</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Team">
+        <h1>Team</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Spaces">
+        <h1>Spaces</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
+        <h1>Unsubscribe</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Templates">
+        <h1>Templates</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Billing">
+        <h1>Billing</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Integrations">
+        <h1>Integrations</h1>
+      </div>
+      <div class="pane" v-if="selectedPane == Pane.Others">
+        <h1>Others</h1>
+      </div>
+
     </div>
   </div>
 </template>
