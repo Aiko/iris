@@ -51,8 +51,6 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
           <ButtonSecondary lass="btn" @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
             Board rules
           </ButtonSecondary>
-          <Info title="Spaces"
-            text="Create custom spaces to separate different topics, you can decide to displace certain boards in only certain Spaces. For example, a 'Travel' Space with boards 'Flights' and 'Hotels'." />
         </div>
         <div class="option" v-if="isInbox">
           <p>Sort emails</p>
