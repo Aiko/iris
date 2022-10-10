@@ -31,8 +31,9 @@ defineProps<{
   left: 50%;
   transform: translate(-50%, -50%);
   display: unset;
+  max-height: 80vh;
   width: 100%;
-  height: 100%;
+  height: fit-content;
   border-radius: var(--primary-border-radius);
   box-shadow: var(--modal-shadow);
   overflow: visible;
@@ -40,17 +41,16 @@ defineProps<{
 
 .small {
   max-width: 300px;
-  max-height: 300px;
 }
 
 .medium {
   max-width: 500px;
-  max-height: 500px;
 }
 
 .large {
   max-width: 1000px;
   max-height: 900px;
+  height: 100%;
 }
 
 .fullscreen {

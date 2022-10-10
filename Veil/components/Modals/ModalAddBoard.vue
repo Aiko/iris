@@ -51,4 +51,8 @@ input {
   cursor: text !important;
   padding: 8px 10px;
 }
+
+p {
+  margin-bottom: 50px;
+}
 </style>

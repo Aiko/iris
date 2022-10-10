@@ -4,7 +4,6 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import { isDevControlsCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 
-
 const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevControlsCollapsed.value)
 
 </script>

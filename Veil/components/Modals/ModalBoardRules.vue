@@ -175,6 +175,7 @@ input {
   min-height: 60px;
   border-radius: var(--primary-border-radius);
   color: var(--primary-font-color);
+  margin-bottom: 80px;
 }
 
 .modal-bottom {

@@ -7,7 +7,8 @@ import Modal from '@Veil/components/Modals/Modal.vue';
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue';
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
 import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
-import ModalFeedback from '../components/Modals/ModalFeedback.vue';
+import ModalFeedback from '@Veil/components/Modals/ModalFeedback.vue';
+import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue';
 </script>
 
 <template>
@@ -26,7 +27,9 @@ import ModalFeedback from '../components/Modals/ModalFeedback.vue';
 
     <!--Modals-->
 
-
+    <Modal size="small" v-if="false">
+      <ModalAddMailbox />
+    </Modal>
 
     <Modal size="small" v-if="false">
       <ModalAddBoard />
