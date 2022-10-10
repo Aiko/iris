@@ -3,7 +3,7 @@ import { ref } from '@vue/reactivity'
 import { selectedModal, Modal } from '@Veil/state/sections'
 import NavLink from '@Veil/components/Sidebar/NavLink.vue'
 import Alert from '@Veil/components/Sidebar/Alert.vue'
-import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
+import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue'
 import Icon from '@Veil/components/Base/Icon.vue'
 
 enum Pane {
@@ -69,6 +69,10 @@ let selectedPane = ref(Pane.Account)
     <div class="content">
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
+        <h2>Personal Information</h2>
+        <p>Name</p>
+        <input placeholder="Name" value="Ruben Touitou" />
+        <ButtonSecondary class="save">Save changes</ButtonSecondary>
       </div>
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
@@ -125,11 +129,68 @@ let selectedPane = ref(Pane.Account)
   user-select: none;
 }
 
+.pane {
+  padding-left: 10%;
+  padding-top: 80px;
+  position: relative;
+}
+
+.pane h1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-left: 0;
+  margin-bottom: 20px;
+}
+
+.save {
+  margin-left: 10px;
+}
+
+.pane h2 {
+  font-size: 20px;
+}
+
 .content {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   padding: 20px 30px;
+}
+
+input {
+  width: 100%;
+  max-width: 250px;
+  border-radius: var(--primary-border-radius);
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--strong-font-color);
+  background: var(--secondary-background-color);
+  cursor: text !important;
+  padding: 8px 10px;
+  transition: .2s;
+}
+
+input+a {
+  display: none;
+  padding: 10px;
+}
+
+input:focus,
+input:active {
+  background: var(--primary-background-color);
+  transition: .2s;
+}
+
+input:focus+a,
+input:active+a {
+  display: unset;
+}
+
+.content p {
+  margin-bottom: 0;
+  margin-top: 20px;
 }
 
 .special {
@@ -147,6 +208,18 @@ let selectedPane = ref(Pane.Account)
   width: 16px;
   height: auto;
   margin-right: 5px;
+}
+
+.alert {
+  margin-bottom: 100px;
+  width: calc(100% - 13px);
+  margin-left: 5px;
+  margin-right: 0px;
+  position: absolute;
+  padding: 7px;
+  bottom: 0;
+  left: 0;
+  background: var(--secondary-background-color);
 }
 
 .sidebar .alert a {
