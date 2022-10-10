@@ -170,7 +170,7 @@ let selectedPane = ref(Pane.Account)
   margin-left: 10px;
 }
 
-span {
+.pane span {
   color: var(--primary-font-color);
 }
 
@@ -222,6 +222,10 @@ input:active+a {
 .content p {
   margin-bottom: 0;
   margin-top: 40px;
+}
+
+.alert p {
+  margin: 0;
 }
 
 .special {
