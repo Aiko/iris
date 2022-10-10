@@ -1,9 +1,24 @@
 <script lang="ts" setup>
+import { ref } from '@vue/reactivity'
 import { isRegularView, selectedModal, Modal } from '@Veil/state/sections'
 import NavLink from '@Veil/components/Sidebar/NavLink.vue'
 import Alert from '@Veil/components/Sidebar/Alert.vue'
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
 import Icon from '@Veil/components/Base/Icon.vue'
+
+enum Pane {
+  AddBoard,
+  AddMailbox,
+  AddSpace,
+  BoardRules,
+  Email,
+  Feedback,
+  Upgrade,
+  Settings,
+  None,
+}
+
+let selectedPane = ref(Pane.None)
 </script>
 
 <template>
@@ -52,7 +67,9 @@ import Icon from '@Veil/components/Base/Icon.vue'
     </div>
 
     <div class="content">
-
+      <div class="pane">
+        <h1>Account</h1>
+      </div>
     </div>
   </div>
 </template>
@@ -83,9 +100,17 @@ import Icon from '@Veil/components/Base/Icon.vue'
   user-select: none;
 }
 
-.special img {
-  width: 1px !important;
-  margin-left: 1px;
+.content {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  padding: 20px 30px;
+}
+
+.special {
+  width: 12px !important;
+  margin-right: 7px !important;
+  margin-top: -1px;
 }
 
 .sidebar a {
