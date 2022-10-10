@@ -33,6 +33,7 @@ export enum Modal {
     Email,
     Feedback,
     Upgrade,
+    Settings,
     None,
   }
 

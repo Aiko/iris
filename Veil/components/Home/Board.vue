@@ -77,17 +77,22 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
       </div>
     </div>
     <div class="board-body">
+
+
+
       <EmailCard />
+
+
       <Empty>
         <Icon name="drag" color="normal" />
         <p class="mt-2">Drag emails here</p>
       </Empty>
 
+
       <Empty>
         <Loader class="mt-4" />
         <p class="mb-2 mt-2">Loading more emails</p>
         <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
-
       </Empty>
 
 

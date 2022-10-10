@@ -97,6 +97,8 @@ input {
 
 .modal-add-mailbox a img {
   width: 100%;
+  border-radius: var(--primary-border-radius);
+  overflow: hidden;
   max-width: 210px;
   display: block;
   margin: auto;

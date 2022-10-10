@@ -33,12 +33,12 @@ defineProps<{
   left: 50%;
   transform: translate(-50%, -50%);
   display: unset;
-  max-height: 80vh;
-  width: 100%;
+  max-height: calc(100% - 120px);
+  width: 90%;
   height: fit-content;
   border-radius: var(--primary-border-radius);
   box-shadow: var(--modal-shadow);
-  overflow: visible;
+  overflow: scroll;
 }
 
 .small {
@@ -52,7 +52,7 @@ defineProps<{
 .large {
   max-width: 1000px;
   max-height: 900px;
-  height: 100%;
+  height: calc(100% - 120px);
 }
 
 .fullscreen {

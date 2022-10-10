@@ -13,7 +13,8 @@ import ModalEmail from '@Veil/components/Modals/ModalEmail.vue'
 import ModalFeedback from '@Veil/components/Modals/ModalFeedback.vue'
 import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue'
 import ModalUpgrade from '@Veil/components/Modals/ModalUpgrade.vue'
-import ModalAddSpace from './components/Modals/ModalAddSpace.vue'
+import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
+import ModalSettings from '@Veil/components/Modals/ModalSettings.vue'
 </script>
 
 <template>
@@ -53,6 +54,10 @@ import ModalAddSpace from './components/Modals/ModalAddSpace.vue'
 
   <ModalShell size="large" v-if="selectedModal == Modal.Email">
     <ModalEmail />
+  </ModalShell>
+
+  <ModalShell size="large" v-if="selectedModal == Modal.Settings">
+    <ModalSettings />
   </ModalShell>
 
   <ModalShell size="medium" v-if="selectedModal == Modal.Feedback">

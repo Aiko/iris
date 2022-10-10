@@ -62,7 +62,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       <a @mouseover="infoContent = infoCalendar" @mouseleave="infoContent = ''">
         <Icon name="calendar" color="normal" />
       </a>
-      <a @mouseover="infoContent = infoSettings" @mouseleave="infoContent = ''">
+      <a @click="selectedModal = Modal.Settings" @mouseover="infoContent = infoSettings" @mouseleave="infoContent = ''">
         <Icon name="settings" color="normal" />
       </a>
       <a @mouseover="infoContent = infoDocumentation" @mouseleave="infoContent = ''">
