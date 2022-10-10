@@ -22,4 +22,10 @@ export let isComposerSidebarCollapsed = ref(true)
 // Composer Sidebar Collapse
 export let isEmailSidebarCollapsed = ref(true)
 
+// Feedback Modal Dev Controls Collapse
+export let isDevControlsCollapsed = ref(true)
+
+
+
+
 

@@ -44,8 +44,8 @@ defineProps<{
 }
 
 .medium {
-  max-width: 700px;
-  max-height: 600px;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .large {

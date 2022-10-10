@@ -43,6 +43,6 @@ img {
 }
 
 .white {
-  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(282deg) brightness(103%) contrast(106%);
+  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(282deg) brightness(1003%) contrast(106%);
 }
 </style>
