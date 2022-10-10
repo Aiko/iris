@@ -43,6 +43,17 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
         <Icon name="trash" color="normal" />Trash
       </NavLink>
     </div>
+    <div class="alert">
+      <h1>
+        <i v-if="!isSidebarCollapsed">Version: </i><b>BETA</b>
+      </h1>
+      <div>#darwin-3.8.1:INTERNAL</div>
+      <p><span v-if="!isSidebarCollapsed">Request features and </span>report issues</p>
+      <ButtonPrimary>
+        <span v-if="!isSidebarCollapsed">Give feedback</span>
+        <Icon name="bug" color="white" v-if="isSidebarCollapsed" />
+      </ButtonPrimary>
+    </div>
     <div class="bottom">
       <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
         @mouseleave="infoContent = ''">
@@ -67,6 +78,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px;
+  position: relative;
   box-shadow: var(--sidebar-shadow);
   z-index: 1;
   border-top-right-radius: var(--primary-border-radius);
@@ -185,5 +197,95 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   width: 17px;
   margin-right: 7px;
   margin-top: -3px;
+}
+
+.alert {
+  margin-bottom: 100px;
+  width: calc(100% - 16px);
+  margin-left: 8px;
+  margin-right: 8px;
+  position: absolute;
+  padding: 7px;
+  bottom: 0;
+  left: 0;
+  background: var(--secondary-background-color);
+}
+
+.sidebar.collapsed .alert {
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+  margin-bottom: 200px;
+  padding-left: 5px;
+  padding-right: 0;
+}
+
+.alert h1 {
+  font-size: 13px;
+  margin: 0;
+}
+
+.alert p {
+  font-size: 12px;
+  margin-bottom: 8px;
+  z-index: 1;
+  position: relative;
+  letter-spacing: -0.1px;
+}
+
+.alert a {
+  padding: 4px 10px 5px 9px;
+  font-size: 13px !important;
+  letter-spacing: 0 !important;
+  margin-left: -3px;
+}
+
+.alert b {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.alert div {
+  position: relative;
+  color: var(--primary-color);
+  background-color: var(--secondary-background-color);
+  font-size: 13px;
+  margin-top: 0;
+  width: 100%;
+  left: 0;
+  height: 0;
+  padding: 2px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: .2s;
+  z-index: 1;
+}
+
+.alert h1:hover~div {
+  margin-top: -20px;
+  opacity: 1;
+  height: unset;
+  transition: .2s;
+  position: relative;
+}
+
+.alert div:hover {
+  margin-top: -20px;
+  opacity: 1;
+  height: unset;
+  transition: .2s;
+  position: relative;
+}
+
+.sidebar.collapsed .alert h1 {
+  margin: 0;
+}
+
+.sidebar.collapsed .alert h1:hover~div {
+  display: none;
+}
+
+.sidebar.collapsed .alert div:hover {
+  display: none;
 }
 </style>
