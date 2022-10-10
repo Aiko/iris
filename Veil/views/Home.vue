@@ -9,6 +9,7 @@ import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
 import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
 import ModalFeedback from '@Veil/components/Modals/ModalFeedback.vue';
 import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue';
+import ModalUpgrade from '../components/Modals/ModalUpgrade.vue';
 </script>
 
 <template>
@@ -26,6 +27,9 @@ import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue';
 
 
     <!--Modals-->
+    <Modal size="small" v-if="false">
+      <ModalUpgrade feature="Quick Actions" />
+    </Modal>
 
     <Modal size="small" v-if="false">
       <ModalAddMailbox />
