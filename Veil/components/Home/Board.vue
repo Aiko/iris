@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref } from '@vue/reactivity';
-import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
+import { ref } from '@vue/reactivity'
+import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue'
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 import Empty from "@Veil/components/Home/Empty.vue"
-import { infoContent } from '@Veil/state/sections'
-import Loader from '../Base/Loader.vue'
+import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
+import Loader from '@Veil/components/Base/Loader.vue'
 
 defineProps<{
   isInbox?: boolean
@@ -13,6 +13,7 @@ defineProps<{
 
 let showBoardDots = ref(false)
 const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
+
 
 // Information variables for 'Board' component
 const infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
@@ -25,7 +26,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   <div class="board">
     <div class="board-header">
       <div class="acont">
-        <a :class="{ 'dot': !isInbox }" @focus="toggleBoardDots" @focusout="toggleBoardDots" tabindex="0">
+        <a :class="{ 'dot': !isInbox }" @click="showBoardDots = true ">
           <Icon name="dots" color="normal" class="t8" />
         </a>
         <a v-if="isInbox">
@@ -33,7 +34,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
         </a>
       </div>
       <h1 v-if="!isInbox">Title</h1>
-      <div class="options" v-if="showBoardDots">
+      <div class="options" v-if="showBoardDots" tabindex="0" ref="options" @focusout="showBoardDots = false" autofocus>
         <div class="size" v-if="!isInbox">
           <p>Board size</p>
           <ButtonSecondary class="btn">Small</ButtonSecondary>
@@ -48,7 +49,8 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
         </div>
         <div class="option" v-if="isInbox">
           <p>Manage board rules</p>
-          <ButtonSecondary lass="btn" @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
+          <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules"
+            @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
             Board rules
           </ButtonSecondary>
         </div>

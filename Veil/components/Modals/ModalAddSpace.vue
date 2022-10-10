@@ -1,25 +1,24 @@
 <script lang="ts" setup>
+import { selectedModal, Modal } from '@Veil/state/sections'
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 </script>
-
+  
 <template>
-  <div class="modal-add-board">
-    <Icon name="board" color="blue" />
-    <h1>Add new board</h1>
-    <input placeholder="Board name" autofocus />
-    <p>Organize your emails manually, or automatically using board
-      rules.
-    </p>
+  <div class="modal-add-space">
+    <Icon name="home" color="blue" />
+    <h1>Add new Space</h1>
+    <input placeholder="Space name" autofocus />
+    <p>Organize your boards within spaces to separate topics.</p>
     <div class="modal-bottom">
-      <ButtonPrimary class="ml-2">Add board</ButtonPrimary>
+      <ButtonPrimary class="ml-2">Add space</ButtonPrimary>
     </div>
   </div>
 </template>
-
+  
 <style scoped>
-.modal-add-board {
+.modal-add-space {
   width: 100%;
   height: 100%;
   text-align: center;

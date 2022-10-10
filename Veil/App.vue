@@ -1,11 +1,19 @@
 <script lang="ts" setup>
-import Sidebar from "@Veil/components/Sidebar/Sidebar.vue";
-import Main from "@Veil/components/Base/Main.vue";
-import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue";
-import ControlBar from "@Veil/components/Base/ControlBar.vue";
+import Sidebar from "@Veil/components/Sidebar/Sidebar.vue"
+import Main from "@Veil/components/Base/Main.vue"
+import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
+import ControlBar from "@Veil/components/Base/ControlBar.vue"
 import { isFullScreen } from '@Veil/state/sections'
 import { isLoading } from '@Veil/state/sections'
-
+import { selectedModal, Modal } from '@Veil/state/sections'
+import ModalShell from '@Veil/components/Modals/ModalShell.vue'
+import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue'
+import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue'
+import ModalEmail from '@Veil/components/Modals/ModalEmail.vue'
+import ModalFeedback from '@Veil/components/Modals/ModalFeedback.vue'
+import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue'
+import ModalUpgrade from '@Veil/components/Modals/ModalUpgrade.vue'
+import ModalAddSpace from './components/Modals/ModalAddSpace.vue'
 </script>
 
 <template>
@@ -21,4 +29,33 @@ import { isLoading } from '@Veil/state/sections'
   <!--Main content right of sidebar-->
   <Main />
 
+
+  <!--Modals-->
+  <ModalShell size="small" v-if="selectedModal == Modal.Upgrade">
+    <ModalUpgrade feature="Quick Actions" />
+  </ModalShell>
+
+  <ModalShell size="small" v-if="selectedModal == Modal.AddMailbox">
+    <ModalAddMailbox />
+  </ModalShell>
+
+  <ModalShell size="small" v-if="selectedModal == Modal.AddSpace">
+    <ModalAddSpace />
+  </ModalShell>
+
+  <ModalShell size="small" v-if="selectedModal == Modal.AddBoard">
+    <ModalAddBoard />
+  </ModalShell>
+
+  <ModalShell size="large" v-if="selectedModal == Modal.BoardRules">
+    <ModalBoardRules />
+  </ModalShell>
+
+  <ModalShell size="large" v-if="selectedModal == Modal.Email">
+    <ModalEmail />
+  </ModalShell>
+
+  <ModalShell size="medium" v-if="selectedModal == Modal.Feedback">
+    <ModalFeedback />
+  </ModalShell>
 </template>

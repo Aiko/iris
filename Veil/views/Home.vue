@@ -1,15 +1,8 @@
 <script lang="ts" setup>
-import Board from "@Veil/components/Home/Board.vue";
-import AddBoard from "@Veil/components/Home/AddBoard.vue";
-import SideEmail from "@Veil/components/Home/SideEmail.vue";
-import { isRegularView } from '@Veil/state/sections';
-import Modal from '@Veil/components/Modals/Modal.vue';
-import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue';
-import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue';
-import ModalEmail from '@Veil/components/Modals/ModalEmail.vue';
-import ModalFeedback from '@Veil/components/Modals/ModalFeedback.vue';
-import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue';
-import ModalUpgrade from '../components/Modals/ModalUpgrade.vue';
+import { isRegularView, selectedModal, Modal } from '@Veil/state/sections'
+import Board from "@Veil/components/Home/Board.vue"
+import AddBoard from "@Veil/components/Home/AddBoard.vue"
+import SideEmail from "@Veil/components/Home/SideEmail.vue"
 </script>
 
 <template>
@@ -19,38 +12,12 @@ import ModalUpgrade from '../components/Modals/ModalUpgrade.vue';
       <!--Boards are normal unless they have 'inbox' attribute-->
       <Board is-inbox />
 
-      <!--Work in progress: 'isRegular' will be regular non-kanban view-->
+      <!-- 'isRegular' is for regular, non-kanban view-->
       <Board v-if="!isRegularView" />
-      <AddBoard v-if="!isRegularView" />
+      <AddBoard v-if="!isRegularView" @click="selectedModal = Modal.AddBoard" />
       <SideEmail v-if="isRegularView" />
+
     </div>
-
-
-    <!--Modals-->
-    <Modal size="small" v-if="false">
-      <ModalUpgrade feature="Quick Actions" />
-    </Modal>
-
-    <Modal size="small" v-if="false">
-      <ModalAddMailbox />
-    </Modal>
-
-    <Modal size="small" v-if="false">
-      <ModalAddBoard />
-    </Modal>
-
-    <Modal size="large" v-if="false">
-      <ModalBoardRules />
-    </Modal>
-
-    <Modal size="large" v-if="false">
-      <ModalEmail />
-    </Modal>
-
-    <Modal size="medium" v-if="false">
-      <ModalFeedback />
-    </Modal>
-
   </div>
 </template>
 

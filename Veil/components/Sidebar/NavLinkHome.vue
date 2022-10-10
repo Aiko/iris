@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import Icon from '@Veil/components/Base/Icon.vue'
-import { infoContent } from '@Veil/state/sections'
+import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
 defineProps<{
   text?: string
   active?: boolean
 }>()
 
 // Information variables for 'NavLinkHome' component
-const infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in only certain Spaces.'
+const infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in some Spaces.'
 </script>
 
 
@@ -46,14 +46,14 @@ const infoSpaces = 'Create custom spaces to separate different topics, you can d
       </span>
     </a>
     <hr />
-    <a @mouseover="infoContent = infoSpaces" @mouseleave="infoContent = ''">
-      <Icon name="settings" color="normal" />
-      Add/Remove a Space
+    <a @click="selectedModal = Modal.AddSpace" @mouseover="infoContent = infoSpaces" @mouseleave="infoContent = ''">
+      <Icon name="plus" color="normal" class="addicon" />
+      Add a new Space
     </a>
 
-    <a>
-      <Icon name="settings" color="normal" />
-      Add/Remove an email address
+    <a @click="selectedModal = Modal.AddMailbox">
+      <Icon name="plus" color="normal" class="addicon" />
+      Add an email address
     </a>
 
 
@@ -69,6 +69,10 @@ const infoSpaces = 'Create custom spaces to separate different topics, you can d
   display: grid;
   overflow: hidden;
   height: 38px;
+}
+
+.addicon {
+  width: 15px;
 }
 
 .sidebar.collapsed .count {

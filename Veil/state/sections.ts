@@ -25,6 +25,18 @@ export let isEmailSidebarCollapsed = ref(true)
 // Feedback Modal Dev Controls Collapse
 export let isDevControlsCollapsed = ref(true)
 
+export enum Modal {
+    AddBoard,
+    AddMailbox,
+    AddSpace,
+    BoardRules,
+    Email,
+    Feedback,
+    Upgrade,
+    None,
+  }
+
+export let selectedModal = ref(Modal.None)
 
 
 

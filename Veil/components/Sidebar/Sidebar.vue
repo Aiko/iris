@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
-import NavLink from '@Veil/components/Sidebar/NavLink.vue';
-import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
-import { isSidebarCollapsed } from '@Veil/state/sections'
+import { isSidebarCollapsed, infoContent, selectedModal, Modal } from '@Veil/state/sections'
+import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
+import NavLink from '@Veil/components/Sidebar/NavLink.vue'
+import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue'
 import Icon from '@Veil/components/Base/Icon.vue'
-import { infoContent } from '@Veil/state/sections'
 import Alert from './Alert.vue'
 
 
@@ -50,7 +49,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       </h1>
       <div>#darwin-3.8.1:INTERNAL</div>
       <p><span v-if="!isSidebarCollapsed">Request features and </span>report issues</p>
-      <ButtonPrimary>
+      <ButtonPrimary @click="selectedModal = Modal.Feedback">
         <span v-if="!isSidebarCollapsed">Give feedback</span>
         <Icon name="bug" color="white" v-if="isSidebarCollapsed" />
       </ButtonPrimary>

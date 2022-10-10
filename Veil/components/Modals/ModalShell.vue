@@ -1,26 +1,28 @@
 <script lang="ts" setup>
+import { selectedModal, Modal } from '@Veil/state/sections'
+
 defineProps<{
   size?: string
 }>()
 </script>
 
 <template>
-  <div class="backdrop">
-    <div :class="{
-      'modal': true,
-      'small': size == 'small' || size == 's' || size == 'thin',
-      'medium': size == 'medium' || size == 'm' || size == 'normal',
-      'large': size == 'large' || size == 'l' || size == 'big',
-      'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
-    }">
-      <div class="esc">
-        Click anywhere outside of this window or <b>press ESC</b> to exit
-      </div>
-      <div class="content">
-        <slot></slot>
-      </div>
+  <div class="backdrop" @click="selectedModal = Modal.None" />
+  <div :class="{
+    'modal': true,
+    'small': size == 'small' || size == 's' || size == 'thin',
+    'medium': size == 'medium' || size == 'm' || size == 'normal',
+    'large': size == 'large' || size == 'l' || size == 'big',
+    'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
+  }">
+    <div class="esc">
+      Click anywhere outside of this window or <b>press ESC</b> to exit
+    </div>
+    <div class="content">
+      <slot></slot>
     </div>
   </div>
+
 </template>
 
 <style scoped>
