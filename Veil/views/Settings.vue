@@ -14,16 +14,16 @@ import Icon from '@Veil/components/Base/Icon.vue'
         <Icon name="user" color="normal" class="special" />Account
       </NavLink>
       <NavLink>
-        <Icon name="image" color="normal" /> Appearance
+        <Icon name="image" color="normal" />Appearance
       </NavLink>
       <NavLink>
         <Icon name="team" color="normal" />Team
       </NavLink>
       <NavLink>
-        <Icon name="home" color="normal" /> Spaces
+        <Icon name="home" color="normal" />Spaces
       </NavLink>
       <NavLink>
-        <Icon name="unsubscribe" color="normal" /> Unsubscribe
+        <Icon name="unsubscribe" color="normal" />Unsubscribe
       </NavLink>
       <NavLink>
         <Icon name="templates" color="normal" />Templates
@@ -32,10 +32,10 @@ import Icon from '@Veil/components/Base/Icon.vue'
         <Icon name="billing" color="normal" />Billing
       </NavLink>
       <NavLink>
-        <Icon name="integrations" color="normal" /> Integrations
+        <Icon name="integrations" color="normal" />Integrations
       </NavLink>
       <NavLink>
-        <Icon name="settings2" color="normal" /> Others
+        <Icon name="settings2" color="normal" />Others
       </NavLink>
 
 
@@ -71,7 +71,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
   width: 130px;
   height: 100%;
   background-color: var(--primary-background-color);
-  padding: 8px;
+  padding: 8px 8px 8px 3px;
   position: relative;
   box-shadow: var(--sidebar-shadow);
   z-index: 1;
@@ -83,8 +83,9 @@ import Icon from '@Veil/components/Base/Icon.vue'
   user-select: none;
 }
 
-.special {
-  width: 14px;
+.special img {
+  width: 1px !important;
+  margin-left: 1px;
 }
 
 .sidebar a {
@@ -95,7 +96,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
 .sidebar a img {
   width: 16px;
   height: auto;
-  margin-right: 3px;
+  margin-right: 5px;
 }
 
 .sidebar .alert a {
@@ -105,6 +106,8 @@ import Icon from '@Veil/components/Base/Icon.vue'
 .sidebar h1 {
   font-size: 18px;
   margin-bottom: 30px;
+  margin-left: 5px;
+  color: var(--strong-font-color);
 }
 
 .alert h1 {
