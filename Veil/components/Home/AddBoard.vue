@@ -15,6 +15,7 @@ const infoAddBoard = 'Add a new board'
 
 <style scoped>
 .add-board {
+  cursor: pointer;
   width: 30px;
   height: 185px;
   background: var(--primary-background-color);

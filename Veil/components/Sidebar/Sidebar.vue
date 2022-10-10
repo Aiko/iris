@@ -5,6 +5,7 @@ import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue';
 import { isSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 import { infoContent } from '@Veil/state/sections'
+import Alert from './Alert.vue'
 
 
 // Information variables for 'Sidebar' component
@@ -43,7 +44,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
         <Icon name="trash" color="normal" />Trash
       </NavLink>
     </div>
-    <div class="alert">
+    <Alert>
       <h1>
         <i v-if="!isSidebarCollapsed">Version: </i><b>BETA</b>
       </h1>
@@ -53,7 +54,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
         <span v-if="!isSidebarCollapsed">Give feedback</span>
         <Icon name="bug" color="white" v-if="isSidebarCollapsed" />
       </ButtonPrimary>
-    </div>
+    </Alert>
     <div class="bottom">
       <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
         @mouseleave="infoContent = ''">
@@ -199,27 +200,6 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   margin-top: -3px;
 }
 
-.alert {
-  margin-bottom: 100px;
-  width: calc(100% - 16px);
-  margin-left: 8px;
-  margin-right: 8px;
-  position: absolute;
-  padding: 7px;
-  bottom: 0;
-  left: 0;
-  background: var(--secondary-background-color);
-}
-
-.sidebar.collapsed .alert {
-  margin: 0;
-  width: 100%;
-  border-radius: 0;
-  margin-bottom: 200px;
-  padding-left: 5px;
-  padding-right: 0;
-}
-
 .alert h1 {
   font-size: 13px;
   margin: 0;
@@ -237,7 +217,7 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
   padding: 4px 10px 5px 9px;
   font-size: 13px !important;
   letter-spacing: 0 !important;
-  margin-left: -3px;
+  margin-left: -4px;
 }
 
 .alert b {
@@ -279,6 +259,10 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
 
 .sidebar.collapsed .alert h1 {
   margin: 0;
+}
+
+.sidebar.collapsed .alert a {
+  margin-left: -2px;
 }
 
 .sidebar.collapsed .alert h1:hover~div {
