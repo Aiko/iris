@@ -70,22 +70,20 @@ let selectedPane = ref(Pane.Account)
     <div class="content">
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
-        <h2>Personal Information</h2>
-        <p>
-          <div class="bullet" />Name
-        </p>
+        <h2>
+          <div class="bullet" />Personal Information
+        </h2>
+        <p>Name</p>
         <input placeholder="Name" value="Ruben Touitou" />
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
-        <p>
-          <div class="bullet" />Primary email address (used to sign in to Aiko Mail)
-        </p>
+        <p>Primary email address (used to sign in to Aiko Mail)</p>
         <input placeholder="Primary email" value="Ruben@aikomail.com" />
         <ButtonSecondary class="save">Send verification</ButtonSecondary>
-
-        <p>
-          <div class="bullet" /> Mailboxes (other email addresses)
-        </p>
+        <h2>
+          <div class="bullet" />Mailboxes
+        </h2>
+        <p>Add and remove email addresses to this device.</p>
         <div class="mailbox">
           <span>ruben@milky.com</span>
           <ButtonSecondary class="save">Remove</ButtonSecondary>
@@ -160,7 +158,7 @@ let selectedPane = ref(Pane.Account)
 
 .pane {
   padding-left: 10%;
-  padding-top: 80px;
+  padding-top: 50px;
   position: relative;
 }
 
@@ -186,7 +184,7 @@ let selectedPane = ref(Pane.Account)
   background: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   position: absolute;
-  margin-top: 7px;
+  margin-top: 9px;
   margin-left: -10px;
   left: 0;
 }
@@ -237,6 +235,11 @@ input:active+a {
 }
 
 .content p {
+  margin-bottom: 0;
+  margin-top: 20px;
+}
+
+.content h2 {
   margin-bottom: 0;
   margin-top: 40px;
 }
