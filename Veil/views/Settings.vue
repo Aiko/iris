@@ -156,14 +156,12 @@ let selectedPane = ref(Pane.Account)
             <label for="contraston">On</label>
           </p>
         </form>
-
       </div>
 
 
 
       <div class="pane" v-if="selectedPane == Pane.Team">
         <h1>Team</h1>
-
         <h2>
           <div class="bullet" />Team members
         </h2>
@@ -187,7 +185,7 @@ let selectedPane = ref(Pane.Account)
         </div>
 
         <ButtonPrimary @click="selectedModal = Modal.InviteTeam">Invite a new member</ButtonPrimary>
-
+        <ButtonSecondary class="ml-2">Invite bulk (csv)</ButtonSecondary>
 
       </div>
 
@@ -195,6 +193,48 @@ let selectedPane = ref(Pane.Account)
 
       <div class="pane" v-if="selectedPane == Pane.Spaces">
         <h1>Spaces</h1>
+        <p>These are your spaces, used to separate boards by topics.<br />Hover over to decide which board are shown in
+          them.</p>
+        <div class="spaces">
+          <div class="space">
+            <span>School Stuff</span>
+            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check1">
+              <label for="check1">Board 1</label>
+            </div>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check2">
+              <label for="check2">Board2</label>
+            </div>
+          </div>
+          <div class="space">
+            <span>Work Stuff</span>
+            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check1">
+              <label for="check1">Board 1</label>
+            </div>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check2">
+              <label for="check2">Board2</label>
+            </div>
+          </div>
+          <div class="space">
+            <span>Accounting</span>
+            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check1">
+              <label for="check1">Board 1</label>
+            </div>
+            <div class="aikocheckbox">
+              <input type="checkbox" id="check2">
+              <label for="check2">Board2</label>
+            </div>
+          </div>
+        </div>
+
+        <ButtonPrimary @click="selectedModal = Modal.AddSpace">Add a new Space</ButtonPrimary>
       </div>
 
 
@@ -312,8 +352,37 @@ let selectedPane = ref(Pane.Account)
 .members {
   width: 100%;
   height: 100%;
-  max-height: 300px;
+  max-height: 400px;
   overflow: scroll;
+  margin-bottom: 20px;
+}
+
+.spaces {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  overflow: scroll;
+  margin-bottom: 20px;
+}
+
+.space {
+  height: 45px;
+  margin-top: 20px;
+  padding: 20px;
+  overflow: hidden;
+  cursor: default;
+  transition: .2s;
+}
+
+.space:hover {
+  height: fit-content;
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  transition: .2s;
+}
+
+.space label {
+  color: var(--primary-font-color);
 }
 
 input {

@@ -210,3 +210,61 @@ textarea {
   /* Microsoft Edge */
   color: var(--primary-font-color);
 }
+
+.aikocheckbox {
+  margin-top: 10px;
+}
+
+.aikocheckbox input[type="checkbox"] {
+  display: none;
+}
+
+.aikocheckbox input[type="checkbox"]+label {
+  position: relative;
+  cursor: pointer;
+}
+
+.aikocheckbox input[type="checkbox"]+label:hover:before {
+  background: var(--primary-background-color);
+  border-color: var(--primary-color);
+}
+
+.aikocheckbox input[type="checkbox"]+label:before {
+  content: "";
+  display: inline-block;
+  background: var(--secondary-background-color);
+  width: 17px;
+  height: 17px;
+  border: 1px solid var(--primary-color);
+  vertical-align: top;
+  margin-top: 3px;
+  margin-right: 7px;
+  border-radius: 2px;
+  transition: all 0.1s;
+}
+
+.aikocheckbox input[type="checkbox"]+label:after {
+  opacity: 0;
+  content: "";
+  background-image: url(/Veil/assets/icons/check2.svg);
+  width: 11px;
+  height: 13px;
+  filter: brightness(2);
+  display: block;
+  color: var(--secondary-background-color);
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transform: scale(0.5);
+  transition: all 0.25s cubic-bezier(0.75, 0.1, 0.1, 0.5);
+}
+
+.aikocheckbox input[type="checkbox"]:checked+label:before {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.aikocheckbox input[type="checkbox"]:checked+label:after {
+  opacity: 1;
+  transform: scale(1);
+}
