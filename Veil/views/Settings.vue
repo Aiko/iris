@@ -71,15 +71,21 @@ let selectedPane = ref(Pane.Account)
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
         <h2>Personal Information</h2>
-        <p>Name</p>
+        <p>
+          <div class="bullet" />Name
+        </p>
         <input placeholder="Name" value="Ruben Touitou" />
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
-        <p>Primary email address (used to sign in to Aiko Mail)</p>
+        <p>
+          <div class="bullet" />Primary email address (used to sign in to Aiko Mail)
+        </p>
         <input placeholder="Primary email" value="Ruben@aikomail.com" />
         <ButtonSecondary class="save">Send verification</ButtonSecondary>
 
-        <p>Mailboxes (other email addresses)</p>
+        <p>
+          <div class="bullet" /> Mailboxes (other email addresses)
+        </p>
         <div class="mailbox">
           <span>ruben@milky.com</span>
           <ButtonSecondary class="save">Remove</ButtonSecondary>
@@ -172,6 +178,17 @@ let selectedPane = ref(Pane.Account)
 
 .pane span {
   color: var(--primary-font-color);
+}
+
+.bullet {
+  width: 10%;
+  height: 5px;
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  position: absolute;
+  margin-top: 7px;
+  margin-left: -10px;
+  left: 0;
 }
 
 .mailbox {
