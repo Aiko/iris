@@ -66,6 +66,9 @@ let selectedPane = ref(Pane.Account)
     </div>
 
     <div class="content">
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
         <h2>
@@ -96,30 +99,52 @@ let selectedPane = ref(Pane.Account)
         </div>
 
         <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
-
-
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Team">
         <h1>Team</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Spaces">
         <h1>Spaces</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
         <h1>Unsubscribe</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Templates">
         <h1>Templates</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Billing">
         <h1>Billing</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Integrations">
         <h1>Integrations</h1>
       </div>
+
+
+
       <div class="pane" v-if="selectedPane == Pane.Others">
         <h1>Others</h1>
       </div>
