@@ -87,10 +87,6 @@ p {
   .no-tablet {
     display: none !important;
   }
-
-  .footnote {
-    text-align: center !important;
-  }
 }
 
 ::-moz-selection {

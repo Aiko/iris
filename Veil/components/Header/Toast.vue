@@ -39,6 +39,13 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
     We were unable to send your message due to network issues
   </a>
 
+  <!-- TOAST Board Creation Suggestion -->
+  <a class="bodycolor" v-if="true">
+    <Icon name="board" color="normal" />
+    Looks like you receive a lot of Travel emails.
+    <ButtonPrimary>Create Travel board</ButtonPrimary>
+  </a>
+
 </template>
 
 <style scoped>
@@ -50,5 +57,6 @@ img {
 a {
   margin-left: 5px;
   font-weight: 500;
+  color: var(--primary-font-color);
 }
 </style>
