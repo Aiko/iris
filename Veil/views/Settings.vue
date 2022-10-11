@@ -14,6 +14,7 @@ enum Pane {
   Spaces,
   Unsubscribe,
   Templates,
+  Signatures,
   Billing,
   Integrations,
   Others
@@ -43,6 +44,9 @@ let selectedPane = ref(Pane.Account)
       </NavLink>
       <NavLink @click="selectedPane = Pane.Templates" :class="selectedPane == Pane.Templates ? 'active' : ''">
         <Icon name="templates" color="normal" />Templates
+      </NavLink>
+      <NavLink @click="selectedPane = Pane.Signatures" :class="selectedPane == Pane.Signatures ? 'active' : ''">
+        <Icon name="signature" color="normal" />Signatures
       </NavLink>
       <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
         <Icon name="billing" color="normal" />Plans / Billing
@@ -271,6 +275,25 @@ let selectedPane = ref(Pane.Account)
           </div>
         </div>
         <ButtonPrimary>New template</ButtonPrimary>
+      </div>
+
+      <div class="pane" v-if="selectedPane == Pane.Signatures">
+        <h1>Signatures</h1>
+        <p class="mb-3">These are your signatures.</p>
+        <div class="signature">
+          <p>for ruben@aikomail.com</p>
+          <div class="inline">
+            <textarea placeholder="Signature" value="Best, Ruben Touitou" />
+            <ButtonSecondary class="save">Save changes</ButtonSecondary>
+          </div>
+        </div>
+        <div class="signature">
+          <p>for rubencharles@aikomail.com</p>
+          <div class="inline">
+            <textarea placeholder="Signature" value="Best, Ruben Touitou" />
+            <ButtonSecondary class="save">Save changes</ButtonSecondary>
+          </div>
+        </div>
       </div>
 
 
@@ -694,6 +717,34 @@ textarea:active+a {
 }
 
 .template a {
+  padding: 20px !important;
+}
+
+.signature {
+  display: grid;
+  padding: 10px;
+  border: 2px solid var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  margin-bottom: 20px;
+}
+
+.signature input {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.signature textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 0;
+}
+
+.signature p {
+  margin: 0;
+  margin-bottom: 6px;
+}
+
+.signature a {
   padding: 20px !important;
 }
 
