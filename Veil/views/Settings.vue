@@ -26,31 +26,31 @@ let selectedPane = ref(Pane.Account)
   <div class="settings" v-if="true">
     <div class="sidebar">
       <h1>Settings</h1>
-      <NavLink @click="selectedPane = Pane.Account">
+      <NavLink @click="selectedPane = Pane.Account" :class="selectedPane == Pane.Account ? 'active' : ''">
         <Icon name="user" color="normal" class="special" />Account
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Appearance">
+      <NavLink @click="selectedPane = Pane.Appearance" :class="selectedPane == Pane.Appearance ? 'active' : ''">
         <Icon name="image" color="normal" />Appearance
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Team">
+      <NavLink @click="selectedPane = Pane.Team" :class="selectedPane == Pane.Team ? 'active' : ''">
         <Icon name="team" color="normal" />Team
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Spaces">
+      <NavLink @click="selectedPane = Pane.Spaces" :class="selectedPane == Pane.Spaces ? 'active' : ''">
         <Icon name="home" color="normal" />Spaces
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Unsubscribe">
+      <NavLink @click="selectedPane = Pane.Unsubscribe" :class="selectedPane == Pane.Unsubscribe ? 'active' : ''">
         <Icon name="unsubscribe" color="normal" />Unsubscribe
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Templates">
+      <NavLink @click="selectedPane = Pane.Templates" :class="selectedPane == Pane.Templates ? 'active' : ''">
         <Icon name="templates" color="normal" />Templates
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Billing">
+      <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
         <Icon name="billing" color="normal" />Billing
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Integrations">
+      <NavLink @click="selectedPane = Pane.Integrations" :class="selectedPane == Pane.Integrations ? 'active' : ''">
         <Icon name="integrations" color="normal" />Integrations
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Others">
+      <NavLink @click="selectedPane = Pane.Others" :class="selectedPane == Pane.Others ? 'active' : ''">
         <Icon name="settings2" color="normal" />Others
       </NavLink>
       <Alert>
