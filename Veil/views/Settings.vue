@@ -45,7 +45,7 @@ let selectedPane = ref(Pane.Account)
         <Icon name="templates" color="normal" />Templates
       </NavLink>
       <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
-        <Icon name="billing" color="normal" />Billing
+        <Icon name="billing" color="normal" />Plans / Billing
       </NavLink>
       <NavLink @click="selectedPane = Pane.Integrations" :class="selectedPane == Pane.Integrations ? 'active' : ''">
         <Icon name="integrations" color="normal" />Integrations
@@ -264,7 +264,7 @@ let selectedPane = ref(Pane.Account)
         <h1>Templates</h1>
         <p class="mb-3">These are templates you can use while composing new emails.</p>
         <div class="template">
-          <input placeholder="Template Name (e.g Sales rejection)" value="" />
+
           <div class="inline">
             <textarea placeholder="Template" value="Hi, This is the content" />
             <ButtonSecondary class="save">Save changes</ButtonSecondary>
@@ -276,19 +276,113 @@ let selectedPane = ref(Pane.Account)
 
 
       <div class="pane" v-if="selectedPane == Pane.Billing">
-        <h1>Billing</h1>
+        <h1>Plans & Billing</h1>
+
+        <h2>
+          <div class="bullet" />Plans
+        </h2>
+        <p class="mb-5">These are available plans, click to upgrade.</p>
+
+
+
+        <div class="plan current">
+          <img src="@Veil/assets/img/aikofree.svg">
+          <span>$0/month</span>
+          <span style="opacity: 0">.</span>
+          <p>
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+
+          </p>
+          <ButtonSecondary>Current plan</ButtonSecondary>
+        </div>
+
+        <div class="plan">
+          <img src="@Veil/assets/img/aikopro.svg">
+          <span>$12/month</span>
+          <span>Cancel anytime</span>
+          <p>
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+            Feature<br />
+          </p>
+          <ButtonPrimary>Upgrade to Pro</ButtonPrimary>
+
+        </div>
+        <h2>
+          <div class="bullet" />Billing details
+        </h2>
+        <p class="mb-2">Name</p>
+        <input placeholder="Name" value="" />
+        <ButtonSecondary class="save">Save changes</ButtonSecondary>
+
+        <p class="mb-2 mt-4">Address</p>
+        <input placeholder="Address" value="" />
+        <ButtonSecondary class="save">Save changes</ButtonSecondary>
+
+        <p class="mb-2 mt-4">Address</p>
+        <input placeholder="Address" value="" />
+        <ButtonSecondary class="save">Save changes</ButtonSecondary>
+
+        <p class="mb-2 mt-4">Stripe</p>
+        <input placeholder="Stripe stuff" value="" />
+        <ButtonSecondary class="save">Save changes</ButtonSecondary>
       </div>
 
 
 
       <div class="pane" v-if="selectedPane == Pane.Integrations">
         <h1>Integrations</h1>
+
+        <h2>
+          <div class="bullet" />Available integrations
+        </h2>
+        <p>You can turn these on or off to use them in Aiko Mail</p>
+
+        <div class="integration">
+          <h3>Zoom</h3>
+          <p>Videoconferencing app, send link within the composer</p>
+          <ButtonPrimary>Enable</ButtonPrimary>
+        </div>
+
+        <div class="integration">
+          <h3>Calendly</h3>
+          <p>Videoconferencing app, send link within the composer</p>
+          <ButtonSecondary>Disable</ButtonSecondary>
+        </div>
+
+        <div class="integration">
+          <h3>Zapier</h3>
+          <p>Videoconferencing app, send link within the composer</p>
+          <ButtonPrimary>Enable</ButtonPrimary>
+        </div>
+
+        <h2>
+          <div class="bullet" />Request an integration
+        </h2>
+        <p class="mb-2">If you don't see the integration you need, simply request it and we'll work on it.</p>
+        <ButtonPrimary>Integration request</ButtonPrimary>
       </div>
 
 
 
       <div class="pane" v-if="selectedPane == Pane.Others">
-        <h1>Others</h1>
+        <h1>Other Settings</h1>
+        <p>Out of Office Replies<br>
+          Spelling and Autocorrect<br>
+          Signature<br>
+        </p>
       </div>
 
     </div>
@@ -333,6 +427,53 @@ let selectedPane = ref(Pane.Account)
   left: 0;
   margin-left: 0;
   margin-bottom: 20px;
+}
+
+.plan {
+  width: 100%;
+  max-width: 250px;
+  background: var(--primary-background-color);
+  padding: 20px;
+  position: relative;
+  border-radius: var(--primary-border-radius);
+  text-align: center;
+  border: 2px solid var(--primary-background-color);
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  transition: .2s;
+}
+
+.plan:hover {
+  border: 2px solid var(--primary-color);
+  transition: .2s;
+}
+
+.plan p {
+  margin-bottom: 20px !important;
+}
+
+.plan img {
+  width: 80%;
+  margin: auto;
+}
+
+.plan span:first-of-type {
+  margin-top: 20px;
+  color: var(--primary-color);
+  font-weight: 500;
+  width: 100%;
+  margin-bottom: 0;
+  display: block;
+  font-size: 18px;
+}
+
+.plan span {
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--primary-font-color);
+  font-weight: 500;
 }
 
 .save {
@@ -470,6 +611,21 @@ textarea:active+a {
   margin-top: 40px;
 }
 
+.integration p {
+  margin: 8px 0px;
+}
+
+.integration {
+  width: 210px;
+  display: inline-block;
+  margin-right: 20px;
+  text-align: center;
+  background: var(--primary-background-color);
+  padding: 10px 10px 20px 10px;
+  border-radius: var(--primary-border-radius);
+  margin-top: 20px;
+}
+
 .alert p {
   margin: 0;
 }
@@ -598,60 +754,18 @@ textarea:active+a {
   position: relative;
 }
 
-
-
-[type="radio"]:checked,
-[type="radio"]:not(:checked) {
+.current:before {
+  content: "Current plan";
   position: absolute;
-  left: -9999px;
-}
-
-[type="radio"]:checked+label,
-[type="radio"]:not(:checked)+label {
-  position: relative;
-  padding-left: 28px;
-  cursor: pointer;
-  line-height: 20px;
-  display: inline-block;
-  color: var(--primary-font-color);
-}
-
-[type="radio"]:checked+label:before,
-[type="radio"]:not(:checked)+label:before {
-  content: '';
-  position: absolute;
-  left: 0;
   top: 0;
-  width: 20px;
-  height: 20px;
-  border: 1px solid var(--primary-font-color);
-  border-radius: 100%;
+  left: 0;
+  font-size: 14px;
+  margin-top: -20px;
   background: var(--primary-background-color);
-}
-
-[type="radio"]:checked+label:after,
-[type="radio"]:not(:checked)+label:after {
-  content: '';
-  width: 12px;
-  height: 12px;
-  background: var(--primary-color);
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  border-radius: 100%;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-}
-
-[type="radio"]:not(:checked)+label:after {
-  opacity: 0;
-  -webkit-transform: scale(0);
-  transform: scale(0);
-}
-
-[type="radio"]:checked+label:after {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  transform: scale(1);
+  color: var(--primary-color);
+  padding: 2px 10px;
+  border-radius: var(--primary-border-radius);
+  margin-left: -2px;
+  font-weight: 600;
 }
 </style>
