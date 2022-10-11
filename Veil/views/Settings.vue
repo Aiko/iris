@@ -53,8 +53,6 @@ let selectedPane = ref(Pane.Account)
       <NavLink @click="selectedPane = Pane.Others">
         <Icon name="settings2" color="normal" />Others
       </NavLink>
-
-
       <Alert>
         <h1>
           <i>Version: </i><b>BETA</b>
@@ -78,7 +76,7 @@ let selectedPane = ref(Pane.Account)
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
         <p>Primary email address (used to sign in to Aiko Mail)</p>
-        <input placeholder="Primary email" value="Ruben@aikomail.com" />
+        <input placeholder="Primary email" value="ruben@aikomail.com" />
         <ButtonSecondary class="save">Send verification</ButtonSecondary>
         <h2>
           <div class="bullet" />Mailboxes
