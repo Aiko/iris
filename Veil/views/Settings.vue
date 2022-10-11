@@ -362,7 +362,7 @@ let selectedPane = ref(Pane.Account)
   height: 100%;
   max-height: 400px;
   overflow: scroll;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .space {
