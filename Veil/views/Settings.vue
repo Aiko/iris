@@ -106,22 +106,63 @@ let selectedPane = ref(Pane.Account)
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
 
-        <p>System color mode</p>
+        <h2>
+          <div class="bullet" />Global app appearance
+        </h2>
+
+        <p>Theme</p>
         <form action="#">
           <p>
-            <input type="radio" id="test1" name="radio-group" checked>
-            <label for="test1">Light</label>
+            <input type="radio" id="light" name="radio-group" checked>
+            <label for="light">Light</label>
           </p>
           <p>
-            <input type="radio" id="test2" name="radio-group">
-            <label for="test2">Dark</label>
+            <input type="radio" id="dark" name="radio-group">
+            <label for="dark">Dark</label>
           </p>
           <p>
-            <input type="radio" id="test3" name="radio-group">
-            <label for="test3">System Default</label>
+            <input type="radio" id="system" name="radio-group">
+            <label for="system">System (default)</label>
           </p>
         </form>
 
+        <h2>
+          <div class="bullet" />Inbox appearance
+        </h2>
+        <p>Lines of preview for each email in boards.</p>
+        <form action="#">
+          <p>
+            <input type="radio" id="1line" name="radio-group" checked>
+            <label for="1line">1 line</label>
+          </p>
+          <p>
+            <input type="radio" id="2lines" name="radio-group">
+            <label for="2lines">2 lines</label>
+          </p>
+          <p>
+            <input type="radio" id="3lines" name="radio-group">
+            <label for="3lines">3 lines (default)</label>
+          </p>
+        </form>
+
+        <h2>
+          <div class="bullet" />Accessibility
+        </h2>
+        <p>Increased contrast</p>
+        <form action="#">
+          <p>
+            <input type="radio" id="contrastoff" name="radio-group" checked>
+            <label for="contrastoff">Off (default)</label>
+          </p>
+          <p>
+            <input type="radio" id="contraston" name="radio-group">
+            <label for="contraston">On</label>
+          </p>
+          <p>
+            <input type="radio" id="3lines" name="radio-group">
+            <label for="3lines">3 lines (default)</label>
+          </p>
+        </form>
 
       </div>
 
