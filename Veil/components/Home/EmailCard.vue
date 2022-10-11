@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { ref } from '@vue/reactivity';
-import Icon from "@Veil/components/Base/Icon.vue";
+import { ref } from '@vue/reactivity'
+import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
 
 
