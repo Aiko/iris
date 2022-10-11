@@ -105,6 +105,24 @@ let selectedPane = ref(Pane.Account)
 
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
+
+        <p>System color mode</p>
+        <form action="#">
+          <p>
+            <input type="radio" id="test1" name="radio-group" checked>
+            <label for="test1">Light</label>
+          </p>
+          <p>
+            <input type="radio" id="test2" name="radio-group">
+            <label for="test2">Dark</label>
+          </p>
+          <p>
+            <input type="radio" id="test3" name="radio-group">
+            <label for="test3">System Default</label>
+          </p>
+        </form>
+
+
       </div>
 
 
@@ -366,5 +384,62 @@ input:active+a {
   height: unset;
   transition: .2s;
   position: relative;
+}
+
+
+
+[type="radio"]:checked,
+[type="radio"]:not(:checked) {
+  position: absolute;
+  left: -9999px;
+}
+
+[type="radio"]:checked+label,
+[type="radio"]:not(:checked)+label {
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: var(--primary-font-color);
+}
+
+[type="radio"]:checked+label:before,
+[type="radio"]:not(:checked)+label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--primary-font-color);
+  border-radius: 100%;
+  background: var(--primary-background-color);
+}
+
+[type="radio"]:checked+label:after,
+[type="radio"]:not(:checked)+label:after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: var(--primary-color);
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  border-radius: 100%;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+[type="radio"]:not(:checked)+label:after {
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+
+[type="radio"]:checked+label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
 }
 </style>
