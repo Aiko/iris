@@ -264,7 +264,7 @@ let selectedPane = ref(Pane.Account)
         <h1>Templates</h1>
         <p class="mb-3">These are templates you can use while composing new emails.</p>
         <div class="template">
-
+          <input placeholder="Template Name (e.g Sales rejection)" value="" />
           <div class="inline">
             <textarea placeholder="Template" value="Hi, This is the content" />
             <ButtonSecondary class="save">Save changes</ButtonSecondary>
