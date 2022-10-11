@@ -10,7 +10,7 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
     <input placeholder="Email address" autofocus />
     <p>Send a free access to Aiko Mail to a friend</p>
     <div class="modal-bottom">
-      <ButtonPrimary class="ml-2">Invite</ButtonPrimary>
+      <ButtonPrimary>Invite</ButtonPrimary>
     </div>
   </div>
 </template>

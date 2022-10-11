@@ -11,7 +11,7 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
     <input placeholder="Email address" autofocus />
     <p>Once they accept, they will be added to your plan at the current price per seat.</p>
     <div class="modal-bottom">
-      <ButtonPrimary class="ml-2">Invite</ButtonPrimary>
+      <ButtonPrimary>Invite</ButtonPrimary>
     </div>
   </div>
 </template>

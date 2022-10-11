@@ -241,6 +241,21 @@ let selectedPane = ref(Pane.Account)
 
       <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
         <h1>Unsubscribe</h1>
+        <p>These are the email subscriptions we have detected.</p>
+        <div class="subscriptions">
+          <div class="subscription">
+            <span>Forbes milky under milky</span>
+            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+          </div>
+          <div class="subscription">
+            <span>Yahoo Finance</span>
+            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+          </div>
+          <div class="subscription">
+            <span>Milky newsletter</span>
+            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+          </div>
+        </div>
       </div>
 
 
@@ -355,6 +370,18 @@ let selectedPane = ref(Pane.Account)
   max-height: 400px;
   overflow: scroll;
   margin-bottom: 20px;
+}
+
+.subscriptions {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  overflow: scroll;
+  margin-top: 20px;
+}
+
+.subscription {
+  padding: 15px;
 }
 
 .spaces {
