@@ -37,8 +37,9 @@ p {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1000;
   margin-bottom: 10px;
+  background: var(--secondary-background-color);
   display: inline-flex;
   height: 28px;
   cursor: default !important;

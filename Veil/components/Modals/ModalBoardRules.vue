@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
-import Icon from "@Veil/components/Base/Icon.vue";
-import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
-import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import Icon from "@Veil/components/Base/Icon.vue"
+import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue"
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue"
+import { infoContent } from '@Veil/state/sections'
+
+// Information variables for 'ModalBoardRules' component
+const infoAddCondition = 'You may add complex conditions (if this AND that, then do this)'
+
+
 let isExtraRule = ref(false)
 const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
 </script>
@@ -98,7 +104,8 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         </select>
         <input placeholder="Type here" />
         <div class="add-condition">
-          <ButtonSecondary @click="toggleExtraRule()" v-if="!isExtraRule">Add another condition (Optional)
+          <ButtonSecondary @mouseover="infoContent = infoAddCondition" @mouseleave="infoContent = ''"
+            @click="toggleExtraRule()" v-if="!isExtraRule">Add another condition (Optional)
           </ButtonSecondary>
         </div>
       </div>
@@ -139,7 +146,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
 
 
     <div class="modal-bottom text-left">
-      Run all rules on existing emails<ButtonSecondary>Run everything</ButtonSecondary>
+      Force run all rules now on existing emails<ButtonSecondary>Run everything</ButtonSecondary>
     </div>
   </div>
 </template>

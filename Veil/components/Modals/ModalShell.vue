@@ -33,7 +33,7 @@ defineProps<{
   left: 50%;
   transform: translate(-50%, -50%);
   display: unset;
-  max-height: calc(100% - 120px);
+  max-height: calc(100% - 170px);
   width: 90%;
   height: fit-content;
   border-radius: var(--primary-border-radius);
@@ -52,7 +52,7 @@ defineProps<{
 .large {
   max-width: 1000px;
   max-height: 900px;
-  height: calc(100% - 120px);
+  height: calc(100% - 170px);
 }
 
 .fullscreen {
