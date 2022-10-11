@@ -262,6 +262,15 @@ let selectedPane = ref(Pane.Account)
 
       <div class="pane" v-if="selectedPane == Pane.Templates">
         <h1>Templates</h1>
+        <p class="mb-3">These are templates you can use while composing new emails.</p>
+        <div class="template">
+          <input placeholder="Template Name (e.g Sales rejection)" value="" />
+          <div class="inline">
+            <textarea placeholder="Template" value="Hi, This is the content" />
+            <ButtonSecondary class="save">Save changes</ButtonSecondary>
+          </div>
+        </div>
+        <ButtonPrimary>New template</ButtonPrimary>
       </div>
 
 
@@ -442,6 +451,15 @@ input:active+a {
   display: unset;
 }
 
+textarea+a {
+  display: none;
+}
+
+textarea:focus+a,
+textarea:active+a {
+  display: unset;
+}
+
 .content p {
   margin-bottom: 0;
   margin-top: 20px;
@@ -494,6 +512,33 @@ input:active+a {
   margin-bottom: 30px;
   margin-left: 5px;
   color: var(--strong-font-color);
+}
+
+.inline {
+  display: inline-flex;
+}
+
+.template {
+  display: grid;
+  padding: 10px;
+  border: 2px solid var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  margin-bottom: 20px;
+}
+
+.template input {
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.template textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 0;
+}
+
+.template a {
+  padding: 20px !important;
 }
 
 .alert h1 {
