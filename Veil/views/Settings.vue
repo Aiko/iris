@@ -404,7 +404,7 @@ let selectedPane = ref(Pane.Account)
         <h1>Other Settings</h1>
         <p>Out of Office Replies<br>
           Spelling and Autocorrect<br>
-          Signature<br>
+          Notifications<br>
         </p>
       </div>
 
