@@ -66,9 +66,6 @@ let selectedPane = ref(Pane.Account)
     </div>
 
     <div class="content">
-
-
-
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
         <h2>
@@ -113,7 +110,7 @@ let selectedPane = ref(Pane.Account)
         <p>Theme</p>
         <form action="#">
           <p>
-            <input type="radio" id="light" name="radio-group" checked>
+            <input type="radio" id="light" name="radio-group">
             <label for="light">Light</label>
           </p>
           <p>
@@ -121,7 +118,7 @@ let selectedPane = ref(Pane.Account)
             <label for="dark">Dark</label>
           </p>
           <p>
-            <input type="radio" id="system" name="radio-group">
+            <input type="radio" id="system" name="radio-group" checked>
             <label for="system">System (default)</label>
           </p>
         </form>
@@ -132,7 +129,7 @@ let selectedPane = ref(Pane.Account)
         <p>Lines of preview for each email in boards.</p>
         <form action="#">
           <p>
-            <input type="radio" id="1line" name="radio-group" checked>
+            <input type="radio" id="1line" name="radio-group">
             <label for="1line">1 line</label>
           </p>
           <p>
@@ -140,7 +137,7 @@ let selectedPane = ref(Pane.Account)
             <label for="2lines">2 lines</label>
           </p>
           <p>
-            <input type="radio" id="3lines" name="radio-group">
+            <input type="radio" id="3lines" name="radio-group" checked>
             <label for="3lines">3 lines (default)</label>
           </p>
         </form>
@@ -158,10 +155,6 @@ let selectedPane = ref(Pane.Account)
             <input type="radio" id="contraston" name="radio-group">
             <label for="contraston">On</label>
           </p>
-          <p>
-            <input type="radio" id="3lines" name="radio-group">
-            <label for="3lines">3 lines (default)</label>
-          </p>
         </form>
 
       </div>
@@ -170,6 +163,32 @@ let selectedPane = ref(Pane.Account)
 
       <div class="pane" v-if="selectedPane == Pane.Team">
         <h1>Team</h1>
+
+        <h2>
+          <div class="bullet" />Team members
+        </h2>
+        <p>These members are part of your plan.</p>
+        <div class="members">
+          <div class="member">
+            <span>ruben@milky.com</span>
+            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save">Make admin</ButtonSecondary>
+          </div>
+          <div class="member">
+            <span>ruben@milky.com</span>
+            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
+          </div>
+          <div class="member">
+            <span>ruben@milky.com</span>
+            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
+          </div>
+        </div>
+
+        <ButtonPrimary @click="selectedModal = Modal.InviteTeam">Invite a new member</ButtonPrimary>
+
+
       </div>
 
 
@@ -275,6 +294,10 @@ let selectedPane = ref(Pane.Account)
   padding: 15px;
 }
 
+.member {
+  padding: 15px;
+}
+
 .pane h2 {
   font-size: 20px;
 }
@@ -284,6 +307,13 @@ let selectedPane = ref(Pane.Account)
   height: 100%;
   overflow-y: scroll;
   padding: 20px 30px;
+}
+
+.members {
+  width: 100%;
+  height: 100%;
+  max-height: 300px;
+  overflow: scroll;
 }
 
 input {

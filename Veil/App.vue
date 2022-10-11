@@ -15,6 +15,8 @@ import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue'
 import ModalUpgrade from '@Veil/components/Modals/ModalUpgrade.vue'
 import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
+import ModalInvite from './components/Modals/ModalInvite.vue'
+import ModalInviteTeam from './components/Modals/ModalInviteTeam.vue'
 </script>
 
 <template>
@@ -46,6 +48,14 @@ import Settings from '@Veil/views/Settings.vue'
 
   <ModalShell size="small" v-if="selectedModal == Modal.AddBoard">
     <ModalAddBoard />
+  </ModalShell>
+
+  <ModalShell size="small" v-if="selectedModal == Modal.Invite">
+    <ModalInvite />
+  </ModalShell>
+
+  <ModalShell size="small" v-if="selectedModal == Modal.InviteTeam">
+    <ModalInviteTeam />
   </ModalShell>
 
   <ModalShell size="large" v-if="selectedModal == Modal.BoardRules">

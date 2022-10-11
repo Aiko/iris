@@ -8,6 +8,7 @@ defineProps<{
 
 // Information variables for 'NavLinkHome' component
 const infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in some Spaces.'
+const infoMailboxes = 'Add other email accounts to this device, manage them in your account settings'
 </script>
 
 
@@ -51,7 +52,8 @@ const infoSpaces = 'Create custom spaces to separate different topics, you can d
       Add a new Space
     </a>
 
-    <a @click="selectedModal = Modal.AddMailbox">
+    <a @click="selectedModal = Modal.AddMailbox" @mouseover="infoContent = infoMailboxes"
+      @mouseleave="infoContent = ''">
       <Icon name="plus" color="normal" class="addicon" />
       Add an email address
     </a>
