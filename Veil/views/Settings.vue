@@ -88,15 +88,15 @@ let selectedPane = ref(Pane.Account)
         <p>Add and remove email addresses to this device.</p>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
         </div>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
         </div>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
         </div>
 
         <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
@@ -163,7 +163,6 @@ let selectedPane = ref(Pane.Account)
       </div>
 
 
-
       <div class="pane" v-if="selectedPane == Pane.Team">
         <h1>Team</h1>
         <h2>
@@ -173,17 +172,17 @@ let selectedPane = ref(Pane.Account)
         <div class="members">
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
             <ButtonSecondary class="save">Make admin</ButtonSecondary>
           </div>
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
             <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
           </div>
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save">Remove</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
             <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
           </div>
         </div>
@@ -202,7 +201,7 @@ let selectedPane = ref(Pane.Account)
         <div class="spaces">
           <div class="space">
             <span>School Stuff</span>
-            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1">
               <label for="check1">Board 1</label>
@@ -214,7 +213,7 @@ let selectedPane = ref(Pane.Account)
           </div>
           <div class="space">
             <span>Work Stuff</span>
-            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1">
               <label for="check1">Board 1</label>
@@ -226,7 +225,7 @@ let selectedPane = ref(Pane.Account)
           </div>
           <div class="space">
             <span>Accounting</span>
-            <ButtonSecondary class="save">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1">
               <label for="check1">Board 1</label>
@@ -249,15 +248,15 @@ let selectedPane = ref(Pane.Account)
         <div class="subscriptions">
           <div class="subscription">
             <span>Forbes milky under milky</span>
-            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
           </div>
           <div class="subscription">
             <span>Yahoo Finance</span>
-            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
           </div>
           <div class="subscription">
             <span>Milky newsletter</span>
-            <ButtonSecondary class="save">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
           </div>
         </div>
       </div>

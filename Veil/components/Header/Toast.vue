@@ -58,5 +58,6 @@ a {
   margin-left: 5px;
   font-weight: 500;
   color: var(--primary-font-color);
+  white-space: nowrap;
 }
 </style>

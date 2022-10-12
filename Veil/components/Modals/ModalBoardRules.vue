@@ -37,7 +37,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
           <span>To-Do</span>
         </div>
 
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
 
 
@@ -48,7 +48,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         <span>ruben@helloaiko.com</span>
         <span>move to</span>
         <span>To-Do</span>
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
 
       <div class="rule">
@@ -57,7 +57,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         <span>ruben@helloaiko.com</span>
         <span>move to</span>
         <span>To-Do</span>
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
 
       <div class="rule">
@@ -66,7 +66,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         <span>ruben@helloaiko.com</span>
         <span>move to</span>
         <span>To-Do</span>
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
 
       <div class="rule">
@@ -75,7 +75,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         <span>ruben@helloaiko.com</span>
         <span>move to</span>
         <span>To-Do</span>
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
 
       <div class="rule">
@@ -84,7 +84,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         <span>ruben@helloaiko.com</span>
         <span>move to</span>
         <span>To-Do</span>
-        <ButtonSecondary>Remove</ButtonSecondary>
+        <ButtonSecondary color="red">Remove</ButtonSecondary>
       </div>
     </div>
     <h1>New board rule</h1>
@@ -123,7 +123,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
         </select>
         <input placeholder="Type here" />
         <div class="add-condition">
-          <ButtonSecondary @click="toggleExtraRule()">Remove extra condition</ButtonSecondary>
+          <ButtonSecondary @click="toggleExtraRule()" color="red">Remove extra condition</ButtonSecondary>
         </div>
       </div>
       <div class="action-container">

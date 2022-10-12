@@ -43,8 +43,14 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
         </div>
         <div class="option" v-if="!isInbox">
           <p>Move all emails</p>
-          <ButtonSecondary class="btn">
+          <ButtonSecondary class="btn" color="red">
             Trash all
+          </ButtonSecondary>
+        </div>
+        <div class="option" v-if="!isInbox">
+          <p>Board actions</p>
+          <ButtonSecondary class="btn" color="red">
+            Delete board
           </ButtonSecondary>
         </div>
         <div class="option" v-if="isInbox">
@@ -228,7 +234,8 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   top: 0;
   left: 0;
   overflow: visible;
-  display: inline-flex;
+  outline: none !important;
+  display: inline-block;
   width: 100%;
   border-radius: var(--primary-border-radius);
   border: 3px solid var(--primary-background-color);
