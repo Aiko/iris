@@ -15,8 +15,8 @@ import ModalAddMailbox from '@Veil/components/Modals/ModalAddMailbox.vue'
 import ModalUpgrade from '@Veil/components/Modals/ModalUpgrade.vue'
 import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
-import ModalInvite from './components/Modals/ModalInvite.vue'
-import ModalInviteTeam from './components/Modals/ModalInviteTeam.vue'
+import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
+import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
 </script>
 
 <template>
@@ -34,7 +34,7 @@ import ModalInviteTeam from './components/Modals/ModalInviteTeam.vue'
 
 
   <!--Modals-->
-  <ModalShell size="small" v-if="selectedModal == Modal.Upgrade">
+  <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">
     <ModalUpgrade feature="Quick Actions" />
   </ModalShell>
 
