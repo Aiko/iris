@@ -1,5 +1,9 @@
 // User Interface Variables
-import { ref } from '@vue/reactivity'
+import { ref, reactive } from '@vue/reactivity'
+
+export const Sidebar = reactive({
+  collapsed: false
+})
 
 // Sidebar collapse state
 export let isSidebarCollapsed = ref(false)

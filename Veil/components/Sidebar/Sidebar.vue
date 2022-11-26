@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isSidebarCollapsed, infoContent, selectedModal, Modal } from '@Veil/state/sections'
+import { Sidebar, infoContent, selectedModal, Modal } from '@Veil/state/sections'
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
 import NavLink from '@Veil/components/Sidebar/NavLink.vue'
 import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue'
@@ -14,13 +14,13 @@ const infoDocumentation = 'Open documentation'
 const infoSettings = 'Open settings'
 const infoCalendar = 'Open calendar'
 
-const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollapsed.value)
+const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
 </script>
 
 <template>
   <div :class="{
     'sidebar': true,
-    'collapsed': isSidebarCollapsed,
+    'collapsed': Sidebar.collapsed,
   }">
     <div class="top">
       <ButtonPrimary href="/composer" target="_blank">
@@ -44,14 +44,13 @@ const toggleSidebarCollapse = () => isSidebarCollapsed.value = !(isSidebarCollap
       </NavLink>
     </div>
     <Alert>
-      <h1>
-        <i v-if="!isSidebarCollapsed">Version: </i><b>BETA</b>
-      </h1>
+      <!-- TODO: channel & version from Chiton -->
+      <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
-      <p><span v-if="!isSidebarCollapsed">Request features and </span>report issues</p>
+      <p><span v-if="!(Sidebar.collapsed)">Request features and </span>report issues</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
-        <span v-if="!isSidebarCollapsed">Give feedback</span>
-        <Icon name="bug" color="white" v-if="isSidebarCollapsed" />
+        <span v-if="!(Sidebar.collapsed)">Give feedback</span>
+        <Icon name="bug" color="white" v-if="Sidebar.collapsed" />
       </ButtonPrimary>
     </Alert>
     <div class="bottom">
