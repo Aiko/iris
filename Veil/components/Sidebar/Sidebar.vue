@@ -1,70 +1,80 @@
 <script lang="ts" setup>
-import { Sidebar, infoContent, selectedModal, Modal } from '@Veil/state/sections'
-import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
-import NavLink from '@Veil/components/Sidebar/NavLink.vue'
-import NavLinkHome from '@Veil/components/Sidebar/NavLinkHome.vue'
-import Icon from '@Veil/components/Base/Icon.vue'
-import Alert from './Alert.vue'
-
+import {
+  Sidebar,
+  infoContent,
+  selectedModal,
+  Modal,
+} from "@Veil/state/sections";
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import NavLink from "@Veil/components/Sidebar/NavLink.vue";
+import NavLinkHome from "@Veil/components/Sidebar/NavLinkHome.vue";
+import Icon from "@Veil/components/Base/Icon.vue";
+import Alert from "@Veil/components/Sidebar/Alert.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 // Information variables for 'Sidebar' component
-// TODO: detect if mac or pc and change CMD to CTRL
-const infoCollapse = 'Toggle sidebar collapse (CMD + S)'
-const infoDocumentation = 'Open documentation'
-const infoSettings = 'Open settings'
-const infoCalendar = 'Open calendar'
+const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
+const infoDocumentation = "Open documentation";
+const infoSettings = "Open settings";
+const infoCalendar = "Open calendar";
 
-const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
+const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 </script>
 
 <template>
-  <div :class="{
-    'sidebar': true,
-    'collapsed': Sidebar.collapsed,
-  }">
+  <div
+    :class="{
+      sidebar: true,
+      collapsed: Sidebar.collapsed,
+    }"
+  >
     <div class="top">
       <ButtonPrimary href="/composer" target="_blank">
         <Icon name="compose" color="white" class="special" />Compose
       </ButtonPrimary>
       <NavLinkHome text="Home" active />
-      <NavLink>
-        <Icon name="sent" color="normal" />Sent
-      </NavLink>
-      <NavLink>
-        <Icon name="drafts" color="normal" />Drafts
-      </NavLink>
-      <NavLink>
-        <Icon name="archive" color="normal" />Archive
-      </NavLink>
-      <NavLink>
-        <Icon name="spam" color="normal" />Spam
-      </NavLink>
-      <NavLink>
-        <Icon name="trash" color="normal" />Trash
-      </NavLink>
+      <NavLink> <Icon name="sent" color="normal" />Sent </NavLink>
+      <NavLink> <Icon name="drafts" color="normal" />Drafts </NavLink>
+      <NavLink> <Icon name="archive" color="normal" />Archive </NavLink>
+      <NavLink> <Icon name="spam" color="normal" />Spam </NavLink>
+      <NavLink> <Icon name="trash" color="normal" />Trash </NavLink>
     </div>
     <Alert>
       <!-- TODO: channel & version from Chiton -->
       <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
-      <p><span v-if="!(Sidebar.collapsed)">Request features and </span>report issues</p>
+      <p>
+        <span v-if="!Sidebar.collapsed">Request features and </span>report
+        issues
+      </p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
-        <span v-if="!(Sidebar.collapsed)">Give feedback</span>
+        <span v-if="!Sidebar.collapsed">Give feedback</span>
         <Icon name="bug" color="white" v-if="Sidebar.collapsed" />
       </ButtonPrimary>
     </Alert>
     <div class="bottom">
-      <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
-        @mouseleave="infoContent = ''">
+      <div
+        class="sidebar-collapse"
+        @click="toggleSidebarCollapse"
+        @mouseover="infoContent = infoCollapse"
+        @mouseleave="infoContent = ''"
+      >
         <Icon name="sidebar-collapse" color="normal" />
       </div>
       <a @mouseover="infoContent = infoCalendar" @mouseleave="infoContent = ''">
         <Icon name="calendar" color="normal" />
       </a>
-      <a @click="selectedModal = Modal.Settings" @mouseover="infoContent = infoSettings" @mouseleave="infoContent = ''">
+      <a
+        @click="selectedModal = Modal.Settings"
+        @mouseover="infoContent = infoSettings"
+        @mouseleave="infoContent = ''"
+      >
         <Icon name="settings" color="normal" />
       </a>
-      <a @mouseover="infoContent = infoDocumentation" @mouseleave="infoContent = ''">
+      <a
+        @mouseover="infoContent = infoDocumentation"
+        @mouseleave="infoContent = ''"
+      >
         <Icon name="documentation" color="normal" class="docu" />
       </a>
     </div>
@@ -114,13 +124,13 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
 .sidebar-collapse img {
   width: 15px !important;
   margin-top: -8px;
-  opacity: .3;
-  transition: .2s;
+  opacity: 0.3;
+  transition: 0.2s;
 }
 
 .sidebar-collapse img:hover {
   opacity: 1;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .compose {
@@ -176,12 +186,12 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
   height: 30px;
   border-radius: var(--primary-border-radius);
   margin-left: 12px;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .bottom a:hover {
   background: var(--primary-background-color-hover);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .bottom img {
@@ -189,7 +199,6 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
 }
 
 .docu {
-
   padding: 4px;
 }
 
@@ -236,15 +245,15 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
   padding: 2px;
   border-radius: 5px;
   opacity: 0;
-  transition: .2s;
+  transition: 0.2s;
   z-index: 1;
 }
 
-.alert h1:hover~div {
+.alert h1:hover ~ div {
   margin-top: -20px;
   opacity: 1;
   height: unset;
-  transition: .2s;
+  transition: 0.2s;
   position: relative;
 }
 
@@ -252,7 +261,7 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
   margin-top: -20px;
   opacity: 1;
   height: unset;
-  transition: .2s;
+  transition: 0.2s;
   position: relative;
 }
 
@@ -264,7 +273,7 @@ const toggleSidebarCollapse = () => Sidebar.collapsed = !(Sidebar.collapsed)
   margin-left: -2px;
 }
 
-.sidebar.collapsed .alert h1:hover~div {
+.sidebar.collapsed .alert h1:hover ~ div {
   display: none;
 }
 

@@ -1,8 +1,10 @@
 lang: default
-platform: default
+platform: default # win32 for Windows, darwin for Mac, default otherwise
 
 #! the key "definitions" is reserved and should not be used in your config file
+#! these work as overrides, so if you have multiple files, it will merge the structure in the end
+#! so your keys and nesting should be the same in all files AND globally unique
 messages:
   example:
-    exit: "Close"
+    exit: "X"
     learn_more: "Learn more"

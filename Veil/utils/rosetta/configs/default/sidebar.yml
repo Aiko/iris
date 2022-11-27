@@ -1,0 +1,7 @@
+lang: default
+platform: default
+
+messages:
+  sidebar:
+    toggle_collapse:
+      Toggle sidebar collapse

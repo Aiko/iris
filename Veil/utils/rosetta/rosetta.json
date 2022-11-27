@@ -3,7 +3,7 @@
     "exit": {
       "definitions": {
         "default": {
-          "default": "Close"
+          "default": "X"
         }
       }
     },
@@ -11,6 +11,17 @@
       "definitions": {
         "default": {
           "default": "Learn more"
+        }
+      }
+    }
+  },
+  "sidebar": {
+    "toggle_collapse": {
+      "definitions": {
+        "default": {
+          "default": "Toggle sidebar collapse",
+          "win32": "Toggle sidebar collapse (Ctrl + Shift + B)",
+          "darwin": "Toggle sidebar collapse (⌘ + Shift + B)"
         }
       }
     }

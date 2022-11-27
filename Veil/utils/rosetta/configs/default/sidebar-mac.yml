@@ -1,0 +1,7 @@
+lang: default
+platform: darwin
+
+messages:
+  sidebar:
+    toggle_collapse:
+      Toggle sidebar collapse (⌘ + Shift + B)

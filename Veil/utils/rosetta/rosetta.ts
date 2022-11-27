@@ -1,4 +1,4 @@
-import RosettaStone from "@Veil/utils/rosetta/rosetta.json"
+import RosettaStoneAll from "@Veil/utils/rosetta/rosetta.json"
 import { reactive } from "@vue/reactivity"
 
 //? Fallback logic, first-come-first-serve
@@ -13,7 +13,7 @@ const FALLBACK: {
 //? Manage defaults
 const SETTINGS = reactive({
   language: "en-US",
-  platform: "win32",
+  platform: "darwin",
 })
 
 interface StoneDefinition {
@@ -40,3 +40,4 @@ export const i18n = (Defn: StoneDefinition) => {
     ).find(Boolean) ??
     "???"
 }
+export const RosettaStone = reactive(RosettaStoneAll)

@@ -3,7 +3,10 @@ import { readFileSync, writeFileSync } from "fs"
 
 //? Add your YAML file under configs and put its name here to load it
 const configs = [
-  'example' //* -> configs/example.yml
+  'example', //* -> configs/example.yml
+  'default/sidebar',
+  'default/sidebar-win',
+  'default/sidebar-mac',
 ]
 
 interface RosettaDefinition {
