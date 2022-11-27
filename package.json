@@ -5,7 +5,7 @@
   "description": "Aiko Mail - Email powered by AI",
   "main": "build/Chiton/app.js",
   "scripts": {
-    "start": "concurrently -k \"npm run veil:start\" \"npm run chiton:start\" \"npm run rosetta:start\"",
+    "start": "concurrently -k \"npm run veil:start\" \"npm run chiton:start\" \"npm run rosetta:start\" \"./node_modules/.bin/vue-devtools\"",
     "win:start": "npx concurrently -k \"npm run win:veil:start\" \"npm run win:chiton:start\"",
     "restart": "clear; npm run clean; npm run compile; npm start",
     "win:restart": "cls; npm run compile; npm run win:start",
@@ -197,6 +197,7 @@
     "@types/ws": "^7.4.7",
     "@types/yaml": "^1.9.7",
     "@vitejs/plugin-vue": "^3.0.3",
+    "@vue/devtools": "^6.0.0-beta.21",
     "@vue/tsconfig": "^0.1.3",
     "chokidar": "^3.5.3",
     "concurrently": "^7.4.0",

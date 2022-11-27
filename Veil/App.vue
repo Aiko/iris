@@ -17,6 +17,8 @@ import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
+import devtools from '@vue/devtools'
+if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
 
 <template>
