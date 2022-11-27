@@ -1,0 +1,18 @@
+{
+  "example": {
+    "exit": {
+      "definitions": {
+        "default": {
+          "default": "Close"
+        }
+      }
+    },
+    "learn_more": {
+      "definitions": {
+        "default": {
+          "default": "Learn more"
+        }
+      }
+    }
+  }
+}

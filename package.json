@@ -5,16 +5,16 @@
   "description": "Aiko Mail - Email powered by AI",
   "main": "build/Chiton/app.js",
   "scripts": {
-    "start": "concurrently -k \"npm run veil:start\" \"npm run chiton:start\"",
+    "start": "concurrently -k \"npm run veil:start\" \"npm run chiton:start\" \"npm run rosetta:start\"",
     "win:start": "npx concurrently -k \"npm run win:veil:start\" \"npm run win:chiton:start\"",
     "restart": "clear; npm run clean; npm run compile; npm start",
     "win:restart": "cls; npm run compile; npm run win:start",
-    "restart:prod": "clear; npm run clean; npm run compile; npm run veil:make; npm run chiton:start:prod",
-    "win:restart:prod": "cls; npm run compile; npm run win:veil:make; npm run win:chiton:start:prod",
+    "restart:prod": "clear; npm run clean; npm run compile; npm run rosetta:make; npm run veil:make; npm run chiton:start:prod",
+    "win:restart:prod": "cls; npm run compile; npm run rosetta:make; npm run win:veil:make; npm run win:chiton:start:prod",
     "compile": "tsc; tsc-alias; echo \"Compiled and added aliases.\"",
     "clean": "rm -rf build",
-    "make": "npm run clean; npm run compile; npm run veil:make; npm run chiton:make",
-    "win:make": "npm run compile; npm run win:veil:make; npm run win:chiton:make",
+    "make": "npm run clean; npm run compile; npm run rosetta:make; npm run veil:make; npm run chiton:make",
+    "win:make": "npm run compile; npm run rosetta:make; npm run win:veil:make; npm run win:chiton:make",
     "chiton:start": "cross-env NODE_ENV=dev electron-forge start",
     "win:chiton:start": "export NODE_ENV=dev; npx electron-forge start",
     "chiton:start:prod": "cross-env NODE_ENV=prod electron-forge start",
@@ -30,7 +30,9 @@
     "veil:make": "vite build",
     "win:veil:make": "npx vite build",
     "veil:preview": "vite preview --port 4173",
-    "win:veil:preview": "vite preview --port 4173"
+    "win:veil:preview": "vite preview --port 4173",
+    "rosetta:start": "node rosetta-server.js",
+    "rosetta:make": "ts-node ./Veil/utils/rosetta/compile.ts"
   },
   "keywords": [
     "email",
@@ -171,7 +173,8 @@
     "vue": "^3.2.38",
     "vue-router": "^4.0.13",
     "write-good": "^1.0.8",
-    "ws": "^7.2.5"
+    "ws": "^7.2.5",
+    "yaml": "^2.1.3"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.50",
@@ -192,8 +195,10 @@
     "@types/request": "^2.48.7",
     "@types/write-good": "^1.0.1",
     "@types/ws": "^7.4.7",
+    "@types/yaml": "^1.9.7",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vue/tsconfig": "^0.1.3",
+    "chokidar": "^3.5.3",
     "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
     "electron": "^20.0.0",
@@ -201,6 +206,7 @@
     "vite": "^3.0.9"
   },
   "bundleDependencies": [
-    "@aiko/dwarfhaven"
+    "@aiko/dwarfhaven",
+    "yaml"
   ]
 }

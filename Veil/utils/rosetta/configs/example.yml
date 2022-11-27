@@ -1,0 +1,8 @@
+lang: default
+platform: default
+
+#! the key "definitions" is reserved and should not be used in your config file
+messages:
+  example:
+    exit: "Close"
+    learn_more: "Learn more"
