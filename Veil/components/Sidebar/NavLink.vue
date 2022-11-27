@@ -3,15 +3,13 @@ import Icon from "@Veil/components/Base/Icon.vue";
 defineProps<{
   text?: string;
   active?: boolean;
-  space?: boolean;
 }>();
 </script>
 
 <template>
   <a
     :class="{
-      'active': active,
-      'space': space,
+      'active': active
     }"
   >
     <slot></slot>
@@ -34,10 +32,6 @@ a {
   margin-bottom: 5px;
   letter-spacing: 0.3px;
   transition: 0.2s;
-}
-.space {
-  margin-left: 15px;
-  width: calc(100% - 15px);
 }
 a:hover {
   background: var(--primary-background-color-hover);

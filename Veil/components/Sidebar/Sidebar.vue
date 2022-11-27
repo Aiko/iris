@@ -36,15 +36,15 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
           <Icon name="settings" color="normal" class="addicon" />
         </div>
       </NavLink>
-      <NavLink space>
+      <NavLink class="space">
         <Icon name="paw" color="normal" />AMC Times Square
         <span class="count"> 3 </span></NavLink
       >
-      <NavLink space>
+      <NavLink  class="space">
         <Icon name="paw" color="normal" />AMC Alphabet City
         <span class="count"> 9 </span></NavLink
       >
-      <NavLink space>
+      <NavLink  class="space">
         <Icon name="paw" color="normal" />AMC Amsterdam Avenue
         <span class="count"> 1 </span></NavLink
       >
@@ -170,10 +170,21 @@ padding: 2px 8px 8px 8px;
   margin-right: 10px !important;
   margin-left: -2px !important;
 }
+.space {
+  margin-left: 15px;
+  width: calc(100% - 15px);
+}
+.sidebar.collapsed .space {
+  margin-left: 0px;
+  width: 100%;
+}
 
 .sidebar.collapsed .top a {
   width: 30px;
   overflow: hidden;
+}
+.sidebar.collapsed .count-home{
+  display: none;
 }
 
 .sidebar.collapsed .bottom {
