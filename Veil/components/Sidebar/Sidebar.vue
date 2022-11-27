@@ -31,7 +31,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       <NavLink active>
         <Icon name="home" color="normal" />
         Home
-        <span class="count"> 99+ </span>
+        <span class="count-home"> 99+ </span>
         <div class="manage-spaces" v-if="false">
           <Icon name="settings" color="normal" class="addicon" />
         </div>
@@ -239,10 +239,9 @@ padding: 2px 8px 8px 8px;
 }
 
 .alert a {
-  padding: 4px 10px 5px 9px;
+  padding: 4px 8px 5px 8px;
   font-size: 13px !important;
   letter-spacing: 0 !important;
-  margin-left: -4px;
 }
 
 .alert b {
@@ -310,6 +309,22 @@ padding: 2px 8px 8px 8px;
 }
 
 .active .count {
+  background: var(--primary-background-color);
+}
+.count-home {
+    padding: 0 4px;
+    float: right;
+    font-size: 13px;
+    position: absolute;
+    right: 0;
+    margin-right: 5px;
+    margin-top: 1px;
+    text-align: center;
+    background: var(--secondary-background-color);
+    border-radius: var(--primary-border-radius);
+}
+
+.active .count-home {
   background: var(--primary-background-color);
 }
 </style>
