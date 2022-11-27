@@ -3,7 +3,7 @@
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="Group-2-Copy" transform="translate(204.844769, 146.994164) rotate(181.000000) translate(-204.844769, -146.994164) translate(1.844769, -3.005836)">
-            <path d="M193.186689,46.798827 L176.151289,85.0609618 L406.881357,85.0609618 L406.881357,46.0626872 L193.186689,46.798827 Z" id="Rectangle-19-Copy-9" stroke="#B0B0B0" transform="translate(291.381357, 65.560962) rotate(-24.000000) translate(-291.381357, -65.560962) "></path>
+            <path d="M193.186689,46.798827 L176.151289,85.0609618 L406.881357,85.0609618 L406.881357,46.0626872 L193.186689,46.798827 Z" id="Rectangle-19-Copy-9" stroke="#000000" transform="translate(291.381357, 65.560962) rotate(-24.000000) translate(-291.381357, -65.560962) "></path>
             <polygon id="Rectangle-19-Copy-6" fill="#4848FF" transform="translate(255.181028, 170.506740) rotate(-24.000000) translate(-255.181028, -170.506740) " points="167.31217 151.400261 366.8927 150.50674 366.8927 190.50674 143.469357 190.50674"></polygon>
             <polygon id="Rectangle-19-Copy-7" fill="#4870FF" transform="translate(92.349221, 244.018380) rotate(-24.000000) translate(-92.349221, -244.018380) " points="21.1773843 223.498424 183.454484 223.779639 166.678523 262.604903 1.24395783 264.538336"></polygon>
             <polygon id="Rectangle-19-Copy-5" fill="#489CFF" transform="translate(234.063771, 222.294945) rotate(-24.000000) translate(-234.063771, -222.294945) " points="135.493971 203.146076 350.063771 202.294945 350.063771 242.294945 118.063771 242.294945"></polygon>

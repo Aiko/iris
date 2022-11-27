@@ -20,7 +20,9 @@ import Icon from '@Veil/components/Base/Icon.vue'
   .search {
     background: var(--primary-background-color);
     border-radius: var(--primary-border-radius);
-    padding-left: 10px;
+    padding-left: 40px;
+    width: calc(100% + 50px);
+    border-radius: 0;
   }
 
 
@@ -30,7 +32,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
     margin-top: 12px;
     margin-left: 0;
     margin-right: 30px;
-    z-index: 11;
+    z-index: 0;
   }
 }
 

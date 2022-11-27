@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 defineProps<{
-  name?: string
-  color?: string
-}>()
+  name?: string;
+  color?: string;
+}>();
 </script>
 
 <template>
@@ -19,15 +19,18 @@ img {
 }
 
 .blue {
-  filter: invert(42%) sepia(35%) saturate(9051%) hue-rotate(215deg) brightness(97%) contrast(90%);
+  filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%)
+    contrast(101%);
 }
 
 .red {
-  filter: invert(34%) sepia(68%) saturate(931%) hue-rotate(338deg) brightness(75%) contrast(128%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
+    contrast(106%);
 }
 
 .error {
-  filter: invert(34%) sepia(68%) saturate(931%) hue-rotate(338deg) brightness(75%) contrast(128%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
+    contrast(106%);
 }
 
 .grey {
@@ -43,6 +46,6 @@ img {
 }
 
 .white {
-  filter: invert(0%) sepia(100%) saturate(0%) hue-rotate(282deg) brightness(1003%) contrast(106%);
+  filter: invert(0%);
 }
 </style>

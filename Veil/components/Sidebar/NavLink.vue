@@ -1,21 +1,20 @@
 <script lang="ts" setup>
+import Icon from "@Veil/components/Base/Icon.vue";
 defineProps<{
-  text?: string
-  active?: boolean
-}>()
+  text?: string;
+  active?: boolean;
+  space?: boolean;
+}>();
 </script>
 
-
 <template>
-  <a :class="active ? 'active' : ''">
-
-    <!-- TODO: Number here for unread
-    <span class="count">
-      3
-    </span>
-    -->
+  <a
+    :class="{
+      'active': active,
+      'space': space,
+    }"
+  >
     <slot></slot>
-
   </a>
 </template>
 
@@ -29,34 +28,23 @@ a {
   color: var(--primary-font-color) !important;
   margin-top: 3px;
   white-space: nowrap;
+  display: inline-flex;
   overflow: hidden;
   height: 30px;
   margin-bottom: 5px;
-  letter-spacing: .3px;
-  transition: .2s;
+  letter-spacing: 0.3px;
+  transition: 0.2s;
 }
-
+.space {
+  margin-left: 15px;
+  width: calc(100% - 15px);
+}
 a:hover {
   background: var(--primary-background-color-hover);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .active {
   background: var(--secondary-background-color);
-}
-
-
-.count {
-  float: right;
-  padding: 1px 4px;
-  min-width: 20px;
-  font-size: 13px;
-  text-align: center;
-  background: var(--secondary-background-color);
-  border-radius: var(--primary-border-radius);
-}
-
-.active .count {
-  background: var(--primary-background-color);
 }
 </style>

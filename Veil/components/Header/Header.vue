@@ -33,7 +33,10 @@ import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
 
 @media screen and (prefers-color-scheme: light) {
   .header {
-    padding: 0px 10px 10px 20px;
+    padding: 0 0 10px 0;
+    margin-left: -20px;
+    width: calc(100% + 20px);
+    border-radius: 0;
   }
 }
 </style>

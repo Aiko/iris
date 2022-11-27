@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import { ref } from '@vue/reactivity'
-import { selectedModal, Modal } from '@Veil/state/sections'
-import NavLink from '@Veil/components/Sidebar/NavLink.vue'
-import Alert from '@Veil/components/Sidebar/Alert.vue'
-import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue'
-import Icon from '@Veil/components/Base/Icon.vue'
-import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue'
+import { ref } from "@vue/reactivity";
+import { selectedModal, Modal } from "@Veil/state/sections";
+import NavLink from "@Veil/components/Sidebar/NavLink.vue";
+import Alert from "@Veil/components/Sidebar/Alert.vue";
+import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
+import Icon from "@Veil/components/Base/Icon.vue";
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 
 enum Pane {
   Account,
@@ -17,50 +17,78 @@ enum Pane {
   Signatures,
   Billing,
   Integrations,
-  Others
+  Others,
 }
 
-let selectedPane = ref(Pane.Account)
+let selectedPane = ref(Pane.Account);
 </script>
 
 <template>
   <div class="settings" v-if="true">
     <div class="sidebar">
       <h1>Settings</h1>
-      <NavLink @click="selectedPane = Pane.Account" :class="selectedPane == Pane.Account ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Account"
+        :class="selectedPane == Pane.Account ? 'active' : ''"
+      >
         <Icon name="user" color="normal" class="special" />Account
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Appearance" :class="selectedPane == Pane.Appearance ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Appearance"
+        :class="selectedPane == Pane.Appearance ? 'active' : ''"
+      >
         <Icon name="image" color="normal" />Appearance
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Team" :class="selectedPane == Pane.Team ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Team"
+        :class="selectedPane == Pane.Team ? 'active' : ''"
+      >
         <Icon name="team" color="normal" />Team
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Spaces" :class="selectedPane == Pane.Spaces ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Spaces"
+        :class="selectedPane == Pane.Spaces ? 'active' : ''"
+      >
         <Icon name="home" color="normal" />Spaces
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Unsubscribe" :class="selectedPane == Pane.Unsubscribe ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Unsubscribe"
+        :class="selectedPane == Pane.Unsubscribe ? 'active' : ''"
+      >
         <Icon name="unsubscribe" color="normal" />Unsubscribe
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Templates" :class="selectedPane == Pane.Templates ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Templates"
+        :class="selectedPane == Pane.Templates ? 'active' : ''"
+      >
         <Icon name="templates" color="normal" />Templates
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Signatures" :class="selectedPane == Pane.Signatures ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Signatures"
+        :class="selectedPane == Pane.Signatures ? 'active' : ''"
+      >
         <Icon name="signature" color="normal" />Signatures
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Billing"
+        :class="selectedPane == Pane.Billing ? 'active' : ''"
+      >
         <Icon name="billing" color="normal" />Plans / Billing
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Integrations" :class="selectedPane == Pane.Integrations ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Integrations"
+        :class="selectedPane == Pane.Integrations ? 'active' : ''"
+      >
         <Icon name="integrations" color="normal" />Integrations
       </NavLink>
-      <NavLink @click="selectedPane = Pane.Others" :class="selectedPane == Pane.Others ? 'active' : ''">
+      <NavLink
+        @click="selectedPane = Pane.Others"
+        :class="selectedPane == Pane.Others ? 'active' : ''"
+      >
         <Icon name="settings2" color="normal" />Others
       </NavLink>
       <Alert>
-        <h1>
-          <i>Version: </i><b>BETA</b>
-        </h1>
+        <h1><i>Version: </i><b>BETA</b></h1>
         <div>#darwin-3.8.1:INTERNAL</div>
         <p><span>Request features and </span>report issues</p>
         <ButtonPrimary @click="selectedModal = Modal.Feedback">
@@ -73,7 +101,8 @@ let selectedPane = ref(Pane.Account)
       <div class="pane" v-if="selectedPane == Pane.Account">
         <h1>Account</h1>
         <h2>
-          <div class="bullet" />Personal Information
+          <div class="bullet" />
+          Personal Information
         </h2>
         <p>Name</p>
         <input placeholder="Name" value="Ruben Touitou" />
@@ -83,7 +112,8 @@ let selectedPane = ref(Pane.Account)
         <input placeholder="Primary email" value="ruben@aikomail.com" />
         <ButtonSecondary class="save">Send verification</ButtonSecondary>
         <h2>
-          <div class="bullet" />Mailboxes
+          <div class="bullet" />
+          Mailboxes
         </h2>
         <p>Add and remove email addresses to this device.</p>
         <div class="mailbox">
@@ -99,74 +129,77 @@ let selectedPane = ref(Pane.Account)
           <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
+        <ButtonPrimary @click="selectedModal = Modal.AddMailbox"
+          >Add a mailbox</ButtonPrimary
+        >
       </div>
-
-
 
       <div class="pane" v-if="selectedPane == Pane.Appearance">
         <h1>Appearance</h1>
 
         <h2>
-          <div class="bullet" />Global app appearance
+          <div class="bullet" />
+          Global app appearance
         </h2>
 
         <p>Theme</p>
         <form action="#">
           <p>
-            <input type="radio" id="light" name="radio-group">
+            <input type="radio" id="light" name="radio-group" />
             <label for="light">Light</label>
           </p>
           <p>
-            <input type="radio" id="dark" name="radio-group">
+            <input type="radio" id="dark" name="radio-group" />
             <label for="dark">Dark</label>
           </p>
           <p>
-            <input type="radio" id="system" name="radio-group" checked>
+            <input type="radio" id="system" name="radio-group" checked />
             <label for="system">System (default)</label>
           </p>
         </form>
 
         <h2>
-          <div class="bullet" />Inbox appearance
+          <div class="bullet" />
+          Inbox appearance
         </h2>
         <p>Lines of preview for each email in boards.</p>
         <form action="#">
           <p>
-            <input type="radio" id="1line" name="radio-group">
+            <input type="radio" id="1line" name="radio-group" />
             <label for="1line">1 line</label>
           </p>
           <p>
-            <input type="radio" id="2lines" name="radio-group">
+            <input type="radio" id="2lines" name="radio-group" />
             <label for="2lines">2 lines</label>
           </p>
           <p>
-            <input type="radio" id="3lines" name="radio-group" checked>
+            <input type="radio" id="3lines" name="radio-group" checked />
             <label for="3lines">3 lines (default)</label>
           </p>
         </form>
 
         <h2>
-          <div class="bullet" />Accessibility
+          <div class="bullet" />
+          Accessibility
         </h2>
         <p>Increased contrast</p>
         <form action="#">
           <p>
-            <input type="radio" id="contrastoff" name="radio-group" checked>
+            <input type="radio" id="contrastoff" name="radio-group" checked />
             <label for="contrastoff">Off (default)</label>
           </p>
           <p>
-            <input type="radio" id="contraston" name="radio-group">
+            <input type="radio" id="contraston" name="radio-group" />
             <label for="contraston">On</label>
           </p>
         </form>
       </div>
 
-
       <div class="pane" v-if="selectedPane == Pane.Team">
         <h1>Team</h1>
         <h2>
-          <div class="bullet" />Team members
+          <div class="bullet" />
+          Team members
         </h2>
         <p>These members are part of your plan.</p>
         <div class="members">
@@ -187,27 +220,28 @@ let selectedPane = ref(Pane.Account)
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.InviteTeam">Invite a new member</ButtonPrimary>
+        <ButtonPrimary @click="selectedModal = Modal.InviteTeam"
+          >Invite a new member</ButtonPrimary
+        >
         <ButtonSecondary class="ml-2">Invite bulk (csv)</ButtonSecondary>
-
       </div>
-
-
 
       <div class="pane" v-if="selectedPane == Pane.Spaces">
         <h1>Spaces</h1>
-        <p>These are your spaces, used to separate boards by topics.<br />Hover over to decide which board are shown in
-          them.</p>
+        <p>
+          These are your spaces, used to separate boards by topics.<br />Hover over to
+          decide which board are shown in them.
+        </p>
         <div class="spaces">
           <div class="space">
             <span>School Stuff</span>
             <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check1">
+              <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
             </div>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check2">
+              <input type="checkbox" id="check2" />
               <label for="check2">Board2</label>
             </div>
           </div>
@@ -215,11 +249,11 @@ let selectedPane = ref(Pane.Account)
             <span>Work Stuff</span>
             <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check1">
+              <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
             </div>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check2">
+              <input type="checkbox" id="check2" />
               <label for="check2">Board2</label>
             </div>
           </div>
@@ -227,20 +261,20 @@ let selectedPane = ref(Pane.Account)
             <span>Accounting</span>
             <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check1">
+              <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
             </div>
             <div class="aikocheckbox">
-              <input type="checkbox" id="check2">
+              <input type="checkbox" id="check2" />
               <label for="check2">Board2</label>
             </div>
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddSpace">Add a new Space</ButtonPrimary>
+        <ButtonPrimary @click="selectedModal = Modal.AddSpace"
+          >Add a new Space</ButtonPrimary
+        >
       </div>
-
-
 
       <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
         <h1>Unsubscribe</h1>
@@ -260,8 +294,6 @@ let selectedPane = ref(Pane.Account)
           </div>
         </div>
       </div>
-
-
 
       <div class="pane" v-if="selectedPane == Pane.Templates">
         <h1>Templates</h1>
@@ -295,20 +327,17 @@ let selectedPane = ref(Pane.Account)
         </div>
       </div>
 
-
-
       <div class="pane" v-if="selectedPane == Pane.Billing">
         <h1>Plans & Billing</h1>
 
         <h2>
-          <div class="bullet" />Plans
+          <div class="bullet" />
+          Plans
         </h2>
         <p class="mb-5">These are available plans, click to upgrade.</p>
 
-
-
         <div class="plan current">
-          <img src="@Veil/assets/img/aikofree.svg">
+          <img src="@Veil/assets/img/aikofree.svg" />
           <span>$0/month</span>
           <span style="opacity: 0">.</span>
           <p>
@@ -320,13 +349,12 @@ let selectedPane = ref(Pane.Account)
             Feature<br />
             Feature<br />
             Feature<br />
-
           </p>
           <ButtonSecondary>Current plan</ButtonSecondary>
         </div>
 
         <div class="plan">
-          <img src="@Veil/assets/img/aikopro.svg">
+          <img src="@Veil/assets/img/aikopro.svg" />
           <span>$12/month</span>
           <span>Cancel anytime</span>
           <p>
@@ -340,10 +368,10 @@ let selectedPane = ref(Pane.Account)
             Feature<br />
           </p>
           <ButtonPrimary>Upgrade to Pro</ButtonPrimary>
-
         </div>
         <h2>
-          <div class="bullet" />Billing details
+          <div class="bullet" />
+          Billing details
         </h2>
         <p class="mb-2">Name</p>
         <input placeholder="Name" value="" />
@@ -362,13 +390,12 @@ let selectedPane = ref(Pane.Account)
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
       </div>
 
-
-
       <div class="pane" v-if="selectedPane == Pane.Integrations">
         <h1>Integrations</h1>
 
         <h2>
-          <div class="bullet" />Available integrations
+          <div class="bullet" />
+          Available integrations
         </h2>
         <p>You can turn these on or off to use them in Aiko Mail</p>
 
@@ -391,22 +418,24 @@ let selectedPane = ref(Pane.Account)
         </div>
 
         <h2>
-          <div class="bullet" />Request an integration
+          <div class="bullet" />
+          Request an integration
         </h2>
-        <p class="mb-2">If you don't see the integration you need, simply request it and we'll work on it.</p>
+        <p class="mb-2">
+          If you don't see the integration you need, simply request it and we'll work on
+          it.
+        </p>
         <ButtonPrimary>Integration request</ButtonPrimary>
       </div>
 
-
-
       <div class="pane" v-if="selectedPane == Pane.Others">
         <h1>Other Settings</h1>
-        <p>Out of Office Replies<br>
-          Spelling and Autocorrect<br>
-          Notifications<br>
+        <p>
+          Out of Office Replies<br />
+          Spelling and Autocorrect<br />
+          Notifications<br />
         </p>
       </div>
-
     </div>
   </div>
 </template>
@@ -422,7 +451,7 @@ let selectedPane = ref(Pane.Account)
 }
 
 .sidebar {
-  width: 130px;
+  width: 150px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px 8px 8px 3px;
@@ -464,12 +493,12 @@ let selectedPane = ref(Pane.Account)
   display: inline-block;
   margin-right: 20px;
   margin-bottom: 20px;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .plan:hover {
   border: 2px solid var(--primary-color);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .plan p {
@@ -570,14 +599,14 @@ let selectedPane = ref(Pane.Account)
   padding: 20px;
   overflow: hidden;
   cursor: default;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .space:hover {
   height: fit-content;
   background: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .space label {
@@ -595,10 +624,10 @@ input {
   background: var(--secondary-background-color);
   cursor: text !important;
   padding: 8px 10px;
-  transition: .2s;
+  transition: 0.2s;
 }
 
-input+a {
+input + a {
   display: none;
   padding: 10px;
 }
@@ -606,20 +635,20 @@ input+a {
 input:focus,
 input:active {
   background: var(--primary-background-color);
-  transition: .2s;
+  transition: 0.2s;
 }
 
-input:focus+a,
-input:active+a {
+input:focus + a,
+input:active + a {
   display: unset;
 }
 
-textarea+a {
+textarea + a {
   display: none;
 }
 
-textarea:focus+a,
-textarea:active+a {
+textarea:focus + a,
+textarea:active + a {
   display: unset;
 }
 
@@ -784,15 +813,15 @@ textarea:active+a {
   padding: 2px;
   border-radius: 5px;
   opacity: 0;
-  transition: .2s;
+  transition: 0.2s;
   z-index: 1;
 }
 
-.alert h1:hover~div {
+.alert h1:hover ~ div {
   margin-top: -20px;
   opacity: 1;
   height: unset;
-  transition: .2s;
+  transition: 0.2s;
   position: relative;
 }
 
@@ -800,7 +829,7 @@ textarea:active+a {
   margin-top: -20px;
   opacity: 1;
   height: unset;
-  transition: .2s;
+  transition: 0.2s;
   position: relative;
 }
 

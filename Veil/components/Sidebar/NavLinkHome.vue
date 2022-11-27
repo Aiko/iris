@@ -1,68 +1,62 @@
 <script lang="ts" setup>
-import Icon from '@Veil/components/Base/Icon.vue'
-import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
+import Icon from "@Veil/components/Base/Icon.vue";
+import { infoContent, selectedModal, Modal } from "@Veil/state/sections";
 defineProps<{
-  text?: string
-  active?: boolean
-}>()
+  text?: string;
+  active?: boolean;
+}>();
 
 // Information variables for 'NavLinkHome' component
-const infoSpaces = 'Create custom spaces to separate different topics, you can decide to display certain boards in some Spaces.'
-const infoMailboxes = 'Add other email accounts to this device, manage them in your account settings'
+const infoSpaces =
+  "Create custom spaces to separate different topics, you can decide to display certain boards in some Spaces.";
+const infoMailboxes =
+  "Add other email accounts to this device, manage them in your account settings";
 </script>
-
 
 <template>
   <div class="home-picker">
-
     <a :class="active ? 'active' : ''">
       <Icon name="home" color="normal" />
-      {{text}}
-      <span class="count">
-        99+
-      </span>
+      {{ text }}
+      <span class="count"> 99+ </span>
     </a>
 
     <a :class="active ? 'active' : ''">
       <Icon name="home" color="normal" />
       Space
-      <span class="count">
-        99+
-      </span>
+      <span class="count"> 99+ </span>
     </a>
 
     <a :class="active ? 'active' : ''">
       <img src="@Veil/assets/img/user.png" />
       ruben@helloaiko.com
-      <span class="count">
-        99+
-      </span>
+      <span class="count"> 99+ </span>
     </a>
 
     <a :class="active ? 'active' : ''">
       <img src="@Veil/assets/img/user.png" />
       rubencharlestouitou@gmail.com
-      <span class="count">
-        99+
-      </span>
     </a>
     <hr />
-    <a @click="selectedModal = Modal.AddSpace" @mouseover="infoContent = infoSpaces" @mouseleave="infoContent = ''">
+    <a
+      @click="selectedModal = Modal.AddSpace"
+      @mouseover="infoContent = infoSpaces"
+      @mouseleave="infoContent = ''"
+    >
       <Icon name="plus" color="normal" class="addicon" />
       Add a new Space
     </a>
 
-    <a @click="selectedModal = Modal.AddMailbox" @mouseover="infoContent = infoMailboxes"
-      @mouseleave="infoContent = ''">
+    <a
+      @click="selectedModal = Modal.AddMailbox"
+      @mouseover="infoContent = infoMailboxes"
+      @mouseleave="infoContent = ''"
+    >
       <Icon name="plus" color="normal" class="addicon" />
       Add an email address
     </a>
-
-
   </div>
-  <div class="spaceholder">
-
-  </div>
+  <div class="spaceholder"></div>
 </template>
 
 <style scoped>
@@ -103,7 +97,7 @@ hr {
   margin-left: 10px;
 }
 
-.home-picker:hover+.spaceholder {
+.home-picker:hover + .spaceholder {
   height: 38px;
 }
 
@@ -120,7 +114,7 @@ hr {
   overflow-y: visible;
   height: 30px;
   margin-bottom: 5px;
-  letter-spacing: .3px;
+  letter-spacing: 0.3px;
 }
 
 .home-picker a:hover {

@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-import {
-  Sidebar,
-  infoContent,
-  selectedModal,
-  Modal,
-} from "@Veil/state/sections";
+import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import NavLinkHome from "@Veil/components/Sidebar/NavLinkHome.vue";
@@ -32,7 +27,30 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       <ButtonPrimary href="/composer" target="_blank">
         <Icon name="compose" color="white" class="special" />Compose
       </ButtonPrimary>
-      <NavLinkHome text="Home" active />
+
+      <NavLink active>
+        <Icon name="home" color="normal" />
+        Home
+        <span class="count"> 99+ </span>
+        <div class="manage-spaces" v-if="false">
+          <Icon name="settings" color="normal" class="addicon" />
+        </div>
+      </NavLink>
+      <NavLink space>
+        <Icon name="paw" color="normal" />AMC Times Square
+        <span class="count"> 3 </span></NavLink
+      >
+      <NavLink space>
+        <Icon name="paw" color="normal" />AMC Alphabet City
+        <span class="count"> 9 </span></NavLink
+      >
+      <NavLink space>
+        <Icon name="paw" color="normal" />AMC Amsterdam Avenue
+        <span class="count"> 1 </span></NavLink
+      >
+
+      <div class="separator"></div>
+
       <NavLink> <Icon name="sent" color="normal" />Sent </NavLink>
       <NavLink> <Icon name="drafts" color="normal" />Drafts </NavLink>
       <NavLink> <Icon name="archive" color="normal" />Archive </NavLink>
@@ -43,10 +61,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       <!-- TODO: channel & version from Chiton -->
       <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
-      <p>
-        <span v-if="!Sidebar.collapsed">Request features and </span>report
-        issues
-      </p>
+      <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
         <span v-if="!Sidebar.collapsed">Give feedback</span>
         <Icon name="bug" color="white" v-if="Sidebar.collapsed" />
@@ -71,10 +86,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       >
         <Icon name="settings" color="normal" />
       </a>
-      <a
-        @mouseover="infoContent = infoDocumentation"
-        @mouseleave="infoContent = ''"
-      >
+      <a @mouseover="infoContent = infoDocumentation" @mouseleave="infoContent = ''">
         <Icon name="documentation" color="normal" class="docu" />
       </a>
     </div>
@@ -83,7 +95,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <style scoped>
 .sidebar {
-  width: 130px;
+  width: 150px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px;
@@ -103,6 +115,13 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   /* Internet Explorer/Edge */
   user-select: none;
 }
+@media screen and (prefers-color-scheme: light) {
+  .sidebar {
+border-radius: 0;
+padding: 2px 8px 8px 8px;
+  }
+   
+}
 
 .sidebar-collapse {
   position: absolute;
@@ -110,7 +129,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   top: 0;
   margin-top: -10px;
   cursor: pointer !important;
-  margin-right: -14px;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   z-index: 1;
@@ -127,7 +145,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   opacity: 0.3;
   transition: 0.2s;
 }
-
+.separator {
+  border-top: 1px solid var(--secondary-background-color);
+  margin: 10px 0 10px 0;
+}
 .sidebar-collapse img:hover {
   opacity: 1;
   transition: 0.2s;
@@ -143,10 +164,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed {
   width: 46px;
-}
-
-.sidebar.collapsed .sidebar-collapse {
-  margin-right: -8px;
 }
 
 .sidebar.collapsed .special {
@@ -172,11 +189,11 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .bottom {
   margin-bottom: 20px;
   position: absolute;
+  width: 100%;
   border-top: 1px solid var(--secondary-background-color);
   padding-top: 20px;
   bottom: 0;
   left: 0;
-  background: var(--primary-background-color);
 }
 
 .bottom a {
@@ -185,7 +202,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 12px;
+  margin-left: 16px;
   transition: 0.2s;
 }
 
@@ -279,5 +296,20 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .alert div:hover {
   display: none;
+}
+.count {
+    padding: 0 4px;
+    float: right;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 10px;
+    text-align: center;
+    background: var(--secondary-background-color);
+    border-radius: 50%;
+}
+
+.active .count {
+  background: var(--primary-background-color);
 }
 </style>
