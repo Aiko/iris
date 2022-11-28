@@ -9,40 +9,45 @@ import Animation from "@Veil/components/Base/Animation.vue";
 
   <!-- TOAST Sending Email -->
   <a class="primarycolor" v-if="false">
-    <Icon name="sent" color="blue" class="toast-icon" />
+    <Animation name="sending" loop class="lot" />
     Sending email...
     <ButtonPrimary>Undo</ButtonPrimary>
   </a>
 
   <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="true">
-    <Animation name="check" loop class="check" />
-
+    <Animation name="check" loop class="lot" />
     Email sent
   </a>
 
-  <!-- TOAST Invite Sent -->
+  <!-- TOAST Invite Sending -->
   <a class="primarycolor" v-if="false">
-    <Icon name="invite" color="blue" class="toast-icon" />
+    <Animation name="invite" loop class="lot lb" />
     Sending invite...
     <ButtonPrimary>Undo</ButtonPrimary>
   </a>
 
+  <!-- TOAST Invite Sent -->
+  <a class="primarycolor" v-if="false">
+    <Animation name="check" loop class="lot" />
+    Invite sent
+  </a>
+
   <!-- TOAST Connection Lost -->
   <a class="red" v-if="false">
-    <Icon name="no-internet" color="red" class="toast-icon" />
+    <Animation name="internet" loop class="lot lc" />
     We're having trouble connecting to the internet.
   </a>
 
   <!-- TOAST IMAP Error -->
   <a class="red" v-if="false">
-    <Icon name="no-internet" color="red" class="toast-icon" />
+    <Animation name="internet" loop class="lot lc" />
     We're having issues connecting to your mail provider.
   </a>
 
   <!-- TOAST Send Email Error -->
   <a class="red" v-if="false">
-    <Icon name="no-internet" color="red" class="toast-icon" />
+    <Animation name="internet" loop class="lot lc" />
     We were unable to send your message due to network issues
   </a>
 
@@ -73,7 +78,7 @@ a {
   margin-top: -3px;
 }
 
-.check {
+.lot {
   width: 20px;
   display: inline-flex;
   color: #ddd;
@@ -83,6 +88,17 @@ a {
   top: 0;
   margin-left: -20px;
   margin-top: 2px;
+}
 
+.lb {
+  width: 30px;
+  margin-left: -28px;
+  margin-top: -1px;
+}
+
+.lc {
+  width: 60px;
+  margin-left: -40px;
+  margin-top: -17px;
 }
 </style>
