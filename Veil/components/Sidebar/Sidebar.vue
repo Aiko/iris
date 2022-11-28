@@ -59,7 +59,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
     </div>
     <Alert>
       <!-- TODO: channel & version from Chiton -->
-      <h1><b>BETA</b></h1>
+      <h1>Version: <b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
       <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
@@ -175,9 +175,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar.collapsed .top a {
   width: 30px;
   overflow: hidden;
-}
-.sidebar.collapsed .count-home{
-  display: none;
 }
 
 .sidebar.collapsed .bottom {
@@ -336,6 +333,20 @@ width: 100%;
     text-align: center;
     background: var(--secondary-background-color);
     border-radius: var(--primary-border-radius);
+}
+.sidebar.collapsed .count-home {
+    padding-bottom: 4px;
+    line-height: 13px;
+    padding-top: 0;
+    height: 14px;
+    float: right;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 11px;
+    text-align: center;
+    background: var(--secondary-background-color);
+    border-radius: 50%;
 }
 
 .active .count-home {
