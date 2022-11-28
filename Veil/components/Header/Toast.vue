@@ -16,7 +16,8 @@ import Animation from "@Veil/components/Base/Animation.vue";
 
   <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="true">
-    <Icon name="check" color="blue" class="toast-icon" />
+    <Animation name="check" color="normal" loop class="check" />
+
     Email sent
   </a>
 
@@ -70,5 +71,18 @@ a {
 .toast-icon {
   height: 17px;
   margin-top: -3px;
+}
+
+.check {
+  width: 20px;
+  display: inline-flex;
+  color: #ddd;
+  margin-bottom: -2px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-left: -20px;
+  margin-top: 2px;
+
 }
 </style>
