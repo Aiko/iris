@@ -49,6 +49,7 @@ import ButtonSecondary from "./ButtonSecondary.vue";
 
 .loader-screen .loader {
   margin: auto;
+      margin-top: 30px;
 }
 
 .loader-screen .middle {
