@@ -16,7 +16,7 @@ import Animation from "@Veil/components/Base/Animation.vue";
 
   <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="true">
-    <Animation name="check" color="normal" loop class="check" />
+    <Animation name="check" loop class="check" />
 
     Email sent
   </a>
