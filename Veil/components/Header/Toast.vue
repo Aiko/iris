@@ -16,7 +16,7 @@ import Animation from "@Veil/components/Base/Animation.vue";
 
   <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="true">
-    <Animation name="check" loop class="lot" />
+    <Animation name="sent" loop class="lot sent" />
     Email sent
   </a>
 
@@ -100,5 +100,11 @@ a {
   width: 60px;
   margin-left: -40px;
   margin-top: -17px;
+}
+
+.sent {
+  width: 50px;
+  margin-left: -45px;
+  margin-top: -12px;
 }
 </style>
