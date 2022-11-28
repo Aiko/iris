@@ -29,7 +29,7 @@ import Animation from "@Veil/components/Base/Animation.vue";
 
   <!-- TOAST Invite Sent -->
   <a class="primarycolor" v-if="false">
-    <Animation name="check" loop class="lot" />
+    <Animation name="sent" loop class="lot sent" />
     Invite sent
   </a>
 
