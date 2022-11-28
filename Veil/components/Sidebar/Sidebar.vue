@@ -2,7 +2,6 @@
 import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
-import NavLinkHome from "@Veil/components/Sidebar/NavLinkHome.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
@@ -17,12 +16,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 </script>
 
 <template>
-  <div
-    :class="{
-      sidebar: true,
-      collapsed: Sidebar.collapsed,
-    }"
-  >
+  <div :class="{
+    sidebar: true,
+    collapsed: Sidebar.collapsed,
+  }">
     <div class="top">
       <ButtonPrimary href="/composer" target="_blank">
         <Icon name="compose" color="white" class="special" />Compose
@@ -30,36 +27,56 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
       <NavLink active>
         <Icon name="home" color="normal" />
-        Home
-        <span class="count-home"> 99+ </span>
+        <span class="name">Home</span>
+        <span class="count">99</span>
         <div class="manage-spaces" v-if="false">
           <Icon name="settings" color="normal" class="addicon" />
         </div>
       </NavLink>
-      <NavLink class="space">
-        <Icon name="paw" color="normal" />AMC Times Square
-        <span class="count"> 3 </span></NavLink
-      >
-      <NavLink  class="space">
-        <Icon name="paw" color="normal" />AMC Alphabet City
-        <span class="count"> 9 </span></NavLink
-      >
-      <NavLink  class="space">
-        <Icon name="paw" color="normal" />AMC Amsterdam Avenue
-        <span class="count"> 1 </span></NavLink
-      >
 
-      <div class="separator"></div>
+      <NavLink>
+        <Icon name="home" color="normal" />
+        <span class="name">Times Square</span>
+        <span class="count">3</span>
+      </NavLink>
 
-      <NavLink> <Icon name="sent" color="normal" />Sent </NavLink>
-      <NavLink> <Icon name="drafts" color="normal" />Drafts </NavLink>
-      <NavLink> <Icon name="archive" color="normal" />Archive </NavLink>
-      <NavLink> <Icon name="spam" color="normal" />Spam </NavLink>
-      <NavLink> <Icon name="trash" color="normal" />Trash </NavLink>
+      <NavLink>
+        <Icon name="home" color="normal" />
+        <span class="name">Aiko Email</span>
+        <span class="count">9</span>
+      </NavLink>
+
+      <NavLink>
+        <Icon name="home" color="normal" />
+        <span class="name">Gmail</span>
+        <span class="count">0</span>
+      </NavLink>
+
+      <div class="space-actions">
+        <span v-if="!Sidebar.collapsed">
+          <Icon name="home" color="normal" class="spaces-icon" /> Edit Spaces
+        </span>
+      </div>
+
+      <NavLink>
+        <Icon name="sent" color="normal" />Sent
+      </NavLink>
+      <NavLink>
+        <Icon name="drafts" color="normal" />Drafts
+      </NavLink>
+      <NavLink>
+        <Icon name="archive" color="normal" />Archive
+      </NavLink>
+      <NavLink>
+        <Icon name="spam" color="normal" />Spam
+      </NavLink>
+      <NavLink>
+        <Icon name="trash" color="normal" />Trash
+      </NavLink>
     </div>
     <Alert>
       <!-- TODO: channel & version from Chiton -->
-      <h1>Version: <b>BETA</b></h1>
+      <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
       <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
@@ -68,22 +85,14 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       </ButtonPrimary>
     </Alert>
     <div class="bottom">
-      <div
-        class="sidebar-collapse"
-        @click="toggleSidebarCollapse"
-        @mouseover="infoContent = infoCollapse"
-        @mouseleave="infoContent = ''"
-      >
+      <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
+        @mouseleave="infoContent = ''">
         <Icon name="sidebar-collapse" color="normal" />
       </div>
       <a @mouseover="infoContent = infoCalendar" @mouseleave="infoContent = ''">
         <Icon name="calendar" color="normal" />
       </a>
-      <a
-        @click="selectedModal = Modal.Settings"
-        @mouseover="infoContent = infoSettings"
-        @mouseleave="infoContent = ''"
-      >
+      <a @click="selectedModal = Modal.Settings" @mouseover="infoContent = infoSettings" @mouseleave="infoContent = ''">
         <Icon name="settings" color="normal" />
       </a>
       <a @mouseover="infoContent = infoDocumentation" @mouseleave="infoContent = ''">
@@ -137,10 +146,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   opacity: 0.3;
   transition: 0.2s;
 }
-.separator {
-  border-top: 1px solid var(--secondary-background-color);
-  margin: 10px 0 10px 0;
-}
+
 .sidebar-collapse img:hover {
   opacity: 1;
   transition: 0.2s;
@@ -161,18 +167,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar.collapsed .special {
   margin-right: 10px !important;
   margin-left: -2px !important;
-    
 }
-.special{
-margin-top: -3px;
-}
-.space {
-  margin-left: 15px;
-  width: calc(100% - 15px);
-}
-.sidebar.collapsed .space {
-  margin-left: 0px;
-  width: 100%;
+
+.special {
+  margin-top: -3px;
 }
 
 .sidebar.collapsed .top a {
@@ -226,6 +224,7 @@ margin-top: -3px;
 .top a img {
   width: 17px;
   margin-right: 7px;
+  z-index: 3;
 }
 
 .alert h1 {
@@ -238,24 +237,24 @@ margin-top: -3px;
   font-size: 12px;
   margin-bottom: 8px;
   z-index: 1;
- 
+
   position: relative;
   letter-spacing: -0.1px;
 }
 
 .alert a {
-width: 100%;
-    text-align: center;
-    height: 28px;
-    font-size: 13px !important;
-    display: inline-grid;
-    letter-spacing: 0 !important;
-    margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+  height: 28px;
+  font-size: 13px !important;
+  display: inline-grid;
+  letter-spacing: 0 !important;
+  margin-bottom: 0;
 }
 
 .alert b {
   color: var(--primary-color);
-   
+
   font-weight: 700;
 }
 
@@ -275,7 +274,7 @@ width: 100%;
   z-index: 1;
 }
 
-.alert h1:hover ~ div {
+.alert h1:hover~div {
   margin-top: -20px;
   opacity: 1;
   height: unset;
@@ -299,61 +298,126 @@ width: 100%;
   margin-left: -2px;
 }
 
-.sidebar.collapsed .alert h1:hover ~ div {
+.sidebar.collapsed .alert h1:hover~div {
   display: none;
 }
 
 .sidebar.collapsed .alert div:hover {
   display: none;
 }
+
 .count {
+  width: 16px;
+  line-height: 8px;
+  padding-top: 0;
+  height: 11px;
+  margin-bottom: 7px;
+  float: right;
+  position: absolute;
+  z-index: 1;
+  font-weight: 500;
+  left: 0;
+  bottom: 0;
+  margin-left: 7px;
+  font-size: 11px;
+  text-align: center;
+  background: var(--primary-color);
+  color: #ffffff;
+  border-radius: 2px;
+
+}
+
+.sidebar.collapsed .count {
+  border-radius: 50%;
+    margin-bottom: 0;
+    margin-left: 0;
+    height: 14px;
+    z-index: 3;
+    min-width: 14px;
     width: 14px;
-    padding-bottom: 4px;
-    line-height: 13px;
-    padding-top: 0;
-    height: 14px;
-    float: right;
-    position: absolute;
-    font-weight: bold;
-    left: 0;
-    bottom: 0;
-    font-size: 11px;
-    text-align: center;
-    background: var(--secondary-background-color);
-    border-radius: 50%;
+    line-height: 14px;
+
+}
+.sidebar.collapsed .count:before {
+display: none;
 }
 
-.active .count {
-  background: var(--primary-background-color);
-}
-.count-home {
-    padding: 0 4px;
-    float: right;
-    font-size: 13px;
-    position: absolute;
-    right: 0;
-    margin-right: 5px;
-    margin-top: 1px;
-    text-align: center;
-    background: var(--secondary-background-color);
-    border-radius: var(--primary-border-radius);
-}
-.sidebar.collapsed .count-home {
-    padding-bottom: 4px;
-    line-height: 13px;
-    padding-top: 0;
-    height: 14px;
-    float: right;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    font-size: 11px;
-    text-align: center;
-    background: var(--secondary-background-color);
-    border-radius: 50%;
+
+.count:before {
+  content: "\A";
+  border-style: solid;
+  border-width: 8px 6px 8px 0;
+  border-color: transparent var(--primary-color) transparent transparent;
+  position: absolute;
+  top: -11px;
+  z-index: 0;
+  transform: rotate(90deg);
+  left: 0;
+  margin-left: 4px;
 }
 
-.active .count-home {
+.space-actions {
+  border-top: 2px solid var(--secondary-background-color);
+  margin: 10px 0 10px 0;
+  position: relative;
+  border-radius: var(--primary-border-radius);
+}
+
+.space-actions span {
+  position: absolute;
   background: var(--primary-background-color);
+  border: 2px solid var(--secondary-background-color);
+  font-size: 12px;
+  top: 0;
+  color: var(--primary-font-color);
+  margin-top: -12px;
+  cursor: pointer;
+  padding: 0 4px;
+  border-radius: var(--primary-border-radius);
+  margin-left: 25px;
+  opacity: 0;
+  transition: .2s;
+}
+
+.space-actions span:hover {
+  background-color: var(--primary-background-color-hover);
+  transition: .2s;
+}
+
+.top:hover .space-actions span {
+  opacity: 1;
+  transition: .2s;
+}
+
+.spaces-icon {
+  width: 13px;
+  margin-top: -3px;
+}
+
+.space-icon {
+  position: relative;
+}
+
+.space-icon span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-left: 7px;
+  margin-top: 5px;
+  font-size: 10px;
+}
+
+.sidebar.collapsed .name {
+  position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 10px;
+    margin-bottom: 7px;
+    width: 7px;
+    overflow: hidden;
+    margin-left: 11px;
+    z-index: 2;
+    color: var(--primary-font-color);
+    height: 14px;
 }
 </style>

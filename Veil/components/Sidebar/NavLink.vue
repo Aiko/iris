@@ -7,11 +7,9 @@ defineProps<{
 </script>
 
 <template>
-  <a
-    :class="{
-      'active': active
-    }"
-  >
+  <a :class="{
+    'active': active
+  }">
     <slot></slot>
   </a>
 </template>
@@ -33,6 +31,7 @@ a {
   letter-spacing: 0.3px;
   transition: 0.2s;
 }
+
 a:hover {
   background: var(--primary-background-color-hover);
   transition: 0.2s;

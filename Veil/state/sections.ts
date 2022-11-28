@@ -5,9 +5,6 @@ export const Sidebar = reactive({
   collapsed: false
 })
 
-// Sidebar collapse state
-export let isSidebarCollapsed = ref(false)
-
 // Fullscreen State
 export let isFullScreen = ref(false)
 
@@ -30,18 +27,18 @@ export let isEmailSidebarCollapsed = ref(true)
 export let isDevControlsCollapsed = ref(true)
 
 export enum Modal {
-    AddBoard,
-    AddMailbox,
-    AddSpace,
-    BoardRules,
-    Email,
-    Feedback,
-    Upgrade,
-    Invite,
-    InviteTeam,
-    Settings,
-    None,
-  }
+  AddBoard,
+  AddMailbox,
+  AddSpace,
+  BoardRules,
+  Email,
+  Feedback,
+  Upgrade,
+  Invite,
+  InviteTeam,
+  Settings,
+  None,
+}
 
 export let selectedModal = ref(Modal.None)
 
