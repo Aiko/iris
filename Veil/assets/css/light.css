@@ -1,0 +1,39 @@
+  /* Light theme Variables */
+  :root {
+    /* Background colors (Application, elements and windows) */
+    --primary-background-color: #d6e1f0;
+    --secondary-background-color: #ffffff;
+
+    --primary-background-color-hover: #bbc9dc;
+    --secondary-background-color-hover: #21201d;
+
+    --modal-backdrop: #ffffff7d;
+
+    /* Fonts */
+    --primary-font: "";
+    --primary-font-color: #515688;
+    --strong-font-color: #282c4c;
+
+    /* Changes the color fo all icons */
+    --icon-filter: invert(31%) sepia(7%) saturate(3361%) hue-rotate(197deg) brightness(101%) contrast(84%);
+
+    /* Shadows */
+    --sidebar-shadow: none;
+    --header-shadow: none;
+    --board-shadow: none;
+    --modal-shadow: box-shadow: 0 0 75px -10px #00408547;
+    --modal-special-background: #e1e7f7cc;
+    --email-bottom-shadow: inset 5px 30px 10px -30px #00000017 !important;
+  }
+  #app {
+    overflow: hidden;
+    user-select: none;
+    background-position: top;
+    background-size: cover;
+  }
+  .modal {
+    background: var(--modal-special-background);
+  }
+  .email-card:hover {
+    filter: brightness(0.97) !important;
+  }

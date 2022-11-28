@@ -17,13 +17,6 @@ import Toast from "@Veil/components/Header/Toast.vue";
   margin-top: 3px;
 }
 
-@media screen and (prefers-color-scheme: light) {
-  .header-right {
-margin-top: 7px;
-  }
-   
-}
-
 .header-right a {
   background: var(--primary-background-color);
   padding: 2px 5px 7px 5px;

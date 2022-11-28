@@ -451,7 +451,7 @@ let selectedPane = ref(Pane.Account);
 }
 
 .sidebar {
-  width: 150px;
+  width: 160px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px 8px 8px 3px;

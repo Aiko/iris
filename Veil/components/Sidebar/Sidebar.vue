@@ -95,7 +95,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <style scoped>
 .sidebar {
-  width: 150px;
+  width: 160px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px;
@@ -115,13 +115,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   /* Internet Explorer/Edge */
   user-select: none;
 }
-@media screen and (prefers-color-scheme: light) {
-  .sidebar {
-border-radius: 0;
-padding: 2px 8px 8px 8px;
-  }
-   
-}
 
 .sidebar-collapse {
   position: absolute;
@@ -134,7 +127,6 @@ padding: 2px 8px 8px 8px;
   z-index: 1;
   padding: 0 2px;
   height: 19px;
-  cursor: default;
   background: var(--secondary-background-color);
   border-radius: 5px;
 }
@@ -169,6 +161,7 @@ padding: 2px 8px 8px 8px;
 .sidebar.collapsed .special {
   margin-right: 10px !important;
   margin-left: -2px !important;
+    margin-top: -3px;
 }
 .space {
   margin-left: 15px;
@@ -233,11 +226,11 @@ padding: 2px 8px 8px 8px;
 .top a img {
   width: 17px;
   margin-right: 7px;
-  margin-top: -3px;
 }
 
 .alert h1 {
   font-size: 13px;
+
   margin: 0;
 }
 
@@ -245,18 +238,24 @@ padding: 2px 8px 8px 8px;
   font-size: 12px;
   margin-bottom: 8px;
   z-index: 1;
+ 
   position: relative;
   letter-spacing: -0.1px;
 }
 
 .alert a {
-  padding: 4px 8px 5px 8px;
-  font-size: 13px !important;
-  letter-spacing: 0 !important;
+width: 100%;
+    text-align: center;
+    height: 28px;
+    font-size: 13px !important;
+    display: inline-grid;
+    letter-spacing: 0 !important;
+    margin-bottom: 0;
 }
 
 .alert b {
   color: var(--primary-color);
+   
   font-weight: 700;
 }
 
@@ -308,12 +307,16 @@ padding: 2px 8px 8px 8px;
   display: none;
 }
 .count {
-    padding: 0 4px;
+    width: 14px;
+    padding-bottom: 4px;
+    line-height: 13px;
+    padding-top: 0;
+    height: 14px;
     float: right;
     position: absolute;
     left: 0;
     bottom: 0;
-    font-size: 10px;
+    font-size: 11px;
     text-align: center;
     background: var(--secondary-background-color);
     border-radius: 50%;

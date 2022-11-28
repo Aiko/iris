@@ -161,7 +161,7 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
 }
 
 .sender {
-  width: calc(100% - 150px);
+  width: calc(100% - 160px);
   margin-left: 10px;
 }
 

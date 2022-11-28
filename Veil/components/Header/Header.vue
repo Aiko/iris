@@ -30,13 +30,4 @@ import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
   /* Internet Explorer/Edge */
   user-select: none;
 }
-
-@media screen and (prefers-color-scheme: light) {
-  .header {
-    padding: 0 0 10px 0;
-    margin-left: -20px;
-    width: calc(100% + 20px);
-    border-radius: 0;
-  }
-}
 </style>
