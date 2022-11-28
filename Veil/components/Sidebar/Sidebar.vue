@@ -27,8 +27,8 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
       <NavLink active>
         <Icon name="home" color="normal" />
-        Home
-        <span class="count">9+</span>
+        <span class="name">Home</span>
+        <span class="count">99</span>
         <div class="manage-spaces" v-if="false">
           <Icon name="settings" color="normal" class="addicon" />
         </div>
@@ -36,19 +36,19 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
       <NavLink>
         <Icon name="home" color="normal" />
-        AMC Times Square
+        <span class="name">Times Square</span>
         <span class="count">3</span>
       </NavLink>
 
       <NavLink>
         <Icon name="home" color="normal" />
-        priansh@helloaiko.com
+        <span class="name">Aiko Email</span>
         <span class="count">9</span>
       </NavLink>
 
       <NavLink>
         <Icon name="home" color="normal" />
-        hello@priansh.com
+        <span class="name">Gmail</span>
         <span class="count">0</span>
       </NavLink>
 
@@ -224,7 +224,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .top a img {
   width: 17px;
   margin-right: 7px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .alert h1 {
@@ -308,35 +308,52 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .count {
   width: 16px;
-    line-height: 8px;
-    padding-top: 0;
-    height: 11px;
-    margin-bottom: 7px;
-    float: right;
-    position: absolute;
-    z-index: 1;
-    font-weight: 500;
-    left: 0;
-    bottom: 0;
-    margin-left: 7px;
-    font-size: 11px;
-    text-align: center;
-    background: var(--primary-color);
-    color: #ffffff;
-    border-radius: 2px;
-    
+  line-height: 8px;
+  padding-top: 0;
+  height: 11px;
+  margin-bottom: 7px;
+  float: right;
+  position: absolute;
+  z-index: 1;
+  font-weight: 500;
+  left: 0;
+  bottom: 0;
+  margin-left: 7px;
+  font-size: 11px;
+  text-align: center;
+  background: var(--primary-color);
+  color: #ffffff;
+  border-radius: 2px;
+
 }
+
+.sidebar.collapsed .count {
+  border-radius: 50%;
+    margin-bottom: 0;
+    margin-left: 0;
+    height: 14px;
+    z-index: 3;
+    min-width: 14px;
+    width: 14px;
+    line-height: 14px;
+
+}
+.sidebar.collapsed .count:before {
+display: none;
+}
+
+
 .count:before {
   content: "\A";
-    border-style: solid;
-    border-width: 8px 6px 8px 0;
-    border-color: transparent var(--primary-color) transparent transparent;
-    position: absolute;
-    top: -11px;
-    z-index: 0;
-    transform: rotate(90deg);
-    left: 0;
-    margin-left: 4px;
+  border-style: solid;
+  border-width: 8px 6px 8px 0;
+  border-color: transparent var(--primary-color) transparent transparent;
+  position: absolute;
+  top: -11px;
+  z-index: 0;
+  transform: rotate(90deg);
+  left: 0;
+  margin-left: 4px;
 }
 
 .space-actions {
@@ -388,5 +405,19 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-left: 7px;
   margin-top: 5px;
   font-size: 10px;
+}
+
+.sidebar.collapsed .name {
+  position: absolute;
+    left: 0;
+    bottom: 0;
+    font-size: 10px;
+    margin-bottom: 7px;
+    width: 7px;
+    overflow: hidden;
+    margin-left: 11px;
+    z-index: 2;
+    color: var(--primary-font-color);
+    height: 14px;
 }
 </style>
