@@ -2,7 +2,7 @@
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
-
+import Animation from "@Veil/components/Base/Animation.vue";
 </script>
 
 <template>
@@ -17,6 +17,7 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
     <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="true">
     <Icon name="check" color="blue"  class="toast-icon"/>
+    <Animation name="power" class="power" />
     Email sent
   </a>
 
