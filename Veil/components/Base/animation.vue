@@ -4,6 +4,7 @@ import FailureAnimation from '@Veil/assets/animations/failure.json'
 import LoadingAnimation from '@Veil/assets/animations/loading.json'
 import SendingAnimation from '@Veil/assets/animations/sending.json'
 import InternetAnimation from '@Veil/assets/animations/internet.json'
+import SentAnimation from '@Veil/assets/animations/sent.json'
 import InviteAnimation from '@Veil/assets/animations/invite.json'
 import NotificationAnimation from '@Veil/assets/animations/notification.json'
 import PowerAnimation from '@Veil/assets/animations/power.json'
@@ -15,6 +16,7 @@ const animations = {
   "check": CheckAnimation,
   "failure": FailureAnimation,
   "internet": InternetAnimation,
+  "sent": SentAnimation,
   "invite": InviteAnimation,
   "loading": LoadingAnimation,
   "sending": SendingAnimation,
