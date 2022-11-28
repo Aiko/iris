@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Icon from '@Veil/components/Base/Icon.vue'
+import Icon from "@Veil/components/Base/Icon.vue";
 </script>
 
 <template>
@@ -22,7 +22,7 @@ input {
   background-color: transparent;
   width: 100%;
   cursor: text !important;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
 }
 
 img {
@@ -32,7 +32,7 @@ img {
 input:focus+p,
 input:active+p {
   opacity: 1;
-  transition: .2s;
+  transition: 0.2s;
 }
 
 p {
@@ -42,7 +42,7 @@ p {
   margin: 0;
   margin-top: -3px;
   margin-left: 25px;
-  transition: .2s;
+  transition: 0.2s;
   opacity: 0;
 }
 </style>

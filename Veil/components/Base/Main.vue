@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
 import Home from "@Veil/views/Home.vue";
-import { isSidebarCollapsed } from "@Veil/state/sections";
+import { Sidebar } from "@Veil/state/sections";
 import Logger from "@Veil/services/roots";
 
 const Log = new Logger("Main", {
@@ -13,12 +13,10 @@ Log.success("Mounted application.");
 </script>
 
 <template>
-  <div
-    :class="{
-      main: true,
-      'collapsed-sidebar': isSidebarCollapsed,
-    }"
-  >
+  <div :class="{
+    'main': true,
+    'collapsed-sidebar': Sidebar.collapsed,
+  }">
     <Header />
     <Home />
   </div>
@@ -26,7 +24,7 @@ Log.success("Mounted application.");
 
 <style scoped>
 .main {
-  width: 100%;
+  width: calc(100% - 160px);
   height: 100%;
   overflow: hidden;
 }
