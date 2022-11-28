@@ -161,7 +161,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar.collapsed .special {
   margin-right: 10px !important;
   margin-left: -2px !important;
-    margin-top: -3px;
+    
+}
+.special{
+margin-top: -3px;
 }
 .space {
   margin-left: 15px;
@@ -311,6 +314,7 @@ width: 100%;
     height: 14px;
     float: right;
     position: absolute;
+    font-weight: bold;
     left: 0;
     bottom: 0;
     font-size: 11px;
