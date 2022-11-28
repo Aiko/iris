@@ -1,22 +1,24 @@
 <script lang="ts" setup>
-import Header from '@Veil/components/Header/Header.vue';
-import Home from '@Veil/views/Home.vue';
-import { isSidebarCollapsed } from '@Veil/state/sections'
-import Logger from '@Veil/services/roots'
+import Header from "@Veil/components/Header/Header.vue";
+import Home from "@Veil/views/Home.vue";
+import { isSidebarCollapsed } from "@Veil/state/sections";
+import Logger from "@Veil/services/roots";
 
 const Log = new Logger("Main", {
   bgColor: "#ff99ff",
   fgColor: "#000000",
-})
+});
 
-Log.success("Mounted application.")
+Log.success("Mounted application.");
 </script>
 
 <template>
-  <div :class="{
-    'main': true,
-    'collapsed-sidebar': isSidebarCollapsed
-  }">
+  <div
+    :class="{
+      main: true,
+      'collapsed-sidebar': isSidebarCollapsed,
+    }"
+  >
     <Header />
     <Home />
   </div>
@@ -24,7 +26,7 @@ Log.success("Mounted application.")
 
 <style scoped>
 .main {
-  width: calc(100% - 130px);
+  width: 100%;
   height: 100%;
   overflow: hidden;
 }

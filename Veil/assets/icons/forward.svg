@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="66px" height="57px" viewBox="0 0 66 57" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="20px" height="18px" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
     <title>forward</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <image id="forward" x="0" y="0" width="66" height="57" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEIAAAA5CAYAAACCsf3qAAAABGdBTUEAALGOGCHvlwAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAQqADAAQAAAABAAAAOQAAAABmr1DJAAAD7ElEQVRoBeXaT0gUURwHcPdfm7ksqUF6SS9B9zpFlw512IukbiSBtK6wEKukUBT9QQohgqxsO4juuiFksWJJtIc6RH+OHo0CL+rJQ2Ksa2b7r+8v5skoszLOzuzOvDewzOzs/Hm/z/zevnlvpqrKRNPY2Fjd+Pj4sUoUyV6JkxY7ZyaTqbbZbFOxWOxksW2MWm8qCKfTmS0UCkfsdvtMNBo9bVTQSsc1FQQVEBnxF7NDwJhGNfEpFdqIdaaDYEEC5CA+r1BN2tk6I+emhZCC9gBjAtWkE99tIkNQVdnvcDiiqCYhIzHMnhEsCZxYeAaMPqMwrAJBmWHH5yEwbg0MDOhebt0PyC6hUXNg3G1qahrUG8NyEAQMjOvAeOz3+x16gVsSQsLo8fl8I8iMfXpgWBZCwgg2NzfHh4aGqkvFsDSEFHxHbW3t5PDwsLcUDB4g6D+jxev1JiKRSL1WDC4gpODP1tTUvEbz2qAFw6Z3M6SlEGyfxsbGOrfb/QPfNV9Z7Du7ubnZFgqFlthx1cxt8Xj8k5oNy7ENuuDUAhxHqrtKPN8cjtUaCATm1R6HIApqN7bSdoCYz+Vyrd3d3XNqys3Tf8S2eJFVRzHQ8w491xPbfijyhVsIKV4a7XoLjFNF4t9azTsENa0N6Ma/QWtyZitqhQXuIaSY6wFCg8ItCgb/V4kCQcF6gfECmXFBCUMkCKomB/B5jpYyCIxtQ39CQUiZQPcqI8iMsBxDRAjycCAzngDjGsPg9oaKolUz4cbr3tra2iANigo9ITNuezye76JWja2LTxmRTqenRc4IGBRuoGP2ACoFUSFyQOgDQoQQKD1EhKCHzJeBEGMIwkEgC34j6CAQXlLw8kmkjEgBorOrq2tGDsCWRYFYAUIHED6wwHfOuYcAwHI+n/cHg8GvO4OXf+cdYgkIbUCYlQettMwtBDJhT2OWBPFZSagS61B43UaxUX4auFU9iu1cWFgo69truwFX9LnGbgUr92+jo6OHXS7XN5xX0wMeZNQX7Hse9wnLey07T52u9+vr6+e0IBAaFxDIhJlUKuUPh8Mre80Etj0PEJOrq6sdvb29KRaUlrmlIZAJUfzZX+rv79/QErx8H8veRwDhaTKZ7EskEjl5QFqXLZkRQLi/uLh4RS8EwrMcBBDuAOEm3uvIa736SvtZpmoAgAK/iubxEea6v8pgFYgsgu8BwogRCDim+YfqkAl/0IMMoQc5YRSCFSDSgAgAYYoKa+Rk2qoBgF8I/CJGlZJGArBjm67VAAB1xX+iOtDLYGVBIAxTQWSzWScewdGoUguqw0d2tcoxN1XVQBd8AxnRjupA71qWdfoHVC5Qd7WdALcAAAAASUVORK5CYII="></image>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="forward" transform="translate(1.000000, 1.000000)" stroke="#000000" stroke-width="2">
+            <path d="M1,5 L9,5 L9,1.414 C9.00008635,1.0096041 9.2437275,0.64506595 9.61734544,0.490322022 C9.99096338,0.335578094 10.4210057,0.421092084 10.707,0.707 L17.293,7.293 C17.6833819,7.68349985 17.6833819,8.31650015 17.293,8.707 L10.707,15.293 C10.4210057,15.5789079 9.99096338,15.6644219 9.61734544,15.509678 C9.2437275,15.3549341 9.00008635,14.9903959 9,14.586 L9,11 L1,11 C0.44771525,11 0,10.5522847 0,10 L0,6 C0,5.44771525 0.44771525,5 1,5 Z" id="Shape"></path>
+        </g>
     </g>
 </svg>

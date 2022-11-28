@@ -154,12 +154,6 @@ let quickReply = ref(false)
   transition: .2s;
 }
 
-@media screen and (prefers-color-scheme: light) {
-  .email-card:hover {
-    filter: brightness(0.97) !important;
-  }
-}
-
 .email-card:hover {
   filter: brightness(1.2);
   box-shadow: none;

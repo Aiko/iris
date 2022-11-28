@@ -1,6 +1,9 @@
 @import'./bootstrap.min.css';
-@import "./variables.css";
-
+@import "./auto.css";
+/* TODO: OTHER CSS FILES TO IMPORT BASED ON PREFERENCE
+@import "./dark.css";
+@import "./light.css";
+*/
 
 html,
 body {
@@ -18,17 +21,6 @@ body {
   padding: 28px 0 0 0;
   background-color: var(--secondary-background-color);
   display: inline-flex;
-}
-
-@media screen and (prefers-color-scheme: light) {
-  #app {
-    overflow: hidden;
-    user-select: none;
-    background-image: url(@Veil/assets/img/bg.jpg);
-    background-color: transparent;
-    background-position: top;
-    background-size: cover;
-  }
 }
 
 section {
@@ -49,7 +41,7 @@ section {
 
 a {
   text-decoration: none !important;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 p {
@@ -62,7 +54,6 @@ h3,
 h4,
 p {
   color: var(--primary-font-color);
-  cursor: default;
   user-select: none;
 }
 

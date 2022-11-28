@@ -16,24 +16,6 @@ import Icon from '@Veil/components/Base/Icon.vue'
   width: 100%;
 }
 
-@media screen and (prefers-color-scheme: light) {
-  .search {
-    background: var(--primary-background-color);
-    border-radius: var(--primary-border-radius);
-    padding-left: 10px;
-  }
-
-
-
-  .search p {
-    right: 0;
-    margin-top: 12px;
-    margin-left: 0;
-    margin-right: 30px;
-    z-index: 11;
-  }
-}
-
 input {
   padding: 9px 11px 9px 5px;
   border: none;

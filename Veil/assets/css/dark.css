@@ -1,0 +1,39 @@
+/* Base Variables */
+:root {
+  /* Brand color */
+  --primary-color: #486fff;
+  --primary-color-hover: #4366e8;
+
+  /* Background colors (Application, elements and windows) */
+  --primary-background-color: #1e212a;
+  --secondary-background-color: #0c0e13;
+
+  --primary-background-color-hover: #14161b;
+  --secondary-background-color-hover: #21201d;
+
+  --modal-backdrop: #000000b3;
+
+  /* Fonts */
+  --primary-font: "";
+  --primary-font-color: #929aad;
+  --strong-font-color: #ffffff;
+  --body-font-size: 14px;
+  --small-font-size: 13px;
+
+  /* Buttons */
+  --btn-font-size: 14px;
+  --btn-font-weight: 500;
+
+  /* Border Radius */
+  --primary-border-radius: 5px;
+
+  /* Changes the color fo all icons */
+  --icon-filter: invert(66%) sepia(14%) saturate(350%) hue-rotate(184deg) brightness(91%) contrast(88%);
+
+  /* Shadows */
+  --sidebar-shadow: 3px 50px 10px #00000040;
+  --header-shadow: 8px 1px 10px #0000002e;
+  --board-shadow: 0 0 15px #00000024;
+  --modal-shadow: 0 0 75px -10px #00000047;
+  --email-bottom-shadow: inset 5px 22px 40px -20px #00000073;
+}

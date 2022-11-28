@@ -14,6 +14,14 @@ import SideEmail from "@Veil/components/Home/SideEmail.vue"
 
       <!-- 'isRegular' is for regular, non-kanban view-->
       <Board v-if="!isRegularView" />
+
+      <Board v-if="!isRegularView" />
+
+      <Board v-if="!isRegularView" />
+
+      <Board v-if="!isRegularView" />
+
+
       <AddBoard v-if="!isRegularView" @click="selectedModal = Modal.AddBoard" />
       <SideEmail v-if="isRegularView" />
 
@@ -25,6 +33,7 @@ import SideEmail from "@Veil/components/Home/SideEmail.vue"
 .home {
   width: 100%;
   overflow-x: scroll;
+  overflow-y: hidden;
   height: calc(100% - 50px);
   padding-left: 20px;
   display: inline-flex;

@@ -15,7 +15,6 @@ import Toast from "@Veil/components/Header/Toast.vue";
   right: 0;
   padding-right: 15px;
   margin-top: 3px;
-  background: var(--secondary-background-color);
 }
 
 .header-right a {
