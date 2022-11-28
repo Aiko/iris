@@ -20,7 +20,8 @@ const animations = {
 
 const props = defineProps<{
   name?: string;
-  loop?: boolean
+  loop?: boolean;
+  color?: string;
 }>()
 
 const animation = computed(() => {
@@ -30,7 +31,8 @@ const animation = computed(() => {
 </script>
 
 <template>
-  <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1" class="icon" />
+  <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1"
+    :class="color + ' icon'" />
 </template>
 
 <style scoped>
@@ -40,5 +42,33 @@ img {
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
+}
+
+.white {
+  fill: #fff;
+}
+
+.black {
+  fill: #000;
+}
+
+.blue {
+  fill: var(--primary-color);
+}
+
+.normal * {
+  fill: var(--primary-font-color);
+}
+
+.grey {
+  fill: var(--primary-font-color);
+}
+
+.gray {
+  fill: var(--primary-font-color);
+}
+
+.red {
+  fill: #d0021c;
 }
 </style>
