@@ -201,7 +201,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 16px;
+  margin-left: 19px;
   transition: 0.2s;
 }
 
@@ -305,7 +305,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .count {
   width: 16px;
-  line-height: 8px;
+  line-height: 9px;
   padding-top: 0;
   height: 11px;
   margin-bottom: 7px;
