@@ -2,7 +2,7 @@
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
-
+import Animation from "@Veil/components/Base/Animation.vue";
 </script>
 
 <template>
