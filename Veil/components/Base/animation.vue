@@ -2,6 +2,9 @@
 import CheckAnimation from '@Veil/assets/animations/check.json'
 import FailureAnimation from '@Veil/assets/animations/failure.json'
 import LoadingAnimation from '@Veil/assets/animations/loading.json'
+import SendingAnimation from '@Veil/assets/animations/sending.json'
+import InternetAnimation from '@Veil/assets/animations/internet.json'
+import InviteAnimation from '@Veil/assets/animations/invite.json'
 import NotificationAnimation from '@Veil/assets/animations/notification.json'
 import PowerAnimation from '@Veil/assets/animations/power.json'
 import SettingsAnimation from '@Veil/assets/animations/settings.json'
@@ -11,7 +14,10 @@ import { computed } from "@vue/reactivity"
 const animations = {
   "check": CheckAnimation,
   "failure": FailureAnimation,
+  "internet": InternetAnimation,
+  "invite": InviteAnimation,
   "loading": LoadingAnimation,
+  "sending": SendingAnimation,
   "notification": NotificationAnimation,
   "power": PowerAnimation,
   "settings": SettingsAnimation,
@@ -20,8 +26,7 @@ const animations = {
 
 const props = defineProps<{
   name?: string;
-  loop?: boolean;
-  color?: string;
+  loop?: boolean
 }>()
 
 const animation = computed(() => {
@@ -31,8 +36,7 @@ const animation = computed(() => {
 </script>
 
 <template>
-  <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1"
-    :class="color + ' icon'" />
+  <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1" />
 </template>
 
 <style scoped>
@@ -42,33 +46,5 @@ img {
   -moz-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
-
-.white {
-  fill: #fff;
-}
-
-.black {
-  fill: #000;
-}
-
-.blue {
-  fill: var(--primary-color);
-}
-
-.normal * {
-  fill: var(--primary-font-color);
-}
-
-.grey {
-  fill: var(--primary-font-color);
-}
-
-.gray {
-  fill: var(--primary-font-color);
-}
-
-.red {
-  fill: #d0021c;
 }
 </style>
