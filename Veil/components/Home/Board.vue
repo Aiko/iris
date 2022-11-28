@@ -26,7 +26,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   <div class="board">
     <div class="board-header">
       <div class="acont">
-        <a :class="{ 'dot': !isInbox }" @click="showBoardDots = true ">
+        <a :class="{ 'dot': !isInbox }" @click="showBoardDots = true">
           <Icon name="dots" color="normal" class="t8" />
         </a>
         <a v-if="isInbox">

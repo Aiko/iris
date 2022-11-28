@@ -9,22 +9,14 @@ import SideEmail from "@Veil/components/Home/SideEmail.vue"
   <div class="home" v-if="true">
     <div class="boards">
 
-      <!--Boards are normal unless they have 'inbox' attribute-->
-      <Board is-inbox />
+      <!--Boards are normal unless they have 'isInbox' attribute-->
+      <Board isInbox />
 
       <!-- 'isRegular' is for regular, non-kanban view-->
       <Board v-if="!isRegularView" />
 
-      <Board v-if="!isRegularView" />
-
-      <Board v-if="!isRegularView" />
-
-      <Board v-if="!isRegularView" />
-
-
       <AddBoard v-if="!isRegularView" @click="selectedModal = Modal.AddBoard" />
       <SideEmail v-if="isRegularView" />
-
     </div>
   </div>
 </template>
