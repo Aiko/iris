@@ -35,16 +35,26 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="normal" />AMC Times Square
+        <div class="space-icon">
+          <Icon name="home-space" color="normal" /><span>A</span>
+        </div>
+        AMC Times Square
         <span class="count"> 3 </span>
       </NavLink>
+
       <NavLink class="space">
-        <Icon name="home" color="normal" />AMC Alphabet City
+        <div class="space-icon">
+          <Icon name="home-space" color="normal" /><span>T</span>
+        </div>
+        Times Square
         <span class="count"> 9 </span>
       </NavLink>
+
       <NavLink class="space">
-        <Icon name="home" color="normal" />AMC Amsterdam Avenue
-        <span class="count"> 1 </span>
+        <div class="space-icon">
+          <Icon name="home-space" color="normal" /><span>S</span>
+        </div>
+        Square
       </NavLink>
 
       <div class="space-actions">
@@ -71,7 +81,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
     </div>
     <Alert>
       <!-- TODO: channel & version from Chiton -->
-      <h1>Version: <b>BETA</b></h1>
+      <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
       <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
@@ -399,5 +409,18 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .spaces-icon {
   width: 13px;
   margin-top: -3px;
+}
+
+.space-icon {
+  position: relative;
+}
+
+.space-icon span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-left: 4px;
+  margin-top: 3px;
+  font-size: 13px;
 }
 </style>
