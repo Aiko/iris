@@ -1,3 +1,2 @@
-// Custom functions
-import { ref } from '@vue/reactivity';
+export type Maybe<T> = T | null
 

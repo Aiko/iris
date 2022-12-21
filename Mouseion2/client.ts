@@ -122,7 +122,7 @@ export class EightySix {
   private async rotate() {
     if (this.queue.length > 0) {
       this.rotating = true
-      const { id, msg } = this.queue.shift() as ProcessMessage //? TS didn't connx length > 0 to shift() != undefined
+      const { id, msg } = this.queue.shift()! //? TS didn't connx length > 0 to shift() defined
       this.listeners[id] = () => {
         delete this.listeners[id]
         this.rotate()

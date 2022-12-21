@@ -1,5 +1,5 @@
 import autoBind from 'auto-bind'
-import { EightySix } from '@Mouseion/client'
+import { EightySix } from '@Iris/Mouseion2/client'
 import type Register from '@Mouseion/managers/register'
 import type { IMAPConfig } from '@Mouseion/post-office/types'
 import type { Logger, LumberjackEmployer } from '@Mouseion/utils/logger'
