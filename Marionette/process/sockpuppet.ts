@@ -1,4 +1,4 @@
-import Forest from '@Iris/utils/logger'
+import { Lumberjack } from '@Iris/utils/logger'
 import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
 import autoBind from 'auto-bind'
 
@@ -9,12 +9,32 @@ interface SockPuppetProcess extends NodeJS.Process {
 }
 type SockPuppetry = {[key: string]: (...args: any[]) => Promise<any | void>}
 
-
-export default abstract class SockPuppet {
+/*
+  ? Usage:
+ * class MySockPuppet extends SockPuppet {
+ *  puppetry = {
+ *    foo: async (bar: string) => something,
+ *		bar: {
+ *			baz: async (qux: number) => something
+ *		}
+ * 	}
+ *  checkInitialize(): boolean {
+ *     return true
+ *  }
+ *  async initialize(args: any[], success: (payload: object) => void): Promise<void> {
+ * 		 success({ foo: "bar" })
+ *  }
+ *  constructor() {
+ *     super("MySockPuppet")
+ *  }
+ * }
+ * const puppet = new MySockPuppet()
+ * puppet.deploy()
+ */
+export default abstract class SockPuppet extends Lumberjack {
 
 	private readonly proc: SockPuppetProcess = <SockPuppetProcess>process;;
 	private deployed: boolean = false;
-	protected readonly Log: Logger;
 	abstract puppetry: SockPuppetry;
 
 	private psucc(id: string): (payload: object) => boolean {
@@ -40,10 +60,8 @@ export default abstract class SockPuppet {
 	abstract initialize(args: any[], success: (payload: object) => boolean): Promise<void>;
 
 	protected constructor(protected name: string, logdir?: string) {
-		const forest: Forest = new Forest(logdir)
-		const Lumberjack: LumberjackEmployer = forest.Lumberjack
-		this.Log = Lumberjack(this.name)
-		if (!process.send) this.Log.error("Process was spawned without IPC and is now likely in a BAD state.")
+		super(name, { logdir })
+		if (!process.send) throw new Error("Process was spawned without IPC and is now likely in a BAD state.")
 		process.title = "Aiko Mail | IPC | " + this.name
 		autoBind(this)
 	}

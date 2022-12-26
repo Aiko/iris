@@ -19,6 +19,7 @@
       "@Chiton/*":["./Chiton/*"],
       "@Mouseion/*": ["./Mouseion/*"],
       "@Veil/*": ["./Veil/*"],
+			"@Marionette/*": ["./Marionette/*"],
       "@Iris/*" : ["./*"]
     }
   }

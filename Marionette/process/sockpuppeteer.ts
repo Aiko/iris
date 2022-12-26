@@ -1,7 +1,7 @@
 import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
-import Forest from '@Iris/utils/logger'
+import Forest, { Lumberjack } from '@Iris/utils/logger'
 import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
 import autoBind from 'auto-bind'
 
@@ -21,8 +21,7 @@ type ValueType<T> =
 
 type ProcessMessage = { id: string, msg: string }
 
-export default abstract class SockPuppeteer {
-	protected readonly Log: Logger
+export default abstract class SockPuppeteer extends Lumberjack {
 	private readonly API: ChildProcess
 	private deployed: boolean = false;
 
@@ -36,11 +35,8 @@ export default abstract class SockPuppeteer {
 		return id
 	}
 
-	protected constructor(protected name: string, logdir: string) {
-		const forest: Forest = new Forest(logdir)
-		const Lumberjack: LumberjackEmployer = forest.Lumberjack
-		this.Log = Lumberjack(this.name)
-		if (!process.send) this.Log.error("Process was spawned without IPC and is now likely in a BAD state.")
+	protected constructor(protected name: string, forest: Forest) {
+		super(name, { forest })
 		process.title = "Aiko Mail | IPC | " + this.name
 
 		this.API = fork(path.join(__dirname, 'puppet.js'), [], {
