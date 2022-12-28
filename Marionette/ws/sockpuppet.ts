@@ -1,6 +1,6 @@
 import WebSocket, { Server } from 'ws'
 import { unused_port, RESERVED_PORTS } from '@Iris/common/port'
-import { Lumberjack } from '@Iris/common/logger'
+import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 interface SockPuppetProcess extends NodeJS.Process {
@@ -11,6 +11,11 @@ interface SockPuppetProcess extends NodeJS.Process {
 type SockPuppetry = { [key: string]: (...args: any[]) => Promise<any | void> }
 
 /*
+  ! Warning: Until this is deployed, the socket doesn't exist.
+	! Also, you can't expect port to be defined prior to deployment unless you pass it in.
+	! It's left unprotected to allow for more complex use cases.
+	! e.g. for Window management, the Window launch & load will take longer than the SockPuppet deployment.
+	! So for Window management, you could expect port/socket to be reliably defined.
   ? Usage:
  * class MySockPuppet extends SockPuppet {
  *  puppetry = {
@@ -34,31 +39,52 @@ type SockPuppetry = { [key: string]: (...args: any[]) => Promise<any | void> }
  */
 export default abstract class SockPuppet extends Lumberjack {
 
-	private readonly proc: SockPuppetProcess = <SockPuppetProcess>process;;
+	private readonly proc: SockPuppetProcess | null
 	private deployed: boolean = false;
+	private readonly websockets: WebSocket[] = []
 	abstract puppetry: SockPuppetry;
 
 	abstract checkInitialize(): boolean;
 
 	abstract initialize(args: any[], success: (payload: object) => void): Promise<void>;
 
-	protected constructor(protected name: string, logdir?: string) {
-		super(name, {logdir})
-		if (!process.send) throw new Error("Puppet was spawned without IPC.")
-		process.title = "Aiko Mail | WS | " + this.name
+	/** should do renderer=true if you want it to run forked */
+	protected constructor(
+		protected name: string,
+		opts: {
+			forest?: Forest | undefined,
+			logdir?: string | undefined,
+			renderer?: boolean
+		},
+		private _port?: number,
+	) {
+		super(name, opts)
+
+		if (opts.renderer) {
+			process.title = "Aiko Mail | WS | " + this.name
+			this.proc = <SockPuppetProcess>process;;
+		} else this.proc = null
+
 		autoBind(this)
 	}
 
+	/** Slight safety mechanism to prevent bad accesses */
+	public get port(): number {
+		if (!(this.deployed)) this.Log.error("Cannot get port before deployment.")
+		if (!(this._port)) this.Log.error("Port not defined.")
+		return this._port!
+	}
+
 	/** Deploys the SockPuppet; you cannot redeploy (must do a complete teardown). */
-	public async deploy(port?: number) {
+	public async deploy() {
 		if (this.deployed) return this.Log.error("Already deployed.")
 		this.deployed = true
 		const _this = this
 
 		//? spawn websocket server
-		const _port = await unused_port(port)
-		const wss = new Server({ port: _port })
-		this.proc.send({ port: _port, })
+		this._port = await unused_port(this._port)
+		const wss = new Server({ port: this._port })
+		if (this.proc) this.proc.send({ port: this._port, })
 		wss.on("connection", (ws: WebSocket) => {
 
 			const succ = (id: string): ((payload: object) => void) => {
@@ -75,6 +101,8 @@ export default abstract class SockPuppet extends Lumberjack {
 					id
 				}))
 			}
+
+			_this.websockets.push(ws)
 
 			ws.on('message', async (m: string): Promise<any> => {
 				/*
@@ -132,6 +160,14 @@ export default abstract class SockPuppet extends Lumberjack {
 				}
 			})
 		})
+	}
+
+	/** Trigger an event on all puppeteers */
+	protected trigger(event: string, payload: object) {
+		if (!this.deployed) return this.Log.error("Cannot trigger event before deployment.")
+		this.websockets.map(ws => ws.send(JSON.stringify({
+			event, payload
+		})))
 	}
 
 }

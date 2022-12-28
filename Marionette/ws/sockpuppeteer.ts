@@ -4,14 +4,24 @@ import crypto from 'crypto'
 import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
-type SockPuppeteerWaiterParams = {
+interface SockPuppeteerWaiterParams {
 	success: boolean,
 	payload: any,
 	error?: string,
 	id: string
 }
+interface SockPuppeteerTriggerParams {
+	event: string
+	payload?: any
+}
+const isWaiter = (t: SockPuppeteerWaiterParams | SockPuppeteerTriggerParams): t is SockPuppeteerWaiterParams =>
+	!!((t as SockPuppeteerWaiterParams).id);
+const isTrigger = (t: SockPuppeteerWaiterParams | SockPuppeteerTriggerParams): t is SockPuppeteerTriggerParams =>
+	!!((t as SockPuppeteerTriggerParams).event);
+
 type SockPuppeteerWaiter = (_: SockPuppeteerWaiterParams) => void
 type SockPuppeteerListener = () => void
+type SockPuppeteerTrigger = (() => void) | ((_: any) => void) | (() => Promise<void>) | ((_: any) => Promise<void>)
 
 type ValueType<T> =
 	T extends Promise<infer U>
@@ -26,6 +36,8 @@ export default abstract class SockPuppeteer extends Lumberjack {
 
 	private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
 	private readonly listeners: Record<string, SockPuppeteerListener> = {}
+	private readonly triggers: Record<string, SockPuppeteerTrigger> = {}
+
 	private readonly queue: ProcessMessage[] = []
 	private rotating: boolean = false
 	private getID(): string {
@@ -67,13 +79,20 @@ export default abstract class SockPuppeteer extends Lumberjack {
 		this.API = ws
 		ws.binaryType = 'arraybuffer'
 		ws.onmessage = (m: MessageEvent<string>): any => {
-			const s = JSON.parse(m.data) as SockPuppeteerWaiterParams
-			if (!(s?.id)) return this.Log.error("No ID specified in message")
-			const cb = this.waiters[s.id]
-			if (!cb) return this.Log.error("No waiter set.")
-			const listener = this.listeners[s.id]
-			if (listener) listener()
-			cb(s)
+			const s = JSON.parse(m.data) as (SockPuppeteerWaiterParams | SockPuppeteerTriggerParams)
+			if (isTrigger(s)) {
+				const cb = this.triggers[s.event]
+				if (!cb) return this.Log.error("No trigger set for", s.event)
+				cb(s.payload)
+			} else if (isWaiter(s)) {
+				const cb = this.waiters[s.id]
+				if (!cb) return this.Log.error("No waiter set.")
+				const listener = this.listeners[s.id]
+				if (listener) listener()
+				cb(s)
+			} else {
+				this.Log.error("Unknown message type (no id or event)")
+			}
 		}
 	}
 
@@ -121,4 +140,9 @@ export default abstract class SockPuppeteer extends Lumberjack {
 			}
 		})
 	}
+
+	protected register(event: string, trigger: SockPuppeteerTrigger) {
+		this.triggers[event] = trigger
+	}
+
 }
