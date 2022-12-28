@@ -2,9 +2,9 @@ import autoBind from 'auto-bind'
 import 'colors'
 import crypto from 'crypto'
 import path from 'path'
-import Storage from '@Iris/utils/storage'
+import Storage from '@Iris/common/storage'
 import WebSocket from 'ws'
-import sleep from '@Iris/utils/sleep'
+import sleep from '@Iris/common/sleep'
 import { performance } from 'perf_hooks'
 
 /** Generates a string timestamp of the current date/time */
