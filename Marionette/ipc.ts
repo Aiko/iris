@@ -2,11 +2,11 @@ import { ipcMain } from 'electron'
 import WebSocket, { Server } from 'ws'
 import { sign, verify } from 'jsonwebtoken'
 import { randomBytes } from 'crypto'
-import { unused_port, RESERVED_PORTS } from '@Iris/utils/port'
+import { unused_port, RESERVED_PORTS } from '@Iris/common/port'
 import autoBind from 'auto-bind'
 import express from 'express'
 
-/** Singleton, use **extremely sparingly.** */
+//! Singleton, use extremely sparingly.
 export default class SecureCommunications {
   private readonly key: string
   readonly port: number
@@ -64,9 +64,12 @@ export default class SecureCommunications {
     return {stream: tag}
   }
 
-  static async init(): Promise<SecureCommunications> {
-    const port = await unused_port(RESERVED_PORTS.COMMS.WS)
+	private static me?: SecureCommunications
+  static init(): SecureCommunications {
+		if (SecureCommunications.me) return SecureCommunications.me
+    const port = RESERVED_PORTS.COMMS.WS
     const comms = new SecureCommunications(port)
+		SecureCommunications.me = comms
     return comms
   }
 

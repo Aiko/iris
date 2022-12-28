@@ -1,7 +1,6 @@
 import WebSocket, { Server } from 'ws'
-import { unused_port, RESERVED_PORTS } from '@Iris/utils/port'
-import { Lumberjack } from '@Iris/utils/logger'
-import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
+import { unused_port, RESERVED_PORTS } from '@Iris/common/port'
+import { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 interface SockPuppetProcess extends NodeJS.Process {

@@ -1,5 +1,4 @@
-import { Lumberjack } from '@Iris/utils/logger'
-import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
+import { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 interface SockPuppetProcess extends NodeJS.Process {

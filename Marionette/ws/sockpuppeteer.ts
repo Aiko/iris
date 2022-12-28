@@ -1,8 +1,7 @@
 import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
-import Forest, { Lumberjack } from '@Iris/utils/logger'
-import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
+import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 type SockPuppeteerWaiterParams = {
@@ -22,7 +21,6 @@ type ValueType<T> =
 type ProcessMessage = { id: string, msg: string }
 
 export default abstract class SockPuppeteer extends Lumberjack {
-	private readonly Puppet: ChildProcess
 	private API?: WebSocket
 	private deployed: boolean = false;
 
@@ -36,22 +34,27 @@ export default abstract class SockPuppeteer extends Lumberjack {
 		return id
 	}
 
-	protected constructor(protected name: string, forest: Forest) {
+	/** Leaving port empty will create a child process. */
+	protected constructor(protected name: string, forest: Forest, port?: number) {
 		super(name, { forest })
 		process.title = "Aiko Mail | WS | " + this.name
+		autoBind(this)
 
-		this.Puppet = fork(path.join(__dirname, 'puppet.js'), [], {
-			stdio: ['pipe', 'pipe', 'pipe', 'ipc']
-		})
-		this.Puppet.stdout?.pipe(process.stdout)
-		this.Puppet.stderr?.pipe(process.stderr)
+		if (port) this.deploy(port)
+		else {
+			const Puppet = fork(path.join(__dirname, 'puppet.js'), [], {
+				stdio: ['pipe', 'pipe', 'pipe', 'ipc']
+			})
+			Puppet.stdout?.pipe(process.stdout)
+			Puppet.stderr?.pipe(process.stderr)
 
-		//? Parses incoming messages then calls the relevant callbacks and notifies listeners
-		this.Puppet.on('message', (m: string) => {
-			const s = JSON.parse(m) as { port: number }
-			if (!(s?.port)) return this.Log.error("No PORT specified in message")
-			this.deploy(s.port)
-		})
+			//? Parses incoming messages then calls the relevant callbacks and notifies listeners
+			Puppet.on('message', (m: string) => {
+				const s = JSON.parse(m) as { port: number }
+				if (!(s?.port)) return this.Log.error("No PORT specified in message")
+				this.deploy(s.port)
+			})
+		}
 
 		autoBind(this)
 	}

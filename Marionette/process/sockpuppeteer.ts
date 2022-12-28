@@ -1,8 +1,7 @@
 import path from 'path'
 import { fork, ChildProcess } from 'child_process'
 import crypto from 'crypto'
-import Forest, { Lumberjack } from '@Iris/utils/logger'
-import type { LumberjackEmployer, Logger } from '@Iris/utils/logger'
+import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 type SockPuppeteerWaiterParams = {
@@ -35,6 +34,7 @@ export default abstract class SockPuppeteer extends Lumberjack {
 		return id
 	}
 
+	/** Will fork a new process every time. */
 	protected constructor(protected name: string, forest: Forest) {
 		super(name, { forest })
 		process.title = "Aiko Mail | IPC | " + this.name
