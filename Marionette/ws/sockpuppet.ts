@@ -163,7 +163,7 @@ export default abstract class SockPuppet extends Lumberjack {
 	}
 
 	/** Trigger an event on all puppeteers */
-	protected trigger(event: string, payload: object) {
+	protected trigger(event: string, payload: any) {
 		if (!this.deployed) return this.Log.error("Cannot trigger event before deployment.")
 		this.websockets.map(ws => ws.send(JSON.stringify({
 			event, payload

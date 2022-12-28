@@ -82,7 +82,7 @@ export default abstract class SockPuppeteer extends Lumberjack {
 			const s = JSON.parse(m.data) as (SockPuppeteerWaiterParams | SockPuppeteerTriggerParams)
 			if (isTrigger(s)) {
 				const cb = this.triggers[s.event]
-				if (!cb) return this.Log.error("No trigger set for", s.event)
+				if (!cb) return this.Log.warn("No trigger set for", s.event)
 				cb(s.payload)
 			} else if (isWaiter(s)) {
 				const cb = this.waiters[s.id]
