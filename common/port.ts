@@ -17,13 +17,14 @@ export const unused_port = async (start_port=DEFAULT_PORT): Promise<number> => {
 }
 
 export const RESERVED_PORTS = {
-	VEIL: 4160,
-	COMMS: {
-		EXPRESS: 41599, //! HARD-CODED INTO REDIRECT-URI, DO NOT CHANGE
-		WS: 4161,
-	},
 	ROOTS: {
 		REMOTE: 4158,
 		LOCAL: 4159,
-	}
+	},
+	VEIL: 4160,
+	GUIDEPOST: 4161,
+	COMMS: {
+		EXPRESS: 41599, //! HARD-CODED INTO REDIRECT-URI, DO NOT CHANGE
+		WS: 4162,
+	},
 }
