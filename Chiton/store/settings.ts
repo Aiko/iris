@@ -20,7 +20,7 @@ interface ISettings {
 
 }
 
-export class Settings extends DwarfStar<ISettings> {
+export default class SettingsStore extends DwarfStar<ISettings> {
 	constructor(chiton: Chiton) {
 		super(chiton, 'Settings', 'settings.json')
 		this.state = {
