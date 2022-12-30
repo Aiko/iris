@@ -8,7 +8,10 @@ interface SockPuppetProcess extends NodeJS.Process {
 		swallowErrors?: boolean | undefined;
 	} | undefined, callback?: ((error: Error | null) => void) | undefined) => boolean
 }
-type SockPuppetry = { [key: string]: (...args: any[]) => Promise<any | void> }
+type SockPuppetry = {
+	[key: string]:
+		(...args: any[]) => Promise<any | void> | any | void
+}
 
 /*
   ! Warning: Until this is deployed, the socket doesn't exist.
@@ -44,9 +47,9 @@ export default abstract class SockPuppet extends Lumberjack {
 	private readonly websockets: WebSocket[] = []
 	abstract puppetry: SockPuppetry;
 
-	abstract checkInitialize(): boolean;
+	protected abstract checkInitialize(): boolean;
 
-	abstract initialize(args: any[], success: (payload: object) => void): Promise<void>;
+	protected abstract initialize(args: any[], success: (payload: object) => void): Promise<void>;
 
 	/** should do renderer=true if you want it to run forked */
 	protected constructor(
@@ -87,10 +90,11 @@ export default abstract class SockPuppet extends Lumberjack {
 		if (this.proc) this.proc.send({ port: this._port, })
 		wss.on("connection", (ws: WebSocket) => {
 
-			const succ = (id: string): ((payload: object) => void) => {
-				return (payload: object): void => ws.send(JSON.stringify({
+			const succ = (id: string): ((payload?: object) => void) => {
+				return (payload?: object): void => ws.send(JSON.stringify({
 					success: true,
-					payload, id
+					payload: payload ?? {},
+					id
 				}))
 			}
 			const err = (id: string): ((msg: string) => void) => {
