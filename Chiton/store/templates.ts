@@ -1,10 +1,10 @@
-import Storage from '@Mouseion/utils/storage'
+import Storage from '@Iris/common/storage'
 import { session } from 'electron'
 import type SecureCommunications from '@Chiton/utils/comms'
 import path from 'path'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
-import type Register from '@Mouseion/managers/register'
+import type Register from '@Iris/common/register'
 const HTML2Text = require('html-to-text')
 
 export interface Template {

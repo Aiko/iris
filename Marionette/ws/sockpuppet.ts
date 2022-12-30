@@ -139,7 +139,7 @@ export default abstract class SockPuppet extends Lumberjack {
 					const error = err(id)
 
 					if (!(_this.checkInitialize() || action === 'init'))
-						return error("Pantheon has not yet been initialized.")
+						return error("Puppet has not yet been initialized.")
 
 					const attempt = async (method: (...xs: any) => Promise<any> | any) => {
 						try {

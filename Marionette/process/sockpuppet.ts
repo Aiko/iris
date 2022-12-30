@@ -6,7 +6,7 @@ interface SockPuppetProcess extends NodeJS.Process {
 		swallowErrors?: boolean | undefined;
 	} | undefined, callback?: ((error: Error | null) => void) | undefined) => boolean
 }
-type SockPuppetry = {[key: string]: (...args: any[]) => Promise<any | void>}
+type SockPuppetry = {[key: string]: (...args: any[]) => Promise<any | void> | any | void}
 
 /*
   ? Usage:
@@ -54,9 +54,9 @@ export default abstract class SockPuppet extends Lumberjack {
 		}))
 	}
 
-	abstract checkInitialize(): boolean;
+	protected abstract checkInitialize(): boolean;
 
-	abstract initialize(args: any[], success: (payload: object) => boolean): Promise<void>;
+	protected abstract initialize(args: any[], success: (payload: object) => boolean): Promise<void>;
 
 	protected constructor(protected name: string, logdir?: string) {
 		super(name, { logdir })
@@ -102,7 +102,7 @@ export default abstract class SockPuppet extends Lumberjack {
 				const error = _this.perr(id)
 
 				if (!(_this.checkInitialize() || action === 'init'))
-					return error("Pantheon has not yet been initialized.")
+					return error("Puppet has not yet been initialized.")
 
 				const attempt = async (method: (...xs: any) => Promise<any> | any) => {
 					try {
