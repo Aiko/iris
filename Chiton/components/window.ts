@@ -18,19 +18,35 @@ export enum WindowEvents {
 
 export abstract class Window extends SockPuppet {
 
+	windowPuppetry = {
+		maximize: this.maximize,
+		unmaximize: this.unmaximize,
+		minimize: this.minimize,
+		setFullScreen: this.setFullScreen,
+		getFullScreen: this.getFullScreen,
+		close: this.close,
+		hide: this.hide,
+		focus: this.focus,
+		findInWindow: this.findInWindow,
+	}
+
+	puppetry = {
+		window: this.windowPuppetry
+	}
+
 	protected readonly win: BrowserWindow
-	maximize() { this.win.maximize() }
-  unmaximize() { this.win.unmaximize() }
-  minimize() { this.win.minimize() }
-  setFullScreen(s: boolean) { this.win.setFullScreen(s) }
-	getFullScreen(): boolean { return this.win.isFullScreen() }
-  close() { this.win.close() }
-  hide() { this.win.hide() }
-  focus() { this.win.show(); this.win.focus() }
-  findInWindow() { this.win.webContents.findInPage("") }
+	maximize() { this.win.maximize(); return true }
+  unmaximize() { this.win.unmaximize(); return true }
+  minimize() { this.win.minimize(); return true }
+  setFullScreen(s: boolean) { this.win.setFullScreen(s); return true }
+	getFullScreen(): boolean { return this.win.isFullScreen(); return true }
+  close() { this.win.close(); return true }
+  hide() { this.win.hide(); return true }
+  focus() { this.win.show(); this.win.focus(); return true }
+  findInWindow() { this.win.webContents.findInPage(""); return true }
 
 	protected constructor(
-		private readonly chiton: Chiton,
+		protected readonly chiton: Chiton,
 		name: string,
 		{
 			closable=true,

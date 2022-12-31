@@ -10,7 +10,8 @@ interface SockPuppetProcess extends NodeJS.Process {
 }
 type SockPuppetry = {
 	[key: string]:
-		(...args: any[]) => Promise<any | void> | any | void
+		((...args: any[]) => Promise<any | void> | any | void)
+		| SockPuppetry
 }
 
 /*

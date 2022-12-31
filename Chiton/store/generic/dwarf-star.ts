@@ -64,4 +64,5 @@ export default class DwarfStar<T extends object> extends SockPuppet {
 		autoBind(this)
 	}
 
+	public get(): T { return this.state! }
 }

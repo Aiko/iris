@@ -18,9 +18,23 @@ interface ISettings {
     firstTime: boolean
   }
 
+	inbox: {
+		appearance: {
+			fullscreen: boolean
+		}
+	}
+
 }
 
 export default class SettingsStore extends DwarfStar<ISettings> {
+
+	// TODO: refactor into mutation observer
+	get settings() { return this.state! }
+	set settings(s: ISettings) {
+		this.state = s
+		this.save()
+	}
+
 	constructor(chiton: Chiton) {
 		super(chiton, 'Settings', 'settings.json')
 		this.state = {
@@ -35,7 +49,12 @@ export default class SettingsStore extends DwarfStar<ISettings> {
       },
       meta: {
         firstTime: true
-      }
+      },
+			inbox: {
+				appearance: {
+					fullscreen: false
+				}
+			}
     }
 		this.save()
 	}
