@@ -1,5 +1,5 @@
 import path from 'path'
-import { fork, ChildProcess } from 'child_process'
+import { fork } from 'child_process'
 import crypto from 'crypto'
 import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
