@@ -8,10 +8,9 @@ interface SockPuppetProcess extends NodeJS.Process {
 		swallowErrors?: boolean | undefined;
 	} | undefined, callback?: ((error: Error | null) => void) | undefined) => boolean
 }
+type SockPuppetryMethod = ((...args: any[]) => Promise<any | void> | any | void)
 type SockPuppetry = {
-	[key: string]:
-		((...args: any[]) => Promise<any | void> | any | void)
-		| SockPuppetry
+	[key: string]: SockPuppetryMethod | SockPuppetry
 }
 
 /*
@@ -155,7 +154,7 @@ export default abstract class SockPuppet extends Lumberjack {
 					}
 
 					if (action === 'init') return await _this.initialize(args, success)
-					if (action in _this.puppetry) return await attempt(_this.puppetry[action])
+					if (action in _this.puppetry) return await attempt(_this.puppetry[action] as SockPuppetryMethod)
 					else return error("No such binding: " + action)
 
 				} catch (e) {
