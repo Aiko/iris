@@ -127,7 +127,7 @@ export default class SecureCommunications {
   }
 
 	/** Handles a GET request with a custom handler callback. */
-  registerGET(route: string, cb: any, {respondWithClose=true}={}) {
+  get(route: string, cb: any, {respondWithClose=true}={}) {
     this.app.get(route, (q, s) => {
       cb(q) //? no await -- we don't care if it actually works
       if (respondWithClose) return s.redirect("https://helloaiko.com/redirect")
