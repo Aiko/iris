@@ -50,7 +50,6 @@ import Icon from "@Veil/components/Base/Icon.vue";
   border-top-left-radius: var(--primary-border-radius);
   width: calc(100% - 8px);
   height: calc(100% - 39px);
-  opacity: 1;
   transition: .2s;
 }
 
@@ -62,6 +61,15 @@ import Icon from "@Veil/components/Base/Icon.vue";
   width: 0%;
   height: 0%;
   z-index: 100;
+  transition: .2s;
+}
+
+.active.overlay * {
+  opacity: 1;
+  transition: .2s;
+}
+
+.overlay * {
   opacity: 0;
   transition: .2s;
 }
