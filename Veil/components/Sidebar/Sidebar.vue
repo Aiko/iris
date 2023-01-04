@@ -17,13 +17,18 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <template>
   <div :class="{
-    sidebar: true,
-    collapsed: Sidebar.collapsed,
-  }">
+  sidebar: true,
+  collapsed: Sidebar.collapsed,
+}">
     <div class="top">
-      <ButtonPrimary href="/composer" target="_blank">
-        <Icon name="compose" color="white" class="special" />Compose
-      </ButtonPrimary>
+      <div class="composecont">
+        <ButtonPrimary href="/composer" target="_blank" class="voice">
+          <Icon name="microphone" color="white" class="special" />
+        </ButtonPrimary>
+        <ButtonPrimary href="/composer" target="_blank" class="norm">
+          <Icon name="compose" color="white" class="special" />Compose
+        </ButtonPrimary>
+      </div>
 
       <NavLink active>
         <Icon name="home" color="blue" />
@@ -152,6 +157,36 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .compose {
   margin-top: 0;
 }
+
+.composecont {
+  display: inline-flex;
+  position: relative;
+}
+
+.collapsed .composecont {
+  display: inline-grid;
+}
+
+.collapsed .composecont .norm {
+  position: relative;
+}
+
+.collapsed .composecont .voice {
+  padding: 5px 8px;
+}
+
+.composecont .voice {
+  width: 30px;
+  width: 30px;
+  padding: 5px 6px;
+}
+
+.composecont .norm {
+  width: calc(100% - 33px);
+  position: absolute;
+  right: 0;
+}
+
 
 .sidebar .top {
   display: grid;
@@ -326,17 +361,18 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .count {
   border-radius: 50%;
-    margin-bottom: 0;
-    margin-left: 0;
-    height: 14px;
-    z-index: 3;
-    min-width: 14px;
-    width: 14px;
-    line-height: 14px;
+  margin-bottom: 0;
+  margin-left: 0;
+  height: 14px;
+  z-index: 3;
+  min-width: 14px;
+  width: 14px;
+  line-height: 14px;
 
 }
+
 .sidebar.collapsed .count:before {
-display: none;
+  display: none;
 }
 
 
@@ -406,15 +442,15 @@ display: none;
 
 .sidebar.collapsed .name {
   position: absolute;
-    left: 0;
-    bottom: 0;
-    font-size: 10px;
-    margin-bottom: 7px;
-    width: 7px;
-    overflow: hidden;
-    margin-left: 11px;
-    z-index: 2;
-    color: var(--primary-font-color);
-    height: 14px;
+  left: 0;
+  bottom: 0;
+  font-size: 10px;
+  margin-bottom: 7px;
+  width: 7px;
+  overflow: hidden;
+  margin-left: 11px;
+  z-index: 2;
+  color: var(--primary-font-color);
+  height: 14px;
 }
 </style>
