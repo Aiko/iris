@@ -21,9 +21,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
     <div class="center-info" v-if="false">
       <Animation name="writing" loop class="record" />
       Writing email, please wait
-      <br>
-      <br>
-      <div class="typing" v-if="true">
+      <div class="typing">
         <p class="css-typing _1">Greeting Name</p>
         <p class="css-typing _2">We are currently writing your email</p>
         <p class="css-typing _3">A second sentence is being typed here, wait a second,
@@ -213,6 +211,8 @@ import Icon from "@Veil/components/Base/Icon.vue";
   background: #fff;
   border-radius: 10px;
   padding: 30px 15px;
+  margin-top: 40px;
+  border: 3px solid #ddd;
 }
 
 .center-info {
