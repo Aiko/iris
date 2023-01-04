@@ -24,12 +24,15 @@ import Icon from "@Veil/components/Base/Icon.vue";
       <br>
       <br>
       <div class="typing" v-if="true">
-        <p class="css-typing">Hi [Name]</p>
-        <p class="css-typing _1">We are currently writing your email</p>
-        <p class="css-typing _2">A second sentence is being typed here, wait a second,
+        <p class="css-typing _1">Greeting Name</p>
+        <p class="css-typing _2">We are currently writing your email</p>
+        <p class="css-typing _3">A second sentence is being typed here, wait a second,
           how are you able to see this?</p>
-        <p class="css-typing _3">Wait a second,
+        <p class="css-typing _4">Wait a second,
           how are you able to see this?</p>
+        <p class="css-typing _5">Looking forward,</p>
+
+        <p class="css-typing _6">Your Name</p>
       </div>
     </div>
 
@@ -98,20 +101,43 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 .css-typing._1 {
   width: 70em;
-  -webkit-animation: type 0s steps(50, end);
-  animation: type 0s steps(50, end);
+  -webkit-animation: type 5s steps(50, end);
+  animation: type 5s steps(50, end);
 }
 
 .css-typing._2 {
   width: 70em;
-  -webkit-animation: type 20s steps(50, end);
-  animation: type 20s steps(50, end);
+  -webkit-animation: type 5s steps(50, end);
+  animation: type 5s steps(50, end);
+  animation-delay: 2s;
 }
 
 .css-typing._3 {
   width: 70em;
-  -webkit-animation: type 20s steps(20, end);
-  animation: type 20s steps(20, end);
+  -webkit-animation: type 5s steps(20, end);
+  animation: type 5s steps(20, end);
+  animation-delay: 5s;
+}
+
+.css-typing._4 {
+  width: 70em;
+  -webkit-animation: type 5s steps(20, end);
+  animation: type 5s steps(20, end);
+  animation-delay: 7s;
+}
+
+.css-typing._5 {
+  width: 70em;
+  -webkit-animation: type 5s steps(20, end);
+  animation: type 5s steps(20, end);
+  animation-delay: 9s;
+}
+
+.css-typing._6 {
+  width: 70em;
+  -webkit-animation: type 5s steps(20, end);
+  animation: type 5s steps(20, end);
+  animation-delay: 11s;
 }
 
 /* code for animated blinking cursor */
@@ -139,76 +165,6 @@ import Icon from "@Veil/components/Base/Icon.vue";
   }
 }
 
-
-@-keyframes blink {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@-webkit-keyframes blink {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@-moz-keyframes blink {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@-ms-keyframes blink {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
-
-@-o-keyframes blink {
-  0% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-  }
-
-  100% {
-    opacity: 1;
-  }
-}
 
 .typing {
   width: 100%;
