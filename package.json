@@ -147,7 +147,7 @@
     "jquery": "^3.4.1",
     "jsdom": "^16.4.0",
     "jsonwebtoken": "^8.5.1",
-    "leveldown": "^5.6.0",
+    "leveldown": "^6.1.1",
     "linvodb3": "^3.26.0",
     "mailparser": "github:cuuupid/mailparser",
     "node-abi": "^2.19.3",
