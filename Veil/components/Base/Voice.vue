@@ -13,19 +13,14 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 
     <!-- Experimental for now-->
-    <div class="typing" v-if="false">
-      <p class="css-typing">Hi [Name]</p>
-      <p class="css-typing _1">We are currently writing your email</p>
-      <p class="css-typing _2">A second sentence is being typed here, wait a second,
-        how are you able to see this?</p>
-      <p class="css-typing _3">Wait a second,
-        how are you able to see this?</p>
+    <div class="center-info" v-if="true">
+
     </div>
 
 
 
     <!-- Show while listening/recording-->
-    <div class="center-info" v-if="true">
+    <div class="center-info" v-if="false">
       <Animation name="record" loop class="record" />
       Start speaking<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can we
         reschedule for next week?"</span>
@@ -33,11 +28,19 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 
     <!-- Show while generating email-->
-    <div class="center-info" v-if="false">
+    <div class="center-info" v-if="true">
       <Animation name="writing" loop class="record" />
-      Writing email<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can
-        we
-        reschedule for next week?"</span>
+      Writing email, please wait
+      <br>
+      <br>
+      <div class="typing" v-if="true">
+        <p class="css-typing">Hi [Name]</p>
+        <p class="css-typing _1">We are currently writing your email</p>
+        <p class="css-typing _2">A second sentence is being typed here, wait a second,
+          how are you able to see this?</p>
+        <p class="css-typing _3">Wait a second,
+          how are you able to see this?</p>
+      </div>
     </div>
 
 
@@ -95,12 +98,12 @@ import Icon from "@Veil/components/Base/Icon.vue";
   white-space: nowrap;
   font-size: 18px;
   width: 100%;
-  max-width: 600px;
+  max-width: 450px;
   overflow: hidden;
   padding: 0 10px;
   text-overflow: ellipsis;
   color: transparent;
-  text-shadow: 0 0 10px rgb(255 255 255);
+  text-shadow: 0 0 10px #486fff;
 }
 
 .css-typing._1 {
@@ -220,11 +223,12 @@ import Icon from "@Veil/components/Base/Icon.vue";
 .typing {
   width: 100%;
   max-width: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  display: grid !important;
   z-index: 100;
+  text-align: left !important;
+  background: #fff;
+  border-radius: 10px;
+  padding: 30px 15px;
 }
 
 .center-info {
