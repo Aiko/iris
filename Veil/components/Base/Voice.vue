@@ -7,28 +7,18 @@ import Icon from "@Veil/components/Base/Icon.vue";
   <!-- TODO: Add/remove 'active' to the class below to show modal-->
   <div class="voice active">
 
-
     <!-- Exit out button-->
     <Icon name="x" color="white" class="x" />
 
-
-    <!-- Experimental for now-->
-    <div class="center-info" v-if="true">
-
-    </div>
-
-
-
     <!-- Show while listening/recording-->
-    <div class="center-info" v-if="false">
+    <div class="center-info" v-if="true">
       <Animation name="record" loop class="record" />
       Start speaking<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can we
         reschedule for next week?"</span>
     </div>
 
-
     <!-- Show while generating email-->
-    <div class="center-info" v-if="true">
+    <div class="center-info" v-if="false">
       <Animation name="writing" loop class="record" />
       Writing email, please wait
       <br>
