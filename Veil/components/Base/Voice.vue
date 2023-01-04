@@ -227,6 +227,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
   width: 100px;
   text-align: center;
   margin: auto;
+  display: block !important;
 }
 
 .example {
