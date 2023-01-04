@@ -44,9 +44,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 <style scoped>
 .active.overlay {
-  margin-top: 39px;
-  margin-left: 8px;
-  margin-right: 8px;
+
   border-top-left-radius: var(--primary-border-radius);
   width: calc(100% - 8px);
   height: calc(100% - 39px);
@@ -54,6 +52,8 @@ import Icon from "@Veil/components/Base/Icon.vue";
 }
 
 .overlay {
+  margin-left: 8px;
+  margin-top: 39px;
   background: var(--primary-color);
   position: absolute;
   top: 0;
