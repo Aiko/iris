@@ -5,6 +5,7 @@ import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+import { listen } from "@Veil/utils/whisper/whisper";
 
 // Information variables for 'Sidebar' component
 const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
@@ -22,7 +23,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 }">
     <div class="top">
       <div class="composecont">
-        <ButtonPrimary href="/composer" target="_blank" class="voice">
+        <ButtonPrimary @click="listen" target="_blank" class="voice">
           <Icon name="microphone" color="white" class="special" />
         </ButtonPrimary>
         <ButtonPrimary href="/composer" target="_blank" class="norm">
