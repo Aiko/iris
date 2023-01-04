@@ -4,7 +4,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
 </script>
 
 <template>
-  <!-- TODO: Add 'recording to the class below'-->
+  <!-- TODO: Add/remove 'active' to the class below to show modal-->
   <div class="overlay active">
     <div class="typing" v-if="false">
       <p class="css-typing">Hi [Name]</p>
