@@ -19,7 +19,7 @@ class IPC {
 
   private static readonly secret = String.random(32);
   private static readonly Log: Logger = new Logger("IPC", {
-    bgColor: "##f98dc1", fgColor: "#000000"
+    bgColor: "#f98dc1", fgColor: "#000000"
   })
   private readonly Log: Logger = IPC.Log
 
