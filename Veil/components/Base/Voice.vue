@@ -4,33 +4,33 @@ import Icon from "@Veil/components/Base/Icon.vue";
 </script>
 
 <template>
-  <!-- TODO: Add/remove 'active' to the class below to show modal-->
-  <div class="overlay active">
+  <div class="voice">
+    <!-- TODO: Add/remove 'active' to the class below to show modal-->
+    <div class="overlay active"></div>
+
+    <!-- Exit out button-->
+    <Icon name="x" color="white" class="x" />
+
+    <!-- Experimental for now-->
     <div class="typing" v-if="false">
       <p class="css-typing">Hi [Name]</p>
-
       <p class="css-typing _1">We are currently writing your email</p>
-
       <p class="css-typing _2">A second sentence is being typed here, wait a second,
         how are you able to see this?</p>
-
       <p class="css-typing _3">Wait a second,
         how are you able to see this?</p>
-
     </div>
 
 
 
-    <Icon name="x" color="white" class="x" />
-
-
+    <!-- Show while listening/recording-->
     <div class="center-info" v-if="true">
       <Animation name="record" loop class="record" />
-      Start speaking<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can
-        we
+      Start speaking<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can we
         reschedule for next week?"</span>
     </div>
 
+    <!-- Show while generating email-->
     <div class="center-info" v-if="false">
       <Animation name="writing" loop class="record" />
       Writing email<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can
@@ -39,12 +39,10 @@ import Icon from "@Veil/components/Base/Icon.vue";
     </div>
 
   </div>
-  <div class="toast-shadow"></div>
 </template>
 
 <style scoped>
 .active.overlay {
-
   border-top-left-radius: var(--primary-border-radius);
   width: calc(100% - 8px);
   height: calc(100% - 39px);
@@ -60,7 +58,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
   left: 0;
   width: 0%;
   height: 0%;
-  z-index: 100;
+  z-index: 99;
   transition: .2s;
 }
 
@@ -208,6 +206,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 100;
 }
 
 .center-info {
@@ -221,6 +220,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
   text-align: center;
   font-weight: 500;
   font-size: 18px;
+  z-index: 100;
 }
 
 .record {
@@ -239,5 +239,6 @@ import Icon from "@Veil/components/Base/Icon.vue";
 .x {
   cursor: pointer;
   margin: 5px;
+  z-index: 100;
 }
 </style>
