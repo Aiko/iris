@@ -65,12 +65,12 @@ import Icon from "@Veil/components/Base/Icon.vue";
 }
 
 .active.overlay * {
-  opacity: 1;
+  display: unset;
   transition: .2s;
 }
 
 .overlay * {
-  opacity: 0;
+  display: none;
   transition: .2s;
 }
 
