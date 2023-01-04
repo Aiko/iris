@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
-import Record from "@Veil/components/Base/Record.vue";
+import Voice from "@Veil/components/Base/Voice.vue";
 import Home from "@Veil/views/Home.vue";
 import { Sidebar } from "@Veil/state/sections";
 import Logger from "@Veil/services/roots";
@@ -21,7 +21,7 @@ Log.success("Mounted application.");
     <Header />
     <Home />
 
-    <Record />
+    <Voice />
   </div>
 </template>
 
