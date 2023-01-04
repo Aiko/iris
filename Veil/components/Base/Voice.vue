@@ -4,12 +4,13 @@ import Icon from "@Veil/components/Base/Icon.vue";
 </script>
 
 <template>
-  <div class="voice">
-    <!-- TODO: Add/remove 'active' to the class below to show modal-->
-    <div class="overlay active"></div>
+  <!-- TODO: Add/remove 'active' to the class below to show modal-->
+  <div class="voice active">
+
 
     <!-- Exit out button-->
     <Icon name="x" color="white" class="x" />
+
 
     <!-- Experimental for now-->
     <div class="typing" v-if="false">
@@ -30,6 +31,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
         reschedule for next week?"</span>
     </div>
 
+
     <!-- Show while generating email-->
     <div class="center-info" v-if="false">
       <Animation name="writing" loop class="record" />
@@ -38,36 +40,52 @@ import Icon from "@Veil/components/Base/Icon.vue";
         reschedule for next week?"</span>
     </div>
 
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+
   </div>
 </template>
 
 <style scoped>
-.active.overlay {
-  border-top-left-radius: var(--primary-border-radius);
+.voice {
+  position: absolute;
+  margin-left: 8px;
+  margin-top: 39px;
+  width: 0;
+  height: 0;
+  top: 0;
+  left: 0;
+  transition: .2s;
+}
+
+.voice.active {
   width: calc(100% - 8px);
   height: calc(100% - 39px);
+  z-index: 100;
   transition: .2s;
 }
 
 .overlay {
-  margin-left: 8px;
-  margin-top: 39px;
+  border-top-left-radius: var(--primary-border-radius);
   background: var(--primary-color);
   position: absolute;
   top: 0;
   left: 0;
-  width: 0%;
-  height: 0%;
+  width: 100%;
+  height: 100%;
   z-index: 99;
+  display: unset !important;
   transition: .2s;
 }
 
-.active.overlay * {
+.active.voice * {
   display: unset;
   transition: .2s;
 }
 
-.overlay * {
+.voice * {
   display: none;
   transition: .2s;
 }
@@ -240,5 +258,8 @@ import Icon from "@Veil/components/Base/Icon.vue";
   cursor: pointer;
   margin: 5px;
   z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
