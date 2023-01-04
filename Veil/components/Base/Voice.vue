@@ -101,43 +101,49 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 .css-typing._1 {
   width: 70em;
-  -webkit-animation: type 5s steps(50, end);
-  animation: type 5s steps(50, end);
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(50, end);
+  opacity: 0;
 }
 
 .css-typing._2 {
   width: 70em;
-  -webkit-animation: type 5s steps(50, end);
-  animation: type 5s steps(50, end);
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(50, end);
   animation-delay: 2s;
+  opacity: 0;
 }
 
 .css-typing._3 {
   width: 70em;
-  -webkit-animation: type 5s steps(20, end);
-  animation: type 5s steps(20, end);
-  animation-delay: 5s;
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(20, end);
+  animation-delay: 6s;
+  opacity: 0;
 }
 
 .css-typing._4 {
   width: 70em;
-  -webkit-animation: type 5s steps(20, end);
-  animation: type 5s steps(20, end);
-  animation-delay: 7s;
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(20, end);
+  animation-delay: 12s;
+  opacity: 0;
 }
 
 .css-typing._5 {
   width: 70em;
-  -webkit-animation: type 5s steps(20, end);
-  animation: type 5s steps(20, end);
-  animation-delay: 9s;
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(20, end);
+  animation-delay: 18s;
+  opacity: 0;
 }
 
 .css-typing._6 {
   width: 70em;
-  -webkit-animation: type 5s steps(20, end);
-  animation: type 5s steps(20, end);
-  animation-delay: 11s;
+  -webkit-animation: type 100s steps(50, end);
+  animation: type 100s steps(20, end);
+  animation-delay: 22s;
+  opacity: 0;
 }
 
 /* code for animated blinking cursor */
@@ -154,14 +160,46 @@ import Icon from "@Veil/components/Base/Icon.vue";
 }
 
 @keyframes type {
-  from {
+  0% {
     width: 0;
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  5% {
+    width: 100%;
+  }
+
+  100% {
+    opacity: 1;
+    width: 100%;
   }
 }
 
 @-webkit-keyframes type {
-  from {
+  0% {
     width: 0;
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  5% {
+    width: 100%;
+  }
+
+  99% {
+    width: 100%;
+  }
+
+  100% {
+    opacity: 1;
+    width: 100%;
   }
 }
 
