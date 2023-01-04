@@ -5,7 +5,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
 
 <template>
   <!-- TODO: Add 'recording to the class below'-->
-  <div class="overlay recording">
+  <div class="overlay active">
     <div class="typing" v-if="false">
       <p class="css-typing">Hi [Name]</p>
 
@@ -43,7 +43,7 @@ import Icon from "@Veil/components/Base/Icon.vue";
 </template>
 
 <style scoped>
-.recording.overlay {
+.active.overlay {
   margin-top: 39px;
   margin-left: 8px;
   margin-right: 8px;
