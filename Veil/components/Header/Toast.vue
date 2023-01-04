@@ -14,13 +14,6 @@ import Animation from "@Veil/components/Base/Animation.vue";
     <ButtonPrimary>Undo</ButtonPrimary>
   </a>
 
-  <!-- TOAST Sending Email -->
-  <a class="primarycolor" v-if="true">
-    <Animation name="record" loop class="record" />
-    Start speaking
-    <ButtonSecondary class="opacity-08">Cancel</ButtonSecondary>
-  </a>
-
   <!-- TOAST Email Sent -->
   <a class="primarycolor" v-if="false">
     <Animation name="sent" loop class="lot sent" />
