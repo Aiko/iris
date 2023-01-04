@@ -17,15 +17,15 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <template>
   <div :class="{
-  sidebar: true,
-  collapsed: Sidebar.collapsed,
-}">
+    sidebar: true,
+    collapsed: Sidebar.collapsed,
+  }">
     <div class="top">
       <div class="composecont">
-        <ButtonPrimary href="/composer" target="_blank" class="voice">
+        <ButtonPrimary target="_blank" class="voice">
           <Icon name="microphone" color="white" class="special" />
         </ButtonPrimary>
-        <ButtonPrimary href="/composer" target="_blank" class="norm">
+        <ButtonPrimary target="_blank" class="norm">
           <Icon name="compose" color="white" class="special" />Compose
         </ButtonPrimary>
       </div>
