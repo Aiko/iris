@@ -7,13 +7,14 @@ import Logger from "@Veil/services/roots"
 const Log = new Logger("Scribe Voice", {
 	bgColor: "#88ddbb", fgColor: "#000000"
 })
+import { SETTINGS } from "@Veil/utils/rosetta/rosetta"
 
 export {}
 
 const MODEL_FN = "/Veil/utils/whisper/tiny.bin"
 const MAX_LENGTH = 120 // seconds
 const SAMPLE_RATE = 16 * 1000 // 16kHz
-const LANG = "en"
+const LANG = SETTINGS.language.slice(0, 2)
 
 // @ts-ignore
 let instance: WebAssembly.Instance | null = null

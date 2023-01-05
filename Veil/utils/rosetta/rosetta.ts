@@ -11,8 +11,8 @@ const FALLBACK: {
 }
 
 //? Manage defaults
-const SETTINGS = reactive({
-  language: "en-US",
+export const SETTINGS = reactive({
+  language: "fr",
   platform: "darwin",
 })
 
