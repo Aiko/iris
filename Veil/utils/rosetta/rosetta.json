@@ -25,5 +25,19 @@
         }
       }
     }
+  },
+  "scribe": {
+    "prompt": {
+      "greeting": {
+        "definitions": {
+          "default": {
+            "default": "Hi"
+          },
+          "fr": {
+            "default": "Bonjour"
+          }
+        }
+      }
+    }
   }
 }

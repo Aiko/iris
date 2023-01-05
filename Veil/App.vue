@@ -3,7 +3,7 @@ import Sidebar from "@Veil/components/Sidebar/Sidebar.vue"
 import Main from "@Veil/components/Base/Main.vue"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
-import { isFullScreen } from '@Veil/state/sections'
+import { isFullScreen, showVoiceRecognition } from '@Veil/state/sections'
 import { isLoading } from '@Veil/state/sections'
 import { selectedModal, Modal } from '@Veil/state/sections'
 import ModalShell from '@Veil/components/Modals/ModalShell.vue'
@@ -17,6 +17,7 @@ import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
+import Voice from "@Veil/components/Base/Voice.vue";
 import devtools from '@vue/devtools'
 if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
@@ -34,6 +35,8 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
   <!--Main content right of sidebar-->
   <Main />
 
+	<!-- Scribe Voice -->
+	<Voice v-if="showVoiceRecognition" />
 
   <!--Modals-->
   <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">

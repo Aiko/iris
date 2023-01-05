@@ -20,8 +20,6 @@ Log.success("Mounted application.");
   }">
     <Header />
     <Home />
-
-    <Voice />
   </div>
 </template>
 

@@ -6,25 +6,28 @@ export const Sidebar = reactive({
 })
 
 // Fullscreen State
-export let isFullScreen = ref(false)
+export const isFullScreen = ref(false)
 
 // Regular View State
-export let isRegularView = ref(false)
+export const isRegularView = ref(false)
 
 // Regular View State
-export let isLoading = ref(false)
+export const isLoading = ref(false)
 
 // Global Tooltip Content (Experimental)
-export let infoContent = ref('')
+export const infoContent = ref('')
 
 // Composer Sidebar Collapse
-export let isComposerSidebarCollapsed = ref(true)
+export const isComposerSidebarCollapsed = ref(true)
 
 // Composer Sidebar Collapse
-export let isEmailSidebarCollapsed = ref(true)
+export const isEmailSidebarCollapsed = ref(true)
 
 // Feedback Modal Dev Controls Collapse
-export let isDevControlsCollapsed = ref(true)
+export const isDevControlsCollapsed = ref(true)
+
+// Control Voice Recognition
+export const showVoiceRecognition = ref(false)
 
 export enum Modal {
   AddBoard,

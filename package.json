@@ -172,6 +172,7 @@
     "nodemailer": "^6.4.17",
     "nodemailer-juice": "^1.0.1",
     "nodemailer-plugin-inline-base64": "^2.1.1",
+    "openai": "^3.1.0",
     "planer": "^1.1.1",
     "request": "^2.88.0",
     "vue": "^3.2.38",

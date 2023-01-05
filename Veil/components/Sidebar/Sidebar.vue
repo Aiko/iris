@@ -1,11 +1,12 @@
 <script lang="ts" setup>
-import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
+import { Sidebar, infoContent, selectedModal, Modal, showVoiceRecognition } from "@Veil/state/sections";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import { listen } from "@Veil/utils/whisper/whisper";
+
 
 // Information variables for 'Sidebar' component
 const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
@@ -14,6 +15,11 @@ const infoSettings = "Open settings";
 const infoCalendar = "Open calendar";
 
 const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
+
+const scribeVoice = () => {
+	showVoiceRecognition.value = true
+	listen()
+}
 </script>
 
 <template>
@@ -23,7 +29,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   }">
     <div class="top">
       <div class="composecont">
-        <ButtonPrimary @click="listen" target="_blank" class="voice">
+        <ButtonPrimary @click="scribeVoice" target="_blank" class="voice">
           <Icon name="microphone" color="white" class="special" />
         </ButtonPrimary>
         <ButtonPrimary target="_blank" class="norm">

@@ -1,24 +1,31 @@
 <script lang="ts" setup>
 import Animation from "@Veil/components/Base/Animation.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
+import { showVoiceRecognition } from "@Veil/state/sections";
+import { scribeVoiceState, ScribeVoiceState } from "@Veil/utils/whisper/whisper"
+
+const hide = () => (showVoiceRecognition.value = false)
 </script>
 
 <template>
-  <!-- TODO: Add/remove 'active' to the class below to show modal-->
   <div class="voice active">
 
     <!-- Exit out button-->
-    <Icon name="x" color="white" class="x" />
+    <Icon name="x" color="white" class="x" @click="hide" />
 
     <!-- Show while listening/recording-->
-    <div class="center-info" v-if="true">
-      <Animation name="record" loop class="record" />
-      Start speaking<br><br><span class="example">For example: "Tell Tom I can't come to the meeting tomorrow, can we
-        reschedule for next week?"</span>
+    <div class="center-info" v-if="scribeVoiceState != ScribeVoiceState.Transcribing">
+      <Animation v-if="scribeVoiceState == ScribeVoiceState.Recording" name="record" loop class="record" />
+      {{scribeVoiceState == ScribeVoiceState.Idle ? "Start speaking" : "Listening..."}}
+			<br><br>
+			<span class="example" v-if="scribeVoiceState == ScribeVoiceState.Idle">
+				For example: "Tell Tom I can't come to the meeting tomorrow, can we
+        reschedule for next week?"
+			</span>
     </div>
 
     <!-- Show while generating email-->
-    <div class="center-info" v-if="false">
+    <div class="center-info" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
       <Animation name="writing" loop class="record" />
       Writing email, please wait
       <div class="typing">
@@ -47,17 +54,12 @@ import Icon from "@Veil/components/Base/Icon.vue";
   position: absolute;
   margin-left: 8px;
   margin-top: 39px;
-  width: 0;
-  height: 0;
-  top: 0;
-  left: 0;
-  transition: .2s;
-}
-
-.voice.active {
   width: calc(100% - 8px);
   height: calc(100% - 39px);
   z-index: 100;
+  transition: .2s;
+  top: 0;
+  left: 0;
   transition: .2s;
 }
 

@@ -7,6 +7,8 @@ const configs = [
   'default/sidebar',
   'default/sidebar-win',
   'default/sidebar-mac',
+	'default/scribe',
+	'fr/scribe'
 ]
 
 interface RosettaDefinition {
