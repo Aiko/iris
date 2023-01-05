@@ -2,7 +2,7 @@
 import { ref } from '@vue/reactivity'
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
-
+import scribe from "@Veil/utils/scribe"
 
 // Information variables for 'EmailCard' component
 const infoThreadCount = 'Number of emails in this thread'
@@ -19,12 +19,16 @@ const infoStar = 'Star this email'
 const infoTrash = 'Move this email to the trash'
 
 
-let quickReply = ref(false)
+const showQuickReply = ref(false)
+const quickReplyText = ref('')
+const quickReply = async () => {
+	quickReplyText.value = (await scribe(quickReplyText.value)) ?? quickReplyText.value
+}
 </script>
 
 <template>
   <div :class="{
-    'qr': quickReply,
+    'qr': showQuickReply,
     'email-card': true,
     'unread': true,
     'starred': false,
@@ -62,8 +66,8 @@ let quickReply = ref(false)
       actually see all of it and scroll through its very nice
     </div>
     <div class="quick-reply">
-      <input placeholder="Type reply here" @focusout="quickReply = false" autofocus />
-      <div class="send" title="Send reply" @click="quickReply = false">
+      <input v-model="quickReplyText" placeholder="Type reply here" autofocus />
+      <div class="send" title="Send reply" @click="quickReply">
         <Icon name="sent" color="normal" />
       </div>
     </div>
@@ -73,7 +77,7 @@ let quickReply = ref(false)
 
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
-        <span @focus="quickReply = true" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
+        <span @focus="showQuickReply = true" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
           @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
