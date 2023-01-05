@@ -19,32 +19,35 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   </a>
 
   <!-- VOICE STATE WHEN CLICKED -->
-  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Idle">
+  <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Idle">
     <Icon name="start-record" class="start-recording" />
     Start speaking
     <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN SPEAKING -->
-  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Recording">
+  <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Recording">
     <Animation name="record" loop class="record" />
     Start speaking
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN TRANSCRIBING -->
-  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
+  <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
     <Loader class="writing" />
     Transcribing
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
-	<!-- VOICE STATE WHEN TRANSCRIBING -->
-  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Generating">
-    <Loader class="writing" />
+  <!-- VOICE STATE WHEN TRANSCRIBING -->
+  <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Generating">
+    <Animation name="writing" loop class="record" />
     Writing email
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- TOAST Email Sent -->
-  <a class="primarycolor" v-if="false">
+  <a class="primarycolor primarycolor" v-if="false">
     <Animation name="sent" loop class="lot sent" />
     Email sent
   </a>
@@ -156,5 +159,15 @@ a {
   width: 50px;
   margin-left: -45px;
   margin-top: -12px;
+}
+
+.voice-comp a {
+  opacity: 0;
+  transition: .2s;
+}
+
+.voice-comp:hover a {
+  opacity: 1;
+  transition: .2s;
 }
 </style>
