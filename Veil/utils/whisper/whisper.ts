@@ -1,8 +1,8 @@
 import type Hark from 'hark'
 // @ts-ignore
 const harker = window.hark as typeof Hark
-import Logger from "@Veil/services/roots"
 import { ref } from '@vue/reactivity'
+import Logger from "@Veil/services/roots"
 const Log = new Logger("Whisper", {
 	bgColor: "#88ddbb", fgColor: "#000000"
 })
@@ -36,24 +36,22 @@ export const scribeVoiceState = ref(ScribeVoiceState.Idle)
 
 
 // @ts-ignore
-window.transcribed = (text: string) => Log.info("Got without listener:", text)
-const transcribe = (audio: Float32Array, lang=LANG) => new Promise((s, _) => {
+window.alert = (text: string) => Log.info("Got without listener:", text)
+const transcribe = (audio: Float32Array, lang=LANG): Promise<string> => new Promise((s, _) => {
 	if (!instance) return Log.error("Failed to load WASM instance.")
 	// @ts-ignore
 	const transcribed = (text: string) => {
+		text = text.trim().replace(/Thread [0-9]+: /g, "")
 		Log.success("Transcribed:", text)
 		s(text)
 	}
-	navigator.serviceWorker.addEventListener('message', (event) => {
-		transcribed(event.data);
-	})
 	// @ts-ignore
-	window.transcribed = transcribed
+	window.alert = transcribed
 	// @ts-ignore
 	window.Module.transcribe_audio(instance, audio, lang, false)
 })
 
-export const listen = () => new Promise(async (s, _) => {
+export const listen = (): Promise<string> => new Promise(async (s, _) => {
 	const context = new AudioContext({
 		sampleRate: SAMPLE_RATE,
 		// @ts-ignore
@@ -93,10 +91,10 @@ export const listen = () => new Promise(async (s, _) => {
 				source.connect(offlineContext.destination)
 				source.start(0)
 
-				offlineContext.startRendering().then(renderedBuffer => {
+				offlineContext.startRendering().then(async renderedBuffer => {
 					const audio = renderedBuffer.getChannelData(0).slice(0, MAX_LENGTH * SAMPLE_RATE)
 					Log.info("Audio recorded, size:", audio.length)
-					s(transcribe(audio))
+					s(await transcribe(audio))
 					scribeVoiceState.value = ScribeVoiceState.Idle
 				})
 			})

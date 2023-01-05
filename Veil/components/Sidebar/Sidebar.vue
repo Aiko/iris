@@ -6,7 +6,9 @@ import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import { listen } from "@Veil/utils/whisper/whisper";
-
+import scribe from "@Veil/utils/scribe";
+import Logger from "@Veil/services/roots"
+const Log = new Logger("Sidebar")
 
 // Information variables for 'Sidebar' component
 const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
@@ -16,9 +18,11 @@ const infoCalendar = "Open calendar";
 
 const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
-const scribeVoice = () => {
+const scribeVoice = async () => {
 	showVoiceRecognition.value = true
-	listen()
+	const prompt = await listen()
+	const email = await scribe(prompt)
+	Log.success("Email:", email)
 }
 </script>
 

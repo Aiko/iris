@@ -29,7 +29,7 @@ const query = async (params = {}) => {
   };
   const response = await fetch('https://api.openai.com/v1/completions', requestOptions);
   const data = await response.json();
-  return data.choices[0].text;
+  return data.choices[0].text as string;
 }
 
 export default async (directions: string) => {
