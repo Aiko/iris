@@ -61,7 +61,7 @@ export default class RemoteLogger {
 
   private readonly tag: string[]
 
-  constructor(prefix: string, { bgColor, fgColor }: { bgColor?: string, fgColor?: string }) {
+  constructor(prefix: string, { bgColor, fgColor }: { bgColor?: string, fgColor?: string } ={}) {
     fgColor = fgColor || "#ffffff"
     bgColor = bgColor || "#4b74ff"
     this.tag = [`%c[${prefix}]`, `
