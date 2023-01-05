@@ -3,6 +3,7 @@ import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import Animation from "@Veil/components/Base/Animation.vue";
+import Loader from "@Veil/components/Base/Loader.vue";
 </script>
 
 <template>
@@ -12,6 +13,26 @@ import Animation from "@Veil/components/Base/Animation.vue";
     <Animation name="sending" loop class="lot" />
     Sending email...
     <ButtonPrimary>Undo</ButtonPrimary>
+  </a>
+
+  <!-- VOICE STATE WHEN CLICKED -->
+  <a class="primarycolor" v-if="false">
+    <Icon name="start-record" class="start-recording" />
+    Start speaking
+    <ButtonSecondary class="opacity-08">Cancel</ButtonSecondary>
+  </a>
+
+  <!-- VOICE STATE WHEN SPEAKING -->
+  <a class="primarycolor" v-if="true">
+    <Animation name="record" loop class="record" />
+    Start speaking
+  </a>
+
+  <!-- VOICE STATE WHEN GENERATING -->
+  <a class="primarycolor" v-if="false">
+    <Loader class="writing" />
+    Writing email
+    <ButtonSecondary class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- TOAST Email Sent -->
@@ -66,6 +87,10 @@ img {
   margin-right: 5px;
 }
 
+.writing {
+  margin-bottom: -5px;
+}
+
 a {
   margin-left: 5px;
   font-weight: 500;
@@ -100,6 +125,11 @@ a {
   width: 60px;
   margin-left: -40px;
   margin-top: -17px;
+}
+
+.start-recording {
+  height: 13px;
+  width: auto;
 }
 
 .record {
