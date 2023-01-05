@@ -1,12 +1,11 @@
 <script lang="ts" setup>
-import { Sidebar, infoContent, selectedModal, Modal, showVoiceRecognition } from "@Veil/state/sections";
+import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
-import { listen } from "@Veil/utils/whisper/whisper";
-import scribe from "@Veil/utils/scribe";
+import { scribeVoice } from "@Veil/utils/whisper/whisper";
 import Logger from "@Veil/services/roots"
 const Log = new Logger("Sidebar")
 
@@ -17,13 +16,6 @@ const infoSettings = "Open settings";
 const infoCalendar = "Open calendar";
 
 const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
-
-const scribeVoice = async () => {
-	showVoiceRecognition.value = true
-	const prompt = await listen()
-	const email = await scribe(prompt)
-	Log.success("Email:", email)
-}
 </script>
 
 <template>

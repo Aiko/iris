@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import Animation from "@Veil/components/Base/Animation.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
-import { showVoiceRecognition } from "@Veil/state/sections";
 import { scribeVoiceState, ScribeVoiceState } from "@Veil/utils/whisper/whisper"
 
-const hide = () => (showVoiceRecognition.value = false)
+const hide = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
 </script>
 
 <template>

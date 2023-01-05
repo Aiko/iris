@@ -1,9 +1,10 @@
 import type Hark from 'hark'
 // @ts-ignore
 const harker = window.hark as typeof Hark
+import scribe from "@Veil/utils/scribe";
 import { ref } from '@vue/reactivity'
 import Logger from "@Veil/services/roots"
-const Log = new Logger("Whisper", {
+const Log = new Logger("Scribe Voice", {
 	bgColor: "#88ddbb", fgColor: "#000000"
 })
 
@@ -28,12 +29,13 @@ model_loader.onload = _ => {
 model_loader.readAsArrayBuffer(new Blob([await (await fetch(MODEL_FN)).arrayBuffer()]))
 
 export enum ScribeVoiceState {
+	Hidden,
 	Idle,
 	Recording,
 	Transcribing,
+	Generating
 }
-export const scribeVoiceState = ref(ScribeVoiceState.Idle)
-
+export const scribeVoiceState = ref(ScribeVoiceState.Hidden)
 
 // @ts-ignore
 window.alert = (text: string) => Log.info("Got without listener:", text)
@@ -52,6 +54,7 @@ const transcribe = (audio: Float32Array, lang=LANG): Promise<string> => new Prom
 })
 
 export const listen = (): Promise<string> => new Promise(async (s, _) => {
+	scribeVoiceState.value = ScribeVoiceState.Idle
 	const context = new AudioContext({
 		sampleRate: SAMPLE_RATE,
 		// @ts-ignore
@@ -95,7 +98,7 @@ export const listen = (): Promise<string> => new Promise(async (s, _) => {
 					const audio = renderedBuffer.getChannelData(0).slice(0, MAX_LENGTH * SAMPLE_RATE)
 					Log.info("Audio recorded, size:", audio.length)
 					s(await transcribe(audio))
-					scribeVoiceState.value = ScribeVoiceState.Idle
+					scribeVoiceState.value = ScribeVoiceState.Hidden
 				})
 			})
 		}
@@ -106,3 +109,11 @@ export const listen = (): Promise<string> => new Promise(async (s, _) => {
 	hark.on("speaking", () => scribeVoiceState.value = ScribeVoiceState.Recording)
 	hark.on("stopped_speaking", () => mediaRecorder.stop())
 })
+
+export const scribeVoice = async () => {
+	const prompt = await listen()
+	scribeVoiceState.value = ScribeVoiceState.Generating
+	const email = await scribe(prompt)
+	Log.success("Email:\n", email)
+	scribeVoiceState.value = ScribeVoiceState.Hidden
+}

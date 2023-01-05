@@ -26,9 +26,6 @@ export const isEmailSidebarCollapsed = ref(true)
 // Feedback Modal Dev Controls Collapse
 export const isDevControlsCollapsed = ref(true)
 
-// Control Voice Recognition
-export const showVoiceRecognition = ref(false)
-
 export enum Modal {
   AddBoard,
   AddMailbox,

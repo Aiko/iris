@@ -4,6 +4,9 @@ import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import Animation from "@Veil/components/Base/Animation.vue";
 import Loader from "@Veil/components/Base/Loader.vue";
+import { scribeVoiceState, ScribeVoiceState } from "@Veil/utils/whisper/whisper"
+
+const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
 </script>
 
 <template>
@@ -16,23 +19,28 @@ import Loader from "@Veil/components/Base/Loader.vue";
   </a>
 
   <!-- VOICE STATE WHEN CLICKED -->
-  <a class="primarycolor" v-if="false">
+  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Idle">
     <Icon name="start-record" class="start-recording" />
     Start speaking
-    <ButtonSecondary class="opacity-08">Cancel</ButtonSecondary>
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN SPEAKING -->
-  <a class="primarycolor" v-if="true">
+  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Recording">
     <Animation name="record" loop class="record" />
     Start speaking
   </a>
 
-  <!-- VOICE STATE WHEN GENERATING -->
-  <a class="primarycolor" v-if="false">
+  <!-- VOICE STATE WHEN TRANSCRIBING -->
+  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
+    <Loader class="writing" />
+    Transcribing
+  </a>
+
+	<!-- VOICE STATE WHEN TRANSCRIBING -->
+  <a class="primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Generating">
     <Loader class="writing" />
     Writing email
-    <ButtonSecondary class="opacity-08">Cancel</ButtonSecondary>
   </a>
 
   <!-- TOAST Email Sent -->
