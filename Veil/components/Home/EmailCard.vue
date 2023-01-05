@@ -22,7 +22,7 @@ const infoTrash = 'Move this email to the trash'
 const showQuickReply = ref(false)
 const quickReplyText = ref('')
 const quickReply = async () => {
-	quickReplyText.value = (await scribe(quickReplyText.value)) ?? quickReplyText.value
+  quickReplyText.value = (await scribe(quickReplyText.value)) ?? quickReplyText.value
 }
 </script>
 
@@ -66,7 +66,7 @@ const quickReply = async () => {
       actually see all of it and scroll through its very nice
     </div>
     <div class="quick-reply">
-      <input v-model="quickReplyText" placeholder="Type reply here" autofocus />
+      <textarea v-model="quickReplyText" placeholder="Type your reply here" autofocus />
       <div class="send" title="Send reply" @click="quickReply">
         <Icon name="sent" color="normal" />
       </div>
@@ -260,7 +260,7 @@ const quickReply = async () => {
   user-select: none;
   width: 100%;
   display: none;
-  height: 27px;
+  min-height: 27px;
   margin-left: -10px;
   border-radius: 0 0 5px 5px;
   padding: 0 10px;
@@ -283,10 +283,11 @@ const quickReply = async () => {
   width: calc(100% + 4px);
 }
 
-.email-card .quick-reply input {
+.email-card .quick-reply textarea {
   background: transparent;
   border: none;
   width: calc(100% - 20px);
+  resize: none;
   cursor: text !important;
   padding-bottom: 2px;
 }
@@ -297,7 +298,8 @@ const quickReply = async () => {
   background: var(--primary-background-color);
   border: 1px solid var(--secondary-background-color);
   padding: 5px;
-  height: 27px;
+  height: 100%;
+  position: relative;
   position: absolute;
   right: 0;
   border-bottom-right-radius: var(--primary-border-radius);
@@ -311,6 +313,7 @@ const quickReply = async () => {
 .email-card.qr .preview {
   overflow: scroll;
   height: fit-content;
+  margin-bottom: 40px;
   max-height: 100px;
 }
 
@@ -321,7 +324,10 @@ const quickReply = async () => {
 
 .email-card .send img {
   width: 17px;
-  margin-bottom: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .email-card .actions {
