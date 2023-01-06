@@ -18,11 +18,21 @@ const infoForward = 'Forward this email'
 const infoStar = 'Star this email'
 const infoTrash = 'Move this email to the trash'
 
+let isThinking = ref(false)
 
 const showQuickReply = ref(false)
 const quickReplyText = ref('')
-const quickReply = async () => {
-  quickReplyText.value = (await scribe(quickReplyText.value)) ?? quickReplyText.value
+const quickReply = ref<HTMLDivElement | null>(null)
+
+const typeQuickReply = (event: Event) => {
+  quickReplyText.value = (event.target as HTMLInputElement).innerHTML
+}
+
+const quickReplyScribe = async () => {
+  isThinking.value = true
+  quickReplyText.value = (await scribe(quickReplyText.value))?.replace(/\n/gim, "<br>") ?? quickReplyText.value
+  if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
+  isThinking.value = false
 }
 </script>
 
@@ -66,8 +76,19 @@ const quickReply = async () => {
       actually see all of it and scroll through its very nice
     </div>
     <div class="quick-reply">
-      <textarea v-model="quickReplyText" placeholder="Type your reply here" autofocus />
-      <div class="send" title="Send reply" @click="quickReply">
+      <div ref="quickReply" contenteditable="true" :class="{
+        textarea: true,
+        fadeInOut: isThinking,
+      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate"
+        autofocus>
+      </div>
+
+      <div class="send scribe" title="Generate email" @click="quickReplyScribe">
+        <Icon name="scribe" color="white" />
+      </div>
+
+
+      <div class="send" title="Send reply">
         <Icon name="sent" color="normal" />
       </div>
     </div>
@@ -206,6 +227,14 @@ const quickReply = async () => {
   transition: .2s;
 }
 
+.scribe {
+  margin-bottom: 28px !important;
+  right: 0;
+  border-top-left-radius: var(--primary-border-radius) !important;
+  border-bottom-right-radius: 0 !important;
+  background-color: var(--primary-color) !important;
+}
+
 .email-card .subject {
   font-size: 14px;
   margin-bottom: 2px;
@@ -265,8 +294,9 @@ const quickReply = async () => {
   border-radius: 0 0 5px 5px;
   padding: 0 10px;
   margin-top: 2px;
-  background: var(--secondary-background-color);
-  position: absolute;
+  background: var(--primary-background-color);
+  border: 2px solid var(--secondary-background-color);
+  position: relative;
   bottom: 0;
   z-index: 1;
 }
@@ -283,13 +313,24 @@ const quickReply = async () => {
   width: calc(100% + 4px);
 }
 
-.email-card .quick-reply textarea {
+.email-card .quick-reply .textarea {
   background: transparent;
-  border: none;
-  width: calc(100% - 20px);
+  width: calc(100% - 25px);
   resize: none;
+  min-height: 60px;
   cursor: text !important;
   padding-bottom: 2px;
+  border: none;
+  padding: 10px 0;
+  outline: none;
+  display: inline-block;
+  color: var(--strong-font-color);
+  border-radius: none;
+  border-bottom-left-radius: var(--primary-border-radius);
+}
+
+.qr.email-card .bottom {
+  display: none;
 }
 
 .email-card .send {
@@ -298,22 +339,25 @@ const quickReply = async () => {
   background: var(--primary-background-color);
   border: 1px solid var(--secondary-background-color);
   padding: 5px;
-  height: 100%;
-  position: relative;
+  height: 30px;
   position: absolute;
   right: 0;
+  bottom: 0;
+  margin-right: -1px;
+  margin-bottom: -1px;
   border-bottom-right-radius: var(--primary-border-radius);
   transition: .2s;
 }
 
 .email-card.qr .quick-reply {
-  display: unset;
+  display: inline-block;
+  width: calc(100% + 20px);
 }
 
 .email-card.qr .preview {
   overflow: scroll;
   height: fit-content;
-  margin-bottom: 40px;
+  margin-bottom: 5px;
   max-height: 100px;
 }
 
@@ -436,5 +480,42 @@ const quickReply = async () => {
 .thread-count img {
   height: 16px;
   margin-left: 4px;
+}
+
+[contentEditable=true]:empty:before {
+  content: attr(placeholder);
+  opacity: 0.4;
+}
+
+.fadeInOut {
+  opacity: 1;
+  -webkit-animation: fade 2s linear forwards;
+  animation: fade 2s linear forwards;
+  animation-iteration-count: infinite;
+}
+
+
+@-webkit-keyframes fade {
+
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade {
+
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 </style>
