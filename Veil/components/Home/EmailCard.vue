@@ -317,7 +317,7 @@ const quickReplyScribe = async () => {
   background: transparent;
   width: calc(100% - 25px);
   resize: none;
-  min-height: 60px;
+  min-height: 62px;
   cursor: text !important;
   padding-bottom: 2px;
   border: none;
