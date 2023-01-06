@@ -8,8 +8,6 @@ import { scribeVoiceState, ScribeVoiceState } from "@Veil/utils/whisper/whisper"
 
 const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
 
-
-
 </script>
 
 <template>
