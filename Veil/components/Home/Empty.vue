@@ -21,6 +21,10 @@
   margin-bottom: 15px;
 }
 
+.small .empty {
+  display: none;
+}
+
 .middle {
   margin-top: 5px;
 }

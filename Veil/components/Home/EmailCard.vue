@@ -313,6 +313,10 @@ const quickReplyScribe = async () => {
   width: calc(100% + 4px);
 }
 
+.medium .email-card.qr .quick-reply {
+  width: calc(100% + 16px);
+}
+
 .email-card .quick-reply .textarea {
   background: transparent;
   width: calc(100% - 25px);
