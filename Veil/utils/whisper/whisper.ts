@@ -51,7 +51,7 @@ const transcribe = (audio: Float32Array, lang=LANG): Promise<string> => new Prom
 	// @ts-ignore
 	window.alert = transcribed
 	// @ts-ignore
-	window.Module.transcribe_audio(instance, audio, lang, false)
+	window.Module.transcribe_audio(instance, audio, lang, false, 1)
 })
 
 export const listen = (): Promise<string> => new Promise(async (s, _) => {
