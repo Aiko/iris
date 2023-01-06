@@ -17,6 +17,8 @@ const infoReplyAll = 'Reply to all participants in this email'
 const infoForward = 'Forward this email'
 const infoStar = 'Star this email'
 const infoTrash = 'Move this email to the trash'
+const infoScribe = 'Write a brief answer and click this button to generate a perfect email.'
+const infoSend = 'Click to send the reply.'
 
 let isThinking = ref(false)
 
@@ -83,12 +85,13 @@ const quickReplyScribe = async () => {
         autofocus>
       </div>
 
-      <div class="send scribe" title="Generate email" @click="quickReplyScribe">
+      <div class="send scribe" @click="quickReplyScribe" @mouseover="infoContent = infoScribe"
+        @mouseleave="infoContent = ''">
         <Icon name="scribe" color="white" />
       </div>
 
 
-      <div class="send" title="Send reply">
+      <div class="send" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
         <Icon name="sent" color="normal" />
       </div>
     </div>
