@@ -27,64 +27,34 @@ let selectedPane = ref(Pane.Account);
   <div class="settings" v-if="true">
     <div class="sidebar">
       <h1>Settings</h1>
-      <NavLink
-        @click="selectedPane = Pane.Account"
-        :class="selectedPane == Pane.Account ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Account" :class="selectedPane == Pane.Account ? 'active' : ''">
         <Icon name="user" color="normal" class="special" />Account
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Appearance"
-        :class="selectedPane == Pane.Appearance ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Appearance" :class="selectedPane == Pane.Appearance ? 'active' : ''">
         <Icon name="image" color="normal" />Appearance
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Team"
-        :class="selectedPane == Pane.Team ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Team" :class="selectedPane == Pane.Team ? 'active' : ''">
         <Icon name="team" color="normal" />Team
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Spaces"
-        :class="selectedPane == Pane.Spaces ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Spaces" :class="selectedPane == Pane.Spaces ? 'active' : ''">
         <Icon name="home" color="normal" />Spaces
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Unsubscribe"
-        :class="selectedPane == Pane.Unsubscribe ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Unsubscribe" :class="selectedPane == Pane.Unsubscribe ? 'active' : ''">
         <Icon name="unsubscribe" color="normal" />Unsubscribe
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Templates"
-        :class="selectedPane == Pane.Templates ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Templates" :class="selectedPane == Pane.Templates ? 'active' : ''">
         <Icon name="templates" color="normal" />Templates
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Signatures"
-        :class="selectedPane == Pane.Signatures ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Signatures" :class="selectedPane == Pane.Signatures ? 'active' : ''">
         <Icon name="signature" color="normal" />Signatures
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Billing"
-        :class="selectedPane == Pane.Billing ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
         <Icon name="billing" color="normal" />Plans / Billing
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Integrations"
-        :class="selectedPane == Pane.Integrations ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Integrations" :class="selectedPane == Pane.Integrations ? 'active' : ''">
         <Icon name="integrations" color="normal" />Integrations
       </NavLink>
-      <NavLink
-        @click="selectedPane = Pane.Others"
-        :class="selectedPane == Pane.Others ? 'active' : ''"
-      >
+      <NavLink @click="selectedPane = Pane.Others" :class="selectedPane == Pane.Others ? 'active' : ''">
         <Icon name="settings2" color="normal" />Others
       </NavLink>
       <Alert>
@@ -129,9 +99,7 @@ let selectedPane = ref(Pane.Account);
           <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddMailbox"
-          >Add a mailbox</ButtonPrimary
-        >
+        <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Appearance">
@@ -220,9 +188,7 @@ let selectedPane = ref(Pane.Account);
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.InviteTeam"
-          >Invite a new member</ButtonPrimary
-        >
+        <ButtonPrimary @click="selectedModal = Modal.InviteTeam">Invite a new member</ButtonPrimary>
         <ButtonSecondary class="ml-2">Invite bulk (csv)</ButtonSecondary>
       </div>
 
@@ -271,9 +237,7 @@ let selectedPane = ref(Pane.Account);
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddSpace"
-          >Add a new Space</ButtonPrimary
-        >
+        <ButtonPrimary @click="selectedModal = Modal.AddSpace">Add a new Space</ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
@@ -627,7 +591,7 @@ input {
   transition: 0.2s;
 }
 
-input + a {
+input+a {
   display: none;
   padding: 10px;
 }
@@ -638,23 +602,23 @@ input:active {
   transition: 0.2s;
 }
 
-input:focus + a,
-input:active + a {
+input:focus+a,
+input:active+a {
   display: unset;
 }
 
-textarea + a {
+textarea+a {
   display: none;
 }
 
-textarea:focus + a,
-textarea:active + a {
+textarea:focus+a,
+textarea:active+a {
   display: unset;
 }
 
 .content p {
   margin-bottom: 0;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .content h2 {
@@ -677,9 +641,6 @@ textarea:active + a {
   margin-top: 20px;
 }
 
-.alert p {
-  margin: 0;
-}
 
 .special {
   width: 12px !important;
@@ -776,8 +737,10 @@ textarea:active + a {
   padding: 20px !important;
 }
 
+
 .alert h1 {
   font-size: 13px;
+
   margin: 0;
 }
 
@@ -785,19 +748,24 @@ textarea:active + a {
   font-size: 12px;
   margin-bottom: 8px;
   z-index: 1;
+
   position: relative;
   letter-spacing: -0.1px;
 }
 
 .alert a {
-  padding: 4px 10px 5px 9px;
-  font-size: 13px !important;
+  width: 100%;
+  text-align: center;
+  height: 28px;
+  font-size: 13.5px !important;
+  display: inline-grid;
   letter-spacing: 0 !important;
-  margin-left: -4px;
+  margin-bottom: 0;
 }
 
 .alert b {
   color: var(--primary-color);
+
   font-weight: 700;
 }
 
@@ -817,7 +785,7 @@ textarea:active + a {
   z-index: 1;
 }
 
-.alert h1:hover ~ div {
+.alert h1:hover~div {
   margin-top: -20px;
   opacity: 1;
   height: unset;
