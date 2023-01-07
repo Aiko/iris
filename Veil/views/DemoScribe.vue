@@ -28,4 +28,8 @@ import Board from "@Veil/components/Home/Board.vue"
   display: inline-flex;
   padding-right: 20px;
 }
+
+.board {
+	height: fit-content !important;
+}
 </style>
