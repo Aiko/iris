@@ -26,33 +26,25 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   <div class="board">
     <div class="board-header">
       <div class="acont">
-        <a :class="{ 'dot': !isInbox }" @click="showBoardDots = true">
+        <a v-if="isInbox" @click="showBoardDots = true">
           <Icon name="dots" color="normal" class="t8" />
         </a>
         <a v-if="isInbox">
           <Icon name="refresh" color="normal" class="refresh" />
         </a>
       </div>
-      <h1 v-if="!isInbox">Title</h1>
+
+      <h1 v-if="!isInbox" class="board-width-trigger">
+        <div class="board-width-picker">
+          <div>S</div>
+          <div>M</div>
+          <div>L</div>
+        </div>
+        Title
+      </h1>
+
+
       <div class="options" v-if="showBoardDots" tabindex="0" ref="options" @focusout="showBoardDots = false" autofocus>
-        <div class="size" v-if="!isInbox">
-          <p>Board size</p>
-          <ButtonSecondary class="btn">Small</ButtonSecondary>
-          <ButtonSecondary class="btn">Medium</ButtonSecondary>
-          <ButtonSecondary class="btn">Large</ButtonSecondary>
-        </div>
-        <div class="option" v-if="!isInbox">
-          <p>Move all emails</p>
-          <ButtonSecondary class="btn" color="red">
-            Trash all
-          </ButtonSecondary>
-        </div>
-        <div class="option" v-if="!isInbox">
-          <p>Board actions</p>
-          <ButtonSecondary class="btn" color="red">
-            Delete board
-          </ButtonSecondary>
-        </div>
         <div class="option" v-if="isInbox">
           <p>Manage board rules</p>
           <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules"
@@ -67,6 +59,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
           <ButtonSecondary lass="btn">Unread First</ButtonSecondary>
         </div>
       </div>
+
+
+
+
+
       <div class="switch" v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
           Priority
@@ -134,7 +131,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   height: 50px;
   width: 100%;
   padding: 18px 0;
-  overflow: hidden;
+  cursor: pointer;
   display: inline-block;
   text-align: center;
   -webkit-touch-callout: none;
@@ -191,8 +188,8 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 .small h1 {
   writing-mode: vertical-rl;
-  padding: 15px 10px 0 10px;
-  margin-top: -15px;
+  padding: 15px 10px 0 10px !important;
+  margin-top: -15px !important;
   transition: .2s;
   z-index: 11;
   position: relative;
@@ -221,67 +218,10 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
-  padding: 0 10px 20px 10px;
+  padding: 20px 15px 10px 15px;
   text-overflow: ellipsis;
   max-width: calc(100% - 45px);
   position: relative;
-}
-
-
-.board-header .options {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  overflow: visible;
-  outline: none !important;
-  display: inline-block;
-  width: 100%;
-  border-radius: var(--primary-border-radius);
-  border: 3px solid var(--primary-background-color);
-  box-shadow: 11px 14px 10px #00000040;
-  background: var(--secondary-background-color);
-}
-
-.board-header .options div {
-  padding: 0 5px 10px 5px;
-}
-
-.size {
-  text-align: left;
-  white-space: nowrap;
-  margin-right: 10px;
-}
-
-.medium .options {
-  display: inline-table;
-  padding: 0;
-  margin: 0;
-  margin-left: -12px;
-}
-
-.medium .option {
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.size p,
-.option p {
-  font-size: 13px;
-  margin-bottom: 2px;
-  margin-top: 10px;
-  margin-left: 5px;
-}
-
-.option {
-  width: 50%;
-  text-align: left;
-  overflow: visible;
-}
-
-.option a img {
-  width: 20px;
 }
 
 .board-header img {
@@ -425,5 +365,164 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
     height: 150%;
     opacity: 0;
   }
+}
+
+
+.board-header .options {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow: visible;
+  outline: none !important;
+  display: inline-block;
+  width: 100%;
+  border-radius: var(--primary-border-radius);
+  border: 3px solid var(--primary-background-color);
+  box-shadow: 11px 14px 10px #00000040;
+  background: var(--secondary-background-color);
+}
+
+.board-header .options div {
+  padding: 0 5px 10px 5px;
+}
+
+.size {
+  text-align: left;
+  white-space: nowrap;
+  margin-right: 10px;
+}
+
+.medium .options {
+  display: inline-table;
+  padding: 0;
+  margin: 0;
+  margin-left: -12px;
+}
+
+.medium .option {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.size p,
+.option p {
+  font-size: 13px;
+  margin-bottom: 2px;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
+.option {
+  width: 50%;
+  text-align: left;
+  overflow: visible;
+}
+
+.option a img {
+  width: 20px;
+}
+
+
+
+
+
+
+
+.board-width-picker {
+  background: var(--secondary-background-color);
+  border-radius: 5px;
+  padding: 0 3px 2px 0;
+  margin-top: -25px;
+  border: 1px solid var(--primary-background-color);
+  display: inline-flex;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.board-width-trigger .board-width-picker {
+  visibility: hidden;
+}
+
+.board-width-trigger {
+  z-index: 6;
+}
+
+
+
+.board-width-trigger:hover .board-width-picker {
+  visibility: visible;
+}
+
+.small .board-width-trigger:hover .board-width-picker {
+  visibility: visible;
+}
+
+.small .board-width-picker {
+  margin-top: -40px;
+  margin-left: -25px;
+}
+
+.small .board-width-trigger:hover {
+  overflow: visible;
+}
+
+.clicktoexpand:hover .board-width-picker {
+  visibility: visible;
+}
+
+.board-width-picker div {
+  background: var(--primary-background-color);
+  box-shadow: inset 0 0 3px 1px rgb(0 0 0 / 11%);
+  height: 18px;
+  margin-top: 2px;
+  border-radius: 3px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.board-width-picker div:hover {
+  background-color: var(--primary-font-color);
+  color: var(--modal-backdrop);
+  transition: .2s;
+}
+
+.board-width-picker div:nth-child(3) {
+  width: 33px;
+  margin-left: 3px;
+}
+
+.board-width-picker div:nth-child(2) {
+  width: 23px;
+  margin-left: 3px;
+}
+
+.board-width-picker div:nth-child(1) {
+  width: 17px;
+  margin-left: 3px;
+}
+
+.thinnest .board-width-picker {
+  position: absolute;
+  z-index: 100;
+  margin-left: -10px;
+  writing-mode: horizontal-tb;
+}
+
+.hoverzone:hover+.board-header {
+  background: #f8f9fade !important;
+  transition: .2s;
+}
+
+.hoverzone {
+  width: 40px;
+  margin-left: -5px;
+  height: 180px;
+  position: absolute;
+  margin-top: 35px;
+  z-index: 4;
+  top: 0;
 }
 </style>
