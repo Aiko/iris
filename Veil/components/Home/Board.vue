@@ -9,6 +9,7 @@ import Loader from '@Veil/components/Base/Loader.vue'
 
 defineProps<{
   isInbox?: boolean
+	demo?: boolean
 }>()
 
 const numEmails = 1
@@ -86,7 +87,20 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 
 
-      <EmailCard />
+      <EmailCard
+				:email="{
+					sender: 'John Smith',
+					date: '1:23 PM',
+					subject: 'Deck Review',
+					preview: 'It would be great to get time to review the client deck. Does 3:30PM work for you?',
+					attachments: ['deck.pdf'],
+				}"
+				:thread-count="1"
+				:bcc="true"
+				:tracker="false"
+				:event="false"
+				:demo="demo"
+			/>
 
 
       <Empty v-if="numEmails == 0">

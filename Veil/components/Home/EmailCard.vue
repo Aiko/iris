@@ -3,12 +3,28 @@ import { ref } from '@vue/reactivity'
 import { nextTick } from 'vue'
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
+import { scribeVoiceBrowser, scribeVoiceState, ScribeVoiceState } from '@Veil/utils/whisper/whisper'
 import scribe from "@Veil/utils/scribe"
 import Logger from "@Veil/services/roots"
 const Log = new Logger("EmailCard", {
 	bgColor: "#ff99ff",
 	fgColor: "#000000",
 })
+
+const props = defineProps<{
+	email: {
+		sender: string
+		subject: string
+		preview: string
+		date: string
+		attachments: any[]
+	}
+	threadCount: number
+	bcc: boolean
+	tracker: boolean
+	event: boolean
+	demo?: boolean
+}>()
 
 // Information variables for 'EmailCard' component
 const infoThreadCount = 'Number of emails in this thread'
@@ -37,15 +53,19 @@ const showQuickReply = () => {
 		if (quickReply.value) quickReply.value.focus()
 	})
 }
+const savedQuickReply = ref('')
 const quickReplyText = ref('')
 let stopQuickReplyHide = false
 const hideQuickReply = () => {
 	Log.info("Closing quick reply...")
 	nextTick(() => {
-		setTimeout(() => {
-			if (stopQuickReplyHide) return;
-			isQuickReplyOpen.value = false
-		}, 100)
+		nextTick(() => {
+			setTimeout(() => {
+				if (stopQuickReplyHide) return;
+				isQuickReplyOpen.value = false
+				savedQuickReply.value = quickReplyText.value
+			}, 200)
+		})
 	})
 }
 
@@ -59,10 +79,28 @@ const quickReplyScribe = async () => {
   isThinking.value = true
 	const prompt = quickReplyText.value
 	Log.info("Prompt:", prompt)
-  quickReplyText.value = (await scribe(prompt))?.replace(/\n/gim, "<br>") ?? quickReplyText.value
+  quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
 	Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
+	if (quickReply.value) quickReply.value.focus()
+	nextTick(() => stopQuickReplyHide = false)
+}
+
+const quickReplyScribeVoice = async () => {
+	stopQuickReplyHide = true
+	Log.log("Listening...")
+	const prompt = await scribeVoiceBrowser()
+	Log.log("Running scribe...")
+	isThinking.value = true
+	savedQuickReply.value = prompt
+	scribeVoiceState.value = ScribeVoiceState.Generating
+	Log.info("Prompt:", prompt)
+	quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
+	Log.success("Generated email.")
+	if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
+	isThinking.value = false
+	scribeVoiceState.value = ScribeVoiceState.Hidden
 	if (quickReply.value) quickReply.value.focus()
 	nextTick(() => stopQuickReplyHide = false)
 }
@@ -77,41 +115,40 @@ const quickReplyScribe = async () => {
     'selected': false,
   }">
     <div class="row">
-      <div class="col-8 p0 sender">
-        Sender
-        <div class="thread-count" @mouseover="infoContent = infoThreadCount" @mouseleave="infoContent = ''">
+      <div class="col-9 p0 sender">
+				{{email.sender}}
+        <div v-if="threadCount > 1" class="thread-count" @mouseover="infoContent = infoThreadCount" @mouseleave="infoContent = ''">
           <Icon name="thread" color="normal" />
-          <span>4</span>
+          <span>{{threadCount}}</span>
         </div>
-        <div class="attachment" @mouseover="infoContent = infoAttachment" @mouseleave="infoContent = ''">
+        <div v-if="email.attachments.length > 0" class="attachment" @mouseover="infoContent = infoAttachment" @mouseleave="infoContent = ''">
           <Icon name="attachment" color="normal" />
         </div>
-        <div class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
+        <div v-if="bcc" class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
           <Icon name="bcc" color="normal" />
         </div>
-        <div class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
+        <div v-if="tracker" class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
           <Icon name="tracker" color="normal" />
         </div>
-        <div class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
+        <div v-if="event" class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
           <Icon name="calendar" color="normal" />
         </div>
       </div>
-      <div class="col-4 p0 date">
-        Time
+      <div class="col-3 p0 date">
+        {{email.date}}
       </div>
     </div>
     <div class="subject">
-      Subject
+      {{email.subject}}
     </div>
     <div :class="{
 			'preview': true,
 			'long': isQuickReplyOpen
 		}">
-      Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
-      actually see all of it and scroll through its very nice
+      {{email.preview}}
     </div>
     <div v-if="isQuickReplyOpen" class="quick-reply">
-      <div ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
+      <div v-html="savedQuickReply" ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
       }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate">
@@ -122,8 +159,11 @@ const quickReplyScribe = async () => {
         <Icon name="scribe" color="white" />
       </div>
 
+      <div v-if="demo" class="send voice" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
+        <Icon name="microphone" color="white" />
+      </div>
 
-      <div class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
+			<div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
         <Icon name="sent" color="normal" />
       </div>
     </div>
@@ -371,7 +411,23 @@ const quickReplyScribe = async () => {
 .email-card .send {
   width: 30px;
   display: inline;
-  background: var(--primary-background-color);
+	background: var(--primary-background-color);
+  border: 1px solid var(--secondary-background-color);
+  padding: 5px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin-right: -1px;
+  margin-bottom: -1px;
+  border-bottom-right-radius: var(--primary-border-radius);
+  transition: .2s;
+}
+
+.email-card .voice {
+  width: 30px;
+  display: inline;
+	background: unset;
   border: 1px solid var(--secondary-background-color);
   padding: 5px;
   height: 30px;
