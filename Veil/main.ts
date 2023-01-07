@@ -4,6 +4,11 @@ import router from '@Veil/router/index'
 import LottieAnimation from "lottie-web-vue";
 import '@Veil/assets/css/base.css'
 
+// force https
+if (location.protocol !== 'https:') {
+	location.replace(`https:${location.href.substring(location.protocol.length)}`)
+}
+
 createApp(App)
 	.use(router)
 	.use(LottieAnimation)
