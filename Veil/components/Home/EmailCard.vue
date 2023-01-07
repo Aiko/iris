@@ -4,6 +4,11 @@ import { nextTick } from 'vue'
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
 import scribe from "@Veil/utils/scribe"
+import Logger from "@Veil/services/roots"
+const Log = new Logger("EmailCard", {
+	bgColor: "#ff99ff",
+	fgColor: "#000000",
+})
 
 // Information variables for 'EmailCard' component
 const infoThreadCount = 'Number of emails in this thread'
@@ -26,28 +31,46 @@ let isThinking = ref(false)
 const quickReply = ref<HTMLDivElement | null>(null)
 const isQuickReplyOpen = ref(false)
 const showQuickReply = () => {
+	Log.info("Opening quick reply...")
 	isQuickReplyOpen.value = true
 	nextTick(() => {
 		if (quickReply.value) quickReply.value.focus()
 	})
 }
 const quickReplyText = ref('')
+let stopQuickReplyHide = false
+const hideQuickReply = () => {
+	Log.info("Closing quick reply...")
+	nextTick(() => {
+		setTimeout(() => {
+			if (stopQuickReplyHide) return;
+			isQuickReplyOpen.value = false
+		}, 100)
+	})
+}
 
 const typeQuickReply = (event: Event) => {
   quickReplyText.value = (event.target as HTMLInputElement).innerHTML
 }
 
 const quickReplyScribe = async () => {
+	stopQuickReplyHide = true
+	Log.log("Running scribe...")
   isThinking.value = true
-  quickReplyText.value = (await scribe(quickReplyText.value))?.replace(/\n/gim, "<br>") ?? quickReplyText.value
+	const prompt = quickReplyText.value
+	Log.info("Prompt:", prompt)
+  quickReplyText.value = (await scribe(prompt))?.replace(/\n/gim, "<br>") ?? quickReplyText.value
+	Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
+	if (quickReply.value) quickReply.value.focus()
+	nextTick(() => stopQuickReplyHide = false)
 }
 </script>
 
 <template>
   <div :class="{
-    'qr': isQuickReplyOpen,
+    'qr': true,
     'email-card': true,
     'unread': true,
     'starred': false,
@@ -80,35 +103,37 @@ const quickReplyScribe = async () => {
     <div class="subject">
       Subject
     </div>
-    <div class="preview">
+    <div :class="{
+			'preview': true,
+			'long': isQuickReplyOpen
+		}">
       Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
       actually see all of it and scroll through its very nice
     </div>
-    <div class="quick-reply">
-      <div ref="quickReply" @focusout="isQuickReplyOpen = false" contenteditable="true" :class="{
+    <div v-if="isQuickReplyOpen" class="quick-reply">
+      <div ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
-      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate"
-        autofocus>
+      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate">
       </div>
 
-      <div class="send scribe" @click="quickReplyScribe" @mouseover="infoContent = infoScribe"
+      <div class="send scribe" @click.stop.prevent="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
         <Icon name="scribe" color="white" />
       </div>
 
 
-      <div class="send" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
+      <div class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
         <Icon name="sent" color="normal" />
       </div>
     </div>
-    <div class="bottom">
+    <div v-if="!isQuickReplyOpen" class="bottom">
       <div class="quick-action">
 
 
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
-        <span @focus="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
+        <span @click.stop.prevent="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
           @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
@@ -343,10 +368,6 @@ const quickReplyScribe = async () => {
   border-bottom-left-radius: var(--primary-border-radius);
 }
 
-.qr.email-card .bottom {
-  display: none;
-}
-
 .email-card .send {
   width: 30px;
   display: inline;
@@ -368,7 +389,7 @@ const quickReplyScribe = async () => {
   width: calc(100% + 20px);
 }
 
-.email-card.qr .preview {
+.email-card .preview.long {
   overflow: scroll;
   height: fit-content;
   margin-bottom: 5px;
