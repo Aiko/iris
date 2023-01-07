@@ -11,9 +11,9 @@ defineProps<{
   isInbox?: boolean
 }>()
 
-let showBoardDots = ref(false)
-const toggleBoardDots = () => showBoardDots.value = !(showBoardDots.value)
+const numEmails = 1
 
+const showBoardDots = ref(false)
 
 // Information variables for 'Board' component
 const infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
@@ -89,13 +89,13 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
       <EmailCard />
 
 
-      <Empty>
+      <Empty v-if="numEmails == 0">
         <Icon name="drag" color="normal" />
         <p class="mt-2">Drag emails here</p>
       </Empty>
 
 
-      <Empty>
+      <Empty v-if="false">
         <Loader class="mt-4" />
         <p class="mb-2 mt-2">Loading more emails</p>
         <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>

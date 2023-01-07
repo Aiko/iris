@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
+import { nextTick } from 'vue'
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
 import scribe from "@Veil/utils/scribe"
@@ -22,9 +23,15 @@ const infoSend = 'Click to send the reply.'
 
 let isThinking = ref(false)
 
-const showQuickReply = ref(false)
-const quickReplyText = ref('')
 const quickReply = ref<HTMLDivElement | null>(null)
+const isQuickReplyOpen = ref(false)
+const showQuickReply = () => {
+	isQuickReplyOpen.value = true
+	nextTick(() => {
+		if (quickReply.value) quickReply.value.focus()
+	})
+}
+const quickReplyText = ref('')
 
 const typeQuickReply = (event: Event) => {
   quickReplyText.value = (event.target as HTMLInputElement).innerHTML
@@ -40,7 +47,7 @@ const quickReplyScribe = async () => {
 
 <template>
   <div :class="{
-    'qr': showQuickReply,
+    'qr': isQuickReplyOpen,
     'email-card': true,
     'unread': true,
     'starred': false,
@@ -78,7 +85,7 @@ const quickReplyScribe = async () => {
       actually see all of it and scroll through its very nice
     </div>
     <div class="quick-reply">
-      <div ref="quickReply" contenteditable="true" :class="{
+      <div ref="quickReply" @focusout="isQuickReplyOpen = false" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
       }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate"
@@ -101,7 +108,7 @@ const quickReplyScribe = async () => {
 
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
-        <span @focus="showQuickReply = true" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
+        <span @focus="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
           @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
