@@ -179,7 +179,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   height: 185px !important;
   position: relative;
   z-index: 5;
-  cursor: unset !important;
+  cursor: pointer !important;
   filter: brightness(1);
   transition: .2s;
 }
