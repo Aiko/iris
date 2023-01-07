@@ -24,16 +24,20 @@ import SideEmail from "@Veil/components/Home/SideEmail.vue"
 <style scoped>
 .home {
   width: 100%;
+  padding-top: 10px;
+  margin-top: -10px;
   overflow-x: scroll;
-  overflow-y: hidden;
-  height: calc(100% - 50px);
+  height: calc(100% - 40px);
   padding-left: 20px;
   display: inline-flex;
 }
 
 .home .boards {
   overflow-x: visible;
+  overflow-y: hidden;
   display: inline-flex;
   padding-right: 20px;
+  margin-top: -10px;
+  padding-top: 10px;
 }
 </style>
