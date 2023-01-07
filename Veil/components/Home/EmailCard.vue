@@ -26,10 +26,10 @@ let isThinking = ref(false)
 const quickReply = ref<HTMLDivElement | null>(null)
 const isQuickReplyOpen = ref(false)
 const showQuickReply = () => {
-	isQuickReplyOpen.value = true
-	nextTick(() => {
-		if (quickReply.value) quickReply.value.focus()
-	})
+  isQuickReplyOpen.value = true
+  nextTick(() => {
+    if (quickReply.value) quickReply.value.focus()
+  })
 }
 const quickReplyText = ref('')
 
@@ -84,7 +84,7 @@ const quickReplyScribe = async () => {
       Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
       actually see all of it and scroll through its very nice
     </div>
-    <div class="quick-reply">
+    <div class="quick-reply" v-if="true">
       <div ref="quickReply" @focusout="isQuickReplyOpen = false" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
@@ -92,14 +92,13 @@ const quickReplyScribe = async () => {
         autofocus>
       </div>
 
-      <div class="send scribe" @click="quickReplyScribe" @mouseover="infoContent = infoScribe"
+      <div class="scribe" @click="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
-        <Icon name="scribe" color="white" />
+        <Icon name="scribe" color="white" /> Generate
       </div>
 
-
       <div class="send" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
-        <Icon name="sent" color="normal" />
+        <Icon name="sent" color="normal" /> Send
       </div>
     </div>
     <div class="bottom">
@@ -164,7 +163,7 @@ const quickReplyScribe = async () => {
   width: 100%;
   background: var(--secondary-background-color);
   padding: 8px 10px 0 10px;
-  overflow: hidden;
+  overflow: visible;
   font-size: var(--body-font-size);
   contain: layout;
   transition: .2s;
@@ -237,13 +236,7 @@ const quickReplyScribe = async () => {
   transition: .2s;
 }
 
-.scribe {
-  margin-bottom: 28px !important;
-  right: 0;
-  border-top-left-radius: var(--primary-border-radius) !important;
-  border-bottom-right-radius: 0 !important;
-  background-color: var(--primary-color) !important;
-}
+
 
 .email-card .subject {
   font-size: 14px;
@@ -348,19 +341,53 @@ const quickReplyScribe = async () => {
 }
 
 .email-card .send {
-  width: 30px;
   display: inline;
-  background: var(--primary-background-color);
-  border: 1px solid var(--secondary-background-color);
-  padding: 5px;
-  height: 30px;
-  position: absolute;
-  right: 0;
+  background: var(--secondary-background-color);
+  border: 2px solid var(--secondary-background-color);
+  width: calc(50% + 3px);
   bottom: 0;
-  margin-right: -1px;
-  margin-bottom: -1px;
+  font-weight: 500;
+  text-align: center;
+  right: 0;
   border-bottom-right-radius: var(--primary-border-radius);
+  position: absolute;
+  height: 27px;
+  margin-bottom: -23px;
+  color: var(--primary-font-color);
+  margin-right: -2px;
+  padding: 0 6px;
   transition: .2s;
+}
+
+.email-card .scribe {
+  display: inline;
+  padding: 0 6px;
+  text-align: center;
+  font-weight: 500;
+  color: #fff;
+  background: var(--primary-color);
+  border: 2px solid var(--secondary-background-color);
+  width: calc(50% + 3px);
+  bottom: 0;
+  left: 0;
+  border-bottom-left-radius: var(--primary-border-radius);
+  position: absolute;
+  height: 27px;
+  margin-bottom: -23px;
+  margin-left: -2px;
+  transition: .2s;
+}
+
+.email-card .send img {
+  width: 17px;
+  margin-right: 2px;
+  position: relative;
+}
+
+.email-card .scribe img {
+  width: 17px;
+  margin-right: 2px;
+  position: relative;
 }
 
 .email-card.qr .quick-reply {
@@ -380,13 +407,6 @@ const quickReplyScribe = async () => {
   transition: .2s;
 }
 
-.email-card .send img {
-  width: 17px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 
 .email-card .actions {
   text-align: right;
