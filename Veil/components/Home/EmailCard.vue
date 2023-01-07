@@ -3,7 +3,28 @@ import { ref } from '@vue/reactivity'
 import { nextTick } from 'vue'
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
+import { scribeVoiceBrowser, scribeVoiceState, ScribeVoiceState } from '@Veil/utils/whisper/whisper'
 import scribe from "@Veil/utils/scribe"
+import Logger from "@Veil/services/roots"
+const Log = new Logger("EmailCard", {
+  bgColor: "#ff99ff",
+  fgColor: "#000000",
+})
+
+const props = defineProps<{
+  email: {
+    sender: string
+    subject: string
+    preview: string
+    date: string
+    attachments: any[]
+  }
+  threadCount: number
+  bcc: boolean
+  tracker: boolean
+  event: boolean
+  demo?: boolean
+}>()
 
 // Information variables for 'EmailCard' component
 const infoThreadCount = 'Number of emails in this thread'
@@ -26,88 +47,137 @@ let isThinking = ref(false)
 const quickReply = ref<HTMLDivElement | null>(null)
 const isQuickReplyOpen = ref(false)
 const showQuickReply = () => {
+  Log.info("Opening quick reply...")
   isQuickReplyOpen.value = true
   nextTick(() => {
     if (quickReply.value) quickReply.value.focus()
   })
 }
+const savedQuickReply = ref('')
 const quickReplyText = ref('')
+let stopQuickReplyHide = false
+const hideQuickReply = () => {
+  Log.info("Closing quick reply...")
+  nextTick(() => {
+    nextTick(() => {
+      setTimeout(() => {
+        if (stopQuickReplyHide) return;
+        isQuickReplyOpen.value = false
+        savedQuickReply.value = quickReplyText.value
+      }, 200)
+    })
+  })
+}
 
 const typeQuickReply = (event: Event) => {
   quickReplyText.value = (event.target as HTMLInputElement).innerHTML
 }
 
 const quickReplyScribe = async () => {
+  stopQuickReplyHide = true
+  Log.log("Running scribe...")
   isThinking.value = true
-  quickReplyText.value = (await scribe(quickReplyText.value))?.replace(/\n/gim, "<br>") ?? quickReplyText.value
+  const prompt = quickReplyText.value
+  Log.info("Prompt:", prompt)
+  quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
+  Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
+  if (quickReply.value) quickReply.value.focus()
+  nextTick(() => stopQuickReplyHide = false)
+}
+
+const quickReplyScribeVoice = async () => {
+  stopQuickReplyHide = true
+  Log.log("Listening...")
+  const prompt = await scribeVoiceBrowser()
+  Log.log("Running scribe...")
+  isThinking.value = true
+  savedQuickReply.value = prompt
+  scribeVoiceState.value = ScribeVoiceState.Generating
+  Log.info("Prompt:", prompt)
+  quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
+  Log.success("Generated email.")
+  if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
+  isThinking.value = false
+  scribeVoiceState.value = ScribeVoiceState.Hidden
+  if (quickReply.value) quickReply.value.focus()
+  nextTick(() => stopQuickReplyHide = false)
 }
 </script>
 
 <template>
   <div :class="{
-    'qr': isQuickReplyOpen,
+    'qr': true,
     'email-card': true,
     'unread': true,
     'starred': false,
     'selected': false,
   }">
     <div class="row">
-      <div class="col-8 p0 sender">
-        Sender
-        <div class="thread-count" @mouseover="infoContent = infoThreadCount" @mouseleave="infoContent = ''">
+      <div class="col-9 p0 sender">
+        {{ email.sender }}
+        <div v-if="threadCount > 1" class="thread-count" @mouseover="infoContent = infoThreadCount"
+          @mouseleave="infoContent = ''">
           <Icon name="thread" color="normal" />
-          <span>4</span>
+          <span>{{ threadCount }}</span>
         </div>
-        <div class="attachment" @mouseover="infoContent = infoAttachment" @mouseleave="infoContent = ''">
+        <div v-if="email.attachments.length > 0" class="attachment" @mouseover="infoContent = infoAttachment"
+          @mouseleave="infoContent = ''">
           <Icon name="attachment" color="normal" />
         </div>
-        <div class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
+        <div v-if="bcc" class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
           <Icon name="bcc" color="normal" />
         </div>
-        <div class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
+        <div v-if="tracker" class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
           <Icon name="tracker" color="normal" />
         </div>
-        <div class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
+        <div v-if="event" class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
           <Icon name="calendar" color="normal" />
         </div>
       </div>
-      <div class="col-4 p0 date">
-        Time
+      <div class="col-3 p0 date">
+        {{ email.date }}
       </div>
     </div>
     <div class="subject">
-      Subject
+      {{ email.subject }}
     </div>
-    <div class="preview">
-      Hi this is a reminder that this is a preview, not the full email, but when you click on quick reply, you can
-      actually see all of it and scroll through its very nice
+    <div :class="{
+      'preview': true,
+      'long': isQuickReplyOpen
+    }">
+      {{ email.preview }}
     </div>
-    <div class="quick-reply" v-if="true">
-      <div ref="quickReply" @focusout="isQuickReplyOpen = false" contenteditable="true" :class="{
+    <div v-if="isQuickReplyOpen" class="quick-reply">
+      <div v-html="savedQuickReply" ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
-      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate"
-        autofocus>
+      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate">
       </div>
 
-      <div class="scribe" @click="quickReplyScribe" @mouseover="infoContent = infoScribe"
+      <div class="scribe" @click.stop.prevent="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
         <Icon name="scribe" color="white" /> Generate
       </div>
 
-      <div class="send" @mouseover="infoContent = infoSend" @mouseleave="infoContent = ''">
+      <div v-if="demo" class="voice" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend"
+        @mouseleave="infoContent = ''">
+        <Icon name="microphone" color="white" /> Voice
+      </div>
+
+      <div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend"
+        @mouseleave="infoContent = ''">
         <Icon name="sent" color="normal" /> Send
       </div>
     </div>
-    <div class="bottom">
+    <div v-if="!isQuickReplyOpen" class="bottom">
       <div class="quick-action">
 
 
         <!--QUICK ACTIONS BUTTONS-->
         <!--QUICK REPLY-->
-        <span @focus="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
+        <span @click.stop.prevent="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
           @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
           <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
@@ -336,22 +406,43 @@ const quickReplyScribe = async () => {
   border-bottom-left-radius: var(--primary-border-radius);
 }
 
-.qr.email-card .bottom {
-  display: none;
-}
-
 .email-card .send {
   display: inline;
   background: var(--secondary-background-color);
   border: 2px solid var(--secondary-background-color);
   width: calc(50% + 3px);
+  padding: 5px;
+  height: 30px;
+  position: absolute;
+  right: 0;
   bottom: 0;
+  margin-right: -1px;
+  margin-bottom: -1px;
+  border-bottom-right-radius: var(--primary-border-radius);
+  transition: .2s;
   font-weight: 500;
   text-align: center;
   right: 0;
   border-bottom-right-radius: var(--primary-border-radius);
   position: absolute;
   height: 27px;
+  margin-bottom: -23px;
+  color: var(--primary-font-color);
+  margin-right: -2px;
+  padding: 0 6px;
+  transition: .2s;
+}
+
+.email-card .voice {
+  width: 30px;
+  display: inline;
+  background: unset;
+  border: 1px solid var(--secondary-background-color);
+  padding: 5px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
   margin-bottom: -23px;
   color: var(--primary-font-color);
   margin-right: -2px;
@@ -395,7 +486,7 @@ const quickReplyScribe = async () => {
   width: calc(100% + 20px);
 }
 
-.email-card.qr .preview {
+.email-card .preview.long {
   overflow: scroll;
   height: fit-content;
   margin-bottom: 5px;

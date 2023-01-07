@@ -32,12 +32,14 @@ const query = async (params = {}) => {
   return data.choices[0].text as string;
 }
 
-export default async (directions: string) => {
+export default async (directions: string, context: string="") => {
 	const greeting = i18n(RosettaStone.scribe.prompt.greeting)
 	const completion = await query({
 		model: "text-davinci-003",
-		prompt: `Write an email: ${directions}\nFull Email:\n\n${greeting}`,
+		prompt: context ?
+			`In reply to:\n${context}\n\nWrite an email:\n${directions}\n\nFull Email:\n\n${greeting}`
+			: `Write an email:\n${directions}\n\nFull Email:\n\n${greeting}`,
 	})
-	return completion
+	return greeting + completion
 	// return completion.data.choices[0].text
 }

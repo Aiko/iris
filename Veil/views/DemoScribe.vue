@@ -1,13 +1,15 @@
 <script lang="ts" setup>
+import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
 import Board from "@Veil/components/Home/Board.vue"
 </script>
 
 <template>
+	<HeaderRight />
   <div class="home" v-if="true">
     <div class="boards">
 
       <!--Boards are normal unless they have 'isInbox' attribute-->
-      <Board isInbox />
+      <Board isInbox demo />
 
     </div>
   </div>
@@ -32,4 +34,16 @@ import Board from "@Veil/components/Home/Board.vue"
 .board {
 	height: fit-content !important;
 }
+.board{
+	position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.control-bar {
+	margin-top: 20% !important;
+}
+
+
 </style>

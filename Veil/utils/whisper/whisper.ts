@@ -54,6 +54,40 @@ const transcribe = (audio: Float32Array, lang=LANG): Promise<string> => new Prom
 	window.Module.transcribe_audio(instance, audio, lang, false, 1)
 })
 
+export const listenBrowser = (): Promise<string> => new Promise(async (s, _) => {
+	scribeVoiceState.value = ScribeVoiceState.Idle
+	const context = new AudioContext({
+		sampleRate: SAMPLE_RATE,
+		// @ts-ignore
+		channelCount: 1,
+		echoCancellation: false,
+		autoGainControl:  true,
+		noiseSuppression: true,
+	})
+
+	const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+	const hark = harker(stream, { play: false, interval: 100, audioContext: context })
+
+	// @ts-ignore
+	const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)()
+	recognition.continuous = false;
+	recognition.lang = 'en-US';
+	recognition.interimResults = false;
+	recognition.maxAlternatives = 1;
+	recognition.start();
+
+	recognition.onresult = (event: any) => {
+		const text = event.results[0][0].transcript
+		Log.success("Transcribed:", text)
+		hark.stop()
+		recognition.stop()
+		s(text)
+	}
+
+	hark.on("speaking", () => scribeVoiceState.value = ScribeVoiceState.Recording)
+	hark.on("stopped_speaking", () => scribeVoiceState.value = ScribeVoiceState.Transcribing)
+})
+
 export const listen = (): Promise<string> => new Promise(async (s, _) => {
 	scribeVoiceState.value = ScribeVoiceState.Idle
 	const context = new AudioContext({
@@ -117,4 +151,10 @@ export const scribeVoice = async () => {
 	const email = await scribe(prompt)
 	Log.success("Email:\n", email)
 	scribeVoiceState.value = ScribeVoiceState.Hidden
+	return email
+}
+
+export const scribeVoiceBrowser = async () => {
+	const prompt = await listenBrowser()
+	return prompt
 }
