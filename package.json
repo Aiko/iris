@@ -27,7 +27,7 @@
     "win:chiton:publish": "npx electron-forge publish",
     "veil:start": "vite",
     "win:veil:start": "npx vite",
-    "veil:make": "vite build",
+    "veil:make": "vite build; mkdir build/Veil/assets/js; cp -r Veil/assets/js/* build/Veil/assets/js/",
     "win:veil:make": "npx vite build",
     "veil:preview": "vite preview --port 4173",
     "win:veil:preview": "vite preview --port 4173",
