@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import defs from '@Veil/utils/icon-definitions'
 defineProps<{
   name?: string;
   color?: string;
@@ -6,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <img :src="'Veil/assets/icons/' + name + '.svg'" :class="color" draggable="false" />
+  <img :src="defs[name!]" :class="color" draggable="false" />
 </template>
 
 <style scoped>
