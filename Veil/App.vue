@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import Sidebar from "@Veil/components/Sidebar/Sidebar.vue"
-import Main from "@Veil/components/Base/Main.vue"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
 import { isFullScreen } from '@Veil/state/sections'
@@ -28,11 +26,7 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
   <!-- Control Bar-->
   <ControlBar v-if="!isFullScreen" />
 
-  <!--Sidebar-->
-  <Sidebar />
-
-  <!--Main content right of sidebar-->
-  <Main />
+	<router-view />
 
   <!--Modals-->
   <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">

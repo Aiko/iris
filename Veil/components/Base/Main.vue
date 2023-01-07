@@ -1,16 +1,8 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
 import Voice from "@Veil/components/Base/Voice.vue";
-import Home from "@Veil/views/Home.vue";
+import Home from "@Veil/components/Home/Home.vue";
 import { Sidebar } from "@Veil/state/sections";
-import Logger from "@Veil/services/roots";
-
-const Log = new Logger("Main", {
-  bgColor: "#ff99ff",
-  fgColor: "#000000",
-});
-
-Log.success("Mounted application.");
 </script>
 
 <template>
