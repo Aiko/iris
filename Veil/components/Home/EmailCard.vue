@@ -96,7 +96,7 @@ const quickReplyScribeVoice = async () => {
   savedQuickReply.value = prompt
   scribeVoiceState.value = ScribeVoiceState.Generating
   Log.info("Prompt:", prompt)
-  quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
+  quickReplyText.value = (await scribe(prompt, props.email.preview, props.email.sender))?.replace(/\n/gim, "<br>") ?? prompt
   Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
