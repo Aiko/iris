@@ -4,7 +4,7 @@ import Board from "@Veil/components/Home/Board.vue"
 </script>
 
 <template>
-	<HeaderRight />
+  <HeaderRight />
   <div class="home" v-if="true">
     <div class="boards">
 
@@ -32,18 +32,22 @@ import Board from "@Veil/components/Home/Board.vue"
 }
 
 .board {
-	height: fit-content !important;
+  height: fit-content !important;
+  overflow: visible;
+  padding-bottom: 30px;
+  border-radius: var(--primary-border-radius) !important;
 }
-.board{
-	position: absolute;
+
+
+
+.board {
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .control-bar {
-	margin-top: 20% !important;
+  margin-top: 20% !important;
 }
-
-
 </style>

@@ -110,6 +110,7 @@ const quickReplyScribeVoice = async () => {
   <div :class="{
     'qr': true,
     'email-card': true,
+    'democard': demo,
     'unread': true,
     'starred': false,
     'selected': false,
@@ -161,9 +162,9 @@ const quickReplyScribeVoice = async () => {
         <Icon name="scribe" color="white" /> Generate
       </div>
 
-      <div v-if="demo" class="voice" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend"
+      <div v-if="demo" class="send" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="microphone" color="white" /> Voice
+        <Icon name="microphone" color="normal" /> Voice
       </div>
 
       <div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend"
@@ -431,6 +432,10 @@ const quickReplyScribeVoice = async () => {
   margin-right: -2px;
   padding: 0 6px;
   transition: .2s;
+}
+
+.democard {
+  margin-bottom: 22px;
 }
 
 .email-card .voice {
