@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import Icon from "@Veil/components/Base/Icon.vue"
 import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
 import Board from "@Veil/components/Home/Board.vue"
 </script>
@@ -10,6 +11,24 @@ import Board from "@Veil/components/Home/Board.vue"
 
       <!--Boards are normal unless they have 'isInbox' attribute-->
       <Board isInbox demo />
+      <div class="instructions">
+        <h2>How it works</h2>
+        <p> Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
+          Reply'.<br> --> Start by clicking <i>'Quick Reply'</i><br>
+          ---->
+          <Icon name="microphone" color="blue" /> Click this and use it as an assistant. <i>Example: "tell John I
+            can't
+            come
+            tomorrow, can we move to next week"</i>
+          <br>
+          ---->
+          <Icon name="scribe" color="blue" /> Type a few lines such as <i>"cant come, can move to tomorrow?"</i> and
+          click it to let the
+          assistant do the rest.
+        </p>
+
+      </div>
+
 
     </div>
   </div>
@@ -23,6 +42,27 @@ import Board from "@Veil/components/Home/Board.vue"
   height: calc(100% - 50px);
   padding-left: 20px;
   display: inline-flex;
+}
+
+.instructions p {
+  font-size: 15px;
+}
+
+img {
+  width: 20px;
+
+}
+
+i {
+  color: var(--strong-font-color) !important;
+}
+
+.instructions {
+  bottom: 0;
+  position: absolute;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .home .boards {
