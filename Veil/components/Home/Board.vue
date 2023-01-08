@@ -35,6 +35,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
     'board': true,
     [size]: true
   }">
+    <div class="small-board-click-area" @click="size = 'large'"></div>
     <div class="board-header">
       <div class="acont">
         <a v-if="isInbox" @click="showBoardMenu = true">
@@ -480,8 +481,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 }
 
 .small .board-width-picker {
-  margin-top: -40px;
-  margin-left: -25px;
+  display: none;
 }
 
 .small .board-width-trigger:hover {
@@ -523,13 +523,6 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   margin-left: 3px;
 }
 
-.thinnest .board-width-picker {
-  position: absolute;
-  z-index: 100;
-  margin-left: -10px;
-  writing-mode: horizontal-tb;
-}
-
 .hoverzone:hover+.board-header {
   background: #f8f9fade !important;
   transition: .2s;
@@ -551,5 +544,20 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   height: fit-content;
   transition: unset !important;
   visibility: hidden;
+}
+
+.small-board-click-area {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.small .small-board-click-area {
+  display: unset;
 }
 </style>
