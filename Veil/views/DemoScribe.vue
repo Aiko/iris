@@ -2,6 +2,15 @@
 import Icon from "@Veil/components/Base/Icon.vue"
 import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
 import Board from "@Veil/components/Home/Board.vue"
+import { INBOX } from "@Veil/state/notional";
+
+const isMobile = window.innerWidth < 600
+if (isMobile) {
+	// @ts-ignore
+	document.body.style.zoom = "1.3"
+	document.body.style.overflow = 'hidden'
+}
+
 </script>
 
 <template>
@@ -10,8 +19,8 @@ import Board from "@Veil/components/Home/Board.vue"
     <div class="boards">
 
       <!--Boards are normal unless they have 'isInbox' attribute-->
-      <Board isInbox demo />
-      <div class="instructions">
+      <Board isInbox demo :board="INBOX" />
+      <div class="instructions" v-if="!isMobile">
         <h2>How it works</h2>
         <p> Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
           Reply'.<br> --> Start by clicking <i>'Quick Reply'</i><br>
@@ -26,8 +35,10 @@ import Board from "@Veil/components/Home/Board.vue"
           click it to let the
           assistant do the rest.
         </p>
-
       </div>
+			<div v-if="isMobile">
+				<p>Click "Quick Reply" to try out Aiko Scribe.</p>
+			</div>
 
 
     </div>

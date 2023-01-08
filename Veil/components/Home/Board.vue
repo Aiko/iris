@@ -1,20 +1,28 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue'
+import { Sortable } from "sortablejs-vue3";
+import type SortableJS from "sortablejs";
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 import Empty from "@Veil/components/Home/Empty.vue"
 import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
 import Loader from '@Veil/components/Base/Loader.vue'
+import { resolveEmail, } from '@Veil/state/notional'
+import Logger from '@Veil/services/roots'
+const Log = new Logger('Board')
 
 defineProps<{
   isInbox?: boolean
 	demo?: boolean
+	board?: {
+		name: string
+		emails: {mid: string}[]
+	}
 }>()
 
-const numEmails = 1
-
-const showBoardDots = ref(false)
+const showBoardMenu = ref(false)
+const size = ref('large')
 
 // Information variables for 'Board' component
 const infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
@@ -22,12 +30,14 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 </script>
 
 <template>
-  <!--TODO: Add small medium large to 'board' based on width option -->
   <!--TODO: loading to 'board' based on if loading -->
-  <div class="board">
+  <div :class="{
+		'board': true,
+		[size]: true
+	}">
     <div class="board-header">
       <div class="acont">
-        <a v-if="isInbox" @click="showBoardDots = true">
+        <a v-if="isInbox" @click="showBoardMenu = true">
           <Icon name="dots" color="normal" class="t8" />
         </a>
         <a v-if="isInbox">
@@ -37,15 +47,15 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
       <h1 v-if="!isInbox" class="board-width-trigger">
         <div class="board-width-picker">
-          <div>S</div>
-          <div>M</div>
-          <div>L</div>
+          <div @click="size = 'small'">S</div>
+          <div @click="size = 'medium'">M</div>
+          <div @click="size = 'large'">L</div>
         </div>
-        Title
+        {{board?.name ?? "New Board"}} {{board?.emails.length}}
       </h1>
 
 
-      <div class="options" v-if="showBoardDots" tabindex="0" ref="options" @focusout="showBoardDots = false" autofocus>
+      <div class="options" v-if="showBoardMenu" tabindex="0" ref="options" @focusout="showBoardMenu = false" autofocus>
         <div class="option" v-if="isInbox">
           <p>Manage board rules</p>
           <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules"
@@ -80,38 +90,44 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
         </div>
       </div>
     </div>
-    <div class="board-body">
 
 
+		<div class="board-body">
 
-      <EmailCard
-				:email="{
-					sender: 'John Smith',
-					date: '1:23 PM',
-					subject: 'Deck Review',
-					preview: 'It would be great to get time to review the client deck. Does 3:30PM work for you?',
-					attachments: ['deck.pdf'],
+			<Sortable
+				:list="board?.emails ?? []"
+				item-key="mid"
+				tag="div"
+				style="min-height: 100%;"
+				:options="{
+					draggable: '.email-card',
+					ghostClass: 'ghost',
+					group: {name: 'emails'},
+					dragHandle: '.email-card',
 				}"
-				:thread-count="1"
-				:bcc="true"
-				:tracker="false"
-				:event="false"
-				:demo="demo"
-			/>
-
-
-      <Empty v-if="numEmails == 0">
-        <Icon name="drag" color="normal" />
-        <p class="mt-2">Drag emails here</p>
-      </Empty>
-
-
-      <Empty v-if="false">
-        <Loader class="mt-4" />
-        <p class="mb-2 mt-2">Loading more emails</p>
-        <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
-      </Empty>
-
+				@end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
+				@move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }"
+			>
+				<template #item="{element, index}">
+					<EmailCard
+						v-if="resolveEmail(element.mid)"
+						:key="element.mid"
+						:email="resolveEmail(element.mid)"
+						:demo="demo"
+					/>
+				</template>
+				<template #footer>
+					<Empty v-if="!isInbox && (board?.emails ?? []).length == 0">
+						<Icon name="drag" color="normal" />
+						<p class="mt-2">Drag emails here</p>
+					</Empty>
+					<Empty v-if="isInbox == true && !demo">
+						<Loader class="mt-4" />
+						<p class="mb-2 mt-2">Loading more emails</p>
+						<ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
+					</Empty>
+				</template>
+			</Sortable>
 
     </div>
   </div>
@@ -539,4 +555,12 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   z-index: 4;
   top: 0;
 }
+
+.email-card.ghost, .email-card.cloned {
+  opacity: 0;
+  height: fit-content;
+  transition: unset !important;
+  visibility: hidden;
+}
+
 </style>

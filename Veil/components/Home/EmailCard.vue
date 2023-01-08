@@ -12,17 +12,17 @@ const Log = new Logger("EmailCard", {
 })
 
 const props = defineProps<{
-  email: {
+  email?: {
     sender: string
     subject: string
     preview: string
     date: string
     attachments: any[]
+		threadCount: number
+		bcc: boolean
+		tracker: boolean
+		event: boolean
   }
-  threadCount: number
-  bcc: boolean
-  tracker: boolean
-  event: boolean
   demo?: boolean
 }>()
 
@@ -79,7 +79,7 @@ const quickReplyScribe = async () => {
   isThinking.value = true
   const prompt = quickReplyText.value
   Log.info("Prompt:", prompt)
-  quickReplyText.value = (await scribe(prompt, props.email.preview))?.replace(/\n/gim, "<br>") ?? prompt
+  quickReplyText.value = (await scribe(prompt, props.email!.preview))?.replace(/\n/gim, "<br>") ?? prompt
   Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
@@ -96,7 +96,7 @@ const quickReplyScribeVoice = async () => {
   savedQuickReply.value = prompt
   scribeVoiceState.value = ScribeVoiceState.Generating
   Log.info("Prompt:", prompt)
-  quickReplyText.value = (await scribe(prompt, props.email.preview, props.email.sender))?.replace(/\n/gim, "<br>") ?? prompt
+  quickReplyText.value = (await scribe(prompt, props.email!.preview, props.email!.sender))?.replace(/\n/gim, "<br>") ?? prompt
   Log.success("Generated email.")
   if (quickReply.value) quickReply.value.innerHTML = quickReplyText.value
   isThinking.value = false
@@ -107,7 +107,7 @@ const quickReplyScribeVoice = async () => {
 </script>
 
 <template>
-  <div :class="{
+  <div v-if="email" :class="{
     'qr': true,
     'email-card': true,
     'democard': demo,
@@ -118,22 +118,22 @@ const quickReplyScribeVoice = async () => {
     <div class="row">
       <div class="col-9 p0 sender">
         {{ email.sender }}
-        <div v-if="threadCount > 1" class="thread-count" @mouseover="infoContent = infoThreadCount"
+        <div v-if="email.threadCount > 1" class="thread-count" @mouseover="infoContent = infoThreadCount"
           @mouseleave="infoContent = ''">
           <Icon name="thread" color="normal" />
-          <span>{{ threadCount }}</span>
+          <span>{{ email.threadCount }}</span>
         </div>
         <div v-if="email.attachments.length > 0" class="attachment" @mouseover="infoContent = infoAttachment"
           @mouseleave="infoContent = ''">
           <Icon name="attachment" color="normal" />
         </div>
-        <div v-if="bcc" class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
+        <div v-if="email.bcc" class="bcc" @mouseover="infoContent = infoBCC" @mouseleave="infoContent = ''">
           <Icon name="bcc" color="normal" />
         </div>
-        <div v-if="tracker" class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
+        <div v-if="email.tracker" class="tracker" @mouseover="infoContent = infoTracker" @mouseleave="infoContent = ''">
           <Icon name="tracker" color="normal" />
         </div>
-        <div v-if="event" class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
+        <div v-if="email.event" class="event" @mouseover="infoContent = infoEvent" @mouseleave="infoContent = ''">
           <Icon name="calendar" color="normal" />
         </div>
       </div>
