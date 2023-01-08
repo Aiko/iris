@@ -108,7 +108,7 @@ const quickReplyScribeVoice = async () => {
 
 <template>
   <div v-if="email" :class="{
-    'qr': isQuickReplyOpen,
+    'qr': true,
     'email-card': true,
     'democard': demo,
     'unread': true,
@@ -150,7 +150,7 @@ const quickReplyScribeVoice = async () => {
     }">
       {{ email.preview }}
     </div>
-    <div v-if="isQuickReplyOpen" class="quick-reply">
+    <div class="quick-reply">
       <div v-html="savedQuickReply" ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
@@ -172,7 +172,7 @@ const quickReplyScribeVoice = async () => {
         <Icon name="sent" color="normal" /> <span class="label">Send</span>
       </div>
     </div>
-    <div v-if="!isQuickReplyOpen" class="bottom">
+    <div class="bottom">
       <div class="quick-action">
 
 
@@ -418,9 +418,8 @@ const quickReplyScribeVoice = async () => {
 .email-card .send {
   display: inline;
   background: var(--secondary-background-color);
-  border: 2px solid var(--secondary-background-color);
   width: calc(50% + 3px);
-  padding: 5px;
+  padding: 2px 6px !important;
   height: 30px;
   position: absolute;
   right: 0;
@@ -450,8 +449,7 @@ const quickReplyScribeVoice = async () => {
   width: 30px;
   display: inline;
   background: unset;
-  border: 1px solid var(--secondary-background-color);
-  padding: 5px;
+  padding: 6px;
   height: 30px;
   position: absolute;
   right: 0;
@@ -465,12 +463,12 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .scribe {
   display: inline;
-  padding: 0 6px;
+  padding: 2px 6px;
   text-align: center;
+  height: 30px;
   font-weight: 500;
   color: #fff;
   background: var(--primary-color);
-  border: 2px solid var(--secondary-background-color);
   width: calc(50% + 3px);
   bottom: 0;
   left: 0;
@@ -511,6 +509,9 @@ const quickReplyScribeVoice = async () => {
   transition: .2s;
 }
 
+.qr .bottom {
+  display: none;
+}
 
 .email-card .actions {
   text-align: right;
