@@ -108,7 +108,7 @@ const quickReplyScribeVoice = async () => {
 
 <template>
   <div v-if="email" :class="{
-    'qr': true,
+    'qr': isQuickReplyOpen,
     'email-card': true,
     'democard': demo,
     'unread': true,
