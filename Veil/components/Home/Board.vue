@@ -52,7 +52,10 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
           <div @click="size = 'medium'">M</div>
           <div @click="size = 'large'">L</div>
         </div>
-        {{ board?.name ?? "New Board"}} {{ board?.emails.length }}
+        {{ board?.name ?? "New Board"}}
+        <div class="count count2">
+          {{ board?.emails.length }}
+        </div>
       </h1>
 
 
@@ -241,7 +244,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   padding: 20px 15px 10px 15px;
   text-overflow: ellipsis;
   max-width: calc(100% - 45px);
-  position: relative;
+
+}
+
+.small .board-header h1 {
+  position: unset;
 }
 
 .board-header img {
@@ -470,8 +477,6 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   z-index: 6;
 }
 
-
-
 .board-width-trigger:hover .board-width-picker {
   visibility: visible;
 }
@@ -555,6 +560,24 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   left: 0;
   z-index: 100;
   cursor: pointer;
+}
+
+.count2 {
+  max-width: 30px;
+  display: inline-block;
+  height: 20px;
+  padding: 2px 6px;
+}
+
+.small .count2 {
+  transform: rotate(270deg);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  right: 0;
+  margin-bottom: 5px;
+  height: 25px;
+
 }
 
 .small .small-board-click-area {
