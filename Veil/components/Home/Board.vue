@@ -14,11 +14,11 @@ const Log = new Logger('Board')
 
 defineProps<{
   isInbox?: boolean
-	demo?: boolean
-	board?: {
-		name: string
-		emails: {mid: string}[]
-	}
+  demo?: boolean
+  board?: {
+    name: string
+    emails: { mid: string }[]
+  }
 }>()
 
 const showBoardMenu = ref(false)
@@ -32,9 +32,9 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 <template>
   <!--TODO: loading to 'board' based on if loading -->
   <div :class="{
-		'board': true,
-		[size]: true
-	}">
+    'board': true,
+    [size]: true
+  }">
     <div class="board-header">
       <div class="acont">
         <a v-if="isInbox" @click="showBoardMenu = true">
@@ -51,7 +51,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
           <div @click="size = 'medium'">M</div>
           <div @click="size = 'large'">L</div>
         </div>
-        {{board?.name ?? "New Board"}} {{board?.emails.length}}
+        {{ board?.name ?? "New Board"}} {{ board?.emails.length }}
       </h1>
 
 
@@ -92,42 +92,31 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
     </div>
 
 
-		<div class="board-body">
+    <div class="board-body">
 
-			<Sortable
-				:list="board?.emails ?? []"
-				item-key="mid"
-				tag="div"
-				style="min-height: 100%;"
-				:options="{
-					draggable: '.email-card',
-					ghostClass: 'ghost',
-					group: {name: 'emails'},
-					dragHandle: '.email-card',
-				}"
-				@end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
-				@move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }"
-			>
-				<template #item="{element, index}">
-					<EmailCard
-						v-if="resolveEmail(element.mid)"
-						:key="element.mid"
-						:email="resolveEmail(element.mid)"
-						:demo="demo"
-					/>
-				</template>
-				<template #footer>
-					<Empty v-if="!isInbox && (board?.emails ?? []).length == 0">
-						<Icon name="drag" color="normal" />
-						<p class="mt-2">Drag emails here</p>
-					</Empty>
-					<Empty v-if="isInbox == true && !demo">
-						<Loader class="mt-4" />
-						<p class="mb-2 mt-2">Loading more emails</p>
-						<ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
-					</Empty>
-				</template>
-			</Sortable>
+      <Sortable :list="board?.emails ?? []" item-key="mid" tag="div" style="min-height: 100%;" :options="{
+        draggable: '.email-card',
+        ghostClass: 'ghost',
+        group: { name: 'emails' },
+        dragHandle: '.email-card',
+      }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
+        @move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }">
+        <template #item="{ element, index }">
+          <EmailCard v-if="resolveEmail(element.mid)" :key="element.mid" :email="resolveEmail(element.mid)"
+            :demo="demo" />
+        </template>
+        <template #footer>
+          <Empty v-if="!isInbox && (board?.emails ?? []).length == 0">
+            <Icon name="drag" color="normal" />
+            <p class="mt-2">Drag emails here</p>
+          </Empty>
+          <Empty v-if="isInbox == true && !demo">
+            <Loader class="mt-4" />
+            <p class="mb-2 mt-2">Loading more emails</p>
+            <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
+          </Empty>
+        </template>
+      </Sortable>
 
     </div>
   </div>
@@ -556,11 +545,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   top: 0;
 }
 
-.email-card.ghost, .email-card.cloned {
+.email-card.ghost,
+.email-card.cloned {
   opacity: 0;
   height: fit-content;
   transition: unset !important;
   visibility: hidden;
 }
-
 </style>

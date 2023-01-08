@@ -233,7 +233,7 @@ const quickReplyScribeVoice = async () => {
   margin-bottom: 15px;
   width: 100%;
   background: var(--secondary-background-color);
-  padding: 8px 10px 0 10px;
+  padding: 6px 6px 0 6px;
   overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
@@ -249,7 +249,7 @@ const quickReplyScribeVoice = async () => {
 
 .unread {
   border-left: 3px solid var(--primary-color);
-  padding: 8px 10px 0 7px;
+  padding: 6px 6px 0 6px;
   transition: .2s;
 }
 
