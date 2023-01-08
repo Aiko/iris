@@ -5,7 +5,7 @@ import LottieAnimation from "lottie-web-vue";
 import '@Veil/assets/css/base.css'
 
 // force https
-if (location.protocol !== 'https:') {
+if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
 	location.replace(`https:${location.href.substring(location.protocol.length)}`)
 }
 

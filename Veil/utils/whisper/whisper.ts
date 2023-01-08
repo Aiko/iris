@@ -28,7 +28,8 @@ model_loader.onload = _ => {
 	instance = Module.init("whisper.bin") as WebAssembly.Instance
 }
 ;(async () => {
-	model_loader.readAsArrayBuffer(new Blob([await (await fetch(MODEL_FN)).arrayBuffer()]))
+	// @ts-ignore
+	if (window.Module) model_loader.readAsArrayBuffer(new Blob([await (await fetch(MODEL_FN)).arrayBuffer()]))
 })();
 
 export enum ScribeVoiceState {
