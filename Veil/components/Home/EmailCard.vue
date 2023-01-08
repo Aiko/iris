@@ -18,10 +18,10 @@ const props = defineProps<{
     preview: string
     date: string
     attachments: any[]
-		threadCount: number
-		bcc: boolean
-		tracker: boolean
-		event: boolean
+    threadCount: number
+    bcc: boolean
+    tracker: boolean
+    event: boolean
   }
   demo?: boolean
 }>()
@@ -108,7 +108,7 @@ const quickReplyScribeVoice = async () => {
 
 <template>
   <div v-if="email" :class="{
-    'qr': true,
+    'qr': isQuickReplyOpen,
     'email-card': true,
     'democard': demo,
     'unread': true,
@@ -159,17 +159,17 @@ const quickReplyScribeVoice = async () => {
 
       <div class="scribe" @click.stop.prevent="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
-        <Icon name="scribe" color="white" /> Generate
+        <Icon name="scribe" color="white" /> <span class="label">Generate</span>
       </div>
 
       <div v-if="demo" class="send" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="microphone" color="normal" /> Voice
+        <Icon name="microphone" color="normal" /> <span class="label">Voice</span>
       </div>
 
       <div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="sent" color="normal" /> Send
+        <Icon name="sent" color="normal" /> <span class="label">Send</span>
       </div>
     </div>
     <div v-if="!isQuickReplyOpen" class="bottom">
@@ -284,6 +284,9 @@ const quickReplyScribeVoice = async () => {
   display: inline-flex;
 }
 
+.medium .label {
+  display: none;
+}
 
 .email-card .date {
   color: var(--primary-font-color);
@@ -388,12 +391,17 @@ const quickReplyScribeVoice = async () => {
 }
 
 .medium .email-card.qr .quick-reply {
-  width: calc(100% + 16px);
+  width: calc(100% + 20px);
+  min-height: 129px;
+}
+
+.qr.email-card {
+  padding: 8px 10px 20px 7px !important;
 }
 
 .email-card .quick-reply .textarea {
   background: transparent;
-  width: calc(100% - 25px);
+  width: 100%;
   resize: none;
   min-height: 62px;
   cursor: text !important;
