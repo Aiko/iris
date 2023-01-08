@@ -234,7 +234,7 @@ const quickReplyScribeVoice = async () => {
   width: 100%;
   background: var(--secondary-background-color);
   padding: 8px 10px 0 10px;
-  overflow: visible;
+  overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
   transition: .2s;
@@ -396,7 +396,7 @@ const quickReplyScribeVoice = async () => {
 }
 
 .qr.email-card {
-  padding: 8px 10px 20px 7px !important;
+  padding: 6px 6px 20px 6px !important;
 }
 
 .email-card .quick-reply .textarea {
