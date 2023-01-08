@@ -14,23 +14,16 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
 
       <Board isInbox :board="INBOX" />
 
-			<Sortable
-				v-if="!isRegularView"
-				tag="div"
-				style="display: inline-flex;"
-				:list="boards"
-				item-key="slug"
-				:options="{
-					draggable: '.board',
-					dragHandle: '.board-drag-handle',
-					ghostClass: 'ghost',
-					group: {name: 'boards'},
-				}"
-			>
-				<template #item="{element, index}">
-					<Board :board="resolveBoard(element.slug)" />
-				</template>
-			</Sortable>
+      <Sortable v-if="!isRegularView" tag="div" style="display: inline-flex;" :list="boards" item-key="slug" :options="{
+        draggable: '.board',
+        dragHandle: '.board-drag-handle',
+        ghostClass: 'ghost',
+        group: { name: 'boards' },
+      }">
+        <template #item="{ element, index }">
+          <Board :board="resolveBoard(element.slug)" />
+        </template>
+      </Sortable>
 
       <AddBoard v-if="!isRegularView" @click="selectedModal = Modal.AddBoard" />
       <SideEmail v-if="isRegularView" />
@@ -50,15 +43,15 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
 }
 
 .home .boards {
-  overflow-x: visible;
-  overflow-y: hidden;
+  overflow: visible;
   display: inline-flex;
   padding-right: 20px;
   margin-top: -10px;
   padding-top: 10px;
 }
 
-.board.ghost, .board.cloned {
+.board.ghost,
+.board.cloned {
   opacity: 0;
   width: 300px;
   visibility: hidden;
