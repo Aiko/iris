@@ -48,6 +48,7 @@ import unsubscribe from "@Veil/assets/icons/unsubscribe.svg"
 import user from "@Veil/assets/icons/user.svg"
 import x from "@Veil/assets/icons/x.svg"
 import zap from "@Veil/assets/icons/zap.svg"
+import logo from "@Veil/assets/icons/logo.svg"
 
 export default {
 	"archive": archive,
@@ -100,4 +101,5 @@ export default {
 	"user": user,
 	"x": x,
 	"zap": zap,
+	"logo": logo,
 } as { [name: string]: any }
