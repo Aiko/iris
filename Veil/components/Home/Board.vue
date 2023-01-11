@@ -12,7 +12,7 @@ import { resolveEmail, } from '@Veil/state/notional'
 import Logger from '@Veil/services/roots'
 const Log = new Logger('Board')
 
-defineProps<{
+const props = defineProps<{
   isInbox?: boolean
   demo?: boolean
   board?: {
@@ -20,6 +20,8 @@ defineProps<{
     emails: { mid: string }[]
   }
 }>()
+
+if (props.demo && props.board) props.board.emails = [props.board.emails[0]]
 
 const showBoardMenu = ref(false)
 const size = ref('large')

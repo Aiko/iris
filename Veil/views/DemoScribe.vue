@@ -5,9 +5,9 @@ import Board from "@Veil/components/Home/Board.vue"
 import { INBOX } from "@Veil/state/notional";
 
 const isMobile = window.innerWidth < 600
+// @ts-ignore
+document.body.style.zoom = "1.3"
 if (isMobile) {
-  // @ts-ignore
-  document.body.style.zoom = "1.3"
   document.body.style.overflow = 'hidden'
 }
 
