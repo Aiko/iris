@@ -430,10 +430,7 @@ const quickReplyScribeVoice = async () => {
   transition: .2s;
   font-weight: 500;
   text-align: center;
-  right: 0;
-  border-bottom-right-radius: var(--primary-border-radius);
   position: absolute;
-  height: 27px;
   margin-bottom: -23px;
   color: var(--primary-font-color);
   margin-right: -2px;
@@ -474,11 +471,12 @@ const quickReplyScribeVoice = async () => {
   left: 0;
   border-bottom-left-radius: var(--primary-border-radius);
   position: absolute;
-  height: 27px;
   margin-bottom: -23px;
   margin-left: -2px;
   transition: .2s;
 }
+
+
 
 .email-card .send img {
   width: 17px;

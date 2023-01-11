@@ -39,7 +39,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   }">
     <div class="small-board-click-area" @click="size = 'large'"></div>
     <div class="board-header">
-      <div class="acont">
+      <div class="acont" v-if="!demo">
         <a v-if="isInbox" @click="showBoardMenu = true">
           <Icon name="dots" color="normal" class="t8" />
         </a>
@@ -81,7 +81,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 
 
-      <div class="switch" v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
+      <div :class="{
+        'switch': true,
+        'demoswitch': demo
+      }
+      " v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
           Priority
           <div class="count">
@@ -174,6 +178,12 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 
 .medium {
   width: 150px;
+}
+
+.demoswitch {
+  left: 0 !important;
+  right: unset !important;
+  margin-left: 10px;
 }
 
 .medium .email-card {
