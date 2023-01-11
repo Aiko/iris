@@ -26,9 +26,9 @@ if (isMobile) {
           <p>Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
             Reply'.</p><br>
           <p class="ml-3">
-            <Icon name="arrow-big-right" color="white" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
+            <Icon name="arrow-big-right" color="blue" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
 
-            <Icon name="arrow-big-right" color="white" class="arrow" />
+            <Icon name="arrow-big-right" color="blue" class="arrow" />
             Type a few lines such as <i>"cant come, can move to tomorrow?"</i> and
             click on the
             <Icon name="scribe" color="blue" /> button to let the
