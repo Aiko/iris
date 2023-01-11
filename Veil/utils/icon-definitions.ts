@@ -49,6 +49,7 @@ import user from "@Veil/assets/icons/user.svg"
 import x from "@Veil/assets/icons/x.svg"
 import zap from "@Veil/assets/icons/zap.svg"
 import logo from "@Veil/assets/icons/logo.svg"
+import arrowbigright from "@Veil/assets/icons/arrow-big-right.svg"
 
 export default {
 	"archive": archive,
@@ -102,4 +103,5 @@ export default {
 	"x": x,
 	"zap": zap,
 	"logo": logo,
+	"arrow-big-right": arrowbigright,
 } as { [name: string]: any }

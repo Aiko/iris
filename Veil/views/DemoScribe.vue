@@ -14,36 +14,42 @@ if (isMobile) {
 </script>
 
 <template>
+  <a href="https://aikomail.com">
+    <Icon name="logo" color="blue" class="logo" />
+  </a>
   <HeaderRight />
-
   <div class="container mt-5">
-    <div class="row">
-      <div class="col-md-6">
+    <div class="row row1">
+      <div class="col-lg-6">
         <div class="instructions">
-          <Icon name="logo" color="blue" class="logo" />
-          <h3>Scribe Demo: How it works</h3>
-          <p> Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
-            Reply'.<br><br> --> Start by clicking <i>'Quick Reply'</i><br><br>
+          <h2>Feature Demo: Scribe (Quick Reply)</h2>
+          <p>Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
+            Reply'.</p><br>
+          <p class="ml-3">
+            <Icon name="arrow-big-right" color="white" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
 
-            -->
-            <Icon name="scribe" color="blue" /> Type a few lines such as <i>"cant come, can move to tomorrow?"</i> and
-            click on the brain button to let the
+            <Icon name="arrow-big-right" color="white" class="arrow" />
+            Type a few lines such as <i>"cant come, can move to tomorrow?"</i> and
+            click on the
+            <Icon name="scribe" color="blue" /> button to let the
             assistant do the rest.
             <br><br>
-            -->
-            <Icon name="microphone" color="blue" /> Click the microphone and use it as an assistant. <i>Example: "tell
+
+            Don't feel like typing? You can also click the
+            <Icon name="microphone" color="blue" /> button and use it as an assistant. For example: <i>"tell
               John I
               can't
               come
               tomorrow, can we move to next week"</i>
-
-
           </p>
         </div>
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <Board isInbox demo :board="INBOX" />
       </div>
+    </div>
+    <div class="row copy">
+      <p>© 2023 Aiko Mail Inc. All Rights Reserved. <i>Do not share.</i></p>
     </div>
   </div>
 
@@ -51,6 +57,14 @@ if (isMobile) {
 </template>
 
 <style scoped>
+h2 {
+  font-size: 22px;
+}
+
+.acont {
+  display: none;
+}
+
 .instructions p {
   font-size: 15px;
 }
@@ -60,10 +74,24 @@ if (isMobile) {
 
 }
 
+.copy {
+  text-align: center;
+}
+
+.copy p {
+  margin: auto;
+}
+
+.arrow {
+  margin-right: 5px;
+}
+
 .logo {
-  width: 100% !important;
-  max-width: 150px !important;
-  margin-bottom: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 30px;
+  max-width: 100px !important;
 }
 
 i {
@@ -74,45 +102,58 @@ i {
   text-align: left;
   width: 100%;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 20px;
   max-width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
+  margin-top: -30px;
   transform: translate(-50%, -50%);
 }
 
 .col-md-6,
-.row {
+.row1 {
   position: relative;
-  height: 100%;
+  height: calc(100% - 40px);
   margin-top: 5px;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
 
   .col-md-6,
   .row {
     height: unset;
   }
 
+
   .board,
   .instructions {
-    position: relative;
-    height: fit-content;
+    position: relative !important;
+    top: unset !important;
+    left: unset !important;
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    transform: unset !important;
+    margin-right: auto !important;
+  }
+
+  .mt-5 {
+    margin-top: 0 !important;
   }
 }
 
 .board {
   height: fit-content !important;
   overflow: visible;
-  padding-bottom: 30px;
   border-radius: var(--primary-border-radius) !important;
   overflow: hidden;
   margin-right: 0;
   position: absolute;
+  margin-top: -30px;
   left: 50%;
-  transform: translate(-50%, 0%);
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .control-bar {
