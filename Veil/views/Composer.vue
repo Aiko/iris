@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ref } from '@vue/reactivity'
 import ComposerField from '@Veil/components/Composer/ComposerField.vue';
 import ComposerBody from '@Veil/components/Composer/ComposerBody.vue';
 import ComposerOptions from '@Veil/components/Composer/ComposerOptions.vue';
@@ -7,8 +8,10 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import { isComposerSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 
+let isComposerBCCActive = ref(false);
 
 const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isComposerSidebarCollapsed.value)
+const toggleComposerBCC = () => isComposerBCCActive.value = !(isComposerBCCActive.value)
 
 </script>
 
@@ -18,13 +21,26 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
     'collapsed': isComposerSidebarCollapsed,
   }">
     <div class="left">
+
+
+
       <ComposerField placeholder="To" />
+
       <ComposerField placeholder="CC" />
-      <ComposerField placeholder="BCC" />
-      <ComposerField placeholder="From" />
+      <ButtonSecondary class="extra-btn" @click="toggleComposerBCC">BCC</ButtonSecondary>
+
+      <!-- TODO: This only shows and hides the field an does not remove the email addresses from the BCC and from being sent -->
+      <ComposerField placeholder="BCC" v-if="isComposerBCCActive" />
+
+      <!-- TODO: Only show 'From' field if they have multiple mailboxes -->
+      <ComposerField placeholder="From" v-if="false" />
+
       <ComposerField placeholder="Subject" />
+
       <ComposerBody />
+
       <ComposerOptions />
+
       <div class="bottom">
         <ButtonPrimary class="send-btn">
           <Icon name="sent" color="white" />
@@ -49,7 +65,9 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
           <Icon name="zoom" class="zoom" />
         </ButtonSecondary>
       </div>
+
     </div>
+
     <div class="right">
       <p class="collapse-info open" @click="toggleComposerSidebar()">
         <Icon name="sidebar-collapse" color="grey" /> Show Templates and Attachments
@@ -169,5 +187,14 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 
 .send-btn {
   font-weight: 500;
+}
+
+.extra-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 52px;
+  margin-right: 6px;
+  user-select: none;
 }
 </style>

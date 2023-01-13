@@ -26,6 +26,7 @@ const props = defineProps<{
 <style scoped>
 .composer-field {
   width: 100%;
+  position: relative;
 }
 
 input {

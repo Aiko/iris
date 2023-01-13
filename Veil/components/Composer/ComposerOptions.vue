@@ -1,10 +1,24 @@
 <script lang="ts" setup>
+import { ref } from '@vue/reactivity'
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
-import Icon from "../Base/Icon.vue";
+import Icon from "@Veil/components/Base/Icon.vue";
+
+enum Option {
+  Align,
+  List,
+  Color,
+  None,
+}
+
+let selectedOption = ref(Option.None)
+
 </script>
 
 <template>
   <div class="composer-options">
+
+
+    <!--All Options-->
     <ButtonSecondary active>
       <Icon name="bold" color="normal" />
     </ButtonSecondary>
@@ -14,13 +28,13 @@ import Icon from "../Base/Icon.vue";
     <ButtonSecondary>
       <Icon name="underline" color="normal" />
     </ButtonSecondary>
-    <ButtonSecondary>
+    <ButtonSecondary @click="selectedOption = Option.Color">
       <Icon name="text-color" color="normal" />
     </ButtonSecondary>
-    <ButtonSecondary>
+    <ButtonSecondary @click="selectedOption = Option.Align">
       <Icon name="align-left" color="normal" />
     </ButtonSecondary>
-    <ButtonSecondary>
+    <ButtonSecondary @click="selectedOption = Option.List">
       <Icon name="list-numbers" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
@@ -29,6 +43,50 @@ import Icon from "../Base/Icon.vue";
     <ButtonSecondary>
       <Icon name="code" color="normal" />
     </ButtonSecondary>
+
+
+
+
+
+
+    <!--Color Options-->
+    <div class="expanded" v-if="selectedOption == Option.Color" @click="selectedOption = Option.None">
+      <span>Select font color</span>
+      <ButtonSecondary class="square white"></ButtonSecondary>
+      <ButtonSecondary class="square black"></ButtonSecondary>
+      <ButtonSecondary class="square blue"></ButtonSecondary>
+      <ButtonSecondary class="square red"></ButtonSecondary>
+      <ButtonSecondary class="square green"></ButtonSecondary>
+    </div>
+
+    <!--Align Options-->
+    <div class="expanded" v-if="selectedOption == Option.Align" @click="selectedOption = Option.None">
+      <span>Select alignment</span>
+      <ButtonSecondary>
+        <Icon name="align-left" color="normal" />
+      </ButtonSecondary>
+      <ButtonSecondary>
+        <Icon name="align-center" color="normal" />
+      </ButtonSecondary>
+      <ButtonSecondary>
+        <Icon name="align-right" color="normal" />
+      </ButtonSecondary>
+    </div>
+
+    <!--List Options-->
+    <div class="expanded" v-if="selectedOption == Option.List" @click="selectedOption = Option.None">
+      <span>Select list type</span>
+      <ButtonSecondary>
+        <Icon name="list-check" color="normal" />
+      </ButtonSecondary>
+      <ButtonSecondary>
+        <Icon name="list-numbers" color="normal" />
+      </ButtonSecondary>
+      <ButtonSecondary>
+        <Icon name="list" color="normal" />
+      </ButtonSecondary>
+    </div>
+
   </div>
 </template>
 
@@ -44,7 +102,8 @@ import Icon from "../Base/Icon.vue";
   background: var(--secondary-background-color);
   position: relative;
   white-space: nowrap;
-  overflow: scroll;
+  overflow-x: scroll;
+  overflow: visible;
 }
 
 a {
@@ -64,5 +123,55 @@ a:hover {
   border: 1px solid var(--primary-background-color) !important;
   opacity: 1;
   transition: .2s;
+}
+
+.expanded {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 10px;
+  background: var(--secondary-background-color);
+  max-width: 100%;
+  height: 50px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 11px;
+  border-radius: var(--primary-border-radius);
+  overflow: hidden;
+  text-align: center;
+  left: 0;
+  transition: .2s;
+}
+
+.expanded span {
+  padding-top: 8px;
+  color: var(--primary-font-color) !important;
+  margin-right: 15px;
+}
+
+.square {
+  width: 36px;
+  height: 30px;
+  border: 1px solid var(--primary-background-color);
+}
+
+
+.white {
+  background: #fff !important;
+}
+
+.black {
+  background: #000 !important;
+}
+
+.blue {
+  background: #0079d3 !important;
+}
+
+.red {
+  background: #ff0000 !important;
+}
+
+.green {
+  background: #00ff00 !important;
 }
 </style>

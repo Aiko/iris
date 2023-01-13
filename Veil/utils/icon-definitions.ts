@@ -55,7 +55,11 @@ import italic from "@Veil/assets/icons/italic.svg"
 import underline from "@Veil/assets/icons/underline.svg"
 import textcolor from "@Veil/assets/icons/text-color.svg"
 import alignleft from "@Veil/assets/icons/align-left.svg"
+import alignright from "@Veil/assets/icons/align-right.svg"
+import aligncenter from "@Veil/assets/icons/align-center.svg"
 import listnumbers from "@Veil/assets/icons/list-numbers.svg"
+import listcheck from "@Veil/assets/icons/list-check.svg"
+import list from "@Veil/assets/icons/list.svg"
 import quote from "@Veil/assets/icons/quote.svg"
 import code from "@Veil/assets/icons/code.svg"
 import moodsmile from "@Veil/assets/icons/mood-smile.svg"
@@ -120,11 +124,15 @@ export default {
 	"underline": underline,
 	"text-color": textcolor,
 	"align-left": alignleft,
+	"align-right": alignright,
+	"align-center": aligncenter,
 	"list-numbers": listnumbers,
 	"quote": quote,
 	"code": code,
 	"mood-smile": moodsmile,
 	"calendly": calendly,
 	"zoom": zoom,
+	"list-check": listcheck,
+	"list": list,
 
 } as { [name: string]: any }
