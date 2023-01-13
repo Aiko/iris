@@ -27,6 +27,10 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
       <ComposerOptions />
       <div class="bottom">
         <ButtonPrimary>Send</ButtonPrimary>
+        <ButtonSecondary>Save Draft</ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="scribe" color="blue" class="scribe-icon" />
+        </ButtonSecondary>
       </div>
     </div>
     <div class="right">
@@ -54,6 +58,9 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
   background: var(--primary-background-color);
 }
 
+.scribe-icon {
+  width: 18px;
+}
 
 .left {
   width: calc(100% - 300px);

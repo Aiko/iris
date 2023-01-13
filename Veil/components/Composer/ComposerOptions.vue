@@ -6,36 +6,38 @@ import Icon from "../Base/Icon.vue";
 <template>
   <div class="composer-options">
     <ButtonSecondary active>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="bold" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="italic" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="underline" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="text-color" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="align-left" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="list-numbers" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
-      <Icon name="sidebar-collapse" color="normal" />
+      <Icon name="quote" color="normal" />
+    </ButtonSecondary>
+    <ButtonSecondary>
+      <Icon name="code" color="normal" />
     </ButtonSecondary>
   </div>
 </template>
 
 <style scoped>
 .composer-options {
-  height: 60px;
   width: 100%;
-  padding: 16px 10px 10px 10px;
+  padding: 10px;
   margin-left: 10px;
-  height: 60px;
+  height: 50px;
   width: calc(100% - 20px);
   border-radius: var(--primary-border-radius);
   background: var(--secondary-background-color);
@@ -45,5 +47,20 @@ import Icon from "../Base/Icon.vue";
 
 a {
   margin-right: 10px;
+  opacity: .8;
+  transition: .2s;
+}
+
+a:hover {
+  border: 1px solid var(--primary-background-color);
+  opacity: 1;
+  transition: .2s;
+}
+
+.active {
+  background-color: var(--primary-background-color) !important;
+  border: 1px solid var(--primary-background-color) !important;
+  opacity: 1;
+  transition: .2s;
 }
 </style>

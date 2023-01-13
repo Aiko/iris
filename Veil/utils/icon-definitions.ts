@@ -50,6 +50,14 @@ import x from "@Veil/assets/icons/x.svg"
 import zap from "@Veil/assets/icons/zap.svg"
 import logo from "@Veil/assets/icons/logo.svg"
 import arrowbigright from "@Veil/assets/icons/arrow-big-right.svg"
+import bold from "@Veil/assets/icons/bold.svg"
+import italic from "@Veil/assets/icons/italic.svg"
+import underline from "@Veil/assets/icons/underline.svg"
+import textcolor from "@Veil/assets/icons/text-color.svg"
+import alignleft from "@Veil/assets/icons/align-left.svg"
+import listnumbers from "@Veil/assets/icons/list-numbers.svg"
+import quote from "@Veil/assets/icons/quote.svg"
+import code from "@Veil/assets/icons/code.svg"
 
 export default {
 	"archive": archive,
@@ -104,4 +112,13 @@ export default {
 	"zap": zap,
 	"logo": logo,
 	"arrow-big-right": arrowbigright,
+	"bold": bold,
+	"italic": italic,
+	"underline": underline,
+	"text-color": textcolor,
+	"align-left": alignleft,
+	"list-numbers": listnumbers,
+	"quote": quote,
+	"code": code,
+
 } as { [name: string]: any }

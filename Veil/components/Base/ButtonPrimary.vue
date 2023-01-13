@@ -16,7 +16,7 @@ a {
   width: 100%;
   position: relative;
   padding: 4px 10px 5px 9px;
-  border-radius: 5px;
+  border-radius: var(--primary-border-radius);
   font-size: 14px;
   margin-top: 3px;
   white-space: nowrap;
