@@ -236,6 +236,7 @@ input {
 
 .modal-bottom {
   color: var(--primary-font-color);
+  position: relative;
 }
 
 .modal-bottom a {

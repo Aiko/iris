@@ -310,3 +310,17 @@ textarea {
   -webkit-transform: scale(1);
   transform: scale(1);
 }
+
+.ghost.small {
+  width: 30px !important;
+}
+
+.ghost.large {
+  width: 300px !important;
+}
+
+.ghost.medium {
+  width: 150px !important;
+}
+
+.sortable-chosen {}
