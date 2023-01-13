@@ -25,15 +25,52 @@
     --modal-special-background: #e1e7f7cc;
     --email-bottom-shadow: inset 5px 30px 10px -30px #00000017 !important;
   }
+
   #app {
     overflow: hidden;
     user-select: none;
     background-position: top;
     background-size: cover;
   }
+
   .modal {
     background: var(--modal-special-background);
   }
+
   .email-card:hover {
     filter: brightness(0.97) !important;
+  }
+
+  .composer-options {
+    box-shadow: rgb(0 0 0 / 15%) 0px 0px 7px 0px;
+    width: fit-content;
+  }
+
+  .composer .left {
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .right {
+    background: var(--primary-background-color) !important;
+  }
+
+  .composer input {
+    border: none;
+    border-top: 2px solid var(--primary-background-color) !important;
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .textarea {
+    border-top: 2px solid var(--primary-background-color) !important;
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer input:focus,
+  .composer input:active {
+    filter: brightness(0.96) !important;
+    transition: .2s;
+  }
+
+  .composer .bottom {
+    background: var(--secondary-background-color) !important;
   }

@@ -26,10 +26,27 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
       <ComposerBody />
       <ComposerOptions />
       <div class="bottom">
-        <ButtonPrimary>Send</ButtonPrimary>
-        <ButtonSecondary>Save Draft</ButtonSecondary>
+        <ButtonPrimary class="send-btn">
+          <Icon name="sent" color="white" />
+          Send
+        </ButtonPrimary>
         <ButtonSecondary>
           <Icon name="scribe" color="blue" class="scribe-icon" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="attachment" color="normal" class="scribe-icon" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="link" color="normal" class="scribe-icon" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="mood-smile" color="normal" class="scribe-icon" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="calendly" class="calendly" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="zoom" class="zoom" />
         </ButtonSecondary>
       </div>
     </div>
@@ -53,9 +70,11 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 }
 
 .bottom {
-  height: 60px;
-  padding: 17px 10px 10px 10px;
+  height: 50px;
+  padding: 10px;
   background: var(--primary-background-color);
+  white-space: nowrap;
+  overflow: scroll;
 }
 
 .scribe-icon {
@@ -125,6 +144,30 @@ const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isCompo
 
 .bottom a {
   margin-right: 10px;
-  padding: 10px 15px;
+  padding: 7px 15px 9px 15px;
+}
+
+.bottom a:last-of-type {
+  margin-right: 0px !important;
+}
+
+.send-btn {
+  padding: 10px 9px !important;
+}
+
+.calendly {
+  width: 70px;
+}
+
+.zoom {
+  width: 50px;
+}
+
+.send-btn img {
+  width: 18px;
+}
+
+.send-btn {
+  font-weight: 500;
 }
 </style>

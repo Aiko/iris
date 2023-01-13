@@ -58,6 +58,9 @@ import alignleft from "@Veil/assets/icons/align-left.svg"
 import listnumbers from "@Veil/assets/icons/list-numbers.svg"
 import quote from "@Veil/assets/icons/quote.svg"
 import code from "@Veil/assets/icons/code.svg"
+import moodsmile from "@Veil/assets/icons/mood-smile.svg"
+import calendly from "@Veil/assets/icons/calendly.svg"
+import zoom from "@Veil/assets/icons/zoom.svg"
 
 export default {
 	"archive": archive,
@@ -120,5 +123,8 @@ export default {
 	"list-numbers": listnumbers,
 	"quote": quote,
 	"code": code,
+	"mood-smile": moodsmile,
+	"calendly": calendly,
+	"zoom": zoom,
 
 } as { [name: string]: any }

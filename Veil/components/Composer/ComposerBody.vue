@@ -9,7 +9,7 @@
 
 <style scoped>
 .composer-body {
-  height: calc(100% - 330px);
+  height: calc(100% - 340px);
   width: 100%;
 }
 

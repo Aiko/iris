@@ -34,15 +34,17 @@ import Icon from "../Base/Icon.vue";
 
 <style scoped>
 .composer-options {
-  width: 100%;
   padding: 10px;
   margin-left: 10px;
+  max-width: 100%;
   height: 50px;
-  width: calc(100% - 20px);
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 11px;
+  width: fit-content;
   border-radius: var(--primary-border-radius);
   background: var(--secondary-background-color);
-  overflow-x: scroll;
+  position: relative;
   white-space: nowrap;
+  overflow: scroll;
 }
 
 a {
