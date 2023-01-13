@@ -36,7 +36,7 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
   width: 100%;
   padding-top: 10px;
   margin-top: -10px;
-  overflow-x: scroll;
+  overflow-x: scroll !important;
   height: calc(100% - 40px);
   padding-left: 20px;
   display: inline-flex;
