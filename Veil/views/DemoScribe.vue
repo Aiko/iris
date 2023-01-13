@@ -25,7 +25,7 @@ if (isMobile) {
           <h2>Feature Demo: Scribe (Quick Reply)</h2>
           <p>Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
             Reply'.</p><br>
-          <p class="ml-3">
+          <p class="ml-3" v-if="!isMobile">
             <Icon name="arrow-big-right" color="blue" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
 
             <Icon name="arrow-big-right" color="blue" class="arrow" />
@@ -49,7 +49,7 @@ if (isMobile) {
       </div>
     </div>
     <div class="row copy">
-      <p>© 2023 Aiko Mail Inc. All Rights Reserved. <i>Do not share.</i></p>
+      <p>© 2023 Aiko Mail Inc. All Rights Reserved. <i>Restricted use only -- DO NOT SHARE.</i></p>
     </div>
   </div>
 
