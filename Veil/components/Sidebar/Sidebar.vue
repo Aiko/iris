@@ -33,27 +33,27 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         </ButtonPrimary>
       </div>
 
-      <NavLink active>
+      <NavLink class="space" active>
         <Icon name="home" color="blue" />
         <span class="name">Home</span>
         <span class="count">99</span>
       </NavLink>
 
-      <NavLink>
+      <NavLink class="space">
         <Icon name="home" color="blue" />
-        <span class="name">Times Square</span>
+        <span class="name">Legal</span>
         <span class="count">3</span>
       </NavLink>
 
-      <NavLink>
+      <NavLink class="space">
         <Icon name="home" color="blue" />
-        <span class="name">Aiko Email</span>
+        <span class="name">Accounting</span>
         <span class="count">9</span>
       </NavLink>
 
-      <NavLink>
+      <NavLink class="space">
         <Icon name="home" color="blue" />
-        <span class="name">Gmail</span>
+        <span class="name">Personal</span>
         <span class="count">0</span>
       </NavLink>
 

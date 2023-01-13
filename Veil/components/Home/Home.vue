@@ -40,6 +40,7 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
   height: calc(100% - 40px);
   padding-left: 20px;
   display: inline-flex;
+  overflow: hidden;
 }
 
 .home .boards {

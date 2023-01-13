@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
   <!-- Control Bar-->
   <ControlBar v-if="!isFullScreen" />
 
-	<router-view />
+  <router-view />
 
   <!--Modals-->
   <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">
