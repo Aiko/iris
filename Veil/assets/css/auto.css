@@ -117,4 +117,18 @@
     background: var(--secondary-background-color) !important;
   }
 
+  .small .board-header:hover {
+    filter: brightness(0.95) !important;
+    transition: .2s;
+  }
+
+  .small-board-click-area:hover+.board-header {
+    filter: brightness(0.95) !important;
+    transition: .2s;
+  }
+
+  .email-card.qr .quick-reply {
+    background: #fff !important;
+    box-shadow: inset 0px 0px 30px -10px #00000054 !important;
+  }
 }

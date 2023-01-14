@@ -221,6 +221,11 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
   transition: .2s;
 }
 
+.small-board-click-area:hover+.board-header {
+  filter: brightness(1.2);
+  transition: .2s;
+}
+
 .small h1 {
   writing-mode: vertical-rl;
   padding: 15px 10px 0 10px !important;

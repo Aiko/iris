@@ -476,8 +476,6 @@ const quickReplyScribeVoice = async () => {
   transition: .2s;
 }
 
-
-
 .email-card .send img {
   width: 17px;
   margin-right: 2px;
