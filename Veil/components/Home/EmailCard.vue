@@ -243,7 +243,7 @@ const quickReplyScribeVoice = async () => {
 
 .selected {
   border: 2px solid var(--primary-color);
-  padding: 6px 6px 0 8px !important;
+  padding: 4px 4px 0 6px !important;
   transition: .2s;
 }
 
