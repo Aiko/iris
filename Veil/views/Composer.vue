@@ -7,12 +7,14 @@ import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import { isComposerSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
+import Grimaldi from '@Veil/utils/grimaldi/editor'
 
 let isComposerBCCActive = ref(false);
 
 const toggleComposerSidebar = () => isComposerSidebarCollapsed.value = !(isComposerSidebarCollapsed.value)
 const toggleComposerBCC = () => isComposerBCCActive.value = !(isComposerBCCActive.value)
 
+const grimaldi = new Grimaldi()
 </script>
 
 <template>
@@ -37,7 +39,7 @@ const toggleComposerBCC = () => isComposerBCCActive.value = !(isComposerBCCActiv
 
       <ComposerField placeholder="Subject" />
 
-      <ComposerBody />
+      <ComposerBody :grimaldi="grimaldi" />
 
       <ComposerOptions />
 

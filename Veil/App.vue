@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import "@aiko/dwarfhaven"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
 import { isFullScreen } from '@Veil/state/sections'

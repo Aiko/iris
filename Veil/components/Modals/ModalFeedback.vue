@@ -7,7 +7,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
 const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevControlsCollapsed.value)
 
 </script>
-  
+
 <template>
   <div :class="{
     'modal-feedback': true,

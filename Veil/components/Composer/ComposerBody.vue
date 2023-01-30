@@ -1,9 +1,15 @@
 <script lang="ts" setup>
+import type Grimaldi from '@Veil/utils/grimaldi/editor';
+import { EditorContent } from '@tiptap/vue-3'
+
+defineProps<{
+	grimaldi: Grimaldi
+}>()
 </script>
 
 <template>
   <div class="composer-body">
-    <div contenteditable="true" class="textarea" placeholder="Message" />
+		<editor-content class="editor" placeholder="Message..." :editor="grimaldi.editor" />
   </div>
 </template>
 
@@ -13,7 +19,7 @@
   width: 100%;
 }
 
-.textarea {
+.editor, .ProseMirror {
   padding: 10px;
   background: var(--primary-background-color);
   width: 100%;
@@ -25,14 +31,17 @@
   border-radius: 0;
 }
 
-[contentEditable=true]:empty:before {
+[contenteditable=true]:empty:before {
   content: attr(placeholder);
   color: var(--primary-font-color);
-
 }
 
-textarea:focus,
-textarea:active {
+.ProseMirror:focus-visible {
+	outline: none !important;
+}
+
+.editor:focus,
+.editor:active {
   filter: brightness(0.9);
   transition: .2s;
 }
