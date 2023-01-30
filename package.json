@@ -137,7 +137,7 @@
     }
   },
   "dependencies": {
-    "@aiko/dwarfhaven": "^2.2.2",
+    "@aiko/dwarfhaven": "^2.2.3",
     "@cliqz/adblocker-electron": "^1.20.2",
     "@microsoft/microsoft-graph-client": "^3.0.4",
     "@seald-io/nedb": "^3.0.0",
