@@ -20,9 +20,9 @@ declare module '@tiptap/core' {
   }
 }
 
-const MATH_INPUT_REGEX = /(?:\${2}\n)([^\$]+)(?:\n\${2})/
+const MATH_INPUT_REGEX = /(\${1}[^\$]+\${1})/
 
-export const Mathematics = Node.create<MathOptions>({
+export const InlineMath = Node.create<MathOptions>({
   name: 'math',
 
   defaultOptions: {

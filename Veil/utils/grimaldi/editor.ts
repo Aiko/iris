@@ -37,6 +37,7 @@ import { Align } from '@Veil/utils/grimaldi/lib/marks/Align'
 
 // Custom Nodes
 import { Emoji } from '@Veil/utils/grimaldi/lib/nodes/Emoji'
+import { InlineMath } from '@Veil/utils/grimaldi/lib/nodes/InlineMath'
 import { Mathematics } from '@Veil/utils/grimaldi/lib/nodes/Mathematics'
 import { ParagraphDiv } from '@Veil/utils/grimaldi/lib/nodes/ParagraphDiv'
 import { PastableImage } from '@Veil/utils/grimaldi/lib/nodes/PastableImage'
@@ -98,6 +99,7 @@ export default class Grimaldi {
         TextAlign,
         Align,
         Emoji,
+				InlineMath,
         Mathematics,
         ParagraphDiv,
         PastableImage,
