@@ -53,11 +53,18 @@ let selectedOption = ref(Option.None)
     <!--Color Options-->
     <div class="expanded" v-if="selectedOption == Option.Color" @click="selectedOption = Option.None">
       <span>Select font color</span>
-      <ButtonSecondary class="square white"></ButtonSecondary>
-      <ButtonSecondary class="square black"></ButtonSecondary>
-      <ButtonSecondary class="square blue"></ButtonSecondary>
-      <ButtonSecondary class="square red"></ButtonSecondary>
-      <ButtonSecondary class="square green"></ButtonSecondary>
+      <ButtonSecondary class="square normal">
+        <Icon name="text-color" color="white" />
+      </ButtonSecondary>
+      <ButtonSecondary class="square blue">
+        <Icon name="text-color" color="white" />
+      </ButtonSecondary>
+      <ButtonSecondary class="square red">
+        <Icon name="text-color" color="white" />
+      </ButtonSecondary>
+      <ButtonSecondary class="square green">
+        <Icon name="text-color" color="white" />
+      </ButtonSecondary>
     </div>
 
     <!--Align Options-->
@@ -131,6 +138,7 @@ a:hover {
   top: 0;
   z-index: 1;
   width: 100%;
+  display: inline-flex;
   padding: 10px;
   background: var(--secondary-background-color);
   max-width: 100%;
@@ -144,7 +152,7 @@ a:hover {
 }
 
 .expanded span {
-  padding-top: 8px;
+  padding-top: 3px;
   color: var(--primary-font-color) !important;
   margin-right: 15px;
 }
@@ -156,23 +164,23 @@ a:hover {
 }
 
 
-.white {
-  background: #fff !important;
+.square.normal {
+  background: var(--primary-font-color) !important;
 }
 
-.black {
+.square.black {
   background: #000 !important;
 }
 
-.blue {
+.square.blue {
   background: #0079d3 !important;
 }
 
-.red {
+.square.red {
   background: #ff0000 !important;
 }
 
-.green {
+.square.green {
   background: #00ff00 !important;
 }
 </style>
