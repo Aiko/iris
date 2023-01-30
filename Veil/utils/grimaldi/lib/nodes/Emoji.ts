@@ -18,7 +18,7 @@ declare module '@tiptap/core' {
   }
 }
 
-const EMOJI_INPUT_REGEX = /(?:\:)([A-z0-9\-]+)(?:\:)/
+const EMOJI_INPUT_REGEX = /(\:[A-z0-9\-]+\:)/
 
 import EmojiConvertor from 'emoji-js'
 const Moji = new EmojiConvertor()
@@ -61,7 +61,7 @@ export const Emoji = Node.create<EmojiOptions>({
     return [
       'span',
       mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      Moji.replace_colons(':' + node.attrs.emoji + ':')
+      Moji.replace_colons(node.attrs.emoji)
     ]
   },
 
