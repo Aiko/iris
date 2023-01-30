@@ -56,7 +56,7 @@
 
   .composer input {
     border: none;
-    border-top: 2px solid var(--primary-background-color) !important;
+    border-top: 2px solid var(--primary-background-color);
     background: var(--secondary-background-color) !important;
   }
 
@@ -88,4 +88,8 @@
   .email-card.qr .quick-reply {
     background: #fff !important;
     box-shadow: inset 0px 0px 30px -10px #00000054 !important;
+  }
+
+  .editor {
+    background: var(--secondary-background-color);
   }

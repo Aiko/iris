@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import type Grimaldi from '@Veil/utils/grimaldi/editor';
 import { EditorContent } from '@tiptap/vue-3'
+//import composer.css css file
+import '@Veil/assets/css/composer.css'
+import '@Veil/assets/css/composer-exclude.css'
 
 defineProps<{
-	grimaldi: Grimaldi
+  grimaldi: Grimaldi
 }>()
 </script>
 
 <template>
   <div class="composer-body">
-		<editor-content class="editor" placeholder="Message..." :editor="grimaldi.editor" />
+    <editor-content class="editor" placeholder="Message..." :editor="grimaldi.editor" />
   </div>
 </template>
 
@@ -19,9 +22,8 @@ defineProps<{
   width: 100%;
 }
 
-.editor, .ProseMirror {
-  padding: 10px;
-  background: var(--primary-background-color);
+.editor,
+.ProseMirror {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
@@ -29,6 +31,7 @@ defineProps<{
   outline: none;
   color: var(--strong-font-color);
   border-radius: 0;
+  outline: none !important;
 }
 
 [contenteditable=true]:empty:before {
@@ -37,7 +40,7 @@ defineProps<{
 }
 
 .ProseMirror:focus-visible {
-	outline: none !important;
+  outline: none !important;
 }
 
 .editor:focus,

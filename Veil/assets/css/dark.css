@@ -37,3 +37,7 @@
   --modal-shadow: 0 0 75px -10px #00000047;
   --email-bottom-shadow: inset 5px 22px 40px -20px #00000073;
 }
+
+.editor {
+  background: var(--primary-background-color);
+}
