@@ -100,7 +100,7 @@ let selectedOption = ref(Option.None)
 
 <style scoped>
 .composer-options {
-  padding: 10px;
+  padding: 10px 0 10px 10px;
   margin-left: 10px;
   max-width: 100%;
   height: 50px;
