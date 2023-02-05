@@ -13,17 +13,11 @@ import { app, session, dialog, powerSaveBlocker } from 'electron'
 import Forest, { Lumberjack } from '@Iris/common/logger'
 import SecureCommunications from '@Marionette/ipc'
 import Roots from '@Chiton/services/roots'
-import DwarfStar from '@Chiton/cache/dwarf-star'
-import GasGiant from '@Chiton/cache/gas-giant'
 import GOAuth from '@Chiton/services/oauth/google'
 import MSOAuth from '@Chiton/services/oauth/microsoft'
 import Mailman from '@Chiton/mail/imap'
 import CarrierPigeon from '@Chiton/mail/smtp'
-import AppManager from '@Chiton/utils/app-manager'
 import Composer from '@Chiton/components/composer'
-import Calendar from '@Chiton/components/calendar-old'
-import Settings from '@Chiton/components/settings'
-import CookieCutter from '@Chiton/cache/templates'
 
 import { ElectronBlocker } from '@cliqz/adblocker-electron'
 import fetch from 'cross-fetch'
@@ -132,6 +126,7 @@ export class Chiton extends SockPuppet {
 			autoUpdater.on("download-progress", (progress) => _this.Log.log(`Downloading update... ${progress.percent}%`))
 			autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
 				//! FIXME: replace w/ in-app modal
+				_this.inbox.onUpdateAvailable(releaseName, releaseNotes)
 				const dialogOpts = {
 					type: 'info',
 					buttons: ['Restart', 'Later'],

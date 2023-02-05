@@ -3,6 +3,10 @@ import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
 import autoBind from "auto-bind";
 
+export enum InboxEvents {
+	UPDATE_AVAILABLE="update-available",
+}
+
 export default class Inbox extends Window {
 
 	puppetry = {
@@ -28,6 +32,13 @@ export default class Inbox extends Window {
 		return true
 	}
 
+	onUpdateAvailable(releaseName: string, releaseNotes: string) {
+		this.trigger(InboxEvents.UPDATE_AVAILABLE, {
+			releaseName,
+			releaseNotes,
+		})
+	}
+
 	constructor(chiton: Chiton, {
 		demoMode=false
 	}: {
@@ -45,7 +56,7 @@ export default class Inbox extends Window {
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
 			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
 			else this.Log.shout("Env:", process.env.NODE_ENV)
-			if (chiton.devMode) {
+			if (chiton.config.devMode) {
 				this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}#${chiton.version_hash}`)
 				this.win.webContents.openDevTools()
 			} else {
