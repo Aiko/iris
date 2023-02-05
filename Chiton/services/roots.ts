@@ -78,6 +78,8 @@ export default class Roots {
   }
 
 	private static me?: Roots
+
+	/** Do NOT call this outside the Main process. */
 	static init(logdir?: string) {
 		if (this.me) return this.me
 		this.me = new Roots(logdir)
