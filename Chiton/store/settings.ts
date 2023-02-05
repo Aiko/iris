@@ -24,6 +24,12 @@ interface ISettings {
 		}
 	}
 
+	calendar: {
+		appearance: {
+			fullscreen: boolean
+		}
+	}
+
 }
 
 export default class SettingsStore extends DwarfStar<ISettings> {
@@ -51,6 +57,11 @@ export default class SettingsStore extends DwarfStar<ISettings> {
         firstTime: true
       },
 			inbox: {
+				appearance: {
+					fullscreen: false
+				}
+			},
+			calendar: {
 				appearance: {
 					fullscreen: false
 				}
