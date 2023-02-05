@@ -1,6 +1,7 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
+import autoBind from "auto-bind";
 
 export class Inbox extends Window {
 
@@ -36,6 +37,11 @@ export class Inbox extends Window {
 			closable: false
 		})
 
+		if (this.chiton.settingsStore.settings.inbox.appearance.fullscreen) {
+			this.setFullScreen(true)
+		}
+
+
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
 			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
 			else this.Log.shout("Env:", process.env.NODE_ENV)
@@ -49,6 +55,8 @@ export class Inbox extends Window {
 			this.Log.warn("User is not signed in, initiating login flow.")
 			this.loadURL("https://aikomail.com/email/signin") //! FIXME: replace with Ovid
 		}
+
+		autoBind(this)
 	}
 
 }

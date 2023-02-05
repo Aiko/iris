@@ -106,6 +106,9 @@ export abstract class Window extends SockPuppet {
 			return { action: "deny" }
 		})
 
+		//? If it's already fullscreen save that state
+		if (this.win.isFullScreen()) this.setFullScreen(true)
+
 		this.deploy()
 		autoBind(this)
 	}
