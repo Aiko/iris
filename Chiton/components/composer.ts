@@ -1,60 +1,58 @@
-import type SecureCommunications from '@Chiton/utils/comms'
-import WindowManager from '@Chiton/utils/window-manager'
-import type Register from '@Mouseion/managers/register'
-import autoBind from 'auto-bind'
-import { dialog } from 'electron'
-import type { Logger, LumberjackEmployer } from '@Mouseion/utils/logger'
-import writeGood from "write-good"
-import fs from 'fs-extra'
-import mime from 'mime'
+import type { Chiton } from "@Chiton/app";
+import { Window } from "@Chiton/components/window";
+import { RESERVED_PORTS } from "@Iris/common/port";
+import autoBind from "auto-bind";
+import crypto from "crypto";
+import { dialog } from "electron/main";
+import fs from 'fs-extra';
+import mime from 'mime';
+import writeGood from "write-good";
 
-export default class Composer {
-  private readonly comms: SecureCommunications
-  private readonly Log: Logger
+interface ComposerAttachment {
+	size: number
+	contentType: string
+	filepath: string
+}
 
-  constructor(
-    private readonly Registry: Register,
-  ) {
-    this.comms = Registry.get("Communications") as SecureCommunications
-    const Lumberjack = Registry.get("Lumberjack") as LumberjackEmployer
-    this.Log = Lumberjack("Composer")
+export class Composer extends Window {
 
-    this.comms.register("please open the composer", this.open.bind(this))
-    this.comms.register("please attach a file", this.getAttachment.bind(this))
-    this.comms.register("please check my writing", this.getSuggestions.bind(this))
+	ID: string = crypto.randomBytes(6).toString('hex')
 
-    autoBind(this)
-  }
+	puppetry = {
+		window: {
+			...(this.windowPuppetry),
+			setFullScreen: this.setFullScreen
+		}
+	}
 
-  private open({bang}: {bang: string}) {
-    const win = WindowManager.newWindow({
-      height: 600, width: 800
-    }, {spellcheck: true})
+	checkInitialize(): boolean {
+		return true
+	}
+	async initialize(args: any[], success: (payload: object) => void) {
+		success({})
+	}
 
-    const windowManager = new WindowManager(this.Registry, win, 'composer-' + bang)
-    windowManager.window = win
+	//? persist fullscreen status
+	setFullScreen(s: boolean): boolean {
+		super.setFullScreen(s)
+		return true
+	}
 
-    windowManager.loadURL(`file://${__dirname}/../../../public/compose.html#${bang}`)
+	//? allow attaching files
+	async attachFiles(): Promise<ComposerAttachment[]> {
+		const downloadFolder = (() => {
+			switch (process.platform) {
+				case "win32": return `${process.env.USERPROFILE}\\Downloads`
+				case "darwin": return `${process.env.HOME}/Downloads`
+				default: return `${process.env.HOME}/Downloads`
+			}
+		})();
 
-    win.show()
-    win.focus()
-
-    return {bang,}
-  }
-
-  private async getAttachment() {
-    const downloadFolder = (() => {
-      switch(process.platform) {
-        case "win32": return `${process.env.USERPROFILE}\\Downloads`
-        case "darwin": return `${process.env.HOME}/Downloads`
-        default: return `${process.env.HOME}/Downloads`
-      }
-    })()
-
-    const { canceled, filePaths } = await dialog.showOpenDialog({
-      title: "Attach a file",
-      defaultPath: `${downloadFolder}/`,
-      filters: [ //? copilot wrote this so... I hope it works? lol
+		const { canceled, filePaths } = await dialog.showOpenDialog({
+			title: "Attach a file",
+			defaultPath: `${downloadFolder}/`,
+			//? copilot wrote this so... I hope it works?
+      filters: [
         { name: "All Files", extensions: ["*"] },
         { name: "PDF", extensions: ["pdf"] },
         { name: "Word", extensions: ["doc", "docx"] },
@@ -65,34 +63,42 @@ export default class Composer {
         { name: "Audio", extensions: ["mp3", "wav", "aac"] },
         { name: "Video", extensions: ["mp4", "avi", "mkv"] }
       ]
-    })
+		})
+		if (canceled || filePaths.length === 0) {
+			this.Log.warn("Did not select any files.")
+			return []
+		}
+		this.Log.log("Selected files:", filePaths)
 
-    if (canceled || !filePaths) {
-      this.Log.warn("User cancelled attachment download/no filePath returned.")
-      return []
-    }
+		//? Get the filesize and content type of each file
+		const files: ComposerAttachment[] = await Promise.all(filePaths.map(async filepath => {
+			const { size } = await fs.promises.stat(filepath)
+			const contentType = mime.getType(filepath) ?? "application/octet-stream"
+			return { size, contentType, filepath }
+		}))
 
-    //? Get the filesize and content type of each file
-    const files = await Promise.all(filePaths.map(async filePath => {
-      const { size, contentType } = await fs.promises.stat(filePath).then(stats => {
-        return {
-          size: stats.size,
-          // @ts-ignore
-          contentType: mime.getType(filePath)
-        }
-      })
-      return {
-        size, contentType, filePath
-      }
-    }))
-
-    this.Log.shout("Attaching:", filePaths)
     return files
-  }
+	}
 
-  private async getSuggestions({text, opts}: { text: string, opts?: writeGood.Options }) {
-    const suggestions = writeGood(text, opts)
-    return suggestions
-  }
+	//? get writing suggestions
+	async getWritingSuggestions(text: string, opts?: writeGood.Options): Promise<writeGood.Problem[]> {
+		const suggestions = writeGood(text, opts)
+		return suggestions
+	}
+
+	constructor(chiton: Chiton) {
+		super(chiton, "Composer", {
+			closable: true,
+			spellcheck: true
+		})
+
+		if (this.chiton.settingsStore.settings.inbox.appearance.fullscreen) {
+			this.setFullScreen(true)
+		}
+
+		this.focus()
+
+		autoBind(this)
+	}
 
 }
