@@ -33,6 +33,7 @@ import SockPuppet from '@Marionette/ws/sockpuppet';
 import { RESERVED_PORTS } from '@Iris/common/port';
 import SettingsStore from '@Chiton/store/settings';
 import Inbox from '@Chiton/components/inbox';
+import { autoUpdater } from 'electron/main';
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //! Singleton
@@ -41,7 +42,10 @@ export class Chiton extends SockPuppet {
 	async initialize(args: any[], success: (payload: object) => void) { return success({}) }
 
 	readonly config = {
-		version: "0.0.1",
+		version: app.getVersion(),
+		platform: os.platform(),
+		devMode: process.env.NODE_ENV === 'dev',
+		channel: "Stable",
 		enableAuditing: false,
 		user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52",
 		secrets: {
@@ -51,8 +55,8 @@ export class Chiton extends SockPuppet {
 
 	}
 
-	readonly devMode: boolean = process.env.NODE_ENV === 'dev'
 	readonly version_hash: string
+	private readonly updateInterval: NodeJS.Timer | null
 
 	readonly comms: SecureCommunications
 	readonly forest: Forest
@@ -60,6 +64,7 @@ export class Chiton extends SockPuppet {
 	readonly inbox: Inbox
 
 	private constructor() {
+		//*** Electron
 
 		//? Lumberjack
 		const roots = Roots.init() //! must proceed super
@@ -70,6 +75,12 @@ export class Chiton extends SockPuppet {
 		}, RESERVED_PORTS.CHITON)
 		this.forest = forest
 		const _this = this
+
+		if (require('electron-squirrel-startup')) {
+      this.Log.error("App is being installed. Quitting to prevent unintended side effects.")
+      app.quit()
+      process.exit(0)
+    }
 
 		//? Marionette
 		this.comms = SecureCommunications.init()
@@ -85,24 +96,61 @@ export class Chiton extends SockPuppet {
 
 		//? Fingerprinting
 		this.version_hash = (() => {
-			if (_this.devMode) {
+			if (_this.config.devMode) {
 				const commit_hash = child_process.execSync('git rev-parse HEAD').toString().trim()
 				app.setAppUserModelId(`Aiko Mail (Dev) #${commit_hash.slice(0, 8)}`)
 				_this.Log.warn(`Enabled developer mode (#${commit_hash})`)
 				return commit_hash
 			}
 			app.setAppUserModelId("Aiko Mail (Beta)")
-			switch(os.platform()) {
+			switch(this.config.platform) {
 				case 'win32':
-					return '(Windows) ' + app.getVersion();
+					return '(Windows) ' + _this.config.version;
 				case 'darwin':
-					return '(MacOS) ' + app.getVersion();
+					return '(MacOS) ' + _this.config.version;
 				case 'linux':
-					return '(Linux) ' + app.getVersion();
+					return '(Linux) ' + _this.config.version;
 				default:
-					return '(Emulated) ' + app.getVersion();
+					return '(Emulated) ' + _this.config.version;
 			}
 		})()
+
+		//? Automatic Updates
+		if (this.config.devMode) {
+			this.Log.warn("Automatic updates are disabled in developer mode.")
+			this.updateInterval = null
+		} else {
+			autoUpdater.on("error", _this.Log.error)
+			autoUpdater.on("checking-for-update", () => _this.Log.log("Checking for updates..."))
+			autoUpdater.on("update-available", () => {
+				_this.Log.shout("Update available! Downloading...")
+				_this.updateInterval?.unref()
+			})
+			autoUpdater.on("update-not-available", () => _this.Log.success("App is up to date."))
+			autoUpdater.on("before-quit-for-update", () => _this.Log.shout("Installing update..."))
+			// @ts-ignore: This may exist and just not be typed
+			autoUpdater.on("download-progress", (progress) => _this.Log.log(`Downloading update... ${progress.percent}%`))
+			autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
+				//! FIXME: replace w/ in-app modal
+				const dialogOpts = {
+					type: 'info',
+					buttons: ['Restart', 'Later'],
+					title: 'Application Update',
+					message: process.platform === 'win32' ? releaseNotes : releaseName,
+					detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+				}
+				const { response } = await dialog.showMessageBox(dialogOpts)
+				if (response === 0) {
+					autoUpdater.quitAndInstall()
+				}
+			})
+			const feed = `https://knidos.helloaiko.com/update/${_this.config.channel}/${_this.config.platform}/${_this.config.version}`
+			autoUpdater.setFeedURL({ url: feed })
+			autoUpdater.checkForUpdates()
+      this.updateInterval = setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
+		}
+
+		//*** Iris
 
 		//? Stores
 		this.settingsStore = new SettingsStore(this)
