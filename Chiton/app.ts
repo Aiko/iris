@@ -117,7 +117,7 @@ export class Chiton extends SockPuppet {
 			autoUpdater.on("error", _this.Log.error)
 			autoUpdater.on("checking-for-update", () => _this.Log.log("Checking for updates..."))
 			autoUpdater.on("update-available", () => {
-				_this.Log.shout("Update available! Downloading...")
+				_this.Log.log("Update available! Downloading...")
 				_this.updateInterval?.unref()
 			})
 			autoUpdater.on("update-not-available", () => _this.Log.success("App is up to date."))
@@ -125,19 +125,8 @@ export class Chiton extends SockPuppet {
 			// @ts-ignore: This may exist and just not be typed
 			autoUpdater.on("download-progress", (progress) => _this.Log.log(`Downloading update... ${progress.percent}%`))
 			autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
-				//! FIXME: replace w/ in-app modal
+				_this.Log.success("Update is ready to install:", releaseName)
 				_this.inbox.onUpdateAvailable(releaseName, releaseNotes)
-				const dialogOpts = {
-					type: 'info',
-					buttons: ['Restart', 'Later'],
-					title: 'Application Update',
-					message: process.platform === 'win32' ? releaseNotes : releaseName,
-					detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-				}
-				const { response } = await dialog.showMessageBox(dialogOpts)
-				if (response === 0) {
-					autoUpdater.quitAndInstall()
-				}
 			})
 			const feed = `https://knidos.helloaiko.com/update/${_this.config.channel}/${_this.config.platform}/${_this.config.version}`
 			autoUpdater.setFeedURL({ url: feed })
@@ -173,8 +162,15 @@ export class Chiton extends SockPuppet {
 		return Chiton.me
 	}
 
-	puppetry = {
+	private updateAndRestart() {
+		autoUpdater.quitAndInstall()
+		return true
+	}
 
+	puppetry = {
+		app: {
+			updateAndRestart: this.updateAndRestart
+		}
 	}
 
 }
