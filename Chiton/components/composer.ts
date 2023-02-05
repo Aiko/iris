@@ -17,13 +17,6 @@ export default class Composer extends Window {
 
 	ID: string = crypto.randomBytes(6).toString('hex')
 
-	puppetry = {
-		window: {
-			...(this.windowPuppetry),
-			setFullScreen: this.setFullScreen
-		}
-	}
-
 	checkInitialize(): boolean {
 		return true
 	}
