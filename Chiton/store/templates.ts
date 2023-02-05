@@ -5,6 +5,7 @@ import path from 'path'
 import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
 import type Register from '@Iris/common/register'
+import SockPuppet from '@Marionette/ws/sockpuppet'
 const HTML2Text = require('html-to-text')
 
 export interface Template {
@@ -19,11 +20,23 @@ export interface TemplateEntry {
   preview: string
 }
 
-//! FIXME: this should save to drafts
+//! FIXME: this should use a DB model
+// TODO: this should connect to Arachne to sync templates across devices
 
-export default class CookieCutter {
-  private readonly storage: Storage
+export default class CookieCutter extends SockPuppet {
+	puppetry: { [key: string]: SockPuppetry | ((...args: any[]) => any) }
+	protected checkInitialize(): boolean {
+		throw new Error('Method not implemented.')
+	}
+	protected initialize(args: any[], success: (payload: object) => void): Promise<void> {
+		throw new Error('Method not implemented.')
+	}
+
+
+	private readonly storage: Storage
   private readonly dir: string
+
+
 
   constructor(
     Registry: Register,
