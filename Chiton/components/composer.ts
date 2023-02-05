@@ -13,7 +13,7 @@ interface ComposerAttachment {
 	filepath: string
 }
 
-export class Composer extends Window {
+export default class Composer extends Window {
 
 	ID: string = crypto.randomBytes(6).toString('hex')
 

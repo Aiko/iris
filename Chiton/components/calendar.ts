@@ -3,7 +3,7 @@ import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
 import autoBind from "auto-bind";
 
-export class Calendar extends Window {
+export default class Calendar extends Window {
 
 	puppetry = {
 		window: {

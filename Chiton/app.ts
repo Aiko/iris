@@ -10,138 +10,134 @@ Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sent
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 import os from 'os'
 import { app, session, dialog, powerSaveBlocker } from 'electron'
-import Register from '@Mouseion/managers/register'
-import Forest from '@Mouseion/utils/logger'
-import SecureCommunications from '@Chiton/utils/comms'
-import Roots from '@Chiton/utils/roots'
-import WindowManager from '@Chiton/utils/window-manager'
+import Forest, { Lumberjack } from '@Iris/common/logger'
+import SecureCommunications from '@Marionette/ipc'
+import Roots from '@Chiton/services/roots'
 import DwarfStar from '@Chiton/cache/dwarf-star'
 import GasGiant from '@Chiton/cache/gas-giant'
-import GOAuth from '@Chiton/oauth/google'
-import MSOAuth from '@Chiton/oauth/msft'
+import GOAuth from '@Chiton/services/oauth/google'
+import MSOAuth from '@Chiton/services/oauth/microsoft'
 import Mailman from '@Chiton/mail/imap'
 import CarrierPigeon from '@Chiton/mail/smtp'
 import AppManager from '@Chiton/utils/app-manager'
 import Composer from '@Chiton/components/composer'
-import Calendar from '@Chiton/components/calendar'
+import Calendar from '@Chiton/components/calendar-old'
 import Settings from '@Chiton/components/settings'
 import CookieCutter from '@Chiton/cache/templates'
 
 import { ElectronBlocker } from '@cliqz/adblocker-electron'
 import fetch from 'cross-fetch'
 import * as child_process from 'child_process';
+import autoBind from 'auto-bind';
+import SockPuppet from '@Marionette/ws/sockpuppet';
+import { RESERVED_PORTS } from '@Iris/common/port';
+import SettingsStore from '@Chiton/store/settings';
+import Inbox from '@Chiton/components/inbox';
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
-app.commandLine.appendSwitch('disable-renderer-backgrounding')
-app.commandLine.appendSwitch('disable-background-timer-throttling');
-app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
+//! Singleton
+export class Chiton extends SockPuppet {
+	checkInitialize(): boolean { return true }
+	async initialize(args: any[], success: (payload: object) => void) { return success({}) }
+
+	readonly config = {
+		version: "0.0.1",
+		enableAuditing: false,
+		user_agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52",
+		secrets: {
+			googleClientId: '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
+			microsoftClientId: '65b77461-4950-4abb-b571-ad129d9923a3',
+		}
+
+	}
+
+	readonly devMode: boolean = process.env.NODE_ENV === 'dev'
+	readonly version_hash: string
+
+	readonly comms: SecureCommunications
+	readonly forest: Forest
+	readonly settingsStore: SettingsStore
+	readonly inbox: Inbox
+
+	private constructor() {
+
+		//? Lumberjack
+		const roots = Roots.init() //! must proceed super
+		const forest = new Forest("logs-chiton")
+		super("Chiton", {
+			forest,
+			renderer: false,
+		}, RESERVED_PORTS.CHITON)
+		this.forest = forest
+		const _this = this
+
+		//? Marionette
+		this.comms = SecureCommunications.init()
+
+		//? CLI switches
+		app.commandLine.appendSwitch('disable-renderer-backgrounding')
+		app.commandLine.appendSwitch('disable-background-timer-throttling');
+		app.commandLine.appendSwitch('disable-backgrounding-occluded-windows');
+		//? Kill error popups
+		dialog.showErrorBox = (title, content) => _this.Log.warn(
+			`Chiton error.\n${title}\n${content}\n--------------------`
+		)
+
+		//? Fingerprinting
+		this.version_hash = (() => {
+			if (_this.devMode) {
+				const commit_hash = child_process.execSync('git rev-parse HEAD').toString().trim()
+				app.setAppUserModelId(`Aiko Mail (Dev) #${commit_hash.slice(0, 8)}`)
+				_this.Log.warn(`Enabled developer mode (#${commit_hash})`)
+				return commit_hash
+			}
+			app.setAppUserModelId("Aiko Mail (Beta)")
+			switch(os.platform()) {
+				case 'win32':
+					return '(Windows) ' + app.getVersion();
+				case 'darwin':
+					return '(MacOS) ' + app.getVersion();
+				case 'linux':
+					return '(Linux) ' + app.getVersion();
+				default:
+					return '(Emulated) ' + app.getVersion();
+			}
+		})()
+
+		//? Stores
+		this.settingsStore = new SettingsStore(this)
+		this.settingsStore.deploy()
+
+		//? Components
+		this.inbox = new Inbox(this, {
+			demoMode: true
+		})
+		this.inbox.deploy()
+
+		const goauth = new GOAuth(this, ["https://mail.google.com"])
+		goauth.deploy()
+
+		const msoauth = new MSOAuth(this)
+		msoauth.deploy()
+
+		autoBind(this)
+	}
+
+	private static me?: Chiton
+	static init() {
+		if (Chiton.me) return Chiton.me
+		Chiton.me = new Chiton()
+		return Chiton.me
+	}
+
+	puppetry = {
+
+	}
+
+}
+export default Chiton.init()
+
 ;(async () => { //! Don't remove this -- async function to use await below
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Create our Registry for global state
-const Registry = new Register()
-Registry.register("ENABLE_AUDITING", false)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Communications
-const comms = await SecureCommunications.init()
-Registry.register("Communications", comms)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Roots (for logging but at the highest level)
-const roots = new Roots("logs-roots", Registry)
-Registry.register("Roots", roots)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Spawn a new Forest to use for the Main process's logs
-const forest = new Forest("logs-main-process")
-const Lumberjack = forest.Lumberjack
-Registry.register("Lumberjack", Lumberjack)
-const Log = Lumberjack("App")
-//! kill error popups. ugh. so fucking annoying
-dialog.showErrorBox = (title, content) => Log.warn(`Main process encountered an error. ${title}: ${content}`)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Various "session" variables
-const dev = process.env.NODE_ENV === 'dev';
-const commit_hash: string = (() => {
-  if (dev) {
-    const commit_hash = child_process.execSync('git rev-parse HEAD').toString().trim()
-    app.setAppUserModelId("Aiko Mail (Dev)")
-    Log.warn("Developer mode ON - commit #", commit_hash)
-    return commit_hash
-  }
-  app.setAppUserModelId("Aiko Mail (Beta)")
-  Log.log("Developer mode OFF. Performance will reflect production.")
-  return os.platform() + '-' + app.getVersion()
-})()
-Registry.register("commit hash", commit_hash)
-Registry.register("dev flag", dev)
-Registry.register("user agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52")
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Window controls for the main window
-Log.log("Initializing Window Manager.")
-
-const windowManager = new WindowManager(Registry, null, "INBOX", false)
-Registry.register("Window Manager", windowManager)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? OAuth modules handle servicing OAuth requests
-Log.log("Initializing OAuth modules.")
-
-const goauth = new GOAuth(
-  Registry,
-  '446179098641-5cafrt7dl4rsqtvi5tjccqrbknurtr7k.apps.googleusercontent.com',
-  undefined, //! no client secret: register it as an iOS app
-  ['https://mail.google.com']
-)
-Registry.register("Google OAuth", goauth)
-const msoauth = new MSOAuth(
-  Registry,
-  '65b77461-4950-4abb-b571-ad129d9923a3',
-  '8154fffe-1ce5-4712-aea5-077fdcd97b9c'
-)
-Registry.register("Microsoft OAuth", msoauth)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //? Email modules that enable IMAP/SMTP
@@ -212,23 +208,7 @@ Registry.register("App Manager", appManager)
 const GLOBAL_DISABLE_AUTH=true //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
 
 const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
-  const signed_in = dwarfStar.settings.auth.authenticated
 
-  if (signed_in || disable_auth) {
-    Log.success("User is signed in, loading their inbox.")
-    //! FIXME: before deployment, remove commit_hash from url below
-    Log.shout("ENV:", process.env.NODE_ENV)
-    if (dev) {
-      windowManager.loadURL('http://localhost:4160/#' + commit_hash);
-      windowManager.window!.webContents.openDevTools();
-    } else {
-      // mainWindow.removeMenu();
-      windowManager.loadURL(`file://${__dirname}/../Veil/index.html`);
-    }
-  } else {
-    Log.warn("User is not signed in, loading the signin flow.")
-    windowManager.loadURL("https://helloaiko.com/email/signin")
-  }
 }
 
 SecureCommunications.registerBasic('reentry', () => entry())

@@ -4,6 +4,8 @@ import autoBind from 'auto-bind'
 import SockPuppet from '@Marionette/ws/sockpuppet'
 import type { Chiton } from '@Chiton/app'
 
+// TODO: this should connect to Arachne to sync settings across devices
+
 /** Persistent data-store for small state (e.g. settings) */
 export default class DwarfStar<T extends object> extends SockPuppet {
 	puppetry = {
@@ -45,6 +47,7 @@ export default class DwarfStar<T extends object> extends SockPuppet {
     return JSON.parse(JSON.stringify(this.state));
   }
 
+	/** Utilize this only for small state. */
 	constructor(
 		chiton: Chiton,
 		name: string,
