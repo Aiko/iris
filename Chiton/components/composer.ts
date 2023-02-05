@@ -1,6 +1,5 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
-import { RESERVED_PORTS } from "@Iris/common/port";
 import autoBind from "auto-bind";
 import crypto from "crypto";
 import { dialog } from "electron/main";
