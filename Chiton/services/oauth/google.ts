@@ -14,10 +14,10 @@ export default class GOAuth extends SockPuppet {
 	}
 
 	protected checkInitialize(): boolean {
-		throw new Error("Method not implemented.")
+		return true
 	}
-	protected initialize(args: any[], success: (payload: object) => void): Promise<void> {
-		throw new Error("Method not implemented.")
+	protected async initialize(args: any[], success: (payload: object) => void) {
+		return success({})
 	}
 
 	private readonly client: OAuth2Client
