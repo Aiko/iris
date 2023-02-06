@@ -3,6 +3,7 @@ import { ref } from '@vue/reactivity';
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 
 // Show IMAP Manual entry pane
@@ -13,12 +14,12 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
 
 <template>
   <div :class="{
-  'modal-add-mailbox': true,
+    'modal-add-mailbox': true,
     'imap-open': isIMAPInputShowing
   }">
     <Icon name="mail" color="blue" />
-    <h1>Add a mailbox</h1>
-    <p>Sign in using your email provider</p>
+    <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
+    <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle1) }}</p>
     <a><img src="@Veil/assets/img/google.png"></a>
     <a><img src="@Veil/assets/img/outlook.png"></a>
     <a><img src="@Veil/assets/img/exchange.png"></a>
@@ -26,17 +27,18 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
 
     <div class="imap" v-if="isIMAPInputShowing">
       <Icon name="mail" color="blue" />
-      <h1>Add a mailbox</h1>
-      <p>Manual entry (IMAP)</p>
-      <input placeholder="Email" />
-      <input placeholder="Password" />
-      <input placeholder="IMAP Host" />
-      <input placeholder="IMAP Port" value="993" />
-      <input placeholder="SMTP Host" />
-      <input placeholder="SMTP Port" value="587" />
+      <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
+      <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle2) }}</p>
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.email)" />
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.password)" />
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.imap_host)" />
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.imap_port)" value="993" />
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.smtp_host)" />
+      <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.smtp_port)" value="587" />
       <div class="buttons">
-        <ButtonSecondary @click="toggleIMAPInputShowing()">Back</ButtonSecondary>
-        <ButtonPrimary>Add mailbox</ButtonPrimary>
+        <ButtonSecondary @click="toggleIMAPInputShowing()">{{ i18n(RosettaStone.modals.add_mailbox.form.back) }}
+        </ButtonSecondary>
+        <ButtonPrimary>{{ i18n(RosettaStone.modals.add_mailbox.form.add_mailbox) }}</ButtonPrimary>
       </div>
     </div>
   </div>

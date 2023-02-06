@@ -2,16 +2,17 @@
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 </script>
 
 <template>
   <div class="modal-invite">
     <Icon name="user" color="blue" />
-    <h1>Invite a team member</h1>
-    <input placeholder="Email address" autofocus />
-    <p>Once they accept, they will be added to your plan at the current price per seat.</p>
+    <h1>{{ i18n(RosettaStone.modals.invite_team.title) }}</h1>
+    <input :placeholder="i18n(RosettaStone.modals.invite_team.email_address)" autofocus />
+    <p>{{ i18n(RosettaStone.modals.invite_team.subtitle) }}</p>
     <div class="modal-bottom">
-      <ButtonPrimary>Invite</ButtonPrimary>
+      <ButtonPrimary>{{ i18n(RosettaStone.modals.invite_team.btn) }}</ButtonPrimary>
     </div>
   </div>
 </template>
@@ -21,7 +22,7 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
   width: 100%;
   height: 100%;
   text-align: center;
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   position: relative;
 }
 
@@ -51,5 +52,13 @@ input {
 
 p {
   margin-bottom: 50px;
+}
+
+a {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: calc(100% - 14px) !important;
+  left: 0 !important;
+  margin: 7px 7px !important;
 }
 </style>

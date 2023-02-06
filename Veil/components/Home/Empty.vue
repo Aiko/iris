@@ -27,5 +27,6 @@
 
 .middle {
   margin-top: 5px;
+  width: 100%;
 }
 </style>

@@ -5,6 +5,7 @@ import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
 import { scribeVoiceBrowser, scribeVoiceState, ScribeVoiceState } from '@Veil/utils/whisper/whisper'
 import scribe from "@Veil/utils/scribe"
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import Logger from "@Veil/services/roots"
 const Log = new Logger("EmailCard", {
   bgColor: "#ff99ff",
@@ -27,20 +28,20 @@ const props = defineProps<{
 }>()
 
 // Information variables for 'EmailCard' component
-const infoThreadCount = 'Number of emails in this thread'
-const infoAttachment = 'This email has attachment(s)'
-const infoBCC = 'You were BCC ed'
-const infoTracker = 'One or more trackers blocked from tracking you'
-const infoEvent = 'Email contains an event'
-const infoQuickReply = 'Reply to this email right from the homescreen'
+const infoThreadCount = i18n(RosettaStone.boards.email_cards.thread)
+const infoAttachment = i18n(RosettaStone.boards.email_cards.has_attachments)
+const infoBCC = i18n(RosettaStone.boards.email_cards.bccd)
+const infoTracker = i18n(RosettaStone.boards.email_cards.info_tracker)
+const infoEvent = i18n(RosettaStone.boards.email_cards.contains_event)
+const infoQuickReply = i18n(RosettaStone.boards.email_cards.info_quick_reply)
 
-const infoReply = 'Reply to this email'
-const infoReplyAll = 'Reply to all participants in this email'
-const infoForward = 'Forward this email'
-const infoStar = 'Star this email'
-const infoTrash = 'Move this email to the trash'
-const infoScribe = 'Write a brief answer and click this button to generate a perfect email.'
-const infoSend = 'Click to send the reply.'
+const infoReply = i18n(RosettaStone.boards.email_cards.reply)
+const infoReplyAll = i18n(RosettaStone.boards.email_cards.reply_all)
+const infoForward = i18n(RosettaStone.boards.email_cards.forward)
+const infoStar = i18n(RosettaStone.boards.email_cards.star)
+const infoTrash = i18n(RosettaStone.boards.email_cards.trash)
+const infoScribe = i18n(RosettaStone.boards.email_cards.generate_info)
+const infoSend = i18n(RosettaStone.boards.email_cards.click_to_send)
 
 let isThinking = ref(false)
 
@@ -154,22 +155,26 @@ const quickReplyScribeVoice = async () => {
       <div v-html="savedQuickReply" ref="quickReply" @blur="hideQuickReply" contenteditable="true" :class="{
         textarea: true,
         fadeInOut: isThinking,
-      }" @input="typeQuickReply" placeholder="Type a reply here and send it or click the brain button to generate">
+      }" @input="typeQuickReply" :placeholder="i18n(RosettaStone.boards.email_cards.scribe_placeholder)">
       </div>
 
       <div class="scribe" @click.stop.prevent="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
-        <Icon name="scribe" color="white" /> <span class="label">Generate</span>
+        <Icon name="scribe" color="white" /> <span class="label">{{
+          i18n(RosettaStone.boards.email_cards.generate)
+        }}</span>
       </div>
 
       <div v-if="demo" class="send" @click.stop="quickReplyScribeVoice" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="microphone" color="normal" /> <span class="label">Voice</span>
+        <Icon name="microphone" color="normal" /> <span class="label">{{
+          i18n(RosettaStone.boards.email_cards.voice)
+        }}</span>
       </div>
 
       <div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="sent" color="normal" /> <span class="label">Send</span>
+        <Icon name="sent" color="normal" /> <span class="label">{{ i18n(RosettaStone.boards.email_cards.send) }}</span>
       </div>
     </div>
     <div class="bottom">
@@ -181,25 +186,29 @@ const quickReplyScribeVoice = async () => {
         <span @click.stop.prevent="showQuickReply" tabindex="0" v-if="true" @mouseover="infoContent = infoQuickReply"
           @mouseleave="infoContent = ''">
           <Icon name="zap" color="normal" />
-          <div class="text bodycolor" htext="Quick Reply">Quick Reply</div>
+          <div class="text bodycolor" :htext="i18n(RosettaStone.boards.email_cards.quick_reply)">{{
+            i18n(RosettaStone.boards.email_cards.quick_reply)
+          }}</div>
         </span>
 
         <!--OPEN SPECIFIC APP, REPLACE APP BY APP NAME-->
         <span v-if="false">
           <Icon name="link" color="blue" />
-          <div class="text primarycolor" htext="Open App">Open App</div>
+          <div class="text primarycolor" :htext="i18n(RosettaStone.boards.email_cards.copy_code) + 'App'">{{
+            i18n(RosettaStone.boards.email_cards.open_app)
+          }} App</div>
         </span>
 
         <!--COPY CODE-->
         <span v-if="false">
           <Icon name="copy" color="blue" />
-          <div class="text primarycolor" htext="Copy Code">Copy Code</div>
+          <div class="text primarycolor" htext="Copy Code">{{ i18n(RosettaStone.boards.email_cards.copy_code) }}</div>
         </span>
 
         <!--SCHEDULE-->
         <span v-if="false">
           <Icon name="calendar" color="blue" />
-          <div class="text primarycolor" htext="Schedule">Schedule</div>
+          <div class="text primarycolor" htext="Schedule">{{ i18n(RosettaStone.boards.email_cards.schedule) }}</div>
         </span>
       </div>
       <div class="actions">
@@ -419,7 +428,7 @@ const quickReplyScribeVoice = async () => {
   display: inline;
   background: var(--secondary-background-color);
   width: calc(50% + 3px);
-  padding: 2px 6px !important;
+  padding: 4px 6px !important;
   height: 30px;
   position: absolute;
   right: 0;
@@ -460,7 +469,7 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .scribe {
   display: inline;
-  padding: 2px 6px;
+  padding: 4px 6px;
   text-align: center;
   height: 30px;
   font-weight: 500;
@@ -480,12 +489,14 @@ const quickReplyScribeVoice = async () => {
   width: 17px;
   margin-right: 2px;
   position: relative;
+  margin-top: -2px;
 }
 
 .email-card .scribe img {
   width: 17px;
   margin-right: 2px;
   position: relative;
+  margin-top: -2px;
 }
 
 .email-card.qr .quick-reply {

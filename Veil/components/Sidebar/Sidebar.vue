@@ -11,9 +11,9 @@ const Log = new Logger("Sidebar")
 
 // Information variables for 'Sidebar' component
 const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
-const infoDocumentation = "Open documentation";
-const infoSettings = "Open settings";
-const infoCalendar = "Open calendar";
+const infoDocumentation = i18n(RosettaStone.sidebar.open_documentation);
+const infoSettings = i18n(RosettaStone.sidebar.open_settings);
+const infoCalendar = i18n(RosettaStone.sidebar.open_calendar);
 
 const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 </script>
@@ -29,13 +29,13 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
           <Icon name="microphone" color="white" class="special" />
         </ButtonPrimary>
         <ButtonPrimary target="_blank" class="norm">
-          <Icon name="compose" color="white" class="special" />Compose
+          <Icon name="compose" color="white" class="special" />{{ i18n(RosettaStone.sidebar.menu.compose) }}
         </ButtonPrimary>
       </div>
 
       <NavLink class="space" active>
         <Icon name="home" color="blue" />
-        <span class="name">Home</span>
+        <span class="name">{{ i18n(RosettaStone.sidebar.menu.home) }}</span>
         <span class="count">99</span>
       </NavLink>
 
@@ -59,35 +59,40 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
       <div class="space-actions">
         <span v-if="!Sidebar.collapsed">
-          <Icon name="home" color="normal" class="spaces-icon" /> Edit Spaces
+          <Icon name="home" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces) }}
         </span>
       </div>
 
       <NavLink>
-        <Icon name="sent" color="normal" />Sent
+        <Icon name="sent" color="normal" />{{ i18n(RosettaStone.sidebar.menu.sent) }}
       </NavLink>
       <NavLink>
-        <Icon name="drafts" color="normal" />Drafts
+        <Icon name="drafts" color="normal" />{{ i18n(RosettaStone.sidebar.menu.drafts) }}
       </NavLink>
       <NavLink>
-        <Icon name="archive" color="normal" />Archive
+        <Icon name="archive" color="normal" />{{ i18n(RosettaStone.sidebar.menu.archive) }}
       </NavLink>
       <NavLink>
-        <Icon name="spam" color="normal" />Spam
+        <Icon name="spam" color="normal" />{{ i18n(RosettaStone.sidebar.menu.spam) }}
       </NavLink>
       <NavLink>
-        <Icon name="trash" color="normal" />Trash
+        <Icon name="trash" color="normal" />{{ i18n(RosettaStone.sidebar.menu.trash) }}
       </NavLink>
     </div>
     <Alert>
       <!-- TODO: channel & version from Chiton -->
       <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
-      <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
+
+      <p v-if="!Sidebar.collapsed"><span>{{ i18n(RosettaStone.settings.request1) }} </span> {{
+        i18n(RosettaStone.settings.request2)
+      }}</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
-        <span v-if="!Sidebar.collapsed">Give feedback</span>
+        <span v-if="!Sidebar.collapsed">{{ i18n(RosettaStone.settings.btn) }}</span>
         <Icon name="bug" color="white" v-if="Sidebar.collapsed" />
       </ButtonPrimary>
+
+
     </Alert>
     <div class="bottom">
       <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
@@ -172,10 +177,11 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .collapsed .composecont .norm {
   position: relative;
+  padding: 4px 5px 5px 10px !important;
 }
 
 .collapsed .composecont .voice {
-  padding: 5px 8px;
+  padding: 5px 4px 5px 8px !important;
 }
 
 .composecont .voice {

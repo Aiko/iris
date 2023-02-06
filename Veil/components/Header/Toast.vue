@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
-import Icon from "@Veil/components/Base/Icon.vue";
-import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
-import Animation from "@Veil/components/Base/Animation.vue";
-import Loader from "@Veil/components/Base/Loader.vue";
+import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue"
+import Icon from "@Veil/components/Base/Icon.vue"
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue"
+import Animation from "@Veil/components/Base/Animation.vue"
+import Loader from "@Veil/components/Base/Loader.vue"
 import { scribeVoiceState, ScribeVoiceState } from "@Veil/utils/whisper/whisper"
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta"
 
 const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
 
@@ -15,80 +16,92 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   <!-- TOAST Sending Email -->
   <a class="primarycolor" v-if="false">
     <Animation name="sending" loop class="lot" />
-    Sending email...
-    <ButtonPrimary>Undo</ButtonPrimary>
+    {{ i18n(RosettaStone.header.toasts.sending_email_text) }}
+    <ButtonPrimary>{{ i18n(RosettaStone.header.toasts.sending_email_btn) }}</ButtonPrimary>
   </a>
 
   <!-- VOICE STATE WHEN CLICKED -->
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Idle">
     <Icon name="start-record" class="start-recording" />
-    Start speaking
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
+    {{ i18n(RosettaStone.header.toasts.voice_state_clicked) }}
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+      {{ i18n(RosettaStone.header.toasts.voice_state_clicked_btn) }}
+    </ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN SPEAKING -->
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Recording">
     <Animation name="record" loop class="record" />
-    Start speaking
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
+    {{ i18n(RosettaStone.header.toasts.voice_state_start_btn) }}
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+      {{ i18n(RosettaStone.header.toasts.voice_state_start_btn) }}
+    </ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN TRANSCRIBING -->
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
     <Loader class="writing" />
-    Transcribing
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
+    {{ i18n(RosettaStone.header.toasts.voice_state_transcribing) }}
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+      {{ i18n(RosettaStone.header.toasts.voice_state_transcribing_btn) }}
+    </ButtonSecondary>
   </a>
 
   <!-- VOICE STATE WHEN TRANSCRIBING -->
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Generating">
     <Animation name="writing" loop class="record" />
-    Writing email
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">Cancel</ButtonSecondary>
+    {{ i18n(RosettaStone.header.toasts.voice_state_writing) }}
+    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+      {{ i18n(RosettaStone.header.toasts.voice_state_writing_btn) }}
+    </ButtonSecondary>
   </a>
 
   <!-- TOAST Email Sent -->
   <a class="primarycolor primarycolor" v-if="false">
     <Animation name="sent" loop class="lot sent" />
-    Email sent
+    {{ i18n(RosettaStone.header.toasts.email_sent) }}
   </a>
 
   <!-- TOAST Invite Sending -->
   <a class="primarycolor" v-if="false">
     <Animation name="invite" loop class="lot lb" />
-    Sending invite...
-    <ButtonPrimary>Undo</ButtonPrimary>
+    {{ i18n(RosettaStone.header.toasts.sending_invite) }}
+    <ButtonPrimary>
+      {{ i18n(RosettaStone.header.toasts.sending_invite_btn) }}
+    </ButtonPrimary>
   </a>
 
   <!-- TOAST Invite Sent -->
   <a class="primarycolor" v-if="false">
     <Animation name="sent" loop class="lot sent" />
-    Invite sent
+    {{ i18n(RosettaStone.header.toasts.invite_sent) }}
   </a>
 
   <!-- TOAST Connection Lost -->
   <a class="red" v-if="false">
     <Animation name="internet" loop class="lot lc" />
-    We're having trouble connecting to the internet.
+    {{ i18n(RosettaStone.header.toasts.trouble_connecting_internet) }}
   </a>
 
   <!-- TOAST IMAP Error -->
   <a class="red" v-if="false">
     <Animation name="internet" loop class="lot lc" />
-    We're having issues connecting to your mail provider.
+    {{ i18n(RosettaStone.header.toasts.trouble_connecting_mail_provider) }}
   </a>
 
   <!-- TOAST Send Email Error -->
   <a class="red" v-if="false">
     <Animation name="internet" loop class="lot lc" />
-    We were unable to send your message due to network issues
+    {{ i18n(RosettaStone.header.toasts.cant_send_network) }}
   </a>
 
   <!-- TOAST Board Creation Suggestion -->
   <a class="bodycolor" v-if="false">
     <Icon name="board" color="normal" class="toast-icon" />
-    Looks like you receive a lot of Travel emails.
-    <ButtonPrimary>Create Travel board</ButtonPrimary>
+    {{ i18n(RosettaStone.header.toasts.board_suggestion_travel) }}
+    <ButtonPrimary>
+      {{ i18n(RosettaStone.header.toasts.board_suggestion_travel_btn) }}
+    </ButtonPrimary>
   </a>
 
 </template>

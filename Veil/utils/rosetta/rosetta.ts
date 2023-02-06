@@ -12,8 +12,8 @@ const FALLBACK: {
 
 //? Manage defaults
 export const SETTINGS = reactive({
-  language: "en-US",
-  platform: "darwin",
+  language: "default",
+  platform: "default",
 })
 
 interface StoneDefinition {

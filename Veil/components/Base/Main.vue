@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
-import Voice from "@Veil/components/Base/Voice.vue";
 import Home from "@Veil/components/Home/Home.vue";
 import { Sidebar } from "@Veil/state/sections";
 </script>

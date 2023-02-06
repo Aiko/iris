@@ -6,6 +6,7 @@ import Alert from "@Veil/components/Sidebar/Alert.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 enum Pane {
   Account,
@@ -26,182 +27,185 @@ let selectedPane = ref(Pane.Account);
 <template>
   <div class="settings" v-if="true">
     <div class="sidebar">
-      <h1>Settings</h1>
+      <h1>{{ i18n(RosettaStone.settings.title) }}</h1>
       <NavLink @click="selectedPane = Pane.Account" :class="selectedPane == Pane.Account ? 'active' : ''">
-        <Icon name="user" color="normal" class="special" />Account
+        <Icon name="user" color="normal" class="special" />{{ i18n(RosettaStone.settings.account.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Appearance" :class="selectedPane == Pane.Appearance ? 'active' : ''">
-        <Icon name="image" color="normal" />Appearance
+        <Icon name="image" color="normal" />{{ i18n(RosettaStone.settings.appearance.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Team" :class="selectedPane == Pane.Team ? 'active' : ''">
-        <Icon name="team" color="normal" />Team
+        <Icon name="team" color="normal" />{{ i18n(RosettaStone.settings.team.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Spaces" :class="selectedPane == Pane.Spaces ? 'active' : ''">
-        <Icon name="home" color="normal" />Spaces
+        <Icon name="home" color="normal" />{{ i18n(RosettaStone.settings.spaces.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Unsubscribe" :class="selectedPane == Pane.Unsubscribe ? 'active' : ''">
-        <Icon name="unsubscribe" color="normal" />Unsubscribe
+        <Icon name="unsubscribe" color="normal" />{{ i18n(RosettaStone.settings.unsubscribe.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Templates" :class="selectedPane == Pane.Templates ? 'active' : ''">
-        <Icon name="templates" color="normal" />Templates
+        <Icon name="templates" color="normal" />{{ i18n(RosettaStone.settings.templates.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Signatures" :class="selectedPane == Pane.Signatures ? 'active' : ''">
-        <Icon name="signature" color="normal" />Signatures
+        <Icon name="signature" color="normal" />{{ i18n(RosettaStone.settings.signatures.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Billing" :class="selectedPane == Pane.Billing ? 'active' : ''">
-        <Icon name="billing" color="normal" />Plans / Billing
+        <Icon name="billing" color="normal" />{{ i18n(RosettaStone.settings.billing.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Integrations" :class="selectedPane == Pane.Integrations ? 'active' : ''">
-        <Icon name="integrations" color="normal" />Integrations
+        <Icon name="integrations" color="normal" />{{ i18n(RosettaStone.settings.integrations.title) }}
       </NavLink>
       <NavLink @click="selectedPane = Pane.Others" :class="selectedPane == Pane.Others ? 'active' : ''">
-        <Icon name="settings2" color="normal" />Others
+        <Icon name="settings2" color="normal" />{{ i18n(RosettaStone.settings.others.title) }}
       </NavLink>
       <Alert>
-        <h1><i>Version: </i><b>BETA</b></h1>
+        <h1><i>{{ i18n(RosettaStone.settings.version) }}: </i><b>BETA</b></h1>
         <div>#darwin-3.8.1:INTERNAL</div>
-        <p><span>Request features and </span>report issues</p>
+        <p><span>{{ i18n(RosettaStone.settings.request1) }} </span> {{ i18n(RosettaStone.settings.request2) }}</p>
         <ButtonPrimary @click="selectedModal = Modal.Feedback">
-          <span>Give feedback</span>
+          <span>{{ i18n(RosettaStone.settings.btn) }}</span>
         </ButtonPrimary>
       </Alert>
     </div>
 
     <div class="content">
       <div class="pane" v-if="selectedPane == Pane.Account">
-        <h1>Account</h1>
+        <h1>{{ i18n(RosettaStone.settings.account.title) }}</h1>
         <h2>
           <div class="bullet" />
-          Personal Information
+          {{ i18n(RosettaStone.settings.account.personal_info) }}
         </h2>
-        <p>Name</p>
+        <p>{{ i18n(RosettaStone.settings.account.name) }}</p>
         <input placeholder="Name" value="Ruben Touitou" />
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
-        <p>Primary email address (used to sign in to Aiko Mail)</p>
-        <input placeholder="Primary email" value="ruben@aikomail.com" />
-        <ButtonSecondary class="save">Send verification</ButtonSecondary>
+        <p>{{ i18n(RosettaStone.settings.account.primary_email) }}</p>
+        <input :placeholder="i18n(RosettaStone.settings.account.primary_email_placeholder)"
+          value="ruben@aikomail.com" />
+        <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.account.send) }}</ButtonSecondary>
         <h2>
           <div class="bullet" />
-          Mailboxes
+          {{ i18n(RosettaStone.settings.account.mailboxes) }}
         </h2>
-        <p>Add and remove email addresses to this device.</p>
+        <p>{{ i18n(RosettaStone.settings.account.add_remove) }}</p>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.account.remove) }}</ButtonSecondary>
         </div>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.account.remove) }}</ButtonSecondary>
         </div>
         <div class="mailbox">
           <span>ruben@milky.com</span>
-          <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
+          <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.account.remove) }}</ButtonSecondary>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddMailbox">Add a mailbox</ButtonPrimary>
+        <ButtonPrimary @click="selectedModal = Modal.AddMailbox">{{ i18n(RosettaStone.settings.account.add_mailbox) }}
+        </ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Appearance">
-        <h1>Appearance</h1>
+        <h1>{{ i18n(RosettaStone.settings.appearance.title) }}</h1>
 
         <h2>
           <div class="bullet" />
-          Global app appearance
+          {{ i18n(RosettaStone.settings.appearance.subtitle) }}
         </h2>
 
-        <p>Theme</p>
+        <p>{{ i18n(RosettaStone.settings.appearance.theme) }}</p>
         <form action="#">
           <p>
             <input type="radio" id="light" name="radio-group" />
-            <label for="light">Light</label>
+            <label for="light">{{ i18n(RosettaStone.settings.appearance.light) }}</label>
           </p>
           <p>
             <input type="radio" id="dark" name="radio-group" />
-            <label for="dark">Dark</label>
+            <label for="dark">{{ i18n(RosettaStone.settings.appearance.dark) }}</label>
           </p>
           <p>
             <input type="radio" id="system" name="radio-group" checked />
-            <label for="system">System (default)</label>
+            <label for="system">{{ i18n(RosettaStone.settings.appearance.system) }}</label>
           </p>
         </form>
 
         <h2>
           <div class="bullet" />
-          Inbox appearance
+          {{ i18n(RosettaStone.settings.appearance.inbox) }}
         </h2>
-        <p>Lines of preview for each email in boards.</p>
+        <p>{{ i18n(RosettaStone.settings.appearance.lines) }}</p>
         <form action="#">
           <p>
             <input type="radio" id="1line" name="radio-group" />
-            <label for="1line">1 line</label>
+            <label for="1line">{{ i18n(RosettaStone.settings.appearance.one_line) }}</label>
           </p>
           <p>
             <input type="radio" id="2lines" name="radio-group" />
-            <label for="2lines">2 lines</label>
+            <label for="2lines">{{ i18n(RosettaStone.settings.appearance.two_lines) }}</label>
           </p>
           <p>
             <input type="radio" id="3lines" name="radio-group" checked />
-            <label for="3lines">3 lines (default)</label>
+            <label for="3lines">{{ i18n(RosettaStone.settings.appearance.three_lines) }}</label>
           </p>
         </form>
 
         <h2>
           <div class="bullet" />
-          Accessibility
+          {{ i18n(RosettaStone.settings.appearance.accessibility) }}
         </h2>
-        <p>Increased contrast</p>
+        <p>{{ i18n(RosettaStone.settings.appearance.contrast) }}</p>
         <form action="#">
           <p>
             <input type="radio" id="contrastoff" name="radio-group" checked />
-            <label for="contrastoff">Off (default)</label>
+            <label for="contrastoff">{{ i18n(RosettaStone.settings.appearance.contrast_off) }}</label>
           </p>
           <p>
             <input type="radio" id="contraston" name="radio-group" />
-            <label for="contraston">On</label>
+            <label for="contraston">{{ i18n(RosettaStone.settings.appearance.contrast_on) }}</label>
           </p>
         </form>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Team">
-        <h1>Team</h1>
+        <h1>{{ i18n(RosettaStone.settings.team.title) }}</h1>
         <h2>
           <div class="bullet" />
-          Team members
+          {{ i18n(RosettaStone.settings.team.members) }}
         </h2>
-        <p>These members are part of your plan.</p>
+        <p>{{ i18n(RosettaStone.settings.team.members_subtitle) }}</p>
         <div class="members">
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
-            <ButtonSecondary class="save">Make admin</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.team.remove) }}</ButtonSecondary>
+            <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.team.make_admin) }}</ButtonSecondary>
           </div>
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
-            <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.team.remove) }}</ButtonSecondary>
+            <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.team.remove_admin) }}</ButtonSecondary>
           </div>
           <div class="member">
             <span>ruben@milky.com</span>
-            <ButtonSecondary class="save" color="red">Remove</ButtonSecondary>
-            <ButtonSecondary class="save">Remove admin rights</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.team.remove) }}</ButtonSecondary>
+            <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.team.remove_admin) }}</ButtonSecondary>
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.InviteTeam">Invite a new member</ButtonPrimary>
-        <ButtonSecondary class="ml-2">Invite bulk (csv)</ButtonSecondary>
+        <ButtonPrimary @click="selectedModal = Modal.InviteTeam">{{ i18n(RosettaStone.settings.team.invite) }}
+        </ButtonPrimary>
+        <ButtonSecondary class="ml-2">{{ i18n(RosettaStone.settings.team.invite_csv) }}</ButtonSecondary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Spaces">
-        <h1>Spaces</h1>
+        <h1>{{ i18n(RosettaStone.settings.spaces.title) }}</h1>
         <p>
-          These are your spaces, used to separate boards by topics.<br />Hover over to
-          decide which board are shown in them.
+          {{ i18n(RosettaStone.settings.spaces.subtitle) }}
+
         </p>
         <div class="spaces">
           <div class="space">
             <span>School Stuff</span>
-            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.spaces.delete) }}</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
@@ -213,7 +217,7 @@ let selectedPane = ref(Pane.Account);
           </div>
           <div class="space">
             <span>Work Stuff</span>
-            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.spaces.delete) }}</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
@@ -225,7 +229,7 @@ let selectedPane = ref(Pane.Account);
           </div>
           <div class="space">
             <span>Accounting</span>
-            <ButtonSecondary class="save" color="red">Delete space</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.spaces.delete) }}</ButtonSecondary>
             <div class="aikocheckbox">
               <input type="checkbox" id="check1" />
               <label for="check1">Board 1</label>
@@ -237,72 +241,80 @@ let selectedPane = ref(Pane.Account);
           </div>
         </div>
 
-        <ButtonPrimary @click="selectedModal = Modal.AddSpace">Add a new Space</ButtonPrimary>
+        <ButtonPrimary @click="selectedModal = Modal.AddSpace">{{ i18n(RosettaStone.settings.spaces.add) }}
+        </ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Unsubscribe">
-        <h1>Unsubscribe</h1>
-        <p>These are the email subscriptions we have detected.</p>
+        <h1>{{ i18n(RosettaStone.settings.unsubscribe.title) }}</h1>
+        <p>{{ i18n(RosettaStone.settings.unsubscribe.subtitle) }}</p>
         <div class="subscriptions">
           <div class="subscription">
             <span>Forbes milky under milky</span>
-            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.unsubscribe.unsubscribe) }}
+            </ButtonSecondary>
           </div>
           <div class="subscription">
             <span>Yahoo Finance</span>
-            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.unsubscribe.unsubscribe) }}
+            </ButtonSecondary>
           </div>
           <div class="subscription">
             <span>Milky newsletter</span>
-            <ButtonSecondary class="save" color="red">Unsubscribe</ButtonSecondary>
+            <ButtonSecondary class="save" color="red">{{ i18n(RosettaStone.settings.unsubscribe.unsubscribe) }}
+            </ButtonSecondary>
           </div>
         </div>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Templates">
-        <h1>Templates</h1>
-        <p class="mb-3">These are templates you can use while composing new emails.</p>
+        <h1>{{ i18n(RosettaStone.settings.templates.title) }}</h1>
+        <p class="mb-3">{{ i18n(RosettaStone.settings.templates.subtitle) }}</p>
+        <br />
         <div class="template">
-          <input placeholder="Template Name (e.g Sales rejection)" value="" />
+          <input :placeholder="i18n(RosettaStone.settings.templates.placeholder_title)" value="" />
           <div class="inline">
-            <textarea placeholder="Template" value="Hi, This is the content" />
-            <ButtonSecondary class="save">Save changes</ButtonSecondary>
+            <textarea :placeholder="i18n(RosettaStone.settings.templates.placeholder_body)"
+              value="Hi, This is the content" />
+            <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.templates.save) }}</ButtonSecondary>
           </div>
         </div>
-        <ButtonPrimary>New template</ButtonPrimary>
+        <ButtonPrimary>{{ i18n(RosettaStone.settings.templates.new) }}</ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Signatures">
-        <h1>Signatures</h1>
-        <p class="mb-3">These are your signatures.</p>
+        <h1>{{ i18n(RosettaStone.settings.signatures.title) }}</h1>
+        <p class="mb-3">{{ i18n(RosettaStone.settings.signatures.subtitle) }}</p>
+        <br />
         <div class="signature">
-          <p>for ruben@aikomail.com</p>
+          <p>{{ i18n(RosettaStone.settings.signatures.for) }} ruben@aikomail.com</p>
           <div class="inline">
             <textarea placeholder="Signature" value="Best, Ruben Touitou" />
             <ButtonSecondary class="save">Save changes</ButtonSecondary>
           </div>
         </div>
         <div class="signature">
-          <p>for rubencharles@aikomail.com</p>
+          <p>{{ i18n(RosettaStone.settings.signatures.for) }} rubencharles@aikomail.com</p>
           <div class="inline">
             <textarea placeholder="Signature" value="Best, Ruben Touitou" />
-            <ButtonSecondary class="save">Save changes</ButtonSecondary>
+            <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.signatures.save) }}</ButtonSecondary>
           </div>
         </div>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Billing">
-        <h1>Plans & Billing</h1>
+        <h1>{{ i18n(RosettaStone.settings.billing.title) }}</h1>
 
         <h2>
           <div class="bullet" />
-          Plans
+          {{ i18n(RosettaStone.settings.billing.plans) }}
         </h2>
-        <p class="mb-5">These are available plans, click to upgrade.</p>
+        <p class="mb-5">{{ i18n(RosettaStone.settings.billing.plans_list) }}</p>
+        <br />
 
         <div class="plan current">
           <img src="@Veil/assets/img/aikofree.svg" />
-          <span>$0/month</span>
+          <span>$0/{{ i18n(RosettaStone.settings.billing.month) }}</span>
           <span style="opacity: 0">.</span>
           <p>
             Feature<br />
@@ -314,13 +326,13 @@ let selectedPane = ref(Pane.Account);
             Feature<br />
             Feature<br />
           </p>
-          <ButtonSecondary>Current plan</ButtonSecondary>
+          <ButtonSecondary>{{ i18n(RosettaStone.settings.billing.current) }}</ButtonSecondary>
         </div>
 
         <div class="plan">
           <img src="@Veil/assets/img/aikopro.svg" />
-          <span>$12/month</span>
-          <span>Cancel anytime</span>
+          <span>$12/{{ i18n(RosettaStone.settings.billing.month) }}</span>
+          <span>{{ i18n(RosettaStone.settings.billing.cancel_info) }}</span>
           <p>
             Feature<br />
             Feature<br />
@@ -331,70 +343,54 @@ let selectedPane = ref(Pane.Account);
             Feature<br />
             Feature<br />
           </p>
-          <ButtonPrimary>Upgrade to Pro</ButtonPrimary>
+          <ButtonPrimary>{{ i18n(RosettaStone.settings.billing.upgrade_to) }} Pro</ButtonPrimary>
         </div>
-        <h2>
-          <div class="bullet" />
-          Billing details
-        </h2>
-        <p class="mb-2">Name</p>
-        <input placeholder="Name" value="" />
-        <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
-        <p class="mb-2 mt-4">Address</p>
-        <input placeholder="Address" value="" />
-        <ButtonSecondary class="save">Save changes</ButtonSecondary>
-
-        <p class="mb-2 mt-4">Address</p>
-        <input placeholder="Address" value="" />
-        <ButtonSecondary class="save">Save changes</ButtonSecondary>
-
-        <p class="mb-2 mt-4">Stripe</p>
-        <input placeholder="Stripe stuff" value="" />
-        <ButtonSecondary class="save">Save changes</ButtonSecondary>
+        <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.billing.edit) }}</ButtonSecondary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Integrations">
-        <h1>Integrations</h1>
+        <h1>{{ i18n(RosettaStone.settings.integrations.title) }}</h1>
 
         <h2>
           <div class="bullet" />
-          Available integrations
+          {{ i18n(RosettaStone.settings.integrations.subtitle) }}
+
         </h2>
-        <p>You can turn these on or off to use them in Aiko Mail</p>
+        <p>{{ i18n(RosettaStone.settings.integrations.instructions) }}</p>
 
         <div class="integration">
           <h3>Zoom</h3>
-          <p>Videoconferencing app, send link within the composer</p>
-          <ButtonPrimary>Enable</ButtonPrimary>
+          <p>{{ i18n(RosettaStone.settings.integrations.zoom) }}</p>
+          <ButtonPrimary>{{ i18n(RosettaStone.settings.integrations.enable) }}</ButtonPrimary>
         </div>
 
         <div class="integration">
           <h3>Calendly</h3>
-          <p>Videoconferencing app, send link within the composer</p>
-          <ButtonSecondary>Disable</ButtonSecondary>
+          <p>{{ i18n(RosettaStone.settings.integrations.calendly) }}</p>
+          <ButtonSecondary>{{ i18n(RosettaStone.settings.integrations.disable) }}</ButtonSecondary>
         </div>
 
         <div class="integration">
           <h3>Zapier</h3>
-          <p>Videoconferencing app, send link within the composer</p>
-          <ButtonPrimary>Enable</ButtonPrimary>
+          <p>{{ i18n(RosettaStone.settings.integrations.zapier) }}</p>
+          <ButtonPrimary>{{ i18n(RosettaStone.settings.integrations.enable) }}</ButtonPrimary>
         </div>
 
         <h2>
           <div class="bullet" />
-          Request an integration
+          {{ i18n(RosettaStone.settings.integrations.request) }}
         </h2>
         <p class="mb-2">
-          If you don't see the integration you need, simply request it and we'll work on
-          it.
+          {{ i18n(RosettaStone.settings.integrations.request_info) }}
         </p>
-        <ButtonPrimary>Integration request</ButtonPrimary>
+        <ButtonPrimary>{{ i18n(RosettaStone.settings.integrations.request_btn) }}</ButtonPrimary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Others">
-        <h1>Other Settings</h1>
+        <h1>{{ i18n(RosettaStone.settings.others.title2) }}</h1>
         <p>
+          Coming soon:<br />
           Out of Office Replies<br />
           Spelling and Autocorrect<br />
           Notifications<br />
@@ -432,7 +428,7 @@ let selectedPane = ref(Pane.Account);
 
 .pane {
   padding-left: 10%;
-  padding-top: 50px;
+  padding-top: 70px;
   position: relative;
 }
 
@@ -448,7 +444,7 @@ let selectedPane = ref(Pane.Account);
   width: 100%;
   max-width: 250px;
   background: var(--primary-background-color);
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   position: relative;
   border-radius: var(--primary-border-radius);
   text-align: center;
@@ -489,6 +485,14 @@ let selectedPane = ref(Pane.Account);
   font-size: 12px;
   color: var(--primary-font-color);
   font-weight: 500;
+}
+
+.plan a {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 40px);
+  left: 0;
+  margin: 10px 20px;
 }
 
 .save {
@@ -617,12 +621,12 @@ textarea:active+a {
 }
 
 .content p {
-  margin-bottom: 0;
+  margin-bottom: 3px !important;
   margin-top: 0px;
 }
 
 .content h2 {
-  margin-bottom: 0;
+  margin-bottom: 20px;
   margin-top: 40px;
 }
 
@@ -632,13 +636,23 @@ textarea:active+a {
 
 .integration {
   width: 210px;
-  display: inline-block;
+  display: inline-table;
+  min-height: 170px;
   margin-right: 20px;
   text-align: center;
   background: var(--primary-background-color);
   padding: 10px 10px 20px 10px;
   border-radius: var(--primary-border-radius);
   margin-top: 20px;
+  position: relative;
+}
+
+.integration a {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 40px);
+  left: 0;
+  margin: 10px 20px;
 }
 
 
@@ -657,6 +671,7 @@ textarea:active+a {
   width: 16px;
   height: auto;
   margin-right: 5px;
+  margin-top: -3px;
 }
 
 .alert {
@@ -665,11 +680,12 @@ textarea:active+a {
   margin-left: 5px;
   margin-right: 0px;
   position: absolute;
-  padding: 7px;
+  padding: 7px 7px 40px 7px;
   bottom: 0;
   left: 0;
   background: var(--secondary-background-color);
 }
+
 
 .sidebar .alert a {
   display: unset;
@@ -754,13 +770,16 @@ textarea:active+a {
 }
 
 .alert a {
-  width: 100%;
   text-align: center;
   height: 28px;
   font-size: 13.5px !important;
   display: inline-grid;
   letter-spacing: 0 !important;
-  margin-bottom: 0;
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 10px);
+  left: 0;
+  margin: 5px 5px;
 }
 
 .alert b {
@@ -799,20 +818,5 @@ textarea:active+a {
   height: unset;
   transition: 0.2s;
   position: relative;
-}
-
-.current:before {
-  content: "Current plan";
-  position: absolute;
-  top: 0;
-  left: 0;
-  font-size: 14px;
-  margin-top: -20px;
-  background: var(--primary-background-color);
-  color: var(--primary-color);
-  padding: 2px 10px;
-  border-radius: var(--primary-border-radius);
-  margin-left: -2px;
-  font-weight: 600;
 }
 </style>

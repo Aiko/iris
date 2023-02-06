@@ -10,6 +10,7 @@ import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
 import Loader from '@Veil/components/Base/Loader.vue'
 import { resolveEmail, } from '@Veil/state/notional'
 import Logger from '@Veil/services/roots'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 const Log = new Logger('Board')
 
 const props = defineProps<{
@@ -27,8 +28,8 @@ const showBoardMenu = ref(false)
 const size = ref('large')
 
 // Information variables for 'Board' component
-const infoPriorityOther = 'Priority includes important emails and Others tab include secondary importance emails.'
-const infoBoardRules = 'Board rules let you automatically sort emails into existing boards based on content, type, sender...'
+const infoPriorityOther = i18n(RosettaStone.boards.board.priority_other)
+const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 </script>
 
 <template>
@@ -66,14 +67,14 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
           <p>Manage board rules</p>
           <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules"
             @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
-            Board rules
+            {{ i18n(RosettaStone.boards.board.board_rules_btn) }}
           </ButtonSecondary>
         </div>
         <div class="option" v-if="isInbox">
-          <p>Sort emails</p>
-          <ButtonSecondary lass="btn">Date (Newest first)</ButtonSecondary>
-          <ButtonSecondary lass="btn">Date (Oldest first)</ButtonSecondary>
-          <ButtonSecondary lass="btn">Unread First</ButtonSecondary>
+          <p>{{ i18n(RosettaStone.boards.board.sort_emails_btn) }}</p>
+          <ButtonSecondary lass="btn">{{ i18n(RosettaStone.boards.board.sort_emails_date1_btn) }}</ButtonSecondary>
+          <ButtonSecondary lass="btn">{{ i18n(RosettaStone.boards.board.sort_emails_date1_btn) }}</ButtonSecondary>
+          <ButtonSecondary lass="btn">{{ i18n(RosettaStone.boards.board.sort_emails_unread_btn) }}</ButtonSecondary>
         </div>
       </div>
 
@@ -87,13 +88,13 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
       }
       " v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
-          Priority
+          {{ i18n(RosettaStone.boards.board.priority) }}
           <div class="count">
             7
           </div>
         </div>
         <div class="tab">
-          Others
+          {{ i18n(RosettaStone.boards.board.other) }}
           <div class="count">
             99+
           </div>
@@ -118,12 +119,12 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
         <template #footer>
           <Empty v-if="!isInbox && (board?.emails ?? []).length == 0">
             <Icon name="drag" color="normal" />
-            <p class="mt-2">Drag emails here</p>
+            <p class="mt-2"> {{ i18n(RosettaStone.boards.board.drag_emails_here) }}</p>
           </Empty>
           <Empty v-if="isInbox == true && !demo">
             <Loader class="mt-4" />
-            <p class="mb-2 mt-2">Loading more emails</p>
-            <ButtonSecondary class="mb-4">Check 'Others' tab</ButtonSecondary>
+            <p class="mb-2 mt-2"> {{ i18n(RosettaStone.boards.board.loading_more_emails) }}</p>
+            <ButtonSecondary class="mb-4"> {{ i18n(RosettaStone.boards.board.check_others) }}</ButtonSecondary>
           </Empty>
         </template>
       </Sortable>
@@ -459,7 +460,7 @@ const infoBoardRules = 'Board rules let you automatically sort emails into exist
 }
 
 .option {
-  width: 50%;
+  width: 100%;
   text-align: left;
   overflow: visible;
 }

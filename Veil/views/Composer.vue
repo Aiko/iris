@@ -8,6 +8,7 @@ import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
 import { isComposerSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 import Grimaldi from '@Veil/utils/grimaldi/editor'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 let isComposerBCCActive = ref(false);
 
@@ -26,18 +27,19 @@ const grimaldi = new Grimaldi()
 
 
 
-      <ComposerField placeholder="To" />
+      <ComposerField :placeholder="i18n(RosettaStone.composer.to)" />
 
-      <ComposerField placeholder="CC" />
-      <ButtonSecondary class="extra-btn" @click="toggleComposerBCC">BCC</ButtonSecondary>
+      <ComposerField :placeholder="i18n(RosettaStone.composer.cc)" />
+      <ButtonSecondary class="extra-btn" @click="toggleComposerBCC">{{ i18n(RosettaStone.composer.bcc) }}
+      </ButtonSecondary>
 
       <!-- TODO: This only shows and hides the field an does not remove the email addresses from the BCC and from being sent -->
-      <ComposerField placeholder="BCC" v-if="isComposerBCCActive" />
+      <ComposerField :placeholder="i18n(RosettaStone.composer.bcc)" v-if="isComposerBCCActive" />
 
       <!-- TODO: Only show 'From' field if they have multiple mailboxes -->
-      <ComposerField placeholder="From" v-if="false" />
+      <ComposerField :placeholder="i18n(RosettaStone.composer.from)" v-if="false" />
 
-      <ComposerField placeholder="Subject" />
+      <ComposerField :placeholder="i18n(RosettaStone.composer.subject)" />
 
       <ComposerBody :grimaldi="grimaldi" />
 
@@ -46,7 +48,7 @@ const grimaldi = new Grimaldi()
       <div class="bottom">
         <ButtonPrimary class="send-btn">
           <Icon name="sent" color="white" />
-          Send
+          {{ i18n(RosettaStone.composer.send) }}
         </ButtonPrimary>
         <ButtonSecondary>
           <Icon name="scribe" color="blue" class="scribe-icon" />
@@ -72,7 +74,7 @@ const grimaldi = new Grimaldi()
 
     <div class="right">
       <p class="collapse-info open" @click="toggleComposerSidebar()">
-        <Icon name="sidebar-collapse" color="grey" /> Show Templates and Attachments
+        <Icon name="sidebar-collapse" color="grey" /> {{ i18n(RosettaStone.composer.show) }}
       </p>
       <p class="collapse-info closed" @click="toggleComposerSidebar()">
         <Icon name="close" color="grey" />

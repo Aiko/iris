@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 </script>
 
 <template>
   <div class="search">
     <Icon name="search" color="normal" />
-    <input type="text" placeholder="Search" />
-    <p>Press ENTER to search</p>
+    <input type="text" :placeholder="i18n(RosettaStone.header.search.placeholder)" />
+    <p>{{ i18n(RosettaStone.header.search.tip) }}</p>
   </div>
 </template>
 
@@ -37,7 +38,7 @@ input:active+p {
 
 p {
   position: absolute;
-  font-size: 11px;
+  font-size: 11px !important;
   top: 0;
   margin: 0;
   margin-top: -3px;

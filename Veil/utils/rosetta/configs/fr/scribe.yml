@@ -1,7 +1,0 @@
-lang: fr
-platform: default
-
-messages:
-  scribe:
-    prompt:
-      greeting: Bonjour

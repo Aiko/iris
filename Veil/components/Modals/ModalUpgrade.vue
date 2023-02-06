@@ -2,6 +2,7 @@
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 defineProps<{
   feature?: string
 }>()
@@ -10,12 +11,11 @@ defineProps<{
 <template>
   <div class="modal-upgrade">
     <img src="@Veil/assets/img/upgrade.svg">
-    <h1>You found a Pro feature.</h1>
-    <p>{{feature}} is a very powerful feature of Aiko Mail. To learn more about it, head over to <a>our
-        documentation</a>, to use it, upgrade to Pro.
+    <h1>{{ i18n(RosettaStone.modals.upgrade.title) }}</h1>
+    <p>{{ feature }} {{ i18n(RosettaStone.modals.upgrade.text) }}
     </p>
 
-    <ButtonPrimary class="mt-4">Use {{feature}}</ButtonPrimary>
+    <ButtonPrimary class="mt-4">{{ i18n(RosettaStone.modals.upgrade.btn) }} {{ feature }}</ButtonPrimary>
   </div>
 </template>
 
