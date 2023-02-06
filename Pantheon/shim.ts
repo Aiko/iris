@@ -1,17 +1,12 @@
-import replace from "replace-in-file"
-replace.sync({
-	files: path.join(__dirname, "src", "generated", "client", "index.js"),
-	from: "findSync(process.cwd()",
-	to: `findSync(require('electron').app.getAppPath()`,
-})
-import { app } from 'electron/main';
-import path from 'path';
-import { PrismaClient } from "@prisma/client"
-import { fork } from 'child_process';
+import path from "path"
+import { app } from 'electron';
 import datapath from "@Iris/common/datapath";
 
 
-const fp = (p: string) => path.join(app.getAppPath().replace('app.asar', ''), p)
+const fp = (p: string) => path.join(
+	app ? app.getAppPath().replace('app.asar', '') : __dirname,
+	p
+)
 const executables: Record<string, {migrationEngine: string, queryEngine: string}> = {
 	win32: {
 			migrationEngine: fp('node_modules/@prisma/engines/migration-engine-windows.exe'),
@@ -31,39 +26,8 @@ const executables: Record<string, {migrationEngine: string, queryEngine: string}
 	}
 }
 
-const { migrationEngine, queryEngine } = (process.platform == 'darwin' && process.arch == 'arm64') ?
+export const { migrationEngine, queryEngine } = (process.platform == 'darwin' && process.arch == 'arm64') ?
 	executables.darwinArm64
 	: executables[process.platform]
 ;
-
-export const prisma = new PrismaClient({
-	__internal: {
-		engine: {
-				binaryPath: queryEngine
-		}
-	}
-})
-
-const DB = datapath("pantheon.db")
-
-export const prismaCLI = async (...command: string[]): Promise<number> => new Promise(s => {
-	const child = fork(
-		path.resolve(__dirname, "..", "..", "node_modules/prisma/build/index.js"),
-		command,
-		{
-			env: {
-				...process.env,
-				PRISMA_MIGRATION_ENGINE_BINARY: migrationEngine,
-				PRISMA_QUERY_ENGINE_LIBRARY: queryEngine,
-				DATABASE_URL: "file:" + DB
-			},
-			stdio: "inherit"
-		}
-	);
-
-	child.on("error", err => {throw err})
-
-	child.on("close", (code, signal) => {
-		s(code ?? 0);
-	})
-})
+export const DB = datapath("pantheon.db")

@@ -1,3 +1,3 @@
-import { prismaCLI } from "@Iris/Pantheon/shim";
+import prismaCLI from "@Pantheon/cli";
 
 prismaCLI('migrate')
