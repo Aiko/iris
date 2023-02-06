@@ -55,7 +55,7 @@ export const prismaCLI = async (...command: string[]): Promise<number> => new Pr
 				...process.env,
 				PRISMA_MIGRATION_ENGINE_BINARY: migrationEngine,
 				PRISMA_QUERY_ENGINE_LIBRARY: queryEngine,
-				DATABASE_URL: DB
+				DATABASE_URL: "file:" + DB
 			},
 			stdio: "inherit"
 		}
