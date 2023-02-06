@@ -35,7 +35,7 @@
     "win:veil:preview": "vite preview --port 4173",
     "rosetta:start": "node rosetta-server.js",
     "rosetta:make": "ts-node ./Veil/utils/rosetta/compile.ts",
-    "pantheon:make": "npx prisma generate --schema ./Pantheon/prisma/schema.prisma",
+    "pantheon:make": "ts-node ./Pantheon/scripts/prisma-generate.ts",
     "************** END **************": "================================================="
   },
   "keywords": [
@@ -102,6 +102,19 @@
           "out/.*",
           "\\.vscode/.*",
           "\\.git/.*"
+        ],
+        "extraResource": [
+          "Pantheon/prisma/**/*",
+          "node_modules/.prisma/**/*",
+          "node_modules/@prisma/client/**/*",
+          "node_modules/@prisma/engines/migration-engine-windows.exe",
+          "node_modules/@prisma/engines/query_engine-windows.dll.node",
+          "node_modules/@prisma/engines/migration-engine-debian-openssl-1.1.x",
+          "node_modules/@prisma/engines/libquery_engine-debian-openssl-1.1.x.so.node",
+          "node_modules/@prisma/engines/migration-engine-darwin",
+          "node_modules/@prisma/engines/libquery_engine-darwin.dylib.node",
+          "node_modules/@prisma/engines/migration-engine-darwin-arm64",
+          "node_modules/@prisma/engines/libquery_engine-darwin-arm64.dylib.node"
         ]
       },
       "makers": [
@@ -199,6 +212,7 @@
     "nodemailer-plugin-inline-base64": "^2.1.1",
     "openai": "^3.1.0",
     "planer": "^1.1.1",
+    "replace-in-file": "^6.3.5",
     "request": "^2.88.0",
     "sortablejs": "^1.15.0",
     "sortablejs-vue3": "^1.2.5",
