@@ -1,11 +1,57 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["metrics"]
 }
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+model Mailbox {
+  email     String   @id @unique
+  createdAt DateTime @default(now())
+  provider  String
+}
+
+model Message {
+	// Identifiers
+  mid       String   @id @unique
+  tid       String
+
+	// Metadata
+	seen			Boolean
+	starred		Boolean
+	subject   String
+
+	// Participants
+	from      Contact @relation("from", fields: [fromEmail], references: [email])
+	fromEmail String
+
+	to        Contact[] @relation("to")
+	cc        Contact[] @relation("cc")
+	bcc       Contact[] @relation("bcc")
+	allRecipients Contact[] @relation("recipients")
+	timestamp DateTime
+	locations Folder[]
+}
+
+model Contact {
+	name String
+	email String @id @unique
+	base String
+
+	sent Message[] @relation("from")
+	directRecipientOf Message[] @relation("to")
+	ccedOn Message[] @relation("cc")
+	bccedOn Message[] @relation("bcc")
+	recipientOf Message[] @relation("recipients")
+}
+
+model Folder {
+	id String @id @unique @default(uuid())
+	name String
+	path String
+	mailbox Mailbox
+	messages Message[]
 }
