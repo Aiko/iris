@@ -1,3 +1,3 @@
 import { prismaNodeCLI } from "@Pantheon/cli";
 
-prismaNodeCLI('migrate')
+prismaNodeCLI('migrate', 'dev', '--schema=./Pantheon/prisma/schema.prisma');
