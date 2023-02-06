@@ -209,6 +209,11 @@ messages:
       add_remove: Ajouter et supprimer des adresses email sur cet appareil.
       remove: Supprimer
       add_mailbox: Ajouter une boîte aux lettres
+      language:
+        title: Langue
+        info: Langue principale de l'application
+        english: English (Anglais)
+        french: Francais (French)
     appearance:
       title: Apparence
       subtitle: Apparence globale de l'application

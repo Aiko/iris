@@ -963,7 +963,7 @@
             "default": "from"
           },
           "fr": {
-            "default": "de"
+            "default": "L'email viens de"
           }
         }
       },
@@ -1816,6 +1816,48 @@
           },
           "fr": {
             "default": "Ajouter une boîte aux lettres"
+          }
+        }
+      },
+      "language": {
+        "title": {
+          "definitions": {
+            "default": {
+              "default": "Language"
+            },
+            "fr": {
+              "default": "Langue"
+            }
+          }
+        },
+        "info": {
+          "definitions": {
+            "default": {
+              "default": "Change global app language"
+            },
+            "fr": {
+              "default": "Langue principale de l'application"
+            }
+          }
+        },
+        "english": {
+          "definitions": {
+            "default": {
+              "default": "English"
+            },
+            "fr": {
+              "default": "English (Anglais)"
+            }
+          }
+        },
+        "french": {
+          "definitions": {
+            "default": {
+              "default": "Francais (French)"
+            },
+            "fr": {
+              "default": "Francais (French)"
+            }
           }
         }
       }

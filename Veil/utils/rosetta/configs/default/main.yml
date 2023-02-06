@@ -209,6 +209,11 @@ messages:
       add_remove: Add and remove email addresses to this device.
       remove: Remove
       add_mailbox: Add a mailbox
+      language:
+        title: Language
+        info: Change global app language
+        english: English
+        french: Francais (French)
     appearance:
       title: Appearance
       subtitle: Global app appearance

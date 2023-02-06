@@ -73,6 +73,19 @@ let selectedPane = ref(Pane.Account);
         <h1>{{ i18n(RosettaStone.settings.account.title) }}</h1>
         <h2>
           <div class="bullet" />
+          {{ i18n(RosettaStone.settings.account.language.title) }}
+        </h2>
+        <p>{{ i18n(RosettaStone.settings.account.language.info) }}</p>
+
+
+        <select name="Language">
+          <option value="Move to">{{ i18n(RosettaStone.settings.account.language.english) }}</option>
+          <option value="Star">{{ i18n(RosettaStone.settings.account.language.french) }}</option>
+        </select>
+
+
+        <h2>
+          <div class="bullet" />
           {{ i18n(RosettaStone.settings.account.personal_info) }}
         </h2>
         <p>{{ i18n(RosettaStone.settings.account.name) }}</p>
@@ -818,5 +831,15 @@ textarea:active+a {
   height: unset;
   transition: 0.2s;
   position: relative;
+}
+
+select {
+  background-color: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  border: 1px solid var(--secondary-background-color);
+  padding: 5px;
+  color: var(--primary-font-color);
+  margin-right: 8px;
+  outline: none !important;
 }
 </style>
