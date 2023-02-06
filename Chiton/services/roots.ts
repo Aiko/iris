@@ -7,6 +7,7 @@ import WebSocket, { Server } from 'ws'
 import Storage from '@Iris/common/storage'
 import fs from 'fs'
 import { RESERVED_PORTS } from '@Iris/common/port'
+import datapath from '@Iris/common/datapath'
 
 //! Roots requires Electron Shell and should ONLY operate within the main process.
 
@@ -14,22 +15,7 @@ export default class Roots {
 	private readonly storage: Storage
 	private readonly id: string = crypto.randomBytes(6).toString('hex')
 	private constructor(logdir: string="logs-roots") {
-		//? Determine storage location
-		const platform: string = process.platform
-		switch (platform) {
-      case 'darwin': logdir = path.join(
-        process.env.HOME as string, 'Library', 'Application Support',
-        'Aiko Mail', 'Mouseion', logdir
-      ); break;
-      case 'win32': logdir = path.join(
-        process.env.APPDATA as string,
-        'Aiko Mail', 'Mouseion', logdir
-      ); break;
-      case 'linux': logdir = path.join(
-        process.env.HOME as string,
-        '.Aiko Mail', 'Mouseion', logdir
-      ); break;
-    }
+		logdir = datapath('Mouseion', logdir)
 		this.storage = new Storage(logdir, {json: false})
 
 		//? Setup simple Websockets for logging

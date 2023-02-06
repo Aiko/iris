@@ -6,6 +6,7 @@ import Storage from '@Iris/common/storage'
 import WebSocket from 'ws'
 import sleep from '@Iris/common/sleep'
 import { performance } from 'perf_hooks'
+import datapath from './datapath'
 
 /** Generates a string timestamp of the current date/time */
 export const Timestamp = (): string => {
@@ -93,20 +94,7 @@ export default class Forest {
 
     //? initialize dir to the correct app datapath
     const platform: string = process.platform
-    switch (platform) {
-      case 'darwin': dir = path.join(
-        process.env.HOME as string, 'Library', 'Application Support',
-        'Aiko Mail', 'Forest', dir
-      ); break;
-      case 'win32': dir = path.join(
-        process.env.APPDATA as string,
-        'Aiko Mail', 'Forest', dir
-      ); break;
-      case 'linux': dir = path.join(
-        process.env.HOME as string,
-        '.Aiko Mail', 'Forest', dir
-      ); break;
-    }
+		dir = datapath('Forest', dir)
     this.dir = dir
 
     //? logger appends strings so we want regular files

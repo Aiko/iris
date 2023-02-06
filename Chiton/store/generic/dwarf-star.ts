@@ -3,6 +3,7 @@ import fs2 from 'fs-extra'
 import autoBind from 'auto-bind'
 import SockPuppet from '@Marionette/ws/sockpuppet'
 import type { Chiton } from '@Chiton/app'
+import datapath from '@Iris/common/datapath'
 
 // TODO: this should connect to Arachne to sync settings across devices
 
@@ -58,12 +59,7 @@ export default class DwarfStar<T extends object> extends SockPuppet {
 			renderer: false
 		})
 
-		switch (process.platform) {
-      case 'darwin': fp = path.join(process.env.HOME || "~", "Library", "Application Support", "Aiko Mail", fp); break
-      case 'win32': fp = path.join(process.env.APPDATA || "/c/", "Aiko Mail", fp); break
-      case 'linux': fp = path.join(process.env.HOME || "~", ".Aiko Mail", fp); break
-    }
-
+		this.fp = datapath(fp)
 		autoBind(this)
 	}
 
