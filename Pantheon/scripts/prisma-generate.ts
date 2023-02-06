@@ -1,3 +1,3 @@
-import prismaCLI from "@Pantheon/cli";
+import { prismaNodeCLI } from "@Pantheon/cli";
 
-prismaCLI('generate --schema ./Pantheon/prisma/schema.prisma')
+prismaNodeCLI('generate', '--schema=./Pantheon/prisma/schema.prisma')

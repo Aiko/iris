@@ -4,7 +4,7 @@ import datapath from "@Iris/common/datapath";
 
 
 const fp = (p: string) => path.join(
-	app ? app.getAppPath().replace('app.asar', '') : __dirname,
+	app ? app.getAppPath().replace('app.asar', '') : `${__dirname}/../`,
 	p
 )
 const executables: Record<string, {migrationEngine: string, queryEngine: string}> = {
