@@ -140,6 +140,8 @@
     "@aiko/dwarfhaven": "^2.2.3",
     "@cliqz/adblocker-electron": "^1.20.2",
     "@microsoft/microsoft-graph-client": "^3.0.4",
+    "@prisma/client": "^4.9.0",
+    "@prisma/engines": "^4.9.0",
     "@seald-io/nedb": "^3.0.0",
     "@sentry/electron": "^2.0.4",
     "@sentry/node": "^5.11.0",
