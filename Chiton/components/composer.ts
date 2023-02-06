@@ -2,7 +2,7 @@ import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
 import autoBind from "auto-bind";
 import crypto from "crypto";
-import { dialog } from "electron/main";
+import { dialog } from "electron";
 import fs from 'fs-extra';
 import mime from 'mime';
 import writeGood from "write-good";

@@ -34,8 +34,8 @@
     "veil:preview": "vite preview --port 4173",
     "win:veil:preview": "vite preview --port 4173",
     "rosetta:start": "node rosetta-server.js",
-    "rosetta:make": "ts-node ./Veil/utils/rosetta/compile.ts",
-    "pantheon:make": "ts-node ./Pantheon/scripts/prisma-generate.ts",
+    "rosetta:make": "ts-node -r tsconfig-paths/register ./Veil/utils/rosetta/compile.ts",
+    "pantheon:make": "ts-node -r tsconfig-paths/register ./Pantheon/scripts/prisma-generate.ts",
     "************** END **************": "================================================="
   },
   "keywords": [
@@ -255,6 +255,7 @@
     "electron": "^20.0.0",
     "prisma": "^4.8.0",
     "tsc-alias": "^1.7.0",
+    "tsconfig-paths": "^4.1.2",
     "vite": "^3.0.9"
   },
   "bundleDependencies": [

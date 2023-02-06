@@ -27,7 +27,7 @@ import SockPuppet from '@Marionette/ws/sockpuppet';
 import { RESERVED_PORTS } from '@Iris/common/port';
 import SettingsStore from '@Chiton/store/settings';
 import Inbox from '@Chiton/components/inbox';
-import { autoUpdater } from 'electron/main';
+import { autoUpdater } from 'electron';
 /// //////////////////////////////////////////////////////
 /// //////////////////////////////////////////////////////
 //! Singleton

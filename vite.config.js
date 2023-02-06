@@ -34,6 +34,7 @@ export default defineConfig({
       '@Veil': fileURLToPath(new URL('./Veil', import.meta.url)),
       '@Chiton': fileURLToPath(new URL('./Chiton', import.meta.url)),
       '@Mouseion': fileURLToPath(new URL('./Mouseion', import.meta.url)),
+			'@Pantheon': fileURLToPath(new URL('./Pantheon', import.meta.url)),
       '@Iris': fileURLToPath(new URL('./', import.meta.url)),
     }
   }
