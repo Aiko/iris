@@ -9,15 +9,16 @@ datasource db {
 }
 
 model Mailbox {
-  email     String   @id @unique
-  createdAt DateTime @default(now())
+  email     String    @id @unique
+  createdAt DateTime  @default(now())
   provider  String //* see: enums.ts
-  Folder    Folder[] @relation
+  folders   Folder[]  @relation
+  contacts  Contact[] @relation
 }
 
 model Message {
   // Identifiers
-  mid           String    @id @unique
+  mid           String       @id @unique
   tid           String
   // Metadata
   seen          Boolean
@@ -26,15 +27,52 @@ model Message {
   summary       String
   timestamp     DateTime
   // Thread
-  thread        Thread    @relation(fields: [tid], references: [tid])
+  thread        Thread       @relation(fields: [tid], references: [tid])
   // Relations
   fromEmail     String
-  from          Contact   @relation("from", fields: [fromEmail], references: [email])
-  to            Contact[] @relation("to")
-  cc            Contact[] @relation("cc")
-  bcc           Contact[] @relation("bcc")
-  allRecipients Contact[] @relation("recipients")
-  folders       Folder[]  @relation
+  from          Contact      @relation("from", fields: [fromEmail], references: [email])
+  to            Contact[]    @relation("to")
+  cc            Contact[]    @relation("cc")
+  bcc           Contact[]    @relation("bcc")
+  allRecipients Contact[]    @relation("recipients")
+  folders       Folder[]     @relation
+  attachments   Attachment[] @relation
+}
+
+model Attachment {
+  path        String   @id @unique
+  name        String
+  contentType String
+  size        Int
+  timestamp   DateTime
+  cid         String?
+  embedded    Boolean  @default(false)
+  mid         String
+  message     Message  @relation(fields: [mid], references: [mid])
+  authorEmail String
+  author      Contact  @relation(fields: [authorEmail], references: [email])
+}
+
+model Contact {
+  name              String
+  email             String       @id @unique
+  base              String
+  // Stats
+  messagesSent      Int          @default(0)
+  messagesReceived  Int          @default(0)
+  // Controls
+  blocked           Boolean      @default(false)
+  rollup            Boolean      @default(false)
+  whitelisted       Boolean      @default(false)
+  // Relations
+  mailboxes         Mailbox[]    @relation
+  sent              Message[]    @relation("from")
+  directRecipientOf Message[]    @relation("to")
+  ccedOn            Message[]    @relation("cc")
+  bccedOn           Message[]    @relation("bcc")
+  recipientOf       Message[]    @relation("recipients")
+  participantOf     Thread[]     @relation
+  attachments       Attachment[] @relation
 }
 
 model Thread {
@@ -47,26 +85,6 @@ model Thread {
   folder       Folder    @relation(fields: [folderId], references: [id])
   folderId     String //* pick one, update every time you add a message
   participants Contact[] @relation
-}
-
-model Contact {
-  name              String
-  email             String    @id @unique
-  base              String
-  // Stats
-  messagesSent      Int       @default(0)
-  messagesReceived  Int       @default(0)
-  // Controls
-  blocked           Boolean   @default(false)
-  rollup            Boolean   @default(false)
-  whitelisted       Boolean   @default(false)
-  // Relations
-  sent              Message[] @relation("from")
-  directRecipientOf Message[] @relation("to")
-  ccedOn            Message[] @relation("cc")
-  bccedOn           Message[] @relation("bcc")
-  recipientOf       Message[] @relation("recipients")
-  participantOf     Thread[]  @relation()
 }
 
 model Folder {
@@ -88,24 +106,23 @@ model Space {
 }
 
 model BoardRule {
-	id String @id @default(uuid())
-	actions BoardRuleAction[] @relation
-	// conditions
-	isFrom String?
-	isTo String?
-	subjectContains String?
-	bodyContains String?
-	detectedQuickAction String?
-	isSubscription Boolean?
-	attachmentsNameContains String?
-	attachmentsTypeIs String?
+  id                      String            @id @default(uuid())
+  actions                 BoardRuleAction[] @relation
+  // conditions
+  isFrom                  String?
+  isTo                    String?
+  subjectContains         String?
+  bodyContains            String?
+  detectedQuickAction     String?
+  isSubscription          Boolean?
+  attachmentsNameContains String?
+  attachmentsTypeIs       String?
 }
 
 model BoardRuleAction {
-	id String @id @default(uuid())
-	type String //* see enums
-	target String
-	ruleId String
-	rule BoardRule @relation(fields: [ruleId], references: [id])
+  id     String    @id @default(uuid())
+  type   String //* see enums
+  target String
+  ruleId String
+  rule   BoardRule @relation(fields: [ruleId], references: [id])
 }
-
