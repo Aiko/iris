@@ -15,3 +15,11 @@ export enum FolderSpecialty {
 	TRASH="trash",
 	BOARD="board"
 }
+
+export enum BoardRuleActionType {
+	Star="star",
+	Forward="forward",
+	Move="move",
+	Delete="delete",
+	Archive="archive"
+}
