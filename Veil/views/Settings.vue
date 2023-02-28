@@ -7,6 +7,9 @@ import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+import Menu from "@Veil/components/Base/Menu.vue";
+import MenuItem from "@Veil/components/Base/MenuItem.vue";
+import SubMenu from "@Veil/components/Base/SubMenu.vue";
 
 enum Pane {
   Account,
@@ -78,6 +81,44 @@ let selectedPane = ref(Pane.Account);
         <p>{{ i18n(RosettaStone.settings.account.language.info) }}</p>
 
 
+        <Menu :direction="'bottom'" :width="150" :label="'Select something'">
+          <MenuItem>
+          level 1
+          </MenuItem>
+          <MenuItem>
+          level 1
+          </MenuItem>
+          <SubMenu :label="'Select option'">
+            <MenuItem>
+            level 2
+            </MenuItem>
+            <MenuItem>
+            level 2
+            </MenuItem>
+          </SubMenu>
+          <MenuItem>
+          level 1
+          </MenuItem>
+          <MenuItem>
+          level 1
+          </MenuItem>
+          <SubMenu :label="'Select'">
+            <MenuItem>
+            level 2
+            </MenuItem>
+            <SubMenu :label="'Select option'">
+              <MenuItem>
+              level 3
+              </MenuItem>
+              <MenuItem>
+              level 3
+              </MenuItem>
+            </SubMenu>
+          </SubMenu>
+        </Menu>
+
+        <br /><br /><br />
+
         <select name="Language">
           <option value="Move to">{{ i18n(RosettaStone.settings.account.language.english) }}</option>
           <option value="Star">{{ i18n(RosettaStone.settings.account.language.french) }}</option>
@@ -93,8 +134,7 @@ let selectedPane = ref(Pane.Account);
         <ButtonSecondary class="save">Save changes</ButtonSecondary>
 
         <p>{{ i18n(RosettaStone.settings.account.primary_email) }}</p>
-        <input :placeholder="i18n(RosettaStone.settings.account.primary_email_placeholder)"
-          value="ruben@aikomail.com" />
+        <input :placeholder="i18n(RosettaStone.settings.account.primary_email_placeholder)" value="ruben@aikomail.com" />
         <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.account.send) }}</ButtonSecondary>
         <h2>
           <div class="bullet" />
