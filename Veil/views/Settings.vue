@@ -83,10 +83,10 @@ let selectedPane = ref(Pane.Account);
 
         <Menu :direction="'bottom'" :width="150" :label="'Select something'">
           <MenuItem>
-          level 1
+          {{ i18n(RosettaStone.settings.account.language.english) }}
           </MenuItem>
           <MenuItem>
-          level 1
+          {{ i18n(RosettaStone.settings.account.language.french) }}
           </MenuItem>
           <SubMenu :label="'Select option'">
             <MenuItem>
@@ -116,13 +116,6 @@ let selectedPane = ref(Pane.Account);
             </SubMenu>
           </SubMenu>
         </Menu>
-
-        <br /><br /><br />
-
-        <select name="Language">
-          <option value="Move to">{{ i18n(RosettaStone.settings.account.language.english) }}</option>
-          <option value="Star">{{ i18n(RosettaStone.settings.account.language.french) }}</option>
-        </select>
 
 
         <h2>
