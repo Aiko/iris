@@ -9,14 +9,14 @@ defineProps<{
   width?: number;
 }>();
 
-
-
 let isOpen = ref(false);
 const toggleMenu = () => (isOpen.value = !isOpen.value);
 </script>
 
 <template>
-  <div class="menu" :class="direction + ' w' + width">
+  <div class="menu" :class="{
+    ['' + direction]: true, 'isOpen': isOpen, ['w' + width]: true,
+  }">
     <div :class="{
       'menu-container': true,
       'is-open': isOpen,
@@ -25,7 +25,8 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
       {{ label }}
       </MenuItem>
 
-      <slot v-if="isOpen"></slot>
+      <slot v-if="isOpen" class="overflow-scroll"></slot>
+
       <Icon name="roundedx" color="normal" class="icon" v-if="isOpen" />
       <Icon name="down" color="normal" class="icon" v-if="!isOpen" />
 
@@ -37,17 +38,22 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 .menu {
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
-  border: 1px solid var(--secondary-background-color);
-  padding: 0px 32px 0px 5px;
+  border: 1px solid var(--secondary-background-color) !important;
+  padding: 2px 32px 0px 5px;
   color: var(--primary-font-color);
-  margin-right: 8px;
   outline: none !important;
   width: 150px;
   cursor: pointer;
   height: 35px;
   position: relative;
   user-select: none;
+  overflow: hidden;
 }
+
+.isOpen {
+  overflow: unset;
+}
+
 
 
 .w50,
@@ -88,16 +94,18 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 }
 
 .menu-container {
-  height: 35px;
-
-  width: 150px;
-  margin-left: -5px;
+  width: calc(100% - 15px);
+  margin-left: -6px;
+  margin-top: -3px;
+  left: 0;
   border-radius: var(--primary-border-radius);
 }
 
+.overflow-scroll {
+  overflow-y: scroll;
+}
 
 .is-open {
-  height: fit-content !important;
   background: var(--primary-background-color);
 }
 
@@ -122,13 +130,27 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
   transform: rotate(180deg);
 }
 
+
 .normal {}
 
 .down {}
 
-.right {}
+.top .menu-container {
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  padding-bottom: 35px;
+}
+
+.top .label {
+  position: absolute;
+  bottom: 0;
+}
+
+.top .icon {
+  top: unset;
+  bottom: 0;
+}
 
 .left {}
-
-.top {}
 </style>

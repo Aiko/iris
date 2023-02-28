@@ -14,8 +14,8 @@
   border-radius: var(--primary-border-radius);
   white-space: nowrap;
   text-overflow: ellipsis;
+  width: calc(100% - 6px);
   overflow: hidden;
-  background-color: var(--primary-background-color);
 }
 
 .menu-item:hover {

@@ -38,7 +38,7 @@ let isOpen = ref(false);
   margin-right: 8px;
   outline: none !important;
   width: 100%;
-  height: 35px;
+  height: 36px;
   cursor: pointer;
   position: relative;
   position: relative;
