@@ -84,6 +84,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 
 .label {
   padding-right: 25px;
+  pointer-events: none;
 }
 
 .menu-container {
