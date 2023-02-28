@@ -98,7 +98,6 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 .is-open {
   height: fit-content !important;
   background: var(--primary-background-color);
-  transition: .2s;
 }
 
 .icon {
