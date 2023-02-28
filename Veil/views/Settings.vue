@@ -81,10 +81,7 @@ let selectedPane = ref(Pane.Account);
         <p>{{ i18n(RosettaStone.settings.account.language.info) }}</p>
 
 
-        <Menu :direction="'bottom'" :width="150" :label="'Select something'">
-          <MenuItem>
-          {{ i18n(RosettaStone.settings.account.language.english) }}
-          </MenuItem>
+        <Menu :direction="'bottom'" :width="150" :label="i18n(RosettaStone.settings.account.language.english)">
           <MenuItem>
           {{ i18n(RosettaStone.settings.account.language.french) }}
           </MenuItem>
