@@ -20,7 +20,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     <div :class="{
       'menu-container': true,
       'is-open': isOpen,
-    }" @click="toggleMenu">
+    }" @click="toggleMenu" tabindex="0" @focusout="isOpen = false" autofocus>
       <MenuItem v-if="label != null && label != ''" class="label">
       {{ label }}
       </MenuItem>
