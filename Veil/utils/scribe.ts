@@ -32,14 +32,17 @@ const query = async (params = {}) => {
   return data.choices[0].text as string;
 }
 
-export default async (directions: string, context: string="", recipient: string="") => {
+export default async (directions: string, context: string="", recipient: string="Milky") => {
 	const greeting = i18n(RosettaStone.scribe.prompt.greeting)
 	const completion = await query({
-		model: "text-davinci-003",
-		prompt: (context && recipient) ?
-			`In reply to:\n${context}\n\nWrite an email to ${recipient}:\n${directions}\n\nFull Email:\n\n${greeting}`
-			: `Write an email:\n${directions}\n\nFull Email:\n\n${greeting}`,
-	})
-	return greeting + completion
+		model: "text-davinci-002",
+		prompt: (context && recipient && directions) ?`Write an email body in the first person using these parameters:\nGreeting to start email with: "${greeting}"\nTo: "${recipient}"\nFrom: "[My Name]"\nInformation to use: "${directions}"\nEmail you are replying to is: "${context}"`:
+            (context && recipient && !directions) ?`Write an email body in the first person using these parameters:\nGreeting to start email with: "${greeting}"\nTo: "${recipient}"\nFrom: "[My Name]"\nEmail you are replying to is: "${context}"`:
+            (recipient && directions && !context) ?`Write an email body in the first person using these parameters:\nGreeting to start email with: "${greeting}"\nTo: "${recipient}"\nFrom: "[My Name]"\nInformation to use: "${directions}"`:
+            (directions && !recipient) ? `Write an email body in the first person using these parameters:\nGreeting to start email with: "${greeting}"\nFrom: "[Name]"\nInformation to use is: "${directions}"`:
+            `Write a generic email body template in the first person, sign using the name: "[My Name]"`,
+    })
+  console.log('Recipient: ' + recipient + '\n' + 'Directions: '+directions + '\n' + 'Context: '+context + '\n' + 'Completion: '+completion+ '\n' + 'Prompt: '+prompt)
+	return completion
 	// return completion.data.choices[0].text
 }
