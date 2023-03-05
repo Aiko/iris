@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Mailbox {
-  email     String    @id @unique
+  email     String    @id
   createdAt DateTime  @default(now())
   provider  String //* see: enums.ts
   folders   Folder[]  @relation
@@ -18,7 +18,7 @@ model Mailbox {
 
 model Message {
   // Identifiers
-  mid           String       @id @unique
+  mid           String       @id
   tid           String
   // Metadata
   seen          Boolean
@@ -40,7 +40,7 @@ model Message {
 }
 
 model Attachment {
-  path        String   @id @unique
+  path        String   @id
   name        String
   contentType String
   size        Int
@@ -55,7 +55,7 @@ model Attachment {
 
 model Contact {
   name              String
-  email             String       @id @unique
+  email             String       @id
   base              String
   // Stats
   messagesSent      Int          @default(0)
@@ -76,7 +76,7 @@ model Contact {
 }
 
 model Thread {
-  tid          String    @id @unique
+  tid          String    @id
   // Metadata
   timestamp    DateTime
   cursor       DateTime  @default(now()) // not y2k safe
@@ -88,21 +88,22 @@ model Thread {
 }
 
 model Folder {
-  id       String    @id @unique @default(uuid())
+  id       String            @id @default(uuid())
   name     String
   path     String
-  special  String? //* see: enums.ts
+  type     String            @default("folder") //* see: enums.ts
   email    String
-  mailbox  Mailbox   @relation(fields: [email], references: [email])
-  messages Message[] @relation
-  threads  Thread[]  @relation
-  spaces   Space[]   @relation
+  mailbox  Mailbox           @relation(fields: [email], references: [email])
+  messages Message[]         @relation
+  threads  Thread[]          @relation
+  spaces   Space[]           @relation("boards")
+  targetOf BoardRuleAction[] @relation("actsOnBoard")
 }
 
 model Space {
   name   String
-  id     String   @id @unique @default(uuid())
-  boards Folder[] @relation
+  id     String   @id @default(uuid())
+  boards Folder[] @relation("boards")
 }
 
 model BoardRule {
@@ -113,16 +114,18 @@ model BoardRule {
   isTo                    String?
   subjectContains         String?
   bodyContains            String?
-  detectedQuickAction     String?
+  intent                  String?
   isSubscription          Boolean?
   attachmentsNameContains String?
   attachmentsTypeIs       String?
 }
 
 model BoardRuleAction {
-  id     String    @id @default(uuid())
-  type   String //* see enums
-  target String
-  ruleId String
-  rule   BoardRule @relation(fields: [ruleId], references: [id])
+  id       String    @id @default(uuid())
+  type     String //* see enums
+  argument String?
+  targetId String?
+  targets  Folder?   @relation("actsOnBoard", fields: [targetId], references: [id])
+  ruleId   String
+  rule     BoardRule @relation(fields: [ruleId], references: [id])
 }

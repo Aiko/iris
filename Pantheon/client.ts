@@ -9,6 +9,7 @@ import { PrismaClient } from "@prisma/client"
 import { queryEngine } from '@Pantheon/shim';
 
 export default new PrismaClient({
+	// @ts-ignore
 	__internal: {
 		engine: {
 				binaryPath: queryEngine

@@ -13,7 +13,8 @@ export enum FolderSpecialty {
 	DRAFTS="drafts",
 	ARCHIVE="archive",
 	TRASH="trash",
-	BOARD="board"
+	BOARD="board",
+	FOLDER="folder",
 }
 
 export enum BoardRuleActionType {
