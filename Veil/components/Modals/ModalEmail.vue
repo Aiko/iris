@@ -4,6 +4,7 @@ import { isEmailSidebarCollapsed } from '@Veil/state/sections'
 import Icon from '@Veil/components/Base/Icon.vue'
 import ButtonSecondary from '../Base/ButtonSecondary.vue'
 import EmailCard from '@Veil/components/Home/EmailCard.vue'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 
 const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSidebarCollapsed.value)
@@ -12,7 +13,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
 <template>
   <div :class="{
-  'email-view': true,
+    'email-view': true,
     'collapsed': isEmailSidebarCollapsed
   }">
 
@@ -21,13 +22,13 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
     </div>
     <div class="right">
       <p class="collapse-info open" @click="toggleEmailSidebar()">
-        <Icon name="sidebar-collapse" color="grey" /> Show Participants and Details
+        <Icon name="sidebar-collapse" color="grey" />{{ i18n(RosettaStone.modals.email.show_participants) }}
       </p>
       <p class="collapse-info closed" @click="toggleEmailSidebar()">
         <Icon name="close" color="grey" />
       </p>
       <div class="content" v-if="!isEmailSidebarCollapsed">
-        <h1>Participants</h1>
+        <h1>{{ i18n(RosettaStone.modals.email.participants) }}</h1>
 
         <div class="participants">
           <div class="participant">
@@ -39,9 +40,9 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>Email <span>rubentouitou@gmail.com</span></div>
+                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>Send a new email</ButtonSecondary>
+              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -54,9 +55,9 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>Email <span>rubentouitou@gmail.com</span></div>
+                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>Send a new email</ButtonSecondary>
+              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -69,9 +70,9 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>Email <span>rubentouitou@gmail.com</span></div>
+                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>Send a new email</ButtonSecondary>
+              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -84,29 +85,16 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>Email <span>rubentouitou@gmail.com</span></div>
+                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>Send a new email</ButtonSecondary>
+              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
-          <div class="participant">
-            <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
-            </div>
-            <div class="sender">
-              <div class="name">
-                Ruben Touitou
-              </div>
-              <div class="details">
-                <div>Email <span>rubentouitou@gmail.com</span></div>
-              </div>
-              <ButtonSecondary>Send a new email</ButtonSecondary>
-            </div>
-          </div>
+
         </div>
 
-        <h1>Related Emails</h1>
+        <h1>{{ i18n(RosettaStone.modals.email.related_emails) }}</h1>
         <div class="related-emails">
           <EmailCard />
           <EmailCard />

@@ -2,6 +2,7 @@
 import { ref } from '@vue/reactivity'
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 enum Option {
   Align,
@@ -52,7 +53,7 @@ let selectedOption = ref(Option.None)
 
     <!--Color Options-->
     <div class="expanded" v-if="selectedOption == Option.Color" @click="selectedOption = Option.None">
-      <span>Select font color</span>
+      <span>{{ i18n(RosettaStone.composer.font) }}</span>
       <ButtonSecondary class="square normal">
         <Icon name="text-color" color="white" />
       </ButtonSecondary>
@@ -69,7 +70,7 @@ let selectedOption = ref(Option.None)
 
     <!--Align Options-->
     <div class="expanded" v-if="selectedOption == Option.Align" @click="selectedOption = Option.None">
-      <span>Select alignment</span>
+      <span>{{ i18n(RosettaStone.composer.align) }}</span>
       <ButtonSecondary>
         <Icon name="align-left" color="normal" />
       </ButtonSecondary>
@@ -83,7 +84,7 @@ let selectedOption = ref(Option.None)
 
     <!--List Options-->
     <div class="expanded" v-if="selectedOption == Option.List" @click="selectedOption = Option.None">
-      <span>Select list type</span>
+      <span>{{ i18n(RosettaStone.composer.list) }}</span>
       <ButtonSecondary>
         <Icon name="list-check" color="normal" />
       </ButtonSecondary>

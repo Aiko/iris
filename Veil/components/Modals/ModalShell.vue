@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { selectedModal, Modal } from '@Veil/state/sections'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 defineProps<{
   size?: string
@@ -16,7 +17,7 @@ defineProps<{
     'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
   }">
     <div class="esc">
-      Click anywhere outside of this window or <b>press ESC</b> to exit
+      {{ i18n(RosettaStone.modals.shell.text) }}
     </div>
     <div class="content">
       <slot></slot>

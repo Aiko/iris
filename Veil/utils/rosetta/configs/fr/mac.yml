@@ -1,0 +1,7 @@
+lang: fr
+platform: darwin
+
+messages:
+  sidebar:
+    toggle_collapse:
+      Ouvrir et fermer la barre latérale (⌘ + Shift + B)

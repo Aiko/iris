@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue"
 import { infoContent } from '@Veil/state/sections'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+
 
 
 // Information variables for 'AddBoard' component
-const infoAddBoard = 'Add a new board'
+const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
 </script>
 
 <template>

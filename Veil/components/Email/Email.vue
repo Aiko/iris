@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue";
 import { ref } from '@vue/reactivity';
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+
 
 let emailCollapse = ref(false)
 const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
@@ -22,9 +24,9 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
               Ruben Touitou
             </div>
             <div class="details">
-              <div><span>From</span> rubentouitou@gmail.com</div>
-              <div><span>cc</span> rubentouitou@gmail.com</div>
-              <div><span>to</span> rubencharlestouitou@gmail.com</div>
+              <div><span>{{ i18n(RosettaStone.email.from) }}</span> rubentouitou@gmail.com</div>
+              <div><span>{{ i18n(RosettaStone.email.cc) }}</span> rubentouitou@gmail.com</div>
+              <div><span>{{ i18n(RosettaStone.email.to) }}</span> rubencharlestouitou@gmail.com</div>
             </div>
           </div>
           <div class="date">
@@ -33,25 +35,25 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
         </div>
         <div class="row">
           <div class="subject" @click="toggleEmailCollapse()">
-            Subject goes
+            Subject here
           </div>
           <div class="actions">
-            <span title="Reply">
+            <span>
               <Icon name="reply" color="normal" />
             </span>
-            <span title="Reply all">
+            <span>
               <Icon name="reply-all" color="normal" />
             </span>
-            <span title="Forward">
+            <span>
               <Icon name="forward" color="normal" />
             </span>
-            <span title="Star">
+            <span>
               <Icon name="star" color="normal" />
             </span>
-            <span title="Print">
+            <span>
               <Icon name="print" color="normal" />
             </span>
-            <span title="Trash">
+            <span>
               <Icon name="trash" color="normal" />
             </span>
           </div>

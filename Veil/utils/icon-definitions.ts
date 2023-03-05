@@ -65,6 +65,11 @@ import code from "@Veil/assets/icons/code.svg"
 import moodsmile from "@Veil/assets/icons/mood-smile.svg"
 import calendly from "@Veil/assets/icons/calendly.svg"
 import zoom from "@Veil/assets/icons/zoom.svg"
+import down from "@Veil/assets/icons/down.svg"
+import roundedx from "@Veil/assets/icons/roundedx.svg"
+import chevrondown from "@Veil/assets/icons/chevron-down.svg"
+
+
 
 export default {
 	"archive": archive,
@@ -134,5 +139,8 @@ export default {
 	"zoom": zoom,
 	"list-check": listcheck,
 	"list": list,
+	"down": down,
+	"roundedx": roundedx,
+	"chevron-down": chevrondown,
 
 } as { [name: string]: any }

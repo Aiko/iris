@@ -35,4 +35,12 @@
     display: none;
   }
 }
+
+.alert a {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 14px);
+  left: 0;
+  margin: 7px 7px;
+}
 </style>
