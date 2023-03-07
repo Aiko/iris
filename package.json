@@ -37,6 +37,7 @@
     "rosetta:make": "ts-node -r tsconfig-paths/register ./Veil/utils/rosetta/compile.ts",
     "pantheon:make": "ts-node -r tsconfig-paths/register ./Pantheon/scripts/prisma-generate.ts",
     "pantheon:migrate": "ts-node -r tsconfig-paths/register ./Pantheon/scripts/prisma-migrate.ts",
+    "pantheon:preview": "ts-node -r tsconfig-paths/register ./Pantheon/scripts/prisma-studio.ts",
     "************** END **************": "================================================="
   },
   "keywords": [
