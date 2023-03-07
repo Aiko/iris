@@ -5,6 +5,8 @@ import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue"
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue"
 import { infoContent } from '@Veil/state/sections'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+import Menu from '../Base/Menu.vue'
+import MenuItem from '../Base/MenuItem.vue'
 
 // Information variables for 'ModalBoardRules' component
 const infoAddCondition = i18n(RosettaStone.modals.board_rules.info_add_condition)
@@ -74,16 +76,37 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
 
       <div class="condition-container cc1">
         {{ i18n(RosettaStone.modals.board_rules.if) }}
-        <select name="condition">
-          <option value="From">{{ i18n(RosettaStone.modals.board_rules.from) }}</option>
-          <option value="To">{{ i18n(RosettaStone.modals.board_rules.to) }}</option>
-          <option value="Subject has">{{ i18n(RosettaStone.modals.board_rules.subject_has) }}</option>
-          <option value="Contains">{{ i18n(RosettaStone.modals.board_rules.contains) }}</option>
-          <option value="Quick Action">{{ i18n(RosettaStone.modals.board_rules.quick_action) }}</option>
-          <option value="Priority">{{ i18n(RosettaStone.modals.board_rules.priority) }}</option>
-          <option value="Attachment name">{{ i18n(RosettaStone.modals.board_rules.attachment_name) }}</option>
-          <option value="Attachment type">{{ i18n(RosettaStone.modals.board_rules.attachment_type) }}</option>
-        </select>
+
+
+        <Menu :direction="'bottom'" :width="150" :label="'Condition'" class="inline-block">
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.from) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.to) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.subject_has) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.contains) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.quick_action) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.priority) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.attachment_name) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.attachment_type) }}
+          </MenuItem>
+        </Menu>
+
+
+
         <input :placeholder="i18n(RosettaStone.modals.board_rules.type_here)" />
         <div class="add-condition">
           <ButtonSecondary @mouseover="infoContent = infoAddCondition" @mouseleave="infoContent = ''"
@@ -93,16 +116,33 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
       </div>
       <div class="condition-container" v-if="isExtraRule">
         {{ i18n(RosettaStone.modals.board_rules.and) }}
-        <select name="condition">
-          <option value="From">{{ i18n(RosettaStone.modals.board_rules.from) }}</option>
-          <option value="To">{{ i18n(RosettaStone.modals.board_rules.to) }}</option>
-          <option value="Subject has">{{ i18n(RosettaStone.modals.board_rules.subject_has) }}</option>
-          <option value="Contains">{{ i18n(RosettaStone.modals.board_rules.contains) }}</option>
-          <option value="Quick Action">{{ i18n(RosettaStone.modals.board_rules.quick_action) }}</option>
-          <option value="Priority">{{ i18n(RosettaStone.modals.board_rules.priority) }}</option>
-          <option value="Attachment name">{{ i18n(RosettaStone.modals.board_rules.attachment_name) }}</option>
-          <option value="Attachment type">{{ i18n(RosettaStone.modals.board_rules.attachment_type) }}</option>
-        </select>
+        <Menu :direction="'bottom'" :width="150" :label="'Condition'" class="inline-block">
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.from) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.to) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.subject_has) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.contains) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.quick_action) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.priority) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.attachment_name) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.attachment_type) }}
+          </MenuItem>
+        </Menu>
+
         <input :placeholder="i18n(RosettaStone.modals.board_rules.type_here)" />
         <div class="add-condition">
           <ButtonSecondary @click="toggleExtraRule()" color="red">{{
@@ -112,16 +152,43 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
       </div>
       <div class="action-container">
         {{ i18n(RosettaStone.modals.board_rules.then_do_this) }}
-        <select name="action">
-          <option value="Move to">{{ i18n(RosettaStone.modals.board_rules.move_to) }}</option>
-          <option value="Star">{{ i18n(RosettaStone.modals.board_rules.star) }}</option>
-          <option value="Forward To">{{ i18n(RosettaStone.modals.board_rules.forward_to) }}</option>
-          <option value="Archive">{{ i18n(RosettaStone.modals.board_rules.archive) }}</option>
-          <option value="Delete">{{ i18n(RosettaStone.modals.board_rules.delete) }}</option>
-        </select>
-        <select name="destination">
-          <option value="board">board</option>
-        </select>
+
+
+        <Menu :direction="'bottom'" :width="150" :label="'Action'" class="inline-block">
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.move_to) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.star) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.forward_to) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.archive) }}
+          </MenuItem>
+          <MenuItem>
+          {{ i18n(RosettaStone.modals.board_rules.delete) }}
+          </MenuItem>
+        </Menu>
+
+        <Menu :direction="'bottom'" :width="150" :label="'Destination'" class="inline-block">
+          <MenuItem>
+          Board 1
+          </MenuItem>
+          <MenuItem>
+          Board 2
+          </MenuItem>
+          <MenuItem>
+          Board 3
+          </MenuItem>
+          <MenuItem>
+          Board 4
+          </MenuItem>
+          <MenuItem>
+          Board 5
+          </MenuItem>
+        </Menu>
       </div>
       <br />
       <ButtonPrimary>{{ i18n(RosettaStone.modals.board_rules.add_rule) }}</ButtonPrimary>
@@ -269,4 +336,12 @@ select {
   text-align: left;
   margin-left: -10px;
 }
+
+.inline-block {
+  display: inline-block;
+    margin-bottom: -12px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
 </style>

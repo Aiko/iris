@@ -98,6 +98,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
   margin-left: -6px;
   margin-top: -3px;
   left: 0;
+  position: absolute;
   border-radius: var(--primary-border-radius);
 }
 
@@ -107,6 +108,9 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 
 .is-open {
   background: var(--primary-background-color);
+  
+  border: 1px solid var(--secondary-background-color) !important;
+  z-index: 1000;
 }
 
 .icon {
@@ -129,7 +133,6 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 .top .icon {
   transform: rotate(180deg);
 }
-
 
 .normal {}
 

@@ -416,7 +416,7 @@ const quickReplyScribeVoice = async () => {
   cursor: text !important;
   padding-bottom: 2px;
   border: none;
-  padding: 10px 0;
+  padding: 6px 0 12px 0;
   outline: none;
   display: inline-block;
   color: var(--strong-font-color);
