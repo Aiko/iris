@@ -7,7 +7,7 @@ import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import { scribeVoice } from "@Veil/utils/whisper/whisper";
 import Logger from "@Veil/services/roots"
-import ButtonSecondary from "../Base/ButtonSecondary.vue";
+import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 const Log = new Logger("Sidebar")
 
 // Information variables for 'Sidebar' component
@@ -45,8 +45,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
           <input type="checkbox" id="check2" />
           <label for="check2">Birthdays</label>
         </div>
-      </div>
-      <div class="cont">
+        <br />
         <p>
           Shared calendars
         </p>
@@ -62,7 +61,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         </div>
       </div>
 
-      <ButtonSecondary class="new-cal">
+      <ButtonSecondary class="action">
         <Icon name="plus" color="blue" />Add a calendar
       </ButtonSecondary>
 
@@ -82,7 +81,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
           <label for="check6">Work on deck</label>
         </div>
       </div>
-      <ButtonSecondary class="new-task">
+      <ButtonSecondary class="action">
         <Icon name="plus" color="blue" />New task
       </ButtonSecondary>
     </div>
@@ -110,6 +109,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   -ms-user-select: none;
   /* Internet Explorer/Edge */
   user-select: none;
+  overflow: scroll;
 }
 
 
@@ -239,8 +239,11 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .cont {
   background-color: var(--secondary-background-color);
   padding: 5px 0 5px 8px;
-  margin-top: 2vh;
+  margin-top: 10px;
   border-radius: var(--primary-border-radius);
+  height: fit-content;
+  max-height: 300px;
+  overflow-y: scroll;
 }
 
 .count {
@@ -278,38 +281,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-left: 4px;
 }
 
-.space-actions {
-  border-top: 2px solid var(--secondary-background-color);
-  margin: 10px 0 10px 0;
-  position: relative;
-  border-radius: var(--primary-border-radius);
-}
-
-.space-actions span {
-  position: absolute;
-  background: var(--primary-background-color);
-  border: 2px solid var(--secondary-background-color);
-  font-size: 12px;
-  top: 0;
-  color: var(--primary-font-color);
-  margin-top: -12px;
-  cursor: pointer;
-  padding: 0 4px;
-  border-radius: var(--primary-border-radius);
-  margin-left: 25px;
-  opacity: 0;
-  transition: .2s;
-}
-
-.space-actions span:hover {
-  background-color: var(--primary-background-color-hover);
-  transition: .2s;
-}
-
-.top:hover .space-actions span {
-  opacity: 1;
-  transition: .2s;
-}
 
 .spaces-icon {
   width: 13px;
@@ -329,20 +300,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   font-size: 10px;
 }
 
-.sidebar.collapsed .name {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  font-size: 10px;
-  margin-bottom: 7px;
-  width: 7px;
-  overflow: hidden;
-  margin-left: 11px;
-  z-index: 2;
-  color: var(--primary-font-color);
-  height: 14px;
-}
-
 .aikocheckbox input[type="checkbox"]+label {
   color: var(--primary-font-color) !important;
   font-size: 13px;
@@ -354,20 +311,15 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   filter: invert(1) !important;
 }
 
-.new-cal {
+.aikocheckbox input[type="checkbox"]+label:before {
+  margin-top: 2px !important;
+}
+
+.action {
   margin-top: 5px;
 }
 
-.new-cal img {
-  width: 13px !important;
-  margin-top: -2px;
-}
-
-.new-task {
-  margin-top: 5px;
-}
-
-.new-task img {
+.action img {
   width: 13px !important;
   margin-top: -2px;
 }
