@@ -89,4 +89,8 @@ export default {
   --fc-today-bg-color: #4870ff53 !important;
   --fc-now-indicator-color: red;
 }
+
+.fc th {
+  border-right: solid 1px var(--secondary-background-color) !important;
+}
 </style>

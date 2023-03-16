@@ -378,7 +378,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 }
 
 .cont p {
-  color: var(--primary-color);
+  color: var(--primary-font-color);
   font-weight: 700;
   font-size: 13px !important;
 }
