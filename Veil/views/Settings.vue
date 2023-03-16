@@ -827,7 +827,6 @@ textarea:active+a {
 
 .alert b {
   color: var(--primary-color);
-
   font-weight: 700;
 }
 
