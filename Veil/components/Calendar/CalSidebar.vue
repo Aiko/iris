@@ -73,13 +73,13 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         </p>
 
         <div class="aikocheckbox">
-          <input type="checkbox" id="check3" />
-          <label for="check3">Make website</label>
+          <input type="checkbox" id="check5" />
+          <label for="check5">Make website</label>
         </div>
 
         <div class="aikocheckbox">
-          <input type="checkbox" id="check4" />
-          <label for="check4">Work on deck</label>
+          <input type="checkbox" id="check6" />
+          <label for="check6">Work on deck</label>
         </div>
       </div>
       <ButtonSecondary class="new-task">

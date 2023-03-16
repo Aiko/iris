@@ -86,7 +86,7 @@ export default {
   --fc-bg-event-color: var(--primary-color) !important;
   --fc-bg-event-opacity: 0.3;
   --fc-highlight-color: rgba(188, 232, 241, .3);
-  --fc-today-bg-color: var(--primary-color) !important;
+  --fc-today-bg-color: #4870ff53 !important;
   --fc-now-indicator-color: red;
 }
 </style>
