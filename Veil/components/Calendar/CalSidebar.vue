@@ -110,6 +110,8 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   /* Internet Explorer/Edge */
   user-select: none;
   overflow: scroll;
+
+
 }
 
 

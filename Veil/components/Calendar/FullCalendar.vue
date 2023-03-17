@@ -53,6 +53,7 @@ export default {
 .fc .fc-daygrid-day-number,
 .fc .fc-col-header-cell-cushion {
   color: var(--primary-font-color) !important;
+  padding: 5px 10px;
 }
 
 .fc thead,
