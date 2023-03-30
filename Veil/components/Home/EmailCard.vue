@@ -46,7 +46,7 @@ const infoSend = i18n(RosettaStone.boards.email_cards.click_to_send)
 let isThinking = ref(false)
 
 const quickReply = ref<HTMLDivElement | null>(null)
-const isQuickReplyOpen = ref(false)
+const isQuickReplyOpen = ref(props.demo)
 const showQuickReply = () => {
   Log.info("Opening quick reply...")
   isQuickReplyOpen.value = true
