@@ -1,0 +1,7 @@
+{
+  "name": "VeilMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
