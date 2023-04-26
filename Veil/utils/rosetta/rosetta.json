@@ -500,6 +500,36 @@
             "default": "Regardez dans l'onglet \"Autres\""
           }
         }
+      },
+      "info_small": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Small"
+          },
+          "fr": {
+            "default": "Taille du Board: Petit"
+          }
+        }
+      },
+      "info_medium": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Medium"
+          },
+          "fr": {
+            "default": "Taille du Board: Moyen"
+          }
+        }
+      },
+      "info_large": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Large"
+          },
+          "fr": {
+            "default": "Taille du Board: Grand"
+          }
+        }
       }
     },
     "email_cards": {

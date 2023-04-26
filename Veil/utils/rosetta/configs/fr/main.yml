@@ -57,6 +57,9 @@ messages:
       drag_emails_here: Faites glisser les emails ici
       loading_more_emails: Chargement d'emails
       check_others: Regardez dans l'onglet "Autres"
+      info_small: "Taille du Board: Petit"
+      info_medium: "Taille du Board: Moyen"
+      info_large: "Taille du Board: Grand"
     email_cards:
       reply: Répondre à cet email
       reply_all: Répondre à tous les participants dans cet email

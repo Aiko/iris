@@ -30,6 +30,10 @@ const size = ref('large')
 // Information variables for 'Board' component
 const infoPriorityOther = i18n(RosettaStone.boards.board.priority_other)
 const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
+
+const info_small = i18n(RosettaStone.boards.board.info_small)
+const info_medium = i18n(RosettaStone.boards.board.info_medium)
+const info_large = i18n(RosettaStone.boards.board.info_large)
 </script>
 
 <template>
@@ -51,9 +55,9 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 
       <h1 v-if="!isInbox" class="board-width-trigger">
         <div class="board-width-picker">
-          <div @click="size = 'small'">S</div>
-          <div @click="size = 'medium'">M</div>
-          <div @click="size = 'large'">L</div>
+          <div @click="size = 'small'" @mouseover="infoContent = info_small" @mouseleave="infoContent = ''">S</div>
+          <div @click="size = 'medium'" @mouseover="infoContent = info_medium" @mouseleave="infoContent = ''">M</div>
+          <div @click="size = 'large'" @mouseover="infoContent = info_large" @mouseleave="infoContent = ''">L</div>
         </div>
         {{ board?.name ?? "New Board" }}
         <div class="count count2">
@@ -143,7 +147,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
   position: relative;
   box-shadow: var(--board-shadow);
   border: none !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .empty img {
@@ -215,24 +219,24 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
   z-index: 5;
   cursor: pointer !important;
   filter: brightness(1);
-  transition: .2s;
+  transition: .1s;
 }
 
 .small .board-header:hover {
   filter: brightness(1.2);
-  transition: .2s;
+  transition: .1s;
 }
 
 .small-board-click-area:hover+.board-header {
   filter: brightness(1.2);
-  transition: .2s;
+  transition: .1s;
 }
 
 .small h1 {
   writing-mode: vertical-rl;
   padding: 15px 10px 0 10px !important;
   margin-top: -15px !important;
-  transition: .2s;
+  transition: .1s;
   z-index: 11;
   position: relative;
   overflow: visible;
@@ -273,12 +277,12 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 .board-header img {
   padding: 7px 0px;
   width: 23px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-header img:hover {
   opacity: .6;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-body {
@@ -310,19 +314,19 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
   padding: 3px 5px 3px 7px;
   opacity: .8;
   letter-spacing: .2px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board .tab:hover {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board .switch .active {
   background-color: var(--secondary-background-color);
   opacity: 1;
   font-weight: 500;
-  transition: .2s;
+  transition: .1s;
 }
 
 .count {
@@ -534,7 +538,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 .board-width-picker div:hover {
   background-color: var(--primary-font-color);
   color: var(--modal-backdrop);
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-width-picker div:nth-child(3) {
@@ -554,7 +558,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 
 .hoverzone:hover+.board-header {
   background: #f8f9fade !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .hoverzone {

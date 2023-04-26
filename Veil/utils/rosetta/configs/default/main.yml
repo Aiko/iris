@@ -57,6 +57,9 @@ messages:
       drag_emails_here: Drag emails here
       loading_more_emails: Loading more emails
       check_others: Check 'Others' tab
+      info_small: "Board size: Small"
+      info_medium: "Board size: Medium"
+      info_large: "Board size: Large"
     email_cards:
       reply: Reply to this email
       reply_all: Reply to all participants in this email
