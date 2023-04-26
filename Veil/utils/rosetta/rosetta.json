@@ -696,7 +696,7 @@
       "scribe_placeholder": {
         "definitions": {
           "default": {
-            "default": "Type a reply here and send it or click the brain button to generate with AI"
+            "default": "Type a reply here and send it or click the brain button to generate"
           },
           "fr": {
             "default": "Ecrivez une réponse ici et envoyez-la ou cliquez sur le bouton bleu pour générer"
