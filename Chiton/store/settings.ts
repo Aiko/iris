@@ -38,35 +38,40 @@ export default class SettingsStore extends DwarfStar<ISettings> {
 	get settings() { return this.state! }
 	set settings(s: ISettings) {
 		this.state = s
+		this.Log.log("Updated settings")
 		this.save()
 	}
 
 	constructor(chiton: Chiton) {
 		super(chiton, 'Settings', 'settings.json')
-		this.state = {
-      version: 1,
-      auth: {
-        authenticated: false,
-        token: "",
-        credentials: {
-          email: "",
-          password: ""
-        }
-      },
-      meta: {
-        firstTime: true
-      },
-			inbox: {
-				appearance: {
-					fullscreen: false
-				}
-			},
-			calendar: {
-				appearance: {
-					fullscreen: false
+		try {
+			this.reset()
+		} catch {
+			this.state = {
+				version: 1,
+				auth: {
+					authenticated: false,
+					token: "",
+					credentials: {
+						email: "",
+						password: ""
+					}
+				},
+				meta: {
+					firstTime: true
+				},
+				inbox: {
+					appearance: {
+						fullscreen: false
+					}
+				},
+				calendar: {
+					appearance: {
+						fullscreen: false
+					}
 				}
 			}
-    }
-		this.save()
+			this.save()
+		}
 	}
 }

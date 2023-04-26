@@ -33,13 +33,14 @@ export default class Calendar extends Window {
 			closable: true,
 			winArgs: {
 				frame: true,
-				titleBarStyle: "default"
+				titleBarStyle: "default",
+				fullscreen: chiton.settingsStore.settings.calendar.appearance.fullscreen
 			}
 		})
 
-		if (this.chiton.settingsStore.settings.calendar.appearance.fullscreen) {
-			this.setFullScreen(true)
-		}
+		this.win.on('enter-full-screen', () => this.setFullScreen(true))
+		this.win.on('leave-full-screen', () => this.setFullScreen(false))
+
 
 		this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}/calendar`)
 		this.focus()

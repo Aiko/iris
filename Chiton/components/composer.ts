@@ -81,12 +81,11 @@ export default class Composer extends Window {
 	constructor(chiton: Chiton) {
 		super(chiton, "Composer", {
 			closable: true,
-			spellcheck: true
+			spellcheck: true,
+			winArgs: {
+				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen
+			}
 		})
-
-		if (this.chiton.settingsStore.settings.inbox.appearance.fullscreen) {
-			this.setFullScreen(true)
-		}
 
 		this.focus()
 

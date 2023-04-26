@@ -43,7 +43,7 @@ export default class Roots {
 	}
 
 	log(msg: string, from_remote: boolean=false) {
-    if (from_remote) console.log(msg.replace("\n", " ").red.bgGreen)
+    if (from_remote) console.log(msg.replace("\n", " ").red)
     this.storage.append(this.id, msg)
     if (msg.includes("[ ERROR ]")) {
       throw new Error(msg.split("[ ERROR ]")[1])

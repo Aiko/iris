@@ -51,12 +51,11 @@ export default class Inbox extends Window {
 		demoMode?: boolean,
 	}={}) {
 		super(chiton, "Inbox", {
-			closable: false
+			closable: false,
+			winArgs: {
+				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen
+			}
 		})
-
-		if (this.chiton.settingsStore.settings.inbox.appearance.fullscreen) {
-			this.setFullScreen(true)
-		}
 
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
 			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
@@ -71,6 +70,9 @@ export default class Inbox extends Window {
 			this.Log.warn("User is not signed in, initiating login flow.")
 			this.loadURL("https://aikomail.com/email/signin") //! FIXME: replace with Ovid
 		}
+
+		this.win.on('enter-full-screen', () => this.setFullScreen(true))
+		this.win.on('leave-full-screen', () => this.setFullScreen(false))
 
 		autoBind(this)
 	}

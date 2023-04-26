@@ -34,12 +34,12 @@ export default class DwarfStar<T extends object> extends SockPuppet {
 		}
 		return this.save()
 	}
-	private reset(): T {
+	protected reset(): T {
     fs2.ensureFileSync(this.fp)
     const state = JSON.parse(fs2.readFileSync(this.fp, {encoding: "utf-8"})) as T
-		if (!(this.checkInitialize())) {
+		if (!state) {
 			this.Log.error("Reset failed: state is empty.")
-			throw new Error("Cannot reset against empty state.")
+			throw new Error("Cannot reset to empty state.")
 		}
 		this.state = state
     return this.save()
