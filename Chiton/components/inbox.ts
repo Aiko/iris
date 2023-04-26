@@ -1,6 +1,7 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
+import { ElectronBlocker } from "@cliqz/adblocker-electron";
 import autoBind from "auto-bind";
 
 export enum InboxEvents {
@@ -16,10 +17,15 @@ export default class Inbox extends Window {
 		}
 	}
 
+	ADBLOCK_ON: boolean = false
+
 	checkInitialize(): boolean {
-		return true
+		return this.ADBLOCK_ON
 	}
 	async initialize(args: any[], success: (payload: object) => void) {
+		const adblock = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
+		adblock.enableBlockingInSession(this.win.webContents.session)
+		this.ADBLOCK_ON = true
 		success({})
 	}
 
@@ -51,7 +57,6 @@ export default class Inbox extends Window {
 		if (this.chiton.settingsStore.settings.inbox.appearance.fullscreen) {
 			this.setFullScreen(true)
 		}
-
 
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
 			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
