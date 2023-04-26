@@ -39,7 +39,7 @@ p {
   width: 100%;
   z-index: 1000;
   margin-bottom: 10px;
-  background: var(--secondary-background-color);
+  background: transparent;
   display: inline-flex;
   height: 28px;
   cursor: default !important;

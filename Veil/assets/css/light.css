@@ -2,7 +2,7 @@
   :root {
     /* Background colors (Application, elements and windows) */
     --primary-background-color: #d6e1f0;
-    --secondary-background-color: #ffffff;
+    --secondary-background-color: rgba(255,255,255, 0.2);
 
     --primary-background-color-hover: #bbc9dc;
     --secondary-background-color-hover: #21201d;

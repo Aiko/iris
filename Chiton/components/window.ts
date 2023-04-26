@@ -65,7 +65,6 @@ export abstract class Window extends SockPuppet {
 			show: false,
 			frame: process.platform == 'darwin',
 			titleBarStyle: 'hidden',
-			backgroundColor: nativeTheme.shouldUseDarkColors ? '#0c0e13' : '#ffffff',
 			webPreferences: {
 				nodeIntegration: false,
 				spellcheck,
@@ -74,7 +73,9 @@ export abstract class Window extends SockPuppet {
 			},
       icon: process.platform == 'darwin' ? './icon-darwin.png' : './icon-win32.png',
       roundedCorners: true,
-      ...winArgs
+			vibrancy: "under-window",
+			visualEffectState: "active",
+			...winArgs
 		})
 
 		this.win.on('enter-full-screen', () => _this.trigger(WindowEvents.FULLSCREEN, true))

@@ -4,7 +4,6 @@ import Board from "@Veil/components/Home/Board.vue"
 import AddBoard from "@Veil/components/Home/AddBoard.vue"
 import SideEmail from "@Veil/components/Home/SideEmail.vue"
 import { Sortable } from "sortablejs-vue3";
-import type SortableJS from "sortablejs";
 import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
 </script>
 
