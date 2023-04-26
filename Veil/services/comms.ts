@@ -3,12 +3,18 @@ import assert from "assert";
 import { ipcRenderer } from "electron/renderer";
 import Logger from "@Veil/services/roots"
 import type { Maybe } from "@Veil/utils/common";
+import jwt from "jsonwebtoken";
 
 interface ChitonPayload<T> {
   s: string
   error?: string
   payload?: T
   stream?: string
+}
+
+interface ChitonSecurePayload<T> {
+  success: boolean
+  payload: T & { error?: string }
 }
 
 type VeilPayload<T> = T & {
@@ -56,31 +62,23 @@ class IPC {
     if (payload) return payload
     if (stream) return null // TODO: support streams
 
-    const d = window.decodeJWT(s) as {
-      success: boolean,
-      payload: T
-    }
-
-  }
-
-}
-export {}
-
-  const decode = ({ s, error, payload, stream }) => {
-    checkError(error, 'Main process returned error.')
-    if (payload) return payload
-    if (stream) return ipcStream.get(stream)
-    const d = jwt_decode(s)
-    const { success } = d
-    if (KJUR.jws.JWS.verifyJWT(s, secret.hexEncode(), { alg: ['HS256'] })) {
-      if (!success) checkError(d.payload, 'Main process did not return success.')
-      if (!d.payload) info(...MAILAPI_TAG, 'IPC payload is empty!')
+    const d = window.decodeJWT(s) as ChitonSecurePayload<T>
+    if (jwt.verify(s, IPC.secret, { algorithms: ['HS256'] })) {
+      if (!d.success) {
+        this.Log.error("Main process did not return success:", d.payload.error)
+        return null
+      }
+      if (!d.payload) this.Log.warn("IPC payload is empty!")
       return d.payload
-    } else checkError(s, 'JWT token was not valid.')
+    } else {
+      this.Log.error("JWT was invalid.")
+      return null
+    }
   }
 
-  return { encode, decode }
 }
+
+export { IPC }
 
 const IPCStream = async () => {
   /*
@@ -102,6 +100,9 @@ const IPCStream = async () => {
 
     be careful that you are sure it has been received!
     */
+
+  /* TODO
+
   const mailbox = {}
 
   // now for the websocket stuff
@@ -137,10 +138,10 @@ const IPCStream = async () => {
     // we shouldn't expose this for security reaasons!
     tags: () => Object.keys(mailbox)
   }
+  */
 }
 
-const IPC_TAG = ['%c[IPC]', 'background-color: #0; color: #000;']
-
+/*
 const ipc = {
   data: {
     ipcStream: null,
@@ -162,24 +163,6 @@ const ipc = {
     async handleIPCError (e) {
       error(...(IPC_TAG), e)
     },
-    /*
-
-        USAGE EXAMPLE:
-
-        For single tasks:
-        const {message} = await this.callIPC(
-            this.ipcTask('please echo', {message: "foo"})
-        )
-
-        For batch tasks:
-        const results = await this.callIPC(
-            this.ipcTask('please echo', {message: "hello"}),
-            this.ipcTask('please echo', {message: "world"})
-        )
-        console.log(results[0].message) // "hello"
-        console.log(results[1].message) // "world"
-
-        */
     ipcTask (channel, data) {
       return {
         channel,
@@ -242,3 +225,4 @@ window.setInterval(() => {
   if (app.ipcProcessed == ipcCounter) app.ipcRotate()
   ipcCounter = app.ipcProcessed
 }, 2000)
+*/
