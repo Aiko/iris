@@ -336,12 +336,12 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   background-color: var(--p-opaque);
   height: unset;
   z-index: 10;
-  transition: 0.2s;
   position: relative;
 }
 
+
 .alert div:hover {
-  margin-top: -20px;
+  margin-top: 0px;
   opacity: 1;
   height: unset;
   transition: 0.2s;
