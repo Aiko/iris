@@ -1,18 +1,18 @@
 import autoBind from 'auto-bind'
 import 'colors'
 import crypto from 'crypto'
-import path from 'path'
 import Storage from '@Iris/common/storage'
 import WebSocket from 'ws'
 import sleep from '@Iris/common/sleep'
 import { performance } from 'perf_hooks'
 import datapath from './datapath'
+import { RESERVED_PORTS } from './port'
 
 /** Generates a string timestamp of the current date/time */
 export const Timestamp = (): string => {
   const now: Date = new Date()
   const date: string = now.toLocaleDateString()
-  const time: string = now.toTimeString().substr(0, 'HH:MM:SS'.length)
+  const time: string = now.toTimeString().slice(0, 'HH:MM:SS'.length)
   return `[${date.gray} ${time.cyan}]`.bgBlack
 }
 
@@ -103,7 +103,7 @@ export default class Forest {
     //? randomly generate some "probably unique" identifier
     this.id = crypto.randomBytes(6).toString('hex')
     try {
-      const socket = new WebSocket('ws://localhost:4159')
+      const socket = new WebSocket('ws://localhost:' + RESERVED_PORTS.ROOTS.LOCAL)
       this.roots = socket
     } catch (e) {
       console.error(e)
