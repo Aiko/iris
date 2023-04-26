@@ -12,13 +12,13 @@ Log.success("Mounted application.");
 </script>
 
 <template>
-	<Sidebar />
-	<Main />
+  <Sidebar />
+  <Main />
 </template>
 
 <style scoped>
 .main {
-  width: calc(100% - 160px);
+  width: calc(100% - 170px);
   height: 100%;
   overflow: hidden;
 }

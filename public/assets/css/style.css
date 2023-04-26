@@ -4838,7 +4838,7 @@ input:checked+.slider:before {
 }
 
 .mw-160 {
-  max-width: calc(100% - 160px);
+  max-width: calc(100% - 170px);
 }
 
 .searchload {

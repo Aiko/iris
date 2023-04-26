@@ -12,7 +12,6 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
 </script>
 
 <template>
-
   <!-- TOAST Sending Email -->
   <a class="primarycolor" v-if="false">
     <Animation name="sending" loop class="lot" />
@@ -24,7 +23,7 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Idle">
     <Icon name="start-record" class="start-recording" />
     {{ i18n(RosettaStone.header.toasts.voice_state_clicked) }}
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+    <ButtonSecondary @click="hideScribeVoice">
       {{ i18n(RosettaStone.header.toasts.voice_state_clicked_btn) }}
     </ButtonSecondary>
   </a>
@@ -33,7 +32,7 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Recording">
     <Animation name="record" loop class="record" />
     {{ i18n(RosettaStone.header.toasts.voice_state_start_btn) }}
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+    <ButtonSecondary @click="hideScribeVoice">
       {{ i18n(RosettaStone.header.toasts.voice_state_start_btn) }}
     </ButtonSecondary>
   </a>
@@ -42,7 +41,7 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Transcribing">
     <Loader class="writing" />
     {{ i18n(RosettaStone.header.toasts.voice_state_transcribing) }}
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+    <ButtonSecondary @click="hideScribeVoice">
       {{ i18n(RosettaStone.header.toasts.voice_state_transcribing_btn) }}
     </ButtonSecondary>
   </a>
@@ -51,7 +50,7 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   <a class="voice-comp primarycolor" v-if="scribeVoiceState == ScribeVoiceState.Generating">
     <Animation name="writing" loop class="record" />
     {{ i18n(RosettaStone.header.toasts.voice_state_writing) }}
-    <ButtonSecondary @click="hideScribeVoice" class="opacity-08">
+    <ButtonSecondary @click="hideScribeVoice">
       {{ i18n(RosettaStone.header.toasts.voice_state_writing_btn) }}
     </ButtonSecondary>
   </a>
@@ -103,7 +102,6 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
       {{ i18n(RosettaStone.header.toasts.board_suggestion_travel_btn) }}
     </ButtonPrimary>
   </a>
-
 </template>
 
 <style scoped>
@@ -176,7 +174,6 @@ a {
 }
 
 .voice-comp a {
-  opacity: 0;
   transition: .2s;
 }
 

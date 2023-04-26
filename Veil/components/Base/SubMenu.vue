@@ -31,7 +31,7 @@ let isOpen = ref(false);
 
 <style scoped>
 .sub-menu {
-  background-color: var(--primary-background-color);
+  background: var(--p-opaque);
   border-top: 1px solid var(--secondary-background-color);
   border-bottom: 1px solid var(--secondary-background-color);
   color: var(--primary-font-color);
@@ -52,7 +52,7 @@ let isOpen = ref(false);
 
 .otherOptions {
   position: absolute;
-  background-color: var(--primary-background-color);
+  background: var(--p-opaque);
   right: 0;
   margin-right: -100%;
   width: 100%;

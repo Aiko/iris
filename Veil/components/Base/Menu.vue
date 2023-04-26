@@ -18,9 +18,9 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     ['' + direction]: true, 'isOpen': isOpen, ['w' + width]: true,
   }">
     <div :class="{
-      'menu-container': true,
-      'is-open': isOpen,
-    }" @click="toggleMenu" tabindex="0" @focusout="isOpen = false" autofocus>
+        'menu-container': true,
+        'is-open': isOpen,
+      }" @click="toggleMenu" tabindex="0" @focusout="isOpen = false" autofocus>
       <MenuItem v-if="label != null && label != ''" class="label">
       {{ label }}
       </MenuItem>
@@ -107,8 +107,8 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 }
 
 .is-open {
-  background: var(--primary-background-color);
-  
+  background: var(--p-opaque);
+
   border: 1px solid var(--secondary-background-color) !important;
   z-index: 1000;
 }

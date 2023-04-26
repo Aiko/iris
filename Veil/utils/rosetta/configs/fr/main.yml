@@ -163,7 +163,7 @@ messages:
       text: Cliquez n'importe où en dehors de cette fenêtre ou appuyez sur ÉCHAP pour quitter
     upgrade:
       title: Vous avez trouvé une fonctionnalité Pro.
-      text: est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur <a href="https://aikomail.com">notre documentation</a>, pour l'utiliser, passez à Pro.
+      text: est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur notre site internet, pour l'utiliser, passez à Pro.
       btn: Utiliser
 
   email: #! EMAIL ------------------------------------------------

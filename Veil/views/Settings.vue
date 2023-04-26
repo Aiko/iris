@@ -159,16 +159,16 @@ let selectedPane = ref(Pane.Account);
         <p>{{ i18n(RosettaStone.settings.appearance.theme) }}</p>
         <form action="#">
           <p>
+            <input type="radio" id="system" name="radio-group" checked />
+            <label for="system">{{ i18n(RosettaStone.settings.appearance.system) }}</label>
+          </p>
+          <p>
             <input type="radio" id="light" name="radio-group" />
             <label for="light">{{ i18n(RosettaStone.settings.appearance.light) }}</label>
           </p>
           <p>
             <input type="radio" id="dark" name="radio-group" />
             <label for="dark">{{ i18n(RosettaStone.settings.appearance.dark) }}</label>
-          </p>
-          <p>
-            <input type="radio" id="system" name="radio-group" checked />
-            <label for="system">{{ i18n(RosettaStone.settings.appearance.system) }}</label>
           </p>
         </form>
 
@@ -179,16 +179,16 @@ let selectedPane = ref(Pane.Account);
         <p>{{ i18n(RosettaStone.settings.appearance.lines) }}</p>
         <form action="#">
           <p>
+            <input type="radio" id="3lines" name="radio-group" checked />
+            <label for="3lines">{{ i18n(RosettaStone.settings.appearance.three_lines) }}</label>
+          </p>
+          <p>
             <input type="radio" id="1line" name="radio-group" />
             <label for="1line">{{ i18n(RosettaStone.settings.appearance.one_line) }}</label>
           </p>
           <p>
             <input type="radio" id="2lines" name="radio-group" />
             <label for="2lines">{{ i18n(RosettaStone.settings.appearance.two_lines) }}</label>
-          </p>
-          <p>
-            <input type="radio" id="3lines" name="radio-group" checked />
-            <label for="3lines">{{ i18n(RosettaStone.settings.appearance.three_lines) }}</label>
           </p>
         </form>
 
@@ -356,7 +356,7 @@ let selectedPane = ref(Pane.Account);
         <br />
 
         <div class="plan current">
-          <img src="@Veil/assets/img/aikofree.svg" />
+          <img src="@Veil/assets/img/logo.svg" />
           <span>$0/{{ i18n(RosettaStone.settings.billing.month) }}</span>
           <span style="opacity: 0">.</span>
           <p>
@@ -373,7 +373,7 @@ let selectedPane = ref(Pane.Account);
         </div>
 
         <div class="plan">
-          <img src="@Veil/assets/img/aikopro.svg" />
+          <img src="@Veil/assets/img/upgrade.svg" style="width: 200px;" />
           <span>$12/{{ i18n(RosettaStone.settings.billing.month) }}</span>
           <span>{{ i18n(RosettaStone.settings.billing.cancel_info) }}</span>
           <p>
@@ -389,7 +389,7 @@ let selectedPane = ref(Pane.Account);
           <ButtonPrimary>{{ i18n(RosettaStone.settings.billing.upgrade_to) }} Pro</ButtonPrimary>
         </div>
 
-        <ButtonSecondary class="save">{{ i18n(RosettaStone.settings.billing.edit) }}</ButtonSecondary>
+        <ButtonSecondary class="edit-billing">{{ i18n(RosettaStone.settings.billing.edit) }}</ButtonSecondary>
       </div>
 
       <div class="pane" v-if="selectedPane == Pane.Integrations">
@@ -454,7 +454,7 @@ let selectedPane = ref(Pane.Account);
 }
 
 .sidebar {
-  width: 160px;
+  width: 170px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px 8px 8px 3px;
@@ -528,6 +528,11 @@ let selectedPane = ref(Pane.Account);
   font-size: 12px;
   color: var(--primary-font-color);
   font-weight: 500;
+}
+
+.edit-billing {
+  display: block;
+  width: fit-content;
 }
 
 .plan a {
@@ -607,7 +612,7 @@ let selectedPane = ref(Pane.Account);
 .space {
   height: 45px;
   margin-top: 20px;
-  padding: 20px;
+  padding: 15px;
   overflow: hidden;
   cursor: default;
   transition: 0.2s;
@@ -833,7 +838,7 @@ textarea:active+a {
 .alert div {
   position: relative;
   color: var(--primary-color);
-  background-color: var(--secondary-background-color);
+  background-color: var(--s-opaque);
   font-size: 13px;
   margin-top: 0;
   width: 100%;

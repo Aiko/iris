@@ -696,7 +696,7 @@
       "scribe_placeholder": {
         "definitions": {
           "default": {
-            "default": "Type a reply here and send it or click the brain button to generate"
+            "default": "Type a reply here and send it or click the brain button to generate with AI"
           },
           "fr": {
             "default": "Ecrivez une réponse ici et envoyez-la ou cliquez sur le bouton bleu pour générer"
@@ -1442,10 +1442,10 @@
       "text": {
         "definitions": {
           "default": {
-            "default": "is a very powerful feature of Aiko Mail. To learn more about it, head over to <a href=\"https://aikomail.com\">our documentation</a>, to use it, upgrade to Pro."
+            "default": "is a very powerful feature of Aiko Mail. To learn more about it, head over to our documentation, to use it, upgrade to Pro."
           },
           "fr": {
-            "default": "est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur <a href=\"https://aikomail.com\">notre documentation</a>, pour l'utiliser, passez à Pro."
+            "default": "est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur notre site internet, pour l'utiliser, passez à Pro."
           }
         }
       },

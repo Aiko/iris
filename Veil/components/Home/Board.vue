@@ -55,7 +55,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
           <div @click="size = 'medium'">M</div>
           <div @click="size = 'large'">L</div>
         </div>
-        {{ board?.name ?? "New Board"}}
+        {{ board?.name ?? "New Board" }}
         <div class="count count2">
           {{ board?.emails.length }}
         </div>
@@ -65,8 +65,8 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
       <div class="options" v-if="showBoardMenu" tabindex="0" ref="options" @focusout="showBoardMenu = false" autofocus>
         <div class="option" v-if="isInbox">
           <p>Manage board rules</p>
-          <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules"
-            @mouseover="infoContent = infoBoardRules" @mouseleave="infoContent = ''">
+          <ButtonSecondary lass="btn" @click="selectedModal = Modal.BoardRules" @mouseover="infoContent = infoBoardRules"
+            @mouseleave="infoContent = ''">
             {{ i18n(RosettaStone.boards.board.board_rules_btn) }}
           </ButtonSecondary>
         </div>
@@ -83,10 +83,10 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 
 
       <div :class="{
-        'switch': true,
-        'demoswitch': demo
-      }
-      " v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
+          'switch': true,
+          'demoswitch': demo
+        }
+        " v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
           {{ i18n(RosettaStone.boards.board.priority) }}
           <div class="count">
@@ -106,11 +106,11 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
     <div class="board-body">
 
       <Sortable :list="board?.emails ?? []" item-key="mid" tag="div" style="min-height: 100%;" :options="{
-        draggable: '.email-card',
-        ghostClass: 'ghost',
-        group: { name: 'emails' },
-        dragHandle: '.email-card',
-      }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
+          draggable: '.email-card',
+          ghostClass: 'ghost',
+          group: { name: 'emails' },
+          dragHandle: '.email-card',
+        }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
         @move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }">
         <template #item="{ element, index }">
           <EmailCard v-if="resolveEmail(element.mid)" :key="element.mid" :email="resolveEmail(element.mid)"
@@ -209,6 +209,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 .small .board-header {
   border-radius: var(--primary-border-radius);
   background: var(--primary-background-color);
+  box-shadow: var(--board-shadow);
   height: 185px !important;
   position: relative;
   z-index: 5;
@@ -307,7 +308,7 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
   display: inline-flex;
   background-color: var(--primary-background-color);
   padding: 3px 5px 3px 7px;
-  opacity: .5;
+  opacity: .8;
   letter-spacing: .2px;
   transition: .2s;
 }
@@ -425,11 +426,16 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
   border-radius: var(--primary-border-radius);
   border: 3px solid var(--primary-background-color);
   box-shadow: 11px 14px 10px #00000040;
-  background: var(--secondary-background-color);
+  background: var(--p-opaque);
 }
 
 .board-header .options div {
   padding: 0 5px 10px 5px;
+}
+
+.options .button {
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
 .size {

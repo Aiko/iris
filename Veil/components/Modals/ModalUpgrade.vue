@@ -15,7 +15,9 @@ defineProps<{
     <p>{{ feature }} {{ i18n(RosettaStone.modals.upgrade.text) }}
     </p>
 
-    <ButtonPrimary class="mt-4">{{ i18n(RosettaStone.modals.upgrade.btn) }} {{ feature }}</ButtonPrimary>
+    <div class="modal-bottom">
+      <ButtonPrimary class="ml-2">{{ i18n(RosettaStone.modals.upgrade.btn) }} {{ feature }}</ButtonPrimary>
+    </div>
   </div>
 </template>
 
@@ -25,6 +27,15 @@ defineProps<{
   height: 100%;
   text-align: center;
   padding: 40px 20px;
+}
+
+.modal-bottom a {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: calc(100% - 14px) !important;
+  left: 0 !important;
+  margin: 12px 7px 7px 7px !important;
+  padding: 4px;
 }
 
 span {

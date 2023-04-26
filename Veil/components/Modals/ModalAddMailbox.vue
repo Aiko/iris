@@ -17,14 +17,15 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
     'modal-add-mailbox': true,
     'imap-open': isIMAPInputShowing
   }">
-    <Icon name="mail" color="blue" />
-    <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
-    <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle1) }}</p>
-    <a><img src="@Veil/assets/img/google.png"></a>
-    <a><img src="@Veil/assets/img/outlook.png"></a>
-    <a><img src="@Veil/assets/img/exchange.png"></a>
-    <ButtonSecondary class="mt-4" @click="toggleIMAPInputShowing()">Enter details manually (IMAP)</ButtonSecondary>
-
+    <div v-if="!isIMAPInputShowing">
+      <Icon name="mail" color="blue" />
+      <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
+      <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle1) }}</p>
+      <a><img src="@Veil/assets/img/google.png"></a>
+      <a><img src="@Veil/assets/img/outlook.png"></a>
+      <a><img src="@Veil/assets/img/exchange.png"></a>
+      <ButtonSecondary class="mt-4" @click="toggleIMAPInputShowing()">Enter details manually (IMAP)</ButtonSecondary>
+    </div>
     <div class="imap" v-if="isIMAPInputShowing">
       <Icon name="mail" color="blue" />
       <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
@@ -42,7 +43,6 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
       </div>
     </div>
   </div>
-
 </template>
 
 <style scoped>
@@ -61,8 +61,8 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
   position: fixed;
   top: 0;
   left: 0;
-  background: var(--primary-background-color);
   width: 100%;
+  background: var(--im-background-color);
   text-align: center;
   padding: 20px;
   border-radius: var(--primary-border-radius);

@@ -106,7 +106,7 @@ const grimaldi = new Grimaldi()
 .left {
   width: calc(100% - 300px);
   position: relative;
-  background: var(--primary-background-color);
+  background: var(--s-opaque);
   height: 100%;
   transition: .2s;
 }

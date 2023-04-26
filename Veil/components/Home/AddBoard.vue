@@ -27,7 +27,7 @@ const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
   box-shadow: var(--board-shadow);
   border: none !important;
   text-align: center;
-  opacity: .6;
+  opacity: 8;
   display: inline-table;
   transition: .2s;
 }

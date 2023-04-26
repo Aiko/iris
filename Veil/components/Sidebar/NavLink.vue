@@ -33,11 +33,12 @@ a {
 }
 
 a:hover {
-  background: var(--primary-background-color-hover);
+  background: var(--primary-background-color);
   transition: 0.2s;
 }
 
 .active {
-  background: var(--secondary-background-color);
+  background: var(--primary-background-color);
+  transition: .2s;
 }
 </style>

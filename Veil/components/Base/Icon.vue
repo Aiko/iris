@@ -20,30 +20,30 @@ img {
 }
 
 .blue {
-  filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%)
-    contrast(101%);
+  filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%) contrast(101%);
 }
 
 .red {
-  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
-    contrast(106%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%) contrast(106%);
 }
 
 .error {
-  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
-    contrast(106%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%) contrast(106%);
 }
 
 .grey {
   filter: var(--icon-filter);
+  opacity: .5;
 }
 
 .gray {
+  opacity: .5;
   filter: var(--icon-filter);
 }
 
 .normal {
   filter: var(--icon-filter);
+  opacity: .5;
 }
 
 .white {

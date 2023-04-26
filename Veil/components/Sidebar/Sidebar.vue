@@ -114,14 +114,13 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <style scoped>
 .sidebar {
-  width: 160px;
+  width: 170px;
   height: 100%;
-  background-color: var(--primary-background-color);
-  padding: 8px;
+  background-color: var(--sidebar-bg);
+  padding: 8px 10px;
   position: relative;
-  box-shadow: var(--sidebar-shadow);
   z-index: 1;
-  border-top-right-radius: var(--primary-border-radius);
+  box-shadow: var(--sidebar-shadow);
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -138,22 +137,40 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar-collapse {
   position: absolute;
   right: 0;
-  top: 0;
-  margin-top: -10px;
+  bottom: 0;
+  margin-bottom: -2px;
   cursor: pointer !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   z-index: 1;
-  padding: 0 2px;
-  height: 19px;
-  background: var(--secondary-background-color);
-  border-radius: 5px;
+  padding: 5px 3px;
+  height: 30px;
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  transition: .2s;
+}
+
+.sidebar.collapsed .sidebar-collapse {
+  width: 37px;
+  padding-left: 10px;
+}
+
+.sidebar-collapse:hover {
+  background-color: var(--primary-background-color);
+  transition: .2s;
 }
 
 .sidebar-collapse img {
   width: 15px !important;
   margin-top: -8px;
-  opacity: 0.3;
+  opacity: .5;
+  transition: 0.2s;
+}
+
+
+
+.sidebar.collapsed .sidebar-collapse img {
+  transform: rotate(180deg);
   transition: 0.2s;
 }
 
@@ -191,7 +208,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 }
 
 .composecont .norm {
-  width: calc(100% - 33px);
+  width: calc(100% - 36px);
   position: absolute;
   right: 0;
 }
@@ -221,6 +238,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .bottom {
   display: inline-grid;
+  padding-bottom: 30px;
 }
 
 .sidebar.collapsed .bottom a {
@@ -233,24 +251,23 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-bottom: 20px;
   position: absolute;
   width: 100%;
-  border-top: 1px solid var(--secondary-background-color);
   padding-top: 20px;
   bottom: 0;
   left: 0;
 }
 
 .bottom a {
-  background: var(--primary-background-color);
   padding: 4px 5px 7px 5px;
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 19px;
+  margin-left: 10px;
+  margin-right: 9px;
   transition: 0.2s;
 }
 
 .bottom a:hover {
-  background: var(--primary-background-color-hover);
+  background: var(--primary-background-color);
   transition: 0.2s;
 }
 
@@ -276,7 +293,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .alert p {
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
   z-index: 1;
 
   position: relative;
@@ -295,14 +312,12 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .alert b {
   color: var(--primary-color);
-
   font-weight: 700;
 }
 
 .alert div {
   position: relative;
   color: var(--primary-color);
-  background-color: var(--secondary-background-color);
   font-size: 13px;
   margin-top: 0;
   width: 100%;
@@ -318,7 +333,9 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .alert h1:hover~div {
   margin-top: -20px;
   opacity: 1;
+  background-color: var(--p-opaque);
   height: unset;
+  z-index: 10;
   transition: 0.2s;
   position: relative;
 }
@@ -399,6 +416,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 }
 
 .space-actions {
+  display: none;
   border-top: 2px solid var(--secondary-background-color);
   margin: 10px 0 10px 0;
   position: relative;

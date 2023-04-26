@@ -16,8 +16,9 @@ import { Sidebar } from "@Veil/state/sections";
 
 <style scoped>
 .main {
-  width: calc(100% - 160px);
+  width: calc(100% - 170px);
   height: 100%;
+  background-color: var(--main-bg);
   overflow: hidden;
 }
 

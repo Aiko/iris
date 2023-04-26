@@ -1,49 +1,57 @@
 <script lang="ts" setup>
-import { infoContent } from '@Veil/state/sections'
-import Icon from '@Veil/components/Base/Icon.vue'
+import { Sidebar } from "@Veil/state/sections";
 </script>
 
 <template>
   <div class="control-bar">
-    <p v-if="infoContent != ''">
-      <Icon name="info" color="normal" />{{infoContent}}
-    </p>
+    <div :class="{
+      'bg-right': true,
+      'collapsed-sidebar': Sidebar.collapsed,
+    }"></div>
+    <div :class="{
+        'bg-left': true,
+        'collapsed-sidebar': Sidebar.collapsed,
+      }"></div>
   </div>
 </template>
 
 <style scoped>
-img {
-  width: 16px;
-  margin-right: 5px;
-  margin-top: -1px;
-}
-
-p {
-  text-align: center;
-  margin: 0;
-  margin: auto;
-  opacity: .5;
-  background: var(--secondary-background-color);
-  padding: 1px 5px;
-  border-radius: var(--primary-border-radius);
-  white-space: nowrap;
-  width: calc(100% - 140px);
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
 .control-bar {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  background-color: transparent;
   z-index: 1000;
   margin-bottom: 10px;
-  background: transparent;
   display: inline-flex;
   height: 28px;
   cursor: default !important;
   user-select: none;
   -webkit-app-region: drag;
+}
+
+.bg-right {
+  background-color: var(--main-bg);
+  height: 100%;
+  position: absolute;
+  right: 0;
+  width: calc(100% - 170px);
+}
+
+.collapsed-sidebar.bg-right {
+  width: 100%;
+}
+
+.bg-left {
+  background-color: var(--sidebar-bg);
+  height: 100%;
+  position: absolute;
+  left: 0;
+  width: 170px;
+}
+
+.collapsed-sidebar.bg-left {
+  width: 0;
 }
 </style>

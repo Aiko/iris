@@ -14,11 +14,11 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
       <Board isInbox :board="INBOX" />
 
       <Sortable v-if="!isRegularView" tag="div" style="display: inline-flex;" :list="boards" item-key="slug" :options="{
-        draggable: '.board',
-        dragHandle: '.board-drag-handle',
-        ghostClass: 'ghost',
-        group: { name: 'boards' },
-      }">
+          draggable: '.board',
+          dragHandle: '.board-drag-handle',
+          ghostClass: 'ghost',
+          group: { name: 'boards' },
+        }">
         <template #item="{ element, index }">
           <Board :board="resolveBoard(element.slug)" />
         </template>
@@ -35,9 +35,9 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
   width: 100%;
   padding-top: 10px;
   margin-top: -10px;
+  padding-left: 20px;
   overflow-x: scroll !important;
   height: calc(100% - 40px);
-  padding-left: 20px;
   display: inline-flex;
   overflow: hidden;
 }

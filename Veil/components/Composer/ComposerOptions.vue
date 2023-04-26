@@ -118,11 +118,13 @@ let selectedOption = ref(Option.None)
 a {
   margin-right: 10px;
   opacity: .8;
+  border: 1px solid transparent;
   transition: .2s;
 }
 
 a:hover {
   border: 1px solid var(--primary-background-color);
+  background-color: var(--primary-background-color) !important;
   opacity: 1;
   transition: .2s;
 }
@@ -141,7 +143,7 @@ a:hover {
   width: 100%;
   display: inline-flex;
   padding: 10px;
-  background: var(--secondary-background-color);
+  background: var(--s-opaque);
   max-width: 100%;
   height: 50px;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 11px;

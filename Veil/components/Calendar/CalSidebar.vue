@@ -90,7 +90,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 <style scoped>
 .sidebar {
-  width: 160px;
+  width: 170px;
   height: 100%;
   background-color: var(--primary-background-color);
   padding: 8px;

@@ -131,7 +131,7 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   top: 0;
   width: 300px;
   height: 100%;
-  background-color: var(--secondary-background-color);
+  background-color: var(--s-opaque);
   padding: 35px 30px;
   transition: .2s;
 }

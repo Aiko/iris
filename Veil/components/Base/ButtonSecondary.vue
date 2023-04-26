@@ -18,7 +18,7 @@ defineProps<{
 <style scoped>
 a {
   background-color: var(--secondary-background-color);
-  border: 1px solid var(--secondary-background-color);
+  border: 1px solid var(--primary-color);
   color: var(--primary-color);
   padding: 2px 5px;
   border-radius: var(--primary-border-radius);
@@ -34,8 +34,15 @@ a:not([href]):not([tabindex]) {
   color: var(--primary-color);
 }
 
-.red:hover {
+.red {
   border: 1px solid #d0021c !important;
+  transition: .2s;
+}
+
+.red:hover {
+  background-color: #d0021c !important;
+  color: #fff !important;
+  transition: .2s;
 }
 
 a:not([href]):not([tabindex]):hover {
@@ -43,8 +50,9 @@ a:not([href]):not([tabindex]):hover {
 }
 
 a:hover {
-  background-color: transparent;
-  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  color: #fff !important;
+  border: 1px solid var(--p-opaque) !important;
   transition: .2s;
 }
 
