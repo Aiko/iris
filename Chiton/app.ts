@@ -1,26 +1,14 @@
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Imports
 import * as Sentry from '@sentry/electron'
-//? We use Sentry for security.
 //! Sentry should be the first thing to load in the entire app.
-// TODO: should also track environment
-// TODO: bug reports, managed updates, etc. for electron
 Sentry.init({ dsn: "https://611b04549c774cf18a3cf72636dba7cb@o342681.ingest.sentry.io/5560104" });
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
+
 import os from 'os'
 import { app, session, dialog, powerSaveBlocker } from 'electron'
-import Forest, { Lumberjack } from '@Iris/common/logger'
+import Forest from '@Iris/common/logger'
 import SecureCommunications from '@Marionette/ipc'
 import Roots from '@Chiton/services/roots'
 import GOAuth from '@Chiton/services/oauth/google'
 import MSOAuth from '@Chiton/services/oauth/microsoft'
-import Mailman from '@Chiton/mail/imap'
-import CarrierPigeon from '@Chiton/mail/smtp'
-import Composer from '@Chiton/components/composer'
-
-import { ElectronBlocker } from '@cliqz/adblocker-electron'
-import fetch from 'cross-fetch'
 import * as child_process from 'child_process';
 import autoBind from 'auto-bind';
 import SockPuppet from '@Marionette/ws/sockpuppet';
@@ -28,10 +16,10 @@ import { RESERVED_PORTS } from '@Iris/common/port';
 import SettingsStore from '@Chiton/store/settings';
 import Inbox from '@Chiton/components/inbox';
 import { autoUpdater } from 'electron';
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
+
 //! Singleton
 export class Chiton extends SockPuppet {
+
 	checkInitialize(): boolean { return true }
 	async initialize(args: any[], success: (payload: object) => void) { return success({}) }
 
@@ -55,13 +43,13 @@ export class Chiton extends SockPuppet {
 	readonly comms: SecureCommunications
 	readonly forest: Forest
 	readonly settingsStore: SettingsStore
-	readonly inbox: Inbox
+	inbox?: Inbox
 
 	private constructor() {
 		//*** Electron
 
 		//? Lumberjack
-		const roots = Roots.init() //! must proceed super
+		Roots.init() //! must proceed super
 		const forest = new Forest("logs-chiton")
 		super("Chiton", {
 			forest,
@@ -87,6 +75,14 @@ export class Chiton extends SockPuppet {
 		dialog.showErrorBox = (title, content) => _this.Log.warn(
 			`Chiton error.\n${title}\n${content}\n--------------------`
 		)
+		//? Prevent getting throttled
+		powerSaveBlocker.start('prevent-app-suspension')
+		//? Handle quitting on Mac
+		app.on("window-all-closed", () => {
+			// TODO: live on in the tray
+			if (process.platform !== 'darwin') app.quit()
+		})
+
 
 		//? Fingerprinting
 		this.version_hash = (() => {
@@ -126,7 +122,7 @@ export class Chiton extends SockPuppet {
 			autoUpdater.on("download-progress", (progress) => _this.Log.log(`Downloading update... ${progress.percent}%`))
 			autoUpdater.on("update-downloaded", async (event, releaseNotes, releaseName) => {
 				_this.Log.success("Update is ready to install:", releaseName)
-				_this.inbox.onUpdateAvailable(releaseName, releaseNotes)
+				_this.inbox?.onUpdateAvailable(releaseName, releaseNotes)
 			})
 			const feed = `https://knidos.helloaiko.com/update/${_this.config.channel}/${_this.config.platform}/${_this.config.version}`
 			autoUpdater.setFeedURL({ url: feed })
@@ -134,25 +130,33 @@ export class Chiton extends SockPuppet {
       this.updateInterval = setInterval(autoUpdater.checkForUpdates, 5 * 60 * 1000)
 		}
 
-		//*** Iris
-
 		//? Stores
 		this.settingsStore = new SettingsStore(this)
 		this.settingsStore.deploy()
 
-		//? Components
+		app.once('ready', this.setup)
+
+		autoBind(this)
+	}
+
+	private async setup() {
+		//? Impersonate Chrome in regular fetch requests
+		session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
+			details.requestHeaders["User-Agent"] = this.config.user_agent
+			callback({ cancel: false, requestHeaders: details.requestHeaders })
+		})
+
 		this.inbox = new Inbox(this, {
 			demoMode: true
 		})
-		this.inbox.deploy()
+
+		app.on('activate', this.inbox.focus)
 
 		const goauth = new GOAuth(this, ["https://mail.google.com"])
-		goauth.deploy()
+		await goauth.deploy()
 
 		const msoauth = new MSOAuth(this)
-		msoauth.deploy()
-
-		autoBind(this)
+		await msoauth.deploy()
 	}
 
 	private static me?: Chiton
@@ -174,152 +178,5 @@ export class Chiton extends SockPuppet {
 	}
 
 }
+
 export default Chiton.init()
-
-;(async () => { //! Don't remove this -- async function to use await below
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Email modules that enable IMAP/SMTP
-Log.log("Building IMAP/SMTP modules.")
-
-const carrierPigeon = new CarrierPigeon(Registry)
-Registry.register("Carrier Pigeon", carrierPigeon)
-const mailman = new Mailman(Registry)
-Registry.register("Mailman", mailman)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Caches, preferences, storage
-Log.log("Building cache modules.")
-
-const dwarfStar = new DwarfStar(Registry, "dwarf-star.json")
-Registry.register("Dwarf Star", dwarfStar)
-const gasGiant = new GasGiant(Registry, "gas-giant")
-Registry.register("Gas Giant", gasGiant)
-const cookieCutter = new CookieCutter(Registry, "cookie-cutter")
-Registry.register("Cookie Cutter", cookieCutter)
-//? Load preferences
-dwarfStar.reset()
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Other windows in component form
-Log.log("Initializing secondary components.")
-
-const composer = new Composer(Registry)
-Registry.register("Composer", composer)
-const calendar = new Calendar(Registry)
-Registry.register("Calendar", calendar)
-const settings = new Settings(Registry)
-Registry.register("Settings", settings)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? App Manager tool that handles updates
-Log.log("Initializing App Manager.")
-
-const appManager = new AppManager(Registry, dev ? "Dev" : "Stable")
-Registry.register("App Manager", appManager)
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Entry script for the main window
-const GLOBAL_DISABLE_AUTH=true //! FIXME: DISABLE THIS IN PROD!!!!!!!!!!
-
-const entry = (disable_auth=GLOBAL_DISABLE_AUTH) => {
-
-}
-
-SecureCommunications.registerBasic('reentry', () => entry())
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Initialization script for launching the main window
-//? Adblock to block email trackers
-//? Fetch tooling for requests
-
-const init = async () => {
-
-  session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
-    details.requestHeaders["User-Agent"] = Registry.get("user agent")
-    callback({ cancel: false, requestHeaders: details.requestHeaders });
-  })
-
-  const SentinelAdblock = await ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
-
-  windowManager.window = WindowManager.newWindow({})
-  windowManager.window.maximize()
-  windowManager.window.show()
-  windowManager.window.focus()
-
-  entry()
-
-  SentinelAdblock.enableBlockingInSession(windowManager.window.webContents.session)
-}
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? App Lifecycle Hooks
-powerSaveBlocker.start('prevent-app-suspension')
-
-app.on("ready", init)
-
-app.on("window-all-closed", () => {
-  // TODO: live on in the tray
-  if (process.platform !== 'darwin') app.quit()
-})
-
-app.on("activate", () => windowManager.focus())
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Check for updates
-if (!dev) appManager.checkForUpdates()
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-})() //! Don't remove this -- closing tag for async
-
-
-
-
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
-//? Finalize exports
-export const platform = process.platform
-/// //////////////////////////////////////////////////////
-/// //////////////////////////////////////////////////////
