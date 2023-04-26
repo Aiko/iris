@@ -160,7 +160,7 @@ const quickReplyScribeVoice = async () => {
 
       <div class="scribe" @click.stop.prevent="quickReplyScribe" @mouseover="infoContent = infoScribe"
         @mouseleave="infoContent = ''">
-        <Icon name="scribe" color="white" /> <span class="label">{{
+        <Icon name="scribe" color="normal" /> <span class="label">{{
           i18n(RosettaStone.boards.email_cards.generate)
         }}</span>
       </div>
@@ -174,7 +174,7 @@ const quickReplyScribeVoice = async () => {
 
       <div v-if="!demo" class="send" @click.stop="Log.log('send email')" @mouseover="infoContent = infoSend"
         @mouseleave="infoContent = ''">
-        <Icon name="sent" color="normal" /> <span class="label">{{ i18n(RosettaStone.boards.email_cards.send) }}</span>
+        <Icon name="sent" color="white" /> <span class="label">{{ i18n(RosettaStone.boards.email_cards.send) }}</span>
       </div>
     </div>
     <div class="bottom">
@@ -269,7 +269,7 @@ const quickReplyScribeVoice = async () => {
 }
 
 .email-card:hover {
-  filter: brightness(1.2);
+  background: var(--secondary-background-color-hover);
   box-shadow: none;
   transition: .2s;
 }
@@ -426,7 +426,7 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .send {
   display: inline;
-  background: var(--p-opaque);
+  background: var(--primary-color);
   width: calc(50% + 3px);
   padding: 4px 6px !important;
   height: 30px;
@@ -441,7 +441,7 @@ const quickReplyScribeVoice = async () => {
   text-align: center;
   position: absolute;
   margin-bottom: -23px;
-  color: var(--primary-font-color);
+  color: #fff;
   margin-right: -2px;
   padding: 0 6px;
   transition: .2s;
@@ -454,14 +454,14 @@ const quickReplyScribeVoice = async () => {
 .email-card .voice {
   width: 30px;
   display: inline;
-  background: unset;
   padding: 6px;
   height: 30px;
   position: absolute;
   right: 0;
   bottom: 0;
   margin-bottom: -23px;
-  color: var(--primary-font-color);
+  color: #fff;
+  background: var(--secondary-background-color);
   margin-right: -2px;
   padding: 0 6px;
   transition: .2s;
@@ -473,8 +473,8 @@ const quickReplyScribeVoice = async () => {
   text-align: center;
   height: 30px;
   font-weight: 500;
-  color: #fff;
-  background: var(--primary-color);
+  color: var(--primary-font-color);
+  background: var(--secondary-background-color);
   width: calc(50% + 3px);
   bottom: 0;
   left: 0;
@@ -512,7 +512,7 @@ const quickReplyScribeVoice = async () => {
 }
 
 .email-card .send:hover {
-  background: var(--s-opaque);
+  background: var(--primary-color-hover);
   transition: .2s;
 }
 

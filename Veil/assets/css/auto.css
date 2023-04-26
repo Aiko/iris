@@ -15,7 +15,7 @@
   --main-bg: #0d0d0d91;
 
   --primary-background-color-hover: #14161b;
-  --secondary-background-color-hover: #21201d;
+  --secondary-background-color-hover: #000000a6;
 
   --modal-backdrop: #000000db;
 
@@ -60,7 +60,7 @@
     --secondary-background-color: #ffffffc9;
 
     --primary-background-color-hover: #bbc9dc;
-    --secondary-background-color-hover: #21201d;
+    --secondary-background-color-hover: #f4f4f4c9;
 
     --p-opaque: #f7f7f7f5;
     --s-opaque: #f7f7f7f5;
