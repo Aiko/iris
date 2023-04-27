@@ -99,7 +99,7 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   padding: 35px 60px 35px 30px;
   background: var(--primary-background-color);
   height: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 .left img {
@@ -133,13 +133,13 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   height: 100%;
   background-color: var(--s-opaque);
   padding: 35px 30px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .right {
   width: 30px;
   padding: 35px 0px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapse-info {

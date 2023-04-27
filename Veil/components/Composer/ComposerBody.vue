@@ -46,6 +46,6 @@ defineProps<{
 .editor:focus,
 .editor:active {
   filter: brightness(0.9);
-  transition: .2s;
+  transition: .1s;
 }
 </style>

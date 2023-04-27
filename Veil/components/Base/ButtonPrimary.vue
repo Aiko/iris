@@ -12,7 +12,7 @@ a {
   background: var(--primary-color);
   color: #fff !important;
   margin-top: 0;
-  transition: .2s;
+  transition: .1s;
   width: 100%;
   position: relative;
   padding: 4px 10px 5px 9px;
@@ -24,12 +24,12 @@ a {
   height: 30px;
   margin-bottom: 5px;
   letter-spacing: .3px;
-  transition: .2s;
+  transition: .1s;
 }
 
 a:hover {
   background: var(--primary-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 img {

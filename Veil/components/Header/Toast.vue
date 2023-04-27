@@ -174,11 +174,11 @@ a {
 }
 
 .voice-comp a {
-  transition: .2s;
+  transition: .1s;
 }
 
 .voice-comp:hover a {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 </style>

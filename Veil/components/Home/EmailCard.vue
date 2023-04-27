@@ -246,32 +246,32 @@ const quickReplyScribeVoice = async () => {
   overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
-  transition: .2s;
+  transition: .1s;
   cursor: pointer;
 }
 
 .selected {
   border: 2px solid var(--primary-color);
   padding: 4px 4px 0 6px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .unread {
   border-left: 3px solid var(--primary-color);
   padding: 6px 6px 0 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .starred {
   border-left: 3px solid #ffbf07;
   padding: 8px 10px 0 7px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card:hover {
   background: var(--secondary-background-color-hover);
   box-shadow: none;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .top {
@@ -316,7 +316,7 @@ const quickReplyScribeVoice = async () => {
   text-overflow: ellipsis;
   letter-spacing: .1px;
   width: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 
@@ -436,7 +436,7 @@ const quickReplyScribeVoice = async () => {
   margin-right: -1px;
   margin-bottom: -1px;
   border-bottom-right-radius: var(--primary-border-radius);
-  transition: .2s;
+  transition: .1s;
   font-weight: 500;
   text-align: center;
   position: absolute;
@@ -444,7 +444,7 @@ const quickReplyScribeVoice = async () => {
   color: #fff;
   margin-right: -2px;
   padding: 0 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .democard {
@@ -464,7 +464,7 @@ const quickReplyScribeVoice = async () => {
   background: var(--secondary-background-color);
   margin-right: -2px;
   padding: 0 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .scribe {
@@ -482,7 +482,7 @@ const quickReplyScribeVoice = async () => {
   position: absolute;
   margin-bottom: -23px;
   margin-left: -2px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .send img {
@@ -513,7 +513,7 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .send:hover {
   background: var(--primary-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .qr .bottom {
@@ -534,20 +534,20 @@ const quickReplyScribeVoice = async () => {
 
 .email-card:hover .actions span img {
   opacity: .5;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .actions span img {
   margin-top: 1px;
-  transition: .2s;
+  transition: .1s;
   opacity: 0;
   margin-top: 2px;
   height: 15px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .actions span img:hover {
-  transition: .2s;
+  transition: .1s;
   opacity: .7;
 }
 
@@ -556,7 +556,7 @@ const quickReplyScribeVoice = async () => {
   cursor: pointer;
   display: inline-flex;
   height: 27px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .text::before {
@@ -580,12 +580,12 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .bottom .quick-action span:hover img {
   opacity: .7;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .bottom .quick-action span img {
   opacity: .5;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email-card .bottom .quick-action span:hover .text::before,

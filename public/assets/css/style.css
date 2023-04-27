@@ -183,18 +183,18 @@ input {
   outline: none;
   opacity: .8;
   letter-spacing: .3px;
-  transition: .2s;
+  transition: .1s;
 }
 
 input:hover {
   opacity: .85;
-  transition: .2s;
+  transition: .1s;
 }
 
 input:focus,
 input:active {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 ::-webkit-scrollbar {
@@ -311,12 +311,12 @@ input:active {
   margin: 10px;
   cursor: default;
   z-index: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .x-email:hover {
   opacity: .7;
-  transition: .2s;
+  transition: .1s;
 }
 
 .addb input {
@@ -341,20 +341,20 @@ input:active {
   width: 13px;
   margin-top: -8px;
   opacity: .3;
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar-collapse img:hover {
   width: 13px;
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .pre-delete {
   margin-left: 290px;
   background: var(--main-bg-color);
   opacity: .5;
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar {
@@ -364,7 +364,7 @@ input:active {
   padding: 9px;
   overflow-x: hidden;
   z-index: 2;
-  transition: .2s;
+  transition: .1s;
 }
 
 .red {
@@ -377,7 +377,7 @@ img.red {
 
 img.red-h:hover {
   filter: brightness(0) saturate(100%) invert(26%) sepia(61%) saturate(2896%) hue-rotate(336deg) brightness(91%) contrast(88%);
-  transition: .2s;
+  transition: .1s;
 }
 
 .pb15 {
@@ -441,18 +441,18 @@ img.red:hover {
 
 .thin .exp {
   max-width: 100% !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .cll {
   display: none !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .email-footer {
   width: 130px !important;
   margin-left: -23px;
-  transition: .2s;
+  transition: .1s;
   padding-left: 3px;
 }
 
@@ -461,7 +461,7 @@ img.red:hover {
   font-size: 16px;
   margin-top: 15px;
   cursor: default;
-  transition: .2s;
+  transition: .1s;
 }
 
 .inbox-switch {
@@ -498,7 +498,7 @@ img.red:hover {
   border-radius: 0;
   opacity: .8;
   font-size: 16px !important;
-  transition: .2s;
+  transition: .1s;
   line-height: 27px;
   margin-bottom: 0;
   padding-top: 3px;
@@ -508,12 +508,12 @@ img.red:hover {
   background: var(--main-bg-color);
   opacity: 1;
   box-shadow: none !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .inbox-more:hover {
   opacity: .8;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .inbox-more span {
@@ -527,7 +527,7 @@ img.red:hover {
 
 .active-tab {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
   border-radius: 5px;
   box-shadow: 0 0 9px 2px #212121f7;
 }
@@ -540,7 +540,7 @@ img.red:hover {
 .thin .board-header h1 {
   width: 100%;
   max-width: unset;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .board-body {
@@ -549,12 +549,12 @@ img.red:hover {
 
 .board-header img {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-header img:hover {
   opacity: .7;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-drag-handle {
@@ -579,14 +579,14 @@ img.red:hover {
 .dropdown-menu a {
   background-color: var(--main-bg-color) !important;
   color: var(--main-text-color) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .dropdown-item:focus,
 .dropdown-item:hover {
   background-color: var(--secondary-bg-color) !important;
   color: var(--main-text-color) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board .dropdown-header {
@@ -639,7 +639,7 @@ img.red:hover {
   margin-left: 10px;
   background: #b0b0b0;
   margin-top: 4px;
-  transition: .2s;
+  transition: .1s;
   cursor: default;
   -webkit-app-region: no-drag;
 }
@@ -702,7 +702,7 @@ img.red:hover {
   line-height: 15px;
   padding-left: 7px;
   opacity: .4;
-  transition: .2s;
+  transition: .1s;
 }
 
 .cal-scope {
@@ -723,7 +723,7 @@ img.red:hover {
 
 .control-bar h1:hover {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .red-bg {
@@ -740,17 +740,17 @@ img.red:hover {
 
 .control-bar:hover p:nth-child(1) {
   background-color: #dc3545;
-  transition: .2s;
+  transition: .1s;
 }
 
 .control-bar:hover p:nth-child(2) {
   background-color: #ffc107;
-  transition: .2s;
+  transition: .1s;
 }
 
 .control-bar:hover p:nth-child(3) {
   background-color: #28a745;
-  transition: .2s;
+  transition: .1s;
 }
 
 .secondary {
@@ -760,7 +760,7 @@ img.red:hover {
 
 .all:hover::before {
   background-color: var(--main-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .note {
@@ -787,7 +787,7 @@ img.red:hover {
   top: 0;
   right: 0;
   padding: 2px 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .note input {
@@ -808,7 +808,7 @@ img.red:hover {
 
 .hide {
   display: none !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .note {
@@ -890,7 +890,7 @@ img.red:hover {
   top: 0;
   right: 0;
   padding: 2px 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thin .dpick input {
@@ -903,7 +903,7 @@ img.red:hover {
 
 .dpick a:hover {
   background: var(--main-color-hover) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .dpick input {
@@ -996,7 +996,7 @@ img.red:hover {
   padding: 6px 3px;
   display: none;
   font-size: 10px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .all::before {
@@ -1008,7 +1008,7 @@ img.red:hover {
   margin-right: -25px;
   z-index: -1;
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .right-click {
@@ -1033,12 +1033,12 @@ img.red:hover {
   white-space: nowrap;
   font-size: 1rem;
   cursor: default;
-  transition: .2s;
+  transition: .1s;
 }
 
 .right-click span:hover {
   background-color: var(--secondary-bg-color) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .divider {
@@ -1048,7 +1048,7 @@ img.red:hover {
 .all:hover::before {
   background-color: var(--main-color) !important;
   -webkit-text-fill-color: #fff !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .ma1 {
@@ -1081,25 +1081,25 @@ a.main-action:hover {
   height: 30px;
   margin-bottom: 5px;
   letter-spacing: .3px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar a:hover {
   background: var(--secondary-bg-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .user {
   display: -webkit-inline-box;
   background: transparent !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .user-in {
   display: inherit;
   overflow: visible;
   width: 220px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .user-in span {
@@ -1115,22 +1115,22 @@ a.main-action:hover {
 
 .user:hover>.user-in {
   margin-left: -110px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .user:hover>.user-in>.active-user {
   margin-left: -110px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .user:hover>.user-in>.active-user {
   margin-left: 4px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .user:hover>.user-in {
   margin-left: 0 !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .set a img {
@@ -1170,7 +1170,7 @@ a.main-action:hover {
   background: var(--main-color);
   color: #fff !important;
   margin-top: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar .sbtn span {
@@ -1180,7 +1180,7 @@ a.main-action:hover {
 .sidebar .sbtn:hover {
   background: var(--main-color-hover) !important;
   color: #fff;
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar .active {
@@ -1222,7 +1222,7 @@ a.main-action:hover {
   z-index: 2;
   display: inline-grid;
   background: var(--secondary-bg-color);
-  transition: .2s;
+  transition: .1s;
   position: relative;
 }
 
@@ -1230,7 +1230,7 @@ a.main-action:hover {
   height: fit-content;
   border-radius: 5px;
   border: 1px solid #6e80a5;
-  transition: .2s;
+  transition: .1s;
 }
 
 .account {
@@ -1239,7 +1239,7 @@ a.main-action:hover {
   opacity: 1;
   text-overflow: ellipsis;
   padding: 3px 1px 2px 1px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsing {
@@ -1250,7 +1250,7 @@ a.main-action:hover {
 
 .account:hover {
   filter: brightness(.7);
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsing {
@@ -1267,7 +1267,7 @@ a.main-action:hover {
   height: auto !important;
   background: var(--secondary-bg-color) !important;
   box-shadow: none;
-  transition: .2s;
+  transition: .1s;
 }
 
 .space .dropdown-menu {
@@ -1277,7 +1277,7 @@ a.main-action:hover {
 .space-picker {
   height: 30px;
   padding: 3px 10px 0 9px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .compose-button {
@@ -1287,12 +1287,12 @@ a.main-action:hover {
 .space {
   margin-bottom: 17px;
   contain: unset;
-  transition: .2s;
+  transition: .1s;
 }
 
 .space:hover {
   filter: brightness(.7);
-  transition: .2s;
+  transition: .1s;
 }
 
 .space:last-of-type {
@@ -1305,7 +1305,7 @@ a.main-action:hover {
 
 .custd .dropdown-menu span:hover {
   filter: brightness(.7);
-  transition: .2s;
+  transition: .1s;
 }
 
 .header .container {
@@ -1384,7 +1384,7 @@ a.main-action:hover {
   padding-left: 5px !important;
   left: 0;
   will-change: transform;
-  transition: .2s;
+  transition: .1s;
 }
 
 .notif .row {
@@ -1426,12 +1426,12 @@ a.main-action:hover {
   margin-top: 5px;
   text-overflow: ellipsis;
   color: var(--main-text-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .notif-c:hover {
   color: #828282 !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .notif-t {
@@ -1532,7 +1532,7 @@ a.main-action:hover {
   padding: 5px;
   background: var(--main-bg-color);
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .inline-flex {
@@ -1541,7 +1541,7 @@ a.main-action:hover {
 
 .header .side img:hover {
   background: var(--secondary-bg-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .search input {
@@ -1631,7 +1631,7 @@ a.main-action:hover {
 
 .thin .archive {
   padding: 5px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .archive {
@@ -1645,12 +1645,12 @@ a.main-action:hover {
   padding: 5px 8px 5px 8px;
   cursor: default;
   display: inline;
-  transition: .2s;
+  transition: .1s;
 }
 
 .archive:hover {
   color: var(--main-text-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .archive img {
@@ -1686,7 +1686,7 @@ hr {
   margin-right: 15px;
   position: relative;
   contain: size layout;
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-header h1 {
@@ -1763,7 +1763,7 @@ hr {
   line-height: 18px;
   overflow: scroll;
   opacity: .7;
-  transition: .2s;
+  transition: .1s;
   background: var(--secondary-bg-color);
   border: var(--main-border);
 }
@@ -1774,12 +1774,12 @@ hr {
 
 .fromto-info:hover {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .more-fromto {
   font-size: 13px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .fromto-info span {
@@ -1793,7 +1793,7 @@ hr {
 .syncing {
   opacity: .7;
   cursor: wait !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .overflow-h {
@@ -1841,11 +1841,11 @@ hr {
   bottom: 0;
   padding: 20px 0 0 5px;
   border-radius: 0 5px 5px 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .show-on-hover:hover {
-  transition: .2s;
+  transition: .1s;
   box-shadow: -20px 0 20px -10px #0000001f;
   width: 50%;
 }
@@ -1862,7 +1862,7 @@ hr {
   height: 100%;
   margin: 0;
   line-height: unset;
-  transition: .2s;
+  transition: .1s;
 }
 
 .support-btn-orange::before {
@@ -1885,7 +1885,7 @@ hr {
   color: #fff !important;
   border-radius: 5px;
   padding: 4px 7px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .suppbtn img {
@@ -1896,7 +1896,7 @@ hr {
 
 .suppbtn:hover {
   background: var(--main-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .support-btn-red::before {
@@ -1935,7 +1935,7 @@ hr {
   color: var(--main-text-color) !important;
   padding: 4px 6px;
   position: relative;
-  transition: .2s;
+  transition: .1s;
 }
 
 .suppcont {
@@ -1950,7 +1950,7 @@ hr {
   color: #5e4804 !important;
   border-radius: 5px 0 0 5px;
   padding: 4px 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .support-container img {
@@ -1965,7 +1965,7 @@ hr {
   border-radius: 5px 0 0 5px;
   color: #58030b !important;
   padding: 4px 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .support-btn:hover {
@@ -1973,7 +1973,7 @@ hr {
   border-radius: 5px 0 0 5px;
   color: var(--dark-text) !important;
   padding: 4px 6px;
-  transition: .2s;
+  transition: .1s;
 }
 
 
@@ -1985,7 +1985,7 @@ hr {
 
 .show-on-hover:hover .hide-on-hover {
   line-height: 100px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email {
@@ -1998,7 +1998,7 @@ hr {
   padding: 8px 13px 0 10px;
   overflow: hidden;
   contain: layout;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email:hover {
@@ -2007,12 +2007,12 @@ hr {
 
 .email:hover .extra-actions {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .email:hover .main-action {
   opacity: 1 !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .chip {
@@ -2151,7 +2151,7 @@ hr {
 
 .email-footer img {
   margin-top: 1px;
-  transition: .2s;
+  transition: .1s;
   margin-left: 5px;
   opacity: 1;
 }
@@ -2186,7 +2186,7 @@ hr {
   text-overflow: ellipsis;
   letter-spacing: .1px;
   width: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 .pr {
@@ -2199,7 +2199,7 @@ hr {
 
 .unread .body {
   filter: brightness(.5);
-  transition: .2s;
+  transition: .1s;
 }
 
 .starred {
@@ -2219,7 +2219,7 @@ hr {
 
 .thinnest .board-header:hover {
   background: #f8f9fade;
-  transition: .2s;
+  transition: .1s;
 }
 
 .maxwh {
@@ -2234,7 +2234,7 @@ hr {
 
 .hoverzone:hover+.board-header {
   background: #f8f9fade !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .hoverzone {
@@ -2257,7 +2257,7 @@ hr {
   margin-right: 20px;
   cursor: default;
   box-shadow: 0 0 1px #e8e8e8;
-  transition: .2s;
+  transition: .1s;
 }
 
 .add-board img {
@@ -2453,7 +2453,7 @@ hr {
   position: relative;
   border-radius: 5px;
   overflow-y: scroll;
-  transition: .2s;
+  transition: .1s;
 }
 
 .esc-tip {
@@ -2477,7 +2477,7 @@ hr {
   border-radius: 5px;
   padding: 25px 15px 25px 15px;
   overflow: hidden;
-  transition: .2s;
+  transition: .1s;
 }
 
 .tempside .body {
@@ -2584,12 +2584,12 @@ hr {
   height: 18px;
   margin-left: 5px;
   margin-top: 2px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .options img {
   padding: 1px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .version-hov {
@@ -2603,7 +2603,7 @@ hr {
   padding: 7px;
   border-radius: 5px;
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
   z-index: 1;
 }
 
@@ -2615,7 +2615,7 @@ hr {
 .version-hov-h:hover~.version-hov {
   margin-top: -75px;
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .single-email {
@@ -2764,7 +2764,7 @@ hr {
   writing-mode: vertical-rl;
   padding: 15px 24px 0 24px;
   margin-top: -15px;
-  transition: .2s;
+  transition: .1s;
   z-index: 11;
   position: relative;
   overflow: visible;
@@ -2786,12 +2786,12 @@ hr {
   width: 30px;
   border-radius: 0 0 5px 5px;
   border: 2px solid var(--main-bg-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .thinnest .secondary-count:hover {
   opacity: .8;
-  transition: .2s;
+  transition: .1s;
 }
 
 .thinnest .email {
@@ -2819,7 +2819,7 @@ hr {
   position: relative;
   z-index: 5;
   cursor: unset !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .clicktoexpand {
@@ -2864,7 +2864,7 @@ hr {
 
 .extra-actions {
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 select.v1 {
@@ -2917,7 +2917,7 @@ select.v1 {
 .hover-name {
   height: 47px;
   overflow: hidden;
-  transition: .2s;
+  transition: .1s;
   cursor: default;
 }
 
@@ -2936,7 +2936,7 @@ select.v1 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  transition: .2s;
+  transition: .1s;
 }
 
 .secondary-head p {
@@ -2949,7 +2949,7 @@ select.v1 {
   margin-right: 2px;
   letter-spacing: .3px;
   display: inline;
-  transition: .2s;
+  transition: .1s;
 }
 
 .dark-side {
@@ -2963,20 +2963,20 @@ select.v1 {
 
 .secondary-head p:hover {
   color: var(--dark-text);
-  transition: .2s;
+  transition: .1s;
 }
 
 .secondary-head h2:hover {
   width: fit-content;
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
   background-color: var(--main-bg-color);
 }
 
 .secondary-head h1:hover {
   width: fit-content;
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
   background-color: var(--main-bg-color);
 }
 
@@ -3050,14 +3050,14 @@ select.v1 {
   width: 80px;
   padding: 8px 10px;
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
   cursor: default;
   margin: auto;
 }
 
 .btnrt:hover {
   filter: brightness(.8);
-  transition: .2s;
+  transition: .1s;
 }
 
 .regular .add-board {
@@ -3069,7 +3069,7 @@ select.v1 {
   border-radius: 0;
   height: 100%;
   width: calc(100% - 300px);
-  transition: .2s;
+  transition: .1s;
 }
 
 .options-qa {
@@ -3079,12 +3079,12 @@ select.v1 {
   margin-top: 27px;
   background: var(--secondary-bg-color);
   border-radius: 5px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .options-qa:hover {
   background: var(--secondary-bg-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .options-qa h2 {
@@ -3248,7 +3248,7 @@ select.v1 {
   padding-left: 5px !important;
   display: inline-block;
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 @media all and (max-width:992px) {
@@ -3369,14 +3369,14 @@ select.v1 {
 .collapsed .sidebar {
   width: 45px !important;
   padding: 9px 6px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .sidebar a {
   height: 30px !important;
   width: 34px !important;
   padding: 4px 0 5px 8px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .set {
@@ -3403,7 +3403,7 @@ select.v1 {
 
 .zen .sidebar {
   margin-left: -44px;
-  transition: .2s;
+  transition: .1s;
   position: absolute;
   padding-top: 30px !important;
   top: 0;
@@ -3421,7 +3421,7 @@ select.v1 {
 
 .zen .sidebar:hover {
   margin-left: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .zen .header {
@@ -3501,7 +3501,7 @@ select.v1 {
   margin-bottom: 7px;
   margin-right: 7px;
   box-shadow: 0 4px 6px #00000045;
-  transition: .2s;
+  transition: .1s;
 }
 
 .attachment img {
@@ -3521,7 +3521,7 @@ select.v1 {
   text-overflow: ellipsis;
   padding-right: 30px;
   overflow: hidden;
-  transition: .2s;
+  transition: .1s;
 }
 
 .attachment .size {
@@ -3542,12 +3542,12 @@ select.v1 {
 
 .attachment .att-action img {
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .attachment:hover .att-action img {
   opacity: .8;
-  transition: .2s;
+  transition: .1s;
 }
 
 .aa1 img {
@@ -3820,7 +3820,7 @@ unselectable {
   color: var(--main-text-color);
   font-size: 14px;
   opacity: .7;
-  transition: .2s;
+  transition: .1s;
   width: 100%;
   height: 39px;
   margin-top: -7px;
@@ -3829,7 +3829,7 @@ unselectable {
 .settings-main [contenteditable]:focus,
 .settings-main [contenteditable]:active {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .settings-main .col-4 {
@@ -4015,12 +4015,12 @@ unselectable {
   background: var(--secondary-bg-color) !important;
   color: var(--main-text-color) !important;
   margin-left: 5px !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .savedraft:hover {
   background: var(--secondary-bg-color-hover) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 ::-webkit-scrollbar {
@@ -4199,7 +4199,7 @@ unselectable {
   font-weight: 600;
   color: var(--main-text-color);
   opacity: .6;
-  transition: .2s;
+  transition: .1s;
 }
 
 .aiko-toast a:hover {
@@ -4207,7 +4207,7 @@ unselectable {
   font-weight: 500;
   color: var(--main-text-color-hover);
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .settings-toast {
@@ -4238,7 +4238,7 @@ unselectable {
 
 .existing-rules:hover {
   background: var(--secondary-bg-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .mw800 {
@@ -4440,7 +4440,7 @@ input:checked+.slider:before {
   margin-top: 5px;
   white-space: nowrap;
   background: var(--main-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .scheduler p {
@@ -4454,7 +4454,7 @@ input:checked+.slider:before {
 
 .scheduler a:hover {
   background: var(--main-color-hover) !important;
-  transition: .2s;
+  transition: .1s;
 }
 
 .scheduler a span {
@@ -4491,7 +4491,7 @@ input:checked+.slider:before {
 
 .active-p {
   border: 2px solid var(--main-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .plan h1 {
@@ -4571,11 +4571,11 @@ input:checked+.slider:before {
   transform: translateX(-50%);
   left: 50%;
   white-space: nowrap;
-  transition: .2s;
+  transition: .1s;
 }
 
 .plan a:hover {
-  transition: .2s;
+  transition: .1s;
   background: var(--main-color-hover);
 }
 
@@ -4686,7 +4686,7 @@ input:checked+.slider:before {
 
 .search input:not(:focus)+.searchtip {
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .searchtip {
@@ -4696,7 +4696,7 @@ input:checked+.slider:before {
   color: var(--main-text-color);
   margin-right: 10px;
   font-size: 12px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .shepherd-modal-overlay-container.shepherd-modal-is-visible {
@@ -4993,7 +4993,7 @@ input:checked+.slider:before {
 .board-width-picker div:hover {
   background-color: var(--main-text-color);
   color: var(--modal-backdrop);
-  transition: .2s;
+  transition: .1s;
 }
 
 .board-width-picker div:nth-child(3) {

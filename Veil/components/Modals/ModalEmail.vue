@@ -106,8 +106,6 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
       </div>
     </div>
   </div>
-
-
 </template>
 
 <style scoped>
@@ -126,7 +124,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   height: 100%;
   padding: 15px;
   position: relative;
-  transition: .2s;
+  transition: .1s;
 }
 
 .right {
@@ -136,17 +134,17 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   height: 100%;
   overflow: hidden;
   background: var(--secondary-background-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .left {
   width: calc(100% - 30px);
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .right {
   width: 30px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapse-info {
@@ -227,7 +225,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   margin-bottom: 5px;
   user-select: none;
   color: var(--primary-font-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .details div {

@@ -119,21 +119,21 @@ a {
   margin-right: 10px;
   opacity: .8;
   border: 1px solid transparent;
-  transition: .2s;
+  transition: .1s;
 }
 
 a:hover {
   border: 1px solid var(--primary-background-color);
   background-color: var(--primary-background-color) !important;
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .active {
   background-color: var(--primary-background-color) !important;
   border: 1px solid var(--primary-background-color) !important;
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .expanded {
@@ -151,7 +151,7 @@ a:hover {
   overflow: hidden;
   text-align: center;
   left: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .expanded span {

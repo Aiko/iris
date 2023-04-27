@@ -147,7 +147,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   height: 30px;
   background: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar.collapsed .sidebar-collapse {
@@ -157,7 +157,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar-collapse:hover {
   background-color: var(--primary-background-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 .sidebar-collapse img {
@@ -171,11 +171,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .sidebar-collapse img {
   transform: rotate(180deg);
-  transition: 0.2s;
-}
-
-.sidebar-collapse img:hover {
-  opacity: 1;
   transition: 0.2s;
 }
 
@@ -436,17 +431,17 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   border-radius: var(--primary-border-radius);
   margin-left: 25px;
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .space-actions span:hover {
   background-color: var(--primary-background-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .top:hover .space-actions span {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .spaces-icon {

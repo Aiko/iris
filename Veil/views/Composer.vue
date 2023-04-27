@@ -108,23 +108,23 @@ const grimaldi = new Grimaldi()
   position: relative;
   background: var(--s-opaque);
   height: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 .right {
   width: 300px;
   height: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .left {
   width: calc(100% - 30px);
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .right {
   width: 30px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapse-info {

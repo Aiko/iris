@@ -197,6 +197,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 
 .small {
   width: 30px;
+  height: 185px;
   box-shadow: none !important;
   background: transparent !important;
 }

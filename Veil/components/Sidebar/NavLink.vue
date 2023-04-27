@@ -39,6 +39,6 @@ a:hover {
 
 .active {
   background: var(--primary-background-color);
-  transition: .2s;
+  transition: .1s;
 }
 </style>

@@ -124,7 +124,7 @@
   .composer input:focus,
   .composer input:active {
     filter: brightness(0.96) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .composer .bottom {
@@ -133,12 +133,12 @@
 
   .small .board-header:hover {
     filter: brightness(0.95) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .small-board-click-area:hover+.board-header {
     filter: brightness(0.95) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .email-card.qr .quick-reply {

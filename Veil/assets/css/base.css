@@ -1,6 +1,7 @@
 @import'./bootstrap.min.css';
 @import "./auto.css";
 /* TODO: OTHER CSS FILES TO IMPORT BASED ON PREFERENCE
+TODO: NEED TO UPDATE LIGHT AND DARK CSS WITH AUTO PROPERTIES
 @import "./dark.css";
 @import "./light.css";
 */
@@ -135,7 +136,7 @@ textarea {
   color: var(--strong-font-color);
   outline: none;
   cursor: text;
-  transition: .2s;
+  transition: .1s;
 }
 
 .primary {

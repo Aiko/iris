@@ -35,13 +35,13 @@ input {
   padding: 10px;
   border-radius: 0;
   border-bottom: 1px solid var(--secondary-background-color);
-  transition: .2s;
+  transition: .1s;
 }
 
 input:focus,
 input:active {
   filter: brightness(0.9);
-  transition: .2s;
+  transition: .1s;
 }
 
 .suggestions {
@@ -55,13 +55,13 @@ input:active {
 
 .suggestions div {
   padding: 5px 10px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .suggestions div:hover {
   padding: 5px 11px;
   background: var(--primary-background-color);
   filter: brightness(0.9);
-  transition: .2s;
+  transition: .1s;
 }
 </style>

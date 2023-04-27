@@ -53,7 +53,7 @@
 
   pre:hover {
     opacity: .9;
-    transition: .2s;
+    transition: .1s;
   }
 
   img {
@@ -74,7 +74,7 @@
 
   blockquote:hover {
     opacity: .9;
-    transition: .2s;
+    transition: .1s;
   }
 
 

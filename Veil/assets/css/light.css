@@ -2,7 +2,7 @@
   :root {
     /* Background colors (Application, elements and windows) */
     --primary-background-color: #d6e1f0;
-    --secondary-background-color: rgba(255,255,255, 0.2);
+    --secondary-background-color: rgba(255, 255, 255, 0.2);
 
     --primary-background-color-hover: #bbc9dc;
     --secondary-background-color-hover: #21201d;
@@ -68,7 +68,7 @@
   .composer input:focus,
   .composer input:active {
     filter: brightness(0.96) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .composer .bottom {
@@ -77,12 +77,12 @@
 
   .small .board-header:hover {
     filter: brightness(0.95) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .small-board-click-area:hover+.board-header {
     filter: brightness(0.95) !important;
-    transition: .2s;
+    transition: .1s;
   }
 
   .email-card.qr .quick-reply {

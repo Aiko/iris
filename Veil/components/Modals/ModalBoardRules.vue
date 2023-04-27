@@ -239,7 +239,7 @@ input {
   padding: 5px 0;
   position: relative;
   border-bottom: 2px solid var(--primary-background-color);
-  transition: .2s;
+  transition: .1s;
   cursor: pointer;
   user-select: none;
 }
@@ -250,7 +250,7 @@ input {
 
 .rule:hover {
   opacity: .9;
-  transition: .2s;
+  transition: .1s;
 }
 
 .rule a {
@@ -339,9 +339,8 @@ select {
 
 .inline-block {
   display: inline-block;
-    margin-bottom: -12px;
-    margin-right: 5px;
-    margin-left: 5px;
+  margin-bottom: -12px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
-
 </style>

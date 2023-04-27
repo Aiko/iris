@@ -27,14 +27,13 @@ const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
   box-shadow: var(--board-shadow);
   border: none !important;
   text-align: center;
-  opacity: 8;
   display: inline-table;
-  transition: .2s;
+  transition: .1s;
 }
 
 .add-board:hover {
-  opacity: 1;
-  transition: .2s;
+  filter: brightness(1.2);
+  transition: .1s;
 }
 
 .add-board img {

@@ -91,12 +91,12 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
   width: 32px;
   margin: auto;
   padding: 10px 7px 10px 7px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .actions span img:hover {
   opacity: .6;
-  transition: .2s;
+  transition: .1s;
 }
 
 .actions span {
@@ -150,12 +150,12 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
   border-radius: var(--primary-border-radius);
   opacity: .8;
   user-select: none;
-  transition: .2s;
+  transition: .1s;
 }
 
 .details:hover {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
 .details span {
