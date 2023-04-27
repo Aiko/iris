@@ -8,7 +8,7 @@ import datapath from '@Iris/common/datapath'
 // TODO: this should connect to Arachne to sync settings across devices
 
 /** Persistent data-store for small state (e.g. settings) */
-export default class DwarfStar<T extends object> extends SockPuppet {
+export default abstract class DwarfStar<T extends { version: number }> extends SockPuppet {
 	puppetry = {
 		get: this.clone,
 		set: this.set,
@@ -23,6 +23,8 @@ export default class DwarfStar<T extends object> extends SockPuppet {
 		success(this.save())
 	}
 
+	protected abstract migrations: {[version: number]: (state: any) => any}
+
 	protected save(): T {
     fs2.writeFileSync(this.fp, JSON.stringify(this.state))
     return JSON.parse(fs2.readFileSync(this.fp, { encoding: "utf-8" })) as T
@@ -34,14 +36,17 @@ export default class DwarfStar<T extends object> extends SockPuppet {
 		}
 		return this.save()
 	}
-	protected reset(): T {
+	protected reset(version: number): T {
     fs2.ensureFileSync(this.fp)
     const state = JSON.parse(fs2.readFileSync(this.fp, {encoding: "utf-8"})) as T
 		if (!state) {
 			this.Log.error("Reset failed: state is empty.")
 			throw new Error("Cannot reset to empty state.")
 		}
-		this.state = state
+		const migrations = Object.keys(this.migrations).filter(v => +v > state.version && +v <= version)
+		this.state = migrations.length > 0 ?
+			migrations.reduce((s, v) => this.migrations[+v](s), state)
+			: state
     return this.save()
   }
   private clone(): T {

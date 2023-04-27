@@ -61,7 +61,9 @@ export default class Inbox extends Window {
 			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
 			else this.Log.shout("Env:", process.env.NODE_ENV)
 			if (chiton.config.devMode) {
-				this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}#${chiton.version_hash}`)
+				//this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}#${chiton.version_hash}`)
+				// TODO: bind to settings
+				this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}#${chiton.settingsStore.settings.appearance.accentColor}`)
 				this.win.webContents.openDevTools()
 			} else {
 				this.loadURL(`file://${__dirname}/../Veil/index.html`)

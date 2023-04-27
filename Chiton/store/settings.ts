@@ -1,38 +1,14 @@
 import type { Chiton } from "@Chiton/app"
 import DwarfStar from "./generic/dwarf-star"
+import { systemPreferences } from "electron"
+import type ISettingsV1 from "./types/settings/v1"
+import type ISettingsV2 from "./types/settings/v2"
 
-interface ISettings {
-
-  version: number
-
-  auth: {
-    authenticated: boolean
-    token: string
-    credentials: {
-      email: string
-      password: string
-    }
-  }
-
-  meta: {
-    firstTime: boolean
-  }
-
-	inbox: {
-		appearance: {
-			fullscreen: boolean
-		}
-	}
-
-	calendar: {
-		appearance: {
-			fullscreen: boolean
-		}
-	}
-
-}
+type ISettings = ISettingsV2
 
 export default class SettingsStore extends DwarfStar<ISettings> {
+
+	readonly VERSION = 2
 
 	// TODO: refactor into mutation observer
 	get settings() { return this.state! }
@@ -42,13 +18,28 @@ export default class SettingsStore extends DwarfStar<ISettings> {
 		this.save()
 	}
 
+	migrations = {
+		2: (state: ISettingsV1): ISettingsV2 => ({
+			...state,
+			appearance: {
+				accentColor:
+					process.platform == "darwin" ?
+						systemPreferences.getAccentColor()
+						: "#486fff",
+				theme: "auto",
+			},
+		})
+	}
+
 	constructor(chiton: Chiton) {
 		super(chiton, 'Settings', 'settings.json')
 		try {
-			this.reset()
+			this.Log.log("Attempting to load settings...")
+			this.reset(this.VERSION)
 		} catch {
+			this.Log.log("Settings not found. Initializing...")
 			this.state = {
-				version: 1,
+				version: this.VERSION,
 				auth: {
 					authenticated: false,
 					token: "",
@@ -59,6 +50,13 @@ export default class SettingsStore extends DwarfStar<ISettings> {
 				},
 				meta: {
 					firstTime: true
+				},
+				appearance: {
+					accentColor:
+						process.platform == "darwin" ?
+							systemPreferences.getAccentColor()
+							: "#486fff",
+					theme: "auto"
 				},
 				inbox: {
 					appearance: {
