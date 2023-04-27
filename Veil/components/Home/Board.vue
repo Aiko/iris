@@ -107,7 +107,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
     </div>
 
 
-    <div class="board-body">
+    <div class="board-body" draggable="false">
 
       <Sortable :list="board?.emails ?? []" item-key="mid" tag="div" style="min-height: 100%;" :options="{
           draggable: '.email-card',

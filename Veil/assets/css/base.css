@@ -4,7 +4,10 @@
 TODO: NEED TO UPDATE LIGHT AND DARK CSS WITH AUTO PROPERTIES
 @import "./dark.css";
 @import "./light.css";
+@import "./tesla.css";
 */
+
+@import "./tesla.css";
 
 html,
 body {
@@ -314,14 +317,22 @@ textarea {
 
 .ghost.small {
   width: 30px !important;
+  transition: .2s;
 }
 
 .ghost.large {
   width: 300px !important;
+  transition: .2s;
 }
 
 .ghost.medium {
   width: 150px !important;
+  transition: .2s;
 }
 
-.sortable-chosen {}
+
+.dragarea {
+  width: 100%;
+  height: 100%;
+  transition: .2s;
+}

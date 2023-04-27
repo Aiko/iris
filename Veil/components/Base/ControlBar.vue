@@ -4,10 +4,13 @@ import { Sidebar } from "@Veil/state/sections";
 
 <template>
   <div class="control-bar">
+
     <div :class="{
       'bg-right': true,
       'collapsed-sidebar': Sidebar.collapsed,
-    }"></div>
+    }">
+      <p class="tesla-warning">Do not use while driving</p>
+    </div>
     <div :class="{
         'bg-left': true,
         'collapsed-sidebar': Sidebar.collapsed,
@@ -53,5 +56,9 @@ import { Sidebar } from "@Veil/state/sections";
 
 .collapsed-sidebar.bg-left {
   width: 0;
+}
+
+.tesla-warning {
+  display: none;
 }
 </style>
