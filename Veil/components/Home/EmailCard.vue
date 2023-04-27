@@ -246,7 +246,7 @@ const quickReplyScribeVoice = async () => {
   overflow: hidden;
   font-size: var(--body-font-size);
   contain: layout;
-  transition: .1s;
+  transition: .2s;
   cursor: pointer;
 }
 
@@ -271,7 +271,7 @@ const quickReplyScribeVoice = async () => {
 .email-card:hover {
   background: var(--secondary-background-color-hover);
   box-shadow: none;
-  transition: .1s;
+  transition: .2s;
 }
 
 .email-card .top {
