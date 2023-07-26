@@ -21,7 +21,7 @@ defineProps<{
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-upgrade {
   width: 100%;
   height: 100%;

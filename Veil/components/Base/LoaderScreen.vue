@@ -24,7 +24,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .loader-screen {
   position: absolute;
   z-index: 1000;

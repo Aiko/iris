@@ -17,7 +17,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-invite {
   width: 100%;
   height: 100%;

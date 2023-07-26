@@ -112,7 +112,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .sidebar {
   width: 170px;
   height: 100%;

@@ -9,7 +9,7 @@ import FullCalendar from '@Veil/components/Calendar/FullCalendar.vue'
 </template>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .cal-main {
   width: calc(100% - 159px);
   height: 100%;

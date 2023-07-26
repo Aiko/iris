@@ -233,7 +233,7 @@ const quickReplyScribeVoice = async () => {
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .email-card {
   position: relative;
   background: #fff;

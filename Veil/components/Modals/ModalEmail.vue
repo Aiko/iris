@@ -108,7 +108,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .email-view {
   width: 100%;
   overflow: hidden;

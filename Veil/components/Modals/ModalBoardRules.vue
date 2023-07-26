@@ -203,7 +203,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-board-rules {
   width: 100%;
   height: 100%;

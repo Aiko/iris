@@ -45,7 +45,7 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-add-mailbox {
   width: 100%;
   height: 100%;

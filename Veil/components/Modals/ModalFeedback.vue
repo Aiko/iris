@@ -69,7 +69,7 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   </div>
 </template>
   
-<style scoped>
+<style lang="scss" scoped>
 .modal-feedback {
   width: 100%;
   overflow: hidden;

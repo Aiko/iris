@@ -83,7 +83,7 @@ const grimaldi = new Grimaldi()
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .composer {
   width: 100%;
   overflow: hidden;

@@ -47,7 +47,7 @@ const animation = computed(() => {
   <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;

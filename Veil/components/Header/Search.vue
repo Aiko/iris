@@ -11,7 +11,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .search {
   display: inline-flex;
   width: 100%;

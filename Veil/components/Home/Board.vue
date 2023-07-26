@@ -137,7 +137,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .board {
   width: 300px;
   background: var(--primary-background-color);

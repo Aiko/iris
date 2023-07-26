@@ -99,7 +99,7 @@ let selectedOption = ref(Option.None)
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .composer-options {
   padding: 10px 0 10px 10px;
   margin-left: 10px;

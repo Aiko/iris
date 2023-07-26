@@ -16,7 +16,7 @@ defineProps<{
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .composer-body {
   height: calc(100% - 340px);
   width: 100%;

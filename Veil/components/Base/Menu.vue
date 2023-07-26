@@ -34,7 +34,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .menu {
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);

@@ -18,7 +18,7 @@ import { Sidebar } from "@Veil/state/sections";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .control-bar {
   position: absolute;
   top: 0;

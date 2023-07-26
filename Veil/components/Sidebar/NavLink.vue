@@ -14,7 +14,7 @@ defineProps<{
   </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 a {
   width: 100%;
   position: relative;

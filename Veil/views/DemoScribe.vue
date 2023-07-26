@@ -56,7 +56,7 @@ if (isMobile) {
 
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 h2 {
   font-size: 22px;
 }

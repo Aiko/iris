@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .alert {
   margin-bottom: 80px;
   width: calc(100% - 20px);

@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .menu-item {
   margin: 3px 3px 3px 3px;
   padding: 2px 7px;

@@ -29,7 +29,7 @@ let isOpen = ref(false);
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .sub-menu {
   background: var(--p-opaque);
   border-top: 1px solid var(--secondary-background-color);

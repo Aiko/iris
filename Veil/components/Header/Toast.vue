@@ -104,7 +104,7 @@ const hideScribeVoice = () => (scribeVoiceState.value = ScribeVoiceState.Hidden)
   </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   width: 20px;
   margin-right: 5px;

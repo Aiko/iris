@@ -443,7 +443,7 @@ let selectedPane = ref(Pane.Account);
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .settings {
   width: 100%;
   overflow-y: scroll;

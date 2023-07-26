@@ -66,7 +66,7 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .photo img {
   width: 55px;
   border: 4px solid var(--primary-background-color);

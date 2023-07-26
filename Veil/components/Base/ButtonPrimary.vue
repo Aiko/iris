@@ -7,7 +7,7 @@
   </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 a {
   background: var(--primary-color);
   color: #fff !important;

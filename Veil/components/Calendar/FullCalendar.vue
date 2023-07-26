@@ -21,7 +21,7 @@ export default {
   <FullCalendar :options="calendarOptions" />
 </template>
 
-<style>
+<style lang="scss">
 .fc-button-primary {
   background-color: var(--secondary-background-color) !important;
   border: 1px solid var(--secondary-background-color) !important;

@@ -15,7 +15,7 @@ defineProps<{
   </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 a {
   background-color: var(--secondary-background-color);
   border: 1px solid var(--primary-color);

@@ -16,7 +16,7 @@ Log.success("Mounted application.");
   <Main />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .main {
   width: calc(100% - 170px);
   height: 100%;

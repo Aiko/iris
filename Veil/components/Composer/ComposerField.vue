@@ -23,7 +23,7 @@ const props = defineProps<{
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .composer-field {
   width: 100%;
   position: relative;

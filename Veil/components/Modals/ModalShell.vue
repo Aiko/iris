@@ -25,7 +25,7 @@ defineProps<{
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal {
   background-color: var(--p-opaque);
   position: absolute;

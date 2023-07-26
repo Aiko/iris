@@ -30,7 +30,7 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .home {
   width: 100%;
   padding-top: 10px;

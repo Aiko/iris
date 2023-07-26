@@ -10,7 +10,7 @@ defineProps<{
   <img :src="defs[name!]" :class="color" draggable="false" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;

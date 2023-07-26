@@ -16,7 +16,7 @@ import Icon from '@Veil/components/Base/Icon.vue'
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .header {
   position: relative;
   height: 50px;
