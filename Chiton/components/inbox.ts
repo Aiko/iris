@@ -50,11 +50,14 @@ export default class Inbox extends Window {
 	}: {
 		demoMode?: boolean,
 	}={}) {
+		const FULLSCREEN = chiton.settingsStore.settings.inbox.appearance.fullscreen ? {
+			fullscreen: true
+		} : {}
 		super(chiton, "Inbox", {
 			closable: false,
-			winArgs: chiton.settingsStore.settings.inbox.appearance.fullscreen ? {
-				fullscreen: true
-			} : {}
+			winArgs: {
+				...FULLSCREEN
+			}
 		})
 
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {

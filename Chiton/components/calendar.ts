@@ -29,12 +29,15 @@ export default class Calendar extends Window {
 	}
 
 	constructor(chiton: Chiton) {
+		const FULLSCREEN = chiton.settingsStore.settings.calendar.appearance.fullscreen ? {
+			fullscreen: true
+		} : {}
 		super(chiton, "Calendar", {
 			closable: true,
 			winArgs: {
 				frame: true,
 				titleBarStyle: "default",
-				fullscreen: chiton.settingsStore.settings.calendar.appearance.fullscreen || undefined
+				...FULLSCREEN
 			}
 		})
 
