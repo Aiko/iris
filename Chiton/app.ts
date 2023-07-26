@@ -150,7 +150,8 @@ export class Chiton extends SockPuppet {
 			demoMode: true
 		})
 
-		app.on('activate', this.inbox.focus)
+		const _this = this
+		app.on('activate', () => _this.inbox!.focus())
 
 		const goauth = new GOAuth(this, ["https://mail.google.com"])
 		await goauth.deploy()
