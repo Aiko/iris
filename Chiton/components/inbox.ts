@@ -52,9 +52,9 @@ export default class Inbox extends Window {
 	}={}) {
 		super(chiton, "Inbox", {
 			closable: false,
-			winArgs: {
-				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen || undefined
-			}
+			winArgs: chiton.settingsStore.settings.inbox.appearance.fullscreen ? {
+				fullscreen: true
+			} : {}
 		})
 
 		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
