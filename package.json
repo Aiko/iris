@@ -106,7 +106,7 @@
           "\\.git/.*"
         ],
         "extraResource": [
-          "Pantheon/prisma/**/*",
+          "Pantheon/prisma/*",
           "node_modules/.prisma/**/*",
           "node_modules/@prisma/client/**/*",
           "node_modules/@prisma/engines/migration-engine-windows.exe",
