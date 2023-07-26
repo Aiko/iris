@@ -21,13 +21,17 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
 
 <template>
+  <div :class="{
+    'app': true,
+    'fullscreen': isFullScreen
+  }">
+    <!-- Control Bar-->
+    <ControlBar v-if="!isFullScreen" />
+
+    <router-view />
+  </div>
   <!--Full Screen Loader-->
   <LoaderScreen v-if="isLoading" />
-
-  <!-- Control Bar-->
-  <ControlBar v-if="!isFullScreen" />
-
-  <router-view />
 
   <!--Modals-->
   <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">
@@ -70,3 +74,17 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
     <ModalFeedback />
   </ModalShell>
 </template>
+
+<style lang="scss" scoped>
+.app {
+  width: 100%;
+  height: 100%;
+  padding: 28px 0 0 0;
+  background-color: transparent;
+  display: inline-flex;
+  &.fullscreen {
+    padding: 0;
+  }
+}
+
+</style>
