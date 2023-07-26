@@ -34,7 +34,7 @@ export default class Calendar extends Window {
 			winArgs: {
 				frame: true,
 				titleBarStyle: "default",
-				fullscreen: chiton.settingsStore.settings.calendar.appearance.fullscreen
+				fullscreen: chiton.settingsStore.settings.calendar.appearance.fullscreen || undefined
 			}
 		})
 

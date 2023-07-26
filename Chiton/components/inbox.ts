@@ -53,7 +53,7 @@ export default class Inbox extends Window {
 		super(chiton, "Inbox", {
 			closable: false,
 			winArgs: {
-				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen
+				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen || undefined
 			}
 		})
 
