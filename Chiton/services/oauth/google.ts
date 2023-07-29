@@ -6,6 +6,7 @@ import type { OAuth2Client } from "google-auth-library"
 import type { Request } from 'express-serve-static-core'
 import SockPuppet from "@Marionette/ws/sockpuppet"
 import type { Chiton } from "@Chiton/app"
+import { RESERVED_PORTS } from "../guidepost"
 
 export default class GOAuth extends SockPuppet {
 	puppetry = {
@@ -36,7 +37,7 @@ export default class GOAuth extends SockPuppet {
 		if (!(this.scopes.includes('email'))) this.scopes.push('email')
 
 		this.client = new google.auth.OAuth2(
-			this.chiton.config.secrets.googleClientId, undefined, "http://127.0.0.1:41599/oauth/google"
+			this.chiton.config.secrets.googleClientId, undefined, `http://127.0.0.1:${RESERVED_PORTS.COMMS.EXPRESS}/oauth/google`
 		)
 
 		this.chiton.comms.get("/oauth/google", this.loopback.bind(this), {

@@ -1,3 +1,4 @@
+import { RESERVED_PORTS } from "@Iris/common/port"
 import autoBind from "auto-bind"
 
 //? Handles logging pretty messages to the console
@@ -13,7 +14,7 @@ const Timestamp = () => {
 export default class RemoteLogger {
 
   private static readonly RemoteLumberjack = class {
-    private readonly socket = new WebSocket("ws://localhost:4158")
+    private readonly socket = new WebSocket("ws://localhost:" + RESERVED_PORTS.ROOTS.REMOTE)
     private queue: string[] = []
 
     private readonly prefixes = {
