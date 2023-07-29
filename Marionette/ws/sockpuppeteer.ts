@@ -1,7 +1,7 @@
 import path from 'path'
 import { fork } from 'child_process'
 import crypto from 'crypto'
-import Forest, { Lumberjack } from '@Iris/common/logger'
+import type { Logger, LumberjackEmployer } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
 
 interface SockPuppeteerWaiterParams {
@@ -30,8 +30,9 @@ type ValueType<T> =
 
 type ProcessMessage = { id: string, msg: string }
 
-export default abstract class SockPuppeteer extends Lumberjack {
+export default abstract class SockPuppeteer {
 	private API?: WebSocket
+	protected Log: Logger
 	private deployed: boolean = false;
 
 	private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
@@ -47,10 +48,20 @@ export default abstract class SockPuppeteer extends Lumberjack {
 	}
 
 	/** Leaving port empty will create a child process. */
-	protected constructor(protected name: string, forest: Forest, port?: number) {
-		super(name, { forest })
+	protected constructor(protected name: string, opts: {
+		logger?: Logger,
+		employer?: LumberjackEmployer,
+	}, port?: number) {
 		process.title = "Aiko Mail | WS | " + this.name
 		autoBind(this)
+
+		this.Log = (() => {
+      if (!opts.logger) {
+        if (!opts.employer) throw new Error("Must provide either logger or employer")
+        return opts.employer(this.name)
+      }
+      return opts.logger
+    })();;
 
 		if (port) this.deploy(port)
 		else {
