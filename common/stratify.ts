@@ -1,5 +1,5 @@
 //? type this if you'd like, it's unnecessary and too painful
-export default = (obj: any, prefix = ''): any =>
+const stratify = (obj: any, prefix = ''): any =>
     Object.keys(obj).reduce((res: Record<string, any>, el: string) => {
       //? Arrays are objects in JS -- we don't want to stratify them
       if (Array.isArray(obj[el])) return res
@@ -13,3 +13,5 @@ export default = (obj: any, prefix = ''): any =>
       return {...res, ...tmp}
     }, [])
 ;;
+
+export default stratify
