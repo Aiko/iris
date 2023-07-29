@@ -1,14 +1,15 @@
-import type { Logger, LumberjackEmployer } from "@Iris/common/logger";
+import type { LumberjackEmployer } from "@Iris/common/logger";
 import { RESERVED_PORTS } from "@Iris/common/port";
 import SockPuppeteer from "@Marionette/ws/sockpuppeteer";
 import type Guidepost from "@Chiton/services/guidepost";
 import autoBind from "auto-bind";
+import type RemoteLogger from "@Veil/services/roots";
 
-export class GuidepostPuppeteer extends SockPuppeteer {
+export default class GuidepostPuppeteer extends SockPuppeteer {
 
   /** Must provide logger or employer */
   constructor(opts: {
-    logger?: Logger,
+    logger?: RemoteLogger,
     employer?: LumberjackEmployer,
   }) {
     super("Guidepost", opts, RESERVED_PORTS.GUIDEPOST)
