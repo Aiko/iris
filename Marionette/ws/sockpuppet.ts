@@ -2,6 +2,7 @@ import WebSocket, { Server } from 'ws'
 import { unused_port, RESERVED_PORTS } from '@Iris/common/port'
 import Forest, { Lumberjack } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
+import stratify from '@Iris/common/stratify'
 
 interface SockPuppetProcess extends NodeJS.Process {
 	send: (message: any, sendHandle?: any, options?: {
@@ -46,6 +47,7 @@ export default abstract class SockPuppet extends Lumberjack {
 	private deployed: boolean = false;
 	private readonly websockets: WebSocket[] = []
 	abstract puppetry: SockPuppetry;
+	private API: {[key: string]: SockPuppetryMethod} = {}
 
 	protected abstract checkInitialize(): boolean;
 
@@ -83,6 +85,9 @@ export default abstract class SockPuppet extends Lumberjack {
 		if (this.deployed) return this.Log.error("Already deployed.")
 		this.deployed = true
 		const _this = this
+
+		//? compile puppetry
+		this.API = stratify(this.puppetry)
 
 		//? spawn websocket server
 		this._port = await unused_port(this._port)
