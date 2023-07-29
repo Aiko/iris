@@ -110,7 +110,7 @@ export default abstract class SockPuppeteer extends Lumberjack {
 		}
 	}
 
-	protected proxy<Fx extends (...args: any[]) => Promise<any | void>>(action: string, immediate: boolean = true) {
+	protected proxy<Fx extends (...args: any[]) => void | any | Promise<any | void>>(action: string, immediate: boolean = true) {
 		return (...args: Parameters<Fx>): Promise<ValueType<ReturnType<Fx>>> => new Promise((s, _) => {
 			const id = this.getID()
 			const instr = { id, action, args }
