@@ -15,20 +15,6 @@ export class GuidepostPuppeteer extends SockPuppeteer {
     autoBind(this)
   }
 
-  /*
-  puppetry = {
-    get: {
-      singleton: this.getSingleton,
-      multiton: this.getMultiton,
-    },
-    set: {
-      register: this.register,
-      add: this.add,
-      remove: this.remove,
-    }
-  }
-  */
-
   get = {
     singleton: this.proxy<(typeof Guidepost.prototype.getSingleton)>("get.singleton"),
     multiton: this.proxy<(typeof Guidepost.prototype.getMultiton)>("get.multiton"),
