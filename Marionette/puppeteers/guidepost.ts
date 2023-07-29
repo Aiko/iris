@@ -1,0 +1,42 @@
+import type { Logger, LumberjackEmployer } from "@Iris/common/logger";
+import { RESERVED_PORTS } from "@Iris/common/port";
+import SockPuppeteer from "@Marionette/ws/sockpuppeteer";
+import type Guidepost from "@Chiton/services/guidepost";
+import autoBind from "auto-bind";
+
+export class GuidepostPuppeteer extends SockPuppeteer {
+
+  /** Must provide logger or employer */
+  constructor(opts: {
+    logger?: Logger,
+    employer?: LumberjackEmployer,
+  }) {
+    super("Guidepost", opts, RESERVED_PORTS.GUIDEPOST)
+    autoBind(this)
+  }
+
+  /*
+  puppetry = {
+    get: {
+      singleton: this.getSingleton,
+      multiton: this.getMultiton,
+    },
+    set: {
+      register: this.register,
+      add: this.add,
+      remove: this.remove,
+    }
+  }
+  */
+
+  get = {
+    singleton: this.proxy<(typeof Guidepost.prototype.getSingleton)>("get.singleton"),
+    multiton: this.proxy<(typeof Guidepost.prototype.getMultiton)>("get.multiton"),
+  }
+  set = {
+    register: this.proxy<(typeof Guidepost.prototype.register)>("set.register"),
+    add: this.proxy<(typeof Guidepost.prototype.add)>("set.add"),
+    remove: this.proxy<(typeof Guidepost.prototype.remove)>("set.remove"),
+  }
+
+}
