@@ -3,6 +3,7 @@ import { fork } from 'child_process'
 import crypto from 'crypto'
 import type { Logger, LumberjackEmployer } from '@Iris/common/logger'
 import autoBind from 'auto-bind'
+import type RemoteLogger from '@Veil/services/roots'
 
 interface SockPuppeteerWaiterParams {
 	success: boolean,
@@ -32,7 +33,7 @@ type ProcessMessage = { id: string, msg: string }
 
 export default abstract class SockPuppeteer {
 	private API?: WebSocket
-	protected Log: Logger
+	protected Log: Logger | RemoteLogger
 	private deployed: boolean = false;
 
 	private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
@@ -49,7 +50,7 @@ export default abstract class SockPuppeteer {
 
 	/** Leaving port empty will create a child process. */
 	protected constructor(protected name: string, opts: {
-		logger?: Logger,
+		logger?: RemoteLogger,
 		employer?: LumberjackEmployer,
 	}, port?: number) {
 		process.title = "Aiko Mail | WS | " + this.name
