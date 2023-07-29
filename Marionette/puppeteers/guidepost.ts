@@ -16,13 +16,13 @@ export class GuidepostPuppeteer extends SockPuppeteer {
   }
 
   get = {
-    singleton: this.proxy<(typeof Guidepost.prototype.getSingleton)>("get.singleton"),
-    multiton: this.proxy<(typeof Guidepost.prototype.getMultiton)>("get.multiton"),
+    singleton: this.proxy<(typeof Guidepost.prototype.puppetry.get.singleton)>("get.singleton"),
+    multiton: this.proxy<(typeof Guidepost.prototype.puppetry.get.multiton)>("get.multiton"),
   }
   set = {
-    register: this.proxy<(typeof Guidepost.prototype.register)>("set.register"),
-    add: this.proxy<(typeof Guidepost.prototype.add)>("set.add"),
-    remove: this.proxy<(typeof Guidepost.prototype.remove)>("set.remove"),
+    register: this.proxy<(typeof Guidepost.prototype.puppetry.set.register)>("set.register"),
+    add: this.proxy<(typeof Guidepost.prototype.puppetry.set.add)>("set.add"),
+    remove: this.proxy<(typeof Guidepost.prototype.puppetry.set.remove)>("set.remove"),
   }
 
 }
