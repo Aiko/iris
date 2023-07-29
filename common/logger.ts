@@ -109,7 +109,7 @@ export default class Forest {
       console.error(e)
     }
 
-    console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
+    console.log(`Forest initialized in ${this.storage.dir}/${this.id}`.green)
     autoBind(this)
   }
 

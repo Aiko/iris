@@ -38,7 +38,7 @@ export default class Roots {
 			setInterval(() => ws.send("ping"), 1000)
 		})
 
-		console.log(`Roots initialized in ${this.storage.dir}/${this.id}`.green.bgBlack)
+		console.log(`Roots initialized in ${this.storage.dir}/${this.id}`.green)
 		autoBind(this)
 	}
 
