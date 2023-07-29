@@ -2,7 +2,7 @@ import "@aiko/dwarfhaven";
 import assert from "assert";
 import { ipcRenderer } from "electron/renderer";
 import Logger from "@Veil/services/roots"
-import type { Maybe } from "@Veil/utils/common";
+import type { Maybe } from "@Iris/common/types";
 import jwt from "jsonwebtoken";
 
 interface ChitonPayload<T> {
