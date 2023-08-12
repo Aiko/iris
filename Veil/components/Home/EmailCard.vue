@@ -7,10 +7,7 @@ import { scribeVoiceBrowser, scribeVoiceState, ScribeVoiceState } from '@Veil/ut
 import scribe from "@Veil/utils/scribe"
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import Logger from "@Veil/services/roots"
-const Log = new Logger("EmailCard", {
-  bgColor: "#ff99ff",
-  fgColor: "#000000",
-})
+const Log = new Logger("EmailCard")
 
 const props = defineProps<{
   email?: {
