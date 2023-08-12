@@ -170,7 +170,7 @@ export default abstract class SockPuppeteer {
 		})
 	}
 
-	public async init(...args: any[]) {
+	protected async _init(...args: any[]) {
 		await this.proxy("init")(...args)
 	}
 

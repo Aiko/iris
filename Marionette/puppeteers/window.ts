@@ -29,7 +29,6 @@ export default class WindowPuppeteer extends SockPuppeteer {
   }) {
     super(name, opts, port)
 
-    this.window.getFullScreen().then(s => this._fullscreen = s)
     this.register('fullscreen', (s: boolean) => this._fullscreen = s)
 
     autoBind(this)
@@ -45,6 +44,11 @@ export default class WindowPuppeteer extends SockPuppeteer {
     hide: this.proxy<(typeof Inbox.prototype.puppetry.window.hide)>("window.hide"),
     focus: this.proxy<(typeof Inbox.prototype.puppetry.window.focus)>("window.focus"),
     findInWindow: this.proxy<(typeof Inbox.prototype.puppetry.window.findInWindow)>("window.findInWindow"),
+  }
+
+  public async init() {
+    await this._init()
+    this.window.getFullScreen().then(s => this._fullscreen = s)
   }
 
 }
