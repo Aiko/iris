@@ -4,7 +4,7 @@ import { systemPreferences } from "electron"
 import type ISettingsV1 from "./types/settings/v1"
 import type ISettingsV2 from "./types/settings/v2"
 
-type ISettings = ISettingsV2
+export type ISettings = ISettingsV2
 
 export default class SettingsStore extends DwarfStar<ISettings> {
 

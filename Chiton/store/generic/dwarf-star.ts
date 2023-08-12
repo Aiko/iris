@@ -27,6 +27,7 @@ export default abstract class DwarfStar<T extends { version: number }> extends S
 
 	protected save(): T {
     fs2.writeFileSync(this.fp, JSON.stringify(this.state))
+		this.trigger('update', this.clone())
     return JSON.parse(fs2.readFileSync(this.fp, { encoding: "utf-8" })) as T
   }
 	private set(state: Partial<T>): T {
