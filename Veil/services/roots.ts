@@ -117,8 +117,8 @@ export default class RemoteLogger implements Logger {
 
   public shout(...msg: any[]) {
     console.log([
-      this.tag[0].slice(0, -1), ...msg.map(msg => typeof msg === "object" ? JSON.stringify(msg) : msg)
-    ].join(' ')+"]", this.tag[1])
+      this.tag[0], ...msg.map(msg => typeof msg === "object" ? JSON.stringify(msg) : msg)
+    ].join(' '), this.tag[1])
     this.Lumberjack.shout(...this.tag, ...msg)
   }
 
