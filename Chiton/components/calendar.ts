@@ -1,6 +1,7 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
+import { Singleton } from "@Iris/common/types";
 import autoBind from "auto-bind";
 
 export default class Calendar extends Window {
@@ -39,7 +40,7 @@ export default class Calendar extends Window {
 				titleBarStyle: "default",
 				...FULLSCREEN
 			}
-		})
+		}, () => chiton.guidepost.register(Singleton.CALENDAR, this.port))
 
 		this.win.on('enter-full-screen', () => this.setFullScreen(true))
 		this.win.on('leave-full-screen', () => this.setFullScreen(false))

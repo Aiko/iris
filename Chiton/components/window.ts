@@ -54,6 +54,7 @@ export abstract class Window extends SockPuppet {
 			spellcheck?: boolean,
 			winArgs?: Partial<Electron.BrowserWindowConstructorOptions>
 		} ={},
+		onDeploy?: () => void
 	) {
 		super(name, {
 			forest: chiton.forest,
@@ -110,7 +111,7 @@ export abstract class Window extends SockPuppet {
 		//? If it's already fullscreen save that state
 		if (this.win.isFullScreen()) this.setFullScreen(true)
 
-		this.deploy()
+		this.deploy().then(onDeploy)
 		autoBind(this)
 	}
 

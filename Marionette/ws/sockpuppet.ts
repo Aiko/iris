@@ -159,9 +159,8 @@ export default abstract class SockPuppet extends Lumberjack {
 					}
 
 					if (action === 'init') return await _this.initialize(args, success)
-					if (action in _this.puppetry) return await attempt(_this.puppetry[action] as SockPuppetryMethod)
-					else return error("No such binding: " + action)
-
+					if (action in _this.API) return await attempt(_this.API[action] as SockPuppetryMethod)
+					else return error("No such binding: " + action + " in API:\n" + JSON.stringify(_this.API, null, 2))
 				} catch (e) {
 					return ws.send(JSON.stringify({
 						error: e + '\n' + (new Error)

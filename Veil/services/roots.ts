@@ -1,4 +1,4 @@
-import type { Logger } from "@Iris/common/logger"
+import type { Logger } from "@Iris/common/types"
 import { RESERVED_PORTS } from "@Iris/common/port"
 import autoBind from "auto-bind"
 

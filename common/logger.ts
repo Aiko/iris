@@ -5,8 +5,9 @@ import Storage from '@Iris/common/storage'
 import WebSocket from 'ws'
 import sleep from '@Iris/common/sleep'
 import { performance } from 'perf_hooks'
-import datapath from './datapath'
-import { RESERVED_PORTS } from './port'
+import datapath from '@Iris/common/datapath'
+import { RESERVED_PORTS } from '@Iris/common/port'
+import type { Logger, LumberjackEmployer } from '@Iris/common/types'
 
 /** Generates a string timestamp of the current date/time */
 export const Timestamp = (): string => {
@@ -25,17 +26,6 @@ const Identifier = (prefix: string, label: string): string => {
   const timestamp: string = Timestamp()
   const signature: string = `[M]`.rainbow.bgBlack
   return `${timestamp}${signature}${prefix}[${label.magenta}]`
-}
-
-type log_fn = (...msg: any[]) => void;
-export interface Logger {
-  log: log_fn
-  error: log_fn
-  success: log_fn,
-  shout: log_fn,
-  warn: log_fn
-  time: log_fn
-  timeEnd: log_fn
 }
 
 class UnemployedLumberjack implements Logger {
@@ -73,7 +63,6 @@ class UnemployedLumberjack implements Logger {
   }
 
 }
-export type LumberjackEmployer = (label: string) => Logger
 
 //? Initialize one forest per "application" and use Lumberjacks for different labels
 export default class Forest {

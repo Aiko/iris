@@ -1,21 +1,8 @@
 import { RESERVED_PORTS } from "@Iris/common/port";
-import type { Maybe } from "@Iris/common/types";
+import { Singleton, Multiton, type Maybe } from "@Iris/common/types";
 import SockPuppet from "@Marionette/ws/sockpuppet";
 import autoBind from "auto-bind";
-
 //? For reserved ports use the definition from @Iris/common/ports.ts
-
-export enum Singleton {
-  INBOX,
-  CALENDAR,
-  GOAUTH,
-  MSOAUTH,
-  SETTINGS,
-  TEMPLATES,
-}
-export enum Multiton {
-  COMPOSER,
-}
 
 export default class Guidepost extends SockPuppet {
 

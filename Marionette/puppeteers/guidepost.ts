@@ -1,4 +1,4 @@
-import type { LumberjackEmployer } from "@Iris/common/logger";
+import type { LumberjackEmployer } from "@Iris/common/types";
 import { RESERVED_PORTS } from "@Iris/common/port";
 import SockPuppeteer from "@Marionette/ws/sockpuppeteer";
 import type Guidepost from "@Chiton/services/guidepost";

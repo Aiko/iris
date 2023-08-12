@@ -1,5 +1,7 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
+import { RESERVED_PORTS } from "@Iris/common/port";
+import { Multiton } from "@Iris/common/types";
 import autoBind from "auto-bind";
 import crypto from "crypto";
 import { dialog } from "electron";
@@ -85,9 +87,10 @@ export default class Composer extends Window {
 			winArgs: {
 				fullscreen: chiton.settingsStore.settings.inbox.appearance.fullscreen
 			}
-		})
+		}, () => chiton.guidepost.add(Multiton.COMPOSER, this.ID, this.port))
 
 		this.focus()
+		this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}/composer/${this.ID}`)
 
 		autoBind(this)
 	}

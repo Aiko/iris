@@ -1,9 +1,5 @@
-import path from 'path'
-import { fork } from 'child_process'
-import crypto from 'crypto'
-import type { Logger, LumberjackEmployer } from '@Iris/common/logger'
+import type { Logger, LumberjackEmployer } from '@Iris/common/types'
 import autoBind from 'auto-bind'
-import type RemoteLogger from '@Veil/services/roots'
 
 interface SockPuppeteerWaiterParams {
 	success: boolean,
@@ -33,7 +29,7 @@ type ProcessMessage = { id: string, msg: string }
 
 export default abstract class SockPuppeteer {
 	private API?: WebSocket
-	protected Log: Logger | RemoteLogger
+	protected Log: Logger
 	private deployed: boolean = false;
 
 	private readonly waiters: Record<string, SockPuppeteerWaiter> = {}
@@ -42,8 +38,11 @@ export default abstract class SockPuppeteer {
 
 	private readonly queue: ProcessMessage[] = []
 	private rotating: boolean = false
+
+	private randHex: () => string =
+		() => { throw new Error("Sockpuppeteer initialized without access to random hexes.") }
 	private getID(): string {
-		const id = crypto.randomBytes(6).toString('hex')
+		const id = this.randHex()
 		if (this.waiters[id]) return this.getID()
 		return id
 	}
@@ -53,7 +52,6 @@ export default abstract class SockPuppeteer {
 		logger?: Logger,
 		employer?: LumberjackEmployer,
 	}, port?: number) {
-		process.title = "Aiko Mail | WS | " + this.name
 		autoBind(this)
 
 		this.Log = (() => {
@@ -64,20 +62,30 @@ export default abstract class SockPuppeteer {
       return opts.logger
     })();;
 
-		if (port) this.deploy(port)
-		else {
-			const Puppet = fork(path.join(__dirname, 'puppet.js'), [], {
-				stdio: ['pipe', 'pipe', 'pipe', 'ipc']
-			})
-			Puppet.stdout?.pipe(process.stdout)
-			Puppet.stderr?.pipe(process.stderr)
+		if (port) {
+			this.randHex = () => String.random(6)
+			this.deploy(port)
+		} else {
+			const _this = this
+			;(async () => {
+				process.title = "Aiko Mail | WS | " + this.name
+				const crypto = await import('crypto')
+				this.randHex = () => crypto.randomBytes(6).toString('hex')
+				const path = await import('path')
+				const { fork } = await import('child_process')
+				const Puppet = fork(path.join(__dirname, 'puppet.js'), [], {
+					stdio: ['pipe', 'pipe', 'pipe', 'ipc']
+				})
+				Puppet.stdout?.pipe(process.stdout)
+				Puppet.stderr?.pipe(process.stderr)
 
-			//? Parses incoming messages then calls the relevant callbacks and notifies listeners
-			Puppet.on('message', (m: string) => {
-				const s = JSON.parse(m) as { port: number }
-				if (!(s?.port)) return this.Log.error("No PORT specified in message")
-				this.deploy(s.port)
-			})
+				//? Parses incoming messages then calls the relevant callbacks and notifies listeners
+				Puppet.on('message', (m: string) => {
+					const s = JSON.parse(m) as { port: number }
+					if (!(s?.port)) return _this.Log.error("No PORT specified in message")
+					_this.deploy(s.port)
+				})
+			})();
 		}
 
 		autoBind(this)
@@ -103,9 +111,18 @@ export default abstract class SockPuppeteer {
 				if (listener) listener()
 				cb(s)
 			} else {
-				this.Log.error("Unknown message type (no id or event)")
+				this.Log.error("Unknown message type (no id or event)", s)
 			}
 		}
+	}
+
+	private async send(msg: string) {
+		const _this = this
+		return await new Promise<void>((s, _) => {
+			// wait for readyState = 1
+			if (this.API!.readyState === 1) s(_this.API!.send(msg))
+			else setTimeout(() => _this.send(msg).then(s), 100)
+		})
 	}
 
 	private async rotate() {
@@ -116,7 +133,7 @@ export default abstract class SockPuppeteer {
 				delete this.listeners[id]
 				this.rotate()
 			}
-			this.API!.send(msg)
+			this.send(msg)
 		} else {
 			this.rotating = false
 		}
@@ -148,9 +165,13 @@ export default abstract class SockPuppeteer {
 				})
 				if (!this.rotating) this.rotate()
 			} else {
-				this.API!.send('please ' + JSON.stringify(instr))
+				this.send('please ' + JSON.stringify(instr))
 			}
 		})
+	}
+
+	public async init(...args: any[]) {
+		await this.proxy("init")(...args)
 	}
 
 	protected register(event: string, trigger: SockPuppeteerTrigger) {

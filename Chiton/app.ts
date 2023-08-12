@@ -16,6 +16,8 @@ import { RESERVED_PORTS } from '@Iris/common/port';
 import SettingsStore from '@Chiton/store/settings';
 import Inbox from '@Chiton/components/inbox';
 import { autoUpdater } from 'electron';
+import Guidepost from './services/guidepost';
+import { Singleton } from '@Iris/common/types';
 
 //! Singleton
 export class Chiton extends SockPuppet {
@@ -42,6 +44,7 @@ export class Chiton extends SockPuppet {
 
 	readonly comms: SecureCommunications
 	readonly forest: Forest
+	readonly guidepost: Guidepost
 	readonly settingsStore: SettingsStore
 	inbox?: Inbox
 
@@ -56,6 +59,7 @@ export class Chiton extends SockPuppet {
 			renderer: false,
 		}, RESERVED_PORTS.CHITON)
 		this.forest = forest
+		this.guidepost = new Guidepost()
 		const _this = this
 
 		if (require('electron-squirrel-startup')) {
@@ -132,7 +136,6 @@ export class Chiton extends SockPuppet {
 
 		//? Stores
 		this.settingsStore = new SettingsStore(this)
-		this.settingsStore.deploy()
 
 		app.once('ready', this.setup)
 
@@ -140,24 +143,29 @@ export class Chiton extends SockPuppet {
 	}
 
 	private async setup() {
+		await this.guidepost.deploy()
+
+		await this.settingsStore.deploy()
+		this.guidepost.register(Singleton.SETTINGS, this.settingsStore.port)
+
 		//? Impersonate Chrome in regular fetch requests
 		session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
 			details.requestHeaders["User-Agent"] = this.config.user_agent
 			callback({ cancel: false, requestHeaders: details.requestHeaders })
 		})
 
-		this.inbox = new Inbox(this, {
-			demoMode: true
-		})
+		this.inbox = new Inbox(this, { sudo: true })
 
 		const _this = this
 		app.on('activate', () => _this.inbox!.focus())
 
 		const goauth = new GOAuth(this, ["https://mail.google.com"])
 		await goauth.deploy()
+		this.guidepost.register(Singleton.GOAUTH, goauth.port)
 
 		const msoauth = new MSOAuth(this)
 		await msoauth.deploy()
+		this.guidepost.register(Singleton.MSOAUTH, msoauth.port)
 	}
 
 	private static me?: Chiton

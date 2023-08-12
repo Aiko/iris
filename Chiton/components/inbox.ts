@@ -1,8 +1,10 @@
 import type { Chiton } from "@Chiton/app";
 import { Window } from "@Chiton/components/window";
 import { RESERVED_PORTS } from "@Iris/common/port";
+import { Singleton } from "@Iris/common/types";
 import { ElectronBlocker } from "@cliqz/adblocker-electron";
 import autoBind from "auto-bind";
+import fetch from "cross-fetch";
 
 export enum InboxEvents {
 	UPDATE_AVAILABLE="update-available",
@@ -46,9 +48,9 @@ export default class Inbox extends Window {
 	}
 
 	constructor(chiton: Chiton, {
-		demoMode=false
+		sudo=false
 	}: {
-		demoMode?: boolean,
+		sudo?: boolean,
 	}={}) {
 		const FULLSCREEN = chiton.settingsStore.settings.inbox.appearance.fullscreen ? {
 			fullscreen: true
@@ -58,10 +60,10 @@ export default class Inbox extends Window {
 			winArgs: {
 				...FULLSCREEN
 			}
-		})
+		}, () => chiton.guidepost.register(Singleton.INBOX, this.port))
 
-		if (demoMode || chiton.settingsStore.get().auth.authenticated) {
-			if (demoMode) this.Log.shout("Env:", process.env.NODE_ENV, "[Demo]")
+		if (sudo || chiton.settingsStore.get().auth.authenticated) {
+			if (sudo) this.Log.shout("Env:", process.env.NODE_ENV, "[SUDO]")
 			else this.Log.shout("Env:", process.env.NODE_ENV)
 			if (chiton.config.devMode) {
 				//this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}#${chiton.version_hash}`)
