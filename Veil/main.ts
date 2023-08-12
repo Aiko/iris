@@ -3,6 +3,13 @@ import App from '@Veil/App.vue'
 import router from '@Veil/router'
 import LottieAnimation from "lottie-web-vue";
 import '@Veil/assets/css/base.css'
+import Logger from '@Veil/services/roots'
+const Log = new Logger('Veil', { bgColor: "#09d8c1", fgColor: "#000000" })
+// @ts-ignore
+window.log = Log
+import * as Puppetry from '@Veil/services/puppetry'
+Puppetry.init()
+import { setAccentColor } from '@Veil/state/common';
 
 // force https
 if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
@@ -10,12 +17,7 @@ if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
 }
 
 //? Set accent color
-const accentColor = 0x486FFF // parseInt(location.hash.slice(1) ?? "486FFF", 16)
-const root = document.documentElement
-root.style.setProperty('--primary-color', `#${accentColor.toString(16)}`)
-const hoverOffset = 0x050917
-root.style.setProperty('--primary-color-hover', `#${(accentColor - hoverOffset).toString(16)}`)
-
+setAccentColor(location.hash)
 
 createApp(App)
 	.use(router)

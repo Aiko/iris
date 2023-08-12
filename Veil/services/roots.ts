@@ -14,7 +14,7 @@ const Timestamp = () => {
 
 export default class RemoteLogger implements Logger {
 
-  private static readonly RemoteLumberjack = class {
+  private static readonly RemoteLumberjack = class implements Logger {
     private readonly socket = new WebSocket("ws://localhost:" + RESERVED_PORTS.ROOTS.REMOTE)
     private queue: string[] = []
 
@@ -60,8 +60,26 @@ export default class RemoteLogger implements Logger {
     public error = this._log(this.prefixes.error)
     public warn = this._log(this.prefixes.warn)
     public shout = this._log(this.prefixes.shout)
+    public time = this._log(this.prefixes.log)
+    public timeEnd = this._log(this.prefixes.log)
   }
-  private readonly Lumberjack = new RemoteLogger.RemoteLumberjack();
+  private static readonly PlaceboLumberjack = class implements Logger {
+    private _log = (...msg: any[]) => null // no-op
+
+    public log = this._log
+    public info = this._log
+    public success = this._log
+    public error = this._log
+    public warn = this._log
+    public shout = this._log
+    public time = this._log
+    public timeEnd = this._log
+
+    constructor(remoteLogger: RemoteLogger) {
+      console.warn("Using placebo Lumberjack.")
+    }
+  }
+  private readonly Lumberjack: Logger
 
   private readonly tag: string[]
   private timers: {[key: string]: number} = {}
@@ -79,6 +97,14 @@ export default class RemoteLogger implements Logger {
       padding-bottom: 5px;
       font-weight: 800;
     `]
+    try {
+      this.Lumberjack = process.env.NODE_ENV === 'development' ?
+        new RemoteLogger.RemoteLumberjack()
+        : new RemoteLogger.PlaceboLumberjack(this)
+    } catch {
+      this.Lumberjack = new RemoteLogger.PlaceboLumberjack(this)
+      this.shout("Using placebo Lumberjack.")
+    }
     autoBind(this)
   }
 
@@ -89,7 +115,7 @@ export default class RemoteLogger implements Logger {
 
   public info(...msg: any[]) {
     console.info(...this.tag, ...msg)
-    this.Lumberjack.info(...this.tag, ...msg)
+    this.Lumberjack.log(...this.tag, ...msg)
   }
 
   public success(...msg: any[]) {

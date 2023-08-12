@@ -18,15 +18,6 @@ import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
 import devtools from '@vue/devtools'
 if (process.env.NODE_ENV === 'development') devtools.connect()
-import Logger from '@Veil/services/roots'
-
-const Log = new Logger('Veil', { bgColor: "#09d8c1", fgColor: "#000000" })
-// @ts-ignore
-window.log = Log
-
-import * as Puppetry from '@Veil/services/puppetry'
-Puppetry.init()
-
 </script>
 
 <template>

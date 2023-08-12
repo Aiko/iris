@@ -16,6 +16,16 @@ export const isEmailSidebarCollapsed = ref(true)
 export const isDevControlsCollapsed = ref(true)
 export const devMode = ref(false)
 
+export const setAccentColor = (color?: string) => {
+  const accentColor = parseInt(color?.slice(1) ?? "486FFF", 16)
+  const root = document.documentElement
+  root.style.setProperty('--primary-color', `#${accentColor.toString(16)}`)
+  const hoverOffset = 0x050917
+  root.style.setProperty('--primary-color-hover', `#${(accentColor - hoverOffset).toString(16)}`)
+}
+// @ts-ignore
+window.setAccentColor = setAccentColor
+
 export enum Modal {
   AddBoard,
   AddMailbox,
