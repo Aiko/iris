@@ -18,21 +18,25 @@ import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
 import devtools from '@vue/devtools'
 import Logger from '@Veil/services/roots'
+import { ref } from '@vue/reactivity'
 if (process.env.NODE_ENV === 'development') devtools.connect()
 
 const Log = new Logger('Veil', { bgColor: "#09d8c1", fgColor: "#000000" })
 // @ts-ignore
 window.log = Log
 
+// @ts-ignore
+const platform = ref<string>(window.platform || 'win32')
 </script>
 
 <template>
   <div :class="{
     'app': true,
-    'fullscreen': isFullScreen
+    'fullscreen': isFullScreen,
+    'mac': platform === 'darwin',
   }">
     <!-- Control Bar-->
-    <ControlBar v-if="!isFullScreen" />
+    <ControlBar v-if="!isFullScreen && platform === 'darwin'" />
 
     <router-view />
   </div>
@@ -85,11 +89,14 @@ window.log = Log
 .app {
   width: 100%;
   height: 100%;
-  padding: 16px 0 0 0;
+  padding: 0px 0 0 0;
   background-color: transparent;
   display: inline-flex;
   &.fullscreen {
     padding: 0;
+  }
+  &.mac {
+    padding: 16px 0 0 0;
   }
 }
 
