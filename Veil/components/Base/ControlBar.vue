@@ -36,7 +36,7 @@ import { Sidebar } from "@Veil/state/sections";
 
 .bg-right {
   background-color: var(--main-bg);
-  height: 100%;
+  height: 16px;
   position: absolute;
   right: 0;
   width: calc(100% - 170px);
@@ -48,7 +48,7 @@ import { Sidebar } from "@Veil/state/sections";
 
 .bg-left {
   background-color: var(--sidebar-bg);
-  height: 100%;
+  height: 16px;
   position: absolute;
   left: 0;
   width: 170px;

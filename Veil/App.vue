@@ -85,7 +85,7 @@ window.log = Log
 .app {
   width: 100%;
   height: 100%;
-  padding: 28px 0 0 0;
+  padding: 16px 0 0 0;
   background-color: transparent;
   display: inline-flex;
   &.fullscreen {

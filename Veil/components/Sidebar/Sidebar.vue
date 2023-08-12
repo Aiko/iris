@@ -117,7 +117,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 170px;
   height: 100%;
   background-color: var(--sidebar-bg);
-  padding: 8px 10px;
+  padding: 12px 10px;
   position: relative;
   z-index: 1;
   box-shadow: var(--sidebar-shadow);
