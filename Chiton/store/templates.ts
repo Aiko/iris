@@ -22,6 +22,7 @@ export interface TemplateEntry {
 
 //! FIXME: this should use a DB model
 // TODO: this should connect to Arachne to sync templates across devices
+// TODO: convert to Aiko3
 
 export default class CookieCutter extends SockPuppet {
 	puppetry: { [key: string]: SockPuppetry | ((...args: any[]) => any) }
