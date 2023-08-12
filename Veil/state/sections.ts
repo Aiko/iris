@@ -5,6 +5,9 @@ export const Sidebar = reactive({
   collapsed: false
 })
 
+// @ts-ignore
+export const platform = ref<string>(window.platform || 'win32')
+
 // Fullscreen State
 export const isFullScreen = ref(false)
 

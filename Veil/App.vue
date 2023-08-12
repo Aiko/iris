@@ -3,7 +3,7 @@ import "@aiko/dwarfhaven"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
 import { isFullScreen } from '@Veil/state/sections'
-import { isLoading } from '@Veil/state/sections'
+import { isLoading, platform } from '@Veil/state/sections'
 import { selectedModal, Modal } from '@Veil/state/sections'
 import ModalShell from '@Veil/components/Modals/ModalShell.vue'
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue'
@@ -17,16 +17,16 @@ import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
 import devtools from '@vue/devtools'
-import Logger from '@Veil/services/roots'
-import { ref } from '@vue/reactivity'
 if (process.env.NODE_ENV === 'development') devtools.connect()
+import Logger from '@Veil/services/roots'
 
 const Log = new Logger('Veil', { bgColor: "#09d8c1", fgColor: "#000000" })
 // @ts-ignore
 window.log = Log
 
-// @ts-ignore
-const platform = ref<string>(window.platform || 'win32')
+import * as Puppetry from '@Veil/services/puppetry'
+Puppetry.init()
+
 </script>
 
 <template>
@@ -93,7 +93,7 @@ const platform = ref<string>(window.platform || 'win32')
   background-color: transparent;
   display: inline-flex;
   &.fullscreen {
-    padding: 0;
+    padding: 0 !important;
   }
   &.mac {
     padding: 16px 0 0 0;
