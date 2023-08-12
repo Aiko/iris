@@ -50,7 +50,7 @@ export default abstract class SockPuppeteer {
 
 	/** Leaving port empty will create a child process. */
 	protected constructor(protected name: string, opts: {
-		logger?: RemoteLogger,
+		logger?: Logger,
 		employer?: LumberjackEmployer,
 	}, port?: number) {
 		process.title = "Aiko Mail | WS | " + this.name

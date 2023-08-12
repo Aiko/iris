@@ -37,6 +37,7 @@ export interface Logger {
   time: log_fn
   timeEnd: log_fn
 }
+
 class UnemployedLumberjack implements Logger {
   readonly label: string
   readonly forest: Forest

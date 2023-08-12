@@ -1,3 +1,4 @@
+import type { Logger } from "@Iris/common/logger"
 import { RESERVED_PORTS } from "@Iris/common/port"
 import autoBind from "auto-bind"
 
@@ -11,7 +12,7 @@ const Timestamp = () => {
   return `[${date} ${time}]`
 }
 
-export default class RemoteLogger {
+export default class RemoteLogger implements Logger {
 
   private static readonly RemoteLumberjack = class {
     private readonly socket = new WebSocket("ws://localhost:" + RESERVED_PORTS.ROOTS.REMOTE)
@@ -22,7 +23,8 @@ export default class RemoteLogger {
       info:   '[ DEBUG ]',
       success: '[SUCCESS]',
       error:   '[ ERROR ]',
-      warn:    '[ WARN! ]'
+      warn:    '[ WARN! ]',
+      shout:   '[ SHOUT ]',
     }
 
     constructor() {
@@ -57,10 +59,13 @@ export default class RemoteLogger {
     public success = this._log(this.prefixes.success)
     public error = this._log(this.prefixes.error)
     public warn = this._log(this.prefixes.warn)
+    public shout = this._log(this.prefixes.shout)
   }
   private readonly Lumberjack = new RemoteLogger.RemoteLumberjack();
 
   private readonly tag: string[]
+  private timers: {[key: string]: number} = {}
+
 
   constructor(prefix: string, { bgColor, fgColor }: { bgColor?: string, fgColor?: string } ={}) {
     fgColor = fgColor || "#ffffff"
@@ -100,6 +105,21 @@ export default class RemoteLogger {
   public warn(...msg: any[]) {
     console.warn(...this.tag, ...msg)
     this.Lumberjack.warn(...this.tag, ...msg)
+  }
+
+  public time(...msg: any[]) {
+    console.time([...this.tag, ...msg].join(' '))
+  }
+
+  public timeEnd(...msg: any[]) {
+    console.timeEnd([...this.tag, ...msg].join(' '))
+  }
+
+  public shout(...msg: any[]) {
+    console.log([
+      this.tag[0].slice(0, -1), ...msg.map(msg => typeof msg === "object" ? JSON.stringify(msg) : msg)
+    ].join(' ')+"]", this.tag[1])
+    this.Lumberjack.shout(...this.tag, ...msg)
   }
 
 }

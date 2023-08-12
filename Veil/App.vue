@@ -17,7 +17,13 @@ import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
 import devtools from '@vue/devtools'
+import Logger from '@Veil/services/roots'
 if (process.env.NODE_ENV === 'development') devtools.connect()
+
+const Log = new Logger('Veil', { bgColor: "#09d8c1", fgColor: "#000000" })
+// @ts-ignore
+window.log = Log
+
 </script>
 
 <template>

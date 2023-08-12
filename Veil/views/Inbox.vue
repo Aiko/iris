@@ -3,10 +3,7 @@ import Sidebar from "@Veil/components/Sidebar/Sidebar.vue";
 import Main from "@Veil/components/Base/Main.vue";
 import Logger from "@Veil/services/roots";
 
-const Log = new Logger("Inbox", {
-  bgColor: "#ff99ff",
-  fgColor: "#000000",
-});
+const Log = new Logger("Inbox")
 
 Log.success("Mounted application.");
 </script>
