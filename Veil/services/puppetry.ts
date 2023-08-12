@@ -10,8 +10,10 @@ const Logger = (name: string) => new RemoteLogger(name, {
 })
 
 const Guidepost = new GuidepostPuppeteer({logger: Logger("Guidepost")})
+
 //* Puppeteers
 export const Inbox = ref<Maybe<InboxPuppeteer>>(null)
+
 
 
 
@@ -19,7 +21,7 @@ export const Inbox = ref<Maybe<InboxPuppeteer>>(null)
 export const init = async () => {
   Inbox.value = new InboxPuppeteer(
     await Guidepost.get.singleton(Singleton.INBOX),
-    {logger: Logger("Inbox")}
+    { logger: Logger("Inbox") }
   )
   await Inbox.value.init()
 }
