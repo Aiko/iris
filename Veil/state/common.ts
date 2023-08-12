@@ -7,27 +7,14 @@ export const Sidebar = reactive({
 
 // @ts-ignore
 export const platform = ref<string>(window.platform || 'win32')
-
-// Fullscreen State
 export const isFullScreen = ref(false)
-
-// Regular View State
 export const isRegularView = ref(false)
-
-// Regular View State
 export const isLoading = ref(false)
-
-// Global Tooltip Content (Experimental)
 export const infoContent = ref('')
-
-// Composer Sidebar Collapse
 export const isComposerSidebarCollapsed = ref(true)
-
-// Composer Sidebar Collapse
 export const isEmailSidebarCollapsed = ref(true)
-
-// Feedback Modal Dev Controls Collapse
 export const isDevControlsCollapsed = ref(true)
+export const devMode = ref(false)
 
 export enum Modal {
   AddBoard,

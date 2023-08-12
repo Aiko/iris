@@ -9,11 +9,11 @@ import autoBind from "auto-bind"
 export default class ExamplePuppeteer extends SockPuppeteer {
 
   /** Must provide logger or employer */
-  constructor(name: string, port: number, opts: {
+  constructor(port: number, opts: {
     logger?: Logger,
     employer?: LumberjackEmployer,
   }) {
-    super(name, opts, port)
+    super("Example", opts, port)
 
     //? Triggers:
     // this.register('example-event', (...) => ...)

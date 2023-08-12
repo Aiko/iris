@@ -2,7 +2,7 @@ import type Inbox from "@Chiton/components/inbox"
 import type { Logger, LumberjackEmployer } from "@Iris/common/types"
 import SockPuppeteer from "@Marionette/ws/sockpuppeteer"
 import autoBind from "auto-bind"
-import { isFullScreen } from "@Veil/state/sections"
+import { isFullScreen } from "@Veil/state/common"
 
 
 export default class WindowPuppeteer extends SockPuppeteer {

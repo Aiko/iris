@@ -2,9 +2,9 @@
 import "@aiko/dwarfhaven"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
-import { isFullScreen } from '@Veil/state/sections'
-import { isLoading, platform } from '@Veil/state/sections'
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { isFullScreen } from '@Veil/state/common'
+import { isLoading, platform } from '@Veil/state/common'
+import { selectedModal, Modal } from '@Veil/state/common'
 import ModalShell from '@Veil/components/Modals/ModalShell.vue'
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue'
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue'
@@ -100,4 +100,4 @@ Puppetry.init()
   }
 }
 
-</style>
+</style>@Veil/state/common@Veil/state/common@Veil/state/common

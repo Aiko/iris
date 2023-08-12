@@ -143,6 +143,7 @@ export class Chiton extends SockPuppet {
 	}
 
 	private async setup() {
+		this.deploy()
 		await this.guidepost.deploy()
 
 		await this.settingsStore.deploy()
@@ -183,7 +184,8 @@ export class Chiton extends SockPuppet {
 	puppetry = {
 		app: {
 			updateAndRestart: this.updateAndRestart
-		}
+		},
+		config: () => this.config,
 	}
 
 }

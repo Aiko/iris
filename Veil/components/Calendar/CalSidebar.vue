@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
+import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/common";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
@@ -341,3 +341,4 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-top: 10vh;
 }
 </style>
+@Veil/state/common

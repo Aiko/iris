@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Search from "@Veil/components/Header/Search.vue";
 import HeaderRight from "@Veil/components/Header/HeaderRight.vue";
-import { infoContent } from '@Veil/state/sections'
+import { infoContent } from '@Veil/state/common'
 import Icon from '@Veil/components/Base/Icon.vue'
 
 </script>
@@ -63,4 +63,4 @@ import Icon from '@Veil/components/Base/Icon.vue'
   text-overflow: ellipsis;
   overflow: hidden;
 }
-</style>
+</style>@Veil/state/common

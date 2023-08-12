@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue"
-import { infoContent } from '@Veil/state/sections'
+import { infoContent } from '@Veil/state/common'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 
@@ -40,4 +40,4 @@ const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
   margin-top: 80px;
   width: 15px;
 }
-</style>
+</style>@Veil/state/common

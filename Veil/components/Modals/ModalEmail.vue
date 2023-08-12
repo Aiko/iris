@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import Email from "@Veil/components/Email/Email.vue";
-import { isEmailSidebarCollapsed } from '@Veil/state/sections'
+import { isEmailSidebarCollapsed } from '@Veil/state/common'
 import Icon from '@Veil/components/Base/Icon.vue'
 import ButtonSecondary from '../Base/ButtonSecondary.vue'
 import EmailCard from '@Veil/components/Home/EmailCard.vue'
@@ -256,4 +256,4 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   height: calc(50% - 40px);
   overflow: scroll;
 }
-</style>
+</style>@Veil/state/common

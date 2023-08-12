@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Sidebar } from "@Veil/state/sections";
+import { Sidebar } from "@Veil/state/common";
 </script>
 
 <template>
@@ -61,4 +61,4 @@ import { Sidebar } from "@Veil/state/sections";
 .tesla-warning {
   display: none;
 }
-</style>
+</style>@Veil/state/common

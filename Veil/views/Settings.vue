@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from "@vue/reactivity";
-import { selectedModal, Modal } from "@Veil/state/sections";
+import { selectedModal, Modal } from "@Veil/state/common";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
@@ -877,3 +877,4 @@ select {
   outline: none !important;
 }
 </style>
+@Veil/state/common

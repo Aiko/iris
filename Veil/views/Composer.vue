@@ -5,7 +5,7 @@ import ComposerBody from '@Veil/components/Composer/ComposerBody.vue';
 import ComposerOptions from '@Veil/components/Composer/ComposerOptions.vue';
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
-import { isComposerSidebarCollapsed } from '@Veil/state/sections'
+import { isComposerSidebarCollapsed } from '@Veil/state/common'
 import Icon from '@Veil/components/Base/Icon.vue'
 import Grimaldi from '@Veil/utils/grimaldi/editor'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
@@ -201,4 +201,4 @@ const grimaldi = new Grimaldi()
   margin-right: 6px;
   user-select: none;
 }
-</style>
+</style>@Veil/state/common

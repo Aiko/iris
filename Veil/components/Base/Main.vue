@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
 import Home from "@Veil/components/Home/Home.vue";
-import { Sidebar } from "@Veil/state/sections";
+import { Sidebar } from "@Veil/state/common";
 </script>
 
 <template>
@@ -26,3 +26,4 @@ import { Sidebar } from "@Veil/state/sections";
   width: calc(100% - 46px);
 }
 </style>
+@Veil/state/common

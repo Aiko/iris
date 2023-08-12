@@ -2,7 +2,7 @@
 import { ref } from '@vue/reactivity'
 import { nextTick } from 'vue'
 import Icon from "@Veil/components/Base/Icon.vue"
-import { infoContent } from '@Veil/state/sections'
+import { infoContent } from '@Veil/state/common'
 import { scribeVoiceBrowser, scribeVoiceState, ScribeVoiceState } from '@Veil/utils/whisper/whisper'
 import scribe from "@Veil/utils/scribe"
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
@@ -662,3 +662,4 @@ const quickReplyScribeVoice = async () => {
   }
 }
 </style>
+@Veil/state/common

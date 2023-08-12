@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isRegularView, selectedModal, Modal } from '@Veil/state/sections'
+import { isRegularView, selectedModal, Modal } from '@Veil/state/common'
 import Board from "@Veil/components/Home/Board.vue"
 import AddBoard from "@Veil/components/Home/AddBoard.vue"
 import SideEmail from "@Veil/components/Home/SideEmail.vue"
@@ -56,4 +56,4 @@ import { boards, resolveBoard, INBOX } from "@Veil/state/notional";
   width: 300px;
   visibility: hidden;
 }
-</style>
+</style>@Veil/state/common

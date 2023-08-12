@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { selectedModal, Modal } from '@Veil/state/common'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 defineProps<{
@@ -95,4 +95,4 @@ h1 {
   z-index: 100;
   backdrop-filter: blur(5px) !important;
 }
-</style>
+</style>@Veil/state/common

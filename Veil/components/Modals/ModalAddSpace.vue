@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { selectedModal, Modal } from '@Veil/state/common'
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
@@ -62,4 +62,4 @@ a {
   left: 0 !important;
   margin: 7px 7px !important;
 }
-</style>
+</style>@Veil/state/common

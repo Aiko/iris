@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
-import { isDevControlsCollapsed } from '@Veil/state/sections'
+import { isDevControlsCollapsed } from '@Veil/state/common'
 import Icon from '@Veil/components/Base/Icon.vue'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
@@ -191,4 +191,4 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
 .collapsed .content {
   display: none;
 }
-</style>
+</style>@Veil/state/common

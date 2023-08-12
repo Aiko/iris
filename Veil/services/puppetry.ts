@@ -1,8 +1,10 @@
 import RemoteLogger from "@Veil/services/roots";
-import GuidepostPuppeteer from "@Marionette/puppeteers/guidepost";
-import InboxPuppeteer from "@Marionette/puppeteers/inbox";
 import { ref } from "@vue/reactivity"
 import { type Maybe, Singleton } from "@Iris/common/types";
+import GuidepostPuppeteer from "@Marionette/puppeteers/guidepost";
+import InboxPuppeteer from "@Marionette/puppeteers/inbox";
+import ChitonPuppeteer from "@Marionette/puppeteers/chiton";
+import { devMode } from "@Veil/state/common";
 
 const Logger = (name: string) => new RemoteLogger(name, {
   bgColor: "#ff99ff",
@@ -12,13 +14,18 @@ const Logger = (name: string) => new RemoteLogger(name, {
 const Guidepost = new GuidepostPuppeteer({logger: Logger("Guidepost")})
 
 //* Puppeteers
+export const Chiton = ref<Maybe<ChitonPuppeteer>>(null)
 export const Inbox = ref<Maybe<InboxPuppeteer>>(null)
-
 
 
 
 //? Initialize necessary puppeteers
 export const init = async () => {
+
+  Chiton.value = new ChitonPuppeteer({ logger: Logger("Chiton") })
+  const config = await Chiton.value.config()
+  devMode.value = config.devMode
+
   Inbox.value = new InboxPuppeteer(
     await Guidepost.get.singleton(Singleton.INBOX),
     { logger: Logger("Inbox") }
@@ -29,5 +36,6 @@ export const init = async () => {
 
 // @ts-ignore
 window.puppetry = {
+  chiton: Chiton,
   inbox: Inbox
 }

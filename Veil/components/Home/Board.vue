@@ -6,7 +6,7 @@ import type SortableJS from "sortablejs";
 import EmailCard from "@Veil/components/Home/EmailCard.vue"
 import Icon from "@Veil/components/Base/Icon.vue"
 import Empty from "@Veil/components/Home/Empty.vue"
-import { infoContent, selectedModal, Modal } from '@Veil/state/sections'
+import { infoContent, selectedModal, Modal } from '@Veil/state/common'
 import Loader from '@Veil/components/Base/Loader.vue'
 import { resolveEmail, } from '@Veil/state/notional'
 import Logger from '@Veil/services/roots'
@@ -612,4 +612,4 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 .small .small-board-click-area {
   display: unset;
 }
-</style>
+</style>@Veil/state/common

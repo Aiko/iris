@@ -3,7 +3,7 @@ import { ref } from '@vue/reactivity'
 import Icon from "@Veil/components/Base/Icon.vue"
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue"
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue"
-import { infoContent } from '@Veil/state/sections'
+import { infoContent } from '@Veil/state/common'
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import Menu from '../Base/Menu.vue'
 import MenuItem from '../Base/MenuItem.vue'
@@ -343,4 +343,4 @@ select {
   margin-right: 5px;
   margin-left: 5px;
 }
-</style>
+</style>@Veil/state/common
