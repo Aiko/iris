@@ -11,7 +11,7 @@ const routes: RouteRecordRaw[] = [
 		component: Inbox,
 	},
 	{
-		path: "/composer",
+		path: "/composer/:id",
 		name: "Composer",
 		component: Composer,
 	},
