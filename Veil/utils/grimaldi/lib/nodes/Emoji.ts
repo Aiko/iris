@@ -29,8 +29,10 @@ Moji.allow_caps = true
 export const Emoji = Node.create<EmojiOptions>({
   name: 'emoji',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   inline: true,

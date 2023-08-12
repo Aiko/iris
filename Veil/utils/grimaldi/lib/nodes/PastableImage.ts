@@ -10,8 +10,11 @@ export const PastableImage = Image.extend({
   draggable: true,
   group: 'inline',
 
-  defaultOptions: {
-    inline: true
+  addOptions() {
+    return {
+      ...this.parent?.(),
+      inline: true
+    }
   },
 
   addProseMirrorPlugins() {

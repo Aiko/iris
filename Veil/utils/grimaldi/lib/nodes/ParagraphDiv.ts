@@ -21,11 +21,13 @@ export const ParagraphDiv = Node.create<ParagraphOptions>({
 
 	priority: 1000,
 
-	defaultOptions: {
-		HTMLAttributes: {
-			style: 'display: block;'
-		},
-	},
+	addOptions() {
+    return {
+      HTMLAttributes: {
+				style: 'display: block;'
+			},
+    }
+  },
 
 	group: 'block',
 	draggable: false,

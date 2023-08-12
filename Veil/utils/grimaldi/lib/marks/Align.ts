@@ -27,8 +27,10 @@ export const Align = Mark.create<AlignOptions>({
 
   name: 'align',
 
-  defaultOptions: {
-    HTMLAttributes: {}
+  addOptions() {
+    return {
+      HTMLAttributes: {}
+    }
   },
 
   addAttributes() {

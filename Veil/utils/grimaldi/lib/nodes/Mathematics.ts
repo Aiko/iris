@@ -25,8 +25,10 @@ const MATH_INPUT_REGEX = /(?:\${2}\n)([^\$]+)(?:\n\${2})/
 export const Mathematics = Node.create<MathOptions>({
   name: 'math',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   inline: true,

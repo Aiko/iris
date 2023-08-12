@@ -25,8 +25,10 @@ const MATH_INPUT_REGEX = /(\${1}[^\$]+\${1})/
 export const InlineMath = Node.create<MathOptions>({
   name: 'math',
 
-  defaultOptions: {
-    HTMLAttributes: {},
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    }
   },
 
   inline: true,
