@@ -51,7 +51,7 @@ const grimaldi = new Grimaldi()
           {{ i18n(RosettaStone.composer.send) }}
         </ButtonPrimary>
         <ButtonSecondary>
-          <Icon name="scribe" color="blue" class="scribe-icon" />
+          <Icon name="scribe" color="accent" class="scribe-icon" />
         </ButtonSecondary>
         <ButtonSecondary>
           <Icon name="attachment" color="normal" class="scribe-icon" />

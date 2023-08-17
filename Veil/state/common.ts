@@ -1,4 +1,4 @@
-// User Interface Variables
+import ColorFilter from '@Veil/utils/color-filter'
 import { ref, reactive } from '@vue/reactivity'
 
 export const Sidebar = reactive({
@@ -22,6 +22,8 @@ export const setAccentColor = (color?: string) => {
   root.style.setProperty('--primary-color', `#${accentColor.toString(16)}`)
   const hoverOffset = 0x050917
   root.style.setProperty('--primary-color-hover', `#${(accentColor - hoverOffset).toString(16)}`)
+  const filter = ColorFilter(color ?? "#486FFF")
+  root.style.setProperty('--primary-color-filter', filter)
 }
 // @ts-ignore
 window.setAccentColor = setAccentColor

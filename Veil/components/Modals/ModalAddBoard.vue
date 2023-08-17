@@ -7,7 +7,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 <template>
   <div class="modal-add-board">
-    <Icon name="board" color="blue" />
+    <Icon name="board" color="accent" />
     <h1>
       {{ i18n(RosettaStone.modals.add_board.title) }}
     </h1>

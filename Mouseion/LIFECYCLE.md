@@ -1,6 +1,4 @@
-# Architecture
-
-## Lifecycle
+# Lifecycle
 
 Mouseion is a singleton.
 

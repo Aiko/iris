@@ -62,7 +62,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       </div>
 
       <ButtonSecondary class="action">
-        <Icon name="plus" color="blue" />Add a calendar
+        <Icon name="plus" color="accent" />Add a calendar
       </ButtonSecondary>
 
 
@@ -82,7 +82,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         </div>
       </div>
       <ButtonSecondary class="action">
-        <Icon name="plus" color="blue" />New task
+        <Icon name="plus" color="accent" />New task
       </ButtonSecondary>
     </div>
   </div>

@@ -8,7 +8,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
   
 <template>
   <div class="modal-add-space">
-    <Icon name="home" color="blue" />
+    <Icon name="home" color="accent" />
     <h1>{{ i18n(RosettaStone.modals.add_space.title) }}</h1>
     <input :placeholder="i18n(RosettaStone.modals.add_space.placeholder)" autofocus />
     <p>{{ i18n(RosettaStone.modals.add_space.subtitle) }}</p>

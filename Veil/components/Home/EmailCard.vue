@@ -190,7 +190,7 @@ const quickReplyScribeVoice = async () => {
 
         <!--OPEN SPECIFIC APP, REPLACE APP BY APP NAME-->
         <span v-if="false">
-          <Icon name="link" color="blue" />
+          <Icon name="link" color="accent" />
           <div class="text primarycolor" :htext="i18n(RosettaStone.boards.email_cards.copy_code) + 'App'">{{
             i18n(RosettaStone.boards.email_cards.open_app)
           }} App</div>
@@ -198,13 +198,13 @@ const quickReplyScribeVoice = async () => {
 
         <!--COPY CODE-->
         <span v-if="false">
-          <Icon name="copy" color="blue" />
+          <Icon name="copy" color="accent" />
           <div class="text primarycolor" htext="Copy Code">{{ i18n(RosettaStone.boards.email_cards.copy_code) }}</div>
         </span>
 
         <!--SCHEDULE-->
         <span v-if="false">
-          <Icon name="calendar" color="blue" />
+          <Icon name="calendar" color="accent" />
           <div class="text primarycolor" htext="Schedule">{{ i18n(RosettaStone.boards.email_cards.schedule) }}</div>
         </span>
       </div>

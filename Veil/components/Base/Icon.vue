@@ -19,8 +19,8 @@ img {
   user-select: none;
 }
 
-.blue {
-  filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%) contrast(101%);
+.accent {
+  filter: var(--primary-color-filter);
 }
 
 .red {
@@ -41,7 +41,7 @@ img {
   filter: var(--icon-filter);
 }
 
-.normal {
+.normal, .default {
   filter: var(--icon-filter);
   opacity: .5;
 }

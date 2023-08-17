@@ -15,7 +15,7 @@ if (isMobile) {
 
 <template>
   <a href="https://aikomail.com">
-    <Icon name="logo" color="blue" class="logo" />
+    <Icon name="logo" color="accent" class="logo" />
   </a>
   <HeaderRight />
   <div class="container mt-5">
@@ -26,17 +26,17 @@ if (isMobile) {
           <p>Your Aiko Mail inbox is packed with AI features designed to save you time. This is a demo of our 'Quick
             Reply'.</p><br>
           <p class="ml-3" v-if="!isMobile">
-            <Icon name="arrow-big-right" color="blue" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
+            <Icon name="arrow-big-right" color="accent" class="arrow" /> Start by clicking <i>'Quick Reply'</i><br><br>
 
-            <Icon name="arrow-big-right" color="blue" class="arrow" />
+            <Icon name="arrow-big-right" color="accent" class="arrow" />
             Type a few lines such as <i>"cant come, can move to tomorrow?"</i> and
             click on the
-            <Icon name="scribe" color="blue" /> button to let the
+            <Icon name="scribe" color="accent" /> button to let the
             assistant do the rest.
             <br><br>
 
             Don't feel like typing? You can also click the
-            <Icon name="microphone" color="blue" /> button and use it as an assistant. For example: <i>"tell
+            <Icon name="microphone" color="accent" /> button and use it as an assistant. For example: <i>"tell
               John I
               can't
               come

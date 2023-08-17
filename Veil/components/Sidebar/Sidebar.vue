@@ -34,25 +34,25 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       </div>
 
       <NavLink class="space" active>
-        <Icon name="home" color="blue" />
+        <Icon name="home" color="accent" />
         <span class="name">{{ i18n(RosettaStone.sidebar.menu.home) }}</span>
         <span class="count">99</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="blue" />
+        <Icon name="home" color="accent" />
         <span class="name">Legal</span>
         <span class="count">3</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="blue" />
+        <Icon name="home" color="accent" />
         <span class="name">Accounting</span>
         <span class="count">9</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="blue" />
+        <Icon name="home" color="accent" />
         <span class="name">Personal</span>
         <span class="count">0</span>
       </NavLink>

@@ -35,6 +35,7 @@
   --primary-border-radius: 5px;
 
   /* Changes the color fo all icons */
+  --primary-color-filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%) contrast(101%);
   --icon-filter: invert(66%) sepia(14%) saturate(350%) hue-rotate(184deg) brightness(91%) contrast(88%);
 
   /* Shadows */
