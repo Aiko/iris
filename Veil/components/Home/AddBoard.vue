@@ -17,7 +17,7 @@ const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
 
 <style lang="scss" scoped>
 .add-board {
-  cursor: pointer;
+  cursor: default;
   width: 30px;
   height: 185px;
   background: var(--primary-background-color);

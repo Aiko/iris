@@ -240,7 +240,7 @@ input {
   position: relative;
   border-bottom: 2px solid var(--primary-background-color);
   transition: .1s;
-  cursor: pointer;
+  cursor: default;
   user-select: none;
 }
 

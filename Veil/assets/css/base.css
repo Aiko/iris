@@ -42,7 +42,7 @@ section {
 
 a {
   text-decoration: none !important;
-  cursor: pointer !important;
+  cursor: default !important;
 }
 
 p {
@@ -209,7 +209,7 @@ textarea {
 
 .aikocheckbox input[type="checkbox"]+label {
   position: relative;
-  cursor: pointer;
+  cursor: default;
 }
 
 .aikocheckbox input[type="checkbox"]+label:hover:before {
@@ -267,7 +267,7 @@ textarea {
 [type="radio"]:not(:checked)+label {
   position: relative;
   padding-left: 28px;
-  cursor: pointer;
+  cursor: default;
   line-height: 20px;
   display: inline-block;
   color: var(--primary-font-color);

@@ -492,7 +492,7 @@ let selectedPane = ref(Pane.Account);
   border-radius: var(--primary-border-radius);
   text-align: center;
   border: 2px solid var(--primary-background-color);
-  cursor: pointer;
+  cursor: default;
   display: inline-block;
   margin-right: 20px;
   margin-bottom: 20px;

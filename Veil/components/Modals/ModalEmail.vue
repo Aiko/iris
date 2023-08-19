@@ -156,7 +156,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   left: 0;
   margin-left: 5px;
   margin-top: 15px;
-  cursor: pointer;
+  cursor: default;
   height: 100%;
 }
 

@@ -244,7 +244,7 @@ const quickReplyScribeVoice = async () => {
   font-size: var(--body-font-size);
   contain: layout;
   transition: .2s;
-  cursor: pointer;
+  cursor: default;
 }
 
 .selected {
@@ -526,7 +526,7 @@ const quickReplyScribeVoice = async () => {
   padding: 3px;
   margin-left: 3px;
   margin-top: 4px;
-  cursor: pointer;
+  cursor: default;
 }
 
 .email-card:hover .actions span img {

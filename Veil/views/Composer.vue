@@ -132,7 +132,7 @@ const grimaldi = new Grimaldi()
   text-orientation: mixed;
   margin: 0;
   margin-left: 4px;
-  cursor: pointer;
+  cursor: default;
   height: 100%;
 }
 

@@ -165,7 +165,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   height: 50px;
   width: 100%;
   padding: 18px 0;
-  cursor: pointer;
+  cursor: default;
   display: inline-block;
   text-align: center;
   -webkit-touch-callout: none;
@@ -218,7 +218,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   height: 185px !important;
   position: relative;
   z-index: 5;
-  cursor: pointer !important;
+  cursor: default !important;
   filter: brightness(1);
   transition: .1s;
 }
@@ -306,7 +306,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   border-radius: var(--primary-border-radius);
   overflow: hidden;
   border: 2px solid var(--secondary-background-color);
-  cursor: pointer;
+  cursor: default;
 }
 
 .board .tab {
@@ -588,7 +588,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   top: 0;
   left: 0;
   z-index: 100;
-  cursor: pointer;
+  cursor: default;
 }
 
 .count2 {

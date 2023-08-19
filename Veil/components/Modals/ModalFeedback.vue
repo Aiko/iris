@@ -151,7 +151,7 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   top: 0;
   margin-top: 15px;
   margin-left: 4px;
-  cursor: pointer;
+  cursor: default;
   height: 100%;
 }
 

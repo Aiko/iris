@@ -123,7 +123,7 @@
     border-radius: 5px !important;
     background-color: #FFFFFF;
     transition: background 300ms;
-    cursor: pointer;
+    cursor: default;
   }
 
 
