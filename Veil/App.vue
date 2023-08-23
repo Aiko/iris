@@ -83,12 +83,13 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
   padding: 0px 0 0 0;
   background-color: transparent;
   display: inline-flex;
+
   &.fullscreen {
     padding: 0 !important;
   }
+
   &.mac {
     padding: 16px 0 0 0;
   }
 }
-
 </style>@Veil/state/common@Veil/state/common@Veil/state/common

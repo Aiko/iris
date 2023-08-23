@@ -7,6 +7,8 @@ import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 import { scribeVoice } from "@Veil/utils/whisper/whisper";
 import Logger from "@Veil/services/roots"
+
+
 const Log = new Logger("Sidebar")
 
 // Information variables for 'Sidebar' component
@@ -79,6 +81,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         <Icon name="trash" color="normal" />{{ i18n(RosettaStone.sidebar.menu.trash) }}
       </NavLink>
     </div>
+
+
+
+
     <Alert>
       <!-- TODO: channel & version from Chiton -->
       <h1><b>BETA</b></h1>
