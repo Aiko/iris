@@ -142,6 +142,7 @@ import FilterTags from "@Veil/components/Filters/FilterTags.vue";
   padding: 15px;
   padding-top: 65px;
   z-index: 100000;
+  overflow-y: scroll;
   opacity: 1;
   background-color: #222222;
   box-shadow: 0px 0px 20px 20px #000000;

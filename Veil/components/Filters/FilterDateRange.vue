@@ -4,18 +4,29 @@
 
 <template>
   <div class="filter-date-range">
-    <input type="date" />
-    <div class="to">to</div>
-    <input type="date" />
+    <div class="line">
+      <div class="labl">From</div>
+      <input type="date" />
+    </div>
+    <div class="line">
+      <div class="labl">To</div>
+      <input type="date" />
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.to {
+.labl {
   color: var(--primary-font-color);
   font-size: 14px;
-  display: inline-block;
-  margin-left: 5px;
+  margin-top: 2px;
+  opacity: .6;
+  width: 38px;
+}
+
+.line {
+  display: inline-flex;
+  width: 100%;
 }
 
 input {
@@ -23,6 +34,7 @@ input {
   font-size: 14px;
   opacity: .8;
   height: 30px;
+  width: calc(100% - 38px);
   transition: .2s;
   border: 1px solid var(--secondary-background-color-hover) !important;
   padding: 3px 7px;

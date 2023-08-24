@@ -17,6 +17,7 @@ input {
   padding: 3px 7px;
   height: 30px;
   transition: .2s;
+  width: 100%;
   cursor: pointer;
   opacity: .8;
 }
