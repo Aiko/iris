@@ -21,10 +21,11 @@ const placeholder = props.placeholder || 'Search'
   color: var(--primary-font-color);
   font-size: 13px;
   transition: .2s;
+  height: 30px;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   border: 1px solid var(--secondary-background-color-hover);
-  padding: 3px 7px;
+  padding: 4px 7px;
   white-space: nowrap;
   overflow: scroll;
   cursor: text;

@@ -79,13 +79,14 @@ import FilterTags from "@Veil/components/Filters/FilterTags.vue";
         </Filter>
 
         <Filter>
-          <FilterLabel>Choose</FilterLabel>
-          <FilterChoose />
-        </Filter>
-
-        <Filter>
           <FilterLabel>Range</FilterLabel>
           <FilterRange />
+        </Filter>
+
+
+        <Filter>
+          <FilterLabel>Choose</FilterLabel>
+          <FilterChoose />
         </Filter>
 
         <Filter>

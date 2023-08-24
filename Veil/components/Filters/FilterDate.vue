@@ -15,8 +15,10 @@ input {
   opacity: .8;
   border: 1px solid var(--secondary-background-color-hover) !important;
   padding: 3px 7px;
+  height: 30px;
   transition: .2s;
   cursor: pointer;
+  opacity: .8;
 }
 
 input:hover {
