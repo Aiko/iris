@@ -1,38 +1,137 @@
 <script lang="ts" setup>
 import Icon from '@Veil/components/Base/Icon.vue'
+import { ref } from 'vue'
+
+let isOpen = ref(false);
+const toggleMenu = () => (isOpen.value = !isOpen.value);
 </script>
 
 <template>
-    <select class="filter-choose">
-        <option value="">Choose an option</option>
-        <option value="black">Black</option>
-        <option value="white">White</option>
-        <option value="Orange">Orange</option>
-    </select>
+    <div class="filter-choose" :class="{ 'isOpen': isOpen }">
+        <div :class="{
+            'menu-container': true,
+            'is-open': isOpen,
+        }" @click="toggleMenu" tabindex="0" @focusout="isOpen = false" autofocus>
+
+            <div class="filter-choose-item">
+                Black
+            </div>
+            <div class="filter-choose-item">
+                White
+            </div>
+            <div class="filter-choose-item">
+                Yellow
+            </div>
+
+
+
+            <slot v-if="isOpen" class="overflow-scroll"></slot>
+            <Icon name="roundedx" color="normal" class="icon" v-if="isOpen" />
+            <Icon name="down" color="normal" class="icon" v-if="!isOpen" />
+
+        </div>
+    </div>
 </template>
 
 <style lang="scss" scoped>
 .filter-choose {
-    width: 100%;
-    margin-top: 1px;
-    text-align: left;
-    color: var(--primary-font-color);
-    font-size: 13px;
-    border: 1px solid var(--primary-background-color);
-    transition: .2s;
     background-color: var(--primary-background-color);
     border-radius: var(--primary-border-radius);
-    padding: 3px 7px;
-    white-space: nowrap;
-    overflow: scroll;
-    cursor: text;
+    border: 1px solid var(--primary-background-color) !important;
+    color: var(--primary-font-color);
+    outline: none !important;
+    width: 100%;
+    cursor: pointer;
     height: 30px;
-    outline: none;
-    opacity: .8;
+    position: relative;
+    user-select: none;
+    overflow: hidden;
 }
 
-.filter-choose:hover {
-    opacity: 1;
-    transition: .2s;
+.isOpen {
+    overflow: unset;
 }
+
+.filter-choose-item {
+    margin: 2px 0px 3px 0px;
+    padding: 2px 8px;
+    border-radius: var(--primary-border-radius);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: calc(100% + 1px);
+    overflow: hidden;
+}
+
+.filter-choose-item:hover {
+    background-color: var(--secondary-background-color);
+}
+
+.label {
+    padding-right: 25px;
+    pointer-events: none;
+}
+
+.menu-container {
+    width: 100%;
+    left: 0;
+    position: absolute;
+    margin-top: -2px;
+    margin-left: -1px;
+    outline: none;
+    border-radius: var(--primary-border-radius);
+}
+
+.overflow-scroll {
+    overflow-y: scroll;
+}
+
+.is-open {
+    background: var(--p-opaque);
+    border: 1px solid var(--secondary-background-color) !important;
+    z-index: 1000;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    pointer-events: none;
+    margin: 6px 4px;
+    width: 20px;
+}
+
+.right .icon {
+    transform: rotate(-90deg);
+}
+
+.left .icon {
+    transform: rotate(90deg);
+}
+
+.top .icon {
+    transform: rotate(180deg);
+}
+
+.normal {}
+
+.down {}
+
+.top .menu-container {
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+    padding-bottom: 35px;
+}
+
+.top .label {
+    position: absolute;
+    bottom: 0;
+}
+
+.top .icon {
+    top: unset;
+    bottom: 0;
+}
+
+.left {}
 </style>
