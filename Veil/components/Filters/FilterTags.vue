@@ -27,7 +27,7 @@ const props = defineProps<{
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   padding: 2px 6px;
-  border: 1px solid var(--secondary-background-color-hover);
+  border: 1px solid var(--primary-background-color);
   margin-right: 4px;
   margin-bottom: 4px;
   opacity: .8;
