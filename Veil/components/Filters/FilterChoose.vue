@@ -13,6 +13,8 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
             'is-open': isOpen,
         }" @click="toggleMenu" tabindex="0" @focusout="isOpen = false" autofocus>
 
+
+
             <div class="filter-choose-item">
                 Black
             </div>
@@ -54,7 +56,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 
 .filter-choose-item {
     margin: 2px 0px 3px 0px;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border-radius: var(--primary-border-radius);
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -75,8 +77,6 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     width: 100%;
     left: 0;
     position: absolute;
-    margin-top: -2px;
-    margin-left: -1px;
     outline: none;
     border-radius: var(--primary-border-radius);
 }

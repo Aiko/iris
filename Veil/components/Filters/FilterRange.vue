@@ -36,7 +36,7 @@ input {
   padding: 3px 7px;
   width: calc(100% - 5px);
   transition: .2s;
-  cursor: pointer;
+  cursor: text;
 }
 </style>
 
