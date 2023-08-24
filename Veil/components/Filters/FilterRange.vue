@@ -4,10 +4,10 @@
 <template>
   <div class="filter-range">
     <div class="col">
-      <input type="number" />
+      <input type="number" placeholder="Min" />
     </div>
     <div class="col">
-      <input type="number" />
+      <input type="number" placeholder="Max" />
     </div>
 
   </div>

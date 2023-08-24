@@ -9,7 +9,7 @@ const placeholder = props.placeholder || 'Search'
 
 
 <template>
-  <div contenteditable="true" :placeholder="placeholder" class="filter-input" />
+  <input :placeholder="placeholder" class="filter-input" />
 </template>
 
 <style lang="scss" scoped>
