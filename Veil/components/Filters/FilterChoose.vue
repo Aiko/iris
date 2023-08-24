@@ -55,7 +55,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 }
 
 .filter-choose-item {
-    margin: 2px 0px 3px 0px;
+    margin: 0px;
     padding: 2px 6px;
     border-radius: var(--primary-border-radius);
     white-space: nowrap;
@@ -65,7 +65,8 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 }
 
 .filter-choose-item:hover {
-    background-color: var(--secondary-background-color);
+    background-color: var(--primary-background-color);
+    transition: .2s;
 }
 
 .label {
@@ -96,7 +97,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     top: 0;
     right: 0;
     pointer-events: none;
-    margin: 6px 4px;
+    margin: 5px 4px;
     width: 20px;
 }
 
