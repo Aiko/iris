@@ -145,7 +145,7 @@ import FilterTags from "@Veil/components/Filters/FilterTags.vue";
   overflow-y: scroll;
   opacity: 1;
   background-color: #222222;
-  box-shadow: 0px 0px 20px 20px #000000;
+  box-shadow: 0px 0px 20px 20px #00000052;
   ;
 }
 </style>@Veil/state/common

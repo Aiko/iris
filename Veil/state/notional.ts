@@ -26,8 +26,8 @@ const EMAILS = [
 	{
 		sender: 'Charlie Battac',
 		date: '1:23 PM',
-		subject: 'Cat Food',
-		preview: 'Hey, could you pick up a can of cat food on your way back? Im feeling sleepy.',
+		subject: 'Articles vs videos',
+		preview: 'Have we considered turning these blog ideas into short-form video content? The best-performing blogs are the ones we write ourselves, resharing and attributing does okay, no one in this space is doing video and we would stand out. ',
 		attachments: [],
 		bcc: true,
 		tracker: false,
