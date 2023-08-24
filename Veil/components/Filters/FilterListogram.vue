@@ -41,7 +41,7 @@ const props = defineProps<{
 
 
   <!--START Single Listogram-->
-  <div class="filter-listogram">
+  <div class="filter-listogram ">
     <div class="col one">
       <input type="checkbox" checked class="listogram-checkbox" />
       <div class="listogram-label">Black</div>

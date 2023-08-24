@@ -63,7 +63,7 @@ const toggleSearch = () => (isSearchOpen.value = !isSearchOpen.value);
 .filter-search {
   width: 100%;
   margin-top: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-align: left;
   color: var(--primary-font-color);
   font-size: 13px;
