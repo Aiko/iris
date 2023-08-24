@@ -123,7 +123,7 @@ const props = defineProps<{
 }
 
 [type=checkbox]:checked::before {
-  background-color: var(--primary-color) !important;
+  background-color: #3d3d3d !important;
 }
 
 .filter-show-more:hover {
