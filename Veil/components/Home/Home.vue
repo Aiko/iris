@@ -19,6 +19,7 @@ import FilterListogram from "@Veil/components/Filters/FilterListogram.vue";
 import FilterManyChoose from "@Veil/components/Filters/FilterManyChoose.vue";
 import FilterRange from "@Veil/components/Filters/FilterRange.vue";
 import FilterTags from "@Veil/components/Filters/FilterTags.vue";
+import FilterSlider from "@Veil/components/Filters/FilterSlider.vue";
 
 </script>
 
@@ -92,6 +93,11 @@ import FilterTags from "@Veil/components/Filters/FilterTags.vue";
         <Filter>
           <FilterLabel>ManyChoose</FilterLabel>
           <FilterManyChoose />
+        </Filter>
+
+        <Filter>
+          <FilterLabel>Slider</FilterLabel>
+          <FilterSlider />
         </Filter>
 
       </FilterList>
