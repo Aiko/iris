@@ -65,10 +65,12 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     text-overflow: ellipsis;
     width: calc(100% + 1px);
     overflow: hidden;
+    opacity: .8;
+    transition: .2s;
 }
 
 .filter-choose-item:hover {
-    background-color: var(--primary-background-color);
+    opacity: 1;
     transition: .2s;
 }
 
@@ -82,6 +84,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     left: 0;
     position: absolute;
     outline: none;
+    border: 1px solid transparent;
     border-radius: var(--primary-border-radius);
 }
 
@@ -100,7 +103,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     top: 0;
     right: 0;
     pointer-events: none;
-    margin: 5px 4px;
+    margin: 4px 4px;
     width: 20px;
 }
 
