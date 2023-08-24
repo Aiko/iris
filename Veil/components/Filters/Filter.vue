@@ -11,7 +11,7 @@
 .filter {
   margin-bottom: 25px;
   background-color: var(--primary-background-color);
-  padding: 5px 10px 10px 10px;
+  padding: 2px 10px 10px 10px;
   border-radius: var(--primary-border-radius);
 }
 </style>

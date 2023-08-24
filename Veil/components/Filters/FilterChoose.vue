@@ -15,7 +15,6 @@ import Icon from '@Veil/components/Base/Icon.vue'
 .filter-choose {
     width: 100%;
     margin-top: 1px;
-    margin-bottom: 7px;
     text-align: left;
     color: var(--primary-font-color);
     font-size: 13px;

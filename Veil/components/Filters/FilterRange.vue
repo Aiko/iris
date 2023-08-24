@@ -20,7 +20,6 @@
   transition: .2s;
   width: 100%;
   display: inline-flex;
-  margin-bottom: 3px;
 }
 
 .col {

@@ -8,6 +8,7 @@
       <div class="labl">From</div>
       <input type="date" />
     </div>
+    <div class="spacer5"></div>
     <div class="line">
       <div class="labl">To</div>
       <input type="date" />
@@ -39,7 +40,10 @@ input {
   border: 1px solid var(--secondary-background-color-hover) !important;
   padding: 3px 7px;
   cursor: pointer;
-  margin-bottom: 5px;
+}
+
+.spacer5 {
+  height: 5px;
 }
 
 input:hover {
