@@ -136,7 +136,7 @@ import FilterTags from "@Veil/components/Filters/FilterTags.vue";
   position: absolute;
   top: 0;
   left: 0;
-  width: 190px;
+  width: 260px;
   height: 100%;
   padding: 15px;
   padding-top: 65px;
