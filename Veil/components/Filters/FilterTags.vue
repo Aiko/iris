@@ -57,6 +57,7 @@ const props = defineProps<{
   cursor: pointer;
   margin-top: 10px;
   transition: .2s;
+  border: 1px solid var(--primary-background-color);
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   padding: 2px;

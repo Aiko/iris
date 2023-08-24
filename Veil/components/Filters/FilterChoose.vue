@@ -18,10 +18,10 @@ import Icon from '@Veil/components/Base/Icon.vue'
     text-align: left;
     color: var(--primary-font-color);
     font-size: 13px;
+    border: 1px solid var(--primary-background-color);
     transition: .2s;
     background-color: var(--primary-background-color);
     border-radius: var(--primary-border-radius);
-    border: 1px solid var(--secondary-background-color-hover);
     padding: 3px 7px;
     white-space: nowrap;
     overflow: scroll;

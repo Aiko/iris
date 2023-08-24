@@ -31,8 +31,8 @@ input {
   color: var(--primary-font-color);
   font-size: 14px;
   opacity: .8;
+  border: 1px solid var(--primary-background-color);
   height: 30px;
-  border: 1px solid var(--secondary-background-color-hover) !important;
   padding: 3px 7px;
   width: calc(100% - 5px);
   transition: .2s;

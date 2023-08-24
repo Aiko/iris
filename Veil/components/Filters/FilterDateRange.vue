@@ -37,7 +37,7 @@ input {
   height: 30px;
   width: calc(100% - 38px);
   transition: .2s;
-  border: 1px solid var(--secondary-background-color-hover) !important;
+  border: 1px solid var(--primary-background-color);
   padding: 3px 7px;
   cursor: pointer;
 }
