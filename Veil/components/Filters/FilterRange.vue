@@ -38,6 +38,11 @@ input {
   transition: .2s;
   cursor: text;
 }
+
+input:hover {
+  opacity: 1;
+  transition: .2s;
+}
 </style>
 
 

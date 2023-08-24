@@ -24,6 +24,9 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
             <div class="filter-choose-item">
                 Yellow
             </div>
+            <div class="filter-choose-item">
+                Blue
+            </div>
 
 
 
