@@ -48,7 +48,8 @@ import FilterSlider from "@Veil/components/Filters/FilterSlider.vue";
     <!--START Test Sidebar-->
     <div class="test-sidebar">
       <h4>Test Sidebar</h4>
-      <p>Find it in Home.vue</p>
+      <p class="strong">Find it in <i>Home.vue</i></p>
+      <p>The purpose of this is to show new filters. Scroll to see more.</p>
       <br><br>
 
       <!-- START Filter Testing-->
@@ -97,7 +98,7 @@ import FilterSlider from "@Veil/components/Filters/FilterSlider.vue";
 
         <Filter>
           <FilterLabel>Slider</FilterLabel>
-          <FilterSlider />
+          <FilterSlider :min="0" :max="100" />
         </Filter>
 
       </FilterList>
@@ -146,7 +147,7 @@ import FilterSlider from "@Veil/components/Filters/FilterSlider.vue";
   width: 260px;
   height: 100%;
   padding: 15px;
-  padding-top: 65px;
+  padding-top: 35px;
   z-index: 100000;
   overflow-y: scroll;
   opacity: 1;
