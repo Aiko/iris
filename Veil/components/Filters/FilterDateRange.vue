@@ -45,6 +45,7 @@ input {
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
   opacity: .6;
+  cursor: pointer;
 }
 
 .spacer5 {
