@@ -186,13 +186,13 @@ export const resolveEmail = (mid: string) => EMAILS.find(({ mid: id }) => id ===
 export const INBOX = {
 	name: 'Inbox',
 	slug: 'INBOX',
-	emails: [{ mid: '0', }, { mid: '9', }, { mid: '11', }, { mid: '12', }, { mid: '13', }, { mid: '14', }]
+	emails: [{ mid: '0', }, { mid: '9', }, { mid: '2', }, { mid: '11', }, { mid: '12', }, { mid: '13', }, { mid: '7', }]
 }
 const BOARDS = [
-	{ name: 'To-Do', slug: '[Aiko]/To-Do', emails: [{ mid: '1' }, { mid: '2', }, { mid: '3' }] },
+	{ name: 'To-Do', slug: '[Aiko]/To-Do', emails: [{ mid: '1' }, { mid: '3' }] },
 	{ name: 'In Progress', slug: '[Aiko]/In Progress', emails: [{ mid: '4', }, { mid: '5', }] },
-	{ name: 'Travel', slug: '[Aiko]/Travel', emails: [{ mid: '8', }, { mid: '10', },] },
-	{ name: 'Done', slug: '[Aiko]/Done', emails: [{ mid: '6', }, { mid: '7', }] }
+	{ name: 'Travel', slug: '[Aiko]/Travel', emails: [{ mid: '8', }, { mid: '10', }, { mid: '14', },] },
+	{ name: 'Done', slug: '[Aiko]/Done', emails: [{ mid: '6', }] }
 ]
 
 export const boards = BOARDS.map(({ slug }) => ({ slug, }))
