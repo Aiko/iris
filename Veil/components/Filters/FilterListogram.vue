@@ -103,6 +103,7 @@ const props = defineProps<{
   width: 50px;
   margin-top: 1px;
   height: 15px;
+
   background-color: var(--primary-color);
   border-radius: 2px;
 
@@ -144,6 +145,11 @@ const props = defineProps<{
   display: inline-flex;
   text-align: left;
   padding-left: 0;
+}
+
+.three {
+  width: 40px;
+  max-width: 40px;
 }
 
 .g1 {
