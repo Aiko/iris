@@ -76,6 +76,14 @@ const props = defineProps<{
   transition: .2s;
 }
 
+[type=checkbox]::before {
+  background-color: #000000ba !important;
+}
+
+[type=checkbox]:checked::before {
+  background-color: #5f5f5f !important;
+}
+
 .listogram-checkbox {
   width: 17px;
   height: 17px;
@@ -89,6 +97,10 @@ const props = defineProps<{
   color: var(--primary-font-color);
   margin-top: -2px;
   font-size: 14px;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .listogram-number {
@@ -145,6 +157,7 @@ const props = defineProps<{
   display: inline-flex;
   text-align: left;
   padding-left: 0;
+  max-width: 60%;
 }
 
 .three {
