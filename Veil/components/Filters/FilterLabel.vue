@@ -68,6 +68,7 @@ const toggleSearch = () => (isSearchOpen.value = !isSearchOpen.value);
   color: var(--primary-font-color);
   font-size: 13px;
   transition: .2s;
+  border: 1px solid var(--primary-background-color);
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
   padding: 3px 7px;
