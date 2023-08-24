@@ -26,4 +26,9 @@ input:hover {
   opacity: 1;
   transition: .2s;
 }
+
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: .6;
+}
 </style>

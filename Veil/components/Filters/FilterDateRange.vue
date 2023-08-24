@@ -42,6 +42,11 @@ input {
   cursor: pointer;
 }
 
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: .6;
+}
+
 .spacer5 {
   height: 5px;
 }
