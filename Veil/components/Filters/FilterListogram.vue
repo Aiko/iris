@@ -114,10 +114,10 @@ const props = defineProps<{
   color: var(--primary-font-color);
   font-size: 13px;
   cursor: pointer;
+  margin-top: 10px;
   transition: .2s;
   background-color: var(--primary-background-color);
   border-radius: var(--primary-border-radius);
-  border: 1px solid var(--secondary-background-color-hover);
   padding: 2px;
   opacity: .8;
 }

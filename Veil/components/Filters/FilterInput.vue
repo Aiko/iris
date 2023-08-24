@@ -16,7 +16,6 @@ const placeholder = props.placeholder || 'Search'
 .filter-input {
   width: 100%;
   margin-top: 1px;
-  margin-bottom: 7px;
   text-align: left;
   color: var(--primary-font-color);
   font-size: 13px;
