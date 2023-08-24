@@ -1,6 +1,6 @@
 const EMAILS = [
 	{
-		sender: 'John Smith',
+		sender: 'Mark Lippe',
 		date: '1:23 PM',
 		subject: 'Client Deck',
 		preview: 'It would be great to get time to review the client deck. Does 3:30PM work for you?',
@@ -12,7 +12,7 @@ const EMAILS = [
 		mid: '0'
 	},
 	{
-		sender: 'Jane Doe',
+		sender: 'Isabelle Saviane',
 		date: '1:23 PM',
 		subject: 'Project Status',
 		preview: 'I have attached the latest project status. Let me know if you have any questions',
@@ -24,7 +24,7 @@ const EMAILS = [
 		mid: '1'
 	},
 	{
-		sender: 'Charlie',
+		sender: 'Charlie Battac',
 		date: '1:23 PM',
 		subject: 'Cat Food',
 		preview: 'Hey, could you pick up a can of cat food on your way back? Im feeling sleepy.',
@@ -36,7 +36,7 @@ const EMAILS = [
 		mid: '2'
 	},
 	{
-		sender: 'Bob Johnson',
+		sender: 'Andrea Mesa',
 		date: '2:34 PM',
 		subject: 'H2 Planning Session',
 		preview: 'I have attached the agenda for the planning session. Please let me know if you have any questions',
@@ -48,7 +48,7 @@ const EMAILS = [
 		mid: '3'
 	},
 	{
-		sender: 'Alice Williams',
+		sender: 'Alice Cheifetz',
 		date: '3:45 PM',
 		subject: 'Project Update',
 		preview: 'I wanted to provide an update on the project we discussed last week. Can we schedule a call for Monday at 9AM?',
@@ -108,7 +108,7 @@ const EMAILS = [
 		mid: '8'
 	},
 	{
-		sender: 'Terry Evans',
+		sender: 'Terrance Evans',
 		date: 'Thursday',
 		subject: 'Investor meeting',
 		preview: 'Here is the Zoom meeting for next week. Let me know if this works for you. I can also invite Paul if needed.',
