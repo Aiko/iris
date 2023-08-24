@@ -18,7 +18,7 @@ const toggleSearch = () => (isSearchOpen.value = !isSearchOpen.value);
     </div>
     <Icon name="search" color="normal" class="filter-search-icon" @click="toggleSearch" v-if="!isSearchOpen && search" />
     <Icon name="x" color="normal" class="filter-search-icon" @click="toggleSearch" v-if="isSearchOpen" />
-    <div contenteditable="true" placeholder="Search" class="filter-search" v-if="isSearchOpen"></div>
+    <input placeholder="Search" class="filter-search" v-if="isSearchOpen" />
   </div>
 </template>
 
