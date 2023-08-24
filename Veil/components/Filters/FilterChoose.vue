@@ -59,7 +59,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
 
 .filter-choose-item {
     margin: 0px;
-    padding: 2px 6px;
+    padding: 1px 6px;
     border-radius: var(--primary-border-radius);
     white-space: nowrap;
     text-overflow: ellipsis;
