@@ -74,6 +74,9 @@ export default class SettingsStore extends DwarfStar<ISettings> {
 					appearance: {
 						fullscreen: false
 					}
+				},
+				accessibility: {
+					language: "en"
 				}
 			}
 			this.save()
