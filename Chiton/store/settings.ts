@@ -1,14 +1,15 @@
 import type { Chiton } from "@Chiton/app"
-import DwarfStar from "./generic/dwarf-star"
+import DwarfStar from "@Chiton/store/generic/dwarf-star"
 import { systemPreferences } from "electron"
-import type ISettingsV1 from "./types/settings/v1"
-import type ISettingsV2 from "./types/settings/v2"
+import type ISettingsV1 from "@Chiton/store/types/settings/v1"
+import type ISettingsV2 from "@Chiton/store/types/settings/v2"
+import type ISettingsV3 from "@Chiton/store/types/settings/v3"
 
-export type ISettings = ISettingsV2
+export type ISettings = ISettingsV3
 
 export default class SettingsStore extends DwarfStar<ISettings> {
 
-	readonly VERSION = 2
+	readonly VERSION = 3
 
 	// TODO: refactor into mutation observer
 	get settings() { return this.state! }
@@ -28,7 +29,13 @@ export default class SettingsStore extends DwarfStar<ISettings> {
 						: "#486fff",
 				theme: "auto",
 			},
-		})
+		}),
+		3: (state: ISettingsV2): ISettingsV3 => ({
+			...state,
+			accessibility: {
+				language: "en",
+			},
+		}),
 	}
 
 	constructor(chiton: Chiton) {

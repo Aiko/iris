@@ -1,4 +1,5 @@
 export type Maybe<T> = T | null
+export type Optional<T> = T | undefined
 
 type log_fn = (...msg: any[]) => void;
 export interface Logger {
