@@ -6,6 +6,7 @@ import GuidepostPuppeteer from "@Marionette/puppeteers/guidepost";
 import InboxPuppeteer from "@Marionette/puppeteers/inbox";
 import ChitonPuppeteer from "@Marionette/puppeteers/chiton";
 import SettingsPuppeteer from "@Marionette/puppeteers/settings";
+import type { ISettings } from "@Chiton/store/settings";
 
 const Logger = (name: string) => new RemoteLogger(name, {
   bgColor: "#ff99ff",
@@ -17,8 +18,13 @@ const Guidepost = new GuidepostPuppeteer({logger: Logger("Guidepost")})
 //* Puppeteers
 export const Chiton = ref<Maybe<ChitonPuppeteer>>(null)
 export const Inbox = ref<Maybe<InboxPuppeteer>>(null)
-export const Settings = ref<Maybe<SettingsPuppeteer>>(null)
-
+const SettingsManager = ref<Maybe<SettingsPuppeteer>>(null)
+export const Settings = ref<Maybe<ISettings>>(null)
+export const syncSettings = async () => Settings.value = await SettingsManager.value!.get()
+export const saveSettings = async () => {
+  await SettingsManager.value!.set(Settings.value!)
+  await syncSettings()
+}
 
 //? Initialize necessary puppeteers
 export const init = async () => {
@@ -35,12 +41,12 @@ export const init = async () => {
   )
   await Inbox.value.init()
 
-  Settings.value = new SettingsPuppeteer(
+  SettingsManager.value = new SettingsPuppeteer(
     await Guidepost.get.singleton(Singleton.SETTINGS),
     { logger: Logger("Settings") }
   )
-  await Settings.value.get()
-  setAccentColor('#' + Settings.value.state!.appearance.accentColor)
+  await syncSettings()
+  setAccentColor('#' + Settings.value!.appearance.accentColor)
 }
 
 
@@ -48,5 +54,5 @@ export const init = async () => {
 window.puppetry = {
   chiton: Chiton,
   inbox: Inbox,
-  settings: Settings,
+  settings: SettingsManager,
 }

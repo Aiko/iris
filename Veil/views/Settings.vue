@@ -9,8 +9,8 @@ import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue"
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta"
 import Choose, { type Choice } from "@Veil/components/Base/Choose.vue"
 import { Settings } from "@Veil/services/puppetry"
-import type { ISettings } from "@Chiton/store/settings"
 import type { Optional } from "@Iris/common/types"
+import { computed } from "vue"
 
 enum Pane {
   Account,
@@ -26,7 +26,6 @@ enum Pane {
 }
 
 const selectedPane = ref(Pane.Account)
-const Preferences = ref<Optional<ISettings>>(await Settings.value!.get() ?? undefined)
 
 const languageChoices = [
   {
@@ -38,7 +37,7 @@ const languageChoices = [
     display: i18n(RosettaStone.settings.account.language.french),
   },
 ]
-const prefsLanguage = ref<string>(Preferences.value?.accessibility.language ?? "en")
+const prefsLanguage = ref<string>(Settings.value?.accessibility.language ?? "en")
 const language = ref<Optional<Choice>>(
   languageChoices.filter((choice) => choice.value == prefsLanguage.value)[0]
   ?? languageChoices[0]
