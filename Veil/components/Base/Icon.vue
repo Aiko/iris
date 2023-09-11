@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import defs from '@Veil/utils/icon-definitions'
 defineProps<{
-  name?: string;
+  name?: string & keyof typeof defs;
   color?: string;
 }>();
 </script>

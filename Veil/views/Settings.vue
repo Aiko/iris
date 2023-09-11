@@ -38,7 +38,7 @@ const languageChoices = [
   },
 ]
 const prefsLanguage = ref<string>(Settings.value?.accessibility.language ?? "en")
-const language = ref<Optional<Choice>>(
+const language = ref<Choice>(
   languageChoices.filter((choice) => choice.value == prefsLanguage.value)[0]
   ?? languageChoices[0]
 )
@@ -128,19 +128,6 @@ const language = ref<Optional<Choice>>(
           i18n(RosettaStone.settings.others.title)
         }}
       </NavLink>
-      <Alert>
-        <h1>
-          <i>{{ i18n(RosettaStone.settings.version) }}: </i><b>BETA</b>
-        </h1>
-        <div>#darwin-3.8.1:INTERNAL</div>
-        <p>
-          <span>{{ i18n(RosettaStone.settings.request1) }} </span>
-          {{ i18n(RosettaStone.settings.request2) }}
-        </p>
-        <ButtonPrimary @click="selectedModal = Modal.Feedback">
-          <span>{{ i18n(RosettaStone.settings.btn) }}</span>
-        </ButtonPrimary>
-      </Alert>
     </div>
 
     <div class="content">
@@ -153,7 +140,6 @@ const language = ref<Optional<Choice>>(
 
         <!--! TODO: autocompute choices in Rosetta server based on availability -->
         <Choose
-          direction="bottom"
           :width="150"
           :choices="languageChoices"
           v-model="language"

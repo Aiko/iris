@@ -35,33 +35,32 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
         </ButtonPrimary>
       </div>
 
-      <NavLink class="space" active>
-        <Icon name="home" color="accent" />
+      <NavLink class="home" active>
+        <Icon name="home" color="normal" />
         <span class="name">{{ i18n(RosettaStone.sidebar.menu.home) }}</span>
-        <span class="count">99</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="accent" />
+        <Icon name="square-rounded" color="accent" />
         <span class="name">Legal</span>
         <span class="count">3</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="accent" />
+        <Icon name="square-rounded" color="accent" />
         <span class="name">Accounting</span>
         <span class="count">9</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="home" color="accent" />
+        <Icon name="square-rounded" color="accent" />
         <span class="name">Personal</span>
         <span class="count">0</span>
       </NavLink>
 
       <div class="space-actions">
         <span v-if="!Sidebar.collapsed">
-          <Icon name="home" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces) }}
+          <Icon name="square-rounded" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces) }}
         </span>
       </div>
 
@@ -369,7 +368,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 16px;
   line-height: 9px;
   padding-top: 0;
-  height: 11px;
+  height: 13px;
   margin-bottom: 7px;
   float: right;
   position: absolute;
@@ -380,7 +379,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-left: 7px;
   font-size: 11px;
   text-align: center;
-  background: var(--primary-color);
   color: #ffffff;
   border-radius: 2px;
 
@@ -396,24 +394,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 14px;
   line-height: 14px;
 
-}
-
-.sidebar.collapsed .count:before {
-  display: none;
-}
-
-
-.count:before {
-  content: "\A";
-  border-style: solid;
-  border-width: 8px 6px 8px 0;
-  border-color: transparent var(--primary-color) transparent transparent;
-  position: absolute;
-  top: -11px;
-  z-index: 0;
-  transform: rotate(90deg);
-  left: 0;
-  margin-left: 4px;
 }
 
 .space-actions {
@@ -450,22 +430,11 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   transition: .1s;
 }
 
-.spaces-icon {
-  width: 13px;
-  margin-top: -3px;
-}
-
-.space-icon {
-  position: relative;
-}
-
-.space-icon span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-left: 7px;
-  margin-top: 5px;
-  font-size: 10px;
+.space img {
+  width: 21px !important;
+  height: 21px !important;
+  margin-left: -2px;
+  margin-right: 4px !important;
 }
 
 .sidebar.collapsed .name {

@@ -190,10 +190,10 @@ const quickReplyScribeVoice = async () => {
 
         <!--OPEN SPECIFIC APP, REPLACE APP BY APP NAME-->
         <span v-if="false">
-          <Icon name="link" color="accent" />
-          <div class="text primarycolor" :htext="i18n(RosettaStone.boards.email_cards.copy_code) + 'App'">{{
-            i18n(RosettaStone.boards.email_cards.open_app)
-          }} App</div>
+          <Icon name="share" color="accent" />
+          <div class="text primarycolor" :htext="i18n(RosettaStone.boards.email_cards.open_app) + ' [APP]'">
+            {{ i18n(RosettaStone.boards.email_cards.open_app) }} [APP]
+          </div>
         </span>
 
         <!--COPY CODE-->

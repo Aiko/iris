@@ -68,7 +68,9 @@ import zoom from "@Veil/assets/icons/zoom.svg"
 import down from "@Veil/assets/icons/down.svg"
 import roundedx from "@Veil/assets/icons/roundedx.svg"
 import chevrondown from "@Veil/assets/icons/chevron-down.svg"
-
+import share from "@Veil/assets/icons/share.svg"
+import squareRounded from "@Veil/assets/icons/square-rounded.svg"
+import users from "@Veil/assets/icons/users.svg"
 
 
 export default {
@@ -142,5 +144,7 @@ export default {
 	"down": down,
 	"roundedx": roundedx,
 	"chevron-down": chevrondown,
-
-} as { [name: string]: any }
+	"share": share,
+	"square-rounded": squareRounded,
+	"users": users
+}

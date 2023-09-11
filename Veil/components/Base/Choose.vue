@@ -7,19 +7,19 @@ export type Choice = {
   display: string
 }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   placeholder?: string
   direction?: string
   width?: number
-  modelValue?: Choice
-  choices?: Choice[]
-}>();
+  modelValue: Choice
+  choices: Choice[]
+}>(), {width: 0, direction: 'down'})
 const emit = defineEmits(['update:modelValue'])
 
 const isOpen = ref(false)
 const toggle = () => (isOpen.value = !isOpen.value)
 
-const _choice = computed({
+const choice = computed({
   get() {
     return props.modelValue
   },
@@ -31,8 +31,8 @@ const _choice = computed({
 
 <template>
   <div class="choose" :class="{
-    ['' + direction]: true, 'isOpen': isOpen, ['w' + width]: true,
-  }">
+    ['' + direction]: true, 'isOpen': isOpen
+  }" :style="'min-width: ' + width + 'px'">
     <div :class="{
         'choose-container': true,
         'is-open': isOpen,
@@ -44,11 +44,11 @@ const _choice = computed({
 
       <div v-if="isOpen" class="overflow-scroll">
         <div
-          v-for="choice in choices"
-          @click="_choice = choice"
-          :key="choice.value"
+          v-for="option in choices"
+          @click="choice = option"
+          :key="option.value"
           class="choose-item">
-          {{ choice.display ?? choice.value }}
+          {{ option.display ?? option.value }}
         </div>
       </div>
 
@@ -67,48 +67,17 @@ const _choice = computed({
   padding: 2px 32px 0px 5px;
   color: var(--primary-font-color);
   outline: none !important;
-  width: 150px;
+  width: fit-content;
   cursor: default;
   height: 35px;
   position: relative;
-  user-choose: none;
+  user-select: none;
   overflow: hidden;
 }
 
 .isOpen {
   overflow: unset;
 }
-
-.w50,
-.w50 .choose-container {
-  width: 50px !important;
-}
-
-.w100,
-.w100 .choose-container {
-  width: 100px !important;
-}
-
-.w150,
-.w150 .choose-container {
-  width: 150px !important;
-}
-
-.w200,
-.w200 .choose-container {
-  width: 200px !important;
-}
-
-.w250,
-.w250 .choose-container {
-  width: 250px !important;
-}
-
-.w300,
-.w300 .choose-container {
-  width: 300px !important;
-}
-
 
 
 .label {
@@ -117,12 +86,11 @@ const _choice = computed({
 }
 
 .choose-container {
-  width: calc(100% - 15px);
   margin-left: -6px;
   margin-top: -3px;
   left: 0;
-  position: absolute;
   border-radius: var(--primary-border-radius);
+  width: calc(100% + 38px);
 }
 
 .overflow-scroll {

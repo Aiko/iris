@@ -2,8 +2,8 @@ const EMAILS = [
 	{
 		sender: 'Mark Lippe',
 		date: '1:23 PM',
-		subject: 'Client Deck',
-		preview: 'It would be great to get time to review the client deck. Does 3:30PM work for you?',
+		subject: 'Mars - Final MSA',
+		preview: 'Attached is the final MSA from Mars. Could you get this signed to me by Friday?',
 		attachments: ['deck.pdf'],
 		bcc: true,
 		tracker: true,
@@ -189,7 +189,7 @@ export const INBOX = {
 	emails: [{ mid: '0', }, { mid: '9', }, { mid: '2', }, { mid: '11', }, { mid: '12', }, { mid: '13', }, { mid: '7', }]
 }
 const BOARDS = [
-	{ name: 'To-Do', slug: '[Aiko]/To-Do', emails: [{ mid: '1' }, { mid: '3' }] },
+	{ name: 'Project Planning', slug: '[Aiko]/To-Do', emails: [{ mid: '1' }, { mid: '3' }] },
 	{ name: 'In Progress', slug: '[Aiko]/In Progress', emails: [{ mid: '4', }, { mid: '5', }] },
 	{ name: 'Travel', slug: '[Aiko]/Travel', emails: [{ mid: '8', }, { mid: '10', }, { mid: '14', },] },
 	{ name: 'Done', slug: '[Aiko]/Done', emails: [{ mid: '6', }] }

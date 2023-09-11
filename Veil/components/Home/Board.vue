@@ -116,10 +116,12 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
           dragHandle: '.email-card',
         }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
         @move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }">
+
         <template #item="{ element, index }">
           <EmailCard v-if="resolveEmail(element.mid)" :key="element.mid" :email="resolveEmail(element.mid)"
             :demo="demo" />
         </template>
+
         <template #footer>
           <Empty v-if="!isInbox && (board?.emails ?? []).length == 0">
             <Icon name="drag" color="normal" />
@@ -131,9 +133,8 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
             <ButtonSecondary class="mb-4"> {{ i18n(RosettaStone.boards.board.check_others) }}</ButtonSecondary>
           </Empty>
         </template>
-      </Sortable>
 
-      
+      </Sortable>
 
     </div>
   </div>
@@ -594,10 +595,14 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 }
 
 .count2 {
-  max-width: 30px;
+  max-width: 40px;
   display: inline-block;
   height: 20px;
   padding: 2px 6px;
+  img {
+    padding: 0 0;
+    width: 11px;
+  }
 }
 
 .small .count2 {
