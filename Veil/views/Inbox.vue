@@ -16,8 +16,9 @@ Log.success("Mounted application.");
 <style lang="scss" scoped>
 .main {
   width: calc(100% - 170px);
-  height: 100%;
+  height: calc(100% - 10px);
   overflow: hidden;
+  margin-top: 10px;
 }
 
 .main.collapsed-sidebar {

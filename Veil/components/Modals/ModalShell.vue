@@ -10,12 +10,12 @@ defineProps<{
 <template>
   <div class="backdrop" @click="selectedModal = Modal.None" />
   <div :class="{
-      'modal': true,
-      'small': size == 'small' || size == 's' || size == 'thin',
-      'medium': size == 'medium' || size == 'm' || size == 'normal',
-      'large': size == 'large' || size == 'l' || size == 'big',
-      'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
-    }">
+    'modal': true,
+    'small': size == 'small' || size == 's' || size == 'thin',
+    'medium': size == 'medium' || size == 'm' || size == 'normal',
+    'large': size == 'large' || size == 'l' || size == 'big',
+    'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
+  }">
     <div class="esc">
       {{ i18n(RosettaStone.modals.shell.text) }}
     </div>
@@ -27,7 +27,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .modal {
-  background-color: var(--p-opaque);
+  background-color: var(--primary-background-color);
   position: absolute;
   top: 50%;
   left: 50%;

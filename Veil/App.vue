@@ -80,16 +80,8 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
 .app {
   width: 100%;
   height: 100%;
-  padding: 0px 0 0 0;
+  padding: 0 !important;
   background-color: transparent;
   display: inline-flex;
-
-  &.fullscreen {
-    padding: 0 !important;
-  }
-
-  &.mac {
-    padding: 16px 0 0 0;
-  }
 }
 </style>@Veil/state/common@Veil/state/common@Veil/state/common

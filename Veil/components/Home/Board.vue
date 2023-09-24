@@ -87,9 +87,9 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 
 
       <div :class="{
-          'switch': true,
-          'demoswitch': demo
-        }
+        'switch': true,
+        'demoswitch': demo
+      }
         " v-if="isInbox" @mouseover="infoContent = infoPriorityOther" @mouseleave="infoContent = ''">
         <div class="tab active">
           {{ i18n(RosettaStone.boards.board.priority) }}
@@ -110,11 +110,11 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
     <div class="board-body" draggable="false">
 
       <Sortable :list="board?.emails ?? []" item-key="mid" tag="div" style="min-height: 100%;" :options="{
-          draggable: '.email-card',
-          ghostClass: 'ghost',
-          group: { name: 'emails' },
-          dragHandle: '.email-card',
-        }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
+        draggable: '.email-card',
+        ghostClass: 'ghost',
+        group: { name: 'emails' },
+        dragHandle: '.email-card',
+      }" class="dragarea" @end="(event: SortableJS.SortableEvent) => Log.info('Drag end', event)"
         @move.capture="(event: SortableJS.MoveEvent, event2: Event) => { Log.info('Drag move', event, event2); return true }">
 
         <template #item="{ element, index }">
@@ -303,7 +303,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   position: absolute;
   right: 0;
   margin-right: 10px;
-  height: 35px;
+  height: 37px;
   margin-top: -5px;
   color: var(--primary-font-color);
   border-radius: var(--primary-border-radius);
@@ -315,7 +315,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 .board .tab {
   display: inline-flex;
   background-color: var(--primary-background-color);
-  padding: 3px 5px 3px 7px;
+  padding: 5px 5px 3px 7px;
   opacity: .8;
   letter-spacing: .2px;
   transition: .1s;
@@ -599,6 +599,7 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   display: inline-block;
   height: 20px;
   padding: 2px 6px;
+
   img {
     padding: 0 0;
     width: 11px;

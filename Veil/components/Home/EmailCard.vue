@@ -106,13 +106,13 @@ const quickReplyScribeVoice = async () => {
 
 <template>
   <div v-if="email" :class="{
-      'qr': isQuickReplyOpen,
-      'email-card': true,
-      'democard': demo,
-      'unread': true,
-      'starred': false,
-      'selected': false,
-    }">
+    'qr': isQuickReplyOpen,
+    'email-card': true,
+    'democard': demo,
+    'unread': true,
+    'starred': false,
+    'selected': false,
+  }">
     <div class="row">
       <div class="col-9 p0 sender">
         {{ email.sender }}
@@ -266,7 +266,7 @@ const quickReplyScribeVoice = async () => {
 }
 
 .email-card:hover {
-  background: var(--secondary-background-color-hover);
+  filter: brightness(0.8);
   box-shadow: none;
   transition: .2s;
 }

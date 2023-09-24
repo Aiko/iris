@@ -60,7 +60,8 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
       <div class="space-actions">
         <span v-if="!Sidebar.collapsed">
-          <Icon name="square-rounded" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces) }}
+          <Icon name="square-rounded" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces)
+          }}
         </span>
       </div>
 
@@ -121,8 +122,8 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar {
   width: 170px;
   height: 100%;
-  background-color: var(--sidebar-bg);
-  padding: 12px 10px;
+  background-color: var(--primary-background-color);
+  padding: 25px 10px 10px 10px;
   position: relative;
   z-index: 1;
   box-shadow: var(--sidebar-shadow);
@@ -205,6 +206,10 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 30px;
   width: 30px;
   padding: 5px 6px;
+}
+
+.fullscreen .sidebar {
+  padding: 10px 10px 10px 10px !important;
 }
 
 .composecont .norm {

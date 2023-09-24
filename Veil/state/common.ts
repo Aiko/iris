@@ -12,7 +12,7 @@ export const isRegularView = ref(false)
 export const isLoading = ref(false)
 export const infoContent = ref('')
 export const isComposerSidebarCollapsed = ref(true)
-export const isEmailSidebarCollapsed = ref(true)
+export const isEmailSidebarCollapsed = ref(false)
 export const isDevControlsCollapsed = ref(true)
 export const devMode = ref(false)
 

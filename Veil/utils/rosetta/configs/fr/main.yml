@@ -143,6 +143,9 @@ messages:
       email: Email
       send_new: Envoyer un nouvel email
       related_emails: Emails connexes
+      notes: Notes
+      show_more: Plus
+      summary: Synthèse
     feedback:
       step1: Étape 1
       download_files: Télécharger le fichier de "logs"
@@ -173,6 +176,7 @@ messages:
     from: de
     cc: CC
     to: à
+    bcc: CCI
 
   composer: #! COMPOSER ------------------------------------------------
     font: Couleur de la police

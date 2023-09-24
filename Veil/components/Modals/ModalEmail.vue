@@ -25,7 +25,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
         <Icon name="sidebar-collapse" color="grey" />{{ i18n(RosettaStone.modals.email.show_participants) }}
       </p>
       <p class="collapse-info closed" @click="toggleEmailSidebar()">
-        <Icon name="close" color="grey" />
+        <Icon name="sidebar-collapse" color="grey" />
       </p>
       <div class="content" v-if="!isEmailSidebarCollapsed">
         <h1>{{ i18n(RosettaStone.modals.email.participants) }}</h1>
@@ -40,9 +40,8 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
+                <div><span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -55,9 +54,8 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
+                <div><span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -70,9 +68,8 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
+                <div><span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
@@ -85,23 +82,32 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
                 Ruben Touitou
               </div>
               <div class="details">
-                <div>{{ i18n(RosettaStone.modals.email.email) }} <span>rubentouitou@gmail.com</span></div>
+                <div><span>rubentouitou@gmail.com</span></div>
               </div>
-              <ButtonSecondary>{{ i18n(RosettaStone.modals.email.send_new) }}</ButtonSecondary>
             </div>
           </div>
 
-
+          <div class="show-more">
+            {{ i18n(RosettaStone.modals.email.show_more) }}
+          </div>
         </div>
 
-        <h1>{{ i18n(RosettaStone.modals.email.related_emails) }}</h1>
-        <div class="related-emails">
-          <EmailCard />
-          <EmailCard />
-          <EmailCard />
-          <EmailCard />
-          <EmailCard />
+        <h1>{{ i18n(RosettaStone.modals.email.summary) }}</h1>
+        <div class="summary">
+          This is the summary of the thread here, john said this and john said that you know.
+          <div class="show-more">
+            {{ i18n(RosettaStone.modals.email.show_more) }}
+          </div>
+        </div>
 
+        <h1>{{ i18n(RosettaStone.modals.email.notes) }}
+
+        </h1>
+        <div class="notes">
+          <textarea placeholder="Notes" />
+          <div class="show-more">
+            {{ i18n(RosettaStone.modals.email.show_more) }}
+          </div>
         </div>
       </div>
     </div>
@@ -117,6 +123,42 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   text-align: unset;
 }
 
+.summary {
+  width: 100%;
+  max-height: 150px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: var(--primary-font-color);
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  padding: 10px 8px;
+}
+
+.notes {
+  width: 100%;
+  max-height: 150px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: var(--primary-font-color);
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  padding: 10px 8px;
+}
+
+.notes textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--primary-font-color);
+  resize: none;
+  outline: none;
+  font-size: 14px;
+  padding: 0;
+}
+
 .left {
   width: calc(100% - 300px);
   position: relative;
@@ -129,10 +171,11 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
 .right {
   width: 300px;
-  padding: 15px;
+  padding: 10px;
   position: relative;
   height: 100%;
   overflow: hidden;
+  border: 5px solid var(--primary-background-color);
   background: var(--secondary-background-color);
   transition: .1s;
 }
@@ -154,22 +197,43 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   position: absolute;
   top: 0;
   left: 0;
-  margin-left: 5px;
   margin-top: 15px;
   cursor: default;
   height: 100%;
 }
 
 .open img {
-  width: 18px;
+  width: 15px;
   margin-left: -11px;
   margin-bottom: 5px;
 }
 
+.show-more {
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  font-size: 13px;
+  padding: 3px;
+  border-radius: var(--primary-border-radius);
+  cursor: pointer;
+  color: var(--primary-font-color);
+  z-index: 1;
+  background: var(--primary-background-color);
+  border: 1px solid var(--primary-background-color);
+  transition: .2s;
+}
+
+.show-more:hover {
+  background: var(--secondary-background-color);
+  border: 1px solid var(--primary-background-color);
+  transition: .2s;
+}
+
 .closed img {
-  width: 13px;
-  margin-left: -7px;
-  margin-bottom: 5px;
+  width: 17px;
+  position: absolute;
+  left: 0;
+  margin-left: 5px;
 }
 
 .collapse-info.open {
@@ -178,6 +242,8 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
 .collapse-info.closed {
   display: unset;
+  height: 30px;
+  width: 100%;
 }
 
 .collapsed .collapse-info.open {
@@ -199,18 +265,21 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 }
 
 .photo img {
-  width: 55px;
-  border: 4px solid var(--primary-background-color);
+  width: 36px;
+  border: 4px solid var(--secondary-background-color);
   border-radius: 50%;
+  margin-top: 2px;
 }
 
 .sender {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .name {
   width: 100%;
   overflow: hidden;
+  margin-bottom: -4px;
+  font-size: 14px;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--strong-font-color);
@@ -233,22 +302,33 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 }
 
 .details div span {
-  color: var(--strong-font-color);
+  font-size: 13px;
+  color: var(--primary-font-color);
 }
 
 .participant {
   display: inline-flex;
   width: 100%;
   overflow: hidden;
-  padding: 10px 0;
+  padding: 5px 0 0 0;
   border-bottom: 1px solid var(--primary-background-color);
+  cursor: pointer;
+  transition: .2s;
+}
+
+.participant:hover {
+  filter: brightness(.8);
+  transition: .2s;
 }
 
 .participants {
   width: 100%;
-  height: calc(50% - 30px);
-  overflow: scroll;
-  margin-bottom: 25px;
+  height: 238px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  padding: 3px 8px;
 }
 
 .related-emails {

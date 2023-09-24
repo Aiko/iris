@@ -143,6 +143,9 @@ messages:
       email: Email
       send_new: Send a new email
       related_emails: Related Emails
+      notes: Notes
+      show_more: Show more
+      summary: Summary
     feedback:
       step1: Step 1
       download_files: Download the "logs" file
@@ -171,8 +174,9 @@ messages:
 
   email: #! EMAIL ------------------------------------------------
     from: from
-    cc: cc
+    cc: CC
     to: to
+    bcc: BCC
 
   composer: #! COMPOSER ------------------------------------------------
     font: Select font color

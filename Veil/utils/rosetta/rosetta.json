@@ -1278,6 +1278,36 @@
             "default": "Emails connexes"
           }
         }
+      },
+      "notes": {
+        "definitions": {
+          "default": {
+            "default": "Notes"
+          },
+          "fr": {
+            "default": "Notes"
+          }
+        }
+      },
+      "show_more": {
+        "definitions": {
+          "default": {
+            "default": "Show more"
+          },
+          "fr": {
+            "default": "Plus"
+          }
+        }
+      },
+      "summary": {
+        "definitions": {
+          "default": {
+            "default": "Summary"
+          },
+          "fr": {
+            "default": "Synthèse"
+          }
+        }
       }
     },
     "feedback": {
@@ -1505,7 +1535,7 @@
     "cc": {
       "definitions": {
         "default": {
-          "default": "cc"
+          "default": "CC"
         },
         "fr": {
           "default": "CC"
@@ -1519,6 +1549,16 @@
         },
         "fr": {
           "default": "à"
+        }
+      }
+    },
+    "bcc": {
+      "definitions": {
+        "default": {
+          "default": "BCC"
+        },
+        "fr": {
+          "default": "CCI"
         }
       }
     }

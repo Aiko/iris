@@ -19,6 +19,12 @@ const grimaldi = new Grimaldi()
 </script>
 
 <template>
+  <!--
+  composer:
+  make extension button with drawer, remove zoom calendly
+  -->
+
+
   <div :class="{
     'composer': true,
     'collapsed': isComposerSidebarCollapsed,
