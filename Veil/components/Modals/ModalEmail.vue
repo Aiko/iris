@@ -33,7 +33,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
         <div class="participants">
           <div class="participant">
             <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
+              <Icon name="user" color="normal" />
             </div>
             <div class="sender">
               <div class="name">
@@ -47,7 +47,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
           <div class="participant">
             <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
+              <Icon name="user" color="normal" />
             </div>
             <div class="sender">
               <div class="name">
@@ -61,7 +61,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
           <div class="participant">
             <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
+              <Icon name="user" color="normal" />
             </div>
             <div class="sender">
               <div class="name">
@@ -75,7 +75,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 
           <div class="participant">
             <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
+              <Icon name="user" color="normal" />
             </div>
             <div class="sender">
               <div class="name">
@@ -265,10 +265,12 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
 }
 
 .photo img {
-  width: 36px;
-  border: 4px solid var(--secondary-background-color);
+  width: 35px;
+  height: 35px;
+  border: 3px solid var(--secondary-background-color);
   border-radius: 50%;
   margin-top: 2px;
+  padding: 2px;
 }
 
 .sender {

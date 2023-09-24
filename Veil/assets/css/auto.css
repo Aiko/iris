@@ -7,13 +7,13 @@
 
   /* Background colors (Application, elements and windows) */
   --primary-background-color: #8b94d417;
-  --secondary-background-color: #080a188a;
+  --secondary-background-color: #1a1b2196;
 
-  --modal-backdrop: #0b0c1bf2;
+  --modal-backdrop: #16171ef2;
 
   /* Fonts */
   --primary-font: "";
-  --primary-font-color: #9697c7;
+  --primary-font-color: #8687a2;
   --strong-font-color: #ffffff;
   --body-font-size: 14px;
   --small-font-size: 13px;
@@ -43,7 +43,7 @@
 }
 
 body {
-  background-color: #00023f29;
+  background-color: #00023f0f;
 }
 
 @media screen and (prefers-color-scheme: light) {

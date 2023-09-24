@@ -19,7 +19,7 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
 
           <div class="col-9 p0">
             <div class="photo">
-              <img src="@Veil/assets/img/user.png" />
+              <Icon name="user" color="normal" />
             </div>
             <div class="name">
               Ruben Touitou
@@ -79,8 +79,10 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
 <style lang="scss" scoped>
 .photo img {
   width: 35px;
-  border: 4px solid var(--primary-background-color);
+  height: 35px;
+  border: 3px solid var(--secondary-background-color);
   border-radius: 50%;
+  padding: 2px;
 }
 
 .photo {
