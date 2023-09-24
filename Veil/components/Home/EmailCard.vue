@@ -266,7 +266,7 @@ const quickReplyScribeVoice = async () => {
 }
 
 .email-card:hover {
-  filter: brightness(0.8);
+  filter: brightness(1.1);
   box-shadow: none;
   transition: .2s;
 }

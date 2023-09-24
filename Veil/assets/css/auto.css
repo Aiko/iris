@@ -6,8 +6,8 @@
   --primary-color-hover: #4366e8;
 
   /* Background colors (Application, elements and windows) */
-  --primary-background-color: #8b94d417;
-  --secondary-background-color: #1a1b2196;
+  --primary-background-color: #8b94d424;
+  --secondary-background-color: #181920b0;
 
   --modal-backdrop: #16171ef2;
 
@@ -43,7 +43,7 @@
 }
 
 body {
-  background-color: #00023f0f;
+  background-color: #00011140;
 }
 
 @media screen and (prefers-color-scheme: light) {
