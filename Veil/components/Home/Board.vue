@@ -60,8 +60,8 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
           <div @click="size = 'large'" @mouseover="infoContent = info_large" @mouseleave="infoContent = ''">L</div>
         </div>
         {{ board?.name ?? "New Board" }}
-        <div class="count count2">
-          {{ board?.emails.length }}
+        <div class=" share count2">
+          <Icon name="users" color="normal" />3
         </div>
       </h1>
 
@@ -601,8 +601,8 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   padding: 2px 6px;
 
   img {
-    padding: 0 0;
-    width: 11px;
+    padding: 0 2px 3px 0;
+    width: 17px;
   }
 }
 
@@ -619,5 +619,23 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 
 .small .small-board-click-area {
   display: unset;
+}
+
+.share {
+  padding: 2px 4px;
+  min-width: 20px;
+  margin-left: 5px;
+  font-size: 13px;
+  height: 20px;
+  margin-top: 3px;
+  text-align: center;
+  background: var(--secondary-background-color);
+  border-radius: var(--primary-border-radius);
+  transition: .2s;
+}
+
+.share:hover {
+  filter: brightness(1.2);
+  transition: .1s;
 }
 </style>@Veil/state/common
