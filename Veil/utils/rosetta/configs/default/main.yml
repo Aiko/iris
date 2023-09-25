@@ -60,6 +60,8 @@ messages:
       info_small: "Board size: Small"
       info_medium: "Board size: Medium"
       info_large: "Board size: Large"
+      count_share: "Number of people you share this board with"
+      count_unread: "Number of unread emails in this board"
     email_cards:
       reply: Reply to this email
       reply_all: Reply to all participants in this email

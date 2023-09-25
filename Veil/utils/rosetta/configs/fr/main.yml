@@ -60,6 +60,8 @@ messages:
       info_small: "Taille du Board: Petit"
       info_medium: "Taille du Board: Moyen"
       info_large: "Taille du Board: Grand"
+      count_share: "Partagé avec # personnes"
+      count_unread: "# non-lus"
     email_cards:
       reply: Répondre à cet email
       reply_all: Répondre à tous les participants dans cet email

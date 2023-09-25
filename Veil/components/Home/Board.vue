@@ -34,6 +34,9 @@ const infoBoardRules = i18n(RosettaStone.boards.board.board_rules)
 const info_small = i18n(RosettaStone.boards.board.info_small)
 const info_medium = i18n(RosettaStone.boards.board.info_medium)
 const info_large = i18n(RosettaStone.boards.board.info_large)
+
+const count_share = i18n(RosettaStone.boards.board.count_share)
+const count_unread = i18n(RosettaStone.boards.board.count_unread)
 </script>
 
 <template>
@@ -59,9 +62,13 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
           <div @click="size = 'medium'" @mouseover="infoContent = info_medium" @mouseleave="infoContent = ''">M</div>
           <div @click="size = 'large'" @mouseover="infoContent = info_large" @mouseleave="infoContent = ''">L</div>
         </div>
-        {{ board?.name ?? "New Board" }}
-        <div class=" share count2">
+        <span> {{ board?.name ?? "New Board" }} </span>
+        <!--TODO: Simply remove the number when board isnt shared, this turns the share count to a share button to initiate share modal-->
+        <div class="share count2" @mouseover="infoContent = count_share" @mouseleave="infoContent = ''">
           <Icon name="users" color="normal" />3
+        </div>
+        <div class="count count2 mail" @mouseover="infoContent = count_unread" @mouseleave="infoContent = ''">
+          <Icon name="mail" color="normal" />3
         </div>
       </h1>
 
@@ -459,6 +466,14 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
   margin-left: -12px;
 }
 
+.medium .board-header .board-width-trigger span {
+  max-width: 85px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  margin-bottom: -3px;
+}
+
 .medium .option {
   width: 100%;
   padding: 0;
@@ -637,5 +652,22 @@ const info_large = i18n(RosettaStone.boards.board.info_large)
 .share:hover {
   filter: brightness(1.2);
   transition: .1s;
+}
+
+.mail img {
+  width: 16px;
+  padding-right: 3px;
+}
+
+.medium .mail {
+  display: none;
+}
+
+.small .share {
+  display: none;
+}
+
+.small .mail img {
+  display: none;
 }
 </style>@Veil/state/common

@@ -530,6 +530,26 @@
             "default": "Taille du Board: Grand"
           }
         }
+      },
+      "count_share": {
+        "definitions": {
+          "default": {
+            "default": "Number of people you share this board with"
+          },
+          "fr": {
+            "default": "Partagé avec # personnes"
+          }
+        }
+      },
+      "count_unread": {
+        "definitions": {
+          "default": {
+            "default": "Number of unread emails in this board"
+          },
+          "fr": {
+            "default": "# non-lus"
+          }
+        }
       }
     },
     "email_cards": {
