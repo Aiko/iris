@@ -467,7 +467,7 @@ const count_unread = i18n(RosettaStone.boards.board.count_unread)
 }
 
 .medium .board-header .board-width-trigger span {
-  max-width: 85px;
+  max-width: 95px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
