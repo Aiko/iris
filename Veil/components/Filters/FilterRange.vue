@@ -15,7 +15,7 @@
 
 <style lang="scss" scoped>
 .filter-range {
-  cursor: pointer;
+
   opacity: .8;
   transition: .2s;
   width: 100%;

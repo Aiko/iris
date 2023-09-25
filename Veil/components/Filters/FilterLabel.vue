@@ -40,7 +40,7 @@ const toggleSearch = () => (isSearchOpen.value = !isSearchOpen.value);
 .filter-search-icon {
   float: right;
   display: inline-block;
-  cursor: pointer;
+
   opacity: .6;
   padding: 4px;
   width: 23px;

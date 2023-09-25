@@ -39,13 +39,13 @@ input {
   transition: .2s;
   border: 1px solid var(--primary-background-color);
   padding: 3px 7px;
-  cursor: pointer;
+
 }
 
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
   opacity: .6;
-  cursor: pointer;
+
 }
 
 .spacer5 {

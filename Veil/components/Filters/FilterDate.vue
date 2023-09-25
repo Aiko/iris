@@ -18,7 +18,7 @@ input {
   height: 30px;
   transition: .2s;
   width: 100%;
-  cursor: pointer;
+
   opacity: .8;
 }
 
@@ -30,6 +30,6 @@ input:hover {
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
   opacity: .6;
-  cursor: pointer;
+
 }
 </style>

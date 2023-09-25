@@ -215,7 +215,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   font-size: 13px;
   padding: 3px;
   border-radius: var(--primary-border-radius);
-  cursor: pointer;
+
   color: var(--primary-font-color);
   z-index: 1;
   background: var(--primary-background-color);
@@ -314,7 +314,7 @@ const toggleEmailSidebar = () => isEmailSidebarCollapsed.value = !(isEmailSideba
   overflow: hidden;
   padding: 5px 0 0 0;
   border-bottom: 1px solid var(--primary-background-color);
-  cursor: pointer;
+
   transition: .2s;
 }
 

@@ -46,7 +46,7 @@ const toggleMenu = () => (isOpen.value = !isOpen.value);
     color: var(--primary-font-color);
     outline: none !important;
     width: 100%;
-    cursor: pointer;
+
     height: 30px;
     position: relative;
     user-select: none;

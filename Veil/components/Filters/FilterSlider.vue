@@ -21,7 +21,7 @@ const mid = (props.min + props.max) / 2
     appearance: none;
     width: 100%;
     height: 5px;
-    cursor: pointer;
+
     background: var(--primary-background-color);
     outline: none;
     opacity: 0.8;
@@ -42,7 +42,7 @@ const mid = (props.min + props.max) / 2
     height: 10px;
     border-radius: 50%;
     background: var(--strong-font-color);
-    cursor: pointer;
+
 }
 
 .slider::-moz-range-thumb {
@@ -50,7 +50,7 @@ const mid = (props.min + props.max) / 2
     height: 10px;
     border-radius: 50%;
     background: var(--strong-font-color);
-    cursor: pointer;
+
 }
 
 .filter-slider-label {

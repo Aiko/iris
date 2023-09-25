@@ -115,7 +115,7 @@ const toggleEmailCollapse = () => emailCollapse.value = !(emailCollapse.value)
 .actions div span {
   margin-top: 15px;
   width: 180px;
-  cursor: pointer;
+
 }
 
 .show {

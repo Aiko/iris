@@ -34,7 +34,7 @@ const props = defineProps<{
   display: inline-block;
   color: var(--primary-font-color);
   font-size: 14px;
-  cursor: pointer;
+
   transition: .2s;
 }
 
@@ -54,7 +54,7 @@ const props = defineProps<{
   text-align: center;
   color: var(--primary-font-color);
   font-size: 13px;
-  cursor: pointer;
+
   margin-top: 10px;
   transition: .2s;
   border: 1px solid var(--primary-background-color);

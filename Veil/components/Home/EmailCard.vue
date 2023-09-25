@@ -550,7 +550,7 @@ const quickReplyScribeVoice = async () => {
 
 .email-card .bottom .quick-action span {
   position: relative;
-  cursor: pointer;
+
   display: inline-flex;
   height: 27px;
   transition: .1s;
