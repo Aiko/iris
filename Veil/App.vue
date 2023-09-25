@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
     <ModalBoardRules />
   </ModalShell>
 
-  <ModalShell size="large" v-if="true">
+  <ModalShell size="large" v-if="selectedModal == Modal.Email">
     <ModalEmail />
   </ModalShell>
 

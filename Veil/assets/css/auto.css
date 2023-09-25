@@ -7,14 +7,14 @@
 
   /* Background colors (Application, elements and windows) */
   --primary-background-color: #8b94d424;
-  --secondary-background-color: #181920b0;
+  --secondary-background-color: #181920db;
 
   --modal-backdrop: #16171ef2;
 
   /* Fonts */
   --primary-font: "";
-  --primary-font-color: #8687a2;
-  --strong-font-color: #ffffff;
+  --primary-font-color: #b6b8d6;
+  --strong-font-color: #dddee9;
   --body-font-size: 14px;
   --small-font-size: 13px;
 
