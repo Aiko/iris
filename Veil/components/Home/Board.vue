@@ -63,12 +63,12 @@ const count_unread = i18n(RosettaStone.boards.board.count_unread)
           <div @click="size = 'large'" @mouseover="infoContent = info_large" @mouseleave="infoContent = ''">L</div>
         </div>
         <span> {{ board?.name ?? "New Board" }} </span>
-        <!--TODO: Simply remove the number when board isnt shared, this turns the share count to a share button to initiate share modal-->
-        <div class="share count2" @mouseover="infoContent = count_share" @mouseleave="infoContent = ''">
-          <Icon name="users" color="normal" />3
-        </div>
+
         <div class="count count2 mail" @mouseover="infoContent = count_unread" @mouseleave="infoContent = ''">
-          <Icon name="mail" color="normal" />3
+          3
+        </div>
+        <div class="share count2" @mouseover="infoContent = count_share" @mouseleave="infoContent = ''">
+          <Icon name="users" color="normal" />
         </div>
       </h1>
 
@@ -616,8 +616,8 @@ const count_unread = i18n(RosettaStone.boards.board.count_unread)
   padding: 2px 6px;
 
   img {
-    padding: 0 2px 3px 0;
-    width: 17px;
+    padding: 0 0px 3px 0;
+    width: 15px;
   }
 }
 
