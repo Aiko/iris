@@ -1,8 +1,10 @@
 <script lang="ts" setup>
 import { ref } from '@vue/reactivity'
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
+import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+
 
 enum Option {
   Align,
@@ -21,6 +23,19 @@ let selectedOption = ref(Option.None)
 
 
     <!--All Options-->
+    <ButtonPrimary class="send-btn">
+      <Icon name="sent" color="white" />
+      {{ i18n(RosettaStone.composer.send) }}
+    </ButtonPrimary>
+    <ButtonSecondary>
+      <Icon name="attachment" color="normal" />
+    </ButtonSecondary>
+    <ButtonSecondary>
+      <Icon name="mood-smile" color="normal" />
+    </ButtonSecondary>
+    <ButtonSecondary>
+      <Icon name="puzzle" color="normal" />
+    </ButtonSecondary>
     <ButtonSecondary active>
       <Icon name="bold" color="normal" />
     </ButtonSecondary>
@@ -45,9 +60,6 @@ let selectedOption = ref(Option.None)
     <ButtonSecondary>
       <Icon name="code" color="normal" />
     </ButtonSecondary>
-
-
-
 
 
 
@@ -112,7 +124,9 @@ let selectedOption = ref(Option.None)
   position: relative;
   white-space: nowrap;
   overflow-x: scroll;
-  overflow: visible;
+  position: absolute;
+  bottom: 0;
+  margin-bottom: 20px;
 }
 
 a {
@@ -120,6 +134,20 @@ a {
   opacity: .8;
   border: 1px solid transparent;
   transition: .1s;
+}
+
+.composer-options a {
+  padding: 2px;
+}
+
+.composer-options a:hover {
+  padding: 2px;
+  border: 1px solid transparent !important;
+}
+
+.composer-options a img {
+  height: 25px;
+  padding: 2px;
 }
 
 a:hover {
@@ -134,6 +162,17 @@ a:hover {
   border: 1px solid var(--primary-background-color) !important;
   opacity: 1;
   transition: .1s;
+}
+
+.send-btn img {
+  width: 18px !important;
+  height: unset !important;
+}
+
+.send-btn {
+  font-weight: 500;
+  height: 100%;
+  padding: 5px !important;
 }
 
 .expanded {

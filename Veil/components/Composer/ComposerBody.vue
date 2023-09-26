@@ -18,7 +18,7 @@ defineProps<{
 
 <style lang="scss" scoped>
 .composer-body {
-  height: calc(100% - 340px);
+  height: calc(100% - 135px);
   width: 100%;
 }
 

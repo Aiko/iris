@@ -71,6 +71,7 @@ import chevrondown from "@Veil/assets/icons/chevron-down.svg"
 import share from "@Veil/assets/icons/share.svg"
 import squareRounded from "@Veil/assets/icons/square-rounded.svg"
 import users from "@Veil/assets/icons/users.svg"
+import puzzle from "@Veil/assets/icons/puzzle.svg"
 
 
 export default {
@@ -146,5 +147,6 @@ export default {
 	"chevron-down": chevrondown,
 	"share": share,
 	"square-rounded": squareRounded,
-	"users": users
+	"users": users,
+	"puzzle": puzzle
 }

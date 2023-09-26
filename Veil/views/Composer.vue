@@ -30,11 +30,7 @@ const grimaldi = new Grimaldi()
     'collapsed': isComposerSidebarCollapsed,
   }">
     <div class="left">
-
-
-
       <ComposerField :placeholder="i18n(RosettaStone.composer.to)" />
-
       <ComposerField :placeholder="i18n(RosettaStone.composer.cc)" />
       <ButtonSecondary class="extra-btn" @click="toggleComposerBCC">{{ i18n(RosettaStone.composer.bcc) }}
       </ButtonSecondary>
@@ -44,37 +40,10 @@ const grimaldi = new Grimaldi()
 
       <!-- TODO: Only show 'From' field if they have multiple mailboxes -->
       <ComposerField :placeholder="i18n(RosettaStone.composer.from)" v-if="false" />
-
       <ComposerField :placeholder="i18n(RosettaStone.composer.subject)" />
-
       <ComposerBody :grimaldi="grimaldi" />
 
       <ComposerOptions />
-
-      <div class="bottom">
-        <ButtonPrimary class="send-btn">
-          <Icon name="sent" color="white" />
-          {{ i18n(RosettaStone.composer.send) }}
-        </ButtonPrimary>
-        <ButtonSecondary>
-          <Icon name="scribe" color="normal" class="scribe-icon" />
-        </ButtonSecondary>
-        <ButtonSecondary>
-          <Icon name="attachment" color="normal" class="scribe-icon" />
-        </ButtonSecondary>
-        <ButtonSecondary>
-          <Icon name="link" color="normal" class="scribe-icon" />
-        </ButtonSecondary>
-        <ButtonSecondary>
-          <Icon name="mood-smile" color="normal" class="scribe-icon" />
-        </ButtonSecondary>
-        <ButtonSecondary>
-          <Icon name="calendly" class="calendly" />
-        </ButtonSecondary>
-        <ButtonSecondary>
-          <Icon name="zoom" class="zoom" />
-        </ButtonSecondary>
-      </div>
 
     </div>
 
@@ -95,14 +64,15 @@ const grimaldi = new Grimaldi()
   overflow: hidden;
   height: 100%;
   display: inline-flex;
+  padding-top: 25px;
 }
 
-.bottom {
-  height: 50px;
-  padding: 10px;
-  background: var(--primary-background-color);
-  white-space: nowrap;
-  overflow: scroll;
+.fullscreen .composer {
+  padding-top: 0px;
+}
+
+.fullscreen .collapse-info {
+  padding-top: 10px;
 }
 
 .scribe-icon {
@@ -191,13 +161,6 @@ const grimaldi = new Grimaldi()
   width: 50px;
 }
 
-.send-btn img {
-  width: 18px;
-}
-
-.send-btn {
-  font-weight: 500;
-}
 
 .extra-btn {
   position: absolute;
