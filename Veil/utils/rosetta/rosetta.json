@@ -1496,6 +1496,78 @@
         }
       }
     },
+    "share_board": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Share this board"
+          },
+          "fr": {
+            "default": "Partager ce Board"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Share this board with other people"
+          },
+          "fr": {
+            "default": "Partagez ce Board avec un ami ou un collègue"
+          }
+        }
+      },
+      "email_address": {
+        "definitions": {
+          "default": {
+            "default": "Email address"
+          },
+          "fr": {
+            "default": "Email"
+          }
+        }
+      },
+      "current": {
+        "definitions": {
+          "default": {
+            "default": "Currently shared with"
+          },
+          "fr": {
+            "default": "Actuellement partagé avec"
+          }
+        }
+      },
+      "done": {
+        "definitions": {
+          "default": {
+            "default": "Done"
+          },
+          "fr": {
+            "default": "Terminé"
+          }
+        }
+      },
+      "add": {
+        "definitions": {
+          "default": {
+            "default": "Add"
+          },
+          "fr": {
+            "default": "Ajouter"
+          }
+        }
+      },
+      "remove": {
+        "definitions": {
+          "default": {
+            "default": "Remove"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      }
+    },
     "shell": {
       "text": {
         "definitions": {

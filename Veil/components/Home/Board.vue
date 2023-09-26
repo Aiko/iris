@@ -67,7 +67,8 @@ const count_unread = i18n(RosettaStone.boards.board.count_unread)
         <div class="count count2 mail" @mouseover="infoContent = count_unread" @mouseleave="infoContent = ''">
           3
         </div>
-        <div class="share count2" @mouseover="infoContent = count_share" @mouseleave="infoContent = ''">
+        <div class="share count2" @mouseover="infoContent = count_share" @mouseleave="infoContent = ''"
+          @click="selectedModal = Modal.ShareBoard">
           <Icon name="users" color="normal" />
         </div>
       </h1>

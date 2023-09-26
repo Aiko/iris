@@ -16,6 +16,7 @@ import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
+import ModalShareBoard from '@Veil/components/Modals/ModalShareBoard.vue'
 import devtools from '@vue/devtools'
 if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
@@ -73,6 +74,10 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
 
   <ModalShell size="medium" v-if="selectedModal == Modal.Feedback">
     <ModalFeedback />
+  </ModalShell>
+
+  <ModalShell size="medium" v-if="selectedModal == Modal.ShareBoard">
+    <ModalShareBoard />
   </ModalShell>
 </template>
 

@@ -18,7 +18,7 @@ const toggleExtraRule = () => isExtraRule.value = !(isExtraRule.value)
 
 <template>
   <div class="modal-board-rules">
-    <Icon name="board" color="accent" />
+    <Icon name="board" color="normal" />
     <h1>
       {{ i18n(RosettaStone.modals.board_rules.title) }}
     </h1>

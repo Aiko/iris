@@ -167,6 +167,14 @@ messages:
       subtitle: Once they accept, they will be added to your plan at the current price per seat.
       email_address: Email address
       btn: Invite
+    share_board:
+      title: Share this board
+      subtitle: Share this board with other people
+      email_address: Email address
+      current: Currently shared with
+      done: Done
+      add: Add
+      remove: Remove
     shell:
       text: Click anywhere outside of this window or press ESC to exit
     upgrade:

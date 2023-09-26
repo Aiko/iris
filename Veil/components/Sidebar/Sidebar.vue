@@ -41,19 +41,19 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="square-rounded" color="accent" />
+        <Icon name="square-rounded" color="normal" />
         <span class="name">Legal</span>
         <span class="count">3</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="square-rounded" color="accent" />
+        <Icon name="square-rounded" color="normal" />
         <span class="name">Accounting</span>
         <span class="count">9</span>
       </NavLink>
 
       <NavLink class="space">
-        <Icon name="square-rounded" color="accent" />
+        <Icon name="square-rounded" color="normal" />
         <span class="name">Personal</span>
         <span class="count">0</span>
       </NavLink>

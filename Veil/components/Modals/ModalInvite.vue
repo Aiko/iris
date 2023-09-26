@@ -6,7 +6,7 @@ import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 <template>
   <div class="modal-invite">
-    <Icon name="user" color="accent" />
+    <Icon name="user" color="normal" />
     <h1>{{ i18n(RosettaStone.modals.invite.title) }}</h1>
     <input placeholder="Email address" autofocus />
     <p>{{ i18n(RosettaStone.modals.invite.subtitle) }}</p>

@@ -18,7 +18,7 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
     'imap-open': isIMAPInputShowing
   }">
     <div v-if="!isIMAPInputShowing">
-      <Icon name="mail" color="accent" />
+      <Icon name="mail" color="normal" />
       <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
       <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle1) }}</p>
       <a><img src="@Veil/assets/img/google.png"></a>
@@ -27,7 +27,7 @@ const toggleIMAPInputShowing = () => isIMAPInputShowing.value = !(isIMAPInputSho
       <ButtonSecondary class="mt-4" @click="toggleIMAPInputShowing()">Enter details manually (IMAP)</ButtonSecondary>
     </div>
     <div class="imap" v-if="isIMAPInputShowing">
-      <Icon name="mail" color="accent" />
+      <Icon name="mail" color="normal" />
       <h1>{{ i18n(RosettaStone.modals.add_mailbox.title) }}</h1>
       <p>{{ i18n(RosettaStone.modals.add_mailbox.subtitle2) }}</p>
       <input :placeholder="i18n(RosettaStone.modals.add_mailbox.form.email)" />

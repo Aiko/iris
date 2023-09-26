@@ -56,13 +56,13 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
         </ButtonSecondary>
         <ButtonSecondary>Open Mouseion</ButtonSecondary>
         <ButtonSecondary>Test IMAP Connection
-          <Icon name="check" color="accent" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
         <ButtonSecondary>Test SMTP Connection
-          <Icon name="check" color="accent" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
         <ButtonSecondary>Test Mail Connection
-          <Icon name="check" color="accent" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
       </div>
     </div>

@@ -39,6 +39,7 @@ export enum Modal {
   Invite,
   InviteTeam,
   Settings,
+  ShareBoard,
   None,
 }
 
