@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import Loader from "@Veil/components/Base/Loader.vue";
 import ButtonSecondary from "./ButtonSecondary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 </script>
 
 <template>
@@ -9,21 +10,21 @@ import ButtonSecondary from "./ButtonSecondary.vue";
       <img src="@Veil/assets/img/logo.svg" alt="logo" />
       <Loader />
 
-      <p class="animate two">Getting new emails onto your device</p>
-      <p class="animate three">Setting up your quick actions</p>
-      <p class="animate four">We're almost done</p>
-      <p class="animate five">Creating summaries locally</p>
-      <p class="animate six">Just a moment</p>
+      <p class="animate two">{{ i18n(RosettaStone.loader.text1) }}</p>
+      <p class="animate three">{{ i18n(RosettaStone.loader.text2) }}</p>
+      <p class="animate four">{{ i18n(RosettaStone.loader.text3) }}</p>
+      <p class="animate five">{{ i18n(RosettaStone.loader.text4) }}</p>
+      <p class="animate six">{{ i18n(RosettaStone.loader.text5) }}</p>
 
     </div>
     <div class="animate2 three bottom">
-      <p>Get familiar with Aiko Mail while you wait</p>
-      <ButtonSecondary text="Watch a demo" href="https://aikomail.com/intro" enabled />
+      <p>{{ i18n(RosettaStone.loader.info) }}</p>
+      <ButtonSecondary :text="i18n(RosettaStone.loader.btn)" href="https://aikomail.com/intro" enabled />
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .loader-screen {
   position: absolute;
   z-index: 1000;

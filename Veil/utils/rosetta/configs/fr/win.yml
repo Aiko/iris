@@ -1,0 +1,7 @@
+lang: fr
+platform: win32
+
+messages:
+  sidebar:
+    toggle_collapse:
+      Ouvrir et fermer la barre latérale (Ctrl + Shift + B)

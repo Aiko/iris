@@ -1,0 +1,307 @@
+lang: fr
+platform: default
+
+messages:
+  sidebar:  #! SIDEBAR ------------------------------------------------
+    menu:
+      compose: Nouveau
+      home: Accueil
+      edit_spaces: Régl. Espaces
+      sent: Envoyés
+      drafts: Brouillons
+      archive: Archive
+      spam: Spam
+      trash: Corbeille
+      feedback_text: Signaler un problème
+      feedback_button: Signaler
+    toggle_collapse: Ouvrir et fermer la barre latérale
+    open_documentation: Ouvrir la documentation
+    open_settings: Ouvrir les réglages
+    open_calendar: Ouvrir le calendrier
+
+  header:  #! HEADER ------------------------------------------------
+    search:
+      placeholder: Recherche
+      tip: Appuyez sur ENTER pour rechercher
+    toasts:
+      sending_email_text: Envoi en cours...
+      sending_email_btn: Annuler
+      voice_state_clicked: Commencez à parler
+      voice_state_clicked_btn:  Annuler
+      voice_state_start: Commencez à parler
+      voice_state_start_btn:  Annuler
+      voice_state_transcribing: Transcription
+      voice_state_transcribing_btn:  Annuler
+      voice_state_writing: Ecriture en cours
+      voice_state_writing_btn:  Annuler
+      email_sent: Email envoyé
+      sending_invite: Envoi de l'invitation...
+      sending_invite_btn: Annuler
+      invite_sent: Invitation envoyée
+      trouble_connecting_internet: Nous rencontrons des difficultés pour nous connecter à Internet
+      trouble_connecting_mail_provider: Nous rencontrons des problèmes de connexion à votre fournisseur de messagerie
+      cant_send_network: Nous n'avons pas pu envoyer votre message en raison de problèmes de réseau
+      board_suggestion_travel: Il semble que vous receviez beaucoup d'emails de voyage
+      board_suggestion_travel_btn: Créer un Board 'Voyage'
+  boards:  #! BOARDS ------------------------------------------------
+    board:
+      priority_other: L'onglet Priorité inclut les emails importants et l'onglet Autres inclut les emails d'importance secondaire.
+      board_rules: Les règles de Board vous permettent de trier automatiquement les emails dans les Boards existants en fonction du contenu, du type, de l'expéditeur...
+      board_rules_btn: Règles de Board
+      sort_emails_btn: Trier les emails
+      sort_emails_date1_btn: Date (le plus récent en premier)
+      sort_emails_date2_btn: Date (le plus ancien en premier)
+      sort_emails_unread_btn: Non-lus en premier
+      priority: Priorité
+      other: Autres
+      drag_emails_here: Faites glisser les emails ici
+      loading_more_emails: Chargement d'emails
+      check_others: Regardez dans l'onglet "Autres"
+      info_small: "Taille du Board: Petit"
+      info_medium: "Taille du Board: Moyen"
+      info_large: "Taille du Board: Grand"
+      count_share: "Partagé avec # personnes"
+      count_unread: "# non-lus"
+    email_cards:
+      reply: Répondre à cet email
+      reply_all: Répondre à tous les participants dans cet email
+      forward: Transmetre cet email
+      star: Etoiler cet email
+      trash: Déplacer cet email vers la corbeille
+      click_to_send: Cliquez pour envoyer votre réponse
+      generate_info: Rédigez une brève réponse et cliquez sur ce bouton pour générer un email parfait
+      has_attachments: Cet email contient des pièces jointes
+      bccd: Vous avez été mis en CCI
+      info_tracker: Un ou plusieurs trackers on été bloqués
+      contains_event: L'email a un événement
+      info_quick_reply: Répondez à cet email directement depuis l'écran d'accueil
+      quick_reply: REPONSE RAPIDE
+      open_app: Ouvrir
+      copy_code: Copier le code
+      schedule: Calendrier
+      send: Envoyer
+      voice: Voix
+      generate: Générer
+      scribe_placeholder: Ecrivez une réponse ici et envoyez-la ou cliquez sur le bouton bleu pour générer
+      thread: Nombre d'emails dans cette conversation
+    new_board:
+      tip: Ajouter un nouveau Board
+  
+  modals: #! MODALS ------------------------------------------------
+    add_board:
+      title: Ajouter un nouveau Board
+      subtitle: Organisez vos emails manuellement ou automatiquement à l'aide des règles de Board.
+      btn: Ajouter ce Board
+    add_mailbox:
+      title: Ajouter une boîte aux lettres
+      subtitle1: Connectez-vous en utilisant votre fournisseur de messagerie
+      subtitle2: Saisie manuelle (IMAP)
+      form:
+        email: Email
+        password: Mot de passe
+        imap_host: Hôte IMAP
+        imap_port: Port IMAP
+        smtp_host: Hôte SMTP
+        smtp_port: Port SMTP
+        back: Retour
+        add_mailbox: Ajouter
+    add_space:
+      title: Ajouter un nouvel Espace
+      subtitle: Organisez vos Boards dans des Espaces pour séparer les sujets.
+      placeholder: Nom de l'Espace
+      btn: Ajouter l'Espace
+    board_rules:
+      title: Règle de Board
+      subtitle: Les règles de Boards trient automatiquement les emails entrants de votre boîte de réception vers vos autres Boards existants.
+      existing: Règles existantes
+      if: si
+      from: L'email viens de
+      to: à
+      and: et
+      remove_condition: Supprimer la condition supplémentaire
+      subject_has: Le sujet contient
+      contains: L'email contient
+      quick_action: Quick Action
+      then_do_this: alors faire ça
+      star: Etoiler
+      forward_to: Transmettre à
+      archive: Archiver
+      delete: Supprimer
+      add_rule: Ajouter la règle
+      run_everything: Exécutez toutes les règles
+      force_run: Forcer l'exécution de toutes les règles maintenant sur les emails existants
+      info_add_condition: Vous pouvez ajouter des conditions complexes (si ceci ET cela, alors faites ceci)
+      priority: Priorité
+      attachment_name: Nom de la pièce jointe
+      attachment_type: Type de pièce jointe
+      type_here: Écrivez ici
+      add_condition: Ajouter une autre condition (facultatif)
+      move_to: déplacer vers
+      remove: Supprimer
+      new_board_rule: Nouvelle règle de board
+    email:
+      show_participants: Afficher les participants et les détails
+      participants: Participants
+      email: Email
+      send_new: Envoyer un nouvel email
+      related_emails: Emails connexes
+      notes: Notes
+      show_more: Plus
+      summary: Synthèse
+    feedback:
+      step1: Étape 1
+      download_files: Télécharger le fichier de "logs"
+      logs_info: Les "logs" sont des fichiers qui nous indiquent quelles erreurs se produisent à quel moment.
+      skip: Vous pouvez ignorer cette étape s'il s'agit d'une demande de fonctionnalité
+      download_logs: Télécharger les logs
+      step2: Étape 2
+      file_bug: Déposer un rapport d'erreur/demande de fonctionnalité
+      open_browser: Ce bouton ouvrira un lien dans votre navigateur, vous pourrez y télécharger le fichier de journaux téléchargé
+      open_form: Ouvrir le formulaire
+    invite:
+      title: Inviter un ami
+      subtitle: Envoyer un accès gratuit à Aiko Mail à un ami
+      btn: Inviter
+    invite_team:
+      title: Inviter un membre de votre équipe
+      subtitle: Une fois qu'ils auront accepté, ils seront ajoutés à votre plan au prix actuel par poste.
+      email_address: Email
+      btn: Inviter
+    share_board:
+      title: Partager ce Board
+      subtitle: Partagez ce Board avec un ami ou un collègue
+      current: Actuellement partagé avec
+      email_address: Email
+      done: Terminé
+      add: Ajouter
+      remove: Supprimer
+    shell:
+      text: Cliquez n'importe où en dehors de cette fenêtre ou appuyez sur ÉCHAP pour quitter
+    upgrade:
+      title: Vous avez trouvé une fonctionnalité Pro.
+      text: est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur notre site internet, pour l'utiliser, passez à Pro.
+      btn: Utiliser
+
+  email: #! EMAIL ------------------------------------------------
+    from: de
+    cc: CC
+    to: à
+    bcc: CCI
+
+  composer: #! COMPOSER ------------------------------------------------
+    font: Couleur de la police
+    align: Sélection alignement
+    list: Type de liste
+    send: Envoyer
+    to: A
+    cc: CC
+    bcc: CCI
+    from: DE
+    subject: Sujet
+    show: Afficher les modèles et les pièces jointes
+  
+  loader: #! LOADER ------------------------------------------------
+    text1: Réception des nouveaux emails sur votre appareil
+    text2: Configuration de vos Actions Rapides
+    text3: Nous avons presque fini
+    text4: Création de synthèses
+    text5: Encore un instant
+    info: Familiarisez-vous avec Aiko Mail pendant que vous attendez
+    btn: Regarder une démo
+
+  settings:
+    title: Réglages
+    version: Version
+    btn: Donnez avis
+    request1: Donnez-nous 
+    request2: votre avis ici
+    account:
+      title: Compte
+      personal_info: Informations personnelles
+      name: Nom
+      primary_email: Adresse email principale (utilisée pour se connecter à Aiko Mail)
+      send: Envoyer une vérification
+      primary_email_placeholder: Email principal
+      mailboxes: Boîtes aux lettres
+      add_remove: Ajouter et supprimer des adresses email sur cet appareil.
+      remove: Supprimer
+      add_mailbox: Ajouter une boîte aux lettres
+      language:
+        title: Langue
+        info: Langue principale de l'application
+        english: English (Anglais)
+        french: Francais (French)
+    appearance:
+      title: Apparence
+      subtitle: Apparence globale de l'application
+      theme: Thème
+      light: Clair
+      dark: Foncé
+      system: Automatique (défaut)
+      inbox: Apparence de la boîte de réception
+      lines: Lignes de prévisualisation pour chaque email dans les Boards.
+      one_line: 1 ligne
+      two_lines: 2 lignes
+      three_lines: 3 lignes (défaut)
+      accessibility: Accessibilité
+      contrast: Contraste accru
+      contrast_off: Désactivé (défaut)
+      contrast_on: Activé
+    team:
+      title: Equipe
+      members: Membres de l'équipe
+      members_subtitle: Ces membres font partie de votre plan.
+      remove: Supprimer
+      make_admin: Rendre administrateur
+      remove_admin: Retirer les droits administrateur
+      invite: Inviter un nouveau membre
+      invite_csv: Inviter en masse (csv)
+    spaces:
+      title: Espaces
+      subtitle: Vos Espaces sont utilisés pour séparer les Boards par sujets.<br />Passez la souris dessus pour décider quels tableaux y sont affichés.
+      delete: Supprimer l'espace
+      add: Ajouter un nouvel espace
+    unsubscribe:
+      title: Désabonner
+      subtitle: Voici les abonnements email que nous avons détectés.
+      unsubscribe: Se désabonner
+    templates:
+      title: Modèles
+      subtitle: Vous pouvez utiliser les modèles (pre-écrits) lors de la rédaction de nouveaux emails.
+      save: Sauvegarder
+      new: Nouveau modèle
+      placeholder_title: Nom du modèle
+      placeholder_body: Modèle
+    signatures:
+      title: Signatures
+      subtitle: Vos signatures en fin d'email.
+      for: pour
+      save: Sauvegarder
+    billing:
+      title: Facturation
+      plans: Forfaits
+      plans_list: Voici les plans disponibles, cliquez pour mettre à niveau.
+      month: mois
+      current: Fofait actuel
+      cancel_info: Annulez à tout moment
+      upgrade_to: Activer le forfait 
+      edit: Modifier les détails de facturation
+    integrations:
+      title: Intégrations
+      subtitle: Intégrations disponibles
+      instructions: Vous pouvez activer ou désactiver les intégrations pour les utiliser dans Aiko Mail
+      enable: Activer
+      disable: Désactiver
+      request: Faire une demande d'intégration
+      request_info: Si vous ne voyez pas l'intégration dont vous avez besoin, demandez-la et nous l'ajouterons au plus vite.
+      request_btn: Faire une demande
+      zoom: Application de visioconférence, envoyer le lien depuis le composeur
+      calendly: Envoyez des liens de calendrier directement depuis le composeur
+      zapier: Connectez Aiko Mail à vos applications préférées
+    others:
+      title: Autres
+      title2: Autres Réglages
+
+  scribe: #! SCRIBE ------------------------------------------------
+    prompt:
+      greeting: Bonjour

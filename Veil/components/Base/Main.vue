@@ -1,15 +1,7 @@
 <script lang="ts" setup>
 import Header from "@Veil/components/Header/Header.vue";
-import Home from "@Veil/views/Home.vue";
-import { Sidebar } from "@Veil/state/sections";
-import Logger from "@Veil/services/roots";
-
-const Log = new Logger("Main", {
-  bgColor: "#ff99ff",
-  fgColor: "#000000",
-});
-
-Log.success("Mounted application.");
+import Home from "@Veil/components/Home/Home.vue";
+import { Sidebar } from "@Veil/state/common";
 </script>
 
 <template>
@@ -22,14 +14,17 @@ Log.success("Mounted application.");
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .main {
-  width: calc(100% - 160px);
-  height: 100%;
+  width: calc(100% - 170px);
+  height: calc(100% - 10px);
+  background-color: var(--main-bg);
   overflow: hidden;
+  margin-top: 10px;
 }
 
 .main.collapsed-sidebar {
   width: calc(100% - 46px);
 }
 </style>
+@Veil/state/common

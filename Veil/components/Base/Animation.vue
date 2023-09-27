@@ -10,6 +10,9 @@ import NotificationAnimation from '@Veil/assets/animations/notification.json'
 import PowerAnimation from '@Veil/assets/animations/power.json'
 import SettingsAnimation from '@Veil/assets/animations/settings.json'
 import WalletAnimation from '@Veil/assets/animations/wallet.json'
+import WaveAnimation from '@Veil/assets/animations/Wave.json'
+import RecordAnimation from '@Veil/assets/animations/Record.json'
+import WritingAnimation from '@Veil/assets/animations/Writing.json'
 import { computed } from "@vue/reactivity"
 
 const animations = {
@@ -24,6 +27,9 @@ const animations = {
   "power": PowerAnimation,
   "settings": SettingsAnimation,
   "wallet": WalletAnimation,
+  "wave": WaveAnimation,
+  "record": RecordAnimation,
+  "writing": WritingAnimation
 }
 
 const props = defineProps<{
@@ -41,7 +47,7 @@ const animation = computed(() => {
   <lottie-animation :animationData="animation" :loop="loop ?? true" :autoPlay="true" :speed="1" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;

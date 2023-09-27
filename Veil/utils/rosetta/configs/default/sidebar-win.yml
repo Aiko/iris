@@ -1,7 +1,0 @@
-lang: default
-platform: win32
-
-messages:
-  sidebar:
-    toggle_collapse:
-      Toggle sidebar collapse (Ctrl + Shift + B)

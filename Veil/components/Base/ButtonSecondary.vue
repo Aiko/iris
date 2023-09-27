@@ -15,17 +15,17 @@ defineProps<{
   </a>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 a {
   background-color: var(--secondary-background-color);
-  border: 1px solid var(--secondary-background-color);
+  border: 1px solid var(--primary-color);
   color: var(--primary-color);
   padding: 2px 5px;
   border-radius: var(--primary-border-radius);
   font-size: var(--btn-font-size);
   font-weight: var(--btn-font-weight);
   white-space: nowrap;
-  transition: .2s;
+  transition: .1s;
   display: inline-block;
   text-align: center;
 }
@@ -34,8 +34,15 @@ a:not([href]):not([tabindex]) {
   color: var(--primary-color);
 }
 
-.red:hover {
+.red {
   border: 1px solid #d0021c !important;
+  transition: .1s;
+}
+
+.red:hover {
+  background-color: #d0021c !important;
+  color: #fff !important;
+  transition: .1s;
 }
 
 a:not([href]):not([tabindex]):hover {
@@ -43,14 +50,15 @@ a:not([href]):not([tabindex]):hover {
 }
 
 a:hover {
-  background-color: transparent;
-  border: 1px solid var(--primary-color);
-  transition: .2s;
+  background-color: var(--primary-color);
+  color: #fff !important;
+  border: 1px solid var(--p-opaque) !important;
+  transition: .1s;
 }
 
 .active {
   background-color: transparent !important;
   border: 1px solid var(--primary-color) !important;
-  transition: .2s;
+  transition: .1s;
 }
 </style>

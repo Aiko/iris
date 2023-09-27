@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { selectedModal, Modal } from '@Veil/state/common'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 defineProps<{
   size?: string
@@ -16,16 +17,15 @@ defineProps<{
     'fullscreen': size == 'fullscreen' || size == 'xl' || size == 'full',
   }">
     <div class="esc">
-      Click anywhere outside of this window or <b>press ESC</b> to exit
+      {{ i18n(RosettaStone.modals.shell.text) }}
     </div>
     <div class="content">
       <slot></slot>
     </div>
   </div>
-
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal {
   background-color: var(--primary-background-color);
   position: absolute;
@@ -65,7 +65,7 @@ defineProps<{
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: scroll;
 }
 
 h1 {
@@ -95,4 +95,4 @@ h1 {
   z-index: 100;
   backdrop-filter: blur(5px) !important;
 }
-</style>
+</style>@Veil/state/common

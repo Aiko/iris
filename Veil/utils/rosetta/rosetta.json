@@ -16,12 +16,2653 @@
     }
   },
   "sidebar": {
+    "menu": {
+      "compose": {
+        "definitions": {
+          "default": {
+            "default": "Compose"
+          },
+          "fr": {
+            "default": "Nouveau"
+          }
+        }
+      },
+      "home": {
+        "definitions": {
+          "default": {
+            "default": "Home"
+          },
+          "fr": {
+            "default": "Accueil"
+          }
+        }
+      },
+      "edit_spaces": {
+        "definitions": {
+          "default": {
+            "default": "Edit Spaces"
+          },
+          "fr": {
+            "default": "Régl. Espaces"
+          }
+        }
+      },
+      "sent": {
+        "definitions": {
+          "default": {
+            "default": "Sent"
+          },
+          "fr": {
+            "default": "Envoyés"
+          }
+        }
+      },
+      "drafts": {
+        "definitions": {
+          "default": {
+            "default": "Drafts"
+          },
+          "fr": {
+            "default": "Brouillons"
+          }
+        }
+      },
+      "archive": {
+        "definitions": {
+          "default": {
+            "default": "Archive"
+          },
+          "fr": {
+            "default": "Archive"
+          }
+        }
+      },
+      "spam": {
+        "definitions": {
+          "default": {
+            "default": "Spam"
+          },
+          "fr": {
+            "default": "Spam"
+          }
+        }
+      },
+      "trash": {
+        "definitions": {
+          "default": {
+            "default": "Trash"
+          },
+          "fr": {
+            "default": "Corbeille"
+          }
+        }
+      },
+      "feedback_text": {
+        "definitions": {
+          "default": {
+            "default": "Request features and report issues"
+          },
+          "fr": {
+            "default": "Signaler un problème"
+          }
+        }
+      },
+      "feedback_button": {
+        "definitions": {
+          "default": {
+            "default": "Give feedback"
+          },
+          "fr": {
+            "default": "Signaler"
+          }
+        }
+      }
+    },
     "toggle_collapse": {
       "definitions": {
         "default": {
           "default": "Toggle sidebar collapse",
-          "win32": "Toggle sidebar collapse (Ctrl + Shift + B)",
-          "darwin": "Toggle sidebar collapse (⌘ + Shift + B)"
+          "darwin": "Toggle sidebar collapse (⌘ + Shift + B)",
+          "win32": "Toggle sidebar collapse (Ctrl + Shift + B)"
+        },
+        "fr": {
+          "default": "Ouvrir et fermer la barre latérale",
+          "darwin": "Ouvrir et fermer la barre latérale (⌘ + Shift + B)",
+          "win32": "Ouvrir et fermer la barre latérale (Ctrl + Shift + B)"
+        }
+      }
+    },
+    "open_documentation": {
+      "definitions": {
+        "default": {
+          "default": "Open Documentation"
+        },
+        "fr": {
+          "default": "Ouvrir la documentation"
+        }
+      }
+    },
+    "open_settings": {
+      "definitions": {
+        "default": {
+          "default": "Open Settings"
+        },
+        "fr": {
+          "default": "Ouvrir les réglages"
+        }
+      }
+    },
+    "open_calendar": {
+      "definitions": {
+        "default": {
+          "default": "Open Calendar"
+        },
+        "fr": {
+          "default": "Ouvrir le calendrier"
+        }
+      }
+    }
+  },
+  "header": {
+    "search": {
+      "placeholder": {
+        "definitions": {
+          "default": {
+            "default": "Search"
+          },
+          "fr": {
+            "default": "Recherche"
+          }
+        }
+      },
+      "tip": {
+        "definitions": {
+          "default": {
+            "default": "Press ENTER to search"
+          },
+          "fr": {
+            "default": "Appuyez sur ENTER pour rechercher"
+          }
+        }
+      }
+    },
+    "toasts": {
+      "sending_email_text": {
+        "definitions": {
+          "default": {
+            "default": "Sending email..."
+          },
+          "fr": {
+            "default": "Envoi en cours..."
+          }
+        }
+      },
+      "sending_email_btn": {
+        "definitions": {
+          "default": {
+            "default": "Undo"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "voice_state_clicked": {
+        "definitions": {
+          "default": {
+            "default": "Start speaking"
+          },
+          "fr": {
+            "default": "Commencez à parler"
+          }
+        }
+      },
+      "voice_state_clicked_btn": {
+        "definitions": {
+          "default": {
+            "default": "Cancel"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "voice_state_start": {
+        "definitions": {
+          "default": {
+            "default": "Start speaking"
+          },
+          "fr": {
+            "default": "Commencez à parler"
+          }
+        }
+      },
+      "voice_state_start_btn": {
+        "definitions": {
+          "default": {
+            "default": "Cancel"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "voice_state_transcribing": {
+        "definitions": {
+          "default": {
+            "default": "Transcribing"
+          },
+          "fr": {
+            "default": "Transcription"
+          }
+        }
+      },
+      "voice_state_transcribing_btn": {
+        "definitions": {
+          "default": {
+            "default": "Cancel"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "voice_state_writing": {
+        "definitions": {
+          "default": {
+            "default": "Writing email"
+          },
+          "fr": {
+            "default": "Ecriture en cours"
+          }
+        }
+      },
+      "voice_state_writing_btn": {
+        "definitions": {
+          "default": {
+            "default": "Cancel"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "email_sent": {
+        "definitions": {
+          "default": {
+            "default": "Email sent"
+          },
+          "fr": {
+            "default": "Email envoyé"
+          }
+        }
+      },
+      "sending_invite": {
+        "definitions": {
+          "default": {
+            "default": "Sending invite..."
+          },
+          "fr": {
+            "default": "Envoi de l'invitation..."
+          }
+        }
+      },
+      "sending_invite_btn": {
+        "definitions": {
+          "default": {
+            "default": "Undo"
+          },
+          "fr": {
+            "default": "Annuler"
+          }
+        }
+      },
+      "invite_sent": {
+        "definitions": {
+          "default": {
+            "default": "Invite sent"
+          },
+          "fr": {
+            "default": "Invitation envoyée"
+          }
+        }
+      },
+      "trouble_connecting_internet": {
+        "definitions": {
+          "default": {
+            "default": "We're having trouble connecting to the internet"
+          },
+          "fr": {
+            "default": "Nous rencontrons des difficultés pour nous connecter à Internet"
+          }
+        }
+      },
+      "trouble_connecting_mail_provider": {
+        "definitions": {
+          "default": {
+            "default": "We're having issues connecting to your mail provider"
+          },
+          "fr": {
+            "default": "Nous rencontrons des problèmes de connexion à votre fournisseur de messagerie"
+          }
+        }
+      },
+      "cant_send_network": {
+        "definitions": {
+          "default": {
+            "default": "We were unable to send your message due to network issues"
+          },
+          "fr": {
+            "default": "Nous n'avons pas pu envoyer votre message en raison de problèmes de réseau"
+          }
+        }
+      },
+      "board_suggestion_travel": {
+        "definitions": {
+          "default": {
+            "default": "Looks like you receive a lot of Travel emails"
+          },
+          "fr": {
+            "default": "Il semble que vous receviez beaucoup d'emails de voyage"
+          }
+        }
+      },
+      "board_suggestion_travel_btn": {
+        "definitions": {
+          "default": {
+            "default": "Create Travel board"
+          },
+          "fr": {
+            "default": "Créer un Board 'Voyage'"
+          }
+        }
+      }
+    }
+  },
+  "boards": {
+    "board": {
+      "priority_other": {
+        "definitions": {
+          "default": {
+            "default": "Priority includes important emails and Others tab include secondary importance emails."
+          },
+          "fr": {
+            "default": "L'onglet Priorité inclut les emails importants et l'onglet Autres inclut les emails d'importance secondaire."
+          }
+        }
+      },
+      "board_rules": {
+        "definitions": {
+          "default": {
+            "default": "Board rules let you automatically sort emails into existing boards based on content, type, sender..."
+          },
+          "fr": {
+            "default": "Les règles de Board vous permettent de trier automatiquement les emails dans les Boards existants en fonction du contenu, du type, de l'expéditeur..."
+          }
+        }
+      },
+      "board_rules_btn": {
+        "definitions": {
+          "default": {
+            "default": "Board rules"
+          },
+          "fr": {
+            "default": "Règles de Board"
+          }
+        }
+      },
+      "sort_emails_btn": {
+        "definitions": {
+          "default": {
+            "default": "Sort emails"
+          },
+          "fr": {
+            "default": "Trier les emails"
+          }
+        }
+      },
+      "sort_emails_date1_btn": {
+        "definitions": {
+          "default": {
+            "default": "Date (Newest first)"
+          },
+          "fr": {
+            "default": "Date (le plus récent en premier)"
+          }
+        }
+      },
+      "sort_emails_date2_btn": {
+        "definitions": {
+          "default": {
+            "default": "Date (Oldest first)"
+          },
+          "fr": {
+            "default": "Date (le plus ancien en premier)"
+          }
+        }
+      },
+      "sort_emails_unread_btn": {
+        "definitions": {
+          "default": {
+            "default": "Unread first"
+          },
+          "fr": {
+            "default": "Non-lus en premier"
+          }
+        }
+      },
+      "priority": {
+        "definitions": {
+          "default": {
+            "default": "Priority"
+          },
+          "fr": {
+            "default": "Priorité"
+          }
+        }
+      },
+      "other": {
+        "definitions": {
+          "default": {
+            "default": "Other"
+          },
+          "fr": {
+            "default": "Autres"
+          }
+        }
+      },
+      "drag_emails_here": {
+        "definitions": {
+          "default": {
+            "default": "Drag emails here"
+          },
+          "fr": {
+            "default": "Faites glisser les emails ici"
+          }
+        }
+      },
+      "loading_more_emails": {
+        "definitions": {
+          "default": {
+            "default": "Loading more emails"
+          },
+          "fr": {
+            "default": "Chargement d'emails"
+          }
+        }
+      },
+      "check_others": {
+        "definitions": {
+          "default": {
+            "default": "Check 'Others' tab"
+          },
+          "fr": {
+            "default": "Regardez dans l'onglet \"Autres\""
+          }
+        }
+      },
+      "info_small": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Small"
+          },
+          "fr": {
+            "default": "Taille du Board: Petit"
+          }
+        }
+      },
+      "info_medium": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Medium"
+          },
+          "fr": {
+            "default": "Taille du Board: Moyen"
+          }
+        }
+      },
+      "info_large": {
+        "definitions": {
+          "default": {
+            "default": "Board size: Large"
+          },
+          "fr": {
+            "default": "Taille du Board: Grand"
+          }
+        }
+      },
+      "count_share": {
+        "definitions": {
+          "default": {
+            "default": "Number of people you share this board with"
+          },
+          "fr": {
+            "default": "Partagé avec # personnes"
+          }
+        }
+      },
+      "count_unread": {
+        "definitions": {
+          "default": {
+            "default": "Number of unread emails in this board"
+          },
+          "fr": {
+            "default": "# non-lus"
+          }
+        }
+      }
+    },
+    "email_cards": {
+      "reply": {
+        "definitions": {
+          "default": {
+            "default": "Reply to this email"
+          },
+          "fr": {
+            "default": "Répondre à cet email"
+          }
+        }
+      },
+      "reply_all": {
+        "definitions": {
+          "default": {
+            "default": "Reply to all participants in this email"
+          },
+          "fr": {
+            "default": "Répondre à tous les participants dans cet email"
+          }
+        }
+      },
+      "forward": {
+        "definitions": {
+          "default": {
+            "default": "Forward this email"
+          },
+          "fr": {
+            "default": "Transmetre cet email"
+          }
+        }
+      },
+      "star": {
+        "definitions": {
+          "default": {
+            "default": "Star this email"
+          },
+          "fr": {
+            "default": "Etoiler cet email"
+          }
+        }
+      },
+      "trash": {
+        "definitions": {
+          "default": {
+            "default": "Move this email to the trash"
+          },
+          "fr": {
+            "default": "Déplacer cet email vers la corbeille"
+          }
+        }
+      },
+      "click_to_send": {
+        "definitions": {
+          "default": {
+            "default": "Click to send your reply"
+          },
+          "fr": {
+            "default": "Cliquez pour envoyer votre réponse"
+          }
+        }
+      },
+      "generate_info": {
+        "definitions": {
+          "default": {
+            "default": "Write a brief answer and click this button to generate a perfect email"
+          },
+          "fr": {
+            "default": "Rédigez une brève réponse et cliquez sur ce bouton pour générer un email parfait"
+          }
+        }
+      },
+      "has_attachments": {
+        "definitions": {
+          "default": {
+            "default": "This email has attachment(s)"
+          },
+          "fr": {
+            "default": "Cet email contient des pièces jointes"
+          }
+        }
+      },
+      "bccd": {
+        "definitions": {
+          "default": {
+            "default": "You were BCC'ed"
+          },
+          "fr": {
+            "default": "Vous avez été mis en CCI"
+          }
+        }
+      },
+      "info_tracker": {
+        "definitions": {
+          "default": {
+            "default": "One or more trackers blocked from tracking you"
+          },
+          "fr": {
+            "default": "Un ou plusieurs trackers on été bloqués"
+          }
+        }
+      },
+      "contains_event": {
+        "definitions": {
+          "default": {
+            "default": "Email contains an event"
+          },
+          "fr": {
+            "default": "L'email a un événement"
+          }
+        }
+      },
+      "info_quick_reply": {
+        "definitions": {
+          "default": {
+            "default": "Reply to this email right from the homescreen"
+          },
+          "fr": {
+            "default": "Répondez à cet email directement depuis l'écran d'accueil"
+          }
+        }
+      },
+      "quick_reply": {
+        "definitions": {
+          "default": {
+            "default": "Quick Reply"
+          },
+          "fr": {
+            "default": "REPONSE RAPIDE"
+          }
+        }
+      },
+      "open_app": {
+        "definitions": {
+          "default": {
+            "default": "Open"
+          },
+          "fr": {
+            "default": "Ouvrir"
+          }
+        }
+      },
+      "copy_code": {
+        "definitions": {
+          "default": {
+            "default": "Copy Code"
+          },
+          "fr": {
+            "default": "Copier le code"
+          }
+        }
+      },
+      "schedule": {
+        "definitions": {
+          "default": {
+            "default": "Schedule"
+          },
+          "fr": {
+            "default": "Calendrier"
+          }
+        }
+      },
+      "send": {
+        "definitions": {
+          "default": {
+            "default": "Send"
+          },
+          "fr": {
+            "default": "Envoyer"
+          }
+        }
+      },
+      "voice": {
+        "definitions": {
+          "default": {
+            "default": "Voice"
+          },
+          "fr": {
+            "default": "Voix"
+          }
+        }
+      },
+      "generate": {
+        "definitions": {
+          "default": {
+            "default": "Generate"
+          },
+          "fr": {
+            "default": "Générer"
+          }
+        }
+      },
+      "scribe_placeholder": {
+        "definitions": {
+          "default": {
+            "default": "Type a reply here and send it or click the brain button to generate with AI"
+          },
+          "fr": {
+            "default": "Ecrivez une réponse ici et envoyez-la ou cliquez sur le bouton bleu pour générer"
+          }
+        }
+      },
+      "thread": {
+        "definitions": {
+          "default": {
+            "default": "Number of emails in this thread"
+          },
+          "fr": {
+            "default": "Nombre d'emails dans cette conversation"
+          }
+        }
+      }
+    },
+    "new_board": {
+      "tip": {
+        "definitions": {
+          "default": {
+            "default": "Add a new board"
+          },
+          "fr": {
+            "default": "Ajouter un nouveau Board"
+          }
+        }
+      }
+    }
+  },
+  "modals": {
+    "add_board": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Add new board"
+          },
+          "fr": {
+            "default": "Ajouter un nouveau Board"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Organize your emails manually, or automatically using board rules."
+          },
+          "fr": {
+            "default": "Organisez vos emails manuellement ou automatiquement à l'aide des règles de Board."
+          }
+        }
+      },
+      "btn": {
+        "definitions": {
+          "default": {
+            "default": "Add board"
+          },
+          "fr": {
+            "default": "Ajouter ce Board"
+          }
+        }
+      }
+    },
+    "add_mailbox": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Add a mailbox"
+          },
+          "fr": {
+            "default": "Ajouter une boîte aux lettres"
+          }
+        }
+      },
+      "subtitle1": {
+        "definitions": {
+          "default": {
+            "default": "Sign in using your email provider"
+          },
+          "fr": {
+            "default": "Connectez-vous en utilisant votre fournisseur de messagerie"
+          }
+        }
+      },
+      "subtitle2": {
+        "definitions": {
+          "default": {
+            "default": "Manual entry (IMAP)"
+          },
+          "fr": {
+            "default": "Saisie manuelle (IMAP)"
+          }
+        }
+      },
+      "form": {
+        "email": {
+          "definitions": {
+            "default": {
+              "default": "Email"
+            },
+            "fr": {
+              "default": "Email"
+            }
+          }
+        },
+        "password": {
+          "definitions": {
+            "default": {
+              "default": "Password"
+            },
+            "fr": {
+              "default": "Mot de passe"
+            }
+          }
+        },
+        "imap_host": {
+          "definitions": {
+            "default": {
+              "default": "IMAP Host"
+            },
+            "fr": {
+              "default": "Hôte IMAP"
+            }
+          }
+        },
+        "imap_port": {
+          "definitions": {
+            "default": {
+              "default": "IMAP Port"
+            },
+            "fr": {
+              "default": "Port IMAP"
+            }
+          }
+        },
+        "smtp_host": {
+          "definitions": {
+            "default": {
+              "default": "SMTP Host"
+            },
+            "fr": {
+              "default": "Hôte SMTP"
+            }
+          }
+        },
+        "smtp_port": {
+          "definitions": {
+            "default": {
+              "default": "SMTP Port"
+            },
+            "fr": {
+              "default": "Port SMTP"
+            }
+          }
+        },
+        "back": {
+          "definitions": {
+            "default": {
+              "default": "Back"
+            },
+            "fr": {
+              "default": "Retour"
+            }
+          }
+        },
+        "add_mailbox": {
+          "definitions": {
+            "default": {
+              "default": "Add mailbox"
+            },
+            "fr": {
+              "default": "Ajouter"
+            }
+          }
+        }
+      }
+    },
+    "add_space": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Add new Space"
+          },
+          "fr": {
+            "default": "Ajouter un nouvel Espace"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Organize your boards within spaces to separate topics."
+          },
+          "fr": {
+            "default": "Organisez vos Boards dans des Espaces pour séparer les sujets."
+          }
+        }
+      },
+      "placeholder": {
+        "definitions": {
+          "default": {
+            "default": "Space name"
+          },
+          "fr": {
+            "default": "Nom de l'Espace"
+          }
+        }
+      },
+      "btn": {
+        "definitions": {
+          "default": {
+            "default": "Add space"
+          },
+          "fr": {
+            "default": "Ajouter l'Espace"
+          }
+        }
+      }
+    },
+    "board_rules": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Board rules"
+          },
+          "fr": {
+            "default": "Règle de Board"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Board rules automatically sort incoming emails from your inbox into your other existing boards."
+          },
+          "fr": {
+            "default": "Les règles de Boards trient automatiquement les emails entrants de votre boîte de réception vers vos autres Boards existants."
+          }
+        }
+      },
+      "existing": {
+        "definitions": {
+          "default": {
+            "default": "Existing board rules"
+          },
+          "fr": {
+            "default": "Règles existantes"
+          }
+        }
+      },
+      "if": {
+        "definitions": {
+          "default": {
+            "default": "if"
+          },
+          "fr": {
+            "default": "si"
+          }
+        }
+      },
+      "from": {
+        "definitions": {
+          "default": {
+            "default": "from"
+          },
+          "fr": {
+            "default": "L'email viens de"
+          }
+        }
+      },
+      "to": {
+        "definitions": {
+          "default": {
+            "default": "to"
+          },
+          "fr": {
+            "default": "à"
+          }
+        }
+      },
+      "and": {
+        "definitions": {
+          "default": {
+            "default": "and"
+          },
+          "fr": {
+            "default": "et"
+          }
+        }
+      },
+      "remove_condition": {
+        "definitions": {
+          "default": {
+            "default": "Remove extra condition"
+          },
+          "fr": {
+            "default": "Supprimer la condition supplémentaire"
+          }
+        }
+      },
+      "subject_has": {
+        "definitions": {
+          "default": {
+            "default": "Subject has"
+          },
+          "fr": {
+            "default": "Le sujet contient"
+          }
+        }
+      },
+      "contains": {
+        "definitions": {
+          "default": {
+            "default": "Contains"
+          },
+          "fr": {
+            "default": "L'email contient"
+          }
+        }
+      },
+      "quick_action": {
+        "definitions": {
+          "default": {
+            "default": "Quick Action"
+          },
+          "fr": {
+            "default": "Quick Action"
+          }
+        }
+      },
+      "then_do_this": {
+        "definitions": {
+          "default": {
+            "default": "then do this"
+          },
+          "fr": {
+            "default": "alors faire ça"
+          }
+        }
+      },
+      "star": {
+        "definitions": {
+          "default": {
+            "default": "Star"
+          },
+          "fr": {
+            "default": "Etoiler"
+          }
+        }
+      },
+      "forward_to": {
+        "definitions": {
+          "default": {
+            "default": "Forward to"
+          },
+          "fr": {
+            "default": "Transmettre à"
+          }
+        }
+      },
+      "archive": {
+        "definitions": {
+          "default": {
+            "default": "Archive"
+          },
+          "fr": {
+            "default": "Archiver"
+          }
+        }
+      },
+      "delete": {
+        "definitions": {
+          "default": {
+            "default": "Delete"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      },
+      "add_rule": {
+        "definitions": {
+          "default": {
+            "default": "Add rule"
+          },
+          "fr": {
+            "default": "Ajouter la règle"
+          }
+        }
+      },
+      "run_everything": {
+        "definitions": {
+          "default": {
+            "default": "Run everything"
+          },
+          "fr": {
+            "default": "Exécutez toutes les règles"
+          }
+        }
+      },
+      "force_run": {
+        "definitions": {
+          "default": {
+            "default": "Force run all rules now on existing emails"
+          },
+          "fr": {
+            "default": "Forcer l'exécution de toutes les règles maintenant sur les emails existants"
+          }
+        }
+      },
+      "info_add_condition": {
+        "definitions": {
+          "default": {
+            "default": "You may add complex conditions (if this AND that, then do this)"
+          },
+          "fr": {
+            "default": "Vous pouvez ajouter des conditions complexes (si ceci ET cela, alors faites ceci)"
+          }
+        }
+      },
+      "priority": {
+        "definitions": {
+          "default": {
+            "default": "Priority"
+          },
+          "fr": {
+            "default": "Priorité"
+          }
+        }
+      },
+      "attachment_name": {
+        "definitions": {
+          "default": {
+            "default": "Attachment name"
+          },
+          "fr": {
+            "default": "Nom de la pièce jointe"
+          }
+        }
+      },
+      "attachment_type": {
+        "definitions": {
+          "default": {
+            "default": "Attachment type"
+          },
+          "fr": {
+            "default": "Type de pièce jointe"
+          }
+        }
+      },
+      "type_here": {
+        "definitions": {
+          "default": {
+            "default": "Type here"
+          },
+          "fr": {
+            "default": "Écrivez ici"
+          }
+        }
+      },
+      "add_condition": {
+        "definitions": {
+          "default": {
+            "default": "Add another condition (Optional)"
+          },
+          "fr": {
+            "default": "Ajouter une autre condition (facultatif)"
+          }
+        }
+      },
+      "move_to": {
+        "definitions": {
+          "default": {
+            "default": "move to"
+          },
+          "fr": {
+            "default": "déplacer vers"
+          }
+        }
+      },
+      "remove": {
+        "definitions": {
+          "default": {
+            "default": "Remove"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      },
+      "new_board_rule": {
+        "definitions": {
+          "default": {
+            "default": "New board rule"
+          },
+          "fr": {
+            "default": "Nouvelle règle de board"
+          }
+        }
+      }
+    },
+    "email": {
+      "show_participants": {
+        "definitions": {
+          "default": {
+            "default": "Show Participants and Details"
+          },
+          "fr": {
+            "default": "Afficher les participants et les détails"
+          }
+        }
+      },
+      "participants": {
+        "definitions": {
+          "default": {
+            "default": "Participants"
+          },
+          "fr": {
+            "default": "Participants"
+          }
+        }
+      },
+      "email": {
+        "definitions": {
+          "default": {
+            "default": "Email"
+          },
+          "fr": {
+            "default": "Email"
+          }
+        }
+      },
+      "send_new": {
+        "definitions": {
+          "default": {
+            "default": "Send a new email"
+          },
+          "fr": {
+            "default": "Envoyer un nouvel email"
+          }
+        }
+      },
+      "related_emails": {
+        "definitions": {
+          "default": {
+            "default": "Related Emails"
+          },
+          "fr": {
+            "default": "Emails connexes"
+          }
+        }
+      },
+      "notes": {
+        "definitions": {
+          "default": {
+            "default": "Notes"
+          },
+          "fr": {
+            "default": "Notes"
+          }
+        }
+      },
+      "show_more": {
+        "definitions": {
+          "default": {
+            "default": "Show more"
+          },
+          "fr": {
+            "default": "Plus"
+          }
+        }
+      },
+      "summary": {
+        "definitions": {
+          "default": {
+            "default": "Summary"
+          },
+          "fr": {
+            "default": "Synthèse"
+          }
+        }
+      }
+    },
+    "feedback": {
+      "step1": {
+        "definitions": {
+          "default": {
+            "default": "Step 1"
+          },
+          "fr": {
+            "default": "Étape 1"
+          }
+        }
+      },
+      "download_files": {
+        "definitions": {
+          "default": {
+            "default": "Download the \"logs\" file"
+          },
+          "fr": {
+            "default": "Télécharger le fichier de \"logs\""
+          }
+        }
+      },
+      "logs_info": {
+        "definitions": {
+          "default": {
+            "default": "Logs are files telling us which errors happen at what time."
+          },
+          "fr": {
+            "default": "Les \"logs\" sont des fichiers qui nous indiquent quelles erreurs se produisent à quel moment."
+          }
+        }
+      },
+      "skip": {
+        "definitions": {
+          "default": {
+            "default": "You can skip this step if this is a feature request"
+          },
+          "fr": {
+            "default": "Vous pouvez ignorer cette étape s'il s'agit d'une demande de fonctionnalité"
+          }
+        }
+      },
+      "download_logs": {
+        "definitions": {
+          "default": {
+            "default": "Download logs"
+          },
+          "fr": {
+            "default": "Télécharger les logs"
+          }
+        }
+      },
+      "step2": {
+        "definitions": {
+          "default": {
+            "default": "Step 2"
+          },
+          "fr": {
+            "default": "Étape 2"
+          }
+        }
+      },
+      "file_bug": {
+        "definitions": {
+          "default": {
+            "default": "File a bug report / feature request"
+          },
+          "fr": {
+            "default": "Déposer un rapport d'erreur/demande de fonctionnalité"
+          }
+        }
+      },
+      "open_browser": {
+        "definitions": {
+          "default": {
+            "default": "This button will open a link in your browser, you can upload the downloaded logs file there"
+          },
+          "fr": {
+            "default": "Ce bouton ouvrira un lien dans votre navigateur, vous pourrez y télécharger le fichier de journaux téléchargé"
+          }
+        }
+      },
+      "open_form": {
+        "definitions": {
+          "default": {
+            "default": "Open the form"
+          },
+          "fr": {
+            "default": "Ouvrir le formulaire"
+          }
+        }
+      }
+    },
+    "invite": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Invite a friend"
+          },
+          "fr": {
+            "default": "Inviter un ami"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Send a free access to Aiko Mail to a friend"
+          },
+          "fr": {
+            "default": "Envoyer un accès gratuit à Aiko Mail à un ami"
+          }
+        }
+      },
+      "btn": {
+        "definitions": {
+          "default": {
+            "default": "Invite"
+          },
+          "fr": {
+            "default": "Inviter"
+          }
+        }
+      }
+    },
+    "invite_team": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Invite a team member"
+          },
+          "fr": {
+            "default": "Inviter un membre de votre équipe"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Once they accept, they will be added to your plan at the current price per seat."
+          },
+          "fr": {
+            "default": "Une fois qu'ils auront accepté, ils seront ajoutés à votre plan au prix actuel par poste."
+          }
+        }
+      },
+      "email_address": {
+        "definitions": {
+          "default": {
+            "default": "Email address"
+          },
+          "fr": {
+            "default": "Email"
+          }
+        }
+      },
+      "btn": {
+        "definitions": {
+          "default": {
+            "default": "Invite"
+          },
+          "fr": {
+            "default": "Inviter"
+          }
+        }
+      }
+    },
+    "share_board": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Share this board"
+          },
+          "fr": {
+            "default": "Partager ce Board"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Share this board with other people"
+          },
+          "fr": {
+            "default": "Partagez ce Board avec un ami ou un collègue"
+          }
+        }
+      },
+      "email_address": {
+        "definitions": {
+          "default": {
+            "default": "Email address"
+          },
+          "fr": {
+            "default": "Email"
+          }
+        }
+      },
+      "current": {
+        "definitions": {
+          "default": {
+            "default": "Currently shared with"
+          },
+          "fr": {
+            "default": "Actuellement partagé avec"
+          }
+        }
+      },
+      "done": {
+        "definitions": {
+          "default": {
+            "default": "Done"
+          },
+          "fr": {
+            "default": "Terminé"
+          }
+        }
+      },
+      "add": {
+        "definitions": {
+          "default": {
+            "default": "Add"
+          },
+          "fr": {
+            "default": "Ajouter"
+          }
+        }
+      },
+      "remove": {
+        "definitions": {
+          "default": {
+            "default": "Remove"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      }
+    },
+    "shell": {
+      "text": {
+        "definitions": {
+          "default": {
+            "default": "Click anywhere outside of this window or press ESC to exit"
+          },
+          "fr": {
+            "default": "Cliquez n'importe où en dehors de cette fenêtre ou appuyez sur ÉCHAP pour quitter"
+          }
+        }
+      }
+    },
+    "upgrade": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "You found a Pro feature."
+          },
+          "fr": {
+            "default": "Vous avez trouvé une fonctionnalité Pro."
+          }
+        }
+      },
+      "text": {
+        "definitions": {
+          "default": {
+            "default": "is a very powerful feature of Aiko Mail. To learn more about it, head over to our documentation, to use it, upgrade to Pro."
+          },
+          "fr": {
+            "default": "est une fonctionnalité très puissante d'Aiko Mail. Pour en savoir plus, rendez-vous sur notre site internet, pour l'utiliser, passez à Pro."
+          }
+        }
+      },
+      "btn": {
+        "definitions": {
+          "default": {
+            "default": "Use"
+          },
+          "fr": {
+            "default": "Utiliser"
+          }
+        }
+      }
+    }
+  },
+  "email": {
+    "from": {
+      "definitions": {
+        "default": {
+          "default": "from"
+        },
+        "fr": {
+          "default": "de"
+        }
+      }
+    },
+    "cc": {
+      "definitions": {
+        "default": {
+          "default": "CC"
+        },
+        "fr": {
+          "default": "CC"
+        }
+      }
+    },
+    "to": {
+      "definitions": {
+        "default": {
+          "default": "to"
+        },
+        "fr": {
+          "default": "à"
+        }
+      }
+    },
+    "bcc": {
+      "definitions": {
+        "default": {
+          "default": "BCC"
+        },
+        "fr": {
+          "default": "CCI"
+        }
+      }
+    }
+  },
+  "composer": {
+    "font": {
+      "definitions": {
+        "default": {
+          "default": "Select font color"
+        },
+        "fr": {
+          "default": "Couleur de la police"
+        }
+      }
+    },
+    "align": {
+      "definitions": {
+        "default": {
+          "default": "Select alignment"
+        },
+        "fr": {
+          "default": "Sélection alignement"
+        }
+      }
+    },
+    "list": {
+      "definitions": {
+        "default": {
+          "default": "Select list type"
+        },
+        "fr": {
+          "default": "Type de liste"
+        }
+      }
+    },
+    "send": {
+      "definitions": {
+        "default": {
+          "default": "Send"
+        },
+        "fr": {
+          "default": "Envoyer"
+        }
+      }
+    },
+    "to": {
+      "definitions": {
+        "default": {
+          "default": "To"
+        },
+        "fr": {
+          "default": "A"
+        }
+      }
+    },
+    "cc": {
+      "definitions": {
+        "default": {
+          "default": "CC"
+        },
+        "fr": {
+          "default": "CC"
+        }
+      }
+    },
+    "bcc": {
+      "definitions": {
+        "default": {
+          "default": "BCC"
+        },
+        "fr": {
+          "default": "CCI"
+        }
+      }
+    },
+    "from": {
+      "definitions": {
+        "default": {
+          "default": "From"
+        },
+        "fr": {
+          "default": "DE"
+        }
+      }
+    },
+    "subject": {
+      "definitions": {
+        "default": {
+          "default": "Subject"
+        },
+        "fr": {
+          "default": "Sujet"
+        }
+      }
+    },
+    "show": {
+      "definitions": {
+        "default": {
+          "default": "Show Templates and Attachments"
+        },
+        "fr": {
+          "default": "Afficher les modèles et les pièces jointes"
+        }
+      }
+    }
+  },
+  "loader": {
+    "text1": {
+      "definitions": {
+        "default": {
+          "default": "Getting new emails onto your device"
+        },
+        "fr": {
+          "default": "Réception des nouveaux emails sur votre appareil"
+        }
+      }
+    },
+    "text2": {
+      "definitions": {
+        "default": {
+          "default": "Setting up your quick actions"
+        },
+        "fr": {
+          "default": "Configuration de vos Actions Rapides"
+        }
+      }
+    },
+    "text3": {
+      "definitions": {
+        "default": {
+          "default": "We're almost done"
+        },
+        "fr": {
+          "default": "Nous avons presque fini"
+        }
+      }
+    },
+    "text4": {
+      "definitions": {
+        "default": {
+          "default": "Creating summaries locally"
+        },
+        "fr": {
+          "default": "Création de synthèses"
+        }
+      }
+    },
+    "text5": {
+      "definitions": {
+        "default": {
+          "default": "Just a moment"
+        },
+        "fr": {
+          "default": "Encore un instant"
+        }
+      }
+    },
+    "info": {
+      "definitions": {
+        "default": {
+          "default": "Get familiar with Aiko Mail while you wait"
+        },
+        "fr": {
+          "default": "Familiarisez-vous avec Aiko Mail pendant que vous attendez"
+        }
+      }
+    },
+    "btn": {
+      "definitions": {
+        "default": {
+          "default": "Watch a demo"
+        },
+        "fr": {
+          "default": "Regarder une démo"
+        }
+      }
+    }
+  },
+  "settings": {
+    "title": {
+      "definitions": {
+        "default": {
+          "default": "Settings"
+        },
+        "fr": {
+          "default": "Réglages"
+        }
+      }
+    },
+    "version": {
+      "definitions": {
+        "default": {
+          "default": "Version"
+        },
+        "fr": {
+          "default": "Version"
+        }
+      }
+    },
+    "btn": {
+      "definitions": {
+        "default": {
+          "default": "Give feedback"
+        },
+        "fr": {
+          "default": "Donnez avis"
+        }
+      }
+    },
+    "request1": {
+      "definitions": {
+        "default": {
+          "default": "Request features and"
+        },
+        "fr": {
+          "default": "Donnez-nous"
+        }
+      }
+    },
+    "request2": {
+      "definitions": {
+        "default": {
+          "default": "report issues"
+        },
+        "fr": {
+          "default": "votre avis ici"
+        }
+      }
+    },
+    "account": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Account"
+          },
+          "fr": {
+            "default": "Compte"
+          }
+        }
+      },
+      "personal_info": {
+        "definitions": {
+          "default": {
+            "default": "Personal Information"
+          },
+          "fr": {
+            "default": "Informations personnelles"
+          }
+        }
+      },
+      "name": {
+        "definitions": {
+          "default": {
+            "default": "Name"
+          },
+          "fr": {
+            "default": "Nom"
+          }
+        }
+      },
+      "primary_email": {
+        "definitions": {
+          "default": {
+            "default": "Primary email address (used to sign in to Aiko Mail)"
+          },
+          "fr": {
+            "default": "Adresse email principale (utilisée pour se connecter à Aiko Mail)"
+          }
+        }
+      },
+      "send": {
+        "definitions": {
+          "default": {
+            "default": "Send verification"
+          },
+          "fr": {
+            "default": "Envoyer une vérification"
+          }
+        }
+      },
+      "primary_email_placeholder": {
+        "definitions": {
+          "default": {
+            "default": "Primary email"
+          },
+          "fr": {
+            "default": "Email principal"
+          }
+        }
+      },
+      "mailboxes": {
+        "definitions": {
+          "default": {
+            "default": "Mailboxes"
+          },
+          "fr": {
+            "default": "Boîtes aux lettres"
+          }
+        }
+      },
+      "add_remove": {
+        "definitions": {
+          "default": {
+            "default": "Add and remove email addresses to this device."
+          },
+          "fr": {
+            "default": "Ajouter et supprimer des adresses email sur cet appareil."
+          }
+        }
+      },
+      "remove": {
+        "definitions": {
+          "default": {
+            "default": "Remove"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      },
+      "add_mailbox": {
+        "definitions": {
+          "default": {
+            "default": "Add a mailbox"
+          },
+          "fr": {
+            "default": "Ajouter une boîte aux lettres"
+          }
+        }
+      },
+      "language": {
+        "title": {
+          "definitions": {
+            "default": {
+              "default": "Language"
+            },
+            "fr": {
+              "default": "Langue"
+            }
+          }
+        },
+        "info": {
+          "definitions": {
+            "default": {
+              "default": "Change global app language"
+            },
+            "fr": {
+              "default": "Langue principale de l'application"
+            }
+          }
+        },
+        "english": {
+          "definitions": {
+            "default": {
+              "default": "English"
+            },
+            "fr": {
+              "default": "English (Anglais)"
+            }
+          }
+        },
+        "french": {
+          "definitions": {
+            "default": {
+              "default": "Francais (French)"
+            },
+            "fr": {
+              "default": "Francais (French)"
+            }
+          }
+        }
+      }
+    },
+    "appearance": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Appearance"
+          },
+          "fr": {
+            "default": "Apparence"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Global app appearance"
+          },
+          "fr": {
+            "default": "Apparence globale de l'application"
+          }
+        }
+      },
+      "theme": {
+        "definitions": {
+          "default": {
+            "default": "Theme"
+          },
+          "fr": {
+            "default": "Thème"
+          }
+        }
+      },
+      "light": {
+        "definitions": {
+          "default": {
+            "default": "Light"
+          },
+          "fr": {
+            "default": "Clair"
+          }
+        }
+      },
+      "dark": {
+        "definitions": {
+          "default": {
+            "default": "Dark"
+          },
+          "fr": {
+            "default": "Foncé"
+          }
+        }
+      },
+      "system": {
+        "definitions": {
+          "default": {
+            "default": "System (default)"
+          },
+          "fr": {
+            "default": "Automatique (défaut)"
+          }
+        }
+      },
+      "inbox": {
+        "definitions": {
+          "default": {
+            "default": "Inbox appearance"
+          },
+          "fr": {
+            "default": "Apparence de la boîte de réception"
+          }
+        }
+      },
+      "lines": {
+        "definitions": {
+          "default": {
+            "default": "Lines of preview for each email in boards."
+          },
+          "fr": {
+            "default": "Lignes de prévisualisation pour chaque email dans les Boards."
+          }
+        }
+      },
+      "one_line": {
+        "definitions": {
+          "default": {
+            "default": "1 line"
+          },
+          "fr": {
+            "default": "1 ligne"
+          }
+        }
+      },
+      "two_lines": {
+        "definitions": {
+          "default": {
+            "default": "2 lines"
+          },
+          "fr": {
+            "default": "2 lignes"
+          }
+        }
+      },
+      "three_lines": {
+        "definitions": {
+          "default": {
+            "default": "3 lines (default)"
+          },
+          "fr": {
+            "default": "3 lignes (défaut)"
+          }
+        }
+      },
+      "accessibility": {
+        "definitions": {
+          "default": {
+            "default": "Accessibility"
+          },
+          "fr": {
+            "default": "Accessibilité"
+          }
+        }
+      },
+      "contrast": {
+        "definitions": {
+          "default": {
+            "default": "Increased contrast"
+          },
+          "fr": {
+            "default": "Contraste accru"
+          }
+        }
+      },
+      "contrast_off": {
+        "definitions": {
+          "default": {
+            "default": "Off (default)"
+          },
+          "fr": {
+            "default": "Désactivé (défaut)"
+          }
+        }
+      },
+      "contrast_on": {
+        "definitions": {
+          "default": {
+            "default": "On"
+          },
+          "fr": {
+            "default": "Activé"
+          }
+        }
+      }
+    },
+    "team": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Team"
+          },
+          "fr": {
+            "default": "Equipe"
+          }
+        }
+      },
+      "members": {
+        "definitions": {
+          "default": {
+            "default": "Team members"
+          },
+          "fr": {
+            "default": "Membres de l'équipe"
+          }
+        }
+      },
+      "members_subtitle": {
+        "definitions": {
+          "default": {
+            "default": "These members are part of your plan."
+          },
+          "fr": {
+            "default": "Ces membres font partie de votre plan."
+          }
+        }
+      },
+      "remove": {
+        "definitions": {
+          "default": {
+            "default": "Remove"
+          },
+          "fr": {
+            "default": "Supprimer"
+          }
+        }
+      },
+      "make_admin": {
+        "definitions": {
+          "default": {
+            "default": "Make admin"
+          },
+          "fr": {
+            "default": "Rendre administrateur"
+          }
+        }
+      },
+      "remove_admin": {
+        "definitions": {
+          "default": {
+            "default": "Remove admin rights"
+          },
+          "fr": {
+            "default": "Retirer les droits administrateur"
+          }
+        }
+      },
+      "invite": {
+        "definitions": {
+          "default": {
+            "default": "Invite a new member"
+          },
+          "fr": {
+            "default": "Inviter un nouveau membre"
+          }
+        }
+      },
+      "invite_csv": {
+        "definitions": {
+          "default": {
+            "default": "Invite bulk (csv)"
+          },
+          "fr": {
+            "default": "Inviter en masse (csv)"
+          }
+        }
+      }
+    },
+    "spaces": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Spaces"
+          },
+          "fr": {
+            "default": "Espaces"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "These are your spaces, used to separate boards by topics.<br />Hover over to decide which board are shown in them."
+          },
+          "fr": {
+            "default": "Vos Espaces sont utilisés pour séparer les Boards par sujets.<br />Passez la souris dessus pour décider quels tableaux y sont affichés."
+          }
+        }
+      },
+      "delete": {
+        "definitions": {
+          "default": {
+            "default": "Delete space"
+          },
+          "fr": {
+            "default": "Supprimer l'espace"
+          }
+        }
+      },
+      "add": {
+        "definitions": {
+          "default": {
+            "default": "Add a new Space"
+          },
+          "fr": {
+            "default": "Ajouter un nouvel espace"
+          }
+        }
+      }
+    },
+    "unsubscribe": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Unsubscribe"
+          },
+          "fr": {
+            "default": "Désabonner"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "These are the email subscriptions we have detected."
+          },
+          "fr": {
+            "default": "Voici les abonnements email que nous avons détectés."
+          }
+        }
+      },
+      "unsubscribe": {
+        "definitions": {
+          "default": {
+            "default": "Unsubscribe"
+          },
+          "fr": {
+            "default": "Se désabonner"
+          }
+        }
+      }
+    },
+    "templates": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Templates"
+          },
+          "fr": {
+            "default": "Modèles"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "These are templates you can use while composing new emails."
+          },
+          "fr": {
+            "default": "Vous pouvez utiliser les modèles (pre-écrits) lors de la rédaction de nouveaux emails."
+          }
+        }
+      },
+      "save": {
+        "definitions": {
+          "default": {
+            "default": "Save changes"
+          },
+          "fr": {
+            "default": "Sauvegarder"
+          }
+        }
+      },
+      "new": {
+        "definitions": {
+          "default": {
+            "default": "New template"
+          },
+          "fr": {
+            "default": "Nouveau modèle"
+          }
+        }
+      },
+      "placeholder_title": {
+        "definitions": {
+          "default": {
+            "default": "Template Name (e.g Sales rejection)"
+          },
+          "fr": {
+            "default": "Nom du modèle"
+          }
+        }
+      },
+      "placeholder_body": {
+        "definitions": {
+          "default": {
+            "default": "Template"
+          },
+          "fr": {
+            "default": "Modèle"
+          }
+        }
+      }
+    },
+    "signatures": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Signatures"
+          },
+          "fr": {
+            "default": "Signatures"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "These are your signatures."
+          },
+          "fr": {
+            "default": "Vos signatures en fin d'email."
+          }
+        }
+      },
+      "for": {
+        "definitions": {
+          "default": {
+            "default": "for"
+          },
+          "fr": {
+            "default": "pour"
+          }
+        }
+      },
+      "save": {
+        "definitions": {
+          "default": {
+            "default": "Save changes"
+          },
+          "fr": {
+            "default": "Sauvegarder"
+          }
+        }
+      }
+    },
+    "billing": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Plans / Billing"
+          },
+          "fr": {
+            "default": "Facturation"
+          }
+        }
+      },
+      "plans": {
+        "definitions": {
+          "default": {
+            "default": "Plans"
+          },
+          "fr": {
+            "default": "Forfaits"
+          }
+        }
+      },
+      "plans_list": {
+        "definitions": {
+          "default": {
+            "default": "These are the available plans, click to upgrade."
+          },
+          "fr": {
+            "default": "Voici les plans disponibles, cliquez pour mettre à niveau."
+          }
+        }
+      },
+      "month": {
+        "definitions": {
+          "default": {
+            "default": "month"
+          },
+          "fr": {
+            "default": "mois"
+          }
+        }
+      },
+      "current": {
+        "definitions": {
+          "default": {
+            "default": "Current plan"
+          },
+          "fr": {
+            "default": "Fofait actuel"
+          }
+        }
+      },
+      "cancel_info": {
+        "definitions": {
+          "default": {
+            "default": "Cancel anytime"
+          },
+          "fr": {
+            "default": "Annulez à tout moment"
+          }
+        }
+      },
+      "upgrade_to": {
+        "definitions": {
+          "default": {
+            "default": "Upgrade to"
+          },
+          "fr": {
+            "default": "Activer le forfait"
+          }
+        }
+      },
+      "edit": {
+        "definitions": {
+          "default": {
+            "default": "Edit billing details"
+          },
+          "fr": {
+            "default": "Modifier les détails de facturation"
+          }
+        }
+      }
+    },
+    "integrations": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Integrations"
+          },
+          "fr": {
+            "default": "Intégrations"
+          }
+        }
+      },
+      "subtitle": {
+        "definitions": {
+          "default": {
+            "default": "Available integrations"
+          },
+          "fr": {
+            "default": "Intégrations disponibles"
+          }
+        }
+      },
+      "instructions": {
+        "definitions": {
+          "default": {
+            "default": "You can turn these on or off to use them in Aiko Mail"
+          },
+          "fr": {
+            "default": "Vous pouvez activer ou désactiver les intégrations pour les utiliser dans Aiko Mail"
+          }
+        }
+      },
+      "enable": {
+        "definitions": {
+          "default": {
+            "default": "Enable"
+          },
+          "fr": {
+            "default": "Activer"
+          }
+        }
+      },
+      "disable": {
+        "definitions": {
+          "default": {
+            "default": "Disable"
+          },
+          "fr": {
+            "default": "Désactiver"
+          }
+        }
+      },
+      "request": {
+        "definitions": {
+          "default": {
+            "default": "Request an integration"
+          },
+          "fr": {
+            "default": "Faire une demande d'intégration"
+          }
+        }
+      },
+      "request_info": {
+        "definitions": {
+          "default": {
+            "default": "If you don't see the integration you need, simply request it and we'll work on it."
+          },
+          "fr": {
+            "default": "Si vous ne voyez pas l'intégration dont vous avez besoin, demandez-la et nous l'ajouterons au plus vite."
+          }
+        }
+      },
+      "request_btn": {
+        "definitions": {
+          "default": {
+            "default": "Request an integration"
+          },
+          "fr": {
+            "default": "Faire une demande"
+          }
+        }
+      },
+      "zoom": {
+        "definitions": {
+          "default": {
+            "default": "Videoconferencing app, send link within the composer"
+          },
+          "fr": {
+            "default": "Application de visioconférence, envoyer le lien depuis le composeur"
+          }
+        }
+      },
+      "calendly": {
+        "definitions": {
+          "default": {
+            "default": "Send scheduling links right from the composer"
+          },
+          "fr": {
+            "default": "Envoyez des liens de calendrier directement depuis le composeur"
+          }
+        }
+      },
+      "zapier": {
+        "definitions": {
+          "default": {
+            "default": "connect Aiko Mail to your favorite apps"
+          },
+          "fr": {
+            "default": "Connectez Aiko Mail à vos applications préférées"
+          }
+        }
+      }
+    },
+    "others": {
+      "title": {
+        "definitions": {
+          "default": {
+            "default": "Others"
+          },
+          "fr": {
+            "default": "Autres"
+          }
+        }
+      },
+      "title2": {
+        "definitions": {
+          "default": {
+            "default": "Other Settings"
+          },
+          "fr": {
+            "default": "Autres Réglages"
+          }
+        }
+      }
+    }
+  },
+  "scribe": {
+    "prompt": {
+      "greeting": {
+        "definitions": {
+          "default": {
+            "default": "Hi"
+          },
+          "fr": {
+            "default": "Bonjour"
+          }
         }
       }
     }

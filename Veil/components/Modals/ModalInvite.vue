@@ -1,26 +1,27 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 </script>
 
 <template>
   <div class="modal-invite">
-    <Icon name="user" color="blue" />
-    <h1>Invite a friend</h1>
+    <Icon name="user" color="normal" />
+    <h1>{{ i18n(RosettaStone.modals.invite.title) }}</h1>
     <input placeholder="Email address" autofocus />
-    <p>Send a free access to Aiko Mail to a friend</p>
+    <p>{{ i18n(RosettaStone.modals.invite.subtitle) }}</p>
     <div class="modal-bottom">
-      <ButtonPrimary>Invite</ButtonPrimary>
+      <ButtonPrimary>{{ i18n(RosettaStone.modals.invite.btn) }}</ButtonPrimary>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .modal-invite {
   width: 100%;
   height: 100%;
   text-align: center;
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   position: relative;
 }
 
@@ -50,5 +51,13 @@ input {
 
 p {
   margin-bottom: 50px;
+}
+
+a {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: calc(100% - 14px) !important;
+  left: 0 !important;
+  margin: 7px 7px !important;
 }
 </style>

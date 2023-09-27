@@ -8,17 +8,17 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .alert {
-  margin-bottom: 100px;
-  width: calc(100% - 16px);
-  margin-left: 8px;
-  margin-right: 8px;
+  margin-bottom: 80px;
+  width: calc(100% - 20px);
+  margin-left: 10px;
+  margin-right: 10px;
   position: absolute;
   padding: 7px;
   bottom: 0;
   left: 0;
-  background: var(--secondary-background-color);
+  background: var(--primary-background-color);
 }
 
 .sidebar.collapsed .alert {
@@ -30,9 +30,17 @@
   padding-right: 0;
 }
 
-@media only screen and (max-height: 510px) {
+@media only screen and (max-height: 610px) {
   .alert {
     display: none;
   }
+}
+
+.alert a {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 14px);
+  left: 0;
+  margin: 7px 7px;
 }
 </style>

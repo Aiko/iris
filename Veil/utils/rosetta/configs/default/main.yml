@@ -1,0 +1,307 @@
+lang: default
+platform: default
+
+messages:
+  sidebar:  #! SIDEBAR ------------------------------------------------
+    menu:
+      compose: Compose
+      home: Home
+      edit_spaces: Edit Spaces
+      sent: Sent
+      drafts: Drafts
+      archive: Archive
+      spam: Spam
+      trash: Trash
+      feedback_text: Request features and report issues
+      feedback_button: Give feedback
+    toggle_collapse: Toggle sidebar collapse
+    open_documentation: Open Documentation
+    open_settings: Open Settings
+    open_calendar: Open Calendar
+
+  header:  #! HEADER ------------------------------------------------
+    search:
+      placeholder: Search
+      tip: Press ENTER to search
+    toasts:
+      sending_email_text: Sending email...
+      sending_email_btn: Undo
+      voice_state_clicked: Start speaking
+      voice_state_clicked_btn:  Cancel
+      voice_state_start: Start speaking
+      voice_state_start_btn:  Cancel
+      voice_state_transcribing: Transcribing
+      voice_state_transcribing_btn:  Cancel
+      voice_state_writing: Writing email
+      voice_state_writing_btn:  Cancel
+      email_sent: Email sent
+      sending_invite: Sending invite...
+      sending_invite_btn: Undo
+      invite_sent: Invite sent
+      trouble_connecting_internet: We're having trouble connecting to the internet
+      trouble_connecting_mail_provider: We're having issues connecting to your mail provider
+      cant_send_network: We were unable to send your message due to network issues
+      board_suggestion_travel: Looks like you receive a lot of Travel emails
+      board_suggestion_travel_btn: Create Travel board
+  boards:  #! BOARDS ------------------------------------------------
+    board:
+      priority_other: Priority includes important emails and Others tab include secondary importance emails.
+      board_rules: Board rules let you automatically sort emails into existing boards based on content, type, sender...
+      board_rules_btn: Board rules
+      sort_emails_btn: Sort emails
+      sort_emails_date1_btn: Date (Newest first)
+      sort_emails_date2_btn: Date (Oldest first)
+      sort_emails_unread_btn: Unread first
+      priority: Priority
+      other: Other
+      drag_emails_here: Drag emails here
+      loading_more_emails: Loading more emails
+      check_others: Check 'Others' tab
+      info_small: "Board size: Small"
+      info_medium: "Board size: Medium"
+      info_large: "Board size: Large"
+      count_share: "Number of people you share this board with"
+      count_unread: "Number of unread emails in this board"
+    email_cards:
+      reply: Reply to this email
+      reply_all: Reply to all participants in this email
+      forward: Forward this email
+      star: Star this email
+      trash: Move this email to the trash
+      click_to_send: Click to send your reply
+      generate_info: Write a brief answer and click this button to generate a perfect email
+      has_attachments: This email has attachment(s)
+      bccd: You were BCC'ed
+      info_tracker: One or more trackers blocked from tracking you
+      contains_event: Email contains an event
+      info_quick_reply: Reply to this email right from the homescreen
+      quick_reply: Quick Reply
+      open_app: Open
+      copy_code: Copy Code
+      schedule: Schedule
+      send: Send
+      voice: Voice
+      generate: Generate
+      scribe_placeholder: Type a reply here and send it or click the brain button to generate with AI
+      thread: Number of emails in this thread
+    new_board:
+      tip: Add a new board
+  
+  modals: #! MODALS ------------------------------------------------
+    add_board:
+      title: Add new board
+      subtitle: Organize your emails manually, or automatically using board rules.
+      btn: Add board
+    add_mailbox:
+      title: Add a mailbox
+      subtitle1: Sign in using your email provider
+      subtitle2: Manual entry (IMAP)
+      form:
+        email: Email
+        password: Password
+        imap_host: IMAP Host
+        imap_port: IMAP Port
+        smtp_host: SMTP Host
+        smtp_port: SMTP Port
+        back: Back
+        add_mailbox: Add mailbox
+    add_space:
+      title: Add new Space
+      subtitle: Organize your boards within spaces to separate topics.
+      placeholder: Space name
+      btn: Add space
+    board_rules:
+      title: Board rules
+      subtitle: Board rules automatically sort incoming emails from your inbox into your other existing boards.
+      existing: Existing board rules
+      if: if
+      from: from
+      to: to
+      and: and
+      remove_condition: Remove extra condition
+      subject_has: Subject has
+      contains: Contains
+      quick_action: Quick Action
+      then_do_this: then do this
+      star: Star
+      forward_to: Forward to
+      archive: Archive
+      delete: Delete
+      add_rule: Add rule
+      run_everything: Run everything
+      force_run: Force run all rules now on existing emails
+      info_add_condition: You may add complex conditions (if this AND that, then do this)
+      priority: Priority
+      attachment_name: Attachment name
+      attachment_type: Attachment type
+      type_here: Type here
+      add_condition: Add another condition (Optional)
+      move_to: move to
+      remove: Remove
+      new_board_rule: New board rule
+    email:
+      show_participants: Show Participants and Details
+      participants: Participants
+      email: Email
+      send_new: Send a new email
+      related_emails: Related Emails
+      notes: Notes
+      show_more: Show more
+      summary: Summary
+    feedback:
+      step1: Step 1
+      download_files: Download the "logs" file
+      logs_info: Logs are files telling us which errors happen at what time.
+      skip: You can skip this step if this is a feature request
+      download_logs: Download logs
+      step2: Step 2
+      file_bug: File a bug report / feature request
+      open_browser: This button will open a link in your browser, you can upload the downloaded logs file there
+      open_form: Open the form
+    invite:
+      title: Invite a friend
+      subtitle: Send a free access to Aiko Mail to a friend
+      btn: Invite
+    invite_team:
+      title: Invite a team member
+      subtitle: Once they accept, they will be added to your plan at the current price per seat.
+      email_address: Email address
+      btn: Invite
+    share_board:
+      title: Share this board
+      subtitle: Share this board with other people
+      email_address: Email address
+      current: Currently shared with
+      done: Done
+      add: Add
+      remove: Remove
+    shell:
+      text: Click anywhere outside of this window or press ESC to exit
+    upgrade:
+      title: You found a Pro feature.
+      text: is a very powerful feature of Aiko Mail. To learn more about it, head over to our documentation, to use it, upgrade to Pro.
+      btn: Use
+
+  email: #! EMAIL ------------------------------------------------
+    from: from
+    cc: CC
+    to: to
+    bcc: BCC
+
+  composer: #! COMPOSER ------------------------------------------------
+    font: Select font color
+    align: Select alignment
+    list: Select list type
+    send: Send
+    to: To
+    cc: CC
+    bcc: BCC
+    from: From
+    subject: Subject
+    show: Show Templates and Attachments
+  
+  loader: #! LOADER ------------------------------------------------
+    text1: Getting new emails onto your device
+    text2: Setting up your quick actions
+    text3: We're almost done
+    text4: Creating summaries locally
+    text5: Just a moment
+    info: Get familiar with Aiko Mail while you wait
+    btn: Watch a demo
+
+  settings:
+    title: Settings
+    version: Version
+    btn: Give feedback
+    request1: Request features and
+    request2: report issues
+    account:
+      title: Account
+      personal_info: Personal Information
+      name: Name
+      primary_email: Primary email address (used to sign in to Aiko Mail)
+      send: Send verification
+      primary_email_placeholder: Primary email
+      mailboxes: Mailboxes
+      add_remove: Add and remove email addresses to this device.
+      remove: Remove
+      add_mailbox: Add a mailbox
+      language:
+        title: Language
+        info: Change global app language
+        english: English
+        french: Francais (French)
+    appearance:
+      title: Appearance
+      subtitle: Global app appearance
+      theme: Theme
+      light: Light
+      dark: Dark
+      system: System (default)
+      inbox: Inbox appearance
+      lines: Lines of preview for each email in boards.
+      one_line: 1 line
+      two_lines: 2 lines
+      three_lines: 3 lines (default)
+      accessibility: Accessibility
+      contrast: Increased contrast
+      contrast_off: Off (default)
+      contrast_on: On
+    team:
+      title: Team
+      members: Team members
+      members_subtitle: These members are part of your plan.
+      remove: Remove
+      make_admin: Make admin
+      remove_admin: Remove admin rights
+      invite: Invite a new member
+      invite_csv: Invite bulk (csv)
+    spaces:
+      title: Spaces
+      subtitle: These are your spaces, used to separate boards by topics.<br />Hover over to decide which board are shown in them.
+      delete: Delete space
+      add: Add a new Space
+    unsubscribe:
+      title: Unsubscribe
+      subtitle: These are the email subscriptions we have detected.
+      unsubscribe: Unsubscribe
+    templates:
+      title: Templates
+      subtitle: These are templates you can use while composing new emails.
+      save: Save changes
+      new: New template
+      placeholder_title: Template Name (e.g Sales rejection)
+      placeholder_body: Template
+    signatures:
+      title: Signatures
+      subtitle: These are your signatures.
+      for: for
+      save: Save changes
+    billing:
+      title: Plans / Billing
+      plans: Plans
+      plans_list: These are the available plans, click to upgrade.
+      month: month
+      current: Current plan
+      cancel_info: Cancel anytime
+      upgrade_to: Upgrade to
+      edit: Edit billing details
+    integrations:
+      title: Integrations
+      subtitle: Available integrations
+      instructions: You can turn these on or off to use them in Aiko Mail
+      enable: Enable
+      disable: Disable
+      request: Request an integration
+      request_info: If you don't see the integration you need, simply request it and we'll work on it.
+      request_btn: Request an integration
+      zoom: Videoconferencing app, send link within the composer
+      calendly: Send scheduling links right from the composer
+      zapier: connect Aiko Mail to your favorite apps
+    others:
+      title: Others
+      title2: Other Settings
+
+  scribe: #! SCRIBE ------------------------------------------------
+    prompt:
+      greeting: Hi

@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import Sidebar from "@Veil/components/Sidebar/Sidebar.vue"
-import Main from "@Veil/components/Base/Main.vue"
+import "@aiko/dwarfhaven"
 import LoaderScreen from "@Veil/components/Base/LoaderScreen.vue"
 import ControlBar from "@Veil/components/Base/ControlBar.vue"
-import { isFullScreen } from '@Veil/state/sections'
-import { isLoading } from '@Veil/state/sections'
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { isFullScreen } from '@Veil/state/common'
+import { isLoading, platform } from '@Veil/state/common'
+import { selectedModal, Modal } from '@Veil/state/common'
 import ModalShell from '@Veil/components/Modals/ModalShell.vue'
 import ModalAddBoard from '@Veil/components/Modals/ModalAddBoard.vue'
 import ModalBoardRules from '@Veil/components/Modals/ModalBoardRules.vue'
@@ -17,23 +16,24 @@ import ModalAddSpace from '@Veil/components/Modals/ModalAddSpace.vue'
 import Settings from '@Veil/views/Settings.vue'
 import ModalInvite from '@Veil/components/Modals/ModalInvite.vue'
 import ModalInviteTeam from '@Veil/components/Modals/ModalInviteTeam.vue'
+import ModalShareBoard from '@Veil/components/Modals/ModalShareBoard.vue'
 import devtools from '@vue/devtools'
 if (process.env.NODE_ENV === 'development') devtools.connect()
 </script>
 
 <template>
+  <div :class="{
+    'app': true,
+    'fullscreen': isFullScreen,
+    'mac': platform === 'darwin',
+  }">
+    <!-- Control Bar-->
+    <ControlBar v-if="!isFullScreen && platform === 'darwin'" />
+
+    <router-view />
+  </div>
   <!--Full Screen Loader-->
   <LoaderScreen v-if="isLoading" />
-
-  <!-- Control Bar-->
-  <ControlBar v-if="!isFullScreen" />
-
-  <!--Sidebar-->
-  <Sidebar />
-
-  <!--Main content right of sidebar-->
-  <Main />
-
 
   <!--Modals-->
   <ModalShell size="small" v-if="selectedModal === Modal.Upgrade">
@@ -75,4 +75,18 @@ if (process.env.NODE_ENV === 'development') devtools.connect()
   <ModalShell size="medium" v-if="selectedModal == Modal.Feedback">
     <ModalFeedback />
   </ModalShell>
+
+  <ModalShell size="medium" v-if="selectedModal == Modal.ShareBoard">
+    <ModalShareBoard />
+  </ModalShell>
 </template>
+
+<style lang="scss" scoped>
+.app {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
+  background-color: transparent;
+  display: inline-flex;
+}
+</style>@Veil/state/common@Veil/state/common@Veil/state/common

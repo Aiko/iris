@@ -1,8 +1,10 @@
 @import'./bootstrap.min.css';
 @import "./auto.css";
 /* TODO: OTHER CSS FILES TO IMPORT BASED ON PREFERENCE
+TODO: NEED TO UPDATE LIGHT AND DARK CSS WITH AUTO PROPERTIES
 @import "./dark.css";
 @import "./light.css";
+@import "./tesla.css";
 */
 
 html,
@@ -11,15 +13,13 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--secondary-background-color);
   display: inline-flex;
 }
 
 #app {
   width: 100%;
   height: 100%;
-  padding: 28px 0 0 0;
-  background-color: var(--secondary-background-color);
+  background-color: transparent;
   display: inline-flex;
 }
 
@@ -41,7 +41,7 @@ section {
 
 a {
   text-decoration: none !important;
-  cursor: pointer !important;
+  cursor: default !important;
 }
 
 p {
@@ -135,7 +135,7 @@ textarea {
   color: var(--strong-font-color);
   outline: none;
   cursor: text;
-  transition: .2s;
+  transition: .1s;
 }
 
 .primary {
@@ -208,7 +208,7 @@ textarea {
 
 .aikocheckbox input[type="checkbox"]+label {
   position: relative;
-  cursor: pointer;
+  cursor: default;
 }
 
 .aikocheckbox input[type="checkbox"]+label:hover:before {
@@ -266,7 +266,7 @@ textarea {
 [type="radio"]:not(:checked)+label {
   position: relative;
   padding-left: 28px;
-  cursor: pointer;
+  cursor: default;
   line-height: 20px;
   display: inline-block;
   color: var(--primary-font-color);
@@ -309,4 +309,26 @@ textarea {
   opacity: 1;
   -webkit-transform: scale(1);
   transform: scale(1);
+}
+
+.ghost.small {
+  width: 30px !important;
+  transition: .2s;
+}
+
+.ghost.large {
+  width: 300px !important;
+  transition: .2s;
+}
+
+.ghost.medium {
+  width: 150px !important;
+  transition: .2s;
+}
+
+
+.dragarea {
+  width: 100%;
+  height: 100%;
+  transition: .2s;
 }

@@ -4,9 +4,13 @@ import { readFileSync, writeFileSync } from "fs"
 //? Add your YAML file under configs and put its name here to load it
 const configs = [
   'example', //* -> configs/example.yml
-  'default/sidebar',
-  'default/sidebar-win',
-  'default/sidebar-mac',
+  'default/main', //* -> Default, Default
+  'default/mac', //* -> Mac, Default
+  'default/win', //* -> Windows, Default
+  'fr/main', //* -> Default, French
+  'fr/mac', //* -> Mac, French
+  'fr/win', //* -> Windows, French
+
 ]
 
 interface RosettaDefinition {
@@ -44,7 +48,7 @@ configs.forEach((config: string) => {
       //? if we hit a leaf node, add it to the RosettaStone
       if (typeof config[key] === "string") {
         const value = config[key] as string
-        if (!stone[key]) stone[key] = {definitions: {}}
+        if (!stone[key]) stone[key] = { definitions: {} }
         if (!isDefinition(stone[key])) throw new Error(`Key ${key} conflict: Stone contains config, but YAML contains definition`)
         const Defn = stone[key] as RosettaDefinition
         if (!Defn.definitions[configYAML.lang]) Defn.definitions[configYAML.lang] = {}

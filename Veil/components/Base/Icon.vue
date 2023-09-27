@@ -1,15 +1,16 @@
 <script lang="ts" setup>
+import defs from '@Veil/utils/icon-definitions'
 defineProps<{
-  name?: string;
+  name?: string & keyof typeof defs;
   color?: string;
 }>();
 </script>
 
 <template>
-  <img :src="'Veil/assets/icons/' + name + '.svg'" :class="color" draggable="false" />
+  <img :src="defs[name!]" :class="color" draggable="false" />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 img {
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -18,31 +19,31 @@ img {
   user-select: none;
 }
 
-.blue {
-  filter: invert(36%) sepia(70%) saturate(2590%) hue-rotate(217deg) brightness(101%)
-    contrast(101%);
+.accent {
+  filter: var(--primary-color-filter);
 }
 
 .red {
-  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
-    contrast(106%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%) contrast(106%);
 }
 
 .error {
-  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%)
-    contrast(106%);
+  filter: invert(16%) sepia(82%) saturate(7141%) hue-rotate(347deg) brightness(80%) contrast(106%);
 }
 
 .grey {
   filter: var(--icon-filter);
+  opacity: .5;
 }
 
 .gray {
+  opacity: .5;
   filter: var(--icon-filter);
 }
 
-.normal {
+.normal, .default {
   filter: var(--icon-filter);
+  opacity: .5;
 }
 
 .white {

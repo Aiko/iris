@@ -6,18 +6,15 @@
   --primary-color-hover: #4366e8;
 
   /* Background colors (Application, elements and windows) */
-  --primary-background-color: #1e212a;
-  --secondary-background-color: #0c0e13;
+  --primary-background-color: #8b94d424;
+  --secondary-background-color: #181920db;
 
-  --primary-background-color-hover: #14161b;
-  --secondary-background-color-hover: #21201d;
-
-  --modal-backdrop: #000000b3;
+  --modal-backdrop: #16171ef2;
 
   /* Fonts */
   --primary-font: "";
-  --primary-font-color: #929aad;
-  --strong-font-color: #ffffff;
+  --primary-font-color: #b6b8d6;
+  --strong-font-color: #dddee9;
   --body-font-size: 14px;
   --small-font-size: 13px;
 
@@ -29,14 +26,24 @@
   --primary-border-radius: 5px;
 
   /* Changes the color fo all icons */
-  --icon-filter: invert(66%) sepia(14%) saturate(350%) hue-rotate(184deg) brightness(91%) contrast(88%);
+  --primary-color-filter: invert(83%) sepia(59%) saturate(1823%) hue-rotate(189deg) brightness(82%) contrast(87%);
+  --icon-filter: invert(83%) sepia(59%) saturate(1823%) hue-rotate(189deg) brightness(82%) contrast(87%);
+  ;
 
   /* Shadows */
   --sidebar-shadow: 3px 50px 10px #00000040;
   --header-shadow: 8px 1px 10px #0000002e;
-  --board-shadow: 0 0 15px #00000024;
+  --board-shadow: 0px 4px 20px 0 #0000001c;
   --modal-shadow: 0 0 75px -10px #00000047;
   --email-bottom-shadow: inset 5px 22px 40px -20px #00000073;
+}
+
+.editor {
+  background: var(--primary-background-color);
+}
+
+body {
+  background-color: #00011140;
 }
 
 @media screen and (prefers-color-scheme: light) {
@@ -44,40 +51,92 @@
   /* Light theme Variables */
   :root {
     /* Background colors (Application, elements and windows) */
-    --primary-background-color: #d6e1f0;
-    --secondary-background-color: #ffffff;
+    --primary-background-color: #49494917;
+    --secondary-background-color: #ffffffc9;
 
-    --primary-background-color-hover: #bbc9dc;
-    --secondary-background-color-hover: #21201d;
-
-    --modal-backdrop: #ffffff7d;
+    --modal-backdrop: #ffffffb0;
 
     /* Fonts */
     --primary-font: "";
-    --primary-font-color: #515688;
-    --strong-font-color: #282c4c;
+    --primary-font-color: #0000007a;
+    --strong-font-color: #000000e0;
 
     /* Changes the color fo all icons */
-    --icon-filter: invert(31%) sepia(7%) saturate(3361%) hue-rotate(197deg) brightness(101%) contrast(84%);
+    --icon-filter: none;
 
     /* Shadows */
     --sidebar-shadow: none;
-    --header-shadow: none;
-    --board-shadow: none;
-    --modal-shadow: box-shadow: 0 0 75px -10px #00408547;
-    --modal-special-background: #e1e7f7cc;
-    --email-bottom-shadow: inset 5px 30px 10px -30px #00000017 !important;
+    --header-shadow: 8px 1px 10px #0000002e;
+    --board-shadow: 0px 4px 20px 0 #ffffff5e;
+    --modal-shadow: 0 0 70px 20px #00000042;
+    --modal-bg: #1f1f1fcf;
+    --email-bottom-shadow: inset 5px 22px 40px -20px #00000012;
   }
+
   #app {
     overflow: hidden;
     user-select: none;
     background-position: top;
     background-size: cover;
   }
+
   .modal {
     background: var(--modal-special-background);
   }
+
   .email-card:hover {
     filter: brightness(0.97) !important;
+  }
+
+  .composer .left {
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .right {
+    background: var(--primary-background-color) !important;
+  }
+
+  .composer input {
+    border: none;
+    border-top: 2px solid var(--primary-background-color);
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer .textarea {
+    border-top: 2px solid var(--primary-background-color) !important;
+    background: var(--secondary-background-color) !important;
+  }
+
+  .composer input:focus,
+  .composer input:active {
+    filter: brightness(0.96) !important;
+    transition: .1s;
+  }
+
+  .composer .bottom {
+    background: var(--secondary-background-color) !important;
+  }
+
+  .small .board-header:hover {
+    filter: brightness(0.95) !important;
+    transition: .1s;
+  }
+
+  .small-board-click-area:hover+.board-header {
+    filter: brightness(0.95) !important;
+    transition: .1s;
+  }
+
+  .email-card.qr .quick-reply {
+    background: #fff !important;
+    box-shadow: inset 0px 0px 30px -10px #00000054 !important;
+  }
+
+  .editor {
+    background: var(--secondary-background-color);
+  }
+
+  body {
+    background-color: #0005d50a;
   }
 }

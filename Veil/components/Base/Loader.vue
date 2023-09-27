@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .loader {
   display: inline-block;
   position: relative;

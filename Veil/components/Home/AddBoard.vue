@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import Icon from "@Veil/components/Base/Icon.vue"
-import { infoContent } from '@Veil/state/sections'
+import { infoContent } from '@Veil/state/common'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+
 
 
 // Information variables for 'AddBoard' component
-const infoAddBoard = 'Add a new board'
+const infoAddBoard = i18n(RosettaStone.boards.new_board.tip)
 </script>
 
 <template>
@@ -13,9 +15,9 @@ const infoAddBoard = 'Add a new board'
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .add-board {
-  cursor: pointer;
+  cursor: default;
   width: 30px;
   height: 185px;
   background: var(--primary-background-color);
@@ -25,18 +27,17 @@ const infoAddBoard = 'Add a new board'
   box-shadow: var(--board-shadow);
   border: none !important;
   text-align: center;
-  opacity: .6;
   display: inline-table;
-  transition: .2s;
+  transition: .1s;
 }
 
 .add-board:hover {
-  opacity: 1;
-  transition: .2s;
+  filter: brightness(1.2);
+  transition: .1s;
 }
 
 .add-board img {
   margin-top: 80px;
   width: 15px;
 }
-</style>
+</style>@Veil/state/common

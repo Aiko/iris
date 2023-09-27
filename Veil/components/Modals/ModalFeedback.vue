@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import ButtonSecondary from '@Veil/components/Base/ButtonSecondary.vue';
 import ButtonPrimary from '@Veil/components/Base/ButtonPrimary.vue';
-import { isDevControlsCollapsed } from '@Veil/state/sections'
+import { isDevControlsCollapsed } from '@Veil/state/common'
 import Icon from '@Veil/components/Base/Icon.vue'
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 
 const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevControlsCollapsed.value)
 
 </script>
-  
+
 <template>
   <div :class="{
     'modal-feedback': true,
@@ -15,17 +16,23 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   }">
     <div class="left">
       <img src="@Veil/assets/img/bugsn.png" />
-      <h1><span>Step 1</span> - Download the "logs" file</h1>
-      <p>Logs are files telling us which errors happen at what time.<br><i>You can skip this step if this is a
-          feature request</i></p>
+      <h1><span>{{ i18n(RosettaStone.modals.feedback.step1) }}</span> {{
+        i18n(RosettaStone.modals.feedback.download_files)
+      }}
+      </h1>
+      <p>{{ i18n(RosettaStone.modals.feedback.logs_info) }}<br><i>{{ i18n(RosettaStone.modals.feedback.skip) }}</i>
+      </p>
+      <br />
       <ButtonPrimary>
-        <Icon name="download" color="white" /> Download Logs
+        <Icon name="download" color="white" /> {{ i18n(RosettaStone.modals.feedback.download_logs) }}
       </ButtonPrimary>
 
-      <h1><span>Step 2</span> - File a bug report / feature request</h1>
-      <p>This button will open a link in your browser, you can upload the downloaded logs file there</p>
+      <h1><span>{{ i18n(RosettaStone.modals.feedback.step2) }}</span> {{ i18n(RosettaStone.modals.feedback.file_bug) }}
+      </h1>
+      <p>{{ i18n(RosettaStone.modals.feedback.open_browser) }}</p>
+      <br />
       <ButtonPrimary>
-        <Icon name="link" color="white" /> Open the form
+        <Icon name="link" color="white" /> {{ i18n(RosettaStone.modals.feedback.open_form) }}
       </ButtonPrimary>
     </div>
     <div class="right">
@@ -49,20 +56,20 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
         </ButtonSecondary>
         <ButtonSecondary>Open Mouseion</ButtonSecondary>
         <ButtonSecondary>Test IMAP Connection
-          <Icon name="check" color="blue" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
         <ButtonSecondary>Test SMTP Connection
-          <Icon name="check" color="blue" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
         <ButtonSecondary>Test Mail Connection
-          <Icon name="check" color="blue" />
+          <Icon name="check" color="normal" />
         </ButtonSecondary>
       </div>
     </div>
   </div>
 </template>
   
-<style scoped>
+<style lang="scss" scoped>
 .modal-feedback {
   width: 100%;
   overflow: hidden;
@@ -89,10 +96,10 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
 .left {
   width: 100%;
   position: relative;
-  padding: 35px 30px;
+  padding: 35px 60px 35px 30px;
   background: var(--primary-background-color);
   height: 100%;
-  transition: .2s;
+  transition: .1s;
 }
 
 .left img {
@@ -124,15 +131,15 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   top: 0;
   width: 300px;
   height: 100%;
-  background-color: var(--secondary-background-color);
+  background-color: var(--s-opaque);
   padding: 35px 30px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapsed .right {
   width: 30px;
   padding: 35px 0px;
-  transition: .2s;
+  transition: .1s;
 }
 
 .collapse-info {
@@ -144,7 +151,7 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
   top: 0;
   margin-top: 15px;
   margin-left: 4px;
-  cursor: pointer;
+  cursor: default;
   height: 100%;
 }
 
@@ -184,4 +191,4 @@ const toggleDevControlsCollapsed = () => isDevControlsCollapsed.value = !(isDevC
 .collapsed .content {
   display: none;
 }
-</style>
+</style>@Veil/state/common

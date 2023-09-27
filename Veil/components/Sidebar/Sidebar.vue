@@ -1,16 +1,21 @@
 <script lang="ts" setup>
-import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/sections";
+import { Sidebar, infoContent, selectedModal, Modal } from "@Veil/state/common";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import NavLink from "@Veil/components/Sidebar/NavLink.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import Alert from "@Veil/components/Sidebar/Alert.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+import { scribeVoice } from "@Veil/utils/whisper/whisper";
+import Logger from "@Veil/services/roots"
+
+
+const Log = new Logger("Sidebar")
 
 // Information variables for 'Sidebar' component
 const infoCollapse = i18n(RosettaStone.sidebar.toggle_collapse);
-const infoDocumentation = "Open documentation";
-const infoSettings = "Open settings";
-const infoCalendar = "Open calendar";
+const infoDocumentation = i18n(RosettaStone.sidebar.open_documentation);
+const infoSettings = i18n(RosettaStone.sidebar.open_settings);
+const infoCalendar = i18n(RosettaStone.sidebar.open_calendar);
 
 const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 </script>
@@ -21,65 +26,79 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
     collapsed: Sidebar.collapsed,
   }">
     <div class="top">
-      <ButtonPrimary href="/composer" target="_blank">
-        <Icon name="compose" color="white" class="special" />Compose
-      </ButtonPrimary>
+      <div class="composecont">
+        <ButtonPrimary @click="scribeVoice" target="_blank" class="voice">
+          <Icon name="microphone" color="white" class="special" />
+        </ButtonPrimary>
+        <ButtonPrimary target="_blank" class="norm">
+          <Icon name="compose" color="white" class="special" />{{ i18n(RosettaStone.sidebar.menu.compose) }}
+        </ButtonPrimary>
+      </div>
 
-      <NavLink active>
-        <Icon name="home" color="blue" />
-        <span class="name">Home</span>
-        <span class="count">99</span>
+      <NavLink class="home" active>
+        <Icon name="home" color="normal" />
+        <span class="name">{{ i18n(RosettaStone.sidebar.menu.home) }}</span>
       </NavLink>
 
-      <NavLink>
-        <Icon name="home" color="blue" />
-        <span class="name">Times Square</span>
+      <NavLink class="space">
+        <Icon name="square-rounded" color="normal" />
+        <span class="name">Legal</span>
         <span class="count">3</span>
       </NavLink>
 
-      <NavLink>
-        <Icon name="home" color="blue" />
-        <span class="name">Aiko Email</span>
+      <NavLink class="space">
+        <Icon name="square-rounded" color="normal" />
+        <span class="name">Accounting</span>
         <span class="count">9</span>
       </NavLink>
 
-      <NavLink>
-        <Icon name="home" color="blue" />
-        <span class="name">Gmail</span>
+      <NavLink class="space">
+        <Icon name="square-rounded" color="normal" />
+        <span class="name">Personal</span>
         <span class="count">0</span>
       </NavLink>
 
       <div class="space-actions">
         <span v-if="!Sidebar.collapsed">
-          <Icon name="home" color="normal" class="spaces-icon" /> Edit Spaces
+          <Icon name="square-rounded" color="normal" class="spaces-icon" /> {{ i18n(RosettaStone.sidebar.menu.edit_spaces)
+          }}
         </span>
       </div>
 
       <NavLink>
-        <Icon name="sent" color="normal" />Sent
+        <Icon name="sent" color="normal" />{{ i18n(RosettaStone.sidebar.menu.sent) }}
       </NavLink>
       <NavLink>
-        <Icon name="drafts" color="normal" />Drafts
+        <Icon name="drafts" color="normal" />{{ i18n(RosettaStone.sidebar.menu.drafts) }}
       </NavLink>
       <NavLink>
-        <Icon name="archive" color="normal" />Archive
+        <Icon name="archive" color="normal" />{{ i18n(RosettaStone.sidebar.menu.archive) }}
       </NavLink>
       <NavLink>
-        <Icon name="spam" color="normal" />Spam
+        <Icon name="spam" color="normal" />{{ i18n(RosettaStone.sidebar.menu.spam) }}
       </NavLink>
       <NavLink>
-        <Icon name="trash" color="normal" />Trash
+        <Icon name="trash" color="normal" />{{ i18n(RosettaStone.sidebar.menu.trash) }}
       </NavLink>
     </div>
+
+
+
+
     <Alert>
       <!-- TODO: channel & version from Chiton -->
       <h1><b>BETA</b></h1>
       <div>#darwin-3.8.1:INTERNAL</div>
-      <p><span v-if="!Sidebar.collapsed">Request features and </span>report issues</p>
+
+      <p v-if="!Sidebar.collapsed"><span>{{ i18n(RosettaStone.settings.request1) }} </span> {{
+        i18n(RosettaStone.settings.request2)
+      }}</p>
       <ButtonPrimary @click="selectedModal = Modal.Feedback">
-        <span v-if="!Sidebar.collapsed">Give feedback</span>
+        <span v-if="!Sidebar.collapsed">{{ i18n(RosettaStone.settings.btn) }}</span>
         <Icon name="bug" color="white" v-if="Sidebar.collapsed" />
       </ButtonPrimary>
+
+
     </Alert>
     <div class="bottom">
       <div class="sidebar-collapse" @click="toggleSidebarCollapse" @mouseover="infoContent = infoCollapse"
@@ -99,16 +118,15 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .sidebar {
-  width: 160px;
+  width: 170px;
   height: 100%;
   background-color: var(--primary-background-color);
-  padding: 8px;
+  padding: 25px 10px 10px 10px;
   position: relative;
-  box-shadow: var(--sidebar-shadow);
   z-index: 1;
-  border-top-right-radius: var(--primary-border-radius);
+  box-shadow: var(--sidebar-shadow);
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -125,33 +143,81 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .sidebar-collapse {
   position: absolute;
   right: 0;
-  top: 0;
-  margin-top: -10px;
-  cursor: pointer !important;
+  bottom: 0;
+  margin-bottom: -2px;
+  cursor: default !important;
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   z-index: 1;
-  padding: 0 2px;
-  height: 19px;
-  background: var(--secondary-background-color);
-  border-radius: 5px;
+  padding: 5px 3px;
+  height: 30px;
+  background: var(--primary-background-color);
+  border-radius: var(--primary-border-radius);
+  transition: .1s;
+}
+
+.sidebar.collapsed .sidebar-collapse {
+  width: 37px;
+  padding-left: 10px;
+}
+
+.sidebar-collapse:hover {
+  background-color: var(--primary-background-color);
+  transition: .1s;
 }
 
 .sidebar-collapse img {
   width: 15px !important;
   margin-top: -8px;
-  opacity: 0.3;
+  opacity: .5;
   transition: 0.2s;
 }
 
-.sidebar-collapse img:hover {
-  opacity: 1;
+
+
+.sidebar.collapsed .sidebar-collapse img {
+  transform: rotate(180deg);
   transition: 0.2s;
 }
 
 .compose {
   margin-top: 0;
 }
+
+.composecont {
+  display: inline-flex;
+  position: relative;
+}
+
+.collapsed .composecont {
+  display: inline-grid;
+}
+
+.collapsed .composecont .norm {
+  position: relative;
+  padding: 4px 5px 5px 10px !important;
+}
+
+.collapsed .composecont .voice {
+  padding: 5px 4px 5px 8px !important;
+}
+
+.composecont .voice {
+  width: 30px;
+  width: 30px;
+  padding: 5px 6px;
+}
+
+.fullscreen .sidebar {
+  padding: 10px 10px 10px 10px !important;
+}
+
+.composecont .norm {
+  width: calc(100% - 36px);
+  position: absolute;
+  right: 0;
+}
+
 
 .sidebar .top {
   display: grid;
@@ -177,6 +243,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .bottom {
   display: inline-grid;
+  padding-bottom: 30px;
 }
 
 .sidebar.collapsed .bottom a {
@@ -189,24 +256,23 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-bottom: 20px;
   position: absolute;
   width: 100%;
-  border-top: 1px solid var(--secondary-background-color);
   padding-top: 20px;
   bottom: 0;
   left: 0;
 }
 
 .bottom a {
-  background: var(--primary-background-color);
   padding: 4px 5px 7px 5px;
   width: 30px;
   height: 30px;
   border-radius: var(--primary-border-radius);
-  margin-left: 19px;
+  margin-left: 10px;
+  margin-right: 9px;
   transition: 0.2s;
 }
 
 .bottom a:hover {
-  background: var(--primary-background-color-hover);
+  background: var(--primary-background-color);
   transition: 0.2s;
 }
 
@@ -232,7 +298,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .alert p {
   font-size: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 18px;
   z-index: 1;
 
   position: relative;
@@ -251,14 +317,12 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .alert b {
   color: var(--primary-color);
-
   font-weight: 700;
 }
 
 .alert div {
   position: relative;
   color: var(--primary-color);
-  background-color: var(--secondary-background-color);
   font-size: 13px;
   margin-top: 0;
   width: 100%;
@@ -274,13 +338,15 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 .alert h1:hover~div {
   margin-top: -20px;
   opacity: 1;
+  background-color: var(--p-opaque);
   height: unset;
-  transition: 0.2s;
+  z-index: 10;
   position: relative;
 }
 
+
 .alert div:hover {
-  margin-top: -20px;
+  margin-top: 0px;
   opacity: 1;
   height: unset;
   transition: 0.2s;
@@ -307,7 +373,7 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   width: 16px;
   line-height: 9px;
   padding-top: 0;
-  height: 11px;
+  height: 13px;
   margin-bottom: 7px;
   float: right;
   position: absolute;
@@ -318,7 +384,6 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
   margin-left: 7px;
   font-size: 11px;
   text-align: center;
-  background: var(--primary-color);
   color: #ffffff;
   border-radius: 2px;
 
@@ -326,34 +391,18 @@ const toggleSidebarCollapse = () => (Sidebar.collapsed = !Sidebar.collapsed);
 
 .sidebar.collapsed .count {
   border-radius: 50%;
-    margin-bottom: 0;
-    margin-left: 0;
-    height: 14px;
-    z-index: 3;
-    min-width: 14px;
-    width: 14px;
-    line-height: 14px;
+  margin-bottom: 0;
+  margin-left: 0;
+  height: 14px;
+  z-index: 3;
+  min-width: 14px;
+  width: 14px;
+  line-height: 14px;
 
-}
-.sidebar.collapsed .count:before {
-display: none;
-}
-
-
-.count:before {
-  content: "\A";
-  border-style: solid;
-  border-width: 8px 6px 8px 0;
-  border-color: transparent var(--primary-color) transparent transparent;
-  position: absolute;
-  top: -11px;
-  z-index: 0;
-  transform: rotate(90deg);
-  left: 0;
-  margin-left: 4px;
 }
 
 .space-actions {
+  display: none;
   border-top: 2px solid var(--secondary-background-color);
   margin: 10px 0 10px 0;
   position: relative;
@@ -368,53 +417,43 @@ display: none;
   top: 0;
   color: var(--primary-font-color);
   margin-top: -12px;
-  cursor: pointer;
+  cursor: default;
   padding: 0 4px;
   border-radius: var(--primary-border-radius);
   margin-left: 25px;
   opacity: 0;
-  transition: .2s;
+  transition: .1s;
 }
 
 .space-actions span:hover {
   background-color: var(--primary-background-color-hover);
-  transition: .2s;
+  transition: .1s;
 }
 
 .top:hover .space-actions span {
   opacity: 1;
-  transition: .2s;
+  transition: .1s;
 }
 
-.spaces-icon {
-  width: 13px;
-  margin-top: -3px;
-}
-
-.space-icon {
-  position: relative;
-}
-
-.space-icon span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  margin-left: 7px;
-  margin-top: 5px;
-  font-size: 10px;
+.space img {
+  width: 21px !important;
+  height: 21px !important;
+  margin-left: -2px;
+  margin-right: 4px !important;
 }
 
 .sidebar.collapsed .name {
   position: absolute;
-    left: 0;
-    bottom: 0;
-    font-size: 10px;
-    margin-bottom: 7px;
-    width: 7px;
-    overflow: hidden;
-    margin-left: 11px;
-    z-index: 2;
-    color: var(--primary-font-color);
-    height: 14px;
+  left: 0;
+  bottom: 0;
+  font-size: 10px;
+  margin-bottom: 7px;
+  width: 7px;
+  overflow: hidden;
+  margin-left: 11px;
+  z-index: 2;
+  color: var(--primary-font-color);
+  height: 14px;
 }
 </style>
+@Veil/state/common

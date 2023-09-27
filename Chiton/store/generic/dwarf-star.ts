@@ -1,0 +1,73 @@
+import path from 'path'
+import fs2 from 'fs-extra'
+import autoBind from 'auto-bind'
+import SockPuppet from '@Marionette/ws/sockpuppet'
+import type { Chiton } from '@Chiton/app'
+import datapath from '@Iris/common/datapath'
+
+// TODO: this should connect to Arachne to sync settings across devices
+
+/** Persistent data-store for small state (e.g. settings) */
+export default abstract class DwarfStar<T extends { version: number }> extends SockPuppet {
+	puppetry = {
+		get: this.clone,
+		set: this.set,
+		reset: this.reset,
+	}
+
+	protected state: T | null = null
+	protected checkInitialize(): boolean { return !!(this.state) }
+	protected async initialize(args: any[], success: (payload: object) => void) {
+		if (this.state) return this.Log.error("Already initialized.")
+		this.state = args[0] as T
+		success(this.save())
+	}
+
+	protected abstract migrations: {[version: number]: (state: any) => any}
+
+	protected save(): T {
+    fs2.writeFileSync(this.fp, JSON.stringify(this.state))
+		this.trigger('update', this.clone())
+    return JSON.parse(fs2.readFileSync(this.fp, { encoding: "utf-8" })) as T
+  }
+	private set(state: Partial<T>): T {
+		this.state = {
+			...(this.state!),
+			...state,
+		}
+		return this.save()
+	}
+	protected reset(version: number): T {
+    fs2.ensureFileSync(this.fp)
+    const state = JSON.parse(fs2.readFileSync(this.fp, {encoding: "utf-8"})) as T
+		if (!state) {
+			this.Log.error("Reset failed: state is empty.")
+			throw new Error("Cannot reset to empty state.")
+		}
+		const migrations = Object.keys(this.migrations).filter(v => +v > state.version && +v <= version)
+		this.state = migrations.length > 0 ?
+			migrations.reduce((s, v) => this.migrations[+v](s), state)
+			: state
+    return this.save()
+  }
+  private clone(): T {
+    return JSON.parse(JSON.stringify(this.state));
+  }
+
+	/** Utilize this only for small state. */
+	constructor(
+		chiton: Chiton,
+		name: string,
+		private readonly fp: string,
+	) {
+		super(name + ' (DwarfStar)', {
+			forest: chiton.forest,
+			renderer: false
+		})
+
+		this.fp = datapath(fp)
+		autoBind(this)
+	}
+
+	public get(): T { return this.state! }
+}

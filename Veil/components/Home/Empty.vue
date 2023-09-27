@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .empty {
   width: 100%;
   height: 112px;
@@ -21,7 +21,12 @@
   margin-bottom: 15px;
 }
 
+.small .empty {
+  display: none;
+}
+
 .middle {
   margin-top: 5px;
+	width: 100%;
 }
 </style>

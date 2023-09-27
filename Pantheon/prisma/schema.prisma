@@ -1,0 +1,131 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["metrics"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Mailbox {
+  email     String    @id
+  createdAt DateTime  @default(now())
+  provider  String //* see: enums.ts
+  folders   Folder[]  @relation
+  contacts  Contact[] @relation
+}
+
+model Message {
+  // Identifiers
+  mid           String       @id
+  tid           String
+  // Metadata
+  seen          Boolean
+  starred       Boolean
+  subject       String
+  summary       String
+  timestamp     DateTime
+  // Thread
+  thread        Thread       @relation(fields: [tid], references: [tid])
+  // Relations
+  fromEmail     String
+  from          Contact      @relation("from", fields: [fromEmail], references: [email])
+  to            Contact[]    @relation("to")
+  cc            Contact[]    @relation("cc")
+  bcc           Contact[]    @relation("bcc")
+  allRecipients Contact[]    @relation("recipients")
+  folders       Folder[]     @relation
+  attachments   Attachment[] @relation
+}
+
+model Attachment {
+  path        String   @id
+  name        String
+  contentType String
+  size        Int
+  timestamp   DateTime
+  cid         String?
+  embedded    Boolean  @default(false)
+  mid         String
+  message     Message  @relation(fields: [mid], references: [mid])
+  authorEmail String
+  author      Contact  @relation(fields: [authorEmail], references: [email])
+}
+
+model Contact {
+  name              String
+  email             String       @id
+  base              String
+  // Stats
+  messagesSent      Int          @default(0)
+  messagesReceived  Int          @default(0)
+  // Controls
+  blocked           Boolean      @default(false)
+  rollup            Boolean      @default(false)
+  whitelisted       Boolean      @default(false)
+  // Relations
+  mailboxes         Mailbox[]    @relation
+  sent              Message[]    @relation("from")
+  directRecipientOf Message[]    @relation("to")
+  ccedOn            Message[]    @relation("cc")
+  bccedOn           Message[]    @relation("bcc")
+  recipientOf       Message[]    @relation("recipients")
+  participantOf     Thread[]     @relation
+  attachments       Attachment[] @relation
+}
+
+model Thread {
+  tid          String    @id
+  // Metadata
+  timestamp    DateTime
+  cursor       DateTime  @default(now()) // not y2k safe
+  // Relations
+  messages     Message[] @relation
+  folder       Folder    @relation(fields: [folderId], references: [id])
+  folderId     String //* pick one, update every time you add a message
+  participants Contact[] @relation
+}
+
+model Folder {
+  id       String            @id @default(uuid())
+  name     String
+  path     String
+  type     String            @default("folder") //* see: enums.ts
+  email    String
+  mailbox  Mailbox           @relation(fields: [email], references: [email])
+  messages Message[]         @relation
+  threads  Thread[]          @relation
+  spaces   Space[]           @relation("boards")
+  targetOf BoardRuleAction[] @relation("actsOnBoard")
+}
+
+model Space {
+  name   String
+  id     String   @id @default(uuid())
+  boards Folder[] @relation("boards")
+}
+
+model BoardRule {
+  id                      String            @id @default(uuid())
+  actions                 BoardRuleAction[] @relation
+  // conditions
+  isFrom                  String?
+  isTo                    String?
+  subjectContains         String?
+  bodyContains            String?
+  intent                  String?
+  isSubscription          Boolean?
+  attachmentsNameContains String?
+  attachmentsTypeIs       String?
+}
+
+model BoardRuleAction {
+  id       String    @id @default(uuid())
+  type     String //* see enums
+  argument String?
+  targetId String?
+  targets  Folder?   @relation("actsOnBoard", fields: [targetId], references: [id])
+  ruleId   String
+  rule     BoardRule @relation(fields: [ruleId], references: [id])
+}

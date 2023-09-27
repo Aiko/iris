@@ -1,95 +1,55 @@
-import type SecureCommunications from '@Chiton/utils/comms'
-import WindowManager from '@Chiton/utils/window-manager'
-import type Register from '@Mouseion/managers/register'
-import autoBind from 'auto-bind'
-import type { BrowserWindow } from 'electron'
+import type { Chiton } from "@Chiton/app";
+import { Window } from "@Chiton/components/window";
+import { RESERVED_PORTS } from "@Iris/common/port";
+import { Singleton } from "@Iris/common/types";
+import autoBind from "auto-bind";
 
-export default class Calendar {
-  private readonly comms: SecureCommunications
-  private windowManager: WindowManager | null = null
-  lock: BrowserWindow | null = null
+export default class Calendar extends Window {
 
-  constructor(
-    private readonly Registry: Register,
-  ) {
-    this.comms = Registry.get("Communications") as SecureCommunications
+	puppetry = {
+		window: {
+			...(this.windowPuppetry),
+			setFullScreen: this.setFullScreen
+		}
+	}
 
-    this.comms.register("please open the calendar", this.open.bind(this))
+	checkInitialize(): boolean {
+		return true
+	}
+	async initialize(args: any[], success: (payload: object) => void) {
+		success({})
+	}
 
-    autoBind(this)
-  }
+	//? persist fullscreen status
+	setFullScreen(s: boolean) {
+		super.setFullScreen(s)
+		const settings = this.chiton.settingsStore.settings
+		settings.calendar.appearance.fullscreen = s
+		this.chiton.settingsStore.settings = settings
+		return true
+	}
 
-  private open({bang, provider}: {bang: string, provider: string}) {
-    if (this.lock) {
-      this.lock.show()
-      this.lock.focus()
-      return
-    }
+	constructor(chiton: Chiton) {
+		const FULLSCREEN = chiton.settingsStore.settings.calendar.appearance.fullscreen ? {
+			fullscreen: true
+		} : {}
+		super(chiton, "Calendar", {
+			closable: true,
+			winArgs: {
+				frame: true,
+				titleBarStyle: "default",
+				...FULLSCREEN
+			}
+		}, () => chiton.guidepost.register(Singleton.CALENDAR, this.port))
 
-    const mainWindowManager = this.Registry.get("Window Manager") as WindowManager
+		this.win.on('enter-full-screen', () => this.setFullScreen(true))
+		this.win.on('leave-full-screen', () => this.setFullScreen(false))
 
-    const win = WindowManager.newWindow({
-      width: 800,
-      height: 600,
-      frame: true,
-      titleBarStyle: "default"
-    })
-    if (mainWindowManager.window?.isFullScreen()) win.setFullScreen(true)
-    this.lock = win
 
-    this.windowManager = new WindowManager(this.Registry, win, 'calendar-' + bang)
-    this.windowManager.window = win
+		this.loadURL(`http://localhost:${RESERVED_PORTS.VEIL}/calendar`)
+		this.focus()
 
-    if (provider == 'outlook' || provider == 'exchange' || provider == 'microsoft') {
-      this.windowManager.loadURL("https://outlook.office.com/calendar/")
-      //this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
-      win.webContents.insertCSS(`
-      #app > div > div:nth-child(3) > div:nth-child(1) {
-        display: none;
-      }
-      #app > div > div:nth-child(2) > div:nth-child(1) {
-        display: none;
-      }
-      html[dir=ltr] .ms-Panel {
-        left: 0px !important;
-      }
-      `)
-      win.on("page-title-updated", () => {
-        win.webContents.insertCSS(`
-          #app > div > div:nth-child(3) > div:nth-child(1) {
-            display: none;
-          }
-          #app > div > div:nth-child(2) > div:nth-child(1) {
-            display: none;
-          }
-          html[dir=ltr] .ms-Panel {
-            left: 0px !important;
-          }
-        `)
-      })
-    }
-    else if (provider == 'google') {
-      this.windowManager.loadURL("https://calendar.google.com/calendar/")
-      win.webContents.insertCSS(`
-      `)
-      win.on("page-title-updated", () => {
-        win.webContents.insertCSS(`
-        `)
-      })
-    } else {
-      this.windowManager.loadURL(`file://${__dirname}/../../public/calendar.html#${bang}`)
-    }
-
-    win.show()
-    win.focus()
-    const _this = this
-
-    win.on("closed", () => {
-      this.windowManager = null
-      _this.lock = null
-    })
-
-    return {bang,}
-  }
+		autoBind(this)
+	}
 
 }

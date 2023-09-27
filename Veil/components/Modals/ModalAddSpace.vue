@@ -1,28 +1,29 @@
 <script lang="ts" setup>
-import { selectedModal, Modal } from '@Veil/state/sections'
+import { selectedModal, Modal } from '@Veil/state/common'
 import Icon from "@Veil/components/Base/Icon.vue";
 import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
+import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
 </script>
   
 <template>
   <div class="modal-add-space">
-    <Icon name="home" color="blue" />
-    <h1>Add new Space</h1>
-    <input placeholder="Space name" autofocus />
-    <p>Organize your boards within spaces to separate topics.</p>
+    <Icon name="home" color="normal" />
+    <h1>{{ i18n(RosettaStone.modals.add_space.title) }}</h1>
+    <input :placeholder="i18n(RosettaStone.modals.add_space.placeholder)" autofocus />
+    <p>{{ i18n(RosettaStone.modals.add_space.subtitle) }}</p>
     <div class="modal-bottom">
-      <ButtonPrimary class="ml-2">Add space</ButtonPrimary>
+      <ButtonPrimary class="ml-2">{{ i18n(RosettaStone.modals.add_space.btn) }}</ButtonPrimary>
     </div>
   </div>
 </template>
   
-<style scoped>
+<style lang="scss" scoped>
 .modal-add-space {
   width: 100%;
   height: 100%;
   text-align: center;
-  padding: 20px;
+  padding: 20px 20px 50px 20px;
   position: relative;
 }
 
@@ -53,4 +54,12 @@ input {
 p {
   margin-bottom: 50px;
 }
-</style>
+
+a {
+  position: absolute !important;
+  bottom: 0 !important;
+  width: calc(100% - 14px) !important;
+  left: 0 !important;
+  margin: 7px 7px !important;
+}
+</style>@Veil/state/common

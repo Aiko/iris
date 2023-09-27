@@ -8,7 +8,7 @@ import Email from "@Veil/components/Email/Email.vue";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .side-email {
   width: calc(100% - 315px);
   height: 100%;
@@ -22,6 +22,6 @@ import Email from "@Veil/components/Email/Email.vue";
   border-top-right-radius: 0;
   padding: 10px 10px 0 10px;
   overflow: scroll;
-  transition: .2s;
+  transition: .1s;
 }
 </style>

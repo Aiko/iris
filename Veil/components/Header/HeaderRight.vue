@@ -9,7 +9,7 @@ import Toast from "@Veil/components/Header/Toast.vue";
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .header-right {
   position: absolute;
   right: 0;

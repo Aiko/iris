@@ -1,0 +1,24 @@
+  /* Composer CSS DO NOT SEND WITH EMAILS */
+
+  .ProseMirror {
+    outline: none;
+    padding: 10px;
+    border-top: 2px solid var(--primary-background-color) !important;
+    height: 100% !important;
+  }
+
+
+  @media screen and (prefers-color-scheme: dark) {
+    blockquote {
+      background: var(--primary-background-color-hover) !important;
+      border-left: 3px solid var(--primary-font-color) !important;
+    }
+
+    [type=checkbox]:checked::before {
+      background-color: #486fff !important;
+    }
+
+    [type=checkbox]::before {
+      background-color: #2d3748 !important;
+    }
+  }
