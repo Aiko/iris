@@ -4,36 +4,49 @@ import ButtonSecondary from "@Veil/components/Base/ButtonSecondary.vue";
 import ButtonPrimary from "@Veil/components/Base/ButtonPrimary.vue";
 import Icon from "@Veil/components/Base/Icon.vue";
 import { RosettaStone, i18n } from "@Veil/utils/rosetta/rosetta";
+import MenuItem from '@Veil/components/Base/MenuItem.vue';
+import Menu from '@Veil/components/Base/Menu.vue';
 
 
 enum Option {
+  Emoji,
+  Extensions,
+  Color,
   Align,
   List,
-  Color,
   None,
 }
 
 let selectedOption = ref(Option.None)
 
-
 </script>
 
 <template>
-  <div class="composer-options">
-
+  <div class="composer-options" @mouseleave="selectedOption = Option.None">
 
     <!--All Options-->
     <ButtonPrimary class="send-btn">
       <Icon name="sent" color="white" />
       {{ i18n(RosettaStone.composer.send) }}
     </ButtonPrimary>
+
     <ButtonSecondary>
       <Icon name="attachment" color="normal" />
     </ButtonSecondary>
-    <ButtonSecondary>
+    <ButtonSecondary @click="selectedOption = Option.Emoji">
+      <div class="pop" v-if="selectedOption == Option.Emoji" @click="selectedOption = Option.None">
+        <div class="item">hi</div>
+        <div class="item">hi</div>
+        <div class="item">hi</div>
+      </div>
       <Icon name="mood-smile" color="normal" />
     </ButtonSecondary>
-    <ButtonSecondary>
+    <ButtonSecondary @click="selectedOption = Option.Extensions">
+      <div class="pop" v-if="selectedOption == Option.Extensions" @click="selectedOption = Option.None">
+        <div class="item">hi</div>
+        <div class="item">hi</div>
+        <div class="item">hi</div>
+      </div>
       <Icon name="puzzle" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary active>
@@ -46,12 +59,48 @@ let selectedOption = ref(Option.None)
       <Icon name="underline" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary @click="selectedOption = Option.Color">
+      <div class="pop" v-if="selectedOption == Option.Color" @click="selectedOption = Option.None">
+        <ButtonSecondary class="square normal">
+          <Icon name="text-color" color="white" />
+        </ButtonSecondary>
+        <ButtonSecondary class="square blue">
+          <Icon name="text-color" color="white" />
+        </ButtonSecondary>
+        <ButtonSecondary class="square red">
+          <Icon name="text-color" color="white" />
+        </ButtonSecondary>
+        <ButtonSecondary class="square green">
+          <Icon name="text-color" color="white" />
+        </ButtonSecondary>
+      </div>
       <Icon name="text-color" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary @click="selectedOption = Option.Align">
+      <div class="pop" v-if="selectedOption == Option.Align" @click="selectedOption = Option.None">
+        <ButtonSecondary>
+          <Icon name="align-left" color="normal" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="align-center" color="normal" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="align-right" color="normal" />
+        </ButtonSecondary>
+      </div>
       <Icon name="align-left" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary @click="selectedOption = Option.List">
+      <div class="pop" v-if="selectedOption == Option.List" @click="selectedOption = Option.None">
+        <ButtonSecondary>
+          <Icon name="list-check" color="normal" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="list-numbers" color="normal" />
+        </ButtonSecondary>
+        <ButtonSecondary>
+          <Icon name="list" color="normal" />
+        </ButtonSecondary>
+      </div>
       <Icon name="list-numbers" color="normal" />
     </ButtonSecondary>
     <ButtonSecondary>
@@ -62,51 +111,6 @@ let selectedOption = ref(Option.None)
     </ButtonSecondary>
 
 
-
-    <!--Color Options-->
-    <div class="expanded" v-if="selectedOption == Option.Color" @click="selectedOption = Option.None">
-      <span>{{ i18n(RosettaStone.composer.font) }}</span>
-      <ButtonSecondary class="square normal">
-        <Icon name="text-color" color="white" />
-      </ButtonSecondary>
-      <ButtonSecondary class="square blue">
-        <Icon name="text-color" color="white" />
-      </ButtonSecondary>
-      <ButtonSecondary class="square red">
-        <Icon name="text-color" color="white" />
-      </ButtonSecondary>
-      <ButtonSecondary class="square green">
-        <Icon name="text-color" color="white" />
-      </ButtonSecondary>
-    </div>
-
-    <!--Align Options-->
-    <div class="expanded" v-if="selectedOption == Option.Align" @click="selectedOption = Option.None">
-      <span>{{ i18n(RosettaStone.composer.align) }}</span>
-      <ButtonSecondary>
-        <Icon name="align-left" color="normal" />
-      </ButtonSecondary>
-      <ButtonSecondary>
-        <Icon name="align-center" color="normal" />
-      </ButtonSecondary>
-      <ButtonSecondary>
-        <Icon name="align-right" color="normal" />
-      </ButtonSecondary>
-    </div>
-
-    <!--List Options-->
-    <div class="expanded" v-if="selectedOption == Option.List" @click="selectedOption = Option.None">
-      <span>{{ i18n(RosettaStone.composer.list) }}</span>
-      <ButtonSecondary>
-        <Icon name="list-check" color="normal" />
-      </ButtonSecondary>
-      <ButtonSecondary>
-        <Icon name="list-numbers" color="normal" />
-      </ButtonSecondary>
-      <ButtonSecondary>
-        <Icon name="list" color="normal" />
-      </ButtonSecondary>
-    </div>
 
   </div>
 </template>
@@ -124,6 +128,7 @@ let selectedOption = ref(Option.None)
   position: relative;
   white-space: nowrap;
   overflow-x: scroll;
+  overflow: visible;
   position: absolute;
   bottom: 0;
   margin-bottom: 20px;
@@ -169,6 +174,19 @@ a:hover {
   height: unset !important;
 }
 
+.pop {
+  position: absolute;
+  display: inline-flex;
+  top: 0;
+  margin-top: -67px;
+  z-index: 1;
+  left: 0;
+  background: var(--secondary-background-color);
+  height: 50px;
+  padding: 5px;
+  border-radius: var(--primary-border-radius);
+}
+
 .send-btn {
   font-weight: 500;
   height: 100%;
@@ -191,6 +209,10 @@ a:hover {
   text-align: center;
   left: 0;
   transition: .1s;
+}
+
+.button {
+  position: relative;
 }
 
 .expanded span {

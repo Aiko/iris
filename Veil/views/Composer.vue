@@ -19,12 +19,6 @@ const grimaldi = new Grimaldi()
 </script>
 
 <template>
-  <!--
-  composer:
-  make extension button with drawer, remove zoom calendly
-  -->
-
-
   <div :class="{
     'composer': true,
     'collapsed': isComposerSidebarCollapsed,
@@ -52,7 +46,7 @@ const grimaldi = new Grimaldi()
         <Icon name="sidebar-collapse" color="grey" /> {{ i18n(RosettaStone.composer.show) }}
       </p>
       <p class="collapse-info closed" @click="toggleComposerSidebar()">
-        <Icon name="close" color="grey" />
+        <Icon name="sidebar-collapse" color="grey" />
       </p>
     </div>
   </div>
@@ -112,15 +106,9 @@ const grimaldi = new Grimaldi()
   height: 100%;
 }
 
-.open img {
+.collapse-info img {
   width: 18px;
   margin-left: -11px;
-  margin-bottom: 5px;
-}
-
-.closed img {
-  width: 13px;
-  margin-left: -7px;
   margin-bottom: 5px;
 }
 
