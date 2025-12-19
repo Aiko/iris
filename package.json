@@ -166,7 +166,7 @@
     "lottie-web-vue": "^2.0.6",
     "mailparser": "github:cuuupid/mailparser",
     "node-abi": "^2.19.3",
-    "nodemailer": "^6.4.17",
+    "nodemailer": "^7.0.11",
     "nodemailer-juice": "^1.0.1",
     "nodemailer-plugin-inline-base64": "^2.1.1",
     "planer": "^1.1.1",
